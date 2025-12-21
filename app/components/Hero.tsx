@@ -9,12 +9,12 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold">
+          <div className="space-y-8 animate-slide-in-left">
+            <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold animate-fade-in">
               AI-Powered Automation Engineering
             </div>
 
-            <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+            <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up">
               Transform Specs Into Production-Ready{' '}
               <span className="bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent">
                 PLC Code
@@ -61,8 +61,8 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
+          <div className="relative animate-slide-in-right">
+            <div className="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300 hover:shadow-blue-500/20">
               <div className="bg-gray-800 px-5 py-3 flex items-center gap-3">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500" />

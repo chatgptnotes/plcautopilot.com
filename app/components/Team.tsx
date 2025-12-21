@@ -3,24 +3,14 @@ import Icon from './Icon';
 export default function Team() {
   const team = [
     {
-      name: 'Saikat Dutta',
-      role: 'Founder & Owner',
-      credentials: 'Industrial Automation Expert',
-      education: 'Master\'s in High Voltage Technology, NTNU',
-      experience: '22+ years in Industrial Engineering',
-      company: 'Shivalay Engineering, Victrans Engineers',
-      location: 'Nagpur, Maharashtra, India',
-      icon: 'person',
-    },
-    {
       name: 'Dr. Murali BK',
-      role: 'Chief Technology Officer',
-      credentials: 'AI & Automation Specialist',
+      role: 'Founder & Owner',
+      credentials: 'AI & Industrial Automation Expert',
       education: 'Advanced Studies in AI & Machine Learning',
-      experience: 'Expert in AI-driven Industrial Systems',
+      experience: 'Expert in AI-driven Industrial Automation Systems',
       company: 'PLCAutoPilot',
-      location: 'Technology Leadership',
-      icon: 'engineering',
+      location: 'Technology & Business Leadership',
+      icon: 'person',
     },
   ];
 
@@ -29,14 +19,14 @@ export default function Team() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-            Meet the Leadership
+            Meet the Founder
           </h2>
           <p className="text-xl text-gray-600">
-            Combining decades of industrial expertise with cutting-edge AI technology
+            Combining deep industrial expertise with cutting-edge AI technology
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="flex justify-center max-w-2xl mx-auto">
           {team.map((member, index) => (
             <div
               key={index}
