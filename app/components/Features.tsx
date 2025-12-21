@@ -5,7 +5,7 @@ export default function Features() {
     { icon: 'precision_manufacturing', title: 'Ladder Logic Expert', desc: 'Understands relay logic, timers, counters, and industrial control patterns' },
     { icon: 'shield', title: 'Safety First', desc: 'Automatically implements emergency stops, light curtains, and safety interlocks per IEC 61508' },
     { icon: 'settings_input_component', title: 'Hardware Configuration', desc: 'Automatically configures I/O modules for Modicon M221, M241, M251, M258, M340, and M580' },
-    { icon: 'dashboard', title: 'HMI Integration', desc: 'Generates variable tags and screens for Vijeo Designer' },
+    { icon: 'dashboard', title: 'HMI Integration', desc: 'Generates variable tags and screens for Vijeo Designer, Wonderware, FactoryTalk View, and other HMI platforms' },
     { icon: 'code', title: 'Code Review Assistant', desc: 'Highlights safety-critical sections for mandatory human verification' },
     { icon: 'menu_book', title: 'Documentation Generator', desc: 'Creates I/O lists, function block descriptions, and commissioning guides' },
   ];
