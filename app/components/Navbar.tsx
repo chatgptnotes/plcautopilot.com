@@ -43,6 +43,9 @@ export default function Navbar() {
             <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Platforms
             </Link>
+            <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              Blog
+            </Link>
             <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Pricing
             </Link>
@@ -69,6 +72,7 @@ export default function Navbar() {
               <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium">Features</Link>
               <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 font-medium">How It Works</Link>
               <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium">Platforms</Link>
+              <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium">Blog</Link>
               <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium">Pricing</Link>
               <Link href="#contact" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold text-center">
                 Request Demo
