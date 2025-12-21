@@ -15,10 +15,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: 'https://plcautopilot.com/blog/ai-transforming-plc-programming',
+      url: 'https://plcautopilot.com/blog/plc-programming-tutorial',
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.9,
+    },
+    {
+      url: 'https://plcautopilot.com/blog/ladder-logic-complete-guide',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: 'https://plcautopilot.com/blog/universal-plc-programming-guide',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
     },
     {
       url: 'https://plcautopilot.com/resources',
