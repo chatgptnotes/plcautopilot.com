@@ -10,8 +10,76 @@ export const metadata = {
 };
 
 export default function PLCProgrammingTutorial() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is PLC programming?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PLC programming is the process of creating logical instructions that tell Programmable Logic Controllers how to control machinery and industrial processes. PLCs execute programs in continuous scan cycles, reading inputs, executing logic, and updating outputs thousands of times per second."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What programming languages are used for PLCs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The IEC 61131-3 standard defines five programming languages for PLCs: Ladder Diagram (LD), Function Block Diagram (FBD), Structured Text (ST), Instruction List (IL), and Sequential Function Chart (SFC). Ladder logic is the most widely used, accounting for 60-70% of industrial applications."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to learn PLC programming?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Basic PLC programming can be learned in 2-3 months with dedicated study and practice. Becoming proficient typically requires 6-12 months of hands-on experience. Mastering advanced topics like motion control, safety systems, and complex process automation may take 2-3 years."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the salary range for PLC programmers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PLC programmer salaries range from $60,000 to $120,000+ annually depending on experience and specialization. Entry-level positions start around $60K, mid-level programmers earn $80K-$100K, and senior PLC engineers with safety and motion control expertise can earn $120K or more."
+        }
+      }
+    ]
+  };
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Complete PLC Programming Tutorial 2025: From Basics to Advanced",
+    "description": "Master PLC programming from scratch. Learn ladder logic, function blocks, structured text, and real-world applications with step-by-step examples and best practices.",
+    "author": {
+      "@type": "Person",
+      "name": "Dr. Murali BK"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PLCAutoPilot",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://plcautopilot.com/favicon.svg"
+      }
+    },
+    "datePublished": "2025-01-15",
+    "dateModified": "2025-01-15"
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <Navbar />
       <main className="min-h-screen bg-white pt-24">
         <article className="max-w-4xl mx-auto px-6 py-12">
