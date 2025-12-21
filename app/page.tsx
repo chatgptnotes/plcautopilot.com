@@ -4,6 +4,7 @@ import Problem from './components/Problem';
 import Solution from './components/Solution';
 import Features from './components/Features';
 import Platforms from './components/Platforms';
+import Team from './components/Team';
 import Testimonial from './components/Testimonial';
 import Pricing from './components/Pricing';
 import Compliance from './components/Compliance';
@@ -19,6 +20,7 @@ export default function Home() {
       <Solution />
       <Features />
       <Platforms />
+      <Team />
       <Testimonial />
       <Pricing />
       <Compliance />

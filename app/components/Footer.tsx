@@ -52,9 +52,10 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-gray-800 text-center text-gray-400 text-sm space-y-2">
           <p>&copy; 2025 PLCAutoPilot. All rights reserved.</p>
+          <p>Founded by Saikat Dutta (Shivalay Engineering, Victrans Engineers) | Powered by Dr.M Hope Softwares</p>
           <p>Not affiliated with Schneider Electric. EcoStruxure and Modicon are registered trademarks.</p>
           <p className="text-xs text-gray-500 mt-4">
-            Version 1.2 | Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} |
+            Version 1.3 | Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} |
             <a href="https://github.com/chatgptnotes/plcautopilot.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 ml-1">
               GitHub Repository
             </a>
