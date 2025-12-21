@@ -39,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: 'https://plcautopilot.com/blog/iec-61508-safety',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
       url: 'https://plcautopilot.com/resources',
       lastModified: new Date(),
       changeFrequency: 'weekly',
