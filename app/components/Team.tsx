@@ -16,7 +16,7 @@ export default function Team() {
       name: 'Dr. Murali BK',
       role: 'Chief Technology Officer',
       credentials: 'AI & Automation Specialist',
-      education: 'PhD in Computer Science',
+      education: 'Advanced Studies in AI & Machine Learning',
       experience: 'Expert in AI-driven Industrial Systems',
       company: 'PLCAutoPilot',
       location: 'Technology Leadership',
