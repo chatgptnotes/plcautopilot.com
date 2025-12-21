@@ -53,7 +53,7 @@ export default function BlogPage() {
     {
       slug: "iec-61508-safety",
       title: "IEC 61508 Safety Standards: Complete Implementation Guide",
-      excerpt: "Master functional safety in PLC programming. Complete guide to SIL requirements, safety interlocks, and compliance verification.",
+      excerpt: "Master functional safety in PLC programming. Complete guide to SIL levels 1-4, safety PLCs (Siemens S7-1500F, GuardLogix), proof testing, and compliance certification.",
       category: "Safety",
       date: "December 20, 2024",
       readTime: "20 min read",
@@ -61,11 +61,11 @@ export default function BlogPage() {
     },
     {
       slug: "hmi-scada-integration",
-      title: "HMI and SCADA Integration with PLCs: Best Practices",
-      excerpt: "Learn how to integrate HMI and SCADA systems with PLCs. Cover Vijeo Designer, Wonderware, and FactoryTalk View with practical examples.",
+      title: "HMI and SCADA Integration: Complete PLC Connectivity Guide",
+      excerpt: "Learn HMI and SCADA integration with all major PLCs. Master OPC UA, Modbus TCP, FactoryTalk View, WinCC, Ignition SCADA, and Wonderware with real configuration examples.",
       category: "Integration",
-      date: "December 15, 2024",
-      readTime: "16 min read",
+      date: "December 21, 2024",
+      readTime: "18 min read",
       icon: "dashboard"
     },
   ];
