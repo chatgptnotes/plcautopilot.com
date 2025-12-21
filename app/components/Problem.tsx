@@ -1,9 +1,11 @@
+import Icon from './Icon';
+
 export default function Problem() {
   const problems = [
-    { icon: '⏱️', title: 'Weeks of Manual Coding', desc: 'Converting specifications to ladder logic takes 40+ hours per project' },
-    { icon: '🔄', title: 'Repetitive Work', desc: 'Writing the same patterns for motors, conveyors, and safety interlocks' },
-    { icon: '⚠️', title: 'Safety Risks', desc: 'Manual coding increases the chance of critical safety errors' },
-    { icon: '👥', title: 'Talent Shortage', desc: 'Experienced PLC programmers are expensive and hard to find' },
+    { icon: 'schedule', title: 'Weeks of Manual Coding', desc: 'Converting specifications to ladder logic takes 40+ hours per project' },
+    { icon: 'autorenew', title: 'Repetitive Work', desc: 'Writing the same patterns for motors, conveyors, and safety interlocks' },
+    { icon: 'warning', title: 'Safety Risks', desc: 'Manual coding increases the chance of critical safety errors' },
+    { icon: 'groups', title: 'Talent Shortage', desc: 'Experienced PLC programmers are expensive and hard to find' },
   ];
 
   return (
@@ -20,7 +22,9 @@ export default function Problem() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {problems.map((problem, index) => (
             <div key={index} className="bg-gray-50 p-8 rounded-2xl hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="text-5xl mb-4">{problem.icon}</div>
+              <div className="mb-4">
+                <Icon name={problem.icon} className="text-5xl text-blue-600" />
+              </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">{problem.title}</h3>
               <p className="text-gray-600">{problem.desc}</p>
             </div>

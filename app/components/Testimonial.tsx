@@ -1,9 +1,13 @@
+import Icon from './Icon';
+
 export default function Testimonial() {
   return (
     <section className="py-20 bg-gray-900">
       <div className="max-w-4xl mx-auto px-6">
         <div className="bg-gray-800 p-12 rounded-3xl border border-gray-700">
-          <div className="text-6xl text-blue-500 mb-6">&ldquo;</div>
+          <div className="mb-6">
+            <Icon name="format_quote" className="text-6xl text-blue-500" />
+          </div>
           <blockquote className="text-2xl text-white mb-8 leading-relaxed">
             What used to take me 3 weeks now takes 2 days. PLCAutoPilot generates clean, well-structured ladder logic
             that I can actually trust. The safety interlock highlighting is brilliant.

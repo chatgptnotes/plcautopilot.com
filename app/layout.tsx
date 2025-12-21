@@ -4,6 +4,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Material Icons will be loaded via CDN in the head
+
 export const metadata: Metadata = {
   title: "PLCAutoPilot - AI-Powered PLC Programming Assistant",
   description: "Transform specifications into production-ready PLC code in minutes. AI-powered automation for Schneider Electric EcoStruxure platforms.",
@@ -23,6 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

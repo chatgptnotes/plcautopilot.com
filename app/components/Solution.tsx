@@ -1,8 +1,10 @@
+import Icon from './Icon';
+
 export default function Solution() {
   const steps = [
-    { num: '01', icon: '📋', title: 'Upload Specifications', desc: 'Provide your process description, I/O list, or functional specification document' },
-    { num: '02', icon: '🤖', title: 'AI Generates Code', desc: 'Our trained model writes ladder logic, configures I/O, and implements safety interlocks' },
-    { num: '03', icon: '✅', title: 'Review & Deploy', desc: 'Safety-critical sections highlighted for engineer review before deployment' },
+    { num: '01', icon: 'description', title: 'Upload Specifications', desc: 'Provide your process description, I/O list, or functional specification document' },
+    { num: '02', icon: 'smart_toy', title: 'AI Generates Code', desc: 'Our trained model writes ladder logic, configures I/O, and implements safety interlocks' },
+    { num: '03', icon: 'verified', title: 'Review & Deploy', desc: 'Safety-critical sections highlighted for engineer review before deployment' },
   ];
 
   return (
@@ -24,12 +26,16 @@ export default function Solution() {
             <div key={index} className="relative">
               <div className="bg-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:-translate-y-1">
                 <div className="absolute top-4 right-4 text-5xl font-extrabold text-white/10">{step.num}</div>
-                <div className="text-6xl mb-4">{step.icon}</div>
+                <div className="mb-4">
+                  <Icon name={step.icon} className="text-6xl text-blue-400" />
+                </div>
                 <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
                 <p className="text-gray-400">{step.desc}</p>
               </div>
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 text-3xl font-bold text-blue-500">→</div>
+                <div className="hidden lg:block absolute top-1/2 -right-4">
+                  <Icon name="arrow_forward" className="text-3xl text-blue-500" />
+                </div>
               )}
             </div>
           ))}
