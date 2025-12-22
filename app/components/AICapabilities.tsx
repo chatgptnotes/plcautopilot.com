@@ -327,7 +327,7 @@ export default function AICapabilities() {
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="text-green-500 mt-1 flex-shrink-0" size={20} />
-                  <span className="text-gray-700"><strong>Enforced best practices</strong> and standards compliance</strong></span>
+                  <span className="text-gray-700"><strong>Enforced best practices</strong> and standards compliance</span>
                 </li>
               </ul>
             </div>
