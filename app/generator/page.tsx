@@ -6,7 +6,7 @@ import { plcModels, getManufacturers, getModelsByManufacturer, searchModels, typ
 export default function GeneratorPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
-  const [logic Description, setLogicDescription] = useState('');
+  const [logicDescription, setLogicDescription] = useState('');
   const [selectedManufacturer, setSelectedManufacturer] = useState('');
   const [selectedModel, setSelectedModel] = useState<PLCModel | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
