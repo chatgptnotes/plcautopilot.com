@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Sidebar from '@/app/components/Sidebar';
 
 interface Solution {
   name: string;
@@ -51,7 +50,6 @@ interface RecommendationResponse {
 }
 
 export default function SolutionRecommend() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [projectDescription, setProjectDescription] = useState('');
   const [criteria, setCriteria] = useState<'cheapest' | 'simplest' | 'robust' | 'balanced'>('balanced');
   const [maxBudget, setMaxBudget] = useState('');
@@ -89,32 +87,19 @@ export default function SolutionRecommend() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex-1">
-        {/* Header */}
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
-          <div className="flex items-center justify-between px-6 py-4">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Solution Recommendation</h1>
-                <p className="text-sm text-gray-600">Find the perfect PLC solution for your project</p>
-              </div>
-            </div>
+    <>
+      {/* Header */}
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-30">
+        <div className="flex items-center justify-between px-6 py-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Solution Recommendation</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Find the perfect PLC solution for your project</p>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* Main Content */}
-        <main className="p-6 max-w-7xl mx-auto">
+      {/* Main Content */}
+      <main className="p-6 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Input Form */}
             <div className="lg:col-span-1">
@@ -392,7 +377,6 @@ export default function SolutionRecommend() {
             </div>
           </div>
         </main>
-      </div>
-    </div>
+    </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,8 +18,8 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-md' : 'bg-white/90 backdrop-blur-lg'
-    } border-b border-gray-100`}>
+      isScrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-md' : 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg'
+    } border-b border-gray-100 dark:border-gray-800`}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center gap-3">
@@ -49,9 +50,10 @@ export default function Navbar() {
             <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Pricing
             </Link>
-            <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
               Login
             </Link>
+            <ThemeToggle />
             <Link href="/generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all">
               Try Generator
             </Link>
