@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <fileHeader companyName="PLCAutoPilot" productName="AI Generator" productVersion="1.4" creationDateTime="2025-12-22T13:50:50.097181"/>
+  <contentHeader name="MotorControl_Universal" author="PLCAutoPilot AI">
+    <coordinateInfo>
+      <ld>
+        <scaling x="1" y="1"/>
+      </ld>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes/>
+    <pous>
+      <pou name="MainProgram" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="START_BTN" address="%I0.0">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="STOP_BTN" address="%I0.1">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="MOTOR_RUN" address="%Q0.0">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="GREEN_LED" address="%Q0.1">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <LD>
+            <leftPowerRail localId="1"/>
+            <block localId="2" typeName="OR">
+              <inputVariables>
+                <variable>
+                  <connectionPointIn>
+                    <connection refLocalId="1"/>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+            </block>
+            <contact localId="3" negated="false">
+              <variable>START_BTN</variable>
+              <connectionPointIn>
+                <connection refLocalId="2"/>
+              </connectionPointIn>
+            </contact>
+            <contact localId="4" negated="true">
+              <variable>STOP_BTN</variable>
+              <connectionPointIn>
+                <connection refLocalId="3"/>
+              </connectionPointIn>
+            </contact>
+            <coil localId="5">
+              <variable>MOTOR_RUN</variable>
+              <connectionPointIn>
+                <connection refLocalId="4"/>
+              </connectionPointIn>
+            </coil>
+            <contact localId="6" negated="false">
+              <variable>MOTOR_RUN</variable>
+              <connectionPointIn>
+                <connection refLocalId="1"/>
+              </connectionPointIn>
+            </contact>
+            <coil localId="7">
+              <variable>GREEN_LED</variable>
+              <connectionPointIn>
+                <connection refLocalId="6"/>
+              </connectionPointIn>
+            </coil>
+            <rightPowerRail localId="8"/>
+          </LD>
+        </body>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations/>
+  </instances>
+</project>
