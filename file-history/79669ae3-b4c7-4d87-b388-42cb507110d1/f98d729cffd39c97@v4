@@ -1,0 +1,435 @@
+import React, { useState, useEffect } from 'react';
+import { Bell, CheckCircle, XCircle, Mail, Clock, Shield, Building2, Phone } from 'lucide-react';
+import toast from 'react-hot-toast';
+import DatabaseService from '../../services/databaseService';
+import EmailService from '../../services/emailService';
+
+const PendingClinicsNotification = ({ onUpdate }) => {
+  const [pendingClinics, setPendingClinics] = useState([]);
+  const [pendingSuperAdmins, setPendingSuperAdmins] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    loadPendingItems();
+
+    // Refresh every 30 seconds
+    const interval = setInterval(loadPendingItems, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const loadPendingItems = async () => {
+    try {
+      // Load pending clinics
+      const clinics = await DatabaseService.get('clinics') || [];
+      const pendingClinics = clinics.filter(c =>
+        (c.subscription_status === 'pending_approval' || c.subscriptionStatus === 'pending_approval') ||
+        (!c.is_active && !c.isActive)
+      );
+      setPendingClinics(pendingClinics);
+
+      // Super admins are now active immediately, no pending approval needed
+      setPendingSuperAdmins([]);
+
+      console.log('Pending items loaded:', {
+        clinics: pendingClinics.length,
+        superAdmins: 0 // Always 0 now
+      });
+    } catch (error) {
+      console.error('Error loading pending items:', error);
+    }
+  };
+
+  const activateSuperAdmin = async (superAdmin) => {
+    try {
+      setLoading(true);
+      setSelectedItem(superAdmin);
+
+      // Generate random password
+      const generatePassword = () => {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$';
+        let password = '';
+        for (let i = 0; i < 12; i++) {
+          password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return password;
+      };
+
+      const newPassword = generatePassword();
+
+      // Update super admin data
+      const updatedSuperAdmin = {
+        ...superAdmin,
+        isActivated: true,
+        is_active: true,
+        password: newPassword,
+        updated_at: new Date().toISOString()
+      };
+
+      // Save updated super admin
+      await DatabaseService.update('superAdmins', superAdmin.id, updatedSuperAdmin);
+
+      // Send email with credentials
+      const emailResult = await EmailService.sendClinicCredentials(
+        {
+          name: 'Super Admin',
+          email: superAdmin.email,
+          contactPerson: superAdmin.name || superAdmin.full_name
+        },
+        newPassword,
+        '000000' // No OTP needed for super admin
+      );
+
+      toast.success(`${superAdmin.name || superAdmin.email} activated successfully! Email sent with credentials.`);
+
+      // Refresh data
+      await loadPendingItems();
+      if (onUpdate) onUpdate();
+
+    } catch (error) {
+      console.error('Super Admin activation error:', error);
+      toast.error(`Failed to activate super admin: ${error.message}`);
+    } finally {
+      setLoading(false);
+      setSelectedItem(null);
+    }
+  };
+
+  const activateClinic = async (clinic) => {
+    try {
+      setLoading(true);
+      setSelectedItem(clinic);
+
+      // Generate random password
+      const generatePassword = () => {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$';
+        let password = '';
+        for (let i = 0; i < 12; i++) {
+          password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return password;
+      };
+
+      const newPassword = generatePassword();
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Update clinic data
+      const updatedClinic = {
+        ...clinic,
+        is_active: true,
+        isActive: true,
+        subscription_status: 'active',
+        subscriptionStatus: 'active',
+        password: newPassword,
+        trial_start_date: new Date().toISOString(),
+        trial_end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days trial
+        reports_allowed: 10, // 10 free reports for trial
+        reports_used: 0,
+        updated_at: new Date().toISOString()
+      };
+
+      // Save updated clinic
+      await DatabaseService.update('clinics', clinic.id, updatedClinic);
+
+      // Send email with credentials
+      const emailResult = await EmailService.sendClinicCredentials(
+        {
+          name: clinic.name || clinic.clinic_name,
+          email: clinic.email,
+          contactPerson: clinic.contact_person || clinic.name
+        },
+        newPassword,
+        otp
+      );
+
+      toast.success(`${clinic.name} activated successfully! Email sent with credentials.`);
+
+      // Refresh data
+      await loadPendingItems();
+      if (onUpdate) onUpdate();
+
+    } catch (error) {
+      console.error('Activation error:', error);
+      toast.error(`Failed to activate clinic: ${error.message}`);
+    } finally {
+      setLoading(false);
+      setSelectedItem(null);
+    }
+  };
+
+  const rejectClinic = async (clinic) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to reject ${clinic.name}?\n\nThis will permanently delete this registration request.`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setLoading(true);
+      await DatabaseService.delete('clinics', clinic.id);
+      toast.success(`${clinic.name} registration request rejected.`);
+      await loadPendingItems();
+      if (onUpdate) onUpdate();
+    } catch (error) {
+      console.error('Rejection error:', error);
+      toast.error(`Failed to reject clinic: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const rejectSuperAdmin = async (superAdmin) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to reject ${superAdmin.name || superAdmin.email}?\n\nThis will permanently delete this registration request.`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setLoading(true);
+      await DatabaseService.delete('superAdmins', superAdmin.id);
+      toast.success(`${superAdmin.name || superAdmin.email} registration request rejected.`);
+      await loadPendingItems();
+      if (onUpdate) onUpdate();
+    } catch (error) {
+      console.error('Rejection error:', error);
+      toast.error(`Failed to reject super admin: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const pendingCount = pendingClinics.length + pendingSuperAdmins.length;
+
+  return (
+    <>
+      {/* Notification Badge */}
+      <div className="relative">
+        <button
+          onClick={() => setShowModal(true)}
+          className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+          title={`${pendingCount} pending clinic registration${pendingCount !== 1 ? 's' : ''}`}
+        >
+          <Bell className="w-6 h-6" />
+          {pendingCount > 0 && (
+            <span className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full animate-pulse">
+              {pendingCount}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Bell className="w-6 h-6" />
+                  <div>
+                    <h2 className="text-2xl font-bold">Pending Clinic Registrations</h2>
+                    <p className="text-blue-100 text-sm mt-1">
+                      {pendingCount} clinic{pendingCount !== 1 ? 's' : ''} awaiting approval
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                >
+                  <XCircle className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 max-h-[calc(90vh-120px)] overflow-y-auto">
+              {pendingCount === 0 ? (
+                <div className="text-center py-12">
+                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">All Caught Up!</h3>
+                  <p className="text-gray-600">No pending clinic registrations at this time.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {/* Super Admins Section - REMOVED (Super admins are now active immediately) */}
+                  {false && pendingSuperAdmins.length > 0 && (
+                    <div>
+                      <div className="flex items-center space-x-2 mb-3">
+                        <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                          <Shield className="w-5 h-5 text-purple-600" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          Pending Super Administrators ({pendingSuperAdmins.length})
+                        </h3>
+                      </div>
+                      <div className="space-y-3">
+                        {pendingSuperAdmins.map((superAdmin) => (
+                          <div
+                            key={superAdmin.id}
+                            className="border border-purple-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-gradient-to-r from-purple-50 to-indigo-50"
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              {/* Super Admin Info */}
+                              <div className="flex-1">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white font-bold text-lg">
+                                    <Shield className="w-6 h-6" />
+                                  </div>
+                                  <div>
+                                    <h3 className="font-semibold text-gray-900 text-lg">{superAdmin.name || superAdmin.full_name}</h3>
+                                    <div className="flex items-center space-x-1 text-xs text-purple-600 font-medium">
+                                      <Shield className="w-3 h-3" />
+                                      <span>Super Administrator</span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-2 text-sm">
+                                  <div className="flex items-center space-x-2">
+                                    <Mail className="w-4 h-4 text-gray-400" />
+                                    <span className="text-gray-700">{superAdmin.email}</span>
+                                  </div>
+                                  {superAdmin.phone && (
+                                    <div className="flex items-center space-x-2">
+                                      <Phone className="w-4 h-4 text-gray-400" />
+                                      <span className="text-gray-700">{superAdmin.phone}</span>
+                                    </div>
+                                  )}
+                                  <div className="flex items-center space-x-1 text-xs text-gray-500">
+                                    <Clock className="w-3 h-3" />
+                                    <span>Registered: {new Date(superAdmin.createdAt || superAdmin.created_at).toLocaleDateString()}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Actions */}
+                              <div className="flex flex-col gap-2">
+                                <button
+                                  onClick={() => activateSuperAdmin(superAdmin)}
+                                  disabled={loading && selectedItem?.id === superAdmin.id}
+                                  className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                >
+                                  {loading && selectedItem?.id === superAdmin.id ? (
+                                    <>
+                                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                                      <span>Activating...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <CheckCircle className="w-4 h-4" />
+                                      <span>Approve & Send Email</span>
+                                    </>
+                                  )}
+                                </button>
+                                <button
+                                  onClick={() => rejectSuperAdmin(superAdmin)}
+                                  disabled={loading}
+                                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                  <span>Reject</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Pending Clinics Section */}
+                  {pendingClinics.length > 0 && (
+                    <div>
+                      <div className="space-y-3">
+                        {pendingClinics.map((clinic) => (
+                    <div
+                      key={clinic.id}
+                      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-gradient-to-r from-yellow-50 to-orange-50"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        {/* Clinic Info */}
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-bold text-lg">
+                              {(clinic.name || 'C').charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-gray-900 text-lg">{clinic.name || clinic.clinic_name}</h3>
+                              <div className="flex items-center space-x-1 text-xs text-gray-500">
+                                <Clock className="w-3 h-3" />
+                                <span>Registered: {new Date(clinic.created_at).toLocaleDateString()}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                            <div className="flex items-center space-x-2">
+                              <Mail className="w-4 h-4 text-gray-400" />
+                              <span className="text-gray-700">{clinic.email}</span>
+                            </div>
+                            {clinic.phone && (
+                              <div className="flex items-center space-x-2">
+                                <span className="text-gray-400">📞</span>
+                                <span className="text-gray-700">
+                                  {clinic.country_code} {clinic.phone}
+                                </span>
+                              </div>
+                            )}
+                            {clinic.address && (
+                              <div className="flex items-start space-x-2 col-span-2">
+                                <span className="text-gray-400">📍</span>
+                                <span className="text-gray-700 text-xs">{clinic.address}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-col gap-2">
+                          <button
+                            onClick={() => activateClinic(clinic)}
+                            disabled={loading && selectedItem?.id === clinic.id}
+                            className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                          >
+                            {loading && selectedItem?.id === clinic.id ? (
+                              <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                                <span>Activating...</span>
+                              </>
+                            ) : (
+                              <>
+                                <CheckCircle className="w-4 h-4" />
+                                <span>Approve & Send Email</span>
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => rejectClinic(clinic)}
+                            disabled={loading}
+                            className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <XCircle className="w-4 h-4" />
+                            <span>Reject</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default PendingClinicsNotification;

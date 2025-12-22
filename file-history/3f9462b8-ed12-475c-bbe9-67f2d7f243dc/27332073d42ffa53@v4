@@ -1,0 +1,708 @@
+const fs = require('fs');
+const crypto = require('crypto');
+const pdfParse = require('pdf-parse');
+const OpenAI = require('openai');
+
+console.log('🔧 Loading OpenAI Parser...');
+console.log(`   OpenAI API Key: ${process.env.OPENAI_API_KEY ? 'Present (length: ' + process.env.OPENAI_API_KEY.length + ')' : 'MISSING (OpenAI parser will be disabled)'}`);
+
+// Initialize OpenAI client only if API key is present
+let openai = null;
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+  });
+  console.log('✅ OpenAI Parser loaded successfully\n');
+} else {
+  console.log('⚠️  OpenAI Parser disabled (no API key)\n');
+}
+
+// In-memory cache (same as Gemini parser)
+const extractionCache = new Map();
+
+// Cache statistics
+const cacheStats = {
+  hits: 0,
+  misses: 0,
+  totalExtractions: 0
+};
+
+class OpenAIParser {
+  /**
+   * Validate OpenAI API key
+   */
+  static validateAPIKey() {
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey || apiKey.trim() === '') {
+      const error = new Error('OPENAI_API_KEY environment variable is not set');
+      error.code = 'MISSING_API_KEY';
+      throw error;
+    }
+
+    console.log('✅ OpenAI API key validation passed');
+    return true;
+  }
+
+  /**
+   * Get extraction prompt for OpenAI (same logic as Gemini)
+   */
+  static getExtractionPrompt(condition, reportType, pdfText) {
+    const conditionName = condition === 'EO' ? 'Eyes Open' : 'Eyes Closed';
+
+    if (reportType === 'zscore') {
+      // Z-SCORE extraction prompt
+      return `You are a QEEG Z-score data extraction expert. Extract Z-score values from this ${conditionName} QEEG report.
+
+**IMPORTANT**: Z-scores represent standard deviations from the mean. They typically range from -3 to +3.
+- Negative values = below average (lower than normal)
+- Zero (0) = average (normal)
+- Positive values = above average (higher than normal)
+
+Look for tables labeled with "Z-score", "Z score", "Z", or "Standard Deviation" in the headers.
+
+Extract Z-score values for these EEG channels: FP1, FP2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+
+For each channel, extract Z-scores for these frequency bands:
+- Delta (1-4 Hz)
+- Theta (4-8 Hz)
+- Alpha (8-13 Hz)
+- Beta (13-30 Hz)
+- HiBeta / High Beta (20-30 Hz)
+
+Also extract:
+- Alpha Peak Frequency (Hz) and its Z-score if available
+
+If you cannot find Z-scores for a particular channel or band, use 0.0 as the default value.
+
+**CRITICAL**: Your response must be ONLY the JSON object. Do NOT include:
+- No markdown formatting (no \`\`\`json or \`\`\`)
+- No explanations before or after
+- No comments
+- Just pure JSON that starts with { and ends with }
+
+Return ONLY this EXACT JSON format:
+{
+  "zscores": {
+    "absolute": {
+      "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+    },
+    "relative": {
+      "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+    }
+  },
+  "special": {
+    "alphaPeak": 10.0,
+    "alphaPeakZscore": 0.0
+  }
+}
+
+PDF Content (ONLY PAGES 13 & 24):
+${pdfText}`;
+
+    } else {
+      // RAW POWER extraction prompt
+      return `You are an expert QEEG data extraction specialist. Your task is to extract COMPLETE frequency band data from this ${conditionName} QEEG report PDF.
+
+🎯 YOUR MISSION: Extract 100% COMPLETE DATA - No Missing Bands Allowed!
+
+📊 WHAT TO EXTRACT:
+You must extract THREE pieces of data from this PDF:
+1. **Z-scored Alpha Peak** (Hz) - From page 13
+2. **Absolute Power (μV²)** - Brain wave power in microvolts squared - From page 24
+3. **Relative Power (%)** - Percentage distribution (MUST sum to ~100% per channel) - From page 24
+
+📍 WHERE TO LOOK IN THE PDF:
+- ⚠️ IMPORTANT: This content contains EXTRACTED SECTIONS from the PDF (not full pages)!
+- The text below contains only the relevant table sections found using keyword matching
+
+  **SECTION 1** - Z-scored Alpha Peak (typically from page 13):
+  - Look for "Z-scored Alpha Peak" / "Alpha Peak Frequency" / "Peak Alpha"
+  - This is typically a table showing alpha peak frequency (Hz) with z-scores
+  - Extract the alpha peak frequency value (usually 8-13 Hz range)
+
+  **SECTION 2** - Power Tables (typically from page 24):
+  - Look for TWO tables:
+    * "Absolute Power" / "Absolute Spectral Power" / "Absolute" / "ABS" (μV²)
+    * "Relative Power" / "Relative Spectral Power" / "Relative" / "REL" (%)
+  - Both Absolute AND Relative tables should be in this section
+  - Look for headers like "Monopolar" / "Linked Ears" / "Average Reference"
+
+- Each section contains text surrounding the table keywords (±3000-8000 characters)
+
+🧠 CHANNELS TO EXTRACT (19 channels):
+FP1, FP2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+
+📊 FREQUENCY BANDS (ALL 5 REQUIRED):
+For EACH channel, you MUST extract ALL 5 bands:
+1. **Delta** (δ) - 0.5-4 Hz
+2. **Theta** (θ) - 4-8 Hz
+3. **Alpha** (α) - 8-13 Hz
+4. **Beta** (β) - 13-30 Hz
+5. **HiBeta** (High Beta / ββ) - 30-50 Hz
+
+⚠️ CRITICAL REQUIREMENTS:
+1. Extract ALL 5 bands for EVERY channel
+2. For Relative Power, EACH channel must sum to ~100%
+3. Preserve exact decimal values from the PDF
+4. Do not skip any channels or bands
+5. Extract Alpha Peak frequency from page 13 (look for z-scored value)
+6. Extract BOTH Absolute and Relative power tables from page 24
+
+**OUTPUT FORMAT**:
+Return ONLY pure JSON (no markdown, no code blocks, no explanations):
+
+{
+  "absolute": {
+    "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+  },
+  "relative": {
+    "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+  },
+  "special": {
+    "alphaPeak": 10.0,
+    "alphaPeakZscore": 0.0
+  }
+}
+
+NOTES:
+- alphaPeak: Extract from Z-scored Alpha Peak table section (typically page 13)
+- alphaPeakZscore: If z-score value is available, extract it; otherwise use 0.0
+- Absolute & Relative power: Extract from Power tables section (typically page 24)
+- This text contains EXTRACTED SECTIONS found using keyword matching
+- Sections include context around table keywords (Alpha Peak, Absolute Power, Relative Power)
+
+PDF Content (EXTRACTED TABLE SECTIONS):
+${pdfText}`;
+    }
+  }
+
+  /**
+   * Calculate MD5 hash for caching
+   */
+  static calculatePDFHash(dataBuffer) {
+    return crypto.createHash('md5').update(dataBuffer).digest('hex');
+  }
+
+  /**
+   * Normalize extracted values
+   */
+  static normalizeValue(value, decimalPlaces = 2) {
+    if (value === null || value === undefined || isNaN(value)) {
+      return null;
+    }
+    const multiplier = Math.pow(10, decimalPlaces);
+    return Math.round(value * multiplier) / multiplier;
+  }
+
+  /**
+   * Normalize all values in extracted data
+   */
+  static normalizeExtractedData(extractedData) {
+    const normalized = JSON.parse(JSON.stringify(extractedData));
+
+    if (normalized.absolute) {
+      Object.keys(normalized.absolute).forEach(channel => {
+        Object.keys(normalized.absolute[channel]).forEach(band => {
+          normalized.absolute[channel][band] =
+            this.normalizeValue(normalized.absolute[channel][band], 2);
+        });
+      });
+    }
+
+    if (normalized.relative) {
+      Object.keys(normalized.relative).forEach(channel => {
+        Object.keys(normalized.relative[channel]).forEach(band => {
+          normalized.relative[channel][band] =
+            this.normalizeValue(normalized.relative[channel][band], 2);
+        });
+      });
+    }
+
+    if (normalized.special) {
+      Object.keys(normalized.special).forEach(key => {
+        normalized.special[key] = this.normalizeValue(normalized.special[key], 2);
+      });
+    }
+
+    if (normalized.zscores) {
+      if (normalized.zscores.absolute) {
+        Object.keys(normalized.zscores.absolute).forEach(channel => {
+          Object.keys(normalized.zscores.absolute[channel]).forEach(band => {
+            normalized.zscores.absolute[channel][band] =
+              this.normalizeValue(normalized.zscores.absolute[channel][band], 2);
+          });
+        });
+      }
+      if (normalized.zscores.relative) {
+        Object.keys(normalized.zscores.relative).forEach(channel => {
+          Object.keys(normalized.zscores.relative[channel]).forEach(band => {
+            normalized.zscores.relative[channel][band] =
+              this.normalizeValue(normalized.zscores.relative[channel][band], 2);
+          });
+        });
+      }
+    }
+
+    return normalized;
+  }
+
+  /**
+   * Validate extracted QEEG data for completeness
+   * @param {Object} data - Extracted QEEG data
+   * @param {string} condition - 'EC' or 'EO'
+   * @returns {Object} Validation result with isValid and missingFields
+   */
+  static validateExtractedData(data, condition) {
+    console.log(`\n  🔍 === VALIDATING EXTRACTED DATA (${condition}) ===`);
+
+    const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+    const requiredBands = ['Delta', 'Theta', 'Alpha', 'Beta', 'HiBeta'];
+    const missingFields = [];
+
+    // Check if data structure exists
+    if (!data || typeof data !== 'object') {
+      return {
+        isValid: false,
+        missingFields: ['Complete data structure is missing'],
+        error: 'No data extracted from PDF'
+      };
+    }
+
+    // Check absolute power
+    if (!data.absolute || typeof data.absolute !== 'object') {
+      missingFields.push('absolute power section');
+    } else {
+      requiredChannels.forEach(channel => {
+        if (!data.absolute[channel]) {
+          missingFields.push(`absolute.${channel}`);
+        } else {
+          requiredBands.forEach(band => {
+            const value = data.absolute[channel][band];
+            if (value === null || value === undefined) {
+              missingFields.push(`absolute.${channel}.${band}`);
+            }
+          });
+        }
+      });
+    }
+
+    // Check relative power
+    if (!data.relative || typeof data.relative !== 'object') {
+      missingFields.push('relative power section');
+    } else {
+      requiredChannels.forEach(channel => {
+        if (!data.relative[channel]) {
+          missingFields.push(`relative.${channel}`);
+        } else {
+          requiredBands.forEach(band => {
+            const value = data.relative[channel][band];
+            if (value === null || value === undefined) {
+              missingFields.push(`relative.${channel}.${band}`);
+            }
+          });
+
+          // Validate relative power sums to ~100%
+          const sum = requiredBands.reduce((acc, band) => {
+            return acc + (data.relative[channel][band] || 0);
+          }, 0);
+
+          if (sum < 90 || sum > 110) {
+            missingFields.push(`relative.${channel} (sum=${sum.toFixed(1)}%, expected ~100%)`);
+          }
+        }
+      });
+    }
+
+    // Check alpha peak
+    if (!data.special || (!data.special.alphaPeak && !data.special.O1)) {
+      missingFields.push('special.alphaPeak');
+    }
+
+    const isValid = missingFields.length === 0;
+
+    console.log(`  📊 Validation Results:`);
+    console.log(`     - Status: ${isValid ? '✅ VALID' : '❌ INVALID'}`);
+    console.log(`     - Missing fields: ${missingFields.length}`);
+
+    if (!isValid) {
+      console.log(`  ❌ Missing/Invalid Fields:`);
+      missingFields.forEach(field => {
+        console.log(`     - ${field}`);
+      });
+    }
+
+    console.log(`  === END VALIDATION ===\n`);
+
+    return {
+      isValid,
+      missingFields,
+      error: isValid ? null : `Incomplete data extraction: ${missingFields.length} fields missing`
+    };
+  }
+
+  /**
+   * Extract table sections from PDF using keyword-based detection
+   * This method searches for actual table headers instead of relying on page numbers
+   * @param {Buffer} dataBuffer - PDF file buffer
+   * @returns {Promise<string>} - Combined text containing relevant table sections
+   */
+  static async extractTableSections(dataBuffer) {
+    try {
+      console.log(`  📄 Extracting table sections using keyword detection...`);
+
+      const pdfData = await pdfParse(dataBuffer);
+      const fullText = pdfData.text;
+      const totalPages = pdfData.numpages;
+
+      console.log(`  📚 PDF has ${totalPages} total pages, ${fullText.length} total characters`);
+
+      const extractedSections = [];
+
+      // === SECTION 1: Z-scored Alpha Peak (Page 13) ===
+      const alphaPeakKeywords = [
+        /z-?scored\s+alpha\s+peak/i,
+        /alpha\s+peak\s+frequency/i,
+        /peak\s+alpha/i,
+        /dominant\s+alpha/i,
+        /IAF/i, // Individual Alpha Frequency
+        /PAF/i  // Peak Alpha Frequency
+      ];
+
+      console.log(`  🔍 Searching for Alpha Peak table...`);
+      for (const pattern of alphaPeakKeywords) {
+        const match = fullText.match(pattern);
+        if (match) {
+          const matchIndex = match.index;
+          // Extract larger context (5000 chars) for comprehensive data
+          const start = Math.max(0, matchIndex - 3000);
+          const end = Math.min(fullText.length, matchIndex + 5000);
+          const section = fullText.substring(start, end);
+
+          extractedSections.push(`\n=== ALPHA PEAK SECTION (found at position ${matchIndex}) ===\n${section}\n`);
+          console.log(`  ✅ Found Alpha Peak table at position ${matchIndex}`);
+          break; // Found it, no need to continue
+        }
+      }
+
+      if (extractedSections.length === 0) {
+        console.warn(`  ⚠️  Alpha Peak table not found with keywords`);
+      }
+
+      // === SECTION 2: Absolute & Relative Power Tables (Page 24) ===
+      const powerTableKeywords = [
+        /absolute\s+power/i,
+        /absolute\s+spectral\s+power/i,
+        /relative\s+power/i,
+        /relative\s+spectral\s+power/i,
+        /μV²/,
+        /uV\^2/i,
+        /microvolt/i
+      ];
+
+      console.log(`  🔍 Searching for Absolute/Relative Power tables...`);
+      for (const pattern of powerTableKeywords) {
+        const matches = [...fullText.matchAll(new RegExp(pattern, 'gi'))];
+        if (matches.length > 0) {
+          console.log(`  ✅ Found ${matches.length} power table reference(s)`);
+          // Extract around each match and combine
+          matches.forEach((match, idx) => {
+            const matchIndex = match.index;
+            // Extract larger sections to capture complete tables
+            const start = Math.max(0, matchIndex - 5000);
+            const end = Math.min(fullText.length, matchIndex + 10000);
+            const section = fullText.substring(start, end);
+            extractedSections.push(`\n=== POWER TABLE SECTION ${idx + 1} ===\n${section}\n`);
+          });
+          break;
+        }
+      }
+
+      if (extractedSections.length === 0) {
+        console.warn(`  ⚠️  No tables found with keywords, using first 50000 characters`);
+        return fullText.substring(0, 50000);
+      }
+
+      // If we found any sections, return them
+      if (extractedSections.length > 0) {
+        const combinedText = extractedSections.join('\n\n');
+        console.log(`  ✅ Extracted ${extractedSections.length} table sections, total ${combinedText.length} characters`);
+        return combinedText;
+      } else {
+        // Fallback: return full PDF text if no tables found
+        console.warn(`  ⚠️  No tables found with keywords, sending full PDF text (${fullText.length} chars)`);
+        return fullText;
+      }
+
+    } catch (error) {
+      console.error(`  ❌ Error extracting table sections:`, error.message);
+      // Fallback: return full PDF text
+      const fallbackData = await pdfParse(dataBuffer);
+      return fallbackData.text;
+    }
+  }
+
+  /**
+   * Parse PDF using OpenAI GPT-4
+   */
+  static async parsePDF(file, condition, reportType = 'raw') {
+    console.log(`  🔍 Parsing PDF with OpenAI GPT-4 (${condition}, ${reportType.toUpperCase()} mode)...`);
+
+    try {
+      // Validate API key
+      this.validateAPIKey();
+
+      // Read PDF file
+      const dataBuffer = fs.readFileSync(file.path);
+
+      // Calculate hash for caching
+      const pdfHash = this.calculatePDFHash(dataBuffer);
+      const cacheKey = `openai_${pdfHash}_${condition}_${reportType}`;
+
+      console.log(`  🔑 PDF Hash: ${pdfHash.substring(0, 12)}... (for caching)`);
+
+      // Check cache first
+      if (extractionCache.has(cacheKey)) {
+        cacheStats.hits++;
+        cacheStats.totalExtractions++;
+        console.log(`  ✅ CACHE HIT! Using cached extraction result`);
+        console.log(`  📊 Cache Stats: ${cacheStats.hits} hits, ${cacheStats.misses} misses`);
+        return extractionCache.get(cacheKey);
+      }
+
+      cacheStats.misses++;
+      cacheStats.totalExtractions++;
+      console.log(`  ⚠️  Cache miss - extracting with OpenAI...`);
+
+      // Extract table sections using keyword-based detection
+      console.log(`  🎯 Searching for Alpha Peak table and Power tables using keywords...`);
+      const pdfText = await this.extractTableSections(dataBuffer);
+
+      // Log extracted text sample
+      console.log(`  📝 Extracted PDF text length: ${pdfText.length} characters`);
+      if (pdfText.length > 0) {
+        console.log(`  📋 Text sample (first 500 chars):`);
+        console.log(`  ────────────────────────────────────────────────`);
+        console.log(`  ${pdfText.substring(0, 500).replace(/\n/g, '\n  ')}`);
+        console.log(`  ────────────────────────────────────────────────\n`);
+      } else {
+        console.warn(`  ⚠️  WARNING: No text extracted! Sending full PDF to OpenAI...`);
+      }
+
+      // Get extraction prompt
+      const prompt = this.getExtractionPrompt(condition, reportType, pdfText);
+
+      console.log(`  🤖 Calling OpenAI GPT-4...`);
+
+      // Check if OpenAI is initialized
+      if (!openai) {
+        throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY in .env file.');
+      }
+
+      // Call OpenAI API
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o", // Using GPT-4 Turbo for best accuracy
+        messages: [
+          {
+            role: "system",
+            content: "You are a medical data extraction expert specializing in QEEG reports. Extract data accurately and return only valid JSON."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        temperature: 0, // Deterministic output
+        max_tokens: 8192, // Increased token limit for comprehensive extraction
+        response_format: { type: "json_object" } // Force JSON response
+      });
+
+      const responseText = completion.choices[0].message.content;
+      console.log(`  📝 OpenAI response received, length: ${responseText.length} characters`);
+
+      // Parse JSON response
+      let extractedData;
+      try {
+        const jsonText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        const rawData = JSON.parse(jsonText);
+
+        // Normalize values
+        extractedData = this.normalizeExtractedData(rawData);
+
+        console.log(`  ✅ PDF data extracted and normalized successfully (${condition})`);
+
+        // Enhanced Debug Output - Show Actual Extracted Values
+        console.log(`\n  ╔════════════════════════════════════════════════════════════╗`);
+        console.log(`  ║  📄 EXTRACTED VALUES FROM PDF (${condition})                    ║`);
+        console.log(`  ╚════════════════════════════════════════════════════════════╝\n`);
+
+        if (extractedData.absolute) {
+          console.log(`  📊 ABSOLUTE POWER (μV²) - ${Object.keys(extractedData.absolute).length} channels:`);
+          console.log(`  ┌────────┬────────┬────────┬────────┬────────┬────────┐`);
+          console.log(`  │ Channel│ Delta  │ Theta  │ Alpha  │  Beta  │ HiBeta │`);
+          console.log(`  ├────────┼────────┼────────┼────────┼────────┼────────┤`);
+          ['Fz', 'Cz', 'Pz'].forEach(ch => {
+            if (extractedData.absolute[ch]) {
+              const d = extractedData.absolute[ch];
+              console.log(`  │  ${ch.padEnd(5)} │ ${String(d.Delta).padStart(6)} │ ${String(d.Theta).padStart(6)} │ ${String(d.Alpha).padStart(6)} │ ${String(d.Beta).padStart(6)} │ ${String(d.HiBeta).padStart(6)} │`);
+            }
+          });
+          console.log(`  └────────┴────────┴────────┴────────┴────────┴────────┘\n`);
+        }
+
+        if (extractedData.relative) {
+          console.log(`  📊 RELATIVE POWER (%) - ${Object.keys(extractedData.relative).length} channels:`);
+          console.log(`  ┌────────┬────────┬────────┬────────┬────────┬────────┐`);
+          console.log(`  │ Channel│ Delta  │ Theta  │ Alpha  │  Beta  │ HiBeta │`);
+          console.log(`  ├────────┼────────┼────────┼────────┼────────┼────────┤`);
+          ['Fz', 'Cz', 'Pz'].forEach(ch => {
+            if (extractedData.relative[ch]) {
+              const d = extractedData.relative[ch];
+              console.log(`  │  ${ch.padEnd(5)} │ ${String(d.Delta).padStart(6)} │ ${String(d.Theta).padStart(6)} │ ${String(d.Alpha).padStart(6)} │ ${String(d.Beta).padStart(6)} │ ${String(d.HiBeta).padStart(6)} │`);
+            }
+          });
+          console.log(`  └────────┴────────┴────────┴────────┴────────┴────────┘\n`);
+        }
+
+        if (extractedData.special && extractedData.special.alphaPeak) {
+          console.log(`  ⭐ ALPHA PEAK: ${extractedData.special.alphaPeak} Hz`);
+          if (extractedData.special.alphaPeakZscore) {
+            console.log(`  📈 Alpha Peak Z-score: ${extractedData.special.alphaPeakZscore}`);
+          }
+        }
+
+        console.log(`\n  ═══════════════════════════════════════════════════════════\n`);
+
+      } catch (parseError) {
+        console.error(`  ❌ Failed to parse JSON from OpenAI response:`, parseError.message);
+        console.error(`  📄 Raw response:`, responseText.substring(0, 500));
+        throw new Error(`Failed to parse JSON from OpenAI: ${parseError.message}`);
+      }
+
+      // ⚠️ COMPREHENSIVE DATA VALIDATION - Check but allow warnings
+      const validation = this.validateExtractedData(extractedData, condition);
+
+      if (!validation.isValid) {
+        // Check if data is completely empty (all relative power = 0)
+        const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+        const requiredBands = ['Delta', 'Theta', 'Alpha', 'Beta', 'HiBeta'];
+
+        const hasAnyRelativeData = requiredChannels.some(channel => {
+          if (!extractedData.relative?.[channel]) return false;
+          const sum = requiredBands.reduce((acc, band) => {
+            return acc + (extractedData.relative[channel][band] || 0);
+          }, 0);
+          return sum > 0;
+        });
+
+        const hasAnyAbsoluteData = requiredChannels.some(channel => {
+          if (!extractedData.absolute?.[channel]) return false;
+          const sum = requiredBands.reduce((acc, band) => {
+            return acc + (extractedData.absolute[channel][band] || 0);
+          }, 0);
+          return sum > 0;
+        });
+
+        if (!hasAnyRelativeData && !hasAnyAbsoluteData) {
+          // Completely failed extraction - throw error
+          console.error(`\n  ❌ ==================== DATA EXTRACTION COMPLETELY FAILED ====================`);
+          console.error(`  ❌ CRITICAL: No data was extracted from PDF!`);
+          console.error(`  ❌ Missing/Invalid fields: ${validation.missingFields.length}`);
+          console.error(`  ❌ ${validation.error}`);
+          console.error(`  ❌ ALGORITHM CALCULATION CANNOT PROCEED!`);
+          console.error(`  ❌ ========================================================================\n`);
+
+          const extractionError = new Error(
+            `COMPLETE DATA EXTRACTION FAILURE: ${validation.error}\n` +
+            `Missing fields: ${validation.missingFields.join(', ')}\n` +
+            `PDF data from pages 13 & 24 was not extracted.\n` +
+            `Please ensure the PDF contains valid QEEG tables and try again.`
+          );
+          extractionError.code = 'COMPLETE_DATA_EXTRACTION_FAILURE';
+          extractionError.validation = validation;
+          extractionError.condition = condition;
+          throw extractionError;
+        } else {
+          // Partial data extracted - show warnings but continue
+          console.warn(`\n  ⚠️  ==================== PARTIAL DATA EXTRACTION ====================`);
+          console.warn(`  ⚠️  WARNING: Data extraction is incomplete but has some data!`);
+          console.warn(`  ⚠️  Missing/Invalid fields: ${validation.missingFields.length}`);
+          console.warn(`  ⚠️  ${validation.error}`);
+          console.warn(`  ⚠️  Algorithm will proceed with available data.`);
+          console.warn(`  ⚠️  Results may be less accurate.`);
+          console.warn(`  ⚠️  ================================================================\n`);
+        }
+      } else {
+        console.log(`  🎉 Data validation PASSED! All required fields present.`);
+      }
+
+      // Cache the result
+      extractionCache.set(cacheKey, extractedData);
+      console.log(`  💾 Result cached (key: ${pdfHash.substring(0, 12)}...)`);
+
+      return extractedData;
+
+    } catch (error) {
+      console.error(`  ❌ OpenAI API error (${condition}):`, error.message);
+
+      // Enhanced error for quota issues
+      if (error.message && error.message.includes('quota')) {
+        const enhancedError = new Error(
+          'OpenAI API quota exceeded. Please check your API key and billing at https://platform.openai.com/account/billing'
+        );
+        enhancedError.code = 'OPENAI_QUOTA_EXCEEDED';
+        enhancedError.originalError = error;
+        throw enhancedError;
+      }
+
+      throw error;
+    }
+  }
+
+  /**
+   * Get cache statistics
+   */
+  static getCacheStats() {
+    return {
+      ...cacheStats,
+      cacheSize: extractionCache.size,
+      hitRate: cacheStats.totalExtractions > 0
+        ? ((cacheStats.hits / cacheStats.totalExtractions) * 100).toFixed(1) + '%'
+        : '0%'
+    };
+  }
+}
+
+module.exports = OpenAIParser;

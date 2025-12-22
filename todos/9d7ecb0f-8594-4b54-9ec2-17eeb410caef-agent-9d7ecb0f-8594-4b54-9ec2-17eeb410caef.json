@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze qeegParser.js to understand PDF extraction logic",
+    "status": "completed",
+    "activeForm": "Analyzing qeegParser.js PDF extraction logic"
+  },
+  {
+    "content": "Identify the root cause of PDF extraction failure",
+    "status": "completed",
+    "activeForm": "Identifying root cause of PDF extraction failure"
+  },
+  {
+    "content": "Fix PDF text extraction validation logic",
+    "status": "completed",
+    "activeForm": "Fixing PDF text extraction validation logic"
+  },
+  {
+    "content": "Improve PDF extraction with better parsing options",
+    "status": "completed",
+    "activeForm": "Improving PDF extraction with better parsing"
+  },
+  {
+    "content": "Add better error handling and user feedback",
+    "status": "completed",
+    "activeForm": "Adding better error handling"
+  },
+  {
+    "content": "Verify backend server is running successfully",
+    "status": "in_progress",
+    "activeForm": "Verifying backend server status"
+  }
+]

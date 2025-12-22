@@ -1,0 +1,975 @@
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const QEEGParser = require('../services/qeegParser');
+const AlgorithmCalculator = require('../services/algorithmCalculator');
+const ZScoreCalculator = require('../services/zscoreCalculator');
+// OLD generators (keeping for fallback)
+const PDFReportGenerator = require('../services/pdfGenerator');
+const TemplateBasedPDFGenerator = require('../services/pdfGeneratorTemplate');
+const templateManager = require('../services/pdf/templateManager');
+const AIPdfGenerator = require('../services/aiPdfGenerator');
+const SupabaseStorage = require('../services/supabaseStorage');
+
+// NEW: Gemini AI Service for report generation
+let GeminiService = null;
+try {
+  GeminiService = require('../services/geminiService');
+  console.log('✅ Gemini AI Service loaded successfully');
+} catch (error) {
+  console.error('❌ CRITICAL: Gemini AI Service failed to load!');
+  console.error('   Error:', error.message);
+  console.error('   Stack:', error.stack);
+}
+
+// NEW: Gemini PDF Generator - Uses Gemini AI for content generation
+let GeminiPdfGenerator = null;
+try {
+  GeminiPdfGenerator = require('../services/geminiPdfGenerator');
+  console.log('✅ Gemini PDF Generator loaded successfully');
+  console.log('   Generator available:', !!GeminiPdfGenerator);
+} catch (error) {
+  console.error('❌ CRITICAL: Gemini PDF Generator failed to load!');
+  console.error('   Error:', error.message);
+  console.error('   Stack:', error.stack);
+}
+
+// OLD: Enhanced AI PDF Generator with OpenAI (keeping as fallback)
+let EnhancedAIPdfGenerator = null;
+try {
+  EnhancedAIPdfGenerator = require('../services/aiPdfGeneratorEnhanced');
+  console.log('✅ Enhanced AI PDF Generator loaded successfully');
+} catch (error) {
+  console.warn('⚠️  Enhanced AI PDF Generator failed to load:', error.message);
+  console.warn('   Will use fallback PDF generator');
+}
+
+const router = express.Router();
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, '../uploads');
+    // Ensure upload directory exists
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  },
+  fileFilter: function (req, file, cb) {
+    const allowedExtensions = ['.pdf', '.csv', '.xlsx', '.xls'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowedExtensions.includes(ext)) {
+      cb(null, true);
+    } else {
+      cb(new Error(`Only ${allowedExtensions.join(', ')} files are allowed`));
+    }
+  }
+});
+
+/**
+ * POST /api/qeeg/process
+ * Process QEEG files and calculate 7 brain health parameters
+ */
+router.post('/process', upload.fields([
+  { name: 'eyesOpen', maxCount: 1 },
+  { name: 'eyesClosed', maxCount: 1 }
+]), async (req, res) => {
+  let eyesOpenFile = null;
+  let eyesClosedFile = null;
+
+  try {
+    console.log('\n🔬 === QEEG Processing Started ===\n');
+
+    // Get uploaded files
+    const files = req.files;
+    if (!files || !files.eyesOpen || !files.eyesClosed) {
+      return res.status(400).json({
+        error: true,
+        message: 'Both Eyes Open and Eyes Closed files are required'
+      });
+    }
+
+    eyesOpenFile = files.eyesOpen[0];
+    eyesClosedFile = files.eyesClosed[0];
+
+    console.log('📁 Files received:');
+    console.log('  - Eyes Open:', eyesOpenFile.originalname, `(${(eyesOpenFile.size / 1024).toFixed(2)} KB)`);
+    console.log('  - Eyes Closed:', eyesClosedFile.originalname, `(${(eyesClosedFile.size / 1024).toFixed(2)} KB)`);
+
+    // Get patient info from request body
+    const {
+      patientId,
+      patientName,
+      clinicName,
+      dateOfBirth,
+      age,
+      gender,
+      handedness
+    } = req.body;
+
+    console.log('\n👤 Patient Information:');
+    console.log('  - Patient ID:', patientId);
+    console.log('  - Patient Name:', patientName);
+    console.log('  - Clinic:', clinicName);
+    console.log('  - Date of Birth:', dateOfBirth);
+    console.log('  - Age:', age);
+    console.log('  - Gender:', gender);
+    console.log('  - Handedness:', handedness);
+
+    // Validate OpenAI API configuration before processing (OPTIONAL - don't fail if missing)
+    console.log('\n🔐 Checking OpenAI API configuration...');
+    try {
+      await QEEGParser.testAPIConnection();
+      console.log('✅ OpenAI API configured properly');
+    } catch (apiError) {
+      console.warn('⚠️  OpenAI API not configured or failed test:', apiError.message);
+      console.warn('   Continuing with processing anyway...');
+      // Don't throw error - allow processing to continue without OpenAI
+    }
+
+    // Step 1: Parse QEEG files
+    console.log('\n📊 Step 1: Parsing QEEG files...');
+    const qeegData = await QEEGParser.parse(eyesOpenFile, eyesClosedFile);
+
+    // Validate that we got real patient data
+    console.log('\n📊 QEEG Data Validation:');
+    console.log('  - Eyes Open (EO) channels:', Object.keys(qeegData.EO?.absolute || {}).length);
+    console.log('  - Eyes Closed (EC) channels:', Object.keys(qeegData.EC?.absolute || {}).length);
+    console.log('  - Using REAL PATIENT DATA (not sample data)');
+    console.log('  - Patient:', patientName, `(ID: ${patientId})`);
+
+    // Verify non-zero values (proof of real data extraction)
+    const eoFzTheta = qeegData.EO?.absolute?.Fz?.Theta || 0;
+    const ecPzAlpha = qeegData.EC?.absolute?.Pz?.Alpha || 0;
+    console.log('  - Sample Values (proof of extraction):');
+    console.log(`    * EO Fz Theta: ${eoFzTheta}`);
+    console.log(`    * EC Pz Alpha: ${ecPzAlpha}`);
+
+    // Warn if all values are zero (indicates parsing failure)
+    if (eoFzTheta === 0 && ecPzAlpha === 0) {
+      console.warn('  ⚠️  WARNING: Sample values are zero - possible parsing issue!');
+    }
+
+    // COMPREHENSIVE VALIDATION CHECKS
+    console.log('\n🔍 Comprehensive Data Validation:');
+
+    // Check 1: Verify key channels have data
+    const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4'];
+    let missingChannels = 0;
+    requiredChannels.forEach(ch => {
+      const hasEO = qeegData.EO?.absolute?.[ch]?.Theta !== undefined;
+      const hasEC = qeegData.EC?.absolute?.[ch]?.Alpha !== undefined;
+      if (!hasEO || !hasEC) {
+        console.warn(`  ⚠️  Missing data for channel ${ch}`);
+        missingChannels++;
+      }
+    });
+    if (missingChannels === 0) {
+      console.log('  ✅ All required channels have data');
+    }
+
+    // Check 2: Verify values are in reasonable ranges (not all zeros or defaults)
+    const testValues = [
+      qeegData.EO?.absolute?.Fz?.Theta,
+      qeegData.EO?.absolute?.Fz?.Beta,
+      qeegData.EC?.absolute?.Pz?.Alpha,
+      qeegData.EC?.relative?.Pz?.Alpha,
+      qeegData.EC?.relative?.Pz?.Beta
+    ];
+    const uniqueValues = new Set(testValues.filter(v => v !== null && v !== undefined));
+    if (uniqueValues.size <= 1) {
+      console.warn('  ⚠️  WARNING: All test values are the same - possible static data!');
+    } else {
+      console.log(`  ✅ Data shows ${uniqueValues.size} unique values (not static)`);
+    }
+
+    // Check 3: Verify relative power sums to ~100% for a sample channel
+    if (qeegData.EO?.relative?.Fz) {
+      const fzBands = qeegData.EO.relative.Fz;
+      const sum = (fzBands.Delta || 0) + (fzBands.Theta || 0) +
+                  (fzBands.Alpha || 0) + (fzBands.Beta || 0) +
+                  (fzBands.HiBeta || 0);
+      console.log(`  📊 Relative power sum (EO Fz): ${sum.toFixed(1)}%`);
+      if (sum < 80 || sum > 120) {
+        console.warn(`  ⚠️  WARNING: Relative power sum is ${sum.toFixed(1)}% (expected ~100%)`);
+      } else {
+        console.log('  ✅ Relative power validation passed');
+      }
+    }
+
+    // Check 4: Verify critical values for calculations exist
+    const criticalValues = {
+      'Relaxation (Pz EC Relative Alpha)': qeegData.EC?.relative?.Pz?.Alpha,
+      'Relaxation (Pz EC Relative Beta)': qeegData.EC?.relative?.Pz?.Beta,
+      'Focus (Fz EO Theta)': qeegData.EO?.absolute?.Fz?.Theta,
+      'Focus (Fz EO Beta)': qeegData.EO?.absolute?.Fz?.Beta,
+      'Alpha Peak': qeegData.EC?.special?.alphaPeak || qeegData.EC?.special?.O1
+    };
+
+    console.log('\n  🎯 Critical Values Check:');
+    let missingCritical = 0;
+    Object.entries(criticalValues).forEach(([name, value]) => {
+      if (value === null || value === undefined) {
+        console.warn(`  ❌ MISSING: ${name}`);
+        missingCritical++;
+      } else {
+        console.log(`  ✅ ${name}: ${value}`);
+      }
+    });
+
+    if (missingCritical > 0) {
+      console.warn(`\n  ⚠️  WARNING: ${missingCritical} critical values missing - calculations may be inaccurate!`);
+    } else {
+      console.log('\n  ✅ All critical values present - ready for calculation');
+    }
+
+    // Step 2: Calculate parameters with appropriate calculator
+    console.log('\n🧮 Step 2: Calculating 7 brain health parameters...');
+
+    // Route to appropriate calculator based on data type
+    const dataType = qeegData.dataType || 'raw';
+    console.log(`📊 Data Type: ${dataType.toUpperCase()} mode`);
+
+    let calculator;
+    if (dataType === 'zscore') {
+      console.log('   Using Z-Score Calculator');
+      calculator = new ZScoreCalculator(qeegData);
+    } else {
+      console.log('   Using Raw Power Calculator');
+      calculator = new AlgorithmCalculator(qeegData);
+    }
+
+    const results = calculator.calculate();
+
+    console.log('\n✅ Calculation completed successfully!');
+    console.log('📈 Results Summary:');
+    results.parameters.forEach(param => {
+      console.log(`  - ${param.name}: ${param.score}/${param.maxScore} (${param.classification})`);
+    });
+    console.log(`  - Overall Score: ${results.overallScore}/21`);
+
+    // COMPREHENSIVE DEBUG SUMMARY
+    console.log('\n' + '='.repeat(80));
+    console.log('📋 COMPREHENSIVE DEBUG SUMMARY - FULL PIPELINE');
+    console.log('='.repeat(80));
+
+    console.log('\n1️⃣  DATA EXTRACTION PHASE:');
+    console.log(`    Patient: ${patientName} (ID: ${patientId})`);
+    console.log(`    Data Type: ${dataType.toUpperCase()} mode`);
+    console.log(`    EO Channels: ${Object.keys(qeegData.EO?.absolute || {}).length}`);
+    console.log(`    EC Channels: ${Object.keys(qeegData.EC?.absolute || {}).length}`);
+
+    console.log('\n2️⃣  SAMPLE EXTRACTED DATA:');
+    console.log('    Key Values Used in Calculations:');
+    console.log(`    - Fz EO Absolute Theta: ${qeegData.EO?.absolute?.Fz?.Theta || 'N/A'}`);
+    console.log(`    - Fz EO Absolute Beta: ${qeegData.EO?.absolute?.Fz?.Beta || 'N/A'}`);
+    console.log(`    - Pz EC Relative Alpha: ${qeegData.EC?.relative?.Pz?.Alpha || 'N/A'}`);
+    console.log(`    - Pz EC Relative Beta: ${qeegData.EC?.relative?.Pz?.Beta || 'N/A'}`);
+    console.log(`    - Alpha Peak: ${qeegData.EC?.special?.alphaPeak || qeegData.EC?.special?.O1 || 'N/A'} Hz`);
+
+    console.log('\n3️⃣  CALCULATION RESULTS:');
+    results.parameters.forEach((param, idx) => {
+      console.log(`    ${idx + 1}. ${param.name}: ${param.score}/${param.maxScore} (${param.classification})`);
+      param.metrics.forEach(metric => {
+        console.log(`       - ${metric.name}: ${metric.score} point`);
+        if (metric.description) {
+          console.log(`         ${metric.description}`);
+        }
+      });
+    });
+
+    console.log('\n4️⃣  EXPECTED vs ACTUAL (for Rhea\'s Report):');
+    const expectedScores = {
+      'Cognition': { expected: 2, actual: results.parameters.find(p => p.name === 'Cognition')?.score },
+      'Stress': { expected: 0, actual: results.parameters.find(p => p.name === 'Stress')?.score },
+      'Focus & Attention': { expected: 2, actual: results.parameters.find(p => p.name === 'Focus & Attention')?.score },
+      'Burnout & Fatigue': { expected: 0, actual: results.parameters.find(p => p.name === 'Burnout & Fatigue')?.score },
+      'Emotional Regulation': { expected: 3, actual: results.parameters.find(p => p.name === 'Emotional Regulation')?.score },
+      'Learning': { expected: 2, actual: results.parameters.find(p => p.name === 'Learning')?.score },
+      'Creativity': { expected: 2, actual: results.parameters.find(p => p.name === 'Creativity')?.score }
+    };
+
+    console.log('    (Expected values are for Rhea\'s Report only)');
+    Object.entries(expectedScores).forEach(([name, scores]) => {
+      const match = scores.expected === scores.actual ? '✅' : '❌';
+      console.log(`    ${match} ${name}: Expected ${scores.expected}/3, Got ${scores.actual}/3`);
+    });
+
+    console.log('\n' + '='.repeat(80));
+    console.log('END OF DEBUG SUMMARY');
+    console.log('='.repeat(80) + '\n');
+
+    // Step 3: Auto-generate PDF report
+    console.log('\n📄 Step 3: Auto-generating PDF report...');
+    let pdfUrl = null;
+    let pdfFilename = null;
+
+    try {
+      // Prepare patient data for PDF
+      const pdfPatientData = {
+        name: patientName,
+        dateOfBirth: dateOfBirth || 'N/A',
+        age: age || 'N/A',
+        gender: gender || 'Not specified',
+        handedness: handedness || 'Not specified',
+        patientId: patientId,
+        clinicName: clinicName
+      };
+
+      // Prepare algorithm results for PDF
+      const pdfAlgorithmResults = {
+        parameters: results.parameters,
+        overallScore: results.overallScore
+      };
+
+      // Debug: Log parameters being sent to PDF
+      console.log('\n📊 Parameters for PDF:');
+      console.log('  - Total Parameters:', pdfAlgorithmResults.parameters.length);
+      console.log('  - Overall Score:', pdfAlgorithmResults.overallScore);
+      pdfAlgorithmResults.parameters.forEach((param, i) => {
+        console.log(`  ${i + 1}. ${param.name}: ${param.score}/${param.maxScore} (${param.classification})`);
+      });
+
+      // Create output filename
+      const timestamp = Date.now();
+      const sanitizedName = (patientName || 'patient').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      pdfFilename = `neurosense-report-${sanitizedName}-${timestamp}.pdf`;
+      const uploadsDir = path.join(__dirname, '../uploads');
+      const pdfOutputPath = path.join(uploadsDir, pdfFilename);
+
+      // Ensure uploads directory exists
+      if (!fs.existsSync(uploadsDir)) {
+        console.log('📁 Creating uploads directory...');
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      console.log('📝 Generating PDF to:', pdfFilename);
+      console.log('   Full path:', pdfOutputPath);
+
+      // === USE GEMINI PDF GENERATOR (with fallback) ===
+      console.log('\n🔍 Checking available PDF generators...');
+      console.log('   GeminiPdfGenerator available:', !!GeminiPdfGenerator);
+      console.log('   EnhancedAIPdfGenerator available:', !!EnhancedAIPdfGenerator);
+      console.log('   PDFReportGenerator available:', !!PDFReportGenerator);
+
+      let pdfGenerator;
+      if (GeminiPdfGenerator) {
+        console.log('\n🤖 === USING GEMINI AI PDF GENERATOR ===');
+        console.log('   Engine: Google Gemini + PDFKit');
+        console.log('   Patient:', pdfPatientData.name);
+        console.log('   Parameters:', pdfAlgorithmResults.parameters.length);
+        try {
+          pdfGenerator = new GeminiPdfGenerator(pdfPatientData, pdfAlgorithmResults, qeegData);
+          console.log('✅ Gemini PDF Generator instantiated successfully');
+        } catch (instantiateError) {
+          console.error('❌ Failed to instantiate Gemini PDF Generator:', instantiateError.message);
+          throw instantiateError;
+        }
+      } else if (EnhancedAIPdfGenerator) {
+        console.log('🤖 Using Enhanced AI PDF Generator (OpenAI + PDFKit - Fallback)');
+        pdfGenerator = new EnhancedAIPdfGenerator(pdfPatientData, pdfAlgorithmResults, qeegData);
+      } else {
+        console.log('📄 Using Standard PDF Generator (Basic fallback)');
+        pdfGenerator = new PDFReportGenerator(pdfPatientData, pdfAlgorithmResults, qeegData);
+      }
+
+      // Generate the PDF
+      console.log('\n📝 Calling pdfGenerator.generateReport()...');
+      console.log('   Output path:', pdfOutputPath);
+
+      try {
+        await pdfGenerator.generateReport(pdfOutputPath);
+        console.log('✅ PDF generation completed!');
+      } catch (genError) {
+        console.error('❌ PDF generation threw error:', genError.message);
+        console.error('   Stack:', genError.stack);
+        throw genError;
+      }
+
+      // Verify file was created
+      if (!fs.existsSync(pdfOutputPath)) {
+        throw new Error('PDF file was not created at expected path: ' + pdfOutputPath);
+      }
+
+      console.log('✅ PDF file verified at:', pdfOutputPath);
+      console.log('📄 File:', pdfFilename);
+      console.log('📊 Size:', (fs.statSync(pdfOutputPath).size / 1024).toFixed(2), 'KB');
+
+      // Upload to Supabase Storage
+      try {
+        console.log('\n☁️  Uploading PDF to Supabase storage...');
+        const uploadResult = await SupabaseStorage.uploadFile(
+          pdfOutputPath,
+          'neurosense_bucketreports', // bucket name
+          `reports/${pdfFilename}` // path in bucket
+        );
+
+        // Verify upload was successful and URL is valid
+        if (uploadResult && uploadResult.url) {
+          pdfUrl = uploadResult.url;
+          console.log('✅ PDF uploaded to Supabase successfully');
+          console.log('🔗 Supabase URL:', pdfUrl);
+
+          // Delete local file after successful Supabase upload
+          try {
+            fs.unlinkSync(pdfOutputPath);
+            console.log('🗑️  Local PDF file deleted after successful upload');
+          } catch (deleteError) {
+            console.warn('⚠️  Could not delete local PDF file:', deleteError.message);
+          }
+        } else {
+          throw new Error('Supabase upload returned invalid result');
+        }
+      } catch (supabaseError) {
+        console.error('⚠️  Supabase upload failed, using local storage');
+        console.error('   Error message:', supabaseError.message);
+        console.error('   Error stack:', supabaseError.stack);
+        console.error('   Full error:', JSON.stringify(supabaseError, null, 2));
+        // Fallback to local storage
+        pdfUrl = `/uploads/${pdfFilename}`;
+        console.log('📁 Using local file as fallback:', pdfUrl);
+      }
+
+    } catch (pdfError) {
+      console.error('\n❌ === PDF GENERATION FAILED ===');
+      console.error('Error message:', pdfError.message);
+      console.error('Error stack:', pdfError.stack);
+      console.error('Full error:', pdfError);
+      console.error('=================================\n');
+
+      // Set pdfUrl to null so frontend knows PDF failed
+      pdfUrl = null;
+
+      // Don't fail the whole request if PDF fails - processing still succeeded
+      console.log('⚠️ Continuing without PDF - processing succeeded');
+    }
+
+    // Clean up uploaded files
+    try {
+      fs.unlinkSync(eyesOpenFile.path);
+      fs.unlinkSync(eyesClosedFile.path);
+      console.log('\n🗑️  Temporary files cleaned up');
+    } catch (cleanupError) {
+      console.error('⚠️  Error cleaning up files:', cleanupError.message);
+    }
+
+    console.log('\n🏁 === QEEG Processing Completed ===\n');
+
+    // Final check for PDF URL
+    if (!pdfUrl) {
+      console.warn('⚠️⚠️⚠️ WARNING: No PDF URL available in response!');
+      console.warn('   pdfFilename was:', pdfFilename || 'NOT SET');
+      console.warn('   This means PDF generation completely failed');
+    } else {
+      console.log('✅ PDF URL ready:', pdfUrl);
+      console.log('   Type:', pdfUrl.startsWith('http') ? 'Supabase' : 'Local');
+    }
+
+    // Send response
+    res.json({
+      success: true,
+      data: {
+        patientId,
+        patientName,
+        clinicName,
+        processedAt: new Date().toISOString(),
+        dataType: dataType, // Add data type (raw or zscore)
+        results: results.parameters,
+        overallScore: results.overallScore,
+        maxScore: 21,
+        pdfUrl: pdfUrl,
+        pdfFilename: pdfFilename
+      }
+    });
+
+  } catch (error) {
+    console.error('\n❌ === QEEG Processing Failed ===');
+    console.error('Error:', error.message);
+    console.error('Error Code:', error.code || 'UNKNOWN');
+    console.error('Stack:', error.stack);
+
+    // Clean up files on error
+    if (eyesOpenFile && fs.existsSync(eyesOpenFile.path)) {
+      try {
+        fs.unlinkSync(eyesOpenFile.path);
+      } catch (e) {
+        console.error('Error deleting Eyes Open file:', e.message);
+      }
+    }
+    if (eyesClosedFile && fs.existsSync(eyesClosedFile.path)) {
+      try {
+        fs.unlinkSync(eyesClosedFile.path);
+      } catch (e) {
+        console.error('Error deleting Eyes Closed file:', e.message);
+      }
+    }
+
+    // Categorize errors for better user feedback
+    let statusCode = 500;
+    let userMessage = error.message;
+
+    switch (error.code) {
+      case 'MISSING_API_KEY':
+      case 'INVALID_API_KEY':
+      case 'INVALID_API_KEY_FORMAT':
+      case 'API_CONNECTION_FAILED':
+        statusCode = 503; // Service Unavailable
+        userMessage = 'System configuration error: OpenAI API key not properly configured. Please contact support.';
+        break;
+
+      case 'PDF_EXTRACTION_FAILED':
+        statusCode = 422; // Unprocessable Entity
+        userMessage = 'Failed to extract QEEG data from PDF. Please ensure the PDF contains valid QEEG tables with absolute and relative power values.';
+        break;
+
+      default:
+        userMessage = error.message || 'Failed to process QEEG files';
+    }
+
+    res.status(statusCode).json({
+      error: true,
+      message: userMessage,
+      code: error.code || 'UNKNOWN_ERROR',
+      technicalDetails: process.env.NODE_ENV === 'development' ? {
+        originalMessage: error.message,
+        stack: error.stack,
+        condition: error.condition
+      } : undefined
+    });
+  }
+});
+
+/**
+ * POST /api/qeeg/generate-pdf
+ * Generate PDF report from algorithm results
+ */
+router.post('/generate-pdf', async (req, res) => {
+  try {
+    console.log('\n📄 === PDF Report Generation Started ===\n');
+
+    const { patientData, algorithmResults, qeegData } = req.body;
+
+    // Validate input
+    if (!patientData || !algorithmResults || !qeegData) {
+      return res.status(400).json({
+        error: true,
+        message: 'Missing required data: patientData, algorithmResults, and qeegData are required'
+      });
+    }
+
+    console.log('👤 Patient:', patientData.name);
+    console.log('📊 Parameters:', algorithmResults.parameters?.length);
+
+    // === USE GEMINI PDF GENERATOR (if available) ===
+    let generator;
+    if (GeminiPdfGenerator) {
+      console.log('🤖 Using Gemini AI PDF Generator (Google Gemini + PDFKit)');
+      generator = new GeminiPdfGenerator(patientData, algorithmResults, qeegData);
+    } else if (EnhancedAIPdfGenerator) {
+      console.log('🤖 Using Enhanced AI PDF Generator (OpenAI + PDFKit - Fallback)');
+      generator = new EnhancedAIPdfGenerator(patientData, algorithmResults, qeegData);
+    } else {
+      console.log('📄 Using Standard PDF Generator (Basic fallback)');
+      generator = new PDFReportGenerator(patientData, algorithmResults, qeegData);
+    }
+
+    // Create output filename
+    const timestamp = Date.now();
+    const sanitizedName = (patientData.name || 'patient').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const filename = `neurosense-report-${sanitizedName}-${timestamp}.pdf`;
+    const outputPath = path.join(__dirname, '../uploads', filename);
+
+    console.log('📝 Generating AI-powered PDF to:', filename);
+
+    // Generate the PDF with AI insights
+    const pdfPath = await generator.generateReport(outputPath);
+
+    console.log('\n✅ PDF Report Generated Successfully!');
+    console.log('📄 File:', filename);
+    console.log('📊 Size:', (fs.statSync(pdfPath).size / 1024).toFixed(2), 'KB');
+
+    // Upload to Supabase Storage - TEMPORARILY DISABLED
+    let supabaseUrl = null;
+    let supabasePath = null;
+    let uploadError = null;
+
+    // DISABLE SUPABASE UPLOAD FOR NOW - USE LOCAL STORAGE ONLY
+    console.log('\n📁 Using local storage (Supabase upload disabled)');
+    uploadError = 'Supabase upload disabled - using local storage';
+
+    /* COMMENTED OUT - Enable when Supabase is configured properly
+    try {
+      console.log('\n☁️  Uploading PDF to Supabase storage...');
+      const uploadResult = await SupabaseStorage.uploadFile(
+        pdfPath,
+        'patient-reports', // bucket name
+        `reports/${filename}` // path in bucket
+      );
+
+      // Verify upload was successful and URL is valid
+      if (uploadResult && uploadResult.url) {
+        supabaseUrl = uploadResult.url;
+        supabasePath = uploadResult.path;
+
+        console.log('✅ PDF uploaded to Supabase successfully');
+        console.log('🔗 Supabase URL:', supabaseUrl);
+
+        // Only delete local file after SUCCESSFUL Supabase upload
+        try {
+          fs.unlinkSync(pdfPath);
+          console.log('🗑️  Local PDF file deleted after successful upload');
+        } catch (deleteError) {
+          console.warn('⚠️  Could not delete local PDF file:', deleteError.message);
+        }
+      } else {
+        throw new Error('Supabase upload returned invalid result');
+      }
+
+    } catch (error) {
+      console.error('⚠️  Supabase upload failed, using local storage:', error.message);
+      uploadError = error.message;
+      // Keep local file as fallback - DO NOT DELETE
+      console.log('📁 Using local file as fallback');
+    }
+    */
+
+    console.log('\n🏁 === PDF Generation Completed ===\n');
+
+    // Return PDF info - prioritize Supabase URL
+    res.json({
+      success: true,
+      data: {
+        filename: filename,
+        path: supabasePath || `/uploads/${filename}`,
+        url: supabaseUrl || `${req.protocol}://${req.get('host')}/uploads/${filename}`,
+        size: fs.existsSync(pdfPath) ? fs.statSync(pdfPath).size : 0,
+        generatedAt: new Date().toISOString(),
+        storage: supabaseUrl ? 'supabase' : 'local',
+        uploadError: uploadError
+      }
+    });
+
+  } catch (error) {
+    console.error('\n❌ === PDF Generation Failed ===');
+    console.error('Error:', error.message);
+    console.error('Stack:', error.stack);
+
+    res.status(500).json({
+      error: true,
+      message: error.message || 'Failed to generate PDF report',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+});
+
+/**
+ * POST /api/qeeg/generate-sample-pdf
+ * Generate a sample PDF report for testing
+ */
+router.post('/generate-sample-pdf', async (req, res) => {
+  try {
+    console.log('\n📄 === Sample PDF Generation Started ===\n');
+
+    const pdfPath = await PDFReportGenerator.generateSampleReport();
+
+    console.log('✅ Sample PDF Generated!');
+    console.log('📄 Path:', pdfPath);
+
+    const filename = path.basename(pdfPath);
+
+    res.json({
+      success: true,
+      data: {
+        filename: filename,
+        path: `/uploads/${filename}`,
+        url: `${req.protocol}://${req.get('host')}/uploads/${filename}`,
+        size: fs.statSync(pdfPath).size
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Sample PDF generation failed:', error);
+
+    res.status(500).json({
+      error: true,
+      message: error.message
+    });
+  }
+});
+
+/**
+ * POST /api/qeeg/generate-ai-pdf
+ * Generate AI-powered PDF report with enhanced design and content
+ */
+router.post('/generate-ai-pdf', async (req, res) => {
+  try {
+    console.log('\n🤖 === AI PDF Report Generation Started ===\n');
+
+    const { patientData, algorithmResults, qeegData } = req.body;
+
+    // Validate input
+    if (!patientData || !algorithmResults || !qeegData) {
+      return res.status(400).json({
+        error: true,
+        message: 'Missing required data: patientData, algorithmResults, and qeegData are required'
+      });
+    }
+
+    console.log('👤 Patient:', patientData.name);
+    console.log('📊 Parameters:', algorithmResults.parameters?.length);
+    console.log('🎯 Using AI-powered generation with enhanced prompt');
+
+    // Generate AI PDF
+    const generator = new AIPdfGenerator(patientData, algorithmResults, qeegData);
+
+    // Create output filename
+    const timestamp = Date.now();
+    const sanitizedName = (patientData.name || 'patient').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const filename = `ai-neurosense-report-${sanitizedName}-${timestamp}.pdf`;
+    const outputPath = path.join(__dirname, '../uploads', filename);
+
+    console.log('📝 Generating AI PDF to:', filename);
+
+    // Generate the PDF
+    const result = await generator.generateReport(outputPath);
+
+    console.log('\n✅ AI NeuroSense Report Generated Successfully!');
+    console.log('📄 Text File:', path.basename(result.textOutputPath));
+    console.log('📄 JSON File:', path.basename(result.outputPath));
+    console.log('📊 Tokens Used:', result.tokensUsed);
+    console.log('📏 Content Length:', result.contentLength, 'characters');
+    console.log('\n🏁 === AI PDF Generation Completed ===\n');
+
+    // Return report info
+    res.json({
+      success: true,
+      data: {
+        textFile: {
+          filename: path.basename(result.textOutputPath),
+          path: `/uploads/${path.basename(result.textOutputPath)}`,
+          url: `${req.protocol}://${req.get('host')}/uploads/${path.basename(result.textOutputPath)}`,
+          type: 'Plain Text Report'
+        },
+        jsonFile: {
+          filename: path.basename(result.outputPath),
+          path: `/uploads/${path.basename(result.outputPath)}`,
+          url: `${req.protocol}://${req.get('host')}/uploads/${path.basename(result.outputPath)}`,
+          type: 'Structured Data (JSON)'
+        },
+        contentLength: result.contentLength,
+        tokensUsed: result.tokensUsed,
+        generatedAt: new Date().toISOString()
+      },
+      message: 'AI-powered NeuroSense report generated successfully. Text file contains formatted report ready for PDF conversion.'
+    });
+
+  } catch (error) {
+    console.error('\n❌ === AI PDF Generation Failed ===');
+    console.error('Error:', error.message);
+    console.error('Stack:', error.stack);
+
+    res.status(500).json({
+      error: true,
+      message: error.message || 'Failed to generate AI PDF report',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+});
+
+/**
+ * POST /api/qeeg/generate-ai-sample-pdf
+ * Generate a sample AI-powered PDF report for testing
+ */
+router.post('/generate-ai-sample-pdf', async (req, res) => {
+  try {
+    console.log('\n🤖 === Sample AI PDF Generation Started ===\n');
+
+    const result = await AIPdfGenerator.generateSampleReport();
+
+    console.log('✅ Sample AI PDF Generated!');
+    console.log('📄 Path:', result.outputPath);
+
+    const filename = path.basename(result.outputPath);
+
+    res.json({
+      success: true,
+      data: {
+        filename: filename,
+        path: `/uploads/${filename}`,
+        url: `${req.protocol}://${req.get('host')}/uploads/${filename}`,
+        contentLength: result.contentLength,
+        tokensUsed: result.tokensUsed,
+        type: 'AI-Generated Sample (JSON format)'
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Sample AI PDF generation failed:', error);
+
+    res.status(500).json({
+      error: true,
+      message: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/qeeg/supabase-pdfs
+ * List all PDFs from Supabase bucket
+ */
+router.get('/supabase-pdfs', async (req, res) => {
+  try {
+    console.log('📋 Fetching PDFs from Supabase bucket...');
+
+    const files = await SupabaseStorage.listFiles('neurosense_bucketreports', 'reports');
+
+    // Get public URLs for all files
+    const pdfs = files.map(file => {
+      const { createClient } = require('@supabase/supabase-js');
+      const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+      const { data: urlData } = supabase.storage
+        .from('neurosense_bucketreports')
+        .getPublicUrl(`reports/${file.name}`);
+
+      return {
+        name: file.name,
+        url: urlData.publicUrl,
+        created_at: file.created_at,
+        size: file.metadata?.size
+      };
+    });
+
+    console.log(`✅ Found ${pdfs.length} PDFs in Supabase bucket`);
+
+    res.json({
+      success: true,
+      count: pdfs.length,
+      pdfs: pdfs
+    });
+
+  } catch (error) {
+    console.error('❌ Error listing Supabase PDFs:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/qeeg/test
+ * Test endpoint to verify API is working
+ */
+router.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'QEEG Processing API is working',
+    endpoints: {
+      process: 'POST /api/qeeg/process - Upload and process QEEG files',
+      generatePdf: 'POST /api/qeeg/generate-pdf - Generate PDF report from results (PDFKit)',
+      generateSamplePdf: 'POST /api/qeeg/generate-sample-pdf - Generate sample PDF report (PDFKit)',
+      generateAiPdf: 'POST /api/qeeg/generate-ai-pdf - Generate AI-powered PDF report (OpenAI)',
+      generateAiSamplePdf: 'POST /api/qeeg/generate-ai-sample-pdf - Generate AI sample PDF report (OpenAI)',
+      generateGeminiReport: 'POST /api/qeeg/generate-gemini-report - Generate AI report structure using Gemini',
+      supabasePdfs: 'GET /api/qeeg/supabase-pdfs - List all PDFs from Supabase bucket'
+    }
+  });
+});
+
+/**
+ * POST /api/qeeg/generate-gemini-report
+ * Generate AI-powered report structure using Google Gemini
+ */
+router.post('/generate-gemini-report', async (req, res) => {
+  try {
+    console.log('\n🤖 === Gemini AI Report Generation Started ===\n');
+
+    if (!GeminiService) {
+      return res.status(503).json({
+        error: true,
+        message: 'Gemini AI service is not available. Please check server configuration.'
+      });
+    }
+
+    const { algorithmResults } = req.body;
+
+    // Validate input
+    if (!algorithmResults || !algorithmResults.parameters) {
+      return res.status(400).json({
+        error: true,
+        message: 'Missing required data: algorithmResults with parameters array is required'
+      });
+    }
+
+    console.log('📊 Processing', algorithmResults.parameters.length, 'brain parameters');
+
+    // Transform algorithm results to the format expected by Gemini
+    const brainParameters = {
+      Cognition: null,
+      Stress: null,
+      FocusAndAttention: null,
+      BurnoutAndFatigue: null,
+      EmotionalRegulation: null,
+      Learning: null,
+      Creativity: null
+    };
+
+    // Map the parameters from algorithm results
+    algorithmResults.parameters.forEach(param => {
+      const paramName = param.name.replace(/\s+/g, '');
+      if (brainParameters.hasOwnProperty(paramName)) {
+        brainParameters[paramName] = {
+          score: param.score,
+          bucket: param.bucket,
+          subparameters: param.subParameters || []
+        };
+      }
+    });
+
+    console.log('🧠 Brain Parameters prepared for Gemini');
+
+    // Generate report using Gemini AI
+    const result = await GeminiService.generateBrainPerformanceReport(brainParameters);
+
+    if (!result.success) {
+      return res.status(500).json({
+        error: true,
+        message: 'Failed to generate report with Gemini AI',
+        details: result.error
+      });
+    }
+
+    console.log('✅ Gemini AI report generated successfully');
+
+    res.json({
+      success: true,
+      message: 'AI-powered report structure generated successfully',
+      reportData: result.data,
+      rawResponse: result.rawResponse
+    });
+
+  } catch (error) {
+    console.error('❌ Error generating Gemini report:', error);
+    res.status(500).json({
+      error: true,
+      message: 'Internal server error while generating Gemini report',
+      details: error.message
+    });
+  }
+});
+
+module.exports = router;
+

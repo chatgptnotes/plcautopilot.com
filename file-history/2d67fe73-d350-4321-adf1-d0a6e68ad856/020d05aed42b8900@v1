@@ -1,0 +1,379 @@
+import React, { useState, useEffect } from 'react';
+import { X, FileText, Users, Activity, Pill, Heart, Home, Download, Eye } from 'lucide-react';
+import { supabase } from '../../lib/supabaseClient';
+import toast from 'react-hot-toast';
+
+const ClinicalReportView = ({ patient, onClose }) => {
+  const [reportData, setReportData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching clinical report for patient:', patient.id);
+
+        const { data: reports, error } = await supabase
+          .from('clinical_reports')
+          .select('*')
+          .eq('patient_id', patient.id)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) {
+          console.error('Error fetching report:', error);
+          toast.error('Failed to load clinical report');
+          return;
+        }
+
+        if (reports && reports.length > 0) {
+          console.log('Report found:', reports[0]);
+          setReportData(reports[0]);
+        } else {
+          toast.error('No clinical report found for this patient');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error('Failed to load clinical report');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReport();
+  }, [patient.id]);
+
+  const getAge = (dob) => {
+    if (!dob) return 'N/A';
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString('en-GB');
+  };
+
+  const renderCheckboxList = (data, labelMap) => {
+    if (!data) return <p className="text-gray-500 text-sm">No data available</p>;
+
+    const items = Object.entries(data)
+      .filter(([key, value]) => key !== 'other' && value === true)
+      .map(([key]) => labelMap[key] || key);
+
+    if (items.length === 0 && !data.other) {
+      return <p className="text-gray-500 text-sm">None reported</p>;
+    }
+
+    return (
+      <div className="space-y-1">
+        {items.length > 0 && (
+          <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
+            {items.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        )}
+        {data.other && (
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+            <span className="font-semibold">Other:</span> {data.other}
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 max-w-md w-full">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <p className="text-gray-600 dark:text-gray-400">Loading clinical report...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!reportData) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 max-w-md w-full">
+          <div className="text-center">
+            <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Report Found</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              No clinical report available for this patient yet.
+            </p>
+            <button
+              onClick={onClose}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const presentingComplaintsLabels = {
+    headaches: 'Headaches / Migraines',
+    seizures: 'Seizures / Epileptic Episodes',
+    dizziness: 'Dizziness / Balance Problems',
+    attention: 'Attention / Concentration Difficulties',
+    memory: 'Memory Issues',
+    sleep: 'Sleep Disturbances',
+    anxiety: 'Anxiety / Panic Symptoms',
+    depression: 'Depression / Low Mood',
+    irritability: 'Irritability / Emotional Dysregulation',
+    fatigue: 'Fatigue / Low Energy'
+  };
+
+  const symptomDurationLabels = {
+    sudden: 'Sudden Onset',
+    gradual: 'Gradual Onset',
+    acute: 'Acute (<1 month)',
+    subacute: 'Subacute (1–6 months)',
+    chronic: 'Chronic (>6 months)'
+  };
+
+  const pastMedicalHistoryLabels = {
+    neurological: 'Neurological Disorders',
+    psychiatric: 'Psychiatric Disorders',
+    cardiovascular: 'Cardiovascular Conditions',
+    endocrine: 'Endocrine/Metabolic',
+    chronicPain: 'Chronic Pain / Fibromyalgia'
+  };
+
+  const medicationsLabels = {
+    antidepressants: 'Antidepressants',
+    anxiolytics: 'Anxiolytics / Benzodiazepines',
+    antipsychotics: 'Antipsychotics',
+    moodStabilizers: 'Mood Stabilizers',
+    antiepileptics: 'Antiepileptics / Anticonvulsants',
+    stimulants: 'Stimulants (ADHD medications)',
+    sleepAids: 'Sleep Aids / Sedatives'
+  };
+
+  const familyHistoryLabels = {
+    epilepsy: 'Epilepsy / Seizures',
+    dementia: 'Dementia / Cognitive Decline',
+    adhd: 'ADHD / Learning Disorders',
+    moodDisorders: 'Mood Disorders',
+    anxiety: 'Anxiety / OCD',
+    substanceAbuse: 'Substance Abuse'
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+      <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-5xl w-full max-h-[95vh] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-green-600 to-teal-600 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="bg-white/20 p-2 rounded-full">
+              <Eye className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">Clinical Report - View Only</h2>
+              <p className="text-sm text-green-100">Patient ID: {reportData.patient_uid}</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-white/80 hover:text-white transition-colors"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* 1. Patient Information */}
+          <section className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-4 flex items-center bg-blue-100 dark:bg-blue-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Users className="h-5 w-5 mr-2" />
+              1. Patient Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <InfoField label="Full Name" value={reportData.full_name} />
+              <InfoField label="Date of Birth" value={`${formatDate(reportData.date_of_birth)} (Age: ${getAge(reportData.date_of_birth)} years)`} />
+              <InfoField label="Gender" value={reportData.gender || 'N/A'} />
+              <InfoField label="Handedness" value={reportData.handedness || 'N/A'} />
+              <InfoField label="Occupation" value={reportData.occupation || 'N/A'} />
+              <InfoField label="Patient ID" value={reportData.patient_uid} />
+              <InfoField label="Date of Test" value={formatDate(reportData.date_of_test)} />
+              <InfoField label="Referring Physician" value={reportData.referring_physician || 'N/A'} />
+              <div className="md:col-span-2">
+                <InfoField label="Reason for Referral" value={reportData.referral_reason || 'N/A'} />
+              </div>
+            </div>
+          </section>
+
+          {/* 2. Clinical & Medical History */}
+          <section className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-green-900 dark:text-green-100 mb-4 flex items-center bg-green-100 dark:bg-green-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Activity className="h-5 w-5 mr-2" />
+              2. Clinical & Medical History
+            </h3>
+            <div className="space-y-4 mt-4">
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Presenting Complaints:</p>
+                {renderCheckboxList(reportData.presenting_complaints, presentingComplaintsLabels)}
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Duration & Onset of Symptoms:</p>
+                {renderCheckboxList(reportData.symptom_duration, symptomDurationLabels)}
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Past Medical History:</p>
+                {renderCheckboxList(reportData.past_medical_history, pastMedicalHistoryLabels)}
+              </div>
+            </div>
+          </section>
+
+          {/* 3. Medication History */}
+          <section className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-purple-900 dark:text-purple-100 mb-4 flex items-center bg-purple-100 dark:bg-purple-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Pill className="h-5 w-5 mr-2" />
+              3. Medication History
+            </h3>
+            <div className="space-y-3 mt-4">
+              {renderCheckboxList(reportData.medications, medicationsLabels)}
+              {reportData.medications?.otherMeds && (
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  <span className="font-semibold">Other Medications:</span> {reportData.medications.otherMeds}
+                </p>
+              )}
+              {reportData.medications?.recentChanges && (
+                <p className="text-sm text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 p-2 rounded">
+                  ⚠️ Recent medication changes (last 6–8 weeks)
+                </p>
+              )}
+            </div>
+          </section>
+
+          {/* 4. Family History */}
+          <section className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-orange-900 dark:text-orange-100 mb-4 flex items-center bg-orange-100 dark:bg-orange-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Heart className="h-5 w-5 mr-2" />
+              4. Family History
+            </h3>
+            <div className="mt-4">
+              {renderCheckboxList(reportData.family_history, familyHistoryLabels)}
+            </div>
+          </section>
+
+          {/* 5. Lifestyle & Contributing Factors */}
+          <section className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-teal-900 dark:text-teal-100 mb-4 flex items-center bg-teal-100 dark:bg-teal-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Home className="h-5 w-5 mr-2" />
+              5. Lifestyle & Contributing Factors
+            </h3>
+            <div className="space-y-3 mt-4">
+              <InfoField label="Sleep Hours" value={reportData.lifestyle?.sleepHours || 'N/A'} />
+              <InfoField label="Substance Use" value={reportData.lifestyle?.substanceUse || 'None reported'} />
+              <InfoField label="Physical Activity" value={reportData.lifestyle?.physicalActivity || 'N/A'} />
+              <InfoField label="Diet/Nutrition" value={reportData.lifestyle?.dietNutrition || 'N/A'} />
+
+              <div className="flex flex-wrap gap-2 mt-2">
+                {reportData.lifestyle?.chronicStress && (
+                  <span className="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 rounded-full text-sm">
+                    Chronic Stress
+                  </span>
+                )}
+                {reportData.lifestyle?.caffeineStimulants && (
+                  <span className="px-3 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 rounded-full text-sm">
+                    Excessive Caffeine
+                  </span>
+                )}
+                {reportData.lifestyle?.screenTime && (
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 rounded-full text-sm">
+                    Screen Time Overuse
+                  </span>
+                )}
+                {reportData.lifestyle?.occupationalStress && (
+                  <span className="px-3 py-1 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 rounded-full text-sm">
+                    Occupational Stress
+                  </span>
+                )}
+              </div>
+
+              {reportData.lifestyle?.other && (
+                <InfoField label="Other Factors" value={reportData.lifestyle.other} />
+              )}
+            </div>
+          </section>
+
+          {/* 6. Uploaded Documents */}
+          {reportData.uploaded_documents && reportData.uploaded_documents.length > 0 && (
+            <section className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-5">
+              <h3 className="text-lg font-bold text-indigo-900 dark:text-indigo-100 mb-4 flex items-center bg-indigo-100 dark:bg-indigo-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+                <FileText className="h-5 w-5 mr-2" />
+                6. Supporting Documents
+              </h3>
+              <div className="mt-4 space-y-2">
+                {reportData.uploaded_documents.map((doc, idx) => (
+                  <div key={idx} className="flex items-center justify-between bg-white dark:bg-gray-700 p-3 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{doc.fileName}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          Type: {doc.type} • Uploaded: {formatDate(doc.uploadedAt)}
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <Download className="h-5 w-5" />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Report Metadata */}
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-sm text-gray-600 dark:text-gray-400">
+            <p><span className="font-semibold">Report Created:</span> {formatDate(reportData.created_at)}</p>
+            <p><span className="font-semibold">Last Updated:</span> {formatDate(reportData.updated_at)}</p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 px-6 py-4 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Helper Component
+const InfoField = ({ label, value }) => (
+  <div>
+    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{label}</p>
+    <p className="text-sm text-gray-900 dark:text-white font-medium">
+      {value || 'N/A'}
+    </p>
+  </div>
+);
+
+export default ClinicalReportView;

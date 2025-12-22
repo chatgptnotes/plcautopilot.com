@@ -1,0 +1,263 @@
+# 🚨 QUICK FIX: PDF Generate Nahi Ho Rahi
+## 5 Minutes Mein Theek Karo!
+
+---
+
+## 🎯 Main Problem: Port Mismatch
+
+**Frontend port 3001 pe backend ko dhundh raha hai**
+**Lekin backend port 5000 pe chal raha hai!**
+
+---
+
+## ✅ Solution (Follow Exactly)
+
+### Step 1: Backend Port Check Karo
+
+Backend terminal mein dekho kya likha hai:
+
+```
+Server running on port 5000 ✅
+```
+
+Agar 5000 dikha raha hai to Step 2 follow karo.
+
+---
+
+### Step 2: .env File Create/Update Karo
+
+**Root folder mein** (jahan package.json hai) `.env` file banao/edit karo:
+
+```bash
+# File: .env (root folder mein)
+
+# ⚠️ IMPORTANT: Backend ka actual port dalo
+VITE_API_URL=http://localhost:5000/api
+
+# Supabase credentials (agar hain to)
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Gemini AI (MUST HAVE for PDF generation)
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+**IMPORTANT:**
+- Agar port 5000 pe hai to: `VITE_API_URL=http://localhost:5000/api`
+- Agar port 3001 pe hai to: `VITE_API_URL=http://localhost:3001/api`
+
+---
+
+### Step 3: Frontend Restart Karo
+
+```bash
+# Frontend ko band karo (Ctrl+C)
+# Phir se start karo
+npm run dev
+```
+
+**Ya browser refresh karo:**
+- Press `Ctrl + Shift + R` (hard refresh)
+
+---
+
+### Step 4: Backend Check Karo
+
+Agar backend nahi chal raha to:
+
+```bash
+# New terminal
+npm run dev:backend
+```
+
+**Output dikhe ga:**
+```
+✅ Server running on port 5000
+✅ Connected to Supabase
+✅ Gemini API key present: true
+```
+
+Agar error aaye:
+- `GEMINI_API_KEY not found` → .env mein add karo
+- `Port already in use` → Terminal close karke phir se try karo
+
+---
+
+### Step 5: Test Karo
+
+1. Browser mein Algorithm Processor kholo
+2. Patient select karo
+3. Files upload karo
+4. "Execute Calculation" click karo
+5. **"Save & Download NeuroSense Report"** click karo
+
+**Ye hona chahiye:**
+- ✅ Toast: "Generating NeuroSense PDF Report..."
+- ✅ Toast: "PDF Report generated!"
+- ✅ PDF automatically download ho
+- ✅ Button show kare "Saved ✓"
+
+---
+
+## 🔍 Agar Phir Bhi Nahi Hua?
+
+### Check Backend Console
+
+Backend terminal mein dekho kya error aa raha hai. Common errors:
+
+#### Error 1: Gemini API Key Missing
+```
+❌ GEMINI_API_KEY not found
+```
+
+**Fix:** `.env` file mein add karo:
+```bash
+GEMINI_API_KEY=your-actual-gemini-key
+```
+
+Get from: https://aistudio.google.com/apikey
+
+#### Error 2: Module Not Found
+```
+Error: Cannot find module 'pdfkit'
+```
+
+**Fix:** Dependencies install karo:
+```bash
+cd server
+npm install
+cd ..
+```
+
+#### Error 3: Port Already in Use
+```
+Error: listen EADDRINUSE: address already in use :::5000
+```
+
+**Fix:**
+```bash
+# Windows
+netstat -ano | findstr :5000
+taskkill /PID <PID_NUMBER> /F
+
+# Ya simply terminal close karke naya kholo
+```
+
+---
+
+### Check Browser Console
+
+Browser console (F12) mein dekho:
+
+#### Error 1: Failed to Fetch
+```
+TypeError: Failed to fetch
+```
+
+**Matlab:** Backend nahi chal raha
+**Fix:** Backend start karo (`npm run dev:backend`)
+
+#### Error 2: 404 Not Found
+```
+GET http://localhost:3001/api/qeeg/generate-pdf 404
+```
+
+**Matlab:** Port galat hai (frontend 3001 pe call kar raha, backend 5000 pe hai)
+**Fix:** `.env` mein `VITE_API_URL=http://localhost:5000/api` set karo
+
+#### Error 3: CORS Error
+```
+Access to fetch blocked by CORS policy
+```
+
+**Fix:** Backend mein CORS enabled hona chahiye (usually already hai)
+
+---
+
+## 📋 Complete Checklist
+
+- [ ] Backend chal raha hai (`npm run dev:backend`)
+- [ ] Backend logs show: "Server running on port XXXX"
+- [ ] `.env` file mein `VITE_API_URL` correct port pe set hai
+- [ ] `.env` file mein `GEMINI_API_KEY` hai
+- [ ] Frontend restart kiya after .env change
+- [ ] Browser hard refresh kiya (Ctrl+Shift+R)
+- [ ] Files upload ho gayi hain
+- [ ] "Execute Calculation" completed successfully
+- [ ] Results dikh rahe hain right panel mein
+- [ ] "Save & Download" button enabled hai
+
+---
+
+## 🎉 Success Ka Indication
+
+Jab sab kuch sahi hoga:
+
+**Backend Console:**
+```
+📄 === PDF Report Generation Started ===
+👤 Patient: John A
+🤖 Using Gemini AI PDF Generator
+✅ PDF Report Generated Successfully!
+📄 File: neurosense-report-john_a-1734529327984.pdf
+📊 Size: 45.32 KB
+```
+
+**Browser Console:**
+```
+🔧 Preparing patient data...
+🌐 Calling backend API: http://localhost:5000/api/qeeg/generate-pdf
+📡 Backend response status: 200
+✅ PDF generated successfully!
+💾 Saving to database...
+✅ Results saved successfully!
+```
+
+**User Experience:**
+- PDF automatically download ho jayegi
+- Button "Saved ✓" show karega (green)
+- Processing History mein record dikhe ga
+
+---
+
+## 🆘 Last Resort
+
+Agar kuch bhi kaam nahi kar raha:
+
+1. **Sab terminals close karo**
+2. **Dono servers phir se start karo:**
+   ```bash
+   # Terminal 1: Backend
+   npm run dev:backend
+
+   # Terminal 2: Frontend
+   npm run dev
+   ```
+3. **Browser completely refresh karo:**
+   - Close all NeuroSense tabs
+   - Clear cache (Ctrl+Shift+Delete)
+   - Open fresh tab
+4. **Try again from scratch**
+
+---
+
+## 📞 Still Stuck?
+
+Agar ab bhi nahi ho raha to:
+
+1. **Backend console ka full output copy karo** (last 50 lines)
+2. **Browser console ka Network tab check karo**
+3. **Share karo exact error message**
+
+Main tumhe step-by-step help karunga! 🙏
+
+---
+
+**Most Common Fix (95% cases):**
+```bash
+# Just add this line to .env and restart frontend:
+VITE_API_URL=http://localhost:5000/api
+```
+
+Try karo! 🚀

@@ -1,0 +1,104 @@
+-- ================================================
+-- FIX RLS POLICY AND CREATE STORAGE BUCKET
+-- ================================================
+
+-- PART 1: Fix RLS Policy for clinical_reports
+-- ================================================
+
+-- Drop existing policies
+DROP POLICY IF EXISTS "Authenticated users can view clinical reports" ON clinical_reports;
+DROP POLICY IF EXISTS "Authenticated users can insert clinical reports" ON clinical_reports;
+DROP POLICY IF EXISTS "Authenticated users can update clinical reports" ON clinical_reports;
+DROP POLICY IF EXISTS "Authenticated users can delete clinical reports" ON clinical_reports;
+
+-- Create permissive policies that allow all authenticated users
+CREATE POLICY "Allow authenticated users to view clinical reports"
+  ON clinical_reports FOR SELECT
+  TO authenticated
+  USING (true);
+
+CREATE POLICY "Allow authenticated users to insert clinical reports"
+  ON clinical_reports FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Allow authenticated users to update clinical reports"
+  ON clinical_reports FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Allow authenticated users to delete clinical reports"
+  ON clinical_reports FOR DELETE
+  TO authenticated
+  USING (true);
+
+-- PART 2: Create Storage Bucket for Patient Documents
+-- ================================================
+-- Note: This needs to be run in Supabase Dashboard > Storage
+-- Or you can create it manually in the UI
+
+-- Insert into storage.buckets table
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'patients_documents',
+  'patients_documents',
+  false, -- Private bucket (requires authentication)
+  52428800, -- 50MB file size limit
+  ARRAY[
+    'application/pdf',
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain'
+  ]
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- PART 3: Create Storage Policies for patients_documents bucket
+-- ================================================
+
+-- Allow authenticated users to upload files
+CREATE POLICY "Authenticated users can upload patient documents"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (
+  bucket_id = 'patients_documents'
+);
+
+-- Allow authenticated users to view/download files
+CREATE POLICY "Authenticated users can view patient documents"
+ON storage.objects FOR SELECT
+TO authenticated
+USING (
+  bucket_id = 'patients_documents'
+);
+
+-- Allow authenticated users to update files
+CREATE POLICY "Authenticated users can update patient documents"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (
+  bucket_id = 'patients_documents'
+)
+WITH CHECK (
+  bucket_id = 'patients_documents'
+);
+
+-- Allow authenticated users to delete files
+CREATE POLICY "Authenticated users can delete patient documents"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (
+  bucket_id = 'patients_documents'
+);
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE 'RLS policies and storage bucket configured successfully!';
+  RAISE NOTICE 'Storage bucket: patients_documents created (if it did not exist)';
+  RAISE NOTICE 'All authenticated users can now save clinical reports and upload documents';
+END $$;

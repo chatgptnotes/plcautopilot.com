@@ -1,0 +1,161 @@
+/**
+ * Patient UID Generator
+ * Generates unique patient IDs in the format: CLINICCODE-YYYYMM-XXXX
+ *
+ * Format breakdown:
+ * - CLINICCODE: Clinic's unique code (e.g., "NEURO360", "CLINIC01")
+ * - YYYYMM: Year and Month of registration (e.g., "202501" for January 2025)
+ * - XXXX: Sequential 4-digit number starting from 0001
+ */
+
+import { supabase } from '../lib/supabaseClient';
+
+/**
+ * Get the clinic code for a given organization/clinic
+ * @param {string} orgId - Organization ID
+ * @returns {Promise<string>} Clinic code
+ */
+async function getClinicCode(orgId) {
+  try {
+    const { data, error } = await supabase
+      .from('organizations')
+      .select('name, clinic_code')
+      .eq('id', orgId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching clinic code:', error);
+      throw error;
+    }
+
+    // Use clinic_code if exists, otherwise generate from name
+    if (data.clinic_code) {
+      return data.clinic_code.toUpperCase();
+    }
+
+    // Generate clinic code from organization name
+    // Remove spaces, special characters, and take first 8 characters
+    const generatedCode = data.name
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, '')
+      .substring(0, 8);
+
+    return generatedCode || 'CLINIC';
+  } catch (error) {
+    console.error('Error in getClinicCode:', error);
+    return 'CLINIC';
+  }
+}
+
+/**
+ * Get the next sequential number for a clinic in a given month
+ * @param {string} orgId - Organization ID
+ * @param {string} yearMonth - Year and month in YYYYMM format
+ * @returns {Promise<number>} Next sequential number
+ */
+async function getNextSequentialNumber(orgId, yearMonth) {
+  try {
+    // Query patients with external_id matching the pattern for this clinic and month
+    const pattern = `%-${yearMonth}-%`;
+
+    const { data, error } = await supabase
+      .from('patients')
+      .select('external_id')
+      .eq('org_id', orgId)
+      .like('external_id', pattern)
+      .order('external_id', { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error('Error fetching patient count:', error);
+      return 1;
+    }
+
+    if (!data || data.length === 0) {
+      return 1; // First patient for this clinic in this month
+    }
+
+    // Extract the sequential number from the last external_id
+    // Format: CLINICCODE-YYYYMM-XXXX
+    const lastExternalId = data[0].external_id;
+    const parts = lastExternalId.split('-');
+
+    if (parts.length === 3) {
+      const lastNumber = parseInt(parts[2], 10);
+      if (!isNaN(lastNumber)) {
+        return lastNumber + 1;
+      }
+    }
+
+    return 1;
+  } catch (error) {
+    console.error('Error in getNextSequentialNumber:', error);
+    return 1;
+  }
+}
+
+/**
+ * Generate a patient UID in the format CLINICCODE-YYYYMM-XXXX
+ * @param {string} orgId - Organization ID (clinic ID)
+ * @returns {Promise<string>} Generated patient UID
+ */
+export async function generatePatientUID(orgId) {
+  try {
+    // Get clinic code
+    const clinicCode = await getClinicCode(orgId);
+
+    // Get current year and month
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const yearMonth = `${year}${month}`;
+
+    // Get next sequential number
+    const sequentialNumber = await getNextSequentialNumber(orgId, yearMonth);
+
+    // Format sequential number as 4-digit string
+    const formattedNumber = String(sequentialNumber).padStart(4, '0');
+
+    // Construct final UID
+    const uid = `${clinicCode}-${yearMonth}-${formattedNumber}`;
+
+    return uid;
+  } catch (error) {
+    console.error('Error generating patient UID:', error);
+    // Fallback to timestamp-based UID if generation fails
+    return `PAT-${Date.now()}`;
+  }
+}
+
+/**
+ * Validate patient UID format
+ * @param {string} uid - Patient UID to validate
+ * @returns {boolean} True if valid format
+ */
+export function validatePatientUID(uid) {
+  // Format: CLINICCODE-YYYYMM-XXXX
+  const pattern = /^[A-Z0-9]+-\d{6}-\d{4}$/;
+  return pattern.test(uid);
+}
+
+/**
+ * Parse patient UID to extract components
+ * @param {string} uid - Patient UID
+ * @returns {Object} Parsed components {clinicCode, year, month, sequentialNumber}
+ */
+export function parsePatientUID(uid) {
+  if (!validatePatientUID(uid)) {
+    return null;
+  }
+
+  const parts = uid.split('-');
+  const yearMonth = parts[1];
+
+  return {
+    clinicCode: parts[0],
+    year: yearMonth.substring(0, 4),
+    month: yearMonth.substring(4, 6),
+    sequentialNumber: parts[2],
+    yearMonth: yearMonth
+  };
+}

@@ -1,0 +1,1750 @@
+import React, { useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import bookingService from '../../services/bookingService';
+import progressTrackingService from '../../services/progressTrackingService';
+import { supabase } from '../../lib/supabaseClient';
+import DatabaseService from '../../services/databaseService';
+import StorageService from '../../services/storageService';
+import toast from 'react-hot-toast';
+import {
+  User,
+  FileText,
+  Calendar,
+  Brain,
+  Download,
+  Heart,
+  Target,
+  MapPin,
+  Clock,
+  TrendingUp,
+  Star,
+  Book,
+  Video,
+  Phone,
+  Mail,
+  ChevronRight,
+  Plus,
+  Activity,
+  LogOut,
+  Eye,
+  Home,
+  Pill,
+  Shield,
+  Briefcase,
+  Cake
+} from 'lucide-react';
+
+const PatientDashboard = () => {
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  // Get active tab from URL pathname
+  // Example: /dashboard/profile -> activeTab = 'profile'
+  // Example: /dashboard -> activeTab = 'profile' (default)
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const activeTab = pathParts.length > 1 ? pathParts[1] : 'profile';
+  const [appointments, setAppointments] = useState([]);
+  const [appointmentStats, setAppointmentStats] = useState({});
+  const [progressData, setProgressData] = useState(null);
+  const [currentStatus, setCurrentStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [patientUid, setPatientUid] = useState(null);
+  const [clinicalReport, setClinicalReport] = useState(null);
+  const [showReportDetail, setShowReportDetail] = useState(false);
+  const [patientReports, setPatientReports] = useState([]);
+  const [expandedReportId, setExpandedReportId] = useState(null);
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
+  // Fetch clinical report for the patient
+  const fetchClinicalReport = async (patientId) => {
+    try {
+      console.log('INFO: Fetching clinical report for patient:', patientId);
+
+      if (!supabase) {
+        console.warn('WARNING: Supabase not available');
+        return;
+      }
+
+      const { data: reports, error } = await supabase
+        .from('clinical_reports')
+        .select('*')
+        .eq('patient_id', patientId)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error('ERROR: Failed to fetch clinical report:', error);
+        return;
+      }
+
+      if (reports && reports.length > 0) {
+        console.log('SUCCESS: Clinical report found:', reports[0]);
+        setClinicalReport(reports[0]);
+      } else {
+        console.log('INFO: No clinical report found for this patient');
+        setClinicalReport(null);
+      }
+    } catch (error) {
+      console.error('ERROR: Exception fetching clinical report:', error);
+    }
+  };
+
+  // Fetch all reports for the patient (including response reports from super admin)
+  const fetchPatientReports = async (patientId) => {
+    try {
+      console.log('INFO: Fetching reports for patient:', patientId);
+
+      const reports = await DatabaseService.getReportsByPatient(patientId);
+      console.log(`SUCCESS: Found ${reports.length} reports for patient`);
+
+      setPatientReports(reports || []);
+    } catch (error) {
+      console.error('ERROR: Failed to fetch patient reports:', error);
+      setPatientReports([]);
+    }
+  };
+
+  // Load real patient data from database
+  useEffect(() => {
+    const loadPatientData = async () => {
+      if (!user?.id) {
+        console.warn('WARNING: No user ID available');
+        return;
+      }
+
+      try {
+        setLoading(true);
+        console.log('INFO: Loading patient data for user:', user);
+        console.log('INFO: User ID:', user.id);
+        console.log('INFO: User Email:', user.email);
+
+        // Import DatabaseService
+        const DatabaseService = (await import('../../services/databaseService')).default;
+
+        // First, try to find patient by ID
+        let patientRecord = await DatabaseService.findById('patients', user.id);
+        console.log('INFO: Patient record from DB (by ID):', patientRecord);
+
+        // If not found by ID, try to find by email
+        if (!patientRecord && user.email) {
+          console.log('WARNING: Patient not found by ID, searching by email...');
+          console.log('DEBUG: User email to search:', user.email);
+          console.log('DEBUG: User email (trimmed lowercase):', user.email.trim().toLowerCase());
+
+          const allPatients = await DatabaseService.get('patients');
+          console.log('INFO: Total patients in DB:', allPatients.length);
+          console.log('INFO: All patients data:', allPatients);
+          console.log('INFO: All patient emails:', allPatients.map(p => p.email));
+
+          // More robust email matching with trim
+          const userEmailLower = user.email.trim().toLowerCase();
+          patientRecord = allPatients.find(p => {
+            if (!p.email) return false;
+            const patientEmailLower = p.email.trim().toLowerCase();
+            console.log(`DEBUG: Comparing: "${patientEmailLower}" === "${userEmailLower}"`, patientEmailLower === userEmailLower);
+            return patientEmailLower === userEmailLower;
+          });
+
+          console.log('INFO: Patient record from DB (by email):', patientRecord);
+        }
+
+        if (patientRecord) {
+          console.log('SUCCESS: Patient record found!');
+          console.log('INFO: Patient record fields:', Object.keys(patientRecord));
+          console.log('INFO: Full patient record:', patientRecord);
+
+          // Store patient UID (external_id)
+          if (patientRecord.external_id || patientRecord.externalId) {
+            setPatientUid(patientRecord.external_id || patientRecord.externalId);
+            console.log('INFO: Patient UID:', patientRecord.external_id || patientRecord.externalId);
+          }
+
+          // Fetch clinical report for this patient
+          await fetchClinicalReport(user.id);
+
+          // Fetch all reports for this patient (including response reports)
+          await fetchPatientReports(user.id);
+
+          // Fetch clinic data if patient has clinic_id or org_id
+          let clinicData = null;
+          const clinicId = patientRecord.clinicId || patientRecord.clinic_id || patientRecord.orgId || patientRecord.org_id || patientRecord.ownerId || patientRecord.owner_id;
+
+          console.log('DEBUG: Looking for clinic with ID:', clinicId);
+          console.log('DEBUG: Patient record keys:', Object.keys(patientRecord));
+
+          if (clinicId) {
+            try {
+              clinicData = await DatabaseService.findById('clinics', clinicId);
+              console.log('CLINIC: Clinic data from DB:', clinicData);
+            } catch (clinicError) {
+              console.warn('WARNING: Failed to fetch clinic data:', clinicError);
+            }
+          } else {
+            console.warn('WARNING: No clinic ID found in patient record');
+          }
+
+          // Update patient data state with real data from database
+          const updatedData = {
+            profile: {
+              name: patientRecord.fullName || patientRecord.full_name || patientRecord.name || user.name || 'N/A',
+              email: patientRecord.email || user.email || 'N/A',
+              phone: patientRecord.phone || 'Not provided',
+              dateOfBirth: patientRecord.dateOfBirth || patientRecord.date_of_birth || 'Not provided',
+              address: patientRecord.address || 'Not provided',
+              emergencyContact: patientRecord.emergencyContact || patientRecord.emergency_contact || 'Not provided'
+            },
+            clinic: clinicData ? {
+              name: clinicData.name || 'N/A',
+              address: clinicData.address || 'N/A',
+              phone: clinicData.phone || 'N/A',
+              email: clinicData.email || 'N/A',
+              doctorName: clinicData.primaryDoctor || clinicData.primary_doctor || 'Not assigned'
+            } : {
+              name: 'No clinic assigned',
+              address: 'N/A',
+              phone: 'N/A',
+              email: 'N/A',
+              doctorName: 'N/A'
+            }
+            // Note: Keep existing reports, carePlans, resources from initial state
+          };
+
+          console.log('INFO: Updated patient data:', updatedData);
+          setPatientData(prevData => ({
+            ...prevData,
+            ...updatedData
+          }));
+
+          console.log('SUCCESS: Patient data loaded and updated successfully');
+        } else {
+          console.warn('WARNING: No patient record found for user ID:', user.id);
+          console.log('DEBUG: Trying to find patient by email:', user.email);
+
+          // Try to find by email as fallback
+          if (user.email) {
+            try {
+              const patients = await DatabaseService.get('patients');
+              const patientByEmail = patients.find(p => p.email === user.email);
+              if (patientByEmail) {
+                console.log('SUCCESS: Found patient by email:', patientByEmail);
+
+                // Store patient UID
+                if (patientByEmail.external_id || patientByEmail.externalId) {
+                  setPatientUid(patientByEmail.external_id || patientByEmail.externalId);
+                  console.log('INFO: Patient UID:', patientByEmail.external_id || patientByEmail.externalId);
+                }
+
+                // Fetch clinical report for this patient
+                await fetchClinicalReport(user.id);
+
+                // Fetch all reports for this patient (including response reports)
+                await fetchPatientReports(user.id);
+
+                // Retry with the found patient
+                const clinicId = patientByEmail.clinicId || patientByEmail.clinic_id || patientByEmail.orgId || patientByEmail.org_id || patientByEmail.ownerId || patientByEmail.owner_id;
+                let clinicData = null;
+                if (clinicId) {
+                  clinicData = await DatabaseService.findById('clinics', clinicId);
+                }
+                setPatientData(prevData => ({
+                  ...prevData,
+                  profile: {
+                    name: patientByEmail.fullName || patientByEmail.full_name || patientByEmail.name || user.name || 'N/A',
+                    email: patientByEmail.email || user.email || 'N/A',
+                    phone: patientByEmail.phone || 'Not provided',
+                    dateOfBirth: patientByEmail.dateOfBirth || patientByEmail.date_of_birth || 'Not provided',
+                    address: patientByEmail.address || 'Not provided',
+                    emergencyContact: patientByEmail.emergencyContact || patientByEmail.emergency_contact || 'Not provided'
+                  },
+                  clinic: clinicData ? {
+                    name: clinicData.name || 'N/A',
+                    address: clinicData.address || 'N/A',
+                    phone: clinicData.phone || 'N/A',
+                    email: clinicData.email || 'N/A',
+                    doctorName: clinicData.primaryDoctor || clinicData.primary_doctor || 'Not assigned'
+                  } : prevData.clinic
+                }));
+              } else {
+                console.warn('WARNING: Patient not found by email either, using user data as fallback');
+                // Use user data as fallback
+                setPatientData(prevData => ({
+                  ...prevData,
+                  profile: {
+                    name: user.name || user.full_name || 'Patient',
+                    email: user.email || 'Not provided',
+                    phone: user.phone || 'Not provided',
+                    dateOfBirth: user.dateOfBirth || user.date_of_birth || 'Not provided',
+                    address: user.address || 'Not provided',
+                    emergencyContact: user.emergencyContact || user.emergency_contact || 'Not provided'
+                  },
+                  clinic: {
+                    name: 'No clinic assigned',
+                    address: 'N/A',
+                    phone: 'N/A',
+                    email: 'N/A',
+                    doctorName: 'Not assigned'
+                  }
+                }));
+              }
+            } catch (emailError) {
+              console.error('ERROR: Failed to find patient by email:', emailError);
+              // Final fallback - use user object directly
+              setPatientData(prevData => ({
+                ...prevData,
+                profile: {
+                  name: user.name || user.full_name || 'Patient',
+                  email: user.email || 'Not provided',
+                  phone: user.phone || 'Not provided',
+                  dateOfBirth: user.dateOfBirth || user.date_of_birth || 'Not provided',
+                  address: user.address || 'Not provided',
+                  emergencyContact: user.emergencyContact || user.emergency_contact || 'Not provided'
+                },
+                clinic: {
+                  name: 'No clinic assigned',
+                  address: 'N/A',
+                  phone: 'N/A',
+                  email: 'N/A',
+                  doctorName: 'Not assigned'
+                }
+              }));
+            }
+          } else {
+            // No email to search with - use user data
+            console.warn('WARNING: No email available for search, using user data');
+            setPatientData(prevData => ({
+              ...prevData,
+              profile: {
+                name: user.name || user.full_name || 'Patient',
+                email: user.email || 'Not provided',
+                phone: user.phone || 'Not provided',
+                dateOfBirth: user.dateOfBirth || user.date_of_birth || 'Not provided',
+                address: user.address || 'Not provided',
+                emergencyContact: user.emergencyContact || user.emergency_contact || 'Not provided'
+              },
+              clinic: {
+                name: 'No clinic assigned',
+                address: 'N/A',
+                phone: 'N/A',
+                email: 'N/A',
+                doctorName: 'Not assigned'
+              }
+            }));
+          }
+        }
+
+        // Disable appointments and progress tracking for now (tables not available)
+        // These features can be enabled when the corresponding tables are created
+
+      } catch (error) {
+        console.error('ERROR: Failed to load patient data:', error);
+        // Fallback on error - use user data
+        setPatientData(prevData => ({
+          ...prevData,
+          profile: {
+            name: user?.name || user?.full_name || 'Patient',
+            email: user?.email || 'Not provided',
+            phone: user?.phone || 'Not provided',
+            dateOfBirth: user?.dateOfBirth || user?.date_of_birth || 'Not provided',
+            address: user?.address || 'Not provided',
+            emergencyContact: user?.emergencyContact || user?.emergency_contact || 'Not provided'
+          },
+          clinic: {
+            name: 'No clinic assigned',
+            address: 'N/A',
+            phone: 'N/A',
+            email: 'N/A',
+            doctorName: 'Not assigned'
+          }
+        }));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPatientData();
+  }, [user?.id]);
+
+  // Handle appointment booking
+  const handleBookAppointment = async () => {
+    try {
+      // Simple booking - book next available follow-up slot
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const dateStr = tomorrow.toISOString().split('T')[0];
+
+      // Get available slots
+      const availableSlots = await bookingService.getAvailableSlots(
+        user?.clinic_id || 'default-clinic',
+        dateStr,
+        'follow-up'
+      );
+
+      if (availableSlots.length === 0) {
+        alert('No available slots for tomorrow. Please try a different date.');
+        return;
+      }
+
+      // Book the first available slot
+      const firstSlot = availableSlots.find(slot => slot.available);
+      if (!firstSlot) {
+        alert('No available slots found. Please contact the clinic directly.');
+        return;
+      }
+
+      const appointmentData = {
+        patientId: user.id,
+        clinicId: user?.clinic_id || 'default-clinic',
+        appointmentType: 'follow-up',
+        date: dateStr,
+        time: firstSlot.time,
+        requestedBy: user.id,
+        notes: 'Requested via patient portal'
+      };
+
+      const newAppointment = await bookingService.bookAppointment(appointmentData);
+
+      // Refresh appointments list
+      const updatedAppointments = await bookingService.getPatientAppointments(user.id);
+      setAppointments(updatedAppointments);
+
+      alert(`Appointment booked successfully for ${dateStr} at ${firstSlot.display}!`);
+      console.log('SUCCESS: Appointment booked:', newAppointment);
+
+    } catch (error) {
+      console.error('ERROR: Failed to book appointment:', error);
+      alert(`Failed to book appointment: ${error.message}`);
+    }
+  };
+  const [patientData, setPatientData] = useState({
+    profile: {
+      name: 'Loading...',
+      email: 'Loading...',
+      phone: 'Loading...',
+      dateOfBirth: 'Loading...',
+      address: 'Loading...',
+      emergencyContact: 'Loading...'
+    },
+    clinic: {
+      name: 'Loading...',
+      address: 'Loading...',
+      phone: 'Loading...',
+      email: 'Loading...',
+      doctorName: 'Loading...'
+    },
+    reports: [
+      {
+        id: 1,
+        type: 'NeuroSense QEEG Report',
+        date: '2024-09-15',
+        status: 'Available',
+        summary: 'Comprehensive brain activity analysis showing improved focus patterns'
+      },
+      {
+        id: 2,
+        type: 'Progress Assessment',
+        date: '2024-08-20',
+        status: 'Available',
+        summary: 'Quarterly progress review with recommendations'
+      }
+    ],
+    carePlans: [
+      {
+        id: 1,
+        title: 'Focus Enhancement Program',
+        progress: 75,
+        nextSession: '2024-09-25',
+        goals: ['Improve attention span', 'Reduce mental fatigue', 'Enhance cognitive flexibility']
+      }
+    ],
+    resources: [
+      {
+        id: 1,
+        title: 'Mindfulness Meditation Guide',
+        type: 'video',
+        duration: '15 min',
+        unlocked: true
+      },
+      {
+        id: 2,
+        title: 'Brain Training Exercises',
+        type: 'interactive',
+        duration: '20 min',
+        unlocked: true
+      },
+      {
+        id: 3,
+        title: 'Cognitive Health Assessment',
+        type: 'assessment',
+        duration: '30 min',
+        unlocked: false
+      }
+    ],
+    // appointments now loaded dynamically from booking service
+  });
+
+  const tabs = [
+    { id: 'profile', label: 'Profile & History', icon: User },
+    { id: 'reports', label: 'Reports & Plans', icon: FileText },
+    { id: 'resources', label: 'Resources', icon: Book },
+    { id: 'journey', label: 'Recurring Journey', icon: Calendar }
+  ];
+
+  // Helper functions for clinical report display
+  const getAge = (dob) => {
+    if (!dob) return 'N/A';
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString('en-GB');
+  };
+
+  const renderCheckboxList = (data, labelMap) => {
+    if (!data) return <p className="text-gray-500 dark:text-gray-400 text-sm">No data available</p>;
+
+    const items = Object.entries(data)
+      .filter(([key, value]) => key !== 'other' && value === true)
+      .map(([key]) => labelMap[key] || key);
+
+    if (items.length === 0 && !data.other) {
+      return <p className="text-gray-500 dark:text-gray-400 text-sm">None reported</p>;
+    }
+
+    return (
+      <div className="space-y-1">
+        {items.length > 0 && (
+          <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
+            {items.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        )}
+        {data.other && (
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+            <span className="font-semibold">Other:</span> {data.other}
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  // Label maps for clinical report data
+  const presentingComplaintsLabels = {
+    headaches: 'Headaches / Migraines',
+    seizures: 'Seizures / Epileptic Episodes',
+    dizziness: 'Dizziness / Balance Problems',
+    attention: 'Attention / Concentration Difficulties',
+    memory: 'Memory Issues',
+    sleep: 'Sleep Disturbances',
+    anxiety: 'Anxiety / Panic Symptoms',
+    depression: 'Depression / Low Mood',
+    irritability: 'Irritability / Emotional Dysregulation',
+    fatigue: 'Fatigue / Low Energy'
+  };
+
+  const symptomDurationLabels = {
+    sudden: 'Sudden Onset',
+    gradual: 'Gradual Onset',
+    acute: 'Acute (<1 month)',
+    subacute: 'Subacute (1–6 months)',
+    chronic: 'Chronic (>6 months)'
+  };
+
+  const pastMedicalHistoryLabels = {
+    neurological: 'Neurological Disorders',
+    psychiatric: 'Psychiatric Disorders',
+    cardiovascular: 'Cardiovascular Conditions',
+    endocrine: 'Endocrine/Metabolic',
+    chronicPain: 'Chronic Pain / Fibromyalgia'
+  };
+
+  const medicationsLabels = {
+    antidepressants: 'Antidepressants',
+    anxiolytics: 'Anxiolytics / Benzodiazepines',
+    antipsychotics: 'Antipsychotics',
+    moodStabilizers: 'Mood Stabilizers',
+    antiepileptics: 'Antiepileptics / Anticonvulsants',
+    stimulants: 'Stimulants (ADHD medications)',
+    sleepAids: 'Sleep Aids / Sedatives'
+  };
+
+  const familyHistoryLabels = {
+    epilepsy: 'Epilepsy / Seizures',
+    dementia: 'Dementia / Cognitive Decline',
+    adhd: 'ADHD / Learning Disorders',
+    moodDisorders: 'Mood Disorders',
+    anxiety: 'Anxiety / OCD',
+    substanceAbuse: 'Substance Abuse'
+  };
+
+  const ProfileSection = () => (
+    <div className="space-y-6">
+      {/* Personal Details */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+        {/* Header - Using Brand Color #323956 */}
+        <div style={{ backgroundColor: '#323956' }} className="px-6 py-4">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#E4EFFF' }}>
+              <User className="h-6 w-6" style={{ color: '#323956' }} />
+            </div>
+            <h2 className="text-xl font-bold text-white">Personal Details</h2>
+          </div>
+        </div>
+
+        <div className="p-6" style={{ backgroundColor: '#E4EFFF' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Full Name */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <User className="h-3.5 w-3.5" />
+                <span>Full Name</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.profile.name}</p>
+              </div>
+            </div>
+
+            {/* Email */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Mail className="h-3.5 w-3.5" />
+                <span>Email</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.profile.email}</p>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Phone className="h-3.5 w-3.5" />
+                <span>Phone</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.profile.phone}</p>
+              </div>
+            </div>
+
+            {/* Date of Birth */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Cake className="h-3.5 w-3.5" />
+                <span>Date of Birth</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.profile.dateOfBirth}</p>
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="md:col-span-2 group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <MapPin className="h-3.5 w-3.5" />
+                <span>Address</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.profile.address}</p>
+              </div>
+            </div>
+
+            {/* Emergency Contact */}
+            <div className="md:col-span-2 group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Shield className="h-3.5 w-3.5" />
+                <span>Emergency Contact</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.profile.emergencyContact}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Clinic Information */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+        {/* Header - Using Brand Color #323956 */}
+        <div style={{ backgroundColor: '#323956' }} className="px-6 py-4">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#CAE0FF' }}>
+              <Heart className="h-6 w-6" style={{ color: '#323956' }} />
+            </div>
+            <h2 className="text-xl font-bold text-white">Your Clinic</h2>
+          </div>
+        </div>
+
+        <div className="p-6" style={{ backgroundColor: '#CAE0FF' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Clinic Name */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Briefcase className="h-3.5 w-3.5" />
+                <span>Clinic Name</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-semibold" style={{ color: '#323956' }}>{patientData.clinic.name}</p>
+              </div>
+            </div>
+
+            {/* Primary Doctor */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <User className="h-3.5 w-3.5" />
+                <span>Primary Doctor</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-semibold" style={{ color: '#323956' }}>{patientData.clinic.doctorName}</p>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Phone className="h-3.5 w-3.5" />
+                <span>Phone</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <a href={`tel:${patientData.clinic.phone}`} className="font-medium flex items-center space-x-2 hover:opacity-80" style={{ color: '#323956' }}>
+                  <span>{patientData.clinic.phone}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Email */}
+            <div className="group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <Mail className="h-3.5 w-3.5" />
+                <span>Email</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <a href={`mailto:${patientData.clinic.email}`} className="font-medium flex items-center space-x-2 hover:opacity-80" style={{ color: '#323956' }}>
+                  <span>{patientData.clinic.email}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="md:col-span-2 group">
+              <label className="flex items-center space-x-2 text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: '#323956' }}>
+                <MapPin className="h-3.5 w-3.5" />
+                <span>Address</span>
+              </label>
+              <div className="bg-white border border-gray-300 p-3.5 rounded-lg hover:border-[#323956] transition-colors">
+                <p className="font-medium" style={{ color: '#323956' }}>{patientData.clinic.address}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Clinical Report Information */}
+      {clinicalReport && (
+        <>
+          {/* Patient Information from Clinical Report */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+                <User className="h-6 w-6 text-blue-900 dark:text-blue-100" />
+              </div>
+              <h2 className="text-xl font-semibold text-blue-900 dark:text-blue-100">Clinical Report Information</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Full Name</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.full_name || 'N/A'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Date of Birth</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">
+                  {formatDate(clinicalReport.date_of_birth)} (Age: {getAge(clinicalReport.date_of_birth)} years)
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Gender</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.gender || 'N/A'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Handedness</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.handedness || 'N/A'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Occupation</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.occupation || 'N/A'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Patient ID</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.patient_uid || patientUid || 'N/A'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Date of Test</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{formatDate(clinicalReport.date_of_test)}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Referring Physician</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.referring_physician || 'N/A'}</p>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Reason for Referral</label>
+                <p className="text-gray-900 dark:text-white bg-white dark:bg-gray-700 p-3 rounded-lg">{clinicalReport.referral_reason || 'N/A'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Clinical & Medical History */}
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
+                <Activity className="h-6 w-6 text-green-900 dark:text-green-100" />
+              </div>
+              <h2 className="text-xl font-semibold text-green-900 dark:text-green-100">Clinical & Medical History</h2>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Presenting Complaints:</p>
+                {renderCheckboxList(clinicalReport.presenting_complaints, presentingComplaintsLabels)}
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Duration & Onset of Symptoms:</p>
+                {renderCheckboxList(clinicalReport.symptom_duration, symptomDurationLabels)}
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Past Medical History:</p>
+                {renderCheckboxList(clinicalReport.past_medical_history, pastMedicalHistoryLabels)}
+              </div>
+            </div>
+          </div>
+
+          {/* Medication History */}
+          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
+                <Heart className="h-6 w-6 text-purple-900 dark:text-purple-100" />
+              </div>
+              <h2 className="text-xl font-semibold text-purple-900 dark:text-purple-100">Medication History</h2>
+            </div>
+
+            <div className="space-y-3">
+              {renderCheckboxList(clinicalReport.medications, medicationsLabels)}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+
+  const ReportsSection = () => {
+    // Define 7 brain health parameters
+    const brainParameters = [
+      {
+        id: 1,
+        name: 'Cognition',
+        value: '85.50',
+        unit: 'Score',
+        status: 'normal',
+        range: 'Normal Range',
+        description: 'Cognition refers to mental processes like thinking, memory, and problem-solving. Good cognitive health supports daily functioning and quality of life.',
+        normal: 4,
+        borderline: 1,
+        abnormal: 2
+      },
+      {
+        id: 2,
+        name: 'Stress',
+        value: '120.00',
+        unit: 'Score',
+        status: 'high',
+        range: 'Higher Than Normal',
+        description: 'Stress is the body\'s response to challenges. Chronic stress can affect mental and physical health, impacting mood, sleep, and overall well-being.',
+        normal: 3,
+        borderline: 2,
+        abnormal: 3
+      },
+      {
+        id: 3,
+        name: 'Focus + Attention',
+        value: '78.30',
+        unit: 'Score',
+        status: 'normal',
+        range: 'Normal Range',
+        description: 'Focus and attention involve the ability to concentrate on tasks. Strong attention skills support productivity, learning, and daily activities.',
+        normal: 5,
+        borderline: 1,
+        abnormal: 1
+      },
+      {
+        id: 4,
+        name: 'Burnout & Fatigue',
+        value: '95.20',
+        unit: 'Score',
+        status: 'borderline',
+        range: 'Borderline',
+        description: 'Burnout and fatigue result from prolonged stress or overwork. Managing these is essential for maintaining energy levels and preventing exhaustion.',
+        normal: 2,
+        borderline: 3,
+        abnormal: 2
+      },
+      {
+        id: 5,
+        name: 'Emotional Regulation',
+        value: '72.10',
+        unit: 'Score',
+        status: 'normal',
+        range: 'Normal Range',
+        description: 'Emotional regulation is the ability to manage and respond to emotions effectively. Good emotional regulation supports mental health and relationships.',
+        normal: 6,
+        borderline: 0,
+        abnormal: 1
+      },
+      {
+        id: 6,
+        name: '[+ Under 18] Learning',
+        value: '88.90',
+        unit: 'Score',
+        status: 'normal',
+        range: 'Normal Range',
+        description: 'Learning capacity is crucial for development in young individuals. It involves acquiring knowledge, skills, and adapting to new information.',
+        normal: 5,
+        borderline: 1,
+        abnormal: 1
+      },
+      {
+        id: 7,
+        name: 'Creativity',
+        value: '81.40',
+        unit: 'Score',
+        status: 'normal',
+        range: 'Normal Range',
+        description: 'Creativity involves generating new ideas and solutions. It supports innovation, problem-solving, and personal expression.',
+        normal: 4,
+        borderline: 2,
+        abnormal: 1
+      }
+    ];
+
+    return (
+      <div className="space-y-6">
+        {/* NeuroSense Reports */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg">
+              <Brain className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">NeuroSense Reports</h2>
+          </div>
+
+        <div className="grid gap-4">
+          {clinicalReport ? (
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+              {/* Test Card Header */}
+              <div className="flex items-center p-5 bg-white dark:bg-gray-800">
+                {/* Progress circle */}
+                <div className="mr-4">
+                  <div className="w-16 h-16 rounded-full border-4 border-green-500 flex items-center justify-center">
+                    <svg className="w-16 h-16 transform -rotate-90">
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="28"
+                        stroke="#e5e7eb"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="28"
+                        stroke="#22c55e"
+                        strokeWidth="4"
+                        fill="none"
+                        strokeDasharray={`${2 * Math.PI * 28}`}
+                        strokeDashoffset={`${2 * Math.PI * 28 * (1 - 0.85)}`}
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Test details */}
+                <div className="flex-1">
+                  <div className="mb-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Test Name</p>
+                    <h3 className="font-semibold text-blue-600 dark:text-blue-400">
+                      Clinical NeuroSense QEEG Report
+                    </h3>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Collected</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      {new Date(clinicalReport.created_at || clinicalReport.date_of_test).toLocaleDateString('en-GB', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                      })}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex flex-col space-y-2 ml-4">
+                  <button className="bg-teal-700 hover:bg-teal-800 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                    <Download className="h-4 w-4" />
+                    <span>Download</span>
+                  </button>
+                  <button
+                    onClick={() => setShowReportDetail(!showReportDetail)}
+                    className="bg-gray-700 dark:bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2"
+                  >
+                    <Eye className="h-4 w-4" />
+                    <span>View Detail</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Expandable Test Details Section - All Parameters */}
+              {showReportDetail && (
+                <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6 space-y-4">
+                  {/* Map through all 7 brain parameters */}
+                  {brainParameters.map((parameter) => (
+                    <div key={parameter.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 space-y-4">
+                      {/* Combined Header Row with Table Headers and Filters */}
+                      <div className="flex items-center justify-between pb-3 border-b border-gray-300 dark:border-gray-600">
+                        {/* Table Headers */}
+                        <div className="grid grid-cols-3 gap-8 flex-1">
+                          <div>
+                            <span className="text-sm font-semibold" style={{ color: '#323956' }}>Parameter Name</span>
+                          </div>
+                          <div>
+                            <span className="text-sm font-semibold" style={{ color: '#323956' }}>Result</span>
+                          </div>
+                          <div>
+                            <span className="text-sm font-semibold" style={{ color: '#323956' }}>Range</span>
+                          </div>
+                        </div>
+
+                        {/* Filter Checkboxes */}
+                        <div className="flex items-center space-x-3 ml-6">
+                          <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#DC2626' }}>
+                            <input type="checkbox" className="rounded w-3 h-3" />
+                            <span>Less than 0.00</span>
+                          </label>
+                          <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#F59E0B' }}>
+                            <input type="checkbox" className="rounded w-3 h-3" />
+                            <span>Between 0.00 to 6.45</span>
+                          </label>
+                          <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#14B8A6' }}>
+                            <input type="checkbox" className="rounded w-3 h-3" />
+                            <span>Between 6.45 to 123.55</span>
+                          </label>
+                          <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#DC2626' }}>
+                            <input type="checkbox" className="rounded w-3 h-3" />
+                            <span>Greater than 125.00</span>
+                          </label>
+
+                          {/* Result Button */}
+                          <button className="px-5 py-1.5 text-white text-sm rounded-md hover:opacity-90 transition-colors ml-2" style={{ backgroundColor: '#323956' }}>
+                            Result
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Parameter Data Row */}
+                      <div className="grid grid-cols-3 gap-8">
+                        <div>
+                          <span className="font-semibold" style={{ color: '#323956' }}>{parameter.name}</span>
+                        </div>
+                        <div>
+                          <span className={`font-bold ${
+                            parameter.status === 'high' ? 'text-red-600' :
+                            parameter.status === 'borderline' ? 'text-orange-500' :
+                            'text-green-600'
+                          }`}>
+                            {parameter.value} {parameter.unit}
+                          </span>
+                        </div>
+                        <div>
+                          <span className={`text-sm font-medium ${
+                            parameter.status === 'normal' ? 'text-green-600' :
+                            parameter.status === 'borderline' ? 'text-orange-500' :
+                            'text-red-600'
+                          }`}>
+                            {parameter.range}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Visual Progress Bar */}
+                      <div className="pt-2">
+                        <div className="flex items-center justify-end mb-2">
+                          <span className="text-sm font-bold" style={{ color: '#323956' }}>{parameter.value}</span>
+                        </div>
+                        <div className="relative h-3 bg-gradient-to-r from-green-400 via-yellow-400 via-orange-400 to-red-500 rounded-full shadow-inner"></div>
+                      </div>
+
+                      {/* Educational Information */}
+                      <div className="bg-gray-50 dark:bg-gray-700/50 border-l-4 p-4 rounded text-xs leading-relaxed" style={{ borderColor: '#323956', color: '#323956' }}>
+                        <p>
+                          <strong>{parameter.name}:</strong> {parameter.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : null}
+
+          {/* Uploaded Response Reports */}
+          {patientReports.length > 0 && patientReports.map((report) => (
+            <div key={report.id} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+              {/* Report Card Header */}
+              <div className="flex items-center p-5 bg-white dark:bg-gray-800">
+                {/* File Icon */}
+                <div className="mr-4">
+                  <div className="w-16 h-16 rounded-lg bg-[#E4EFFF] dark:bg-blue-900/30 flex items-center justify-center">
+                    <FileText className="h-8 w-8 text-[#323956] dark:text-blue-400" />
+                  </div>
+                </div>
+
+                {/* Report details */}
+                <div className="flex-1">
+                  <div className="mb-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">File Name</p>
+                    <h3 className="font-semibold text-blue-600 dark:text-blue-400">
+                      {report.fileName || report.file_name || 'Report'}
+                    </h3>
+                    {report.reportData?.isResponseReport && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 mt-1">
+                        Response Report
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Collected</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      {new Date(report.createdAt || report.created_at).toLocaleDateString('en-GB', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                      })}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex flex-col space-y-2 ml-4">
+                  <button
+                    onClick={async () => {
+                      try {
+                        const filePath = report.filePath || report.file_path || report.storagePath || report.reportData?.filePath;
+
+                        if (!filePath) {
+                          toast.error('File path not found');
+                          return;
+                        }
+
+                        // Get signed URL from Supabase Storage
+                        const downloadUrl = await StorageService.getSignedUrl(filePath, 300);
+
+                        if (downloadUrl) {
+                          // Create download link
+                          const link = document.createElement('a');
+                          link.href = downloadUrl;
+                          link.download = report.fileName || report.file_name || 'report.pdf';
+                          link.target = '_blank';
+                          link.style.display = 'none';
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+
+                          toast.success(`Downloading ${report.fileName || 'report'}`);
+                        } else {
+                          toast.error('Could not generate download link');
+                        }
+                      } catch (error) {
+                        console.error('Download error:', error);
+                        toast.error(`Download failed: ${error.message}`);
+                      }
+                    }}
+                    className="bg-teal-700 hover:bg-teal-800 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      // Toggle inline expansion
+                      if (expandedReportId === report.id) {
+                        setExpandedReportId(null);
+                      } else {
+                        setExpandedReportId(report.id);
+                      }
+                    }}
+                    className="bg-gray-700 dark:bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2"
+                  >
+                    <Eye className="h-4 w-4" />
+                    <span>View Detail</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Expandable Test Details Section - All Parameters */}
+              {expandedReportId === report.id && (
+                <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6 space-y-4">
+                  {/* Map through all 7 brain parameters */}
+                  {brainParameters.map((parameter) => (
+                    <div key={parameter.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 space-y-4">
+                      {/* Header Row with Checkboxes and Result Button */}
+                      <div className="pb-3 border-b border-gray-300 dark:border-gray-600">
+                        <div className="flex items-center justify-between mb-3">
+                          {/* Table Headers */}
+                          <div className="grid grid-cols-3 gap-12 flex-1">
+                            <div>
+                              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Parameter Name</span>
+                            </div>
+                            <div>
+                              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Result</span>
+                            </div>
+                            <div>
+                              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Range</span>
+                            </div>
+                          </div>
+
+                          {/* Filter Checkboxes */}
+                          <div className="flex items-center space-x-3 ml-6">
+                            <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#DC2626' }}>
+                              <input type="checkbox" className="rounded w-3 h-3" />
+                              <span>Less than 0.00</span>
+                            </label>
+                            <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#F59E0B' }}>
+                              <input type="checkbox" className="rounded w-3 h-3" />
+                              <span>Between 0.00 to 6.45</span>
+                            </label>
+                            <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#14B8A6' }}>
+                              <input type="checkbox" className="rounded w-3 h-3" />
+                              <span>Between 6.45 to 123.55</span>
+                            </label>
+                            <label className="flex items-center space-x-1.5 text-xs" style={{ color: '#DC2626' }}>
+                              <input type="checkbox" className="rounded w-3 h-3" />
+                              <span>Greater than 125.00</span>
+                            </label>
+
+                            {/* Result Button */}
+                            <button className="px-5 py-1.5 text-white text-sm rounded-md hover:opacity-90 transition-colors ml-2" style={{ backgroundColor: '#323956' }}>
+                              Result
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Parameter Data Row - Aligned with Headers */}
+                        <div className="grid grid-cols-3 gap-12">
+                          {/* Parameter Name */}
+                          <div>
+                            <p className="font-semibold text-gray-900 dark:text-white text-base">{parameter.name}</p>
+                          </div>
+
+                          {/* Result */}
+                          <div>
+                            <p className="font-semibold text-gray-900 dark:text-white text-base">
+                              {parameter.value} {parameter.unit}
+                            </p>
+                          </div>
+
+                          {/* Range */}
+                          <div>
+                            <p className="text-gray-900 dark:text-white text-base">{parameter.range}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Progress Bar with Multi-Color Gradient */}
+                      <div className="w-full">
+                        <div className="flex justify-end mb-1">
+                          <span className="text-xs text-gray-500 dark:text-gray-400">{parameter.value}</span>
+                        </div>
+                        <div className="relative w-full h-3 rounded-full overflow-hidden" style={{ background: 'linear-gradient(to right, #10B981 0%, #10B981 33%, #F59E0B 33%, #F59E0B 66%, #DC2626 66%, #DC2626 100%)' }}>
+                          {/* Value Marker */}
+                          <div
+                            className="absolute top-0 bottom-0 w-1 bg-gray-800 dark:bg-white shadow-lg"
+                            style={{ left: `${Math.min((parseFloat(parameter.value) / 150) * 100, 100)}%`, transform: 'translateX(-50%)' }}
+                          >
+                            {/* Diamond marker at top */}
+                            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gray-800 dark:bg-white rotate-45"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Parameter Description */}
+                      <div className="mt-3 p-3 rounded-lg border-l-4" style={{ backgroundColor: '#FEF3C7', borderColor: '#F59E0B' }}>
+                        <p className="text-sm text-gray-800">
+                          <span className="font-semibold text-gray-900">{parameter.name}:</span> {parameter.description}
+                        </p>
+                      </div>
+
+                      {/* Analysis Summary */}
+                      <div className="grid grid-cols-3 gap-4 mt-3">
+                        <div className="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                          <p className="text-2xl font-bold text-green-600 dark:text-green-400">{parameter.normal}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Normal</p>
+                        </div>
+                        <div className="text-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                          <p className="text-2xl font-bold text-orange-500 dark:text-orange-400">{parameter.borderline}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Borderline</p>
+                        </div>
+                        <div className="text-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                          <p className="text-2xl font-bold text-red-600 dark:text-red-400">{parameter.abnormal}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Abnormal</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* No Reports Message */}
+          {!clinicalReport && patientReports.length === 0 && (
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+              <FileText className="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+              <p className="text-lg font-medium">No Reports Available</p>
+              <p className="text-sm mt-2">Your reports will appear here once they are generated by your clinic.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Personalized Care Plans */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg">
+            <Target className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Personalized Care Plans</h2>
+        </div>
+
+        <div className="space-y-4">
+          {patientData.carePlans && Array.isArray(patientData.carePlans) && patientData.carePlans.map((plan) => (
+            <div key={plan.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="font-semibold text-gray-900 dark:text-white">{plan.title}</h3>
+                <span className="text-sm text-[#323956] dark:text-blue-400 font-medium">{plan.progress}% Complete</span>
+              </div>
+
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                <div
+                  className="bg-[#323956] dark:bg-blue-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${plan.progress}%` }}
+                ></div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Next Session</label>
+                  <p className="text-gray-900 dark:text-white">{plan.nextSession}</p>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Goals</label>
+                <ul className="space-y-1">
+                  {plan.goals.map((goal, index) => (
+                    <li key={index} className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                      <Star className="h-4 w-4 text-[#F5D05D] dark:text-yellow-400" />
+                      <span>{goal}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  );
+  };
+
+  const ResourcesSection = () => (
+    <div className="space-y-6">
+      {/* Online Content */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg">
+            <Book className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Unlocked Content</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {patientData.resources && Array.isArray(patientData.resources) && patientData.resources.map((resource) => (
+            <div key={resource.id} className={`border rounded-lg p-4 ${resource.unlocked ? 'border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-xl dark:hover:shadow-gray-900/20' : 'border-gray-100 dark:border-gray-800 opacity-60'} transition-shadow`}>
+              <div className="flex items-center space-x-3 mb-3">
+                <div className={`p-2 rounded-lg ${resource.unlocked ? 'bg-[#E4EFFF] dark:bg-blue-900/30' : 'bg-gray-50 dark:bg-gray-700'}`}>
+                  {resource.type === 'video' && <Video className={`h-5 w-5 ${resource.unlocked ? 'text-[#323956] dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'}`} />}
+                  {resource.type === 'interactive' && <Target className={`h-5 w-5 ${resource.unlocked ? 'text-[#323956] dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'}`} />}
+                  {resource.type === 'assessment' && <Brain className={`h-5 w-5 ${resource.unlocked ? 'text-[#323956] dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'}`} />}
+                </div>
+                <div className="flex-1">
+                  <h3 className={`font-medium ${resource.unlocked ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+                    {resource.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{resource.duration}</p>
+                </div>
+              </div>
+
+              {resource.unlocked ? (
+                <button className="w-full bg-[#323956] dark:bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-[#232D3C] dark:hover:bg-blue-700 transition-colors">
+                  Start
+                </button>
+              ) : (
+                <div className="w-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 py-2 px-4 rounded-lg text-center">
+                  SECURE: Complete care plan to unlock
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Referrals */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-[#E4EFFF] dark:bg-yellow-900/30 rounded-lg">
+            <MapPin className="h-6 w-6 text-[#F5D05D] dark:text-yellow-400" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Nearby Services</h2>
+        </div>
+
+        <div className="grid gap-4">
+          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md dark:hover:shadow-xl dark:hover:shadow-gray-900/20 transition-shadow">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Advanced Neurofeedback Center</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Specialized neurofeedback therapy sessions</p>
+                <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  <span> 2.3 miles away</span>
+                  <span> (555) 123-4567</span>
+                </div>
+              </div>
+              <button className="flex items-center space-x-2 bg-[#F5D05D] dark:bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-[#d9b84a] dark:hover:bg-yellow-700 transition-colors">
+                <Phone className="h-4 w-4" />
+                <span>Contact</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md dark:hover:shadow-xl dark:hover:shadow-gray-900/20 transition-shadow">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Cognitive Wellness Institute</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Comprehensive cognitive assessment and training</p>
+                <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  <span> 4.7 miles away</span>
+                  <span> (555) 987-6543</span>
+                </div>
+              </div>
+              <button className="flex items-center space-x-2 bg-[#F5D05D] dark:bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-[#d9b84a] dark:hover:bg-yellow-700 transition-colors">
+                <Phone className="h-4 w-4" />
+                <span>Contact</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const JourneySection = () => (
+    <div className="space-y-6">
+      {/* Progress Tracking */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg">
+            <TrendingUp className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Progress Tracking</h2>
+        </div>
+
+        {loading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#323956] dark:border-blue-400 mx-auto"></div>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">Loading progress data...</p>
+          </div>
+        ) : currentStatus?.hasData ? (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div className="bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-[#323956] dark:text-blue-400 mb-1">
+                {Math.round(currentStatus.currentMetrics?.attention || 0)}
+              </div>
+              <div className="text-sm text-[#323956] dark:text-blue-400">Attention Score</div>
+            </div>
+            <div className="bg-[#CAE0FF] dark:bg-blue-900/20 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-[#323956] dark:text-blue-400 mb-1">
+                {Math.round(currentStatus.currentMetrics?.relaxation || 0)}
+              </div>
+              <div className="text-sm text-[#323956] dark:text-blue-400">Relaxation Score</div>
+            </div>
+            <div className="bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-[#323956] dark:text-blue-400 mb-1">
+                {Math.round(currentStatus.currentMetrics?.sleepQuality || 0)}
+              </div>
+              <div className="text-sm text-[#323956] dark:text-blue-400">Sleep Quality</div>
+            </div>
+            <div className="bg-yellow-50 dark:bg-yellow-900/30 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-[#F5D05D] dark:text-yellow-400 mb-1">
+                {Math.round(currentStatus.overallScore || 0)}
+              </div>
+              <div className="text-sm text-yellow-700 dark:text-yellow-400">Overall Score</div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            <TrendingUp className="h-12 w-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
+            <p>No progress data available yet</p>
+            <p className="text-sm">Complete your first assessment to see progress tracking</p>
+          </div>
+        )}
+
+        {/* Progress Trends */}
+        {progressData?.trends && (
+          <div className="mt-6">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Recent Trends</h3>
+            <div className="space-y-3">
+              {Object.entries(progressData.trends).map(([metric, trend]) => (
+                <div key={metric} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <span className="font-medium text-gray-900 dark:text-white capitalize">{metric.replace(/([A-Z])/g, ' $1')}</span>
+                  <div className="flex items-center space-x-2">
+                    <span className={`text-sm ${
+                      trend.direction === 'improving' ? 'text-[#323956] dark:text-blue-400' :
+                      trend.direction === 'declining' ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'
+                    }`}>
+                      {trend.direction === 'improving' ? '↗️' : trend.direction === 'declining' ? '↘️' : '→'}
+                      {trend.direction}
+                    </span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      ({Math.abs(trend.change).toFixed(1)} pts)
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Upcoming Appointments */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg">
+              <Calendar className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Upcoming Appointments</h2>
+          </div>
+          <button
+            onClick={() => handleBookAppointment()}
+            className="flex items-center space-x-2 bg-[#323956] dark:bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-[#232D3C] dark:hover:bg-blue-700 transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Book Follow-up</span>
+          </button>
+        </div>
+
+        <div className="space-y-3">
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400 mx-auto"></div>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">Loading appointments...</p>
+            </div>
+          ) : appointments.length > 0 ? (
+            appointments.slice(0, 5).map((appointment) => (
+              <div key={appointment.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="p-2 bg-[#E4EFFF] dark:bg-blue-900/30 rounded-lg">
+                    <Clock className="h-5 w-5 text-[#323956] dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900 dark:text-white">{appointment.type}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {new Date(appointment.appointment_date).toLocaleDateString()} at {appointment.start_time}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Duration: {appointment.duration} min • ${appointment.price}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`px-3 py-1 text-sm rounded-full ${
+                    appointment.status === 'scheduled'
+                      ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
+                      : appointment.status === 'completed'
+                      ? 'bg-[#E4EFFF] dark:bg-blue-900/30 text-[#323956] dark:text-blue-400'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
+                  }`}>
+                    {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                  </span>
+                  {appointment.clinics && (
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{appointment.clinics.name}</p>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <Calendar className="h-12 w-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
+              <p>No upcoming appointments</p>
+              <p className="text-sm">Book your first appointment to get started</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Journey Loop */}
+      <div className="bg-gradient-to-r from-[#E4EFFF] to-[#CAE0FF] dark:from-blue-900/30 dark:to-blue-900/20 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <Brain className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Your Brain Health Journey</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Continue Your Progress</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+              Regular follow-up tests help track your cognitive improvements and adjust your care plan.
+            </p>
+            <button className="w-full bg-[#323956] dark:bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-[#232D3C] dark:hover:bg-blue-700 transition-colors">
+              Schedule Next Assessment
+            </button>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Refer a Friend</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+              Share the benefits of brain health monitoring with friends and family.
+            </p>
+            <button className="w-full bg-[#F5D05D] dark:bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-[#d9b84a] dark:hover:bg-yellow-700 transition-colors">
+              Send Referral
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'profile':
+        return <ProfileSection />;
+      case 'reports':
+        return <ReportsSection />;
+      case 'resources':
+        return <ResourcesSection />;
+      case 'journey':
+        return <JourneySection />;
+      default:
+        return <ProfileSection />;
+    }
+  };
+
+  // Component to display detailed clinical report information
+  const InfoField = ({ label, value }) => (
+    <div>
+      <p className="text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">{label}</p>
+      <p className="text-sm text-gray-900 dark:text-white">{value || 'N/A'}</p>
+    </div>
+  );
+
+  return (
+    <>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-4">
+              <img
+                src="/header logo.png"
+                alt="Brain Health Portal Logo"
+                className="h-12 object-contain"
+              />
+              <div>
+                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">NeuroSense</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Welcome back, {user?.name || 'Patient'}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  {patientUid ? `Patient ID: ${patientUid}` : user?.name}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Patient Portal</p>
+              </div>
+              <div className="w-10 h-10 bg-[#CAE0FF] dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                <User className="h-6 w-6 text-[#323956] dark:text-blue-400" />
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="bg-white dark:bg-gray-800 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex space-x-8">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <Link
+                  key={tab.id}
+                  to={`/dashboard/${tab.id}`}
+                  className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-[#323956] dark:border-blue-400 text-[#323956] dark:text-blue-400'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span>{tab.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {renderContent()}
+      </div>
+    </div>
+    </>
+  );
+};
+
+export default PatientDashboard;

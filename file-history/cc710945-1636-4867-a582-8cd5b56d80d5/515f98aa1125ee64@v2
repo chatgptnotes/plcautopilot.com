@@ -1,0 +1,202 @@
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+class GeminiService {
+  constructor() {
+    this.apiKey = process.env.GEMINI_API_KEY;
+    if (!this.apiKey) {
+      console.warn('WARNING: GEMINI_API_KEY not found in environment variables');
+    }
+    this.genAI = this.apiKey ? new GoogleGenerativeAI(this.apiKey) : null;
+    this.model = null;
+  }
+
+  /**
+   * Initialize the Gemini model
+   */
+  initModel() {
+    if (!this.genAI) {
+      throw new Error('Gemini API not initialized. Please check GEMINI_API_KEY.');
+    }
+
+    // Use gemini-pro for text generation
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+    return this.model;
+  }
+
+  /**
+   * System prompt for brain performance report generation
+   */
+  getReportGenerationPrompt() {
+    return `You are an AI report generator. The input will be the calculated scores and buckets from Algorithm 1 for 7 major brain parameters. Using this input, generate a one page A4 infographic-style report for a patient.
+
+Report requirements:
+1. Include all 7 parameters on the single page.
+2. Each parameter must include its subparameters with individual scores and short explanations.
+3. Display every score clearly with icons, short titles, and small text descriptions that are easy for normal people to understand.
+4. Layout should be modern, clean, colorful, and infographic style.
+5. Use a professional medical tone but keep the language simple for patients.
+6. No diagnosis or medical claim. Only interpretation of brain performance patterns.
+7. Add a short one-line summary for every parameter.
+8. Add a short summary paragraph at the bottom of the page.
+
+Parameters:
+1. Cognition
+2. Stress
+3. Focus and Attention
+4. Burnout and Fatigue
+5. Emotional Regulation
+6. Learning
+7. Creativity
+
+Formatting points:
+• Use icons and graphical representation for every parameter.
+• Parameter names must be bold and attractive.
+• Scores must be visible and easy to compare.
+• Place all details inside a single A4 page layout.
+• Use bullet points and clear sections.
+• Suggest appropriate colors for each bucket (e.g., red for poor, yellow for average, green for good).
+
+Input format that will be given to you:
+{
+  "Cognition": { "score": x, "bucket": "", "subparameters": […] },
+  "Stress": { "score": x, "bucket": "", "subparameters": […] },
+  "FocusAndAttention": { "score": x, "bucket": "", "subparameters": […] },
+  "BurnoutAndFatigue": { "score": x, "bucket": "", "subparameters": […] },
+  "EmotionalRegulation": { "score": x, "bucket": "", "subparameters": […] },
+  "Learning": { "score": x, "bucket": "", "subparameters": […] },
+  "Creativity": { "score": x, "bucket": "", "subparameters": […] }
+}
+
+Final output:
+Return structured text and layout description for designing the single A4 infographic page. The result should be a detailed textual description that a designer or frontend developer can use to create the visual report. Include:
+- Suggested layout structure
+- Color schemes for each parameter based on bucket
+- Icons suggestions
+- Text content for each section
+- Summary interpretation
+
+Return the output in JSON format with the following structure:
+{
+  "title": "Brain Performance Report",
+  "patientSummary": "Overall summary paragraph",
+  "parameters": [
+    {
+      "name": "Parameter Name",
+      "score": x,
+      "bucket": "bucket name",
+      "bucketColor": "#hexcolor",
+      "icon": "icon suggestion",
+      "summary": "One-line summary",
+      "subparameters": [
+        {
+          "name": "subparam name",
+          "score": x,
+          "interpretation": "Easy explanation"
+        }
+      ]
+    }
+  ],
+  "recommendations": ["List of general recommendations"],
+  "layoutSuggestions": {
+    "colorScheme": "Color palette suggestions",
+    "structure": "Layout structure description"
+  }
+}`;
+  }
+
+  /**
+   * Generate brain performance report using Gemini AI
+   * @param {Object} brainParameters - The 7 brain parameters with scores and buckets
+   * @returns {Promise<Object>} Generated report structure
+   */
+  async generateBrainPerformanceReport(brainParameters) {
+    try {
+      if (!this.model) {
+        this.initModel();
+      }
+
+      console.log('Generating brain performance report with Gemini AI...');
+
+      // Create the prompt with system instructions and data
+      const systemPrompt = this.getReportGenerationPrompt();
+      const dataPrompt = `\n\nBrain Parameters Data:\n${JSON.stringify(brainParameters, null, 2)}\n\nPlease generate the infographic report description in JSON format as specified.`;
+
+      const fullPrompt = systemPrompt + dataPrompt;
+
+      // Generate content
+      const result = await this.model.generateContent(fullPrompt);
+      const response = await result.response;
+      const text = response.text();
+
+      console.log('Gemini response received, length:', text.length);
+
+      // Try to parse JSON from the response
+      let reportData;
+      try {
+        // Remove markdown code blocks if present
+        const jsonText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        reportData = JSON.parse(jsonText);
+      } catch (parseError) {
+        console.error('Failed to parse JSON response:', parseError);
+        // Return raw text if JSON parsing fails
+        reportData = {
+          title: 'Brain Performance Report',
+          rawContent: text,
+          parameters: [],
+          error: 'Failed to parse structured response'
+        };
+      }
+
+      return {
+        success: true,
+        data: reportData,
+        rawResponse: text
+      };
+
+    } catch (error) {
+      console.error('Error generating report with Gemini:', error);
+      return {
+        success: false,
+        error: error.message,
+        data: null
+      };
+    }
+  }
+
+  /**
+   * Generate simple text completion
+   * @param {string} prompt - The prompt text
+   * @returns {Promise<string>} Generated text
+   */
+  async generateText(prompt) {
+    try {
+      if (!this.model) {
+        this.initModel();
+      }
+
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+
+    } catch (error) {
+      console.error('Error generating text with Gemini:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Test Gemini API connection
+   */
+  async testConnection() {
+    try {
+      const response = await this.generateText('Hello! Please respond with "OK" if you can read this.');
+      console.log('Gemini API test response:', response);
+      return { success: true, response };
+    } catch (error) {
+      console.error('Gemini API test failed:', error);
+      return { success: false, error: error.message };
+    }
+  }
+}
+
+module.exports = new GeminiService();

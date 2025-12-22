@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Force set OpenAI as default in code",
+    "status": "completed",
+    "activeForm": "Force setting OpenAI as default"
+  },
+  {
+    "content": "Verify server loads OpenAI",
+    "status": "completed",
+    "activeForm": "Verifying server loads OpenAI"
+  },
+  {
+    "content": "Test with patient upload",
+    "status": "in_progress",
+    "activeForm": "Testing with patient upload"
+  }
+]

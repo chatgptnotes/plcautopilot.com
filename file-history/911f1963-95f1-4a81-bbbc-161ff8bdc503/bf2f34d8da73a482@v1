@@ -1,0 +1,24 @@
+import React from 'react';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+
+const GuideToBrainwaves = () => {
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <NavBar />
+
+      <main className="flex-grow pt-16">
+        <iframe
+          src="https://www.myndlift.com/guide-to-brainwaves"
+          title="Guide to Brainwaves"
+          className="w-full h-full min-h-screen border-0"
+          style={{ height: 'calc(100vh - 4rem)' }}
+        />
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default GuideToBrainwaves;

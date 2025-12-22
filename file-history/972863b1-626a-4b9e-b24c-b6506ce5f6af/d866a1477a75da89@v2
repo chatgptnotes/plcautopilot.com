@@ -1,0 +1,165 @@
+/**
+ * Numbers at a Glance Generator
+ * Displays summary of key QEEG metrics for both Eyes Closed and Eyes Open conditions
+ */
+
+const { COLORS, FONTS, LAYOUT, startNewSection, addPageFooter, drawRoundedRect } = require('./pdfStyles');
+
+/**
+ * Generate the Numbers at a Glance section
+ */
+function generateNumbersAtGlance(doc, qeegData, algorithmResults) {
+  let yPos = startNewSection(doc, 'Brain Health Assessment');
+
+  // Teal header section with white text (matching reference PDF)
+  const headerHeight = 60;
+  doc.rect(LAYOUT.margin.left, yPos, LAYOUT.contentWidth, headerHeight)
+     .fillColor(COLORS.teal)
+     .fill();
+
+  doc.fontSize(FONTS.heading1)
+     .fillColor(COLORS.white)
+     .font(FONTS.bold)
+     .text('Brain Health Assessment Results', LAYOUT.margin.left + 20, yPos + 18);
+
+  yPos += headerHeight + 30;
+
+  // Light blue info box for introduction (matching reference PDF)
+  const introBoxHeight = 60;
+  drawRoundedRect(doc, LAYOUT.margin.left, yPos, LAYOUT.contentWidth, introBoxHeight, 8, COLORS.lightBlue);
+
+  const intro = 'Based on your QEEG analysis, here are your brain health parameters scored from 0-3, where higher scores indicate better performance.';
+
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.darkGray)
+     .font(FONTS.regular)
+     .text(intro, LAYOUT.margin.left + 15, yPos + 15, {
+       width: LAYOUT.contentWidth - 30,
+       align: 'justify',
+       lineGap: 3
+     });
+
+  yPos += introBoxHeight + 30;
+
+  // Light blue container for results table
+  const tableStartY = yPos;
+  yPos += 15;
+
+  // Draw algorithm results table
+  yPos = drawAlgorithmResultsTable(doc, algorithmResults, LAYOUT.margin.left + 15, yPos);
+
+  yPos += 15;
+
+  // Draw light blue background behind table
+  const tableBoxHeight = yPos - tableStartY;
+  doc.save();
+  drawRoundedRect(doc, LAYOUT.margin.left, tableStartY, LAYOUT.contentWidth, tableBoxHeight, 8, COLORS.lightBlue);
+  doc.restore();
+
+  // Re-draw table on top of background
+  yPos = tableStartY + 15;
+  yPos = drawAlgorithmResultsTable(doc, algorithmResults, LAYOUT.margin.left + 15, yPos);
+
+  // Add Brain-Type Pattern Line
+  yPos += 20;
+
+  // Generate brain type pattern string (e.g., "Cognition M · Stress L · Focus L...")
+  const parameters = algorithmResults.parameters || [];
+  const brainTypePattern = parameters.map(param => {
+    const initial = param.classification.charAt(0); // H, M, or L
+    return `${param.name} ${initial}`;
+  }).join(' · ');
+
+  // Draw pattern label
+  doc.fontSize(FONTS.body)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text('Brain-Type Pattern:', LAYOUT.margin.left + 15, yPos, { continued: false });
+
+  yPos += 20;
+
+  // Draw pattern text
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.darkGray)
+     .font(FONTS.regular)
+     .text(brainTypePattern, LAYOUT.margin.left + 15, yPos, {
+       width: LAYOUT.contentWidth - 30,
+       align: 'left'
+     });
+
+  // Overall Score in highlighted box
+  yPos += 40;
+  const scoreBoxHeight = 50;
+  drawRoundedRect(doc, LAYOUT.margin.left, yPos, LAYOUT.contentWidth, scoreBoxHeight, 8, COLORS.primaryLight, COLORS.primary);
+
+  const overallScore = algorithmResults.overallScore || 0;
+  const maxScore = algorithmResults.parameters?.length * 3 || 21;
+  const percentage = Math.round((overallScore / maxScore) * 100);
+
+  doc.fontSize(FONTS.heading2)
+     .fillColor(COLORS.white)
+     .font(FONTS.bold)
+     .text(`Overall Brain Health Score: ${overallScore}/${maxScore} (${percentage}%)`, LAYOUT.margin.left + 20, yPos + 15);
+
+  // Footer
+  addPageFooter(doc);
+}
+
+/**
+ * Draw algorithm results table with 3-line format
+ */
+function drawAlgorithmResultsTable(doc, algorithmResults, x, yPos) {
+  const tableWidth = LAYOUT.contentWidth - 30;
+  const rowHeight = 60; // Increased for 3-line format
+
+  const parameters = algorithmResults.parameters || [];
+
+  // Draw each parameter in the new 3-line format
+  parameters.forEach((param, index) => {
+    // Background color (alternating)
+    const bgColor = index % 2 === 0 ? COLORS.veryLightGray : COLORS.white;
+    drawRoundedRect(doc, x, yPos, tableWidth, rowHeight, 5, bgColor);
+
+    // Line 1: "N) Parameter Name"
+    doc.fontSize(FONTS.body)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.bold)
+       .text(`${index + 1}) ${param.name}`, x + 15, yPos + 8, { width: tableWidth - 30 });
+
+    // Line 2: "[scoring system score is X / Y]"
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text(`[scoring system score is ${param.score} / ${param.maxScore}]`, x + 15, yPos + 28, { width: tableWidth - 30 });
+
+    // Line 3: "Parameter bucket → Classification"
+    const statusColor = getClassificationColor(param.classification);
+    const bucketText = `${param.name} bucket → ${param.classification}`;
+    doc.fontSize(FONTS.small)
+       .fillColor(statusColor)
+       .font(FONTS.bold)
+       .text(bucketText, x + 15, yPos + 45, { width: tableWidth - 30 });
+
+    yPos += rowHeight + 5; // Add spacing between parameters
+  });
+
+  return yPos;
+}
+
+/**
+ * Get color based on classification
+ */
+function getClassificationColor(classification) {
+  switch(classification) {
+    case 'High':
+      return COLORS.green;
+    case 'Medium':
+      return COLORS.primary;
+    case 'Low':
+      return COLORS.orange;
+    default:
+      return COLORS.gray;
+  }
+}
+
+module.exports = { generateNumbersAtGlance };

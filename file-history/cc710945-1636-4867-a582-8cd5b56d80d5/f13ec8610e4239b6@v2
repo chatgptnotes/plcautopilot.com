@@ -1,0 +1,265 @@
+/**
+ * Z-Score Thresholds for Brain Performance Metrics
+ *
+ * Z-scores represent standard deviations from the mean:
+ * - Negative values = below average (lower than normal)
+ * - Zero (0) = average (normal)
+ * - Positive values = above average (higher than normal)
+ *
+ * Clinical significance ranges:
+ * - Normal range: -1.0 to +1.0 (within 1 standard deviation)
+ * - Mild deviation: -2.0 to +2.0 (within 2 standard deviations)
+ * - Significant deviation: beyond ±2.0 (outside 2 standard deviations)
+ */
+
+module.exports = {
+  /**
+   * General Z-score ranges
+   */
+  RANGES: {
+    NORMAL: { min: -1.0, max: 1.0 },
+    MILD: { min: -2.0, max: 2.0 },
+    SIGNIFICANT_THRESHOLD: 2.0
+  },
+
+  /**
+   * Parameter 1: COGNITION
+   *
+   * Metric 1: Focus Score (Fz & Cz Theta/Beta ratio)
+   * - Higher Theta/Beta ratio = poor focus
+   * - Optimal: Z-score < 1.0 for Theta, > -1.0 for Beta
+   */
+  COGNITION: {
+    FOCUS_SCORE: {
+      THETA_ELEVATED: 1.0,        // Fz & Cz Theta Z-score should be < 1.0
+      BETA_REDUCED: -1.0,         // Fz & Cz Beta Z-score should be > -1.0
+      description: 'Elevated theta or reduced beta indicates attention deficit'
+    },
+
+    /**
+     * Metric 2: Alpha Peak Frequency
+     * - Optimal: Z-score between -1.0 and +1.0 (normal range)
+     * - Low alpha peak may indicate cognitive slowing
+     */
+    ALPHA_PEAK: {
+      NORMAL_RANGE: 1.0,          // Alpha peak Z-score should be within ±1.0
+      description: 'Alpha peak frequency deviation from age norms'
+    },
+
+    /**
+     * Metric 3: Alpha/Theta Balance
+     * - Ratio should be balanced
+     * - Z-score for Alpha should be > -1.0, Theta should be < 1.0
+     */
+    ALPHA_THETA_BALANCE: {
+      ALPHA_LOW: -1.0,            // Alpha Z-score should be > -1.0
+      THETA_HIGH: 1.0,            // Theta Z-score should be < 1.0
+      description: 'Low alpha or high theta indicates poor cognitive balance'
+    }
+  },
+
+  /**
+   * Parameter 2: STRESS
+   *
+   * Metric 1: Arousal Score (HiBeta activity)
+   * - High HiBeta = hyperarousal/stress
+   * - Optimal: Z-score < 1.0
+   */
+  STRESS: {
+    AROUSAL_SCORE: {
+      HIBETA_ELEVATED: 1.0,       // HiBeta Z-score should be < 1.0 across Fz, Cz, Pz
+      description: 'Elevated high beta indicates hyperarousal and stress'
+    },
+
+    /**
+     * Metric 2: Relaxation Score (Theta in posterior regions)
+     * - Low posterior theta = inability to relax
+     * - Optimal: Z-score > -1.0 for Pz Theta
+     */
+    RELAXATION_SCORE: {
+      THETA_LOW: -1.0,            // Pz Theta Z-score should be > -1.0
+      description: 'Low posterior theta indicates difficulty relaxing'
+    },
+
+    /**
+     * Metric 3: Regeneration (Alpha in posterior)
+     * - Low posterior alpha = poor regeneration capacity
+     * - Optimal: Z-score > -1.0 for Pz Alpha
+     */
+    REGENERATION: {
+      ALPHA_LOW: -1.0,            // Pz Alpha Z-score should be > -1.0
+      description: 'Low posterior alpha indicates poor regeneration'
+    }
+  },
+
+  /**
+   * Parameter 3: FOCUS AND ATTENTION
+   *
+   * Metric 1: Focus Theta (Frontal Theta)
+   * - Elevated frontal theta = attention problems
+   * - Optimal: Z-score < 1.0
+   */
+  FOCUS_AND_ATTENTION: {
+    FOCUS_THETA: {
+      THETA_ELEVATED: 1.0,        // Fz Theta Z-score should be < 1.0
+      description: 'Elevated frontal theta indicates attention deficit'
+    },
+
+    /**
+     * Metric 2: Beta Coherence (C3-C4)
+     * - Imbalanced beta = attention inconsistency
+     * - Optimal: Z-score difference < 1.0
+     */
+    BETA_COHERENCE: {
+      ASYMMETRY_THRESHOLD: 1.0,   // |C3-C4 Beta Z-score difference| should be < 1.0
+      description: 'Beta asymmetry indicates inconsistent attention'
+    },
+
+    /**
+     * Metric 3: Theta/Beta Ratio
+     * - High ratio = ADHD-like patterns
+     * - Optimal: Z-score < 1.0 for Theta, > -1.0 for Beta
+     */
+    THETA_BETA_RATIO: {
+      THETA_HIGH: 1.0,
+      BETA_LOW: -1.0,
+      description: 'High theta/beta ratio indicates ADHD-like attention patterns'
+    }
+  },
+
+  /**
+   * Parameter 4: BURNOUT AND FATIGUE
+   *
+   * Metric 1: Delta Activity (Frontal Delta)
+   * - Elevated delta = fatigue/burnout
+   * - Optimal: Z-score < 1.0
+   */
+  BURNOUT_AND_FATIGUE: {
+    DELTA_ACTIVITY: {
+      DELTA_ELEVATED: 1.0,        // Frontal Delta Z-score should be < 1.0
+      description: 'Elevated frontal delta indicates fatigue or burnout'
+    },
+
+    /**
+     * Metric 2: Theta Dominance
+     * - Excessive theta = drowsiness
+     * - Optimal: Z-score < 1.0 across all regions
+     */
+    THETA_DOMINANCE: {
+      THETA_EXCESSIVE: 1.0,       // Global Theta Z-score should be < 1.0
+      description: 'Excessive theta indicates drowsiness or mental fatigue'
+    },
+
+    /**
+     * Metric 3: Alpha Suppression
+     * - Reduced alpha = inability to rest mentally
+     * - Optimal: Z-score > -1.0
+     */
+    ALPHA_SUPPRESSION: {
+      ALPHA_LOW: -1.0,            // Alpha Z-score should be > -1.0
+      description: 'Suppressed alpha indicates inability to rest mentally'
+    }
+  },
+
+  /**
+   * Parameter 5: EMOTIONAL REGULATION
+   *
+   * Metric 1: Right Frontal Alpha
+   * - Low right frontal alpha = poor emotional control
+   * - Optimal: Z-score > -1.0
+   */
+  EMOTIONAL_REGULATION: {
+    RIGHT_FRONTAL_ALPHA: {
+      ALPHA_LOW: -1.0,            // F4 Alpha Z-score should be > -1.0
+      description: 'Low right frontal alpha indicates emotional dysregulation'
+    },
+
+    /**
+     * Metric 2: Alpha Asymmetry (F3-F4)
+     * - Imbalance indicates emotional bias
+     * - Optimal: Z-score difference < 1.0
+     */
+    ALPHA_ASYMMETRY: {
+      ASYMMETRY_THRESHOLD: 1.0,   // |F3-F4 Alpha Z-score difference| should be < 1.0
+      description: 'Alpha asymmetry indicates emotional processing bias'
+    },
+
+    /**
+     * Metric 3: Beta Stress Response
+     * - High frontal beta = emotional stress
+     * - Optimal: Z-score < 1.0
+     */
+    BETA_STRESS: {
+      BETA_ELEVATED: 1.0,         // F3/F4 Beta Z-score should be < 1.0
+      description: 'Elevated frontal beta indicates emotional stress response'
+    }
+  },
+
+  /**
+   * Parameter 6: LEARNING
+   *
+   * Metric 1: Central Theta
+   * - Moderate theta aids learning, too much impairs
+   * - Optimal: Z-score between -1.0 and +1.0
+   */
+  LEARNING: {
+    CENTRAL_THETA: {
+      NORMAL_RANGE: 1.0,          // Cz Theta Z-score should be within ±1.0
+      description: 'Central theta should be balanced for optimal learning'
+    },
+
+    /**
+     * Metric 2: Alpha Modulation
+     * - Alpha should be flexible (not too high or low)
+     * - Optimal: Z-score within ±1.0
+     */
+    ALPHA_MODULATION: {
+      NORMAL_RANGE: 1.0,          // Central Alpha Z-score should be within ±1.0
+      description: 'Alpha should be flexible for learning and memory encoding'
+    },
+
+    /**
+     * Metric 3: Beta Engagement
+     * - Appropriate beta = cognitive engagement
+     * - Optimal: Z-score within ±1.0
+     */
+    BETA_ENGAGEMENT: {
+      NORMAL_RANGE: 1.0,          // Central Beta Z-score should be within ±1.0
+      description: 'Beta activity should be balanced for cognitive engagement'
+    }
+  },
+
+  /**
+   * Parameter 7: CREATIVITY
+   *
+   * Metric 1: Alpha Power
+   * - Higher alpha = better creative flow
+   * - Optimal: Z-score > -1.0
+   */
+  CREATIVITY: {
+    ALPHA_POWER: {
+      ALPHA_LOW: -1.0,            // Parietal Alpha Z-score should be > -1.0
+      description: 'Higher alpha power supports creative thinking'
+    },
+
+    /**
+     * Metric 2: Theta Enhancement
+     * - Moderate theta supports creativity
+     * - Optimal: Z-score within ±1.0
+     */
+    THETA_ENHANCEMENT: {
+      NORMAL_RANGE: 1.0,          // Parietal Theta Z-score should be within ±1.0
+      description: 'Balanced theta supports creative insight'
+    },
+
+    /**
+     * Metric 3: Low Beta Activity
+     * - Excessive beta inhibits creativity
+     * - Optimal: Z-score < 1.0
+     */
+    LOW_BETA: {
+      BETA_HIGH: 1.0,             // Beta Z-score should be < 1.0 in posterior regions
+      description: 'Elevated beta may inhibit creative flow'
+    }
+  }
+};

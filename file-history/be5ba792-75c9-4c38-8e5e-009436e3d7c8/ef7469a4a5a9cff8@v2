@@ -1,0 +1,292 @@
+# 📦 Old Database Data Import Guide
+
+## Overview
+
+Aapke backup file mein ye data hai:
+- **7 Clinics** (Usa clinics, Hope clinic, Dev Clinics, etc.)
+- Patients data
+- Reports data
+- Payment history
+- Organizations data
+- Aur bahut kuch
+
+---
+
+## 🚀 METHOD 1: Quick Import (Recommended - 5 minutes)
+
+### Step 1: Run Automated Script
+
+```bash
+cd D:\Todays\Neuro360
+node restore-backup-data.js
+```
+
+### Step 2: Import Generated SQL
+
+1. Script ek file generate karega: `RESTORED_DATA.sql`
+2. Open karein Supabase SQL Editor
+3. File ka content copy-paste karein
+4. Run button click karein
+
+✅ **Done!** Sab data import ho jayega
+
+---
+
+## 🔧 METHOD 2: Manual Import (10 minutes)
+
+### Step 1: Open Backup File
+
+```
+c:\Users\Hp\Downloads\db_cluster-24-11-2025@16-41-20.backup (1)\db_cluster-24-11-2025@16-41-20.backup (1)
+```
+
+### Step 2: Find Data Sections
+
+Search for these lines in backup file:
+
+```sql
+COPY public.clinics (...) FROM stdin;
+COPY public.patients (...) FROM stdin;
+COPY public.organizations (...) FROM stdin;
+COPY public.reports (...) FROM stdin;
+```
+
+### Step 3: Extract Data
+
+**For Clinics:**
+- Line 6752 se 6760 tak copy karein
+- Format:
+  ```
+  COPY public.clinics (...) FROM stdin;
+  [data lines]
+  \.
+  ```
+
+### Step 4: Convert to SQL
+
+Ye format mein convert karein:
+
+```sql
+-- Original COPY format (in backup):
+COPY public.clinics (...) FROM stdin;
+e972aa41-c97e-4c53-9cbf-4ca44b5e95be	Usa clinics	usha@gmail.com	...
+\.
+
+-- Convert to INSERT format:
+INSERT INTO clinics (id, name, email, ...) VALUES
+('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'Usa clinics', 'usha@gmail.com', ...);
+```
+
+### Step 5: Run in Supabase
+
+Paste converted SQL in Supabase SQL Editor aur run karein.
+
+---
+
+## ⚡ METHOD 3: Direct Restore (Fastest - 2 minutes)
+
+### PostgreSQL COPY Command
+
+Supabase SQL Editor mein directly COPY statement run kar sakte ho:
+
+```sql
+-- Enable data input
+SET session_replication_role = replica;
+
+-- Copy clinics data
+COPY clinics (id, name, email, phone, address, logo_url, is_active, reports_used, reports_allowed, subscription_status, subscription_tier, trial_start_date, trial_end_date, created_at, updated_at, password, contact_person) FROM stdin;
+e972aa41-c97e-4c53-9cbf-4ca44b5e95be	Usa clinics	usha@gmail.com	2587413690	pune	\N	t	6	50	trial	free	2025-10-29 10:17:49.735+00	2025-11-28 10:17:49.735+00	2025-10-29 10:17:49.734+00	2025-11-05 10:46:15.347+00	Usha@123	\N
+11fd4a05-4443-4828-8f8f-7ccb3953c784	Hope clinic	hope@gmail.com	8574963210	nagpur	\N	t	2	5	active	free	2025-10-31 05:09:46.407+00	2025-11-30 05:09:46.407+00	2025-10-31 05:08:34.826+00	2025-11-06 10:34:12.654851+00	Hope@12345	Hope clinic
+d7ee65a1-e37b-4856-9f76-9057d47d1af6	Dev Clinics	dev@gmail.com	5674839022	mumbai	\N	t	0	10	trial	free	2025-11-07 04:13:18.086+00	2025-12-07 04:13:18.086+00	2025-11-07 04:04:43.388+00	2025-11-07 04:13:18.087+00	\N	\N
+1ece7b36-458f-40bd-bdd1-695e8491ced4	Ayushman Clinic	ayushman@gmail.com	9876054323	pune	\N	t	0	10	trial	free	2025-11-05 12:29:04.009+00	2025-12-05 12:29:04.009+00	2025-11-05 12:27:35.903+00	2025-11-05 12:29:04.011+00	Ayushman@123	\N
+820d1616-b1d7-4460-b0eb-82c93a1b8f75	Neuro Clinics	neuro@gmail.com	1452369870	koradi	\N	t	0	10	trial	free	2025-10-29 10:12:45.073+00	2025-11-28 10:12:45.073+00	2025-10-29 08:05:02.522+00	2025-10-29 10:12:45.097+00	Neuro@123	\N
+ab23ff19-1352-4bb3-a625-5edffc493e0d	choudhari clinics	choudhari@gmail.com	9067486880	kamthee	\N	t	0	10	trial	free	2025-10-29 12:25:41.821+00	2025-11-28 12:25:41.821+00	2025-10-29 12:25:41.821+00	2025-10-29 12:33:51.025+00	Choudhari@123	\N
+d0bd9c09-4ae8-4d0d-a86d-8272d4ad51a2	Sai Clinic	sai@gmail.com	\N	\N	\N	t	0	50	trial	free	2025-11-20 06:17:45.807+00	2025-12-20 06:17:45.807+00	2025-11-20 06:17:45.807+00	2025-11-20 06:17:45.807+00	\N	\N
+\.
+
+-- Re-enable constraints
+SET session_replication_role = DEFAULT;
+
+-- Verify
+SELECT COUNT(*) FROM clinics;
+```
+
+---
+
+## 📊 Data Summary
+
+### Clinics in Backup:
+1. **Usa clinics** - usha@gmail.com (6 reports used)
+2. **Hope clinic** - hope@gmail.com (2 reports used, ACTIVE)
+3. **Dev Clinics** - dev@gmail.com
+4. **Ayushman Clinic** - ayushman@gmail.com
+5. **Neuro Clinics** - neuro@gmail.com
+6. **Choudhari clinics** - choudhari@gmail.com
+7. **Sai Clinic** - sai@gmail.com
+
+---
+
+## 🔍 Important Tables in Backup
+
+```
+Line Numbers in Backup File:
+--------------------------------
+6752: clinics (7 records)
+6824: organizations
+6845: patients
+6859: payment_history
+6900: reports
+6923: sessions
+6952: subscriptions
+7018: uploaded_files
+```
+
+---
+
+## ✅ Verification After Import
+
+```sql
+-- Check imported clinics
+SELECT id, name, email, reports_used FROM clinics ORDER BY created_at;
+
+-- Check total records in each table
+SELECT 'clinics' as table_name, COUNT(*) FROM clinics
+UNION ALL
+SELECT 'patients', COUNT(*) FROM patients
+UNION ALL
+SELECT 'organizations', COUNT(*) FROM organizations
+UNION ALL
+SELECT 'reports', COUNT(*) FROM reports
+ORDER BY table_name;
+```
+
+---
+
+## 🚨 Common Issues
+
+### Issue 1: "duplicate key value violates unique constraint"
+
+**Reason:** Data pehle se exist karta hai
+
+**Solution:**
+```sql
+-- Add ON CONFLICT to skip duplicates
+INSERT INTO clinics (...) VALUES (...)
+ON CONFLICT (id) DO NOTHING;
+
+-- Or update existing records
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  updated_at = NOW();
+```
+
+### Issue 2: "foreign key constraint"
+
+**Reason:** Dependent table pehle import ho gaya
+
+**Solution:** Tables ko correct order mein import karein:
+1. clinics (no dependencies)
+2. organizations (no dependencies)
+3. patients (depends on clinics, organizations)
+4. reports (depends on patients)
+5. payment_history (depends on clinics)
+
+### Issue 3: "\N not recognized"
+
+**Reason:** `\N` NULL values ko represent karta hai
+
+**Solution:**
+```sql
+-- Manual replacement required
+-- \N → NULL
+```
+
+---
+
+## 🎯 Quick Command Reference
+
+### Extract Specific Table Data:
+
+```bash
+# Clinics
+sed -n '6752,6760p' "backup_file.backup" > clinics_data.sql
+
+# Patients
+sed -n '6845,6858p' "backup_file.backup" > patients_data.sql
+
+# Organizations
+sed -n '6824,6844p' "backup_file.backup" > organizations_data.sql
+```
+
+### Run Script:
+
+```bash
+# Method 1 (Automated)
+node restore-backup-data.js
+
+# Verify output
+cat RESTORED_DATA.sql
+```
+
+---
+
+## 📝 Step-by-Step Walkthrough
+
+### Complete Import Process:
+
+1. **Prepare**
+   ```bash
+   cd D:\Todays\Neuro360
+   ```
+
+2. **Run Script**
+   ```bash
+   node restore-backup-data.js
+   ```
+
+3. **Check Output**
+   ```
+   File created: RESTORED_DATA.sql
+   Total records: XXX
+   ```
+
+4. **Import to Supabase**
+   - Open SQL Editor
+   - Copy RESTORED_DATA.sql content
+   - Paste and Run
+   - Wait for completion
+
+5. **Verify**
+   ```sql
+   SELECT table_name, record_count FROM verification_results;
+   ```
+
+---
+
+## 🎉 Success Indicators
+
+✅ No errors in SQL Editor
+✅ All clinics visible in Table Editor
+✅ Patient records linked to clinics
+✅ Reports accessible
+✅ Payment history preserved
+
+---
+
+## 🆘 Need Help?
+
+**If errors occur:**
+1. Screenshot error message
+2. Check which table failed
+3. Check foreign key dependencies
+4. Re-run failed section only
+
+**Files created:**
+- `IMPORT_OLD_DATA.sql` - Manual clinics import
+- `restore-backup-data.js` - Automated script
+- `RESTORED_DATA.sql` - Generated after running script
+- `DATA_IMPORT_GUIDE.md` - This guide
+
+---
+
+**Ready to import? Choose METHOD 1 for easiest import!** 🚀

@@ -1,0 +1,152 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Brain, Linkedin, Facebook, Youtube, Instagram, Twitter, MapPin } from 'lucide-react';
+
+const Footer = () => {
+  return (
+    <footer className="bg-black text-white py-12 sm:py-16 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
+          {/* Left Column - Brand & Newsletter */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <Brain className="h-6 w-6 text-white bg-white p-1 rounded" />
+              <span className="ml-2 text-lg font-normal">
+                NeuroSense<sup className="text-[10px]">®</sup>
+              </span>
+            </Link>
+
+            {/* Tagline */}
+            <p className="text-base">
+              Neurotherapy for a <span className="text-[#00897B]">better brain.</span>
+            </p>
+
+            {/* Newsletter */}
+            <div className="space-y-3">
+              <p className="text-sm text-gray-400">
+                Develop a healthier brain with our science backed tips straight to your inbox.
+              </p>
+              <div className="space-y-2">
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  className="w-full px-4 py-2.5 bg-gray-800 text-white rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00897B]"
+                />
+                <button className="w-full px-6 py-2.5 bg-[#00897B] hover:bg-[#00796B] text-white rounded-lg text-sm font-medium transition-colors">
+                  Subscribe
+                </button>
+              </div>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex gap-3">
+              <a href="#" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a href="#" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a href="#" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                <Youtube className="h-4 w-4" />
+              </a>
+              <a href="#" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a href="#" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                <Twitter className="h-4 w-4" />
+              </a>
+            </div>
+
+            {/* Find a Clinic CTA */}
+            <div className="p-4 bg-[#00897B]/20 rounded-lg border border-[#00897B]/30">
+              <p className="text-sm font-medium mb-1">Ready to start?</p>
+              <a
+                href="/#clinic-locator"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById('clinic-locator');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  } else {
+                    window.location.href = '/#clinic-locator';
+                  }
+                }}
+                className="text-sm text-[#00897B] hover:underline cursor-pointer"
+              >
+                Find a clinic near you →
+              </a>
+            </div>
+
+            {/* Address */}
+            <div className="flex items-start gap-2 text-xs text-gray-400">
+              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-medium text-white">NeuroSense Inc.</p>
+                <p>175 Varick Street</p>
+                <p>New York, NY 10014, US</p>
+              </div>
+            </div>
+          </div>
+
+          {/* For Clinics Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">For clinics</h3>
+            <ul className="space-y-3">
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Book Demo</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">NeuroSense Clinical Product</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Clinician Stories</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">NeuroSense Dashboard →</a></li>
+            </ul>
+          </div>
+
+          {/* Resources Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Resources</h3>
+            <ul className="space-y-3">
+              <li><Link to="/lbw-updates" className="text-base hover:text-[#00897B] transition-colors">How It Works</Link></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Guide to Brainwaves</a></li>
+              <li><Link to="/science" className="text-base hover:text-[#00897B] transition-colors">Science</Link></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Reviews</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Blog</a></li>
+              <li><Link to="/faq" className="text-base hover:text-[#00897B] transition-colors">FAQs</Link></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">FSA/HSA Eligible</a></li>
+            </ul>
+          </div>
+
+          {/* For Consumers Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">For consumers</h3>
+            <ul className="space-y-3">
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Start now</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Peak Performance</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">NeuroSense vs. Others</a></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">NeuroSense Providers Library</a></li>
+            </ul>
+          </div>
+
+          {/* Company Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Company</h3>
+            <ul className="space-y-3">
+              <li><Link to="/about-us" className="text-base hover:text-[#00897B] transition-colors">About Us</Link></li>
+              <li><a href="#" className="text-base hover:text-[#00897B] transition-colors">Careers →</a></li>
+              <li><Link to="/privacy-policy" className="text-base hover:text-[#00897B] transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-and-conditions" className="text-base hover:text-[#00897B] transition-colors">Terms & Conditions</Link></li>
+              <li><a href="tel:+18553217800" className="text-base hover:text-[#00897B] transition-colors">+1 (855) 321-7800</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Copyright */}
+        <div className="mt-12 pt-8 border-t border-gray-800">
+          <div className="text-center">
+            <p className="text-sm text-gray-400">&copy; 2024 NeuroSense Inc. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

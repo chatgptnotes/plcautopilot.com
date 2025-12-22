@@ -1,0 +1,373 @@
+-- =====================================================
+-- NEURO360 - FINAL COMPLETE DATA IMPORT
+-- =====================================================
+-- Complete migration from backup (24-11-2025)
+-- All data properly mapped to new database schema
+-- =====================================================
+
+-- Disable triggers temporarily
+SET session_replication_role = replica;
+
+-- =====================================================
+-- TABLE 1: CLINICS (7 records)
+-- =====================================================
+
+INSERT INTO clinics (id, name, email, phone, address, logo_url, is_active, reports_used, reports_allowed, subscription_status, subscription_tier, trial_start_date, trial_end_date, created_at, updated_at, password, contact_person)
+VALUES
+  ('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'Usa clinics', 'usha@gmail.com', '2587413690', 'pune', NULL, true, 6, 50, 'trial', 'free', '2025-10-29 10:17:49.735+00', '2025-11-28 10:17:49.735+00', '2025-10-29 10:17:49.734+00', '2025-11-05 10:46:15.347+00', 'Usha@123', NULL),
+  ('11fd4a05-4443-4828-8f8f-7ccb3953c784', 'Hope clinic', 'hope@gmail.com', '8574963210', 'nagpur', NULL, true, 2, 5, 'active', 'free', '2025-10-31 05:09:46.407+00', '2025-11-30 05:09:46.407+00', '2025-10-31 05:08:34.826+00', '2025-11-06 10:34:12.654851+00', 'Hope@12345', 'Hope clinic'),
+  ('d7ee65a1-e37b-4856-9f76-9057d47d1af6', 'Dev Clinics', 'dev@gmail.com', '5674839022', 'mumbai', NULL, true, 0, 10, 'trial', 'free', '2025-11-07 04:13:18.086+00', '2025-12-07 04:13:18.086+00', '2025-11-07 04:04:43.388+00', '2025-11-07 04:13:18.087+00', 'Dev@12345', NULL),
+  ('1ece7b36-458f-40bd-bdd1-695e8491ced4', 'Ayushman Clinic', 'ayushman@gmail.com', '9876054323', 'pune', NULL, true, 0, 10, 'trial', 'free', '2025-11-05 12:29:04.009+00', '2025-12-05 12:29:04.009+00', '2025-11-05 12:27:35.903+00', '2025-11-05 12:29:04.011+00', 'Ayushman@123', NULL),
+  ('820d1616-b1d7-4460-b0eb-82c93a1b8f75', 'Neuro Clinics', 'neuro@gmail.com', '1452369870', 'koradi', NULL, true, 0, 10, 'trial', 'free', '2025-10-29 10:12:45.073+00', '2025-11-28 10:12:45.073+00', '2025-10-29 08:05:02.522+00', '2025-10-29 10:12:45.097+00', 'Neuro@123', NULL),
+  ('ab23ff19-1352-4bb3-a625-5edffc493e0d', 'choudhari clinics', 'choudhari@gmail.com', '9067486880', 'kamthee', NULL, true, 0, 10, 'trial', 'free', '2025-10-29 12:25:41.821+00', '2025-11-28 12:25:41.821+00', '2025-10-29 12:25:41.821+00', '2025-10-29 12:33:51.025+00', 'Choudhari@123', NULL),
+  ('d0bd9c09-4ae8-4d0d-a86d-8272d4ad51a2', 'Sai Clinic', 'sai@gmail.com', NULL, NULL, NULL, true, 0, 50, 'trial', 'free', '2025-11-20 06:17:45.807+00', '2025-12-20 06:17:45.807+00', '2025-11-20 06:17:45.807+00', '2025-11-20 06:17:45.807+00', 'Sai@12345', NULL)
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 2: ORGANIZATIONS (5 records)
+-- =====================================================
+
+INSERT INTO organizations (id, name, type, subscription_tier, clinic_code, created_at, updated_at)
+VALUES
+  ('00000000-0000-0000-0000-000000000001', 'Neuro360 System Administration', 'clinic', 'enterprise', 'NEURO360', '2025-09-19 07:11:49.406292+00', '2025-11-21 06:37:18.504588+00'),
+  ('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'UU', 'clinic', 'free', 'UU', '2025-10-28 06:04:20.654+00', '2025-11-21 06:37:18.504588+00'),
+  ('3911935f-5f71-4d35-bd66-c3d9c6aa7300', 'UU', 'clinic', 'free', 'UU1', '2025-10-29 07:54:58.753+00', '2025-11-21 06:37:18.504588+00'),
+  ('11fd4a05-4443-4828-8f8f-7ccb3953c784', 'Hope clinic', 'clinic', 'free', 'HOPE', '2025-10-31 05:20:40.361+00', '2025-11-21 06:37:18.504588+00'),
+  ('d7ee65a1-e37b-4856-9f76-9057d47d1af6', 'Dev Clinics', 'clinic', 'free', 'DEV', '2025-11-07 04:32:15.05+00', '2025-11-21 06:37:18.504588+00')
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 3: PROFILES (12 records)
+-- =====================================================
+-- Note: Role mapping applied
+-- clinic_admin → admin, clinic_staff → clinician
+
+INSERT INTO profiles (id, full_name, email, phone, role, created_at, updated_at)
+VALUES
+  ('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'UU', 'usha@gmail.com', NULL, 'admin', '2025-10-03 10:42:22.186191+00', '2025-10-28 12:15:44.053447+00'),
+  ('820d1616-b1d7-4460-b0eb-82c93a1b8f75', 'Neuro Clinics', 'neuro@gmail.com', NULL, 'admin', '2025-10-29 08:05:02.106872+00', '2025-10-29 08:05:02.106872+00'),
+  ('a543f63a-6faf-4432-9454-5d3cb6bb6bff', 'NeuroSuperadmin', 'admin@gmail.com', NULL, 'super_admin', '2025-10-29 08:37:36.336781+00', '2025-10-30 11:45:57.493122+00'),
+  ('11fd4a05-4443-4828-8f8f-7ccb3953c784', 'Hope clinic', 'hope@gmail.com', NULL, 'admin', '2025-10-31 05:08:34.297171+00', '2025-10-31 05:08:34.297171+00'),
+  ('1ece7b36-458f-40bd-bdd1-695e8491ced4', 'Ayushman Clinic', 'ayushman@gmail.com', NULL, 'admin', '2025-11-05 12:27:35.890139+00', '2025-11-05 12:27:35.890139+00'),
+  ('82d0cba6-fa16-441c-b2a6-26a9f26e754e', 'Rakesh', 'rakesh@gmail.com', '+917846578934', 'clinician', '2025-11-06 08:56:13.097272+00', '2025-11-06 08:56:13.097272+00'),
+  ('d7ee65a1-e37b-4856-9f76-9057d47d1af6', 'Dev Clinics', 'dev@gmail.com', NULL, 'admin', '2025-11-07 04:04:43.881589+00', '2025-11-07 04:04:43.881589+00'),
+  ('b3ee2757-71a3-4ec9-a173-9618753adda1', 'Rohan Clinic', 'rohan@gmail.com', NULL, 'admin', '2025-11-14 05:19:42.059871+00', '2025-11-14 05:19:42.059871+00'),
+  ('09319792-f35b-412c-87f1-9300f1b76d1b', 'Rohan', 'rohan11@gmail.com', NULL, 'admin', '2025-11-20 05:52:49.094674+00', '2025-11-20 05:52:49.094674+00'),
+  ('d0bd9c09-4ae8-4d0d-a86d-8272d4ad51a2', 'sai CLinic', 'sai@gmail.com', NULL, 'admin', '2025-11-20 06:05:02.936491+00', '2025-11-20 06:05:02.936491+00'),
+  ('527e7342-964b-4112-8f69-b10c7db3d369', 'hope clinic', 'bhupendra@gmail.com', '78695043223', 'patient', '2025-11-20 08:53:01.692726+00', '2025-11-20 08:53:01.692726+00'),
+  ('1c1ca311-a1bb-4c7c-986c-b95061efce3d', 'sweta', 'sweta@gmail.com', NULL, 'admin', '2025-11-20 09:54:01.796838+00', '2025-11-20 09:54:01.796838+00')
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 4: PATIENTS (6 records)
+-- =====================================================
+-- Note: status and admission_date columns removed (don't exist in new schema)
+
+INSERT INTO patients (id, org_id, clinic_id, external_id, full_name, date_of_birth, gender, email, phone, address, medical_history, created_at, updated_at)
+VALUES
+  ('5cdc6838-377c-40cc-853a-25f342364fd4', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'UU-202511-0001', 'priya fule', '2002-01-02', 'female', 'priya@gmail.com', '8888905970', 'gondia', '{"notes": "no"}', '2025-11-21 06:31:51.238+00', '2025-11-21 06:31:52.214142+00'),
+  ('f46f030d-b8c8-4465-aece-7eae8cb0c029', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'UU-202510-0001', 'poonam', '2003-12-31', 'female', 'poonam@gmail.com', '9067486880', 'koradi, maharashtra', '{}', '2025-10-28 06:09:17.296917+00', '2025-11-21 06:42:45.860487+00'),
+  ('0a83ff36-9ee3-4e35-9007-fbe76769f22b', '3911935f-5f71-4d35-bd66-c3d9c6aa7300', '3911935f-5f71-4d35-bd66-c3d9c6aa7300', 'UU1-202510-0001', 'usha zade', '2003-12-31', 'female', 'zade@gmail.com', '4569871230', 'Golibar chowk patvi galli MAhatma Fule Bazar', '{}', '2025-10-29 07:54:59.576+00', '2025-11-21 06:42:45.860487+00'),
+  ('bffc66d7-0470-47e8-9fe5-819124e4102f', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'UU-202510-0002', 'John A', '1999-12-31', 'male', 'john55@gmail.com', '1478523690', '20, Seoni, seoni kanhargaon', '{}', '2025-10-30 05:25:45.904+00', '2025-11-21 06:42:45.860487+00'),
+  ('56d82a58-2b9b-43ac-928f-b1472c5a9218', '11fd4a05-4443-4828-8f8f-7ccb3953c784', '11fd4a05-4443-4828-8f8f-7ccb3953c784', 'HOPE-202510-0001', 'roy', '2012-01-31', 'male', 'roy@gmail.com', '8529631470', 'Nagpur', '{}', '2025-10-31 05:30:48.105+00', '2025-11-21 06:42:45.860487+00'),
+  ('ff947a58-97db-4186-85cf-24626d992b9e', 'd7ee65a1-e37b-4856-9f76-9057d47d1af6', 'd7ee65a1-e37b-4856-9f76-9057d47d1af6', 'DEV-202511-0001', 'priyanka sahare', '2016-02-07', 'female', 'priyanka@gmail.com', '07846578934', 'koradi', '{}', '2025-11-07 04:32:17.137+00', '2025-11-21 06:42:45.860487+00')
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 5: REPORTS (2 records)
+-- =====================================================
+
+INSERT INTO reports (id, clinic_id, patient_id, file_name, file_path, report_data, status, created_at, updated_at)
+VALUES
+  ('8580323f-4899-474b-9ec7-b26d7efc043b', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'f46f030d-b8c8-4465-aece-7eae8cb0c029', 'SC4001E0-PSG.edf', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be/f46f030d-b8c8-4465-aece-7eae8cb0c029/2025-11-05T10-36-19-108Z_edf-files/e972aa41-c97e-4c53-9cbf-4ca44b5e95be/f46f030d-b8c8-4465-aece-7eae8cb0c029/SC4001E0-PSG.edf', '{"progress": 70, "processing_step": "NeuroSense AI analysis in progress", "processing_status": "neurosense_analyzing", "bucket_name": "patient-reports", "storage_type": "supabase", "stored_in_cloud": false, "upload_status": "completed"}', 'processing', '2025-11-05 10:36:35.363+00', '2025-11-05 10:37:15.34+00'),
+  ('27b621af-3de5-4a8d-b7e2-75ab02b36c26', '11fd4a05-4443-4828-8f8f-7ccb3953c784', '56d82a58-2b9b-43ac-928f-b1472c5a9218', 'SC4001E0-PSG.edf', '11fd4a05-4443-4828-8f8f-7ccb3953c784/56d82a58-2b9b-43ac-928f-b1472c5a9218/2025-11-06T10-33-59-913Z_edf-files/11fd4a05-4443-4828-8f8f-7ccb3953c784/56d82a58-2b9b-43ac-928f-b1472c5a9218/SC4001E0-PSG.edf', '{"progress": 70, "processing_step": "NeuroSense AI analysis in progress", "processing_status": "neurosense_analyzing", "bucket_name": "patient-reports", "storage_type": "supabase", "stored_in_cloud": false, "upload_status": "completed"}', 'processing', '2025-11-06 10:34:11.869+00', '2025-11-06 10:34:48.759+00')
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 6: CLINICAL REPORTS (1 record)
+-- =====================================================
+-- Note: Data converted to new simplified schema with JSONB
+
+INSERT INTO clinical_reports (id, patient_id, clinic_id, report_type, report_data, created_at)
+VALUES
+  (
+    '43d66189-d879-4174-a8b2-ef0cf99b8be2',
+    '56d82a58-2b9b-43ac-928f-b1472c5a9218',
+    '11fd4a05-4443-4828-8f8f-7ccb3953c784',
+    'comprehensive_assessment',
+    '{
+      "patient_uid": "HOPE-202510-0001",
+      "org_id": "11fd4a05-4443-4828-8f8f-7ccb3953c784",
+      "full_name": "roy",
+      "date_of_birth": "2012-01-31",
+      "gender": "male",
+      "handedness": "right",
+      "occupation": "worker",
+      "date_of_test": "2025-11-21",
+      "referring_physician": "physician",
+      "referral_reason": "ggfs",
+      "presenting_complaints": {
+        "other": "",
+        "sleep": false,
+        "memory": false,
+        "anxiety": false,
+        "fatigue": false,
+        "seizures": false,
+        "attention": false,
+        "dizziness": false,
+        "headaches": true,
+        "depression": false,
+        "irritability": false
+      },
+      "symptom_duration": {
+        "acute": false,
+        "sudden": true,
+        "chronic": false,
+        "gradual": false,
+        "subacute": true
+      },
+      "past_medical_history": {
+        "other": "",
+        "endocrine": false,
+        "chronicPain": false,
+        "psychiatric": true,
+        "neurological": true,
+        "cardiovascular": false
+      },
+      "medications": {
+        "otherMeds": "",
+        "sleepAids": false,
+        "stimulants": false,
+        "anxiolytics": false,
+        "recentChanges": false,
+        "antiepileptics": false,
+        "antipsychotics": true,
+        "antidepressants": true,
+        "moodStabilizers": false
+      },
+      "family_history": {
+        "adhd": true,
+        "other": "",
+        "anxiety": false,
+        "dementia": false,
+        "epilepsy": true,
+        "moodDisorders": false,
+        "substanceAbuse": false
+      },
+      "lifestyle": {
+        "other": "",
+        "screenTime": false,
+        "sleepHours": "6 hours",
+        "sleepQuality": "",
+        "substanceUse": "alcohol",
+        "chronicStress": false,
+        "dietNutrition": "",
+        "physicalActivity": "low",
+        "caffeineStimulants": false,
+        "occupationalStress": true
+      },
+      "uploaded_documents": [
+        {
+          "url": "https://omyltmcesgbhnqmhrrvq.supabase.co/storage/v1/object/sign/patient-reports/unknown-clinic/unknown-patient/2025-11-21T10-30-03-119Z_clinical-reports/56d82a58-2b9b-43ac-928f-b1472c5a9218/1763721003117-SC4001E0-PSG%20(2).edf",
+          "path": "clinical-reports/56d82a58-2b9b-43ac-928f-b1472c5a9218/1763721003117-SC4001E0-PSG (2).edf",
+          "type": "other-reports",
+          "fileName": "SC4001E0-PSG (2).edf",
+          "uploadedAt": "2025-11-21T10:30:13.469Z"
+        },
+        {
+          "url": "https://omyltmcesgbhnqmhrrvq.supabase.co/storage/v1/object/public/patients_documents/11fd4a05-4443-4828-8f8f-7ccb3953c784/HOPE-202510-0001/mental-status/1763721547857_SC4001E0-PSG__1_.edf",
+          "path": "11fd4a05-4443-4828-8f8f-7ccb3953c784/HOPE-202510-0001/mental-status/1763721547857_SC4001E0-PSG__1_.edf",
+          "type": "mental-status",
+          "bucket": "patients_documents",
+          "fileName": "SC4001E0-PSG (1).edf",
+          "uploadedAt": "2025-11-21T10:39:29.310Z"
+        }
+      ]
+    }'::jsonb,
+    '2025-11-21 10:06:40.208+00'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Re-enable triggers
+SET session_replication_role = DEFAULT;
+
+-- =====================================================
+-- CREATE AUTH USERS FOR ALL CLINICS
+-- =====================================================
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+DO $$
+DECLARE
+  clinic_record RECORD;
+  user_exists BOOLEAN;
+BEGIN
+  FOR clinic_record IN
+    SELECT id, name, email, password
+    FROM clinics
+    WHERE email IS NOT NULL AND password IS NOT NULL
+  LOOP
+    -- Check if user already exists
+    SELECT EXISTS (
+      SELECT 1 FROM auth.users WHERE id = clinic_record.id OR email = clinic_record.email
+    ) INTO user_exists;
+
+    IF user_exists THEN
+      -- Update existing user
+      UPDATE auth.users
+      SET
+        encrypted_password = crypt(clinic_record.password, gen_salt('bf')),
+        updated_at = NOW()
+      WHERE id = clinic_record.id OR email = clinic_record.email;
+
+      RAISE NOTICE 'Auth user updated for: %', clinic_record.email;
+    ELSE
+      -- Create new auth user
+      INSERT INTO auth.users (
+        id,
+        instance_id,
+        email,
+        encrypted_password,
+        email_confirmed_at,
+        created_at,
+        updated_at,
+        raw_app_meta_data,
+        raw_user_meta_data,
+        role,
+        aud,
+        confirmation_token,
+        recovery_token,
+        email_change_token_new,
+        email_change
+      )
+      VALUES (
+        clinic_record.id,
+        '00000000-0000-0000-0000-000000000000',
+        clinic_record.email,
+        crypt(clinic_record.password, gen_salt('bf')),
+        NOW(),
+        NOW(),
+        NOW(),
+        '{"provider":"email","providers":["email"]}'::jsonb,
+        jsonb_build_object('full_name', clinic_record.name),
+        'authenticated',
+        'authenticated',
+        '',
+        '',
+        '',
+        ''
+      );
+
+      RAISE NOTICE 'Auth user created for: %', clinic_record.email;
+    END IF;
+  END LOOP;
+
+  -- Create/update super admin auth user
+  SELECT EXISTS (
+    SELECT 1 FROM auth.users WHERE id = 'a543f63a-6faf-4432-9454-5d3cb6bb6bff' OR email = 'admin@gmail.com'
+  ) INTO user_exists;
+
+  IF user_exists THEN
+    UPDATE auth.users
+    SET
+      encrypted_password = crypt('Admin@123', gen_salt('bf')),
+      updated_at = NOW()
+    WHERE id = 'a543f63a-6faf-4432-9454-5d3cb6bb6bff' OR email = 'admin@gmail.com';
+
+    RAISE NOTICE 'Super admin auth user updated';
+  ELSE
+    INSERT INTO auth.users (
+      id,
+      instance_id,
+      email,
+      encrypted_password,
+      email_confirmed_at,
+      created_at,
+      updated_at,
+      raw_app_meta_data,
+      raw_user_meta_data,
+      role,
+      aud,
+      confirmation_token,
+      recovery_token,
+      email_change_token_new,
+      email_change
+    )
+    VALUES (
+      'a543f63a-6faf-4432-9454-5d3cb6bb6bff',
+      '00000000-0000-0000-0000-000000000000',
+      'admin@gmail.com',
+      crypt('Admin@123', gen_salt('bf')),
+      NOW(),
+      NOW(),
+      NOW(),
+      '{"provider":"email","providers":["email"],"role":"super_admin"}'::jsonb,
+      '{"full_name":"NeuroSuperadmin","role":"super_admin"}'::jsonb,
+      'authenticated',
+      'authenticated',
+      '',
+      '',
+      '',
+      ''
+    );
+
+    RAISE NOTICE 'Super admin auth user created';
+  END IF;
+END $$;
+
+-- =====================================================
+-- VERIFICATION QUERIES
+-- =====================================================
+
+SELECT 'Clinics imported:' as table_name, COUNT(*) as count FROM clinics;
+SELECT 'Organizations imported:' as table_name, COUNT(*) as count FROM organizations;
+SELECT 'Profiles imported:' as table_name, COUNT(*) as count FROM profiles;
+SELECT 'Patients imported:' as table_name, COUNT(*) as count FROM patients;
+SELECT 'Reports imported:' as table_name, COUNT(*) as count FROM reports;
+SELECT 'Clinical Reports imported:' as table_name, COUNT(*) as count FROM clinical_reports;
+SELECT 'Auth Users created:' as table_name, COUNT(*) as count FROM auth.users WHERE email LIKE '%gmail.com';
+
+-- =====================================================
+-- LOGIN CREDENTIALS
+-- =====================================================
+
+SELECT
+  'LOGIN CREDENTIALS' as info,
+  COALESCE(p.email, c.email) as email,
+  CASE
+    WHEN p.email = 'admin@gmail.com' THEN 'Admin@123'
+    ELSE c.password
+  END as password,
+  CASE
+    WHEN p.role = 'super_admin' THEN 'Super Admin'
+    WHEN p.role = 'admin' THEN 'Clinic Admin'
+    WHEN p.role = 'clinician' THEN 'Clinician'
+    ELSE 'Patient'
+  END as user_type
+FROM profiles p
+LEFT JOIN clinics c ON c.id = p.id
+WHERE p.email IS NOT NULL
+ORDER BY
+  CASE
+    WHEN p.role = 'super_admin' THEN 0
+    WHEN p.role = 'admin' THEN 1
+    WHEN p.role = 'clinician' THEN 2
+    ELSE 3
+  END,
+  p.created_at;
+
+-- =====================================================
+-- SUMMARY
+-- =====================================================
+-- ✅ 7 Clinics imported (all with passwords)
+-- ✅ 5 Organizations imported
+-- ✅ 12 Profiles imported (1 super admin, 8 admins, 1 clinician, 1 patient)
+-- ✅ 6 Patients imported
+-- ✅ 2 Reports imported
+-- ✅ 1 Clinical Report imported
+-- ✅ Auth users created for all clinics + super admin
+-- =====================================================
+-- Total Records: 33
+-- =====================================================
+-- Note: clinic_roles table does not exist in new schema - skipped
+-- =====================================================

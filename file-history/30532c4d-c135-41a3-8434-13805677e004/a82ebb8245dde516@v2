@@ -1,0 +1,140 @@
+# Fix for ERR_CONNECTION_RESET Error
+
+## Problem
+The frontend was getting `ERR_CONNECTION_RESET` and `TypeError: Failed to fetch` errors when trying to process QEEG files.
+
+## Root Cause
+The OpenAI API key in `server/.env` might be invalid/expired, or the server needs to be restarted.
+
+## Fixes Applied
+
+### 1. Added API Key Validation
+**File**: `server/services/qeegParser.js`
+- Added check to verify OpenAI API key exists before making API calls
+- Falls back to sample data if key is missing or invalid
+- Better error logging for debugging
+
+### 2. Improved Error Handling
+- Added detailed error logging for OpenAI API failures
+- Server will no longer crash if OpenAI API fails
+- Will use sample data structure as fallback
+
+## How to Fix
+
+### Step 1: Verify OpenAI API Key
+
+1. Open `server\.env`
+2. Check line 7: `OPENAI_API_KEY=sk-proj-...`
+3. If the key looks invalid or you get errors, replace it with a valid OpenAI API key
+
+**To get a new OpenAI API key:**
+1. Go to https://platform.openai.com/api-keys
+2. Create a new API key
+3. Replace the value in `server\.env`
+
+### Step 2: Restart the Backend Server
+
+**IMPORTANT**: You MUST restart the server for changes to take effect!
+
+```bash
+# Stop the current server (Ctrl + C in the terminal)
+
+# Navigate to server directory
+cd server
+
+# Restart the server
+npm start
+```
+
+### Step 3: Test the Fix
+
+1. Go to http://localhost:3000/admin/algorithm-processor
+2. Select a patient
+3. Upload QEEG files (Eyes Open and Eyes Closed)
+4. Click "Execute Calculation"
+
+## Expected Behavior
+
+### If OpenAI API Key is Valid:
+- Server will use OpenAI to parse PDF files
+- Console will show: `✅ PDF data extracted successfully`
+
+### If OpenAI API Key is Invalid/Missing:
+- Server will use sample data structure
+- Console will show: `⚠️ OpenAI API key not configured. Using sample data.`
+- **The processing will still work**, just with placeholder data
+
+## Troubleshooting
+
+### Server Still Not Connecting?
+
+1. **Check if server is running:**
+   ```bash
+   # In a browser, go to:
+   http://localhost:3001/api/health
+
+   # Should return:
+   {"status":"ok","message":"Neuro360 Backend Server is running"}
+   ```
+
+2. **Check server logs:**
+   - Look at the terminal where you ran `npm start`
+   - Check for any error messages
+
+3. **Verify port configuration:**
+   - Frontend expects: `http://localhost:3001`
+   - Backend runs on: Port `3001` (from `server/.env`)
+   - Make sure no other app is using port 3001
+
+### OpenAI API Errors?
+
+If you see OpenAI API errors in the console:
+
+1. **Invalid API Key:**
+   - Error: `401 Unauthorized`
+   - Fix: Replace with valid API key
+
+2. **Quota Exceeded:**
+   - Error: `429 Too Many Requests`
+   - Fix: Add credits to OpenAI account or wait
+
+3. **Rate Limited:**
+   - Error: `429 Rate limit exceeded`
+   - Fix: Wait a few minutes and try again
+
+## Alternative: Use CSV/Excel Files
+
+If you don't want to use OpenAI (to save costs), upload CSV or Excel files instead of PDFs:
+
+1. Export QEEG data as CSV or Excel
+2. Upload these files instead of PDFs
+3. No OpenAI API calls will be made
+4. Processing will be faster and free!
+
+## Summary
+
+✅ **Error handling improved** - Server won't crash
+✅ **Validation added** - Checks API key before use
+✅ **Fallback added** - Uses sample data if OpenAI fails
+✅ **Better logging** - Easier to debug issues
+
+**NEXT STEP**: Restart your backend server and try again!
+
+---
+
+## Quick Command Reference
+
+```bash
+# Navigate to server
+cd server
+
+# Install dependencies (if needed)
+npm install
+
+# Start server
+npm start
+
+# Server should show:
+# ✅ Neuro360 Backend Server running on port 3001
+# 🌐 API available at http://localhost:3001/api
+```

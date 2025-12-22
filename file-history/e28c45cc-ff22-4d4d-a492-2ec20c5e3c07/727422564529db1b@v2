@@ -1,0 +1,127 @@
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+
+const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const faqs = [
+    {
+      question: "How to choose neurofeedback equipment?",
+      answer: "When selecting neurofeedback equipment, consider factors such as the number of channels (19-channel qEEG systems provide comprehensive brain mapping), FDA approval status, ease of use, portability, software capabilities, and integration with clinical protocols. Look for systems that offer real-time feedback, customizable training protocols, and robust data analysis tools. Consider your practice needs, budget, and the level of technical support provided by the manufacturer."
+    },
+    {
+      question: "How do I explain neurofeedback to my clients?",
+      answer: "Explain neurofeedback as a non-invasive brain training technique that helps the brain learn to function more efficiently. You can use analogies like teaching the brain to self-regulate, similar to how a thermostat regulates temperature. Emphasize that it's evidence-based, painless, and involves no medication. Show them that sensors simply read brain activity while the client watches videos or plays games, and the brain receives immediate feedback to reinforce healthy patterns. Highlight that it's about teaching the brain new, healthier patterns through repetition and positive reinforcement."
+    },
+    {
+      question: "How to prepare my clients for their first neurofeedback session?",
+      answer: "Prepare clients by explaining what to expect during the session: they'll be seated comfortably with sensors placed on their scalp (no shaving required), the process is painless, and sessions typically last 30-60 minutes. Advise them to wash their hair beforehand (no products), wear comfortable clothing, avoid caffeine 2-4 hours before if possible, and bring any questions they have. Let them know they'll watch a video or play a game while the system monitors their brain activity and provides feedback. Reassure them that most people find it relaxing and that results build gradually over multiple sessions."
+    },
+    {
+      question: "How do I keep my clients engaged in neurofeedback training?",
+      answer: "Keep clients engaged by setting clear goals together, tracking progress with visual data and charts, celebrating small wins, varying the training content (different videos, games, or protocols), providing regular feedback on improvements they're experiencing, and connecting training outcomes to real-life benefits they notice. Consider using gamification elements, creating milestone rewards, maintaining consistent session schedules, and checking in regularly about their experience. Share success stories and research findings to maintain motivation and understanding of the process."
+    },
+    {
+      question: "How do I market my neurofeedback practice?",
+      answer: "Market your practice through multiple channels: create an informative website with client testimonials and educational content, leverage social media to share brain health tips and success stories, network with local healthcare providers for referrals, offer free introductory workshops or webinars, utilize local SEO and Google My Business, publish articles or blog posts about brain health topics, participate in community health fairs, and consider targeted online advertising. Build credibility through certifications, continuing education, and professional affiliations. Focus on educating your community about brain health and the science behind neurofeedback."
+    },
+    {
+      question: "Can I offer other forms of therapy while providing neurofeedback?",
+      answer: "Yes, neurofeedback often works best when integrated with other therapeutic approaches. Many practitioners combine it with psychotherapy, counseling, cognitive behavioral therapy (CBT), occupational therapy, physical therapy, nutritional counseling, or mindfulness practices. This integrative approach can enhance overall outcomes as different modalities address different aspects of health and wellness. Ensure you're properly licensed and trained in any additional services you offer, and clearly communicate to clients how these different approaches work together in their treatment plan."
+    },
+    {
+      question: "Is full 19-channel QEEG necessary for conducting successful neurofeedback training?",
+      answer: "While full 19-channel qEEG provides comprehensive brain mapping and is considered the gold standard for detailed assessment, it's not always necessary for successful neurofeedback training. Many practitioners achieve excellent results with fewer channels, particularly when working with well-established protocols for specific conditions. However, 19-channel qEEG offers significant advantages: comprehensive brain mapping, precise protocol selection, better tracking of progress, identification of unexpected patterns, and stronger clinical credibility. The decision depends on your practice scope, client population, budget, and training background. Some practitioners start with simpler systems and upgrade as their practice grows."
+    },
+    {
+      question: "How much does neurofeedback equipment cost?",
+      answer: "Neurofeedback equipment costs vary widely depending on the system capabilities. Basic 1-2 channel systems may start around $3,000-$8,000, mid-range 4-channel systems typically cost $8,000-$15,000, and professional 19-channel qEEG systems range from $15,000-$50,000 or more. Additional costs include software licenses (often $500-$2,000 annually), training and certification ($2,000-$10,000), sensors and supplies ($500-$2,000 annually), and ongoing technical support. Consider this an investment in your practice - many practitioners recoup equipment costs within the first year through client fees. Look for financing options, leasing programs, or used equipment from reputable sources to reduce initial costs."
+    },
+    {
+      question: "Is the Myndlift System required if a client is already training with the Muse S Athena on their own via the Muse app?",
+      answer: "No, the Myndlift System is not required if a client is already using the Muse S with the Muse app independently. However, the Myndlift platform offers several advantages for clinical practice: professional-grade protocols tailored to specific conditions, therapist oversight and remote monitoring capabilities, more detailed progress tracking and reporting, customizable training parameters, clinical-grade data analysis, and the ability to assign homework sessions while monitoring compliance and results. If your client is achieving their goals with the Muse app alone, additional systems may not be necessary. However, for clients needing more structured, supervised training or working on complex issues, a professional system provides greater clinical control and potentially better outcomes."
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <NavBar />
+
+      {/* Main Content */}
+      <main className="flex-grow pt-24 pb-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+              FAQs on How to Launch, Run, and Scale
+            </h1>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              Your Neurofeedback Practice
+            </h2>
+          </div>
+
+          {/* FAQ Accordion */}
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors"
+              >
+                {/* Question */}
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left bg-white hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-lg font-normal text-gray-900 pr-8">
+                    {faq.question}
+                  </span>
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                    {openIndex === index ? (
+                      <ChevronUp className="h-4 w-4 text-gray-600" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-gray-600" />
+                    )}
+                  </div>
+                </button>
+
+                {/* Answer */}
+                {openIndex === index && (
+                  <div className="px-6 py-5 bg-gray-50 border-t border-gray-200">
+                    <p className="text-base text-gray-700 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Section */}
+          <div className="mt-16 text-center">
+            <p className="text-lg text-gray-600 mb-6">
+              Have more questions? We're here to help you succeed.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="/register"
+                className="inline-flex items-center justify-center px-8 py-3 bg-[#F5D05D] hover:bg-[#E5C04D] text-white rounded-full text-base font-medium transition-colors"
+              >
+                Get Started
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default FAQ;

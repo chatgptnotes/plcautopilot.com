@@ -1,0 +1,128 @@
+import React, { useState } from 'react';
+
+const BrainParametersSlider = () => {
+  const [parameters, setParameters] = useState({
+    attention: 50,
+    focus: 50,
+    relaxation: 50,
+    memory: 50,
+    creativity: 50,
+    regeneration: 50,
+    peakPerformance: 50,
+    stress: 50,
+    cognition: 50,
+    mood: 50,
+    emotionalRegulation: 50,
+    sleep: 50,
+  });
+
+  const parameterLabels = {
+    attention: 'Attention',
+    focus: 'Focus',
+    relaxation: 'Relaxation',
+    memory: 'Memory',
+    creativity: 'Creativity',
+    regeneration: 'Regeneration',
+    peakPerformance: 'Peak Performance',
+    stress: 'Stress',
+    cognition: 'Cognition',
+    mood: 'Mood',
+    emotionalRegulation: 'Emotional Regulation',
+    sleep: 'Sleep',
+  };
+
+  const handleSliderChange = (param, value) => {
+    setParameters(prev => ({
+      ...prev,
+      [param]: parseInt(value)
+    }));
+  };
+
+  return (
+    <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-blue-50 to-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Brain Health Parameters
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Track and optimize your brain health across multiple dimensions
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {Object.keys(parameters).map((param) => (
+            <div key={param} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="flex items-center justify-between mb-4">
+                <label htmlFor={param} className="text-lg font-semibold text-gray-900">
+                  {parameterLabels[param]}
+                </label>
+                <span className="text-2xl font-bold text-blue-600">
+                  {parameters[param]}%
+                </span>
+              </div>
+
+              <div className="relative">
+                <input
+                  type="range"
+                  id={param}
+                  min="0"
+                  max="100"
+                  value={parameters[param]}
+                  onChange={(e) => handleSliderChange(param, e.target.value)}
+                  className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                  style={{
+                    background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${parameters[param]}%, #e5e7eb ${parameters[param]}%, #e5e7eb 100%)`
+                  }}
+                />
+              </div>
+
+              {/* Progress indicator */}
+              <div className="mt-2 flex justify-between text-xs text-gray-500">
+                <span>Low</span>
+                <span>Optimal</span>
+                <span>High</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .slider::-webkit-slider-thumb {
+          appearance: none;
+          width: 24px;
+          height: 24px;
+          background: #3b82f6;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          transition: all 0.2s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+          transform: scale(1.2);
+          box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+        }
+
+        .slider::-moz-range-thumb {
+          width: 24px;
+          height: 24px;
+          background: #3b82f6;
+          border-radius: 50%;
+          cursor: pointer;
+          border: none;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          transition: all 0.2s ease;
+        }
+
+        .slider::-moz-range-thumb:hover {
+          transform: scale(1.2);
+          box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+        }
+      `}</style>
+    </section>
+  );
+};
+
+export default BrainParametersSlider;

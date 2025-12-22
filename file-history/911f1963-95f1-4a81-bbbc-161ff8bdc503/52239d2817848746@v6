@@ -1,0 +1,369 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Settings, Zap, BarChart3, Shield, CheckCircle, Users } from 'lucide-react';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+
+const Technicians = () => {
+  const navigate = useNavigate();
+  const [visibleSections, setVisibleSections] = useState(new Set());
+  const observerRefs = useRef([]);
+
+  // Scroll-triggered animations
+  useEffect(() => {
+    const scrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('data-scroll-section');
+            if (sectionId) {
+              setVisibleSections((prev) => new Set([...prev, sectionId]));
+              entry.target.classList.add('animate-in');
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const elements = document.querySelectorAll('[data-scroll-section]');
+    elements.forEach((el) => {
+      scrollObserver.observe(el);
+      observerRefs.current.push(el);
+    });
+
+    return () => {
+      observerRefs.current.forEach((el) => {
+        if (el) scrollObserver.unobserve(el);
+      });
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <NavBar />
+
+      <style>{`
+        /* Scroll-triggered animations */
+        .scroll-fade-left {
+          opacity: 0;
+          transform: translateX(-100px) translateY(20px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-left.animate-in {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .scroll-fade-right {
+          opacity: 0;
+          transform: translateX(100px) translateY(20px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-right.animate-in {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .scroll-fade-up {
+          opacity: 0;
+          transform: translateY(60px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-up.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .scroll-fade-down {
+          opacity: 0;
+          transform: translateY(-60px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-down.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .card-slide-alternate:nth-child(odd) {
+          opacity: 0;
+          transform: translateX(-120px) translateY(40px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-slide-alternate:nth-child(even) {
+          opacity: 0;
+          transform: translateX(120px) translateY(40px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-in .card-slide-alternate:nth-child(odd) {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .animate-in .card-slide-alternate:nth-child(even) {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .animate-in .card-slide-alternate:nth-child(1) {
+          transition-delay: 0.15s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(2) {
+          transition-delay: 0.3s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(3) {
+          transition-delay: 0.45s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(4) {
+          transition-delay: 0.6s;
+        }
+      `}</style>
+
+      {/* Hero Section */}
+      <section className="relative text-white pt-20 pb-20 min-h-[600px]" style={{
+        backgroundImage: 'url(/Technicians.jpeg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
+        {/* Overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-800/70 to-transparent"></div>
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+          <div className="max-w-2xl text-left">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full mb-6">
+              <Settings className="w-5 h-5" />
+              <span className="text-sm font-medium">Professional Tools</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
+              For Wellness/other Clinics
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-200 mb-8">
+              Advanced tools and resources for elevating the brain game for your clients.
+            </p>
+
+            <button
+              onClick={() => navigate('/register')}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#323956] hover:bg-[#232D3C] text-white rounded-full text-lg font-medium transition-all hover:scale-105 shadow-lg"
+            >
+              Get Started Today
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <main className="flex-grow py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Why NeuroSense Section */}
+          <div className="mb-20" data-scroll-section="why-neurosense">
+            <div className="text-center mb-12 scroll-fade-down">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Why Neurosense for Clinics/Wellness units ?
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Everything you need to deliver a professional brain coaching service packed in one unit.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8" data-scroll-section="features-grid">
+              {/* Feature 1 */}
+              <div className="group bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-2xl transition-all duration-300 card-slide-alternate">
+                <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#323956] transition-colors">
+                  <Zap className="w-7 h-7 text-[#323956] group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Easy to Use
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Intuitive interface designed for technicians. Set up sessions quickly and focus on what matters - your clients.
+                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="group bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-2xl transition-all duration-300 card-slide-alternate">
+                <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#323956] transition-colors">
+                  <BarChart3 className="w-7 h-7 text-[#323956] group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Real-Time Monitoring
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Track client progress in real-time with detailed analytics and comprehensive reporting tools.
+                </p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="group bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-2xl transition-all duration-300 card-slide-alternate">
+                <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#323956] transition-colors">
+                  <Shield className="w-7 h-7 text-[#323956] group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Professional Support
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Access to training resources, technical support and a community of performance coaches.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Capabilities Section */}
+          <div className="mb-20" data-scroll-section="capabilities">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left Content */}
+              <div className="order-2 md:order-1 scroll-fade-left">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">
+                  What is possible with Neurosense Advanced Suite Made For Clinics/Clinicians/Coaches.
+                </h2>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-[#323956] rounded-lg flex items-center justify-center mt-1">
+                      <CheckCircle className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Neurosense reporting</h3>
+                      <p className="text-gray-700 leading-relaxed">
+                        Easily report the various brain health parameters. All parameters available on your dashboard.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-[#323956] rounded-lg flex items-center justify-center mt-1">
+                      <CheckCircle className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Protocol customization</h3>
+                      <p className="text-gray-700 leading-relaxed">
+                        Customize the MOVERS protocol for each client. Make it hyper personal.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-[#323956] rounded-lg flex items-center justify-center mt-1">
+                      <CheckCircle className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Progress tracking</h3>
+                      <p className="text-gray-700 leading-relaxed">
+                        Monitor the client improvement with detailed metrics and visual progress.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-[#323956] rounded-lg flex items-center justify-center mt-1">
+                      <CheckCircle className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure Data Mangement</h3>
+                      <p className="text-gray-700 leading-relaxed">
+                        HIPPA compliant data storage for confidentiality.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Image/Visual */}
+              <div className="flex justify-center order-1 md:order-2 scroll-fade-right">
+                <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl p-12">
+                  <div className="w-full max-w-md">
+                    <Settings className="w-full h-auto text-gray-400 opacity-30" size={300} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Training & Resources Section */}
+          <div className="mb-20" data-scroll-section="training">
+            <div className="bg-gradient-to-br from-[#E4EFFF] to-gray-50 rounded-3xl p-8 sm:p-10 md:p-12 shadow-xl">
+              <div className="text-center mb-10 scroll-fade-up">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                  Training & Resources
+                </h2>
+                <p className="text-xl text-gray-700">
+                  Comprehensive support to help you succeed
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8" data-scroll-section="training-cards">
+                <div className="bg-white rounded-2xl p-6 shadow-lg card-slide-alternate">
+                  <div className="w-12 h-12 bg-[#323956] rounded-xl flex items-center justify-center mb-4">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                    Expert Training
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Access comprehensive training materials, video tutorials, and certification programs to enhance your skills.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-6 shadow-lg card-slide-alternate">
+                  <div className="w-12 h-12 bg-[#323956] rounded-xl flex items-center justify-center mb-4">
+                    <BarChart3 className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                    Clinical Resources
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Evidence-based protocols, research papers, and best practice guidelines at your fingertips.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-6 shadow-lg card-slide-alternate">
+                  <div className="w-12 h-12 bg-[#323956] rounded-xl flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                    24/7 Support
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Round-the-clock technical support to ensure smooth operations and client satisfaction.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-6 shadow-lg card-slide-alternate">
+                  <div className="w-12 h-12 bg-[#323956] rounded-xl flex items-center justify-center mb-4">
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                    Community Access
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Connect with fellow coaches, share experiences, and learn from the best.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Technicians;

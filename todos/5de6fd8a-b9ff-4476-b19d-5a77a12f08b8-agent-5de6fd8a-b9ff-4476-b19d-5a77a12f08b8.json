@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Improve error message parsing in frontend",
+    "status": "completed",
+    "activeForm": "Improving error message parsing in frontend"
+  },
+  {
+    "content": "Extract retry time from Gemini error",
+    "status": "in_progress",
+    "activeForm": "Extracting retry time from Gemini error"
+  },
+  {
+    "content": "Test improved error display",
+    "status": "pending",
+    "activeForm": "Testing improved error display"
+  }
+]

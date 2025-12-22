@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Disable password managers from auto-filling -->
+    <meta name="lastpass-disable" content="true" />
+    <meta name="1password-disable" content="true" />
+
+    <title>NeuroSense360 - Transform Your Brain | Limitless Brain Lab</title>
+
+    <!-- CRITICAL: Emoji/Flag Font Support for Global Use -->
+    <style>
+      /* Force emoji fonts to load immediately */
+      @font-face {
+        font-family: 'EmojiFont';
+        src: local('Segoe UI Emoji'), local('Apple Color Emoji'), local('Noto Color Emoji');
+        font-display: block;
+      }
+
+      /* Global emoji font stack */
+      select, option {
+        font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Symbol', system-ui, sans-serif !important;
+      }
+    </style>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </head>
+  <body class="font-inter">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

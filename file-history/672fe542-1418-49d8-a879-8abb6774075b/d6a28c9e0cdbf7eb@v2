@@ -1,0 +1,152 @@
+/**
+ * ========================================
+ * Generate Clinic Codes - Browser Console Script
+ * ========================================
+ *
+ * How to use:
+ * 1. Open your Neuro360 app in browser (localhost:3000)
+ * 2. Open browser console (F12 or Ctrl+Shift+I)
+ * 3. Copy-paste this ENTIRE script
+ * 4. Press Enter
+ * 5. Watch it generate codes automatically!
+ *
+ * ========================================
+ */
+
+(async function generateClinicCodes() {
+  console.log('🚀 Starting Clinic Code Generation...\n');
+  console.log('=======================================\n');
+
+  try {
+    // Check if supabase is available
+    if (typeof supabase === 'undefined') {
+      console.error('❌ Error: Supabase client not found!');
+      console.log('💡 Make sure you are on the Neuro360 app page (localhost:3000)');
+      return;
+    }
+
+    // Fetch all organizations
+    console.log('📋 Fetching organizations from database...');
+    const { data: organizations, error: fetchError } = await supabase
+      .from('organizations')
+      .select('id, name, clinic_code, created_at');
+
+    if (fetchError) {
+      console.error('❌ Error fetching organizations:', fetchError);
+      return;
+    }
+
+    if (!organizations || organizations.length === 0) {
+      console.log('⚠️  No organizations found in database');
+      return;
+    }
+
+    console.log(`✅ Found ${organizations.length} organizations\n`);
+    console.log('=======================================\n');
+
+    // Track used codes and updates
+    const usedCodes = new Set();
+    let updated = 0;
+    let alreadyHasCode = 0;
+    let failed = 0;
+
+    // First pass: collect existing codes
+    organizations.forEach(org => {
+      if (org.clinic_code) {
+        usedCodes.add(org.clinic_code.toUpperCase());
+      }
+    });
+
+    // Second pass: generate codes for organizations without them
+    for (const org of organizations) {
+      if (!org.clinic_code) {
+        console.log(`\n🔨 Processing: "${org.name}"`);
+
+        // Generate base code from organization name
+        let baseCode = org.name
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, '') // Remove special characters
+          .substring(0, 8); // Take first 8 characters
+
+        // Fallback if name has no alphanumeric characters
+        if (!baseCode) {
+          baseCode = 'CLINIC';
+        }
+
+        // Ensure uniqueness
+        let finalCode = baseCode;
+        let counter = 1;
+
+        while (usedCodes.has(finalCode)) {
+          finalCode = baseCode + String(counter).padStart(2, '0');
+          counter++;
+        }
+
+        usedCodes.add(finalCode);
+
+        console.log(`   Generated code: ${finalCode}`);
+        console.log(`   Updating database...`);
+
+        // Update the organization
+        const { error: updateError } = await supabase
+          .from('organizations')
+          .update({ clinic_code: finalCode })
+          .eq('id', org.id);
+
+        if (updateError) {
+          console.error(`   ❌ Failed: ${updateError.message}`);
+          failed++;
+        } else {
+          console.log(`   ✅ Success! "${org.name}" → "${finalCode}"`);
+          updated++;
+        }
+      } else {
+        console.log(`ℹ️  "${org.name}" already has code: ${org.clinic_code}`);
+        alreadyHasCode++;
+      }
+    }
+
+    // Summary
+    console.log('\n=======================================');
+    console.log('📊 SUMMARY');
+    console.log('=======================================');
+    console.log(`Total organizations: ${organizations.length}`);
+    console.log(`✅ Updated with new codes: ${updated}`);
+    console.log(`ℹ️  Already had codes: ${alreadyHasCode}`);
+    if (failed > 0) {
+      console.log(`❌ Failed to update: ${failed}`);
+    }
+    console.log('=======================================\n');
+
+    if (updated > 0) {
+      console.log('🎉 Clinic codes generated successfully!');
+      console.log('\n📋 Next steps:');
+      console.log('1. Test patient registration');
+      console.log('2. Check patient UID format: CLINICCODE-YYYYMM-XXXX');
+      console.log('3. Example: HOPE-202511-0001\n');
+    } else if (alreadyHasCode === organizations.length) {
+      console.log('✅ All organizations already have clinic codes!');
+      console.log('🎉 Patient UID system is ready to use!\n');
+    }
+
+    // Display all clinic codes
+    console.log('=======================================');
+    console.log('📋 ALL CLINIC CODES');
+    console.log('=======================================');
+
+    const { data: finalOrgs } = await supabase
+      .from('organizations')
+      .select('name, clinic_code')
+      .order('created_at', { ascending: false });
+
+    if (finalOrgs) {
+      finalOrgs.forEach(org => {
+        console.log(`${org.clinic_code ? '✅' : '⚠️ '} ${org.name.padEnd(30)} → ${org.clinic_code || 'NO CODE'}`);
+      });
+    }
+    console.log('=======================================\n');
+
+  } catch (error) {
+    console.error('❌ Unexpected error:', error);
+  }
+})();

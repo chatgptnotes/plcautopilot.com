@@ -1,0 +1,83 @@
+import { supabase } from '../lib/supabaseClient';
+
+/**
+ * Run the franchise_inquiries table migration
+ * This should be run once to create the table in the database
+ */
+export async function createFranchiseInquiriesTable() {
+  try {
+    // SQL to create the franchise_inquiries table
+    const createTableSQL = `
+      -- Create franchise_inquiries table
+      CREATE TABLE IF NOT EXISTS public.franchise_inquiries (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        name TEXT NOT NULL,
+        contact_number TEXT NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'contacted', 'closed')),
+        notes TEXT
+      );
+
+      -- Add RLS (Row Level Security) policies
+      ALTER TABLE public.franchise_inquiries ENABLE ROW LEVEL SECURITY;
+
+      -- Drop existing policies if they exist
+      DROP POLICY IF EXISTS "Allow public insert on franchise_inquiries" ON public.franchise_inquiries;
+      DROP POLICY IF EXISTS "Allow super admin read on franchise_inquiries" ON public.franchise_inquiries;
+      DROP POLICY IF EXISTS "Allow super admin update on franchise_inquiries" ON public.franchise_inquiries;
+
+      -- Allow insert for anyone (public access for form submission)
+      CREATE POLICY "Allow public insert on franchise_inquiries"
+        ON public.franchise_inquiries
+        FOR INSERT
+        TO anon, authenticated
+        WITH CHECK (true);
+
+      -- Allow select/update for authenticated super admins only
+      CREATE POLICY "Allow super admin read on franchise_inquiries"
+        ON public.franchise_inquiries
+        FOR SELECT
+        TO authenticated
+        USING (
+          EXISTS (
+            SELECT 1 FROM public.users
+            WHERE users.id = auth.uid()
+            AND users.role = 'super_admin'
+          )
+        );
+
+      CREATE POLICY "Allow super admin update on franchise_inquiries"
+        ON public.franchise_inquiries
+        FOR UPDATE
+        TO authenticated
+        USING (
+          EXISTS (
+            SELECT 1 FROM public.users
+            WHERE users.id = auth.uid()
+            AND users.role = 'super_admin'
+          )
+        );
+
+      -- Create index for faster queries
+      CREATE INDEX IF NOT EXISTS idx_franchise_inquiries_created_at ON public.franchise_inquiries(created_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_franchise_inquiries_status ON public.franchise_inquiries(status);
+    `;
+
+    // Execute the SQL
+    const { data, error } = await supabase.rpc('exec_sql', { sql: createTableSQL });
+
+    if (error) {
+      console.error('Migration error:', error);
+      return { success: false, error };
+    }
+
+    console.log('✅ franchise_inquiries table created successfully!');
+    return { success: true, data };
+  } catch (error) {
+    console.error('Migration failed:', error);
+    return { success: false, error };
+  }
+}
+
+// Run this function manually from browser console to create the table
+// Example: import { createFranchiseInquiriesTable } from './utils/runMigration'; createFranchiseInquiriesTable();

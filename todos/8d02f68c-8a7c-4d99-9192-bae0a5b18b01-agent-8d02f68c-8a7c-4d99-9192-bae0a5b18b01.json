@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Find and kill the process using port 3001",
+    "status": "in_progress",
+    "activeForm": "Finding and killing the process using port 3001"
+  },
+  {
+    "content": "Verify the backend starts successfully",
+    "status": "pending",
+    "activeForm": "Verifying the backend starts successfully"
+  }
+]

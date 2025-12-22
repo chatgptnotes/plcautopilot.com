@@ -1,0 +1,86 @@
+-- Create clinic_enquiries table to store clinic requests from users
+-- Migration: 020_create_clinic_enquiries_table.sql
+
+-- Create clinic_enquiries table
+CREATE TABLE IF NOT EXISTS clinic_enquiries (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  -- User Information
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(50),
+  city VARCHAR(255) NOT NULL,
+  message TEXT,
+
+  -- Status tracking
+  status VARCHAR(50) DEFAULT 'pending', -- pending, contacted, resolved, closed
+  assigned_to UUID, -- Admin/staff member assigned to handle this enquiry
+  notes TEXT, -- Internal notes for NeuroSense team
+
+  -- Metadata
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  responded_at TIMESTAMPTZ,
+
+  -- Constraints
+  CONSTRAINT clinic_enquiries_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+);
+
+-- Create indexes for faster queries
+CREATE INDEX IF NOT EXISTS idx_clinic_enquiries_email ON clinic_enquiries(email);
+CREATE INDEX IF NOT EXISTS idx_clinic_enquiries_city ON clinic_enquiries(city);
+CREATE INDEX IF NOT EXISTS idx_clinic_enquiries_status ON clinic_enquiries(status);
+CREATE INDEX IF NOT EXISTS idx_clinic_enquiries_created_at ON clinic_enquiries(created_at DESC);
+
+-- Create trigger to auto-update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_clinic_enquiries_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_clinic_enquiries_updated_at
+  BEFORE UPDATE ON clinic_enquiries
+  FOR EACH ROW
+  EXECUTE FUNCTION update_clinic_enquiries_updated_at();
+
+-- Add comments for documentation
+COMMENT ON TABLE clinic_enquiries IS 'Store clinic requests and enquiries from users looking for clinics in their area';
+COMMENT ON COLUMN clinic_enquiries.status IS 'Enquiry status: pending, contacted, resolved, closed';
+COMMENT ON COLUMN clinic_enquiries.assigned_to IS 'NeuroSense team member assigned to handle this enquiry';
+COMMENT ON COLUMN clinic_enquiries.notes IS 'Internal notes for tracking follow-up actions';
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE clinic_enquiries ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow anyone to insert enquiries (public submission)
+CREATE POLICY "Anyone can submit clinic enquiries"
+  ON clinic_enquiries
+  FOR INSERT
+  WITH CHECK (true);
+
+-- Create policy to allow admin/staff to view all enquiries
+CREATE POLICY "Admin and staff can view all enquiries"
+  ON clinic_enquiries
+  FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role IN ('admin', 'super_admin')
+    )
+  );
+
+-- Create policy to allow admin/staff to update enquiries
+CREATE POLICY "Admin and staff can update enquiries"
+  ON clinic_enquiries
+  FOR UPDATE
+  USING (
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role IN ('admin', 'super_admin')
+    )
+  );

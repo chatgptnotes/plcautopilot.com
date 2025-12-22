@@ -1,0 +1,89 @@
+===============================================
+🔴 CRITICAL FIX: 'auto' Height in PDFKit
+===============================================
+
+PROBLEM FOUND:
+Line 1078 in geminiPdfGenerator.js had:
+  doc.roundedRect(55, metricY, 485, 'auto', 3)
+
+PDFKit DOES NOT support 'auto' as a height parameter!
+It expects: roundedRect(x, y, width, HEIGHT_NUMBER, radius)
+
+When PDFKit tried to parse 'auto' as a number:
+  - Internal number() function was called
+  - 'auto' cannot be converted to a number
+  - Result: "unsupported number: NaN" error
+  - Error occurred at line 300 (addCalculationsSection call)
+
+===============================================
+FIX APPLIED:
+===============================================
+
+Removed the problematic roundedRect call entirely.
+It was just decorative (border around metric boxes).
+
+Before (BROKEN):
+  doc.roundedRect(55, metricY, 485, 'auto', 3)
+     .lineWidth(1)
+     .stroke('#CBD5E0');
+  doc.text(..., 60, metricY + 5, ...)
+
+After (FIXED):
+  // No border, just text
+  doc.text(..., 60, metricY, ...)
+
+===============================================
+WHY THIS WASN'T CAUGHT BEFORE:
+===============================================
+
+This 'auto' was in existing code before my changes.
+It may have been:
+  1. A placeholder that was never tested
+  2. From a different PDF library syntax
+  3. Working in older PDFKit version but broken now
+
+===============================================
+TESTING REQUIRED:
+===============================================
+
+CRITICAL: Must restart backend for fix to take effect!
+
+1. Stop backend (Ctrl+C in terminal)
+2. Start backend: npm run dev:backend
+3. Hard refresh browser: Ctrl+Shift+R
+4. Test PDF generation
+
+===============================================
+COMPLETE FIX CHECKLIST:
+===============================================
+
+✅ Layer 1: Algorithm Calculator
+   - Added division-by-zero checks
+   - Prevents NaN from being created
+
+✅ Layer 2: Frontend Results
+   - Sanitizes received data
+   - Converts NaN to 0
+
+✅ Layer 3: Frontend PDF Prep
+   - Validates before sending to backend
+   - Checks for NaN in JSON
+
+✅ Layer 4: PDF Generator Sanitization
+   - Number.isFinite() checks
+   - Safe .toFixed() calls
+
+✅ Layer 5: PDFKit Calls (THIS FIX!)
+   - Removed 'auto' height parameter
+   - Only numeric values passed to PDFKit
+
+===============================================
+NOW THE ERROR SHOULD BE FIXED!
+===============================================
+
+The error was NOT from NaN values in data.
+The error was from invalid 'auto' parameter!
+
+After backend restart, PDF generation should work!
+
+===============================================

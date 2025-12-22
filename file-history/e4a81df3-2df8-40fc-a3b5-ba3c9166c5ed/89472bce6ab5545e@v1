@@ -1,0 +1,526 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for fixed navbar */
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Cabin', 'Inter', sans-serif;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+  }
+}
+
+/* Custom styles for landing page */
+.hero-gradient {
+  background: linear-gradient(135deg, #323956 0%, #232D3C 100%);
+}
+
+/* Modern Authentication Styles */
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 208, 93, 0.6), transparent);
+}
+
+.field-wrapper {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.025em;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  text-align: left;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #323956;
+  box-shadow: 0 0 0 3px rgba(50, 57, 86, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.auth-input::placeholder {
+  color: #9ca3af;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.auth-button {
+  width: 100%;
+  background: linear-gradient(135deg, #323956 0%, #232D3C 100%);
+  color: white;
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.auth-button:hover::before {
+  left: 100%;
+}
+
+.auth-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(50, 57, 86, 0.3);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceSoft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.animate-bounce-soft {
+  animation: bounceSoft 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Floating elements decoration */
+.floating-elements::before,
+.floating-elements::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-elements::before {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #323956, #232D3C);
+  top: -30px;
+  right: -30px;
+  animation-delay: 0s;
+}
+
+.floating-elements::after {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #F5D05D, #d9b84a);
+  bottom: -20px;
+  left: -20px;
+  animation-delay: 3s;
+}
+
+.text-lbl-navy {
+  color: #323956;
+}
+
+.text-lbl-gold {
+  color: #F5D05D;
+}
+
+.bg-lbl-navy {
+  background-color: #323956;
+}
+
+.bg-lbl-gold {
+  background-color: #F5D05D;
+}
+
+.border-lbl-navy {
+  border-color: #323956;
+}
+
+.hover\\:bg-lbl-gold:hover {
+  background-color: #F5D05D;
+}
+
+.hover\\:text-lbl-navy:hover {
+  color: #323956;
+}
+
+/* Force visible dropdown options with black text */
+select option {
+  color: #000000 !important;
+  background-color: #FFFFFF !important;
+  padding: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+select {
+  color: #000000 !important;
+  background-color: #FFFFFF !important;
+}
+
+/* Specific styling for patient filter dropdown */
+select[value]:not([value=""]) option,
+select option:not([value=""]) {
+  color: #000000 !important;
+  background-color: #FFFFFF !important;
+}
+
+/* Landing Page Enhancements */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, .transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Image loading optimization */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Prevent layout shift */
+img[loading="lazy"] {
+  min-height: 200px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #0066CC, #00BFA5);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #004A99, #008C7A);
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Force hide LastPass, 1Password, and other password manager icons */
+input[data-lpignore="true"] ~ div[data-lastpass-icon-root],
+input[data-lpignore="true"] + div[data-lastpass-icon-root],
+div[data-lastpass-icon-root],
+div[data-lastpass-overlay],
+div[id^="__lpform_"],
+div[style*="2147483647"],
+[data-lastpass-root],
+[id^="lp-pom-root"],
+#lp-pom-root,
+._lpElement,
+[data-form-type="other"] ~ div[data-lastpass-icon-root],
+[data-form-type="other"] + div[data-lastpass-icon-root] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Hide 1Password icons */
+[data-form-type="other"] ~ div[data-extension="1password"],
+com-1password-button {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Prevent any extension from adding icons to our forms */
+input[data-lpignore="true"],
+input[data-form-type="other"] {
+  background-image: none !important;
+}
+
+/* Additional LastPass hiding - by background color */
+div[style*="background: rgb(230, 0, 23)"],
+div[style*="background: rgb(204, 0, 0)"],
+div[style*="background-color: rgb(230, 0, 23)"] {
+  display: none !important;
+}
+/* ==================== 3D ANIMATION STYLES ==================== */
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Floating animation for 3D cards */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0px);
+  }
+  50% {
+    transform: translateY(-20px) translateZ(10px);
+  }
+}
+
+/* Rotate-Y utility classes */
+.rotate-y-12 {
+  transform: rotateY(12deg);
+}
+
+.group:hover .group-hover\:rotate-y-12 {
+  transform: rotateY(12deg);
+}
+
+/* 3D Transform utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Enhanced hover effects for 3D cards */
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Glowing effect for 3D elements */
+.glow-effect {
+  filter: drop-shadow(0 0 20px rgba(0, 137, 123, 0.5));
+}
+
+.group:hover .glow-effect {
+  filter: drop-shadow(0 0 30px rgba(0, 137, 123, 0.7));
+}
+

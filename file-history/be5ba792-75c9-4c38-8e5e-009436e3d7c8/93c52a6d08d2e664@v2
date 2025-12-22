@@ -1,0 +1,749 @@
+-- =====================================================
+-- NEURO360 - COMPLETE SUPABASE DATABASE MIGRATION
+-- =====================================================
+-- Run this entire script in your NEW Supabase SQL Editor
+-- Time: ~5 minutes
+-- This will create ALL tables, buckets, policies, and triggers
+-- =====================================================
+
+-- =====================================================
+-- STEP 1: ENABLE EXTENSIONS
+-- =====================================================
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- =====================================================
+-- STEP 2: CREATE CUSTOM TYPES
+-- =====================================================
+CREATE TYPE IF NOT EXISTS user_role AS ENUM ('patient', 'clinician', 'admin', 'super_admin');
+CREATE TYPE IF NOT EXISTS org_role AS ENUM ('owner', 'clinician', 'staff');
+CREATE TYPE IF NOT EXISTS gender_type AS ENUM ('male', 'female', 'other');
+CREATE TYPE IF NOT EXISTS org_type AS ENUM ('clinic', 'hospital', 'research');
+CREATE TYPE IF NOT EXISTS subscription_tier AS ENUM ('free', 'basic', 'pro', 'enterprise');
+CREATE TYPE IF NOT EXISTS session_type AS ENUM ('initial', 'followup', 'assessment');
+CREATE TYPE IF NOT EXISTS document_kind AS ENUM ('report', 'scan', 'prescription', 'other');
+CREATE TYPE IF NOT EXISTS assessment_type AS ENUM ('adhd', 'gad7', 'pss', 'memory', 'mood');
+CREATE TYPE IF NOT EXISTS subscription_status AS ENUM ('active', 'cancelled', 'expired', 'trial');
+
+-- =====================================================
+-- STEP 3: CREATE CORE TABLES
+-- =====================================================
+
+-- Profiles table (extends auth.users)
+CREATE TABLE IF NOT EXISTS profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  role user_role NOT NULL DEFAULT 'patient',
+  full_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  phone VARCHAR(20),
+  avatar_url TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Organizations table
+CREATE TABLE IF NOT EXISTS organizations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(255) NOT NULL,
+  type org_type NOT NULL DEFAULT 'clinic',
+  subscription_tier subscription_tier NOT NULL DEFAULT 'free',
+  credits_remaining INTEGER NOT NULL DEFAULT 0,
+  clinic_code VARCHAR(50),
+  logo_url TEXT,
+  address TEXT,
+  phone VARCHAR(20),
+  email VARCHAR(255),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT organizations_name_key UNIQUE (name),
+  CONSTRAINT organizations_clinic_code_key UNIQUE (clinic_code)
+);
+
+-- Organization memberships
+CREATE TABLE IF NOT EXISTS org_memberships (
+  org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  role org_role NOT NULL DEFAULT 'staff',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (org_id, user_id)
+);
+
+-- Clinics table (legacy compatibility + extended fields)
+CREATE TABLE IF NOT EXISTS clinics (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  phone VARCHAR(20),
+  address TEXT,
+  contact_person VARCHAR(255),
+  password VARCHAR(255),
+  logo_url TEXT,
+  is_active BOOLEAN DEFAULT true,
+  reports_used INTEGER DEFAULT 0,
+  reports_allowed INTEGER DEFAULT 10,
+  subscription_status VARCHAR(50) DEFAULT 'trial',
+  subscription_tier VARCHAR(50) DEFAULT 'free',
+  trial_start_date TIMESTAMPTZ DEFAULT NOW(),
+  trial_end_date TIMESTAMPTZ DEFAULT NOW() + INTERVAL '30 days',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Patients table
+CREATE TABLE IF NOT EXISTS patients (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  org_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  owner_user UUID REFERENCES profiles(id),
+  external_id VARCHAR(100),
+  full_name VARCHAR(255) NOT NULL,
+  name VARCHAR(255),
+  date_of_birth DATE NOT NULL,
+  gender gender_type,
+  phone VARCHAR(20),
+  email VARCHAR(255),
+  address TEXT,
+  medical_history JSONB DEFAULT '{}',
+  improvement_focus TEXT[],
+  brain_fitness_score INTEGER,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT patients_external_id_org_id_key UNIQUE (external_id, org_id)
+);
+
+-- Sessions table
+CREATE TABLE IF NOT EXISTS sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  clinician_id UUID REFERENCES profiles(id),
+  session_type session_type NOT NULL,
+  started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  ended_at TIMESTAMPTZ,
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT sessions_check_ended CHECK (ended_at IS NULL OR ended_at > started_at)
+);
+
+-- EEG Reports table
+CREATE TABLE IF NOT EXISTS eeg_reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  session_id UUID REFERENCES sessions(id) ON DELETE CASCADE,
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  metrics JSONB NOT NULL DEFAULT '{}',
+  summary TEXT,
+  recommendations TEXT[],
+  file_path TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Documents table
+CREATE TABLE IF NOT EXISTS documents (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  session_id UUID REFERENCES sessions(id) ON DELETE SET NULL,
+  kind document_kind NOT NULL,
+  file_path TEXT NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  file_size BIGINT NOT NULL,
+  mime_type VARCHAR(100) NOT NULL,
+  uploaded_by UUID REFERENCES profiles(id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Reports table
+CREATE TABLE IF NOT EXISTS reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  file_name VARCHAR(255),
+  file_path TEXT,
+  report_data JSONB DEFAULT '{}',
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Assessments table
+CREATE TABLE IF NOT EXISTS assessments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  assessment_type assessment_type NOT NULL,
+  responses JSONB NOT NULL DEFAULT '{}',
+  score NUMERIC(5, 2) NOT NULL,
+  insights TEXT[],
+  recommendations TEXT[],
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Daily Progress table
+CREATE TABLE IF NOT EXISTS daily_progress (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  mood_rating INTEGER CHECK (mood_rating >= 1 AND mood_rating <= 10),
+  stress_level INTEGER CHECK (stress_level >= 1 AND stress_level <= 10),
+  focus_level INTEGER CHECK (focus_level >= 1 AND focus_level <= 10),
+  energy_level INTEGER CHECK (energy_level >= 1 AND energy_level <= 10),
+  completed_activities TEXT[],
+  notes TEXT,
+  sleep_hours NUMERIC(3, 1),
+  symptoms TEXT[],
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT daily_progress_patient_date_key UNIQUE (patient_id, date)
+);
+
+-- Subscriptions table
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  org_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  plan subscription_tier,
+  status subscription_status NOT NULL DEFAULT 'trial',
+  credits INTEGER NOT NULL DEFAULT 0,
+  amount DECIMAL(10,2),
+  currency VARCHAR(3) DEFAULT 'INR',
+  stripe_subscription_id VARCHAR(255),
+  valid_until DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Payment History table
+CREATE TABLE IF NOT EXISTS payment_history (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  org_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  subscription_id UUID REFERENCES subscriptions(id) ON DELETE SET NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  currency VARCHAR(3) NOT NULL DEFAULT 'INR',
+  payment_method VARCHAR(50),
+  stripe_payment_id VARCHAR(255),
+  razorpay_order_id VARCHAR(255),
+  razorpay_payment_id VARCHAR(255),
+  status VARCHAR(50) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Payments table (additional)
+CREATE TABLE IF NOT EXISTS payments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  subscription_id UUID REFERENCES subscriptions(id) ON DELETE SET NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  currency VARCHAR(3) DEFAULT 'INR',
+  status VARCHAR(50) NOT NULL,
+  stripe_payment_id VARCHAR(255),
+  payment_method VARCHAR(50),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Coaching Sessions table
+CREATE TABLE IF NOT EXISTS coaching_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  coach_id UUID REFERENCES profiles(id),
+  scheduled_at TIMESTAMPTZ NOT NULL,
+  duration_minutes INTEGER NOT NULL DEFAULT 60,
+  session_type VARCHAR(50) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'scheduled',
+  meeting_link TEXT,
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Daily Content table
+CREATE TABLE IF NOT EXISTS daily_content (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  content_data JSONB NOT NULL DEFAULT '{}',
+  viewed BOOLEAN NOT NULL DEFAULT false,
+  completed BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT daily_content_patient_date_key UNIQUE (patient_id, date)
+);
+
+-- Uploaded Files table
+CREATE TABLE IF NOT EXISTS uploaded_files (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  file_name VARCHAR(255) NOT NULL,
+  file_path TEXT NOT NULL,
+  file_size BIGINT,
+  mime_type VARCHAR(100),
+  storage_bucket VARCHAR(100),
+  uploaded_by UUID REFERENCES profiles(id),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Workflows table
+CREATE TABLE IF NOT EXISTS workflows (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  steps JSONB DEFAULT '[]',
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Algorithm Results table
+CREATE TABLE IF NOT EXISTS algorithm_results (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  algorithm_name VARCHAR(255) NOT NULL,
+  input_data JSONB DEFAULT '{}',
+  output_data JSONB DEFAULT '{}',
+  pdf_url TEXT,
+  status VARCHAR(50) DEFAULT 'pending',
+  error_message TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Clinical Reports table
+CREATE TABLE IF NOT EXISTS clinical_reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  report_type VARCHAR(100) NOT NULL,
+  report_data JSONB DEFAULT '{}',
+  pdf_url TEXT,
+  created_by UUID REFERENCES profiles(id),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Backup History table
+CREATE TABLE IF NOT EXISTS backup_history (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  backup_name VARCHAR(255) NOT NULL,
+  backup_type VARCHAR(50) NOT NULL,
+  file_path TEXT,
+  file_size BIGINT,
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Clinic Enquiries table
+CREATE TABLE IF NOT EXISTS clinic_enquiries (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  clinic_name VARCHAR(255),
+  message TEXT,
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Wellness Scores table
+CREATE TABLE IF NOT EXISTS wellness_scores (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  score_type VARCHAR(100) NOT NULL,
+  score_value NUMERIC(5, 2) NOT NULL,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Usage table
+CREATE TABLE IF NOT EXISTS usage (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  report_id UUID REFERENCES reports(id) ON DELETE CASCADE,
+  action VARCHAR(100) NOT NULL,
+  timestamp TIMESTAMPTZ DEFAULT NOW(),
+  metadata JSONB DEFAULT '{}'
+);
+
+-- Alerts table
+CREATE TABLE IF NOT EXISTS alerts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  type VARCHAR(100) NOT NULL,
+  message TEXT NOT NULL,
+  severity VARCHAR(20) DEFAULT 'info',
+  read BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Audit System table
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES profiles(id),
+  action VARCHAR(100) NOT NULL,
+  table_name VARCHAR(100),
+  record_id UUID,
+  old_data JSONB,
+  new_data JSONB,
+  ip_address VARCHAR(50),
+  user_agent TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Consent Management table
+CREATE TABLE IF NOT EXISTS consent_records (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  consent_type VARCHAR(100) NOT NULL,
+  consent_given BOOLEAN NOT NULL,
+  consent_text TEXT,
+  signed_at TIMESTAMPTZ,
+  expires_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Settings table
+CREATE TABLE IF NOT EXISTS settings (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  clinic_id UUID REFERENCES clinics(id) ON DELETE CASCADE,
+  setting_key VARCHAR(100) NOT NULL,
+  setting_value JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  CONSTRAINT settings_clinic_key_unique UNIQUE (clinic_id, setting_key)
+);
+
+-- Statement Catalog table
+CREATE TABLE IF NOT EXISTS statement_catalog (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  category VARCHAR(100) NOT NULL,
+  statement_text TEXT NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Roles and Permissions table
+CREATE TABLE IF NOT EXISTS role_permissions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  role_name VARCHAR(50) NOT NULL,
+  permission_name VARCHAR(100) NOT NULL,
+  resource VARCHAR(100),
+  can_create BOOLEAN DEFAULT false,
+  can_read BOOLEAN DEFAULT false,
+  can_update BOOLEAN DEFAULT false,
+  can_delete BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  CONSTRAINT role_permissions_unique UNIQUE (role_name, permission_name, resource)
+);
+
+-- =====================================================
+-- STEP 4: CREATE INDEXES FOR PERFORMANCE
+-- =====================================================
+CREATE INDEX IF NOT EXISTS idx_profiles_role ON profiles(role);
+CREATE INDEX IF NOT EXISTS idx_profiles_email ON profiles(email);
+CREATE INDEX IF NOT EXISTS idx_patients_org_id ON patients(org_id);
+CREATE INDEX IF NOT EXISTS idx_patients_clinic_id ON patients(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_patients_owner_user ON patients(owner_user);
+CREATE INDEX IF NOT EXISTS idx_sessions_patient_id ON sessions(patient_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_clinician_id ON sessions(clinician_id);
+CREATE INDEX IF NOT EXISTS idx_eeg_reports_patient_id ON eeg_reports(patient_id);
+CREATE INDEX IF NOT EXISTS idx_documents_patient_id ON documents(patient_id);
+CREATE INDEX IF NOT EXISTS idx_assessments_patient_id ON assessments(patient_id);
+CREATE INDEX IF NOT EXISTS idx_assessments_type ON assessments(assessment_type);
+CREATE INDEX IF NOT EXISTS idx_daily_progress_patient_id ON daily_progress(patient_id);
+CREATE INDEX IF NOT EXISTS idx_daily_progress_date ON daily_progress(date);
+CREATE INDEX IF NOT EXISTS idx_org_memberships_user_id ON org_memberships(user_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_org_id ON subscriptions(org_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_clinic_id ON subscriptions(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_payment_history_org_id ON payment_history(org_id);
+CREATE INDEX IF NOT EXISTS idx_payment_history_clinic_id ON payment_history(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_payments_clinic_id ON payments(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_clinics_email ON clinics(email);
+CREATE INDEX IF NOT EXISTS idx_clinics_is_active ON clinics(is_active);
+CREATE INDEX IF NOT EXISTS idx_reports_clinic_id ON reports(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_reports_patient_id ON reports(patient_id);
+CREATE INDEX IF NOT EXISTS idx_usage_clinic_id ON usage(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_alerts_clinic_id ON alerts(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_uploaded_files_patient_id ON uploaded_files(patient_id);
+CREATE INDEX IF NOT EXISTS idx_uploaded_files_clinic_id ON uploaded_files(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_patient_id ON algorithm_results(patient_id);
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_clinic_id ON algorithm_results(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_organizations_clinic_code ON organizations(clinic_code);
+
+-- =====================================================
+-- STEP 5: CREATE TRIGGERS AND FUNCTIONS
+-- =====================================================
+
+-- Updated_at trigger function
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Apply updated_at triggers
+CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_organizations_updated_at BEFORE UPDATE ON organizations
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_patients_updated_at BEFORE UPDATE ON patients
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON subscriptions
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_clinics_updated_at BEFORE UPDATE ON clinics
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_reports_updated_at BEFORE UPDATE ON reports
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_workflows_updated_at BEFORE UPDATE ON workflows
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_algorithm_results_updated_at BEFORE UPDATE ON algorithm_results
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_settings_updated_at BEFORE UPDATE ON settings
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Report counter trigger function
+CREATE OR REPLACE FUNCTION increment_reports_used()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.status = 'completed' AND (OLD.status IS NULL OR OLD.status != 'completed') THEN
+    UPDATE clinics
+    SET reports_used = reports_used + 1
+    WHERE id = NEW.clinic_id;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER increment_clinic_reports
+  AFTER INSERT OR UPDATE ON reports
+  FOR EACH ROW
+  EXECUTE FUNCTION increment_reports_used();
+
+-- =====================================================
+-- STEP 6: ENABLE ROW LEVEL SECURITY (RLS)
+-- =====================================================
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE organizations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE org_memberships ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clinics ENABLE ROW LEVEL SECURITY;
+ALTER TABLE patients ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE eeg_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE assessments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE daily_progress ENABLE ROW LEVEL SECURITY;
+ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE payment_history ENABLE ROW LEVEL SECURITY;
+ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE usage ENABLE ROW LEVEL SECURITY;
+ALTER TABLE alerts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE uploaded_files ENABLE ROW LEVEL SECURITY;
+ALTER TABLE workflows ENABLE ROW LEVEL SECURITY;
+ALTER TABLE algorithm_results ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clinical_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wellness_scores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE consent_records ENABLE ROW LEVEL SECURITY;
+ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
+
+-- =====================================================
+-- STEP 7: CREATE RLS POLICIES (PERMISSIVE FOR NOW)
+-- =====================================================
+-- NOTE: These are permissive policies for development
+-- You should tighten them based on your security requirements
+
+-- Profiles policies
+CREATE POLICY "Allow users to read profiles" ON profiles FOR SELECT USING (true);
+CREATE POLICY "Allow users to update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Allow users to insert profiles" ON profiles FOR INSERT WITH CHECK (true);
+
+-- Organizations policies
+CREATE POLICY "Allow all to read organizations" ON organizations FOR SELECT USING (true);
+CREATE POLICY "Allow all to insert organizations" ON organizations FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow all to update organizations" ON organizations FOR UPDATE USING (true);
+
+-- Clinics policies
+CREATE POLICY "Enable read access for all users" ON clinics FOR SELECT USING (true);
+CREATE POLICY "Enable insert for all users" ON clinics FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update for all users" ON clinics FOR UPDATE USING (true);
+CREATE POLICY "Enable delete for all users" ON clinics FOR DELETE USING (true);
+
+-- Patients policies
+CREATE POLICY "Allow all operations on patients" ON patients FOR ALL USING (true);
+
+-- Reports policies
+CREATE POLICY "Allow all operations on reports" ON reports FOR ALL USING (true);
+
+-- Subscriptions policies
+CREATE POLICY "Allow all operations on subscriptions" ON subscriptions FOR ALL USING (true);
+
+-- Payments policies
+CREATE POLICY "Allow all operations on payments" ON payments FOR ALL USING (true);
+CREATE POLICY "Allow all operations on payment_history" ON payment_history FOR ALL USING (true);
+
+-- Sessions policies
+CREATE POLICY "Allow all operations on sessions" ON sessions FOR ALL USING (true);
+
+-- Documents policies
+CREATE POLICY "Allow all operations on documents" ON documents FOR ALL USING (true);
+
+-- EEG Reports policies
+CREATE POLICY "Allow all operations on eeg_reports" ON eeg_reports FOR ALL USING (true);
+
+-- Assessments policies
+CREATE POLICY "Allow all operations on assessments" ON assessments FOR ALL USING (true);
+
+-- Daily Progress policies
+CREATE POLICY "Allow all operations on daily_progress" ON daily_progress FOR ALL USING (true);
+
+-- Usage policies
+CREATE POLICY "Allow all operations on usage" ON usage FOR ALL USING (true);
+
+-- Alerts policies
+CREATE POLICY "Allow all operations on alerts" ON alerts FOR ALL USING (true);
+
+-- Uploaded Files policies
+CREATE POLICY "Allow all operations on uploaded_files" ON uploaded_files FOR ALL USING (true);
+
+-- Workflows policies
+CREATE POLICY "Allow all operations on workflows" ON workflows FOR ALL USING (true);
+
+-- Algorithm Results policies
+CREATE POLICY "Allow all operations on algorithm_results" ON algorithm_results FOR ALL USING (true);
+
+-- Clinical Reports policies
+CREATE POLICY "Allow all operations on clinical_reports" ON clinical_reports FOR ALL USING (true);
+
+-- Wellness Scores policies
+CREATE POLICY "Allow all operations on wellness_scores" ON wellness_scores FOR ALL USING (true);
+
+-- Audit Logs policies
+CREATE POLICY "Allow all operations on audit_logs" ON audit_logs FOR ALL USING (true);
+
+-- Consent Records policies
+CREATE POLICY "Allow all operations on consent_records" ON consent_records FOR ALL USING (true);
+
+-- Settings policies
+CREATE POLICY "Allow all operations on settings" ON settings FOR ALL USING (true);
+
+-- Org Memberships policies
+CREATE POLICY "Allow all operations on org_memberships" ON org_memberships FOR ALL USING (true);
+
+-- =====================================================
+-- STEP 8: CREATE STORAGE BUCKETS
+-- =====================================================
+-- NOTE: Run these in Supabase Dashboard > Storage
+-- Or use the Supabase CLI
+
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES
+  ('patient-reports', 'patient-reports', false, 52428800, NULL),
+  ('eeg-files', 'eeg-files', false, 52428800, NULL),
+  ('reports', 'reports', false, 52428800, NULL),
+  ('clinic-logos', 'clinic-logos', true, 5242880, ARRAY['image/jpeg', 'image/png', 'image/gif'])
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- STEP 9: CREATE STORAGE POLICIES
+-- =====================================================
+
+-- Patient Reports Bucket Policies
+CREATE POLICY "Allow authenticated uploads to patient-reports"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'patient-reports');
+
+CREATE POLICY "Allow authenticated reads from patient-reports"
+ON storage.objects FOR SELECT TO authenticated
+USING (bucket_id = 'patient-reports');
+
+CREATE POLICY "Allow authenticated deletes from patient-reports"
+ON storage.objects FOR DELETE TO authenticated
+USING (bucket_id = 'patient-reports');
+
+CREATE POLICY "Allow authenticated updates to patient-reports"
+ON storage.objects FOR UPDATE TO authenticated
+USING (bucket_id = 'patient-reports')
+WITH CHECK (bucket_id = 'patient-reports');
+
+-- EEG Files Bucket Policies
+CREATE POLICY "Allow authenticated uploads to eeg-files"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'eeg-files');
+
+CREATE POLICY "Allow authenticated reads from eeg-files"
+ON storage.objects FOR SELECT TO authenticated
+USING (bucket_id = 'eeg-files');
+
+CREATE POLICY "Allow authenticated deletes from eeg-files"
+ON storage.objects FOR DELETE TO authenticated
+USING (bucket_id = 'eeg-files');
+
+-- Reports Bucket Policies
+CREATE POLICY "Allow authenticated uploads to reports"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'reports');
+
+CREATE POLICY "Allow authenticated reads from reports"
+ON storage.objects FOR SELECT TO authenticated
+USING (bucket_id = 'reports');
+
+CREATE POLICY "Allow authenticated deletes from reports"
+ON storage.objects FOR DELETE TO authenticated
+USING (bucket_id = 'reports');
+
+-- Clinic Logos Bucket Policies (Public bucket)
+CREATE POLICY "Allow authenticated uploads to clinic-logos"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'clinic-logos');
+
+CREATE POLICY "Allow public reads from clinic-logos"
+ON storage.objects FOR SELECT TO public
+USING (bucket_id = 'clinic-logos');
+
+CREATE POLICY "Allow authenticated deletes from clinic-logos"
+ON storage.objects FOR DELETE TO authenticated
+USING (bucket_id = 'clinic-logos');
+
+CREATE POLICY "Allow authenticated updates to clinic-logos"
+ON storage.objects FOR UPDATE TO authenticated
+USING (bucket_id = 'clinic-logos')
+WITH CHECK (bucket_id = 'clinic-logos');
+
+-- =====================================================
+-- VERIFICATION QUERIES
+-- =====================================================
+
+-- Check all tables created
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+
+-- Check all buckets created
+SELECT * FROM storage.buckets;
+
+-- Check storage policies
+SELECT * FROM pg_policies
+WHERE tablename = 'objects'
+AND schemaname = 'storage';
+
+-- Check RLS policies
+SELECT schemaname, tablename, policyname
+FROM pg_policies
+WHERE schemaname = 'public'
+ORDER BY tablename, policyname;
+
+-- =====================================================
+-- MIGRATION COMPLETE!
+-- =====================================================
+-- Next steps:
+-- 1. Update your .env files with new Supabase credentials
+-- 2. Test authentication
+-- 3. Test file uploads
+-- 4. Import existing data if needed
+-- =====================================================

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "WebFetch(domain:product-help.schneider-electric.com)",
+      "WebFetch(domain:www.se.com)",
+      "WebSearch",
+      "WebFetch(domain:plcprogramming.io)",
+      "Bash(where \"SoMachine Basic.exe\" 2)",
+      "Bash(nul)",
+      "Bash(where \"Machine Expert Basic.exe\" 2)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

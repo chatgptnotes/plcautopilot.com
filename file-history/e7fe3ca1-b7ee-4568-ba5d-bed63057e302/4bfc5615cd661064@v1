@@ -1,0 +1,164 @@
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const QEEGParser = require('../services/qeegParser');
+const AlgorithmCalculator = require('../services/algorithmCalculator');
+
+const router = express.Router();
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, '../uploads');
+    // Ensure upload directory exists
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  },
+  fileFilter: function (req, file, cb) {
+    const allowedExtensions = ['.pdf', '.csv', '.xlsx', '.xls'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowedExtensions.includes(ext)) {
+      cb(null, true);
+    } else {
+      cb(new Error(`Only ${allowedExtensions.join(', ')} files are allowed`));
+    }
+  }
+});
+
+/**
+ * POST /api/qeeg/process
+ * Process QEEG files and calculate 7 brain health parameters
+ */
+router.post('/process', upload.fields([
+  { name: 'eyesOpen', maxCount: 1 },
+  { name: 'eyesClosed', maxCount: 1 }
+]), async (req, res) => {
+  let eyesOpenFile = null;
+  let eyesClosedFile = null;
+
+  try {
+    console.log('\n🔬 === QEEG Processing Started ===\n');
+
+    // Get uploaded files
+    const files = req.files;
+    if (!files || !files.eyesOpen || !files.eyesClosed) {
+      return res.status(400).json({
+        error: true,
+        message: 'Both Eyes Open and Eyes Closed files are required'
+      });
+    }
+
+    eyesOpenFile = files.eyesOpen[0];
+    eyesClosedFile = files.eyesClosed[0];
+
+    console.log('📁 Files received:');
+    console.log('  - Eyes Open:', eyesOpenFile.originalname, `(${(eyesOpenFile.size / 1024).toFixed(2)} KB)`);
+    console.log('  - Eyes Closed:', eyesClosedFile.originalname, `(${(eyesClosedFile.size / 1024).toFixed(2)} KB)`);
+
+    // Get patient info from request body
+    const { patientId, patientName, clinicName } = req.body;
+
+    console.log('\n👤 Patient Information:');
+    console.log('  - Patient ID:', patientId);
+    console.log('  - Patient Name:', patientName);
+    console.log('  - Clinic:', clinicName);
+
+    // Step 1: Parse QEEG files
+    console.log('\n📊 Step 1: Parsing QEEG files...');
+    const qeegData = await QEEGParser.parse(eyesOpenFile, eyesClosedFile);
+
+    // Step 2: Calculate parameters
+    console.log('\n🧮 Step 2: Calculating 7 brain health parameters...');
+    const calculator = new AlgorithmCalculator(qeegData);
+    const results = calculator.calculate();
+
+    console.log('\n✅ Calculation completed successfully!');
+    console.log('📈 Results Summary:');
+    results.parameters.forEach(param => {
+      console.log(`  - ${param.name}: ${param.score}/${param.maxScore} (${param.classification})`);
+    });
+    console.log(`  - Overall Score: ${results.overallScore}/21`);
+
+    // Clean up uploaded files
+    try {
+      fs.unlinkSync(eyesOpenFile.path);
+      fs.unlinkSync(eyesClosedFile.path);
+      console.log('\n🗑️  Temporary files cleaned up');
+    } catch (cleanupError) {
+      console.error('⚠️  Error cleaning up files:', cleanupError.message);
+    }
+
+    console.log('\n🏁 === QEEG Processing Completed ===\n');
+
+    // Send response
+    res.json({
+      success: true,
+      data: {
+        patientId,
+        patientName,
+        clinicName,
+        processedAt: new Date().toISOString(),
+        results: results.parameters,
+        overallScore: results.overallScore,
+        maxScore: 21
+      }
+    });
+
+  } catch (error) {
+    console.error('\n❌ === QEEG Processing Failed ===');
+    console.error('Error:', error.message);
+    console.error('Stack:', error.stack);
+
+    // Clean up files on error
+    if (eyesOpenFile && fs.existsSync(eyesOpenFile.path)) {
+      try {
+        fs.unlinkSync(eyesOpenFile.path);
+      } catch (e) {
+        console.error('Error deleting Eyes Open file:', e.message);
+      }
+    }
+    if (eyesClosedFile && fs.existsSync(eyesClosedFile.path)) {
+      try {
+        fs.unlinkSync(eyesClosedFile.path);
+      } catch (e) {
+        console.error('Error deleting Eyes Closed file:', e.message);
+      }
+    }
+
+    res.status(500).json({
+      error: true,
+      message: error.message || 'Failed to process QEEG files',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+});
+
+/**
+ * GET /api/qeeg/test
+ * Test endpoint to verify API is working
+ */
+router.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'QEEG Processing API is working',
+    endpoints: {
+      process: 'POST /api/qeeg/process - Upload and process QEEG files'
+    }
+  });
+});
+
+module.exports = router;

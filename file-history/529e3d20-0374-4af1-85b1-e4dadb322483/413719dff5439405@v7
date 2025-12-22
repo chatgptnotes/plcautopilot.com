@@ -1,0 +1,187 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+
+const LBWProjectUpdates = () => {
+  const navigate = useNavigate();
+
+  const steps = [
+    {
+      number: 1,
+      title: "Measure your brain activity",
+      description: "Electrical signals generated in the brain reflect your current mental state. Neurosense uses proprietary technology to study and measure your brain activity",
+      image: "/neuro1.mp4",
+      isVideo: true
+    },
+    {
+      number: 2,
+      title: "Understand your brain",
+      description: "NeuroSense scans and decodes your brain activity to give you deep, actionable insights into how your brain truly functions, your Brain Map, explained. The NeuroSense report analyzes 13 key brain health parameters, including attention, emotional regulation, connectivity, energy balance, flexibility, and executive control.",
+      image: "/neuro2.mp4",
+      isVideo: true
+    },
+    {
+      number: 3,
+      title: "Get a personalized brain training plan",
+      description: "We create a personalized, holistic frequency modulation plan based on your brain activity, brain type, and goals, helping your brain reach its ultimate capacity.",
+      image: "/neuro3.mp4",
+      isVideo: true
+    },
+    {
+      number: 4,
+      title: "Practice for best results",
+      description: "We turn your data into clear next steps. You implement, we adapt. Personalized insights, targeted changes, measurable gains. Get the exact changes in your brain, stay consistent, and watch progress stack tracked with metrics in the NeuroSense webapp.",
+      image: "/neuro4.mp4",
+      isVideo: true
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-white">
+      <NavBar />
+
+      {/* Main Content */}
+      <div className="pt-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Title Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-normal text-gray-900 mb-4">
+            A Step-By-Step Guide to Doing
+          </h1>
+          <h1 className="text-4xl md:text-5xl font-normal text-gray-900">
+            Neurofeedback With <span className="text-[#F5D05D]">NeuroSense</span>
+          </h1>
+        </div>
+
+        {/* Steps Section */}
+        <div className="space-y-12">
+          {steps.map((step, index) => (
+            <div
+              key={step.number}
+              className="bg-gray-50 rounded-2xl p-8 md:p-12"
+            >
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                {/* Left Content */}
+                <div className="flex-1">
+                  <h2 className="text-3xl font-normal text-gray-900 mb-4">
+                    {step.number}. {step.title}
+                  </h2>
+                  <p className="text-base text-gray-700 mb-6 leading-relaxed">
+                    {step.description}
+                  </p>
+                  {step.number === 1 && (
+                    <button
+                      onClick={() => navigate('/register')}
+                      className="bg-[#F5D05D] hover:bg-[#E5C04D] text-white px-8 py-3 rounded-full text-base font-medium transition-all"
+                    >
+                      Find a clinic near you
+                    </button>
+                  )}
+                </div>
+
+                {/* Right Image/Video */}
+                <div className="w-full md:w-[500px] flex justify-center">
+                  <div className={`rounded-lg p-6 w-full h-80 flex items-center justify-center ${step.isVideo ? '' : 'bg-black'}`}>
+                    {step.isVideo ? (
+                      <video
+                        src={step.image}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        className="w-full h-full object-contain"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Why is NeuroSense better for you Section */}
+        <div className="mt-20 mb-16">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-12">
+              Why is NeuroSense better for you
+            </h2>
+
+            <div className="relative">
+              <div className="bg-gray-50 rounded-3xl p-8 sm:p-10 md:p-12 mx-auto max-w-5xl shadow-lg border border-gray-200">
+                <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
+                  Evidence Based Research
+                </h3>
+
+                <div className="text-sm text-gray-700 leading-relaxed space-y-4 text-left">
+                  <p>
+                    Quantitative EEG (qEEG) has emerged as a scientifically validated tool in brain wellness and care, enabling the visualization and measurement of electrical activity patterns that reflect cognitive performance, emotional regulation, and mental resilience. Unlike conventional EEG, qEEG maps the brain's functional networks using advanced analytics and normative databases, allowing clinicians to identify dysregulated circuits linked to stress, focus, sleep, and mood.
+                  </p>
+
+                  <p>
+                    At NeuroSense, we have harnessed this evidence backed technology to create an integrative, clinical grade brain assessment system that translates complex neurodata into clear, actionable insights for personalized brain optimization. By combining qEEG findings with lifestyle, nutrition, and neuro modulation strategies, NeuroSense bridges the gap between medical neuroscience and everyday brain care.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => navigate('/about-us')}
+                  className="mt-8 bg-[#F5D05D] hover:bg-[#E5C04D] text-white px-8 py-3 rounded-full text-base font-medium transition-all inline-flex items-center gap-2"
+                >
+                  Learn about the science and research.
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* For Clinics and Individuals Section */}
+        <div className="mt-20 mb-16">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* For Clinics Card */}
+            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-xl transition-all duration-300">
+              <h2 className="text-3xl font-semibold text-gray-900 mb-4">For clinics</h2>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Explore NeuroSense's remote care capabilities and how to get started.
+              </p>
+              <button
+                onClick={() => navigate('/lbw')}
+                className="bg-[#F5D05D] hover:bg-[#E5C04D] text-white px-6 py-3 rounded-full text-base font-medium transition-all inline-flex items-center gap-2"
+              >
+                Learn more about NeuroSense Clinical
+                <span>→</span>
+              </button>
+            </div>
+
+            {/* For Individuals Card */}
+            <div className="bg-[#C8E6E1] rounded-3xl p-10 text-center hover:shadow-xl transition-all duration-300">
+              <h2 className="text-3xl font-semibold text-gray-900 mb-4">For individuals</h2>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Enroll in our at home neurofeedback program or find a nearby NeuroSense provider.
+              </p>
+              <button
+                onClick={() => navigate('/register')}
+                className="bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-full text-base font-medium transition-all inline-flex items-center gap-2"
+              >
+                Get started
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default LBWProjectUpdates;

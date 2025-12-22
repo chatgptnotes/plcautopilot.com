@@ -1,0 +1,528 @@
+const fs = require('fs');
+const path = require('path');
+const OpenAI = require('openai');
+const pdfParse = require('pdf-parse');
+const XLSX = require('xlsx');
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+class QEEGParser {
+  /**
+   * Validate OpenAI API key is configured and appears valid
+   * @throws {Error} if API key is missing or invalid format
+   */
+  static validateAPIKey() {
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    // Check if key exists
+    if (!apiKey || apiKey.trim() === '') {
+      const error = new Error('OPENAI_API_KEY environment variable is not set');
+      error.code = 'MISSING_API_KEY';
+      throw error;
+    }
+
+    // Check if key is placeholder
+    if (apiKey === 'your-openai-api-key-here' || apiKey.includes('placeholder')) {
+      const error = new Error('OPENAI_API_KEY is set to placeholder value. Please configure a valid OpenAI API key.');
+      error.code = 'INVALID_API_KEY';
+      throw error;
+    }
+
+    // Check key format (OpenAI keys start with sk-)
+    if (!apiKey.startsWith('sk-')) {
+      const error = new Error('OPENAI_API_KEY has invalid format. OpenAI keys should start with "sk-"');
+      error.code = 'INVALID_API_KEY_FORMAT';
+      throw error;
+    }
+
+    console.log('✅ OpenAI API key validation passed');
+    return true;
+  }
+
+  /**
+   * Test OpenAI API connection with a simple request
+   * @returns {Promise<boolean>} true if connection successful
+   * @throws {Error} if connection fails
+   */
+  static async testAPIConnection() {
+    try {
+      this.validateAPIKey();
+
+      console.log('🔌 Testing OpenAI API connection...');
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          { role: 'user', content: 'Reply with OK' }
+        ],
+        max_tokens: 5
+      });
+
+      if (response.choices && response.choices.length > 0) {
+        console.log('✅ OpenAI API connection successful');
+        return true;
+      } else {
+        throw new Error('OpenAI API returned unexpected response');
+      }
+
+    } catch (error) {
+      console.error('❌ OpenAI API connection test failed:', error.message);
+      const enhancedError = new Error(`OpenAI API connection test failed: ${error.message}`);
+      enhancedError.code = 'API_CONNECTION_FAILED';
+      enhancedError.originalError = error;
+      throw enhancedError;
+    }
+  }
+
+  /**
+   * Detect report type (raw power values or Z-scores)
+   * @param {Object} file - Multer file object
+   * @returns {Promise<string>} 'raw' or 'zscore'
+   */
+  static async detectReportType(file) {
+    try {
+      console.log(`🔍 Detecting report type for: ${file.originalname}`);
+
+      const dataBuffer = fs.readFileSync(file.path);
+      const pdfData = await pdfParse(dataBuffer);
+      const text = pdfData.text.toLowerCase();
+
+      // Keyword detection
+      const zscoreKeywords = ['z-score', 'z score', 'z =', 'z=', 'standard deviation', 'sd from mean'];
+      const rawKeywords = ['absolute power (μv²)', 'absolute power (uv²)', 'relative power (%)', 'μv²', 'uv²'];
+
+      let zscoreCount = 0;
+      let rawCount = 0;
+
+      // Count keyword occurrences
+      zscoreKeywords.forEach(keyword => {
+        const matches = (text.match(new RegExp(keyword, 'g')) || []).length;
+        zscoreCount += matches;
+      });
+
+      rawKeywords.forEach(keyword => {
+        const matches = (text.match(new RegExp(keyword, 'g')) || []).length;
+        rawCount += matches;
+      });
+
+      console.log(`   Z-score keywords found: ${zscoreCount}`);
+      console.log(`   Raw power keywords found: ${rawCount}`);
+
+      // Decision logic
+      if (zscoreCount > rawCount && zscoreCount >= 3) {
+        console.log(`✅ Detected: Z-SCORE report`);
+        return 'zscore';
+      } else if (rawCount > zscoreCount && rawCount >= 2) {
+        console.log(`✅ Detected: RAW POWER report`);
+        return 'raw';
+      } else if (zscoreCount > 0 && rawCount > 0) {
+        // Mixed report - check for table structure
+        if (text.includes('z-score table') || text.includes('z score table')) {
+          console.log(`⚠️ Mixed report detected - preferring Z-SCORE`);
+          return 'zscore';
+        } else {
+          console.log(`⚠️ Mixed report detected - preferring RAW POWER`);
+          return 'raw';
+        }
+      } else {
+        // Fallback: assume raw if unclear
+        console.warn(`⚠️ Could not clearly detect report type - defaulting to RAW POWER`);
+        return 'raw';
+      }
+
+    } catch (error) {
+      console.error(`❌ Error detecting report type for ${file.originalname}:`, error.message);
+      // Safe default
+      console.warn(`   Defaulting to RAW POWER mode`);
+      return 'raw';
+    }
+  }
+
+  /**
+   * Main method to parse uploaded files
+   * @param {Object} eyesOpenFile - Multer file object for Eyes Open data
+   * @param {Object} eyesClosedFile - Multer file object for Eyes Closed data
+   * @returns {Object} Parsed QEEG data
+   */
+  static async parse(eyesOpenFile, eyesClosedFile) {
+    try {
+      console.log('\n📄 === QEEG File Parsing Started ===');
+      console.log('  - Eyes Open:', eyesOpenFile?.originalname);
+      console.log('  - Eyes Closed:', eyesClosedFile?.originalname);
+
+      // STEP 1: Detect report types
+      console.log('\n🔍 STEP 1: Detecting report types...');
+      const eoReportType = await this.detectReportType(eyesOpenFile);
+      const ecReportType = await this.detectReportType(eyesClosedFile);
+
+      console.log(`\n📊 Detection Results:`);
+      console.log(`  - Eyes Open: ${eoReportType.toUpperCase()}`);
+      console.log(`  - Eyes Closed: ${ecReportType.toUpperCase()}`);
+
+      // STEP 2: Validate matching types
+      console.log('\n✓ STEP 2: Validating report type consistency...');
+      if (eoReportType !== ecReportType) {
+        const error = new Error(
+          `❌ Mismatched report types detected!\n\n` +
+          `Eyes Open is ${eoReportType.toUpperCase()}, but Eyes Closed is ${ecReportType.toUpperCase()}.\n\n` +
+          `Both files must be the same type (either both RAW POWER or both Z-SCORE reports).\n` +
+          `Please upload matching report types and try again.`
+        );
+        error.code = 'REPORT_TYPE_MISMATCH';
+        throw error;
+      }
+
+      const reportType = eoReportType;
+      console.log(`✅ Report type validated: ${reportType.toUpperCase()} mode\n`);
+
+      // STEP 3: Determine file formats (pdf, csv, excel)
+      console.log('📁 STEP 3: Determining file formats...');
+      const eoFileType = this.getFileType(eyesOpenFile.originalname);
+      const ecFileType = this.getFileType(eyesClosedFile.originalname);
+      console.log(`  - Eyes Open: ${eoFileType}`);
+      console.log(`  - Eyes Closed: ${ecFileType}\n`);
+
+      // STEP 4: Parse each file with appropriate method
+      console.log('📖 STEP 4: Extracting data from files...');
+      const eyesOpenData = await this.parseFile(eyesOpenFile, eoFileType, 'EO', reportType);
+      const eyesClosedData = await this.parseFile(eyesClosedFile, ecFileType, 'EC', reportType);
+
+      // STEP 5: Combine data with metadata
+      console.log('\n🔗 STEP 5: Combining data...');
+      const combinedData = {
+        EO: eyesOpenData,
+        EC: eyesClosedData,
+        dataType: reportType // Add metadata
+      };
+
+      console.log(`✅ QEEG files parsed successfully in ${reportType.toUpperCase()} mode`);
+      console.log('=== QEEG File Parsing Completed ===\n');
+      return combinedData;
+
+    } catch (error) {
+      console.error('\n❌ === QEEG File Parsing Failed ===');
+      console.error('Error:', error.message);
+      if (error.code === 'REPORT_TYPE_MISMATCH') {
+        // Re-throw mismatch errors with original message
+        throw error;
+      } else {
+        throw new Error(`Failed to parse QEEG files: ${error.message}`);
+      }
+    }
+  }
+
+  /**
+   * Determine file type from filename
+   */
+  static getFileType(filename) {
+    const ext = path.extname(filename).toLowerCase();
+    if (ext === '.pdf') return 'pdf';
+    if (ext === '.csv') return 'csv';
+    if (ext === '.xlsx' || ext === '.xls') return 'excel';
+    throw new Error(`Unsupported file type: ${ext}`);
+  }
+
+  /**
+   * Parse a single file based on its type
+   */
+  static async parseFile(file, fileType, condition, reportType = 'raw') {
+    if (fileType === 'pdf') {
+      return await this.parsePDF(file, condition, reportType);
+    } else if (fileType === 'csv') {
+      return this.parseCSV(file);
+    } else if (fileType === 'excel') {
+      return this.parseExcel(file);
+    }
+    throw new Error(`Unknown file type: ${fileType}`);
+  }
+
+  /**
+   * Get extraction prompt based on report type
+   * @param {string} condition - 'EO' or 'EC'
+   * @param {string} reportType - 'raw' or 'zscore'
+   * @param {string} pdfText - PDF text content
+   * @returns {string} Extraction prompt
+   */
+  static getExtractionPrompt(condition, reportType, pdfText) {
+    const conditionName = condition === 'EO' ? 'Eyes Open' : 'Eyes Closed';
+
+    if (reportType === 'zscore') {
+      // Z-SCORE extraction prompt
+      return `You are a QEEG Z-score data extraction expert. Extract Z-score values from this ${conditionName} QEEG report.
+
+**IMPORTANT**: Z-scores represent standard deviations from the mean. They typically range from -3 to +3.
+- Negative values = below average (lower than normal)
+- Zero (0) = average (normal)
+- Positive values = above average (higher than normal)
+
+Look for tables labeled with "Z-score", "Z score", "Z", or "Standard Deviation" in the headers.
+
+Extract Z-score values for these EEG channels: FP1, FP2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+
+For each channel, extract Z-scores for these frequency bands:
+- Delta (1-4 Hz)
+- Theta (4-8 Hz)
+- Alpha (8-13 Hz)
+- Beta (13-30 Hz)
+- HiBeta / High Beta (20-30 Hz)
+
+Also extract:
+- Alpha Peak Frequency (Hz) and its Z-score if available
+
+If you cannot find Z-scores for a particular channel or band, use 0.0 as the default value.
+
+Return ONLY valid JSON in this EXACT format (no markdown, no code blocks):
+{
+  "zscores": {
+    "absolute": {
+      "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+    },
+    "relative": {
+      "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+    }
+  },
+  "special": {
+    "alphaPeak": 10.0,
+    "alphaPeakZscore": 0.0
+  }
+}
+
+PDF Content:
+${pdfText.substring(0, 15000)}`;
+
+    } else {
+      // RAW POWER extraction prompt (existing)
+      return `You are a QEEG data extraction expert. Extract the following data from this ${conditionName} QEEG report:
+
+Extract two tables:
+1. **Absolute Power (μV²)** table
+2. **Relative Power (%)** table
+
+For each table, extract values for these EEG channels: FP1, FP2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+
+For each channel, extract values for these frequency bands:
+- Delta
+- Theta
+- Alpha
+- Beta
+- HiBeta (High Beta)
+
+Also extract Alpha Peak Frequency (APF) if available.
+
+Return the data in this EXACT JSON format:
+{
+  "absolute": {
+    "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+  },
+  "relative": {
+    "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+  },
+  "special": {
+    "alphaPeak": 10.0,
+    "O1": 10.0
+  }
+}
+
+PDF Content:
+${pdfText.substring(0, 15000)}`;
+    }
+  }
+
+  /**
+   * Parse PDF file using OpenAI Vision API
+   * @param {Object} file - Multer file object
+   * @param {string} condition - 'EO' or 'EC'
+   * @param {string} reportType - 'raw' or 'zscore'
+   */
+  static async parsePDF(file, condition, reportType = 'raw') {
+    console.log(`  🔍 Parsing PDF with OpenAI (${condition}, ${reportType.toUpperCase()} mode)...`);
+
+    try {
+      // Validate API key before attempting to use it
+      this.validateAPIKey();
+
+
+      // Read PDF file
+      const dataBuffer = fs.readFileSync(file.path);
+      const pdfData = await pdfParse(dataBuffer);
+
+      // Extract text from PDF
+      const pdfText = pdfData.text;
+
+      // Get appropriate extraction prompt based on report type
+      const prompt = this.getExtractionPrompt(condition, reportType, pdfText);
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert at extracting structured QEEG data from medical reports. Always return valid JSON.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.1,
+        response_format: { type: 'json_object' }
+      });
+
+      const extractedData = JSON.parse(response.choices[0].message.content);
+      console.log(`  ✅ PDF data extracted successfully (${condition})`);
+
+      // Add detailed logging
+      console.log(`  📊 Data extraction summary (${condition}):`);
+      console.log(`     - Absolute power channels: ${Object.keys(extractedData.absolute || {}).length}`);
+      console.log(`     - Relative power channels: ${Object.keys(extractedData.relative || {}).length}`);
+      console.log(`     - Special values: ${JSON.stringify(extractedData.special || {})}`);
+
+      // Validate extracted data has minimum required fields
+      const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+      const absoluteChannels = Object.keys(extractedData.absolute || {});
+      const relativeChannels = Object.keys(extractedData.relative || {});
+
+      const missingAbsolute = requiredChannels.filter(ch => !absoluteChannels.includes(ch));
+      const missingRelative = requiredChannels.filter(ch => !relativeChannels.includes(ch));
+
+      if (missingAbsolute.length > 0) {
+        console.warn(`  ⚠️  Missing absolute power channels: ${missingAbsolute.join(', ')}`);
+      }
+      if (missingRelative.length > 0) {
+        console.warn(`  ⚠️  Missing relative power channels: ${missingRelative.join(', ')}`);
+      }
+
+      return extractedData;
+
+    } catch (error) {
+      console.error(`  ❌ OpenAI API error (${condition}):`, error.message);
+
+      // Log more details for debugging
+      if (error.response) {
+        console.error(`  ❌ OpenAI API Status:`, error.response.status);
+        console.error(`  ❌ OpenAI API Error:`, error.response.data);
+      }
+
+      // Re-throw with more context instead of using fallback
+      const enhancedError = new Error(`Failed to extract QEEG data from PDF (${condition}): ${error.message}`);
+      enhancedError.code = 'PDF_EXTRACTION_FAILED';
+      enhancedError.originalError = error;
+      enhancedError.condition = condition;
+      throw enhancedError;
+    }
+  }
+
+  /**
+   * Parse CSV file
+   */
+  static parseCSV(file) {
+    console.log('  📊 Parsing CSV file...');
+
+    // Read CSV file
+    const workbook = XLSX.readFile(file.path);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+    // Convert CSV data to our format
+    const data = this.convertCSVToFormat(jsonData);
+
+    console.log('  ✅ CSV parsed successfully');
+    return data;
+  }
+
+  /**
+   * Parse Excel file
+   */
+  static parseExcel(file) {
+    console.log('  📊 Parsing Excel file...');
+
+    // Read Excel file
+    const workbook = XLSX.readFile(file.path);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+    // Convert Excel data to our format
+    const data = this.convertExcelToFormat(jsonData);
+
+    console.log('  ✅ Excel parsed successfully');
+    return data;
+  }
+
+  /**
+   * Convert CSV data to expected format
+   */
+  static convertCSVToFormat(csvData) {
+    // Assuming CSV has structure: Channel, PowerType, Delta, Theta, Alpha, Beta, HiBeta
+    const result = {
+      absolute: {},
+      relative: {},
+      special: { alphaPeak: 10.0, O1: 10.0 }
+    };
+
+    const channels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+    const bands = ['Delta', 'Theta', 'Alpha', 'Beta', 'HiBeta'];
+
+    for (const row of csvData) {
+      const channel = row.Channel;
+      const powerType = row.PowerType?.toLowerCase();
+
+      if (channels.includes(channel) && (powerType === 'absolute' || powerType === 'relative')) {
+        result[powerType][channel] = {
+          Delta: parseFloat(row.Delta) || 0,
+          Theta: parseFloat(row.Theta) || 0,
+          Alpha: parseFloat(row.Alpha) || 0,
+          Beta: parseFloat(row.Beta) || 0,
+          HiBeta: parseFloat(row.HiBeta || row.HighBeta) || 0
+        };
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Convert Excel data to expected format (same as CSV for now)
+   */
+  static convertExcelToFormat(excelData) {
+    return this.convertCSVToFormat(excelData);
+  }
+}
+
+module.exports = QEEGParser;

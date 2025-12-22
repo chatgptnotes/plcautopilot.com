@@ -1,0 +1,322 @@
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  Settings,
+  Bell,
+  BarChart3,
+  Shield,
+  Building2,
+  UserPlus,
+  Upload,
+  Download,
+  CreditCard,
+  Activity,
+  AlertTriangle,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
+  Brain,
+  Home,
+  Database,
+  PieChart,
+  ShieldCheck,
+  Monitor,
+  Cog,
+  UserCheck,
+  FileSpreadsheet,
+  TrendingUp,
+  Zap,
+  Menu,
+  X
+} from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import ThemeToggle from './ThemeToggle';
+
+const Sidebar = ({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) => {
+  const location = useLocation();
+  const { user, logout } = useAuth();
+  const { isDarkMode } = useTheme();
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
+  // Define navigation items based on user role
+  const getNavigationItems = () => {
+    if (user?.role === 'super_admin') {
+      return [
+        { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/admin' },
+        { id: 'clinics', label: 'Clinic Management', icon: Building2, path: '/admin/clinics' },
+        { id: 'reports', label: 'Patient Reports', icon: FileSpreadsheet, path: '/admin/reports' },
+        { id: 'payments', label: 'Payment History', icon: CreditCard, path: '/admin/payments' },
+        { id: 'analytics', label: 'Analytics', icon: PieChart, path: '/admin/analytics' },
+        { id: 'alerts', label: 'Alerts & Monitoring', icon: Monitor, path: '/admin/alerts' },
+        { id: 'settings', label: 'System Settings', icon: Cog, path: '/admin/settings' }
+      ];
+    } else if (user?.role === 'clinic_admin') {
+      return [
+        { id: 'overview', label: 'Dashboard', icon: Home, path: '/clinic' },
+        { id: 'patients', label: 'Patient Management', icon: UserCheck, path: '/clinic/patients' },
+        { id: 'reports', label: 'Reports & Files', icon: FileSpreadsheet, path: '/clinic/reports' },
+        { id: 'subscription', label: 'Subscription', icon: CreditCard, path: '/clinic/subscription' },
+        { id: 'usage', label: 'Usage Tracking', icon: TrendingUp, path: '/clinic/usage' },
+        // { id: 'settings', label: 'Settings', icon: Cog, path: '/clinic/settings' }
+      ];
+    } else {
+      return [
+        { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/dashboard' },
+        { id: 'profile', label: 'Profile', icon: UserCheck, path: '/dashboard/profile' },
+        { id: 'activity', label: 'Activity', icon: Activity, path: '/dashboard/activity' },
+        { id: 'notifications', label: 'Notifications', icon: Bell, path: '/dashboard/notifications' },
+        { id: 'settings', label: 'Settings', icon: Cog, path: '/dashboard/settings' }
+      ];
+    }
+  };
+
+  const navigationItems = getNavigationItems();
+
+  const isActive = (path) => {
+    try {
+      return location.pathname === path;
+    } catch (error) {
+      console.warn('Error checking active path:', error);
+      return false;
+    }
+  };
+
+  const getRoleColor = () => {
+    switch (user?.role) {
+      case 'super_admin': return 'bg-gradient-to-r from-red-50 to-pink-50 text-red-700 border-red-200 shadow-sm';
+      case 'clinic_admin': return 'bg-gradient-to-r from-[#E4EFFF] to-indigo-50 text-blue-700 border-blue-200 shadow-sm';
+      default: return 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-green-200 shadow-sm';
+    }
+  };
+
+  const getRoleLabel = () => {
+    switch (user?.role) {
+      case 'super_admin': return 'Super Admin';
+      case 'clinic_admin': return 'Clinic Admin';
+      default: return 'User';
+    }
+  };
+
+  const getDisplayName = () => {
+    try {
+      // For super admin with clinic name, show clinic name
+      if (user?.role === 'super_admin' && user?.clinicName) {
+        return user.clinicName;
+      }
+      // For clinic admin, show clinic name
+      if (user?.role === 'clinic_admin' && user?.clinicName) {
+        return user.clinicName;
+      }
+      // For super admin, show name (which might be clinic name)
+      if (user?.role === 'super_admin' && user?.name) {
+        return user.name;
+      }
+      // For others, show user name
+      return user?.name || 'User';
+    } catch (error) {
+      console.error('Error getting display name:', error, user);
+      return 'User';
+    }
+  };
+
+  const getProfileInitial = () => {
+    try {
+      // For super admin with clinic name, show clinic name initial
+      if (user?.role === 'super_admin' && user?.clinicName) {
+        return user.clinicName.charAt(0).toUpperCase();
+      }
+      // For clinic admin, show clinic name initial
+      if (user?.role === 'clinic_admin' && user?.clinicName) {
+        return user.clinicName.charAt(0).toUpperCase();
+      }
+      // For super admin, show name initial (which might be clinic name)
+      if (user?.role === 'super_admin' && user?.name) {
+        return user.name.charAt(0).toUpperCase();
+      }
+      // For regular users, show name initial
+      if (user?.name && typeof user.name === 'string' && user.name.length > 0) {
+        return user.name.charAt(0).toUpperCase();
+      }
+      return 'U';
+    } catch (error) {
+      console.error('Error getting profile initial:', error, user);
+      return 'U';
+    }
+  };
+
+  // Mobile overlay
+  const MobileOverlay = () => (
+    <div 
+      className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 lg:hidden ${
+        mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+      onClick={() => setMobileOpen(false)}
+    />
+  );
+
+  return (
+    <>
+      {/* Mobile Overlay */}
+      <MobileOverlay />
+      
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 p-2 sm:p-3 bg-white/90 backdrop-blur-sm rounded-lg sm:rounded-xl shadow-lg border border-white/30 lg:hidden transition-all duration-300 hover:scale-105"
+      >
+        {mobileOpen ? (
+          <X className="h-5 w-5 sm:h-6 sm:w-6 text-slate-600" />
+        ) : (
+          <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-slate-600" />
+        )}
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed lg:relative inset-y-0 left-0 z-50
+          bg-[#232D3C] border-r border-[#1a2332] shadow-lg
+          transition-all duration-300 ease-in-out
+          ${collapsed ? 'w-16 sm:w-20' : 'w-64'}
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          flex flex-col h-full relative overflow-hidden
+        `}
+        onMouseEnter={() => {
+          // Only apply hover behavior on desktop (lg breakpoint and above)
+          if (window.innerWidth >= 1024) {
+            setCollapsed(false);
+          }
+        }}
+        onMouseLeave={() => {
+          // Only apply hover behavior on desktop (lg breakpoint and above)
+          if (window.innerWidth >= 1024) {
+            setCollapsed(true);
+          }
+        }}
+      >
+
+        {/* Clean Header */}
+        <div className="relative p-4 border-b border-[#1a2332]">
+
+          {/* Brand Logo */}
+          <div className="flex items-center justify-center">
+            {!collapsed && (
+              <div className="flex items-center justify-center w-full">
+                <img
+                  src={isDarkMode ? "/assets/branding/dark background.png" : "/assets/branding/white background.png"}
+                  alt="NeuroSense360 Logo"
+                  className="h-10 w-auto object-contain"
+                  onError={(e) => {
+                    // Fallback to text if image fails to load
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden items-center space-x-2">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                  </div>
+                  <span className="text-white font-bold text-base">NeuroSense360</span>
+                </div>
+              </div>
+            )}
+            {collapsed && (
+              <div className="flex items-center justify-center">
+                <img
+                  src={isDarkMode ? "/assets/branding/dark background.png" : "/assets/branding/white background.png"}
+                  alt="Logo"
+                  className="h-8 w-auto object-contain"
+                  onError={(e) => {
+                    // Fallback to icon if image fails to load
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden w-8 h-8 bg-blue-600 rounded-lg items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* Navigation */}
+        <nav className="relative flex-1 p-3 space-y-1 overflow-y-auto">
+          {navigationItems.map((item) => {
+            try {
+              const Icon = item.icon;
+              const active = isActive(item.path);
+
+              return (
+                <Link
+                  key={item.id}
+                  to={item.path}
+                  className={`flex items-center ${collapsed ? 'justify-center px-2' : 'px-3'} py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    active
+                      ? 'bg-[#1a2332] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3442] hover:text-white'
+                  }`}
+                  title={collapsed ? item.label : ''}
+                  onClick={() => {
+                    try {
+                      setMobileOpen(false);
+                    } catch (error) {
+                      console.error('Navigation error:', error);
+                    }
+                  }}
+                >
+                  <Icon className="h-5 w-5 flex-shrink-0" />
+                  {!collapsed && (
+                    <span className="ml-3">{item.label}</span>
+                  )}
+                </Link>
+              );
+            } catch (error) {
+              console.error('Error rendering navigation item:', error);
+              return null;
+            }
+          })}
+        </nav>
+
+        {/* Footer */}
+        <div className="relative p-3 border-t border-[#1a2332] space-y-2">
+          {/* Theme Toggle */}
+          <div className="flex justify-center">
+            <ThemeToggle />
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className={`w-full flex items-center ${collapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium text-gray-300 hover:bg-[#2a3442] hover:text-white rounded-lg transition-colors`}
+            title={collapsed ? 'Logout' : ''}
+          >
+            <LogOut className="h-5 w-5 flex-shrink-0" />
+            {!collapsed && (
+              <span className="ml-3">Logout</span>
+            )}
+          </button>
+
+          {!collapsed && (
+            <div className="mt-3 text-center">
+              <p className="text-xs text-gray-500">Version 1.0.0</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Sidebar;

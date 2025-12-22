@@ -1,0 +1,74 @@
+# =====================================================
+# NEURO360 - ENVIRONMENT VARIABLES TEMPLATE
+# =====================================================
+# Copy this file and rename to .env
+# Then replace all [YOUR_*] values with actual values
+# =====================================================
+
+# =====================================================
+# SUPABASE CONFIGURATION
+# =====================================================
+# Get these from: Supabase Dashboard > Settings > API
+NEXT_PUBLIC_SUPABASE_URL=[YOUR_SUPABASE_PROJECT_URL]
+# Example: https://abcdefghijklmnop.supabase.co
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[YOUR_SUPABASE_ANON_KEY]
+# Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+SUPABASE_SERVICE_ROLE_KEY=[YOUR_SUPABASE_SERVICE_ROLE_KEY]
+# Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+# ⚠️ KEEP THIS SECRET! Never commit to Git!
+
+# =====================================================
+# VITE/REACT APP CONFIG (for apps/web)
+# =====================================================
+VITE_SUPABASE_URL=[YOUR_SUPABASE_PROJECT_URL]
+VITE_SUPABASE_ANON_KEY=[YOUR_SUPABASE_ANON_KEY]
+
+# =====================================================
+# SUPABASE STORAGE CONFIGURATION
+# =====================================================
+VITE_SUPABASE_STORAGE_BUCKET=patient-reports
+
+# =====================================================
+# API CONFIGURATION
+# =====================================================
+VITE_API_URL=http://localhost:3001/api
+
+# =====================================================
+# OPENAI CONFIGURATION (Backend Only - No VITE_ prefix)
+# =====================================================
+OPENAI_API_KEY=[YOUR_OPENAI_API_KEY]
+# Get from: https://platform.openai.com/api-keys
+
+# =====================================================
+# APP ENVIRONMENT
+# =====================================================
+NODE_ENV=development
+PORT=3000
+
+# =====================================================
+# PAYMENT INTEGRATION
+# =====================================================
+# Get from: https://dashboard.razorpay.com/app/keys
+VITE_RAZORPAY_KEY_ID=[YOUR_RAZORPAY_KEY_ID]
+# Example: rzp_live_XXXXXXXXXXXXX or rzp_test_XXXXXXXXXXXXX
+
+VITE_RAZORPAY_SECRET=[YOUR_RAZORPAY_SECRET]
+# ⚠️ KEEP THIS SECRET! Never commit to Git!
+
+# =====================================================
+# DEVELOPMENT SETTINGS
+# =====================================================
+VITE_APP_ENV=development
+VITE_DEBUG=true
+
+# =====================================================
+# INSTRUCTIONS
+# =====================================================
+# 1. Copy this file as .env
+# 2. Replace all [YOUR_*] placeholders with actual values
+# 3. Never commit .env to Git (it's in .gitignore)
+# 4. For production, set NODE_ENV=production
+# 5. For production, set VITE_DEBUG=false
+# =====================================================

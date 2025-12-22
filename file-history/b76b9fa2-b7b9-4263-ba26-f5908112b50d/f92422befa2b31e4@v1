@@ -1,0 +1,469 @@
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
+const GeminiService = require('./geminiService');
+
+class GeminiPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+    this.geminiReportData = null;
+  }
+
+  /**
+   * Transform algorithm results to Gemini input format
+   */
+  transformToGeminiFormat() {
+    const brainParameters = {
+      Cognition: null,
+      Stress: null,
+      FocusAndAttention: null,
+      BurnoutAndFatigue: null,
+      EmotionalRegulation: null,
+      Learning: null,
+      Creativity: null
+    };
+
+    // Map the parameters from algorithm results
+    this.algorithmResults.parameters.forEach(param => {
+      const paramName = param.name.replace(/\s+/g, '');
+      if (brainParameters.hasOwnProperty(paramName)) {
+        brainParameters[paramName] = {
+          score: param.score,
+          maxScore: param.maxScore,
+          bucket: param.bucket || param.classification,
+          subparameters: (param.metrics || param.subParameters || []).map(metric => ({
+            name: metric.name,
+            score: metric.score,
+            value: metric.value,
+            threshold: metric.threshold
+          }))
+        };
+      }
+    });
+
+    return brainParameters;
+  }
+
+  /**
+   * Generate report structure using Gemini AI
+   */
+  async generateReportStructure() {
+    console.log('🤖 Generating report structure with Gemini AI...');
+    console.log('📊 Brain Parameters:', JSON.stringify(this.transformToGeminiFormat(), null, 2));
+
+    try {
+      const brainParameters = this.transformToGeminiFormat();
+      const result = await GeminiService.generateBrainPerformanceReport(brainParameters);
+
+      if (!result.success) {
+        console.error('❌ Gemini API returned error:', result.error);
+        throw new Error(`Gemini AI failed: ${result.error}`);
+      }
+
+      this.geminiReportData = result.data;
+      console.log('✅ Gemini report structure generated successfully');
+      console.log('📄 Report has', result.data.parameters?.length || 0, 'parameters');
+      return this.geminiReportData;
+    } catch (error) {
+      console.error('❌ Error in generateReportStructure:', error.message);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Main report generation function
+   */
+  async generateReport(outputPath) {
+    try {
+      // Step 1: Try to generate AI report structure with Gemini
+      let usingGemini = false;
+      try {
+        console.log('🤖 Attempting to generate report with Gemini AI...');
+        await this.generateReportStructure();
+        usingGemini = true;
+        console.log('✅ Gemini AI report structure ready');
+      } catch (geminiError) {
+        console.error('⚠️ Gemini AI failed, using fallback data structure');
+        console.error('   Gemini Error:', geminiError.message);
+
+        // Fallback: Create basic report structure from algorithm data
+        this.geminiReportData = this.createFallbackReportStructure();
+        console.log('✅ Fallback report structure created');
+      }
+
+      // Step 2: Create PDF from the report structure (AI or fallback)
+      const doc = new PDFDocument({
+        size: 'A4',
+        margins: { top: 50, bottom: 50, left: 50, right: 50 }
+      });
+
+      const stream = fs.createWriteStream(outputPath);
+      doc.pipe(stream);
+
+      // Generate PDF content
+      await this.generatePDFContent(doc);
+
+      doc.end();
+
+      // Wait for PDF to finish writing
+      await new Promise((resolve, reject) => {
+        stream.on('finish', resolve);
+        stream.on('error', reject);
+      });
+
+      const sourceType = usingGemini ? 'Gemini AI' : 'Fallback (Basic)';
+      console.log(`✅ PDF generated successfully with ${sourceType} content`);
+      return outputPath;
+
+    } catch (error) {
+      console.error('❌ Error generating PDF:', error);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Create fallback report structure when Gemini fails
+   */
+  createFallbackReportStructure() {
+    console.log('📋 Creating fallback report structure...');
+    console.log('   Algorithm results:', JSON.stringify(this.algorithmResults, null, 2));
+
+    const parameters = this.algorithmResults.parameters.map(param => {
+      // Use metrics (correct field from algorithm) instead of subParameters
+      const subMetrics = param.metrics || param.subParameters || [];
+
+      console.log(`   Processing ${param.name}:`);
+      console.log(`     Score: ${param.score}/${param.maxScore}`);
+      console.log(`     Classification: ${param.classification}`);
+      console.log(`     Metrics count: ${subMetrics.length}`);
+
+      return {
+        name: param.name,
+        score: param.score,
+        bucket: param.classification || 'Average',
+        bucketColor: this.getBucketColor(param.classification),
+        summary: `${param.name} score is ${param.score} out of ${param.maxScore} (${param.classification || 'Average'})`,
+        subparameters: subMetrics.map(metric => ({
+          name: metric.name || 'Metric',
+          score: metric.score !== undefined ? metric.score : (metric.value || 0),
+          interpretation: metric.score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+          details: metric.value !== undefined ? `Value: ${metric.value.toFixed(2)} (Threshold: ${metric.threshold})` : ''
+        }))
+      };
+    });
+
+    console.log('   Fallback structure created with', parameters.length, 'parameters');
+
+    return {
+      title: 'Brain Performance Report',
+      patientSummary: `This report shows the analysis of ${this.algorithmResults.parameters.length} brain performance parameters for ${this.patientData.name}. Overall score: ${this.algorithmResults.overallScore || 'N/A'}.`,
+      parameters: parameters,
+      recommendations: [
+        'Continue monitoring brain health metrics regularly',
+        'Maintain healthy lifestyle habits including proper sleep and exercise',
+        'Consult with healthcare provider for detailed interpretation and personalized recommendations'
+      ]
+    };
+  }
+
+  /**
+   * Generate PDF content from Gemini AI data
+   */
+  async generatePDFContent(doc) {
+    const reportData = this.geminiReportData;
+
+    console.log('\n📄 === Generating PDF Content ===');
+    console.log('   Report Title:', reportData.title);
+    console.log('   Parameters count:', reportData.parameters?.length || 0);
+
+    if (reportData.parameters && reportData.parameters.length > 0) {
+      reportData.parameters.forEach((param, idx) => {
+        console.log(`   ${idx + 1}. ${param.name}: ${param.score} (${param.bucket}), Sub-metrics: ${param.subparameters?.length || 0}`);
+      });
+    }
+
+    // Header
+    this.addHeader(doc);
+
+    // Patient Information
+    this.addPatientInfo(doc);
+
+    doc.moveDown(1);
+
+    // Title
+    doc.fontSize(24)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text(reportData.title || 'Brain Performance Report', { align: 'center' });
+
+    doc.moveDown(1);
+
+    // Parameters Section
+    if (reportData.parameters && reportData.parameters.length > 0) {
+      console.log('\n📊 Adding parameters to PDF...');
+      reportData.parameters.forEach((param, index) => {
+        this.addParameterSection(doc, param, index);
+      });
+      console.log('✅ All parameters added to PDF\n');
+    } else {
+      console.error('❌ No parameters found in report data!');
+    }
+
+    doc.moveDown(2);
+
+    // Patient Summary
+    if (reportData.patientSummary) {
+      this.addSummarySection(doc, reportData.patientSummary);
+    }
+
+    // Recommendations
+    if (reportData.recommendations && reportData.recommendations.length > 0) {
+      this.addRecommendations(doc, reportData.recommendations);
+    }
+
+    // Footer
+    this.addFooter(doc);
+  }
+
+  /**
+   * Add header to PDF
+   */
+  addHeader(doc) {
+    doc.fontSize(10)
+       .fillColor('#666666')
+       .text('NeuroSense360 Brain Performance Report', 50, 30);
+
+    doc.fontSize(8)
+       .text(new Date().toLocaleDateString(), 450, 30);
+
+    doc.moveTo(50, 45)
+       .lineTo(545, 45)
+       .stroke('#CCCCCC');
+
+    doc.moveDown(2);
+  }
+
+  /**
+   * Add patient information
+   */
+  addPatientInfo(doc) {
+    const y = doc.y;
+
+    doc.fontSize(10)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text('Patient Information', 50, y);
+
+    doc.fontSize(9)
+       .fillColor('#666666')
+       .font('Helvetica')
+       .text(`Name: ${this.patientData.name || 'N/A'}`, 50, y + 20)
+       .text(`Age: ${this.patientData.age || 'N/A'}`, 50, y + 35)
+       .text(`Gender: ${this.patientData.gender || 'N/A'}`, 50, y + 50);
+
+    if (this.patientData.clinicName) {
+      doc.text(`Clinic: ${this.patientData.clinicName}`, 300, y + 20);
+    }
+
+    doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 300, y + 35);
+
+    doc.moveDown(3);
+  }
+
+  /**
+   * Add parameter section
+   */
+  addParameterSection(doc, param, index) {
+    const y = doc.y;
+
+    // Check if we need a new page
+    if (y > 650) {
+      doc.addPage();
+    }
+
+    // Parameter header with background color
+    const bgColor = this.getBucketColor(param.bucketColor || param.bucket);
+
+    doc.rect(50, y, 495, 30)
+       .fill(bgColor);
+
+    doc.fontSize(14)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text(param.name, 60, y + 8);
+
+    // Show score with maxScore for clarity
+    const scoreText = param.maxScore ? `${param.score}/${param.maxScore}` : `${param.score}`;
+    doc.fontSize(12)
+       .text(`Score: ${scoreText}`, 380, y + 8);
+
+    doc.fontSize(10)
+       .fillColor('#FFFFFF')
+       .font('Helvetica')
+       .text(param.bucket || '', 480, y + 10);
+
+    doc.moveDown(2);
+
+    // Parameter summary
+    if (param.summary) {
+      doc.fontSize(10)
+         .fillColor('#666666')
+         .font('Helvetica-Oblique')
+         .text(param.summary, 60, doc.y, {
+           width: 475,
+           align: 'left'
+         });
+
+      doc.moveDown(0.5);
+    }
+
+    // Subparameters (metrics)
+    if (param.subparameters && param.subparameters.length > 0) {
+      console.log(`   📊 Adding ${param.subparameters.length} sub-metrics for ${param.name}`);
+
+      doc.fontSize(9)
+         .fillColor('#323956')
+         .font('Helvetica-Bold')
+         .text('Details:', 60, doc.y);
+
+      doc.moveDown(0.3);
+
+      param.subparameters.forEach((sub, idx) => {
+        console.log(`     ${idx + 1}. ${sub.name}: score=${sub.score}, interpretation="${sub.interpretation}"`);
+
+        doc.fontSize(8)
+           .fillColor('#666666')
+           .font('Helvetica')
+           .text(`• ${sub.name}: `, 70, doc.y, { continued: true })
+           .font('Helvetica-Bold')
+           .fillColor(sub.score === 1 ? '#38A169' : '#E53E3E')
+           .text(`${sub.score === 1 ? '✓' : '✗'}`, { continued: true })
+           .fillColor('#666666')
+           .font('Helvetica')
+           .text(` ${sub.interpretation || ''}`, { width: 450 });
+
+        // Add details if available
+        if (sub.details) {
+          doc.fontSize(7)
+             .fillColor('#999999')
+             .text(`  ${sub.details}`, 80, doc.y);
+        }
+
+        doc.moveDown(0.2);
+      });
+    } else {
+      console.log(`   ⚠️ No sub-metrics for ${param.name}`);
+    }
+
+    doc.moveDown(1.5);
+  }
+
+  /**
+   * Add summary section
+   */
+  addSummarySection(doc, summary) {
+    const y = doc.y;
+
+    if (y > 650) {
+      doc.addPage();
+    }
+
+    doc.fontSize(14)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text('Overall Summary', 50, doc.y);
+
+    doc.moveDown(0.5);
+
+    doc.fontSize(10)
+       .fillColor('#666666')
+       .font('Helvetica')
+       .text(summary, {
+         width: 495,
+         align: 'justify'
+       });
+
+    doc.moveDown(1);
+  }
+
+  /**
+   * Add recommendations
+   */
+  addRecommendations(doc, recommendations) {
+    const y = doc.y;
+
+    if (y > 650) {
+      doc.addPage();
+    }
+
+    doc.fontSize(14)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text('Recommendations', 50, doc.y);
+
+    doc.moveDown(0.5);
+
+    recommendations.forEach(rec => {
+      doc.fontSize(9)
+         .fillColor('#666666')
+         .font('Helvetica')
+         .text(`• ${rec}`, 60, doc.y, {
+           width: 475
+         });
+
+      doc.moveDown(0.3);
+    });
+  }
+
+  /**
+   * Add footer
+   */
+  addFooter(doc) {
+    const bottomY = 750;
+
+    doc.fontSize(7)
+       .fillColor('#999999')
+       .text('This report is generated using AI-powered analysis and should be interpreted by a qualified healthcare professional.',
+             50, bottomY, {
+               width: 495,
+               align: 'center'
+             });
+
+    doc.fontSize(7)
+       .text('© 2025 NeuroSense360. Powered by Google Gemini AI.',
+             50, bottomY + 15, {
+               width: 495,
+               align: 'center'
+             });
+  }
+
+  /**
+   * Get color for bucket classification
+   */
+  getBucketColor(bucketOrColor) {
+    // If it's already a hex color
+    if (bucketOrColor && bucketOrColor.startsWith('#')) {
+      return bucketOrColor;
+    }
+
+    // Default color mapping
+    const colorMap = {
+      'Poor': '#E53E3E',
+      'Below Average': '#F56565',
+      'Average': '#ED8936',
+      'Good': '#48BB78',
+      'Excellent': '#38A169',
+      'Low': '#E53E3E',
+      'Moderate': '#ED8936',
+      'High': '#F56565'
+    };
+
+    return colorMap[bucketOrColor] || '#4299E1';
+  }
+}
+
+module.exports = GeminiPdfGenerator;

@@ -1,0 +1,75 @@
+-- ================================================
+-- STORAGE POLICIES FOR patients_documents BUCKET
+-- ================================================
+-- Run these queries one by one in Supabase SQL Editor
+
+-- First, make sure the bucket exists (create it if it doesn't)
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'patients_documents',
+  'patients_documents',
+  false,
+  52428800,
+  ARRAY['application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Allow authenticated users to upload" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to view" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to update" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to delete" ON storage.objects;
+
+DROP POLICY IF EXISTS "Authenticated users can upload patient documents" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can view patient documents" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can update patient documents" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can delete patient documents" ON storage.objects;
+
+-- POLICY 1: Allow authenticated users to UPLOAD (INSERT) files
+CREATE POLICY "Allow authenticated users to upload"
+ON storage.objects
+FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'patients_documents');
+
+-- POLICY 2: Allow authenticated users to VIEW/DOWNLOAD (SELECT) files
+CREATE POLICY "Allow authenticated users to view"
+ON storage.objects
+FOR SELECT
+TO authenticated
+USING (bucket_id = 'patients_documents');
+
+-- POLICY 3: Allow authenticated users to UPDATE files
+CREATE POLICY "Allow authenticated users to update"
+ON storage.objects
+FOR UPDATE
+TO authenticated
+USING (bucket_id = 'patients_documents')
+WITH CHECK (bucket_id = 'patients_documents');
+
+-- POLICY 4: Allow authenticated users to DELETE files
+CREATE POLICY "Allow authenticated users to delete"
+ON storage.objects
+FOR DELETE
+TO authenticated
+USING (bucket_id = 'patients_documents');
+
+-- Verify policies were created
+SELECT
+  schemaname,
+  tablename,
+  policyname,
+  permissive,
+  roles,
+  cmd
+FROM pg_policies
+WHERE tablename = 'objects'
+AND policyname LIKE '%authenticated users%';
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE 'All storage policies created successfully for patients_documents bucket!';
+  RAISE NOTICE 'Bucket: patients_documents is now ready to use';
+  RAISE NOTICE 'Authenticated users can: upload, view, update, and delete files';
+END $$;

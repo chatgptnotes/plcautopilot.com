@@ -1,0 +1,53 @@
+-- =====================================================
+-- IMPORT OLD DATABASE DATA
+-- =====================================================
+-- This script imports data from your old Supabase backup
+-- Run this AFTER creating all tables with COMPLETE_SUPABASE_MIGRATION.sql
+-- =====================================================
+
+-- =====================================================
+-- IMPORTANT: Disable triggers temporarily to avoid conflicts
+-- =====================================================
+SET session_replication_role = replica;
+
+-- =====================================================
+-- STEP 1: IMPORT CLINICS DATA
+-- =====================================================
+-- 7 clinics from old database
+
+INSERT INTO clinics (id, name, email, phone, address, logo_url, is_active, reports_used, reports_allowed, subscription_status, subscription_tier, trial_start_date, trial_end_date, created_at, updated_at, password, contact_person) VALUES
+('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'Usa clinics', 'usha@gmail.com', '2587413690', 'pune', NULL, true, 6, 50, 'trial', 'free', '2025-10-29 10:17:49.735+00', '2025-11-28 10:17:49.735+00', '2025-10-29 10:17:49.734+00', '2025-11-05 10:46:15.347+00', 'Usha@123', NULL),
+('11fd4a05-4443-4828-8f8f-7ccb3953c784', 'Hope clinic', 'hope@gmail.com', '8574963210', 'nagpur', NULL, true, 2, 5, 'active', 'free', '2025-10-31 05:09:46.407+00', '2025-11-30 05:09:46.407+00', '2025-10-31 05:08:34.826+00', '2025-11-06 10:34:12.654851+00', 'Hope@12345', 'Hope clinic'),
+('d7ee65a1-e37b-4856-9f76-9057d47d1af6', 'Dev Clinics', 'dev@gmail.com', '5674839022', 'mumbai', NULL, true, 0, 10, 'trial', 'free', '2025-11-07 04:13:18.086+00', '2025-12-07 04:13:18.086+00', '2025-11-07 04:04:43.388+00', '2025-11-07 04:13:18.087+00', NULL, NULL),
+('1ece7b36-458f-40bd-bdd1-695e8491ced4', 'Ayushman Clinic', 'ayushman@gmail.com', '9876054323', 'pune', NULL, true, 0, 10, 'trial', 'free', '2025-11-05 12:29:04.009+00', '2025-12-05 12:29:04.009+00', '2025-11-05 12:27:35.903+00', '2025-11-05 12:29:04.011+00', 'Ayushman@123', NULL),
+('820d1616-b1d7-4460-b0eb-82c93a1b8f75', 'Neuro Clinics', 'neuro@gmail.com', '1452369870', 'koradi', NULL, true, 0, 10, 'trial', 'free', '2025-10-29 10:12:45.073+00', '2025-11-28 10:12:45.073+00', '2025-10-29 08:05:02.522+00', '2025-10-29 10:12:45.097+00', 'Neuro@123', NULL),
+('ab23ff19-1352-4bb3-a625-5edffc493e0d', 'choudhari clinics', 'choudhari@gmail.com', '9067486880', 'kamthee', NULL, true, 0, 10, 'trial', 'free', '2025-10-29 12:25:41.821+00', '2025-11-28 12:25:41.821+00', '2025-10-29 12:25:41.821+00', '2025-10-29 12:33:51.025+00', 'Choudhari@123', NULL),
+('d0bd9c09-4ae8-4d0d-a86d-8272d4ad51a2', 'Sai Clinic', 'sai@gmail.com', NULL, NULL, NULL, true, 0, 50, 'trial', 'free', '2025-11-20 06:17:45.807+00', '2025-12-20 06:17:45.807+00', '2025-11-20 06:17:45.807+00', '2025-11-20 06:17:45.807+00', NULL, NULL)
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- STEP 2: EXTRACT AND IMPORT REMAINING DATA
+-- =====================================================
+-- Use the restore_from_backup.js script for full data import
+
+-- =====================================================
+-- Re-enable triggers
+-- =====================================================
+SET session_replication_role = DEFAULT;
+
+-- =====================================================
+-- VERIFICATION
+-- =====================================================
+SELECT 'Clinics imported:' as status, COUNT(*) as count FROM clinics;
+
+-- =====================================================
+-- COMPLETE DATA IMPORT USING BACKUP FILE
+-- =====================================================
+-- For complete data import, use one of these methods:
+--
+-- METHOD 1: Direct SQL Restore (Recommended)
+-- 1. Open backup file in text editor
+-- 2. Find lines starting with "COPY public.[table_name]"
+-- 3. Copy those sections and run in SQL Editor
+--
+-- METHOD 2: Use restore script (see below)

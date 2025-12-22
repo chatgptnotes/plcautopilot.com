@@ -1,0 +1,52 @@
+-- ================================================
+-- CREATE WORKFLOWS TABLE
+-- ================================================
+-- This table tracks EDF processing workflows
+-- Run this in Supabase SQL Editor if you want workflow tracking
+-- (Upload will work WITHOUT this table, it's optional)
+
+-- Create workflows table
+CREATE TABLE IF NOT EXISTS workflows (
+  id TEXT PRIMARY KEY,
+  patient_id UUID,
+  patient_name TEXT,
+  clinic_id UUID,
+  file_name TEXT,
+  file_size BIGINT,
+  status TEXT DEFAULT 'started',
+  steps JSONB DEFAULT '{}',
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  estimated_completion TIMESTAMPTZ,
+  completed_at TIMESTAMPTZ,
+  cancelled_at TIMESTAMPTZ,
+  failed_at TIMESTAMPTZ,
+  error TEXT,
+  results JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable Row Level Security
+ALTER TABLE workflows ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow all authenticated users
+CREATE POLICY "Allow all authenticated users"
+ON workflows
+FOR ALL
+TO authenticated
+USING (true)
+WITH CHECK (true);
+
+-- Create index on clinic_id for faster queries
+CREATE INDEX IF NOT EXISTS idx_workflows_clinic_id ON workflows(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_workflows_patient_id ON workflows(patient_id);
+CREATE INDEX IF NOT EXISTS idx_workflows_status ON workflows(status);
+CREATE INDEX IF NOT EXISTS idx_workflows_created_at ON workflows(created_at DESC);
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE '✅ Workflows table created successfully!';
+  RAISE NOTICE 'This table tracks EDF processing workflow status';
+  RAISE NOTICE 'You can query it with: SELECT * FROM workflows ORDER BY created_at DESC';
+END $$;

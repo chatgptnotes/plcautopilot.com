@@ -1,0 +1,169 @@
+// User Projects Service
+// Fetches projects assigned to specific users based on permissions
+
+import supabaseService, { supabase as sharedSupabaseClient } from './supabaseService';
+
+const supabaseClient = sharedSupabaseClient || supabaseService.supabase;
+
+class UserProjectsService {
+  /**
+   * Get all projects assigned to a specific user
+   * @param {string} userId - The user's UUID
+   * @returns {Promise<Array>} Array of projects with permissions
+   */
+  async getUserProjects(userId) {
+    try {
+      console.log('📋 Fetching projects for user:', userId);
+
+      // IMPROVED: Try RPC function first, but always use direct query as primary method
+      // This avoids unnecessary error logs when RPC doesn't exist
+      let projectData = null;
+      let useDirectQuery = true;
+
+      // Try RPC function (if it exists)
+      try {
+        const { data: rpcData, error: rpcError } = await supabaseClient
+          .rpc('get_user_projects', { user_uuid: userId });
+
+        if (!rpcError && rpcData) {
+          console.log('✅ RPC function succeeded, fetched', rpcData.length, 'projects');
+          projectData = rpcData;
+          useDirectQuery = false;
+        } else if (rpcError && rpcError.code !== '42883' && rpcError.code !== 'PGRST116') {
+          // Log only if it's not a "function doesn't exist" error
+          console.warn('⚠️ RPC error (non-fatal):', rpcError.message);
+        }
+      } catch (rpcEx) {
+        // RPC failed, will use direct query
+        console.log('ℹ️ RPC not available, using direct query');
+      }
+
+      // Use direct query if RPC didn't work
+      if (useDirectQuery) {
+        console.log('📋 Using direct query to fetch user projects...');
+
+        // Query user_projects first to get only assigned projects
+        const { data: userProjectIds, error: userProjectError } = await supabaseClient
+          .from('user_projects')
+          .select('project_id')
+          .eq('user_id', userId);
+
+        if (userProjectError) {
+          console.error('❌ Error fetching user_projects:', userProjectError);
+          throw userProjectError;
+        }
+
+        // Extract project IDs
+        const projectIds = (userProjectIds || []).map(up => up.project_id);
+        console.log('📋 User assigned to', projectIds.length, 'projects:', projectIds);
+
+        if (projectIds.length === 0) {
+          console.log('ℹ️ User has no assigned projects');
+          return [];
+        }
+
+        // Now fetch only the projects this user has access to
+        const { data: directData, error: directError } = await supabaseClient
+          .from('admin_projects')
+          .select('project_id, name, client, description, status, priority, progress, starred, deadline')
+          .in('project_id', projectIds);
+
+        if (directError) {
+          console.error('❌ Error fetching project details:', directError);
+          throw directError;
+        }
+
+        console.log('✅ Direct query succeeded, found', directData?.length || 0, 'projects');
+        projectData = directData;
+      }
+
+      // Map database projects to frontend format
+      const mappedProjects = this.mapDatabaseProjectsToFrontend(projectData || []);
+      console.log('📦 Mapped projects for user:', mappedProjects);
+
+      return mappedProjects;
+    } catch (error) {
+      console.error('❌ getUserProjects error:', error);
+      // Return empty array instead of throwing to prevent app crash
+      return [];
+    }
+  }
+
+  /**
+   * Get user permissions for a specific project
+   * @param {string} userId - The user's UUID
+   * @param {string} projectId - The project ID
+   * @returns {Promise<Object>} Project permissions object
+   */
+  async getUserProjectPermissions(userId, projectId) {
+    try {
+      console.log('🔐 Fetching permissions for user:', userId, 'project:', projectId);
+
+      const { data, error } = await supabaseClient
+        .from('user_projects')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('project_id', projectId)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No row found - user has no permissions for this project
+          console.log('ℹ️ User has no permissions for project:', projectId);
+          return null;
+        }
+        console.error('❌ Error fetching project permissions:', error);
+        throw error;
+      }
+
+      console.log('✅ User permissions for project:', data);
+      return data;
+    } catch (error) {
+      console.error('❌ getUserProjectPermissions error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Check if user has a specific permission for a project
+   * @param {string} userId - The user's UUID
+   * @param {string} projectId - The project ID
+   * @param {string} permission - The permission name (e.g., 'can_edit', 'can_view_detailed_plan')
+   * @returns {Promise<boolean>} True if user has the permission
+   */
+  async hasPermission(userId, projectId, permission) {
+    try {
+      const permissions = await this.getUserProjectPermissions(userId, projectId);
+
+      if (!permissions) {
+        return false; // No permissions = no access
+      }
+
+      return permissions[permission] === true;
+    } catch (error) {
+      console.error('❌ hasPermission error:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Map database project names to frontend project IDs
+   * @param {Array} dbProjects - Array of projects from database
+   * @returns {Array} Array of projects with mapped IDs
+   */
+  mapDatabaseProjectsToFrontend(dbProjects) {
+    return dbProjects.map(project => {
+      // If project has project_id field (new schema), use that
+      // Otherwise, map by name (old schema fallback)
+      const frontendId = project.project_id || project.id;
+
+      return {
+        ...project,
+        frontendId: frontendId,
+        id: frontendId // Use project_id as the ID for frontend
+      };
+    });
+  }
+}
+
+export default new UserProjectsService();

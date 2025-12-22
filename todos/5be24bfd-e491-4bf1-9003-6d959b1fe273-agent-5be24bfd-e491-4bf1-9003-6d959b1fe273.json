@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Verify new Razorpay credentials in .env",
+    "status": "completed",
+    "activeForm": "Verifying credentials"
+  },
+  {
+    "content": "Create urgent restart script for new credentials",
+    "status": "completed",
+    "activeForm": "Creating restart script"
+  },
+  {
+    "content": "User must run RESTART_WITH_NEW_CREDENTIALS.bat",
+    "status": "pending",
+    "activeForm": "User running restart script"
+  },
+  {
+    "content": "User must verify correct key in console",
+    "status": "pending",
+    "activeForm": "User verifying key"
+  },
+  {
+    "content": "User must test payment",
+    "status": "pending",
+    "activeForm": "User testing payment"
+  }
+]

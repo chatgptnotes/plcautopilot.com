@@ -1,0 +1,97 @@
+-- ================================================
+-- CREATE EDF-FILES BUCKET IN SUPABASE
+-- ================================================
+-- Copy this entire script and run it in Supabase SQL Editor
+-- Dashboard → SQL Editor → New Query → Paste → Run
+
+-- Step 1: Create edf-files bucket
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'edf-files',
+  'edf-files',
+  false, -- Private bucket (files not publicly accessible)
+  52428800, -- 50MB limit (50 * 1024 * 1024)
+  ARRAY[
+    'application/octet-stream',
+    'application/x-edf',
+    'application/edf',
+    'application/x-bdf',
+    'application/bdf',
+    'text/plain'
+  ]
+)
+ON CONFLICT (id) DO UPDATE SET
+  file_size_limit = 52428800,
+  allowed_mime_types = ARRAY[
+    'application/octet-stream',
+    'application/x-edf',
+    'application/edf',
+    'application/x-bdf',
+    'application/bdf',
+    'text/plain'
+  ];
+
+-- Step 2: Drop old policies if they exist
+DROP POLICY IF EXISTS "Allow authenticated users to upload edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to view edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to update edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to delete edf" ON storage.objects;
+
+-- Step 3: Create storage policies for edf-files bucket
+
+-- Allow authenticated users to upload files
+CREATE POLICY "Allow authenticated users to upload edf"
+ON storage.objects
+FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'edf-files');
+
+-- Allow authenticated users to view files
+CREATE POLICY "Allow authenticated users to view edf"
+ON storage.objects
+FOR SELECT
+TO authenticated
+USING (bucket_id = 'edf-files');
+
+-- Allow authenticated users to update files
+CREATE POLICY "Allow authenticated users to update edf"
+ON storage.objects
+FOR UPDATE
+TO authenticated
+USING (bucket_id = 'edf-files')
+WITH CHECK (bucket_id = 'edf-files');
+
+-- Allow authenticated users to delete files
+CREATE POLICY "Allow authenticated users to delete edf"
+ON storage.objects
+FOR DELETE
+TO authenticated
+USING (bucket_id = 'edf-files');
+
+-- Step 4: Verify bucket was created
+DO $$
+BEGIN
+  RAISE NOTICE '✅ Checking if edf-files bucket exists...';
+
+  IF EXISTS (SELECT 1 FROM storage.buckets WHERE id = 'edf-files') THEN
+    RAISE NOTICE '✅ SUCCESS: edf-files bucket created!';
+    RAISE NOTICE '✅ Bucket ID: edf-files';
+    RAISE NOTICE '✅ File size limit: 50MB';
+    RAISE NOTICE '✅ Access: Private (authenticated users only)';
+    RAISE NOTICE '✅ Policies: Upload, View, Update, Delete enabled';
+    RAISE NOTICE '📁 Files will be stored at: {clinicId}/{patientId}/{timestamp}_{filename}';
+  ELSE
+    RAISE EXCEPTION '❌ FAILED: Bucket not created!';
+  END IF;
+END $$;
+
+-- Step 5: Show current bucket configuration
+SELECT
+  id,
+  name,
+  public,
+  file_size_limit,
+  allowed_mime_types,
+  created_at
+FROM storage.buckets
+WHERE id = 'edf-files';

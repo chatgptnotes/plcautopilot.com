@@ -1,0 +1,351 @@
+-- =====================================================
+-- MIGRATION VERIFICATION QUERIES
+-- =====================================================
+-- Run these queries to verify your migration
+-- =====================================================
+
+-- =====================================================
+-- 1. CHECK ALL TABLES
+-- =====================================================
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+
+-- Expected tables (30+):
+-- alerts
+-- algorithm_results
+-- assessments
+-- audit_logs
+-- backup_history
+-- clinic_enquiries
+-- clinics
+-- clinical_reports
+-- coaching_sessions
+-- consent_records
+-- daily_content
+-- daily_progress
+-- documents
+-- eeg_reports
+-- org_memberships
+-- organizations
+-- patients
+-- payment_history
+-- payments
+-- profiles
+-- reports
+-- role_permissions
+-- sessions
+-- settings
+-- statement_catalog
+-- subscriptions
+-- uploaded_files
+-- usage
+-- wellness_scores
+-- workflows
+
+-- =====================================================
+-- 2. CHECK CUSTOM TYPES
+-- =====================================================
+SELECT typname
+FROM pg_type
+WHERE typname IN (
+  'user_role', 'org_role', 'gender_type', 'org_type',
+  'subscription_tier', 'session_type', 'document_kind',
+  'assessment_type', 'subscription_status'
+)
+ORDER BY typname;
+
+-- Expected: 9 types
+
+-- =====================================================
+-- 3. CHECK IMPORTANT COLUMNS IN KEY TABLES
+-- =====================================================
+
+-- Clinics table columns
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'clinics'
+ORDER BY ordinal_position;
+
+-- Patients table columns
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'patients'
+ORDER BY ordinal_position;
+
+-- Organizations table columns
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'organizations'
+ORDER BY ordinal_position;
+
+-- =====================================================
+-- 4. CHECK INDEXES
+-- =====================================================
+SELECT
+  schemaname,
+  tablename,
+  indexname
+FROM pg_indexes
+WHERE schemaname = 'public'
+ORDER BY tablename, indexname;
+
+-- Expected: 30+ indexes
+
+-- =====================================================
+-- 5. CHECK TRIGGERS
+-- =====================================================
+SELECT
+  trigger_name,
+  event_object_table,
+  action_statement
+FROM information_schema.triggers
+WHERE trigger_schema = 'public'
+ORDER BY event_object_table, trigger_name;
+
+-- Expected: 10+ triggers (updated_at triggers)
+
+-- =====================================================
+-- 6. CHECK RLS POLICIES
+-- =====================================================
+SELECT
+  schemaname,
+  tablename,
+  policyname,
+  permissive,
+  roles,
+  cmd
+FROM pg_policies
+WHERE schemaname = 'public'
+ORDER BY tablename, policyname;
+
+-- Expected: 30+ policies
+
+-- =====================================================
+-- 7. CHECK RLS ENABLED
+-- =====================================================
+SELECT
+  schemaname,
+  tablename,
+  rowsecurity
+FROM pg_tables
+WHERE schemaname = 'public'
+ORDER BY tablename;
+
+-- All tables should have rowsecurity = true
+
+-- =====================================================
+-- 8. CHECK FOREIGN KEY CONSTRAINTS
+-- =====================================================
+SELECT
+  tc.table_name,
+  kcu.column_name,
+  ccu.table_name AS foreign_table_name,
+  ccu.column_name AS foreign_column_name
+FROM information_schema.table_constraints AS tc
+JOIN information_schema.key_column_usage AS kcu
+  ON tc.constraint_name = kcu.constraint_name
+JOIN information_schema.constraint_column_usage AS ccu
+  ON ccu.constraint_name = tc.constraint_name
+WHERE tc.constraint_type = 'FOREIGN KEY'
+  AND tc.table_schema = 'public'
+ORDER BY tc.table_name, kcu.column_name;
+
+-- =====================================================
+-- 9. CHECK STORAGE BUCKETS
+-- =====================================================
+SELECT
+  id,
+  name,
+  public,
+  file_size_limit,
+  created_at
+FROM storage.buckets
+ORDER BY name;
+
+-- Expected: 4 buckets (if created manually)
+-- - patient-reports
+-- - eeg-files
+-- - reports
+-- - clinic-logos
+
+-- =====================================================
+-- 10. CHECK STORAGE POLICIES
+-- =====================================================
+SELECT
+  schemaname,
+  tablename,
+  policyname,
+  cmd
+FROM pg_policies
+WHERE schemaname = 'storage'
+  AND tablename = 'objects'
+ORDER BY policyname;
+
+-- Expected: 12+ storage policies
+
+-- =====================================================
+-- 11. DETAILED TABLE COUNT BY CATEGORY
+-- =====================================================
+
+-- Core user & organization tables
+SELECT 'Core Tables' as category, COUNT(*) as count
+FROM information_schema.tables
+WHERE table_schema = 'public'
+  AND table_name IN ('profiles', 'organizations', 'org_memberships', 'clinics')
+
+UNION ALL
+
+-- Patient related tables
+SELECT 'Patient Tables', COUNT(*)
+FROM information_schema.tables
+WHERE table_schema = 'public'
+  AND table_name IN ('patients', 'sessions', 'assessments', 'daily_progress')
+
+UNION ALL
+
+-- Clinical & Reports tables
+SELECT 'Clinical Tables', COUNT(*)
+FROM information_schema.tables
+WHERE table_schema = 'public'
+  AND table_name IN ('eeg_reports', 'documents', 'reports', 'clinical_reports', 'algorithm_results')
+
+UNION ALL
+
+-- Financial tables
+SELECT 'Financial Tables', COUNT(*)
+FROM information_schema.tables
+WHERE table_schema = 'public'
+  AND table_name IN ('subscriptions', 'payment_history', 'payments')
+
+UNION ALL
+
+-- System tables
+SELECT 'System Tables', COUNT(*)
+FROM information_schema.tables
+WHERE table_schema = 'public'
+  AND table_name IN ('uploaded_files', 'workflows', 'settings', 'alerts', 'usage', 'audit_logs', 'consent_records')
+
+UNION ALL
+
+-- Total
+SELECT 'TOTAL', COUNT(*)
+FROM information_schema.tables
+WHERE table_schema = 'public';
+
+-- =====================================================
+-- 12. CHECK IF CRITICAL TABLES EXIST
+-- =====================================================
+SELECT
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'clinics') THEN '✅'
+    ELSE '❌'
+  END as clinics,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'patients') THEN '✅'
+    ELSE '❌'
+  END as patients,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'profiles') THEN '✅'
+    ELSE '❌'
+  END as profiles,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organizations') THEN '✅'
+    ELSE '❌'
+  END as organizations,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'reports') THEN '✅'
+    ELSE '❌'
+  END as reports,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'subscriptions') THEN '✅'
+    ELSE '❌'
+  END as subscriptions,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'payment_history') THEN '✅'
+    ELSE '❌'
+  END as payment_history,
+  CASE
+    WHEN EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'uploaded_files') THEN '✅'
+    ELSE '❌'
+  END as uploaded_files;
+
+-- =====================================================
+-- 13. SAMPLE DATA CHECK (After adding data)
+-- =====================================================
+
+-- Count records in each table
+SELECT 'clinics' as table_name, COUNT(*) as record_count FROM clinics
+UNION ALL
+SELECT 'patients', COUNT(*) FROM patients
+UNION ALL
+SELECT 'profiles', COUNT(*) FROM profiles
+UNION ALL
+SELECT 'organizations', COUNT(*) FROM organizations
+UNION ALL
+SELECT 'reports', COUNT(*) FROM reports
+UNION ALL
+SELECT 'subscriptions', COUNT(*) FROM subscriptions
+UNION ALL
+SELECT 'payment_history', COUNT(*) FROM payment_history
+ORDER BY table_name;
+
+-- =====================================================
+-- 14. CHECK COLUMN ADDITIONS (Patient UID, etc.)
+-- =====================================================
+
+-- Check if clinic_code exists in organizations
+SELECT
+  CASE
+    WHEN EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_name = 'organizations'
+        AND column_name = 'clinic_code'
+    ) THEN '✅ clinic_code exists'
+    ELSE '❌ clinic_code missing'
+  END as clinic_code_status;
+
+-- Check if contact_person exists in clinics
+SELECT
+  CASE
+    WHEN EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_name = 'clinics'
+        AND column_name = 'contact_person'
+    ) THEN '✅ contact_person exists'
+    ELSE '❌ contact_person missing'
+  END as contact_person_status;
+
+-- Check if password exists in clinics
+SELECT
+  CASE
+    WHEN EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_name = 'clinics'
+        AND column_name = 'password'
+    ) THEN '✅ password exists'
+    ELSE '❌ password missing'
+  END as password_status;
+
+-- =====================================================
+-- 15. FINAL SUMMARY
+-- =====================================================
+SELECT
+  (SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public') as total_tables,
+  (SELECT COUNT(*) FROM pg_type WHERE typname IN ('user_role', 'org_role', 'gender_type', 'org_type', 'subscription_tier', 'session_type', 'document_kind', 'assessment_type', 'subscription_status')) as total_types,
+  (SELECT COUNT(*) FROM pg_indexes WHERE schemaname = 'public') as total_indexes,
+  (SELECT COUNT(*) FROM information_schema.triggers WHERE trigger_schema = 'public') as total_triggers,
+  (SELECT COUNT(*) FROM pg_policies WHERE schemaname = 'public') as total_rls_policies,
+  (SELECT COUNT(*) FROM storage.buckets) as total_storage_buckets;
+
+-- =====================================================
+-- EXPECTED OUTPUT:
+-- =====================================================
+-- total_tables: 30+
+-- total_types: 9
+-- total_indexes: 30+
+-- total_triggers: 10+
+-- total_rls_policies: 30+
+-- total_storage_buckets: 4 (if manually created)
+-- =====================================================

@@ -1,0 +1,26 @@
+-- Add country_code column to clinics table for international phone numbers
+-- This allows storing country code separately from phone number
+
+-- Add country_code column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'clinics' AND column_name = 'country_code'
+  ) THEN
+    ALTER TABLE clinics ADD COLUMN country_code VARCHAR(10) DEFAULT '+91';
+    COMMENT ON COLUMN clinics.country_code IS 'Country calling code for international phone numbers (e.g., +91 for India, +1 for USA)';
+  END IF;
+END $$;
+
+-- Update existing records to have default country code if NULL
+UPDATE clinics SET country_code = '+91' WHERE country_code IS NULL;
+
+-- Add index for better query performance
+CREATE INDEX IF NOT EXISTS idx_clinics_country_code ON clinics(country_code);
+
+-- Log migration completion
+DO $$
+BEGIN
+  RAISE NOTICE 'Migration 021: Added country_code column to clinics table';
+END $$;

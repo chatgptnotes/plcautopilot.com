@@ -1,0 +1,20 @@
+-- QUICK FIX: Add pdf_url column to algorithm_results table
+-- Run this directly in Supabase SQL Editor to fix the error
+
+-- Add pdf_url column to store PDF report URLs
+ALTER TABLE public.algorithm_results
+ADD COLUMN IF NOT EXISTS pdf_url TEXT;
+
+-- Add comment for documentation
+COMMENT ON COLUMN public.algorithm_results.pdf_url IS 'URL or path to generated PDF report (local storage or Supabase bucket)';
+
+-- Create index for faster lookups when PDFs exist
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_pdf_url
+ON public.algorithm_results(pdf_url)
+WHERE pdf_url IS NOT NULL;
+
+-- Verify the column was added
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'algorithm_results'
+ORDER BY ordinal_position;

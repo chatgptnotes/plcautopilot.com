@@ -1,0 +1,383 @@
+const fs = require('fs');
+const crypto = require('crypto');
+const pdfParse = require('pdf-parse');
+const OpenAI = require('openai');
+
+console.log('🔧 Loading OpenAI Parser...');
+console.log(`   OpenAI API Key: ${process.env.OPENAI_API_KEY ? 'Present (length: ' + process.env.OPENAI_API_KEY.length + ')' : 'MISSING!'}`);
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+console.log('✅ OpenAI Parser loaded successfully\n');
+
+// In-memory cache (same as Gemini parser)
+const extractionCache = new Map();
+
+// Cache statistics
+const cacheStats = {
+  hits: 0,
+  misses: 0,
+  totalExtractions: 0
+};
+
+class OpenAIParser {
+  /**
+   * Validate OpenAI API key
+   */
+  static validateAPIKey() {
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey || apiKey.trim() === '') {
+      const error = new Error('OPENAI_API_KEY environment variable is not set');
+      error.code = 'MISSING_API_KEY';
+      throw error;
+    }
+
+    console.log('✅ OpenAI API key validation passed');
+    return true;
+  }
+
+  /**
+   * Get extraction prompt for OpenAI (same logic as Gemini)
+   */
+  static getExtractionPrompt(condition, reportType, pdfText) {
+    const conditionName = condition === 'EO' ? 'Eyes Open' : 'Eyes Closed';
+
+    if (reportType === 'zscore') {
+      // Z-SCORE extraction prompt
+      return `You are a QEEG Z-score data extraction expert. Extract Z-score values from this ${conditionName} QEEG report.
+
+**IMPORTANT**: Z-scores represent standard deviations from the mean. They typically range from -3 to +3.
+- Negative values = below average (lower than normal)
+- Zero (0) = average (normal)
+- Positive values = above average (higher than normal)
+
+Look for tables labeled with "Z-score", "Z score", "Z", or "Standard Deviation" in the headers.
+
+Extract Z-score values for these EEG channels: FP1, FP2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+
+For each channel, extract Z-scores for these frequency bands:
+- Delta (1-4 Hz)
+- Theta (4-8 Hz)
+- Alpha (8-13 Hz)
+- Beta (13-30 Hz)
+- HiBeta / High Beta (20-30 Hz)
+
+Also extract:
+- Alpha Peak Frequency (Hz) and its Z-score if available
+
+If you cannot find Z-scores for a particular channel or band, use 0.0 as the default value.
+
+**CRITICAL**: Your response must be ONLY the JSON object. Do NOT include:
+- No markdown formatting (no \`\`\`json or \`\`\`)
+- No explanations before or after
+- No comments
+- Just pure JSON that starts with { and ends with }
+
+Return ONLY this EXACT JSON format:
+{
+  "zscores": {
+    "absolute": {
+      "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+    },
+    "relative": {
+      "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+      "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+    }
+  },
+  "special": {
+    "alphaPeak": 10.0,
+    "alphaPeakZscore": 0.0
+  }
+}
+
+PDF Content:
+${pdfText.substring(0, 15000)}`;
+
+    } else {
+      // RAW POWER extraction prompt
+      return `You are an expert QEEG data extraction specialist. Your task is to extract COMPLETE frequency band data from this ${conditionName} QEEG report PDF.
+
+🎯 YOUR MISSION: Extract 100% COMPLETE DATA - No Missing Bands Allowed!
+
+📊 WHAT TO EXTRACT:
+Extract TWO complete tables:
+1. **Absolute Power (μV²)** - Brain wave power in microvolts squared
+2. **Relative Power (%)** - Percentage distribution (MUST sum to ~100% per channel)
+
+📍 WHERE TO LOOK IN THE PDF:
+- Usually on Pages 13 & 24 (for Eyes Open & Eyes Closed)
+- Look for table headers like:
+  * "Absolute Power" / "Absolute Spectral Power" / "Absolute" / "ABS"
+  * "Relative Power" / "Relative Spectral Power" / "Relative" / "REL"
+  * "Monopolar" / "Linked Ears" / "Average Reference"
+- Tables may span multiple pages - check thoroughly!
+
+🧠 CHANNELS TO EXTRACT (19 channels):
+FP1, FP2, F7, F3, Fz, F4, F8, T3, C3, Cz, C4, T4, T5, P3, Pz, P4, T6, O1, O2
+
+📊 FREQUENCY BANDS (ALL 5 REQUIRED):
+For EACH channel, you MUST extract ALL 5 bands:
+1. **Delta** (δ) - 0.5-4 Hz
+2. **Theta** (θ) - 4-8 Hz
+3. **Alpha** (α) - 8-13 Hz
+4. **Beta** (β) - 13-30 Hz
+5. **HiBeta** (High Beta / ββ) - 30-50 Hz
+
+⚠️ CRITICAL REQUIREMENTS:
+1. Extract ALL 5 bands for EVERY channel
+2. For Relative Power, EACH channel must sum to ~100%
+3. Preserve exact decimal values from the PDF
+4. Do not skip any channels or bands
+
+**OUTPUT FORMAT**:
+Return ONLY pure JSON (no markdown, no code blocks, no explanations):
+
+{
+  "absolute": {
+    "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+  },
+  "relative": {
+    "Fz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Cz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "Pz": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "F4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "C4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P3": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 },
+    "P4": { "Delta": 0.0, "Theta": 0.0, "Alpha": 0.0, "Beta": 0.0, "HiBeta": 0.0 }
+  },
+  "special": {
+    "alphaPeak": 10.0,
+    "O1": 10.0
+  }
+}
+
+PDF Content:
+${pdfText.substring(0, 15000)}`;
+    }
+  }
+
+  /**
+   * Calculate MD5 hash for caching
+   */
+  static calculatePDFHash(dataBuffer) {
+    return crypto.createHash('md5').update(dataBuffer).digest('hex');
+  }
+
+  /**
+   * Normalize extracted values
+   */
+  static normalizeValue(value, decimalPlaces = 2) {
+    if (value === null || value === undefined || isNaN(value)) {
+      return null;
+    }
+    const multiplier = Math.pow(10, decimalPlaces);
+    return Math.round(value * multiplier) / multiplier;
+  }
+
+  /**
+   * Normalize all values in extracted data
+   */
+  static normalizeExtractedData(extractedData) {
+    const normalized = JSON.parse(JSON.stringify(extractedData));
+
+    if (normalized.absolute) {
+      Object.keys(normalized.absolute).forEach(channel => {
+        Object.keys(normalized.absolute[channel]).forEach(band => {
+          normalized.absolute[channel][band] =
+            this.normalizeValue(normalized.absolute[channel][band], 2);
+        });
+      });
+    }
+
+    if (normalized.relative) {
+      Object.keys(normalized.relative).forEach(channel => {
+        Object.keys(normalized.relative[channel]).forEach(band => {
+          normalized.relative[channel][band] =
+            this.normalizeValue(normalized.relative[channel][band], 2);
+        });
+      });
+    }
+
+    if (normalized.special) {
+      Object.keys(normalized.special).forEach(key => {
+        normalized.special[key] = this.normalizeValue(normalized.special[key], 2);
+      });
+    }
+
+    if (normalized.zscores) {
+      if (normalized.zscores.absolute) {
+        Object.keys(normalized.zscores.absolute).forEach(channel => {
+          Object.keys(normalized.zscores.absolute[channel]).forEach(band => {
+            normalized.zscores.absolute[channel][band] =
+              this.normalizeValue(normalized.zscores.absolute[channel][band], 2);
+          });
+        });
+      }
+      if (normalized.zscores.relative) {
+        Object.keys(normalized.zscores.relative).forEach(channel => {
+          Object.keys(normalized.zscores.relative[channel]).forEach(band => {
+            normalized.zscores.relative[channel][band] =
+              this.normalizeValue(normalized.zscores.relative[channel][band], 2);
+          });
+        });
+      }
+    }
+
+    return normalized;
+  }
+
+  /**
+   * Parse PDF using OpenAI GPT-4
+   */
+  static async parsePDF(file, condition, reportType = 'raw') {
+    console.log(`  🔍 Parsing PDF with OpenAI GPT-4 (${condition}, ${reportType.toUpperCase()} mode)...`);
+
+    try {
+      // Validate API key
+      this.validateAPIKey();
+
+      // Read PDF file
+      const dataBuffer = fs.readFileSync(file.path);
+
+      // Calculate hash for caching
+      const pdfHash = this.calculatePDFHash(dataBuffer);
+      const cacheKey = `openai_${pdfHash}_${condition}_${reportType}`;
+
+      console.log(`  🔑 PDF Hash: ${pdfHash.substring(0, 12)}... (for caching)`);
+
+      // Check cache first
+      if (extractionCache.has(cacheKey)) {
+        cacheStats.hits++;
+        cacheStats.totalExtractions++;
+        console.log(`  ✅ CACHE HIT! Using cached extraction result`);
+        console.log(`  📊 Cache Stats: ${cacheStats.hits} hits, ${cacheStats.misses} misses`);
+        return extractionCache.get(cacheKey);
+      }
+
+      cacheStats.misses++;
+      cacheStats.totalExtractions++;
+      console.log(`  ⚠️  Cache miss - extracting with OpenAI...`);
+
+      // Parse PDF to extract text
+      const pdfData = await pdfParse(dataBuffer);
+      const pdfText = pdfData.text;
+
+      // Get extraction prompt
+      const prompt = this.getExtractionPrompt(condition, reportType, pdfText);
+
+      console.log(`  🤖 Calling OpenAI GPT-4...`);
+
+      // Call OpenAI API
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o", // Using GPT-4 Turbo for best accuracy
+        messages: [
+          {
+            role: "system",
+            content: "You are a medical data extraction expert specializing in QEEG reports. Extract data accurately and return only valid JSON."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        temperature: 0, // Deterministic output
+        response_format: { type: "json_object" } // Force JSON response
+      });
+
+      const responseText = completion.choices[0].message.content;
+      console.log(`  📝 OpenAI response received, length: ${responseText.length} characters`);
+
+      // Parse JSON response
+      let extractedData;
+      try {
+        const jsonText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        const rawData = JSON.parse(jsonText);
+
+        // Normalize values
+        extractedData = this.normalizeExtractedData(rawData);
+
+        console.log(`  ✅ PDF data extracted and normalized successfully (${condition})`);
+
+        // Debug output
+        console.log(`\n  🐛 === OpenAI EXTRACTED DATA (${condition}) ===`);
+        if (extractedData.absolute) {
+          console.log(`  📊 ABSOLUTE POWER: ${Object.keys(extractedData.absolute).length} channels`);
+        }
+        if (extractedData.relative) {
+          console.log(`  📊 RELATIVE POWER: ${Object.keys(extractedData.relative).length} channels`);
+        }
+        console.log(`  === END DEBUG ===\n`);
+
+      } catch (parseError) {
+        console.error(`  ❌ Failed to parse JSON from OpenAI response:`, parseError.message);
+        console.error(`  📄 Raw response:`, responseText.substring(0, 500));
+        throw new Error(`Failed to parse JSON from OpenAI: ${parseError.message}`);
+      }
+
+      // Cache the result
+      extractionCache.set(cacheKey, extractedData);
+      console.log(`  💾 Result cached (key: ${pdfHash.substring(0, 12)}...)`);
+
+      return extractedData;
+
+    } catch (error) {
+      console.error(`  ❌ OpenAI API error (${condition}):`, error.message);
+
+      // Enhanced error for quota issues
+      if (error.message && error.message.includes('quota')) {
+        const enhancedError = new Error(
+          'OpenAI API quota exceeded. Please check your API key and billing at https://platform.openai.com/account/billing'
+        );
+        enhancedError.code = 'OPENAI_QUOTA_EXCEEDED';
+        enhancedError.originalError = error;
+        throw enhancedError;
+      }
+
+      throw error;
+    }
+  }
+
+  /**
+   * Get cache statistics
+   */
+  static getCacheStats() {
+    return {
+      ...cacheStats,
+      cacheSize: extractionCache.size,
+      hitRate: cacheStats.totalExtractions > 0
+        ? ((cacheStats.hits / cacheStats.totalExtractions) * 100).toFixed(1) + '%'
+        : '0%'
+    };
+  }
+}
+
+module.exports = OpenAIParser;

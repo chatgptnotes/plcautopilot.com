@@ -1,0 +1,115 @@
+/**
+ * PDF Template Manager
+ * Handles loading and managing PDF templates for report generation
+ */
+
+const fs = require('fs');
+const path = require('path');
+const { PDFDocument } = require('pdf-lib');
+
+class TemplateManager {
+  constructor() {
+    this.templatePath = path.join(__dirname, '../../assets/pdf-templates/Neurosense Report.pdf');
+    this.templateCache = null;
+  }
+
+  /**
+   * Load the PDF template from disk
+   * @returns {Promise<PDFDocument>} Loaded PDF document
+   */
+  async loadTemplate() {
+    try {
+      // Check if template file exists
+      if (!fs.existsSync(this.templatePath)) {
+        throw new Error(`Template file not found at: ${this.templatePath}`);
+      }
+
+      console.log('📄 Loading PDF template from:', this.templatePath);
+
+      // Read template file
+      const templateBytes = fs.readFileSync(this.templatePath);
+
+      // Load PDF using pdf-lib
+      const pdfDoc = await PDFDocument.load(templateBytes);
+
+      console.log(`✅ Template loaded successfully: ${pdfDoc.getPageCount()} pages`);
+
+      return pdfDoc;
+    } catch (error) {
+      console.error('❌ Error loading PDF template:', error.message);
+      throw new Error(`Failed to load PDF template: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get a cached version of the template (for performance)
+   * @returns {Promise<PDFDocument>} Loaded PDF document
+   */
+  async getTemplate() {
+    if (!this.templateCache) {
+      this.templateCache = await this.loadTemplate();
+    }
+    return this.templateCache;
+  }
+
+  /**
+   * Clear the template cache (useful after template updates)
+   */
+  clearCache() {
+    this.templateCache = null;
+    console.log('🗑️  Template cache cleared');
+  }
+
+  /**
+   * Check if template file exists
+   * @returns {boolean} True if template exists
+   */
+  templateExists() {
+    return fs.existsSync(this.templatePath);
+  }
+
+  /**
+   * Get template file path
+   * @returns {string} Path to template file
+   */
+  getTemplatePath() {
+    return this.templatePath;
+  }
+
+  /**
+   * Update template path (useful for multiple templates)
+   * @param {string} newPath - New path to template file
+   */
+  setTemplatePath(newPath) {
+    this.templatePath = newPath;
+    this.clearCache();
+    console.log(`📝 Template path updated to: ${newPath}`);
+  }
+
+  /**
+   * Get template information
+   * @returns {Promise<Object>} Template metadata
+   */
+  async getTemplateInfo() {
+    try {
+      const pdfDoc = await this.loadTemplate();
+      const pages = pdfDoc.getPages();
+
+      return {
+        pageCount: pdfDoc.getPageCount(),
+        title: pdfDoc.getTitle() || 'Untitled',
+        author: pdfDoc.getAuthor() || 'Unknown',
+        pages: pages.map((page, index) => ({
+          number: index + 1,
+          width: page.getWidth(),
+          height: page.getHeight()
+        }))
+      };
+    } catch (error) {
+      console.error('❌ Error getting template info:', error.message);
+      return null;
+    }
+  }
+}
+
+module.exports = new TemplateManager();

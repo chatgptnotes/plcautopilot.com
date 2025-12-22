@@ -1,0 +1,292 @@
+# Stress & Burnout Border/Badge Color Fix
+
+## Problem
+
+Looking at the screenshots:
+
+1. **Stress Parameter (3/3 High)**:
+   - All 3 sub-parameters are RED (0/1)
+   - Border: GREEN ❌ (wrong!)
+   - Badge: "High" in GREEN ❌ (wrong!)
+   - Progress bar: GREEN ❌ (wrong!)
+
+2. **Burnout & Fatigue (2/3 Medium)**:
+   - 2 sub-parameters RED, 1 GREEN
+   - Border: YELLOW ❌ (wrong!)
+   - Badge: "Medium" in YELLOW ❌ (wrong!)
+   - Progress bar: YELLOW ❌ (wrong!)
+
+### User Requirement:
+- **0/3** → Green border/badge (no stress, healthy)
+- **1/3, 2/3, 3/3** → RED border/badge (stress present, unhealthy)
+
+---
+
+## Root Cause
+
+The color functions didn't differentiate between Stress/Burnout and other parameters:
+
+**Old Logic (ALL parameters):**
+- 1/3 = Red (poor)
+- 2/3 = Yellow (medium)
+- 3/3 = Green (excellent)
+
+**But for Stress/Burnout:**
+- Higher score = MORE problems (not better!)
+- So 3/3 should be RED, not GREEN
+
+---
+
+## Solution
+
+### 1. Updated Main Card Border Color
+
+**File**: `src/components/admin/AlgorithmDataProcessor.jsx`
+
+**Before (Lines 1572-1584):**
+```javascript
+if (isStressOrBurnout && result.rawScore) {
+  const [score] = result.rawScore.split('/').map(Number);
+  if (score === 1) {
+    mainCardBgClass = 'border-green-400'; // Wrong!
+  } else if (score === 2) {
+    mainCardBgClass = 'border-yellow-400'; // Wrong!
+  } else if (score >= 3) {
+    mainCardBgClass = 'border-red-400';
+  }
+}
+```
+
+**After (Lines 1572-1583):**
+```javascript
+if (isStressOrBurnout && result.rawScore) {
+  const [score] = result.rawScore.split('/').map(Number);
+  // 0/3 = No stress = GREEN
+  // 1/3, 2/3, 3/3 = Stress present = RED
+  if (score === 0) {
+    mainCardBgClass = 'border-green-400 bg-green-50';
+  } else {
+    mainCardBgClass = 'border-red-400 bg-red-50';
+  }
+}
+```
+
+### 2. Updated Color Helper Functions
+
+**File**: `src/components/admin/AlgorithmDataProcessor.jsx`
+
+**Added parameter name parameter to all color functions:**
+
+```javascript
+// Updated function signatures
+const getScoreColor = (rawScore, parameterName = '') => {
+  const isStressOrBurnout = parameterName === 'Stress' ||
+                            parameterName === 'Burnout & Fatigue';
+
+  if (isStressOrBurnout) {
+    // For Stress/Burnout: 0 = green, 1-3 = red
+    if (score === 0) return 'green';
+    return 'red';
+  }
+
+  // For other parameters: normal scoring
+  if (score === 1) return 'red';
+  if (score === 2) return 'yellow';
+  if (score === 3) return 'green';
+  return 'gray';
+};
+
+const getStatusColor = (rawScore, parameterName = '') => { ... };
+const getStatusBgColor = (rawScore, parameterName = '') => { ... };
+const getProgressBarColor = (rawScore, parameterName = '') => { ... };
+```
+
+### 3. Updated Function Calls
+
+**Updated all usages to pass parameter name:**
+
+```javascript
+// Line 1601: Score text color
+<span className={`... ${getStatusColor(result.rawScore, result.parameter)}`}>
+
+// Line 1604: Status badge color
+<span className={`... ${getStatusBgColor(result.rawScore, result.parameter)}`}>
+
+// Line 1613: Progress bar color
+<div className={`... ${getProgressBarColor(result.rawScore, result.parameter)}`}>
+
+// Lines 1867, 1976: Saved results display
+<span className={`... ${getStatusColor(result.rawScore, result.parameter)}`}>
+```
+
+---
+
+## How It Works Now
+
+### Example 1: Stress with 3/3 Score
+
+**Before:**
+```
+┌─────────────────────────────┐ ← GREEN border ❌
+│ Stress            3/3       │ ← GREEN text ❌
+│ High             GREEN      │ ← GREEN badge ❌
+├─────────────────────────────┤
+│ ██████████████████████████  │ ← GREEN progress bar ❌
+└─────────────────────────────┘
+```
+
+**After:**
+```
+┌─────────────────────────────┐ ← RED border ✅
+│ Stress            3/3       │ ← RED text ✅
+│ High              RED       │ ← RED badge ✅
+├─────────────────────────────┤
+│ ██████████████████████████  │ ← RED progress bar ✅
+└─────────────────────────────┘
+```
+
+### Example 2: Burnout with 2/3 Score
+
+**Before:**
+```
+┌─────────────────────────────┐ ← YELLOW border ❌
+│ Burnout & Fatigue  2/3      │ ← YELLOW text ❌
+│ Medium           YELLOW     │ ← YELLOW badge ❌
+├─────────────────────────────┤
+│ █████████████████           │ ← YELLOW progress bar ❌
+└─────────────────────────────┘
+```
+
+**After:**
+```
+┌─────────────────────────────┐ ← RED border ✅
+│ Burnout & Fatigue  2/3      │ ← RED text ✅
+│ Medium            RED       │ ← RED badge ✅
+├─────────────────────────────┤
+│ █████████████████           │ ← RED progress bar ✅
+└─────────────────────────────┘
+```
+
+### Example 3: Stress with 0/3 Score (No Stress)
+
+```
+┌─────────────────────────────┐ ← GREEN border ✅
+│ Stress            0/3       │ ← GREEN text ✅
+│ Low              GREEN      │ ← GREEN badge ✅
+├─────────────────────────────┤
+│                             │ ← No progress (0%)
+└─────────────────────────────┘
+```
+
+---
+
+## Color Logic Summary
+
+### For Stress & Burnout:
+| Score | Meaning          | Border | Badge  | Progress |
+|-------|------------------|--------|--------|----------|
+| 0/3   | No stress        | GREEN  | GREEN  | GREEN    |
+| 1/3   | Low stress       | RED    | RED    | RED      |
+| 2/3   | Medium stress    | RED    | RED    | RED      |
+| 3/3   | High stress      | RED    | RED    | RED      |
+
+### For Other Parameters:
+| Score | Meaning          | Border | Badge  | Progress |
+|-------|------------------|--------|--------|----------|
+| 1/3   | Poor function    | GRAY   | RED    | RED      |
+| 2/3   | Medium function  | GRAY   | YELLOW | YELLOW   |
+| 3/3   | Excellent        | GRAY   | GREEN  | GREEN    |
+
+---
+
+## Files Modified
+
+### 1. `src/components/admin/AlgorithmDataProcessor.jsx`
+
+**Changes:**
+- Line 1101-1119: Updated `getScoreColor()` to accept `parameterName`
+- Line 1121-1129: Updated `getStatusColor()` to accept `parameterName`
+- Line 1131-1137: Updated `getStatusBgColor()` to accept `parameterName`
+- Line 1139-1147: Updated `getProgressBarColor()` to accept `parameterName`
+- Line 1572-1583: Updated main card border logic for Stress/Burnout
+- Line 1601: Pass parameter name to `getStatusColor()`
+- Line 1604: Pass parameter name to `getStatusBgColor()`
+- Line 1613: Pass parameter name to `getProgressBarColor()`
+- Line 1867: Pass parameter name in saved results display
+- Line 1976: Pass parameter name in saved results display
+
+---
+
+## Testing
+
+### Test Case 1: Stress 3/3 (All Red Sub-Parameters)
+
+**Input:**
+- Arousal Score: 0/1 (red)
+- Relaxation Score: 0/1 (red)
+- Regeneration: 0/1 (red)
+- Final Score: 3/3 (High)
+
+**Expected Output:**
+- Border: RED ✅
+- Score text (3/3): RED ✅
+- Badge (High): RED background ✅
+- Progress bar: RED ✅
+
+### Test Case 2: Burnout 2/3 (2 Red, 1 Green)
+
+**Input:**
+- Arousal Score: 0/1 (red)
+- Relaxation Score: 0/1 (red)
+- Excessive Delta: 1/1 (green)
+- Final Score: 2/3 (Medium)
+
+**Expected Output:**
+- Border: RED ✅
+- Score text (2/3): RED ✅
+- Badge (Medium): RED background ✅
+- Progress bar: RED ✅
+
+### Test Case 3: Stress 0/3 (All Green)
+
+**Input:**
+- Arousal Score: 1/1 (green)
+- Relaxation Score: 1/1 (green)
+- Regeneration: 1/1 (green)
+- Final Score: 0/3 (Low)
+
+**Expected Output:**
+- Border: GREEN ✅
+- Score text (0/3): GREEN ✅
+- Badge (Low): GREEN background ✅
+- Progress bar: None (0%)
+
+---
+
+## Visual Comparison
+
+### Before:
+```
+Stress 3/3 High [GREEN border, GREEN badge] ❌ Wrong!
+Burnout 2/3 Medium [YELLOW border, YELLOW badge] ❌ Wrong!
+```
+
+### After:
+```
+Stress 3/3 High [RED border, RED badge] ✅ Correct!
+Burnout 2/3 Medium [RED border, RED badge] ✅ Correct!
+Stress 0/3 Low [GREEN border, GREEN badge] ✅ Correct!
+```
+
+---
+
+## Summary
+
+✅ **Fixed border colors** - Stress/Burnout show RED for any stress (score > 0)
+✅ **Fixed badge colors** - Status badge shows RED for stress presence
+✅ **Fixed progress bars** - Progress bar shows RED for stress presence
+✅ **Added parameter awareness** - Color functions now check parameter type
+✅ **Updated all usages** - All color function calls pass parameter name
+✅ **Consistent logic** - 0/3 = healthy (green), 1-3/3 = unhealthy (red)
+
+**Stress and Burnout parameters now correctly show RED when stress is present!** 🎯

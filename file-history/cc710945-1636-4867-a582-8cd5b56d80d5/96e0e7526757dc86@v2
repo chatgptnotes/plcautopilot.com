@@ -1,0 +1,327 @@
+import DatabaseService from './databaseService';
+import SupabaseService from './supabaseService';
+
+class DatabaseBackupService {
+  constructor() {
+    this.supabase = SupabaseService.supabase;
+    this.backupBucketName = 'database-backups';
+  }
+
+  /**
+   * Create a full database backup
+   */
+  async createBackup() {
+    try {
+      console.log('Starting database backup...');
+      const timestamp = new Date().toISOString();
+      const backupId = `backup_${Date.now()}`;
+
+      // Tables to backup
+      const tablesToBackup = [
+        'clinics',
+        'patients',
+        'reports',
+        'subscriptions',
+        'payment_history',
+        'organizations',
+        'profiles',
+        'org_memberships'
+      ];
+
+      const backupData = {
+        backupId,
+        timestamp,
+        version: '1.0.0',
+        tables: {}
+      };
+
+      // Fetch data from each table
+      for (const table of tablesToBackup) {
+        try {
+          console.log(`Backing up table: ${table}`);
+          const data = await DatabaseService.get(table);
+
+          // Exclude sensitive fields like passwords
+          const sanitizedData = this.sanitizeData(data, table);
+
+          backupData.tables[table] = {
+            count: sanitizedData.length,
+            data: sanitizedData
+          };
+        } catch (error) {
+          console.error(`Error backing up table ${table}:`, error);
+          backupData.tables[table] = {
+            count: 0,
+            data: [],
+            error: error.message
+          };
+        }
+      }
+
+      // Calculate total records
+      const totalRecords = Object.values(backupData.tables)
+        .reduce((sum, table) => sum + (table.count || 0), 0);
+
+      // Convert to JSON
+      const backupJson = JSON.stringify(backupData, null, 2);
+      const backupSize = new Blob([backupJson]).size;
+
+      // Create filename
+      const fileName = `backup_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+
+      // Upload to Supabase Storage
+      const { data: uploadData, error: uploadError } = await this.supabase.storage
+        .from(this.backupBucketName)
+        .upload(fileName, backupJson, {
+          contentType: 'application/json',
+          upsert: false
+        });
+
+      if (uploadError) {
+        console.error('Error uploading backup:', uploadError);
+        throw uploadError;
+      }
+
+      console.log('Backup uploaded successfully:', uploadData);
+
+      // Save backup metadata to database
+      const backupMetadata = {
+        backup_id: backupId,
+        file_name: fileName,
+        file_path: uploadData.path,
+        file_size: backupSize,
+        total_records: totalRecords,
+        tables_backed_up: Object.keys(backupData.tables),
+        status: 'completed',
+        created_at: timestamp
+      };
+
+      // Try to save metadata (optional - won't fail if table doesn't exist)
+      try {
+        await this.supabase
+          .from('backup_history')
+          .insert(backupMetadata);
+      } catch (metaError) {
+        console.warn('Could not save backup metadata (table may not exist):', metaError);
+      }
+
+      return {
+        success: true,
+        backupId,
+        fileName,
+        fileSize: backupSize,
+        totalRecords,
+        timestamp,
+        message: 'Backup created successfully'
+      };
+
+    } catch (error) {
+      console.error('Backup failed:', error);
+      return {
+        success: false,
+        error: error.message,
+        message: 'Backup failed'
+      };
+    }
+  }
+
+  /**
+   * Sanitize data by removing sensitive fields
+   */
+  sanitizeData(data, tableName) {
+    if (!Array.isArray(data)) return data;
+
+    return data.map(record => {
+      const sanitized = { ...record };
+
+      // Remove password fields
+      if (tableName === 'clinics' || tableName === 'profiles') {
+        delete sanitized.password;
+        delete sanitized.password_hash;
+      }
+
+      return sanitized;
+    });
+  }
+
+  /**
+   * Get last backup information
+   */
+  async getLastBackup() {
+    try {
+      // Try to get from backup_history table
+      const { data, error } = await this.supabase
+        .from('backup_history')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.warn('Could not fetch backup history:', error);
+        // Fallback: check storage bucket for last file
+        return await this.getLastBackupFromStorage();
+      }
+
+      return {
+        timestamp: data.created_at,
+        fileSize: data.file_size,
+        totalRecords: data.total_records,
+        status: data.status
+      };
+
+    } catch (error) {
+      console.error('Error getting last backup:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get last backup from storage bucket (fallback)
+   */
+  async getLastBackupFromStorage() {
+    try {
+      const { data, error } = await this.supabase.storage
+        .from(this.backupBucketName)
+        .list('', {
+          limit: 1,
+          offset: 0,
+          sortBy: { column: 'created_at', order: 'desc' }
+        });
+
+      if (error || !data || data.length === 0) {
+        return null;
+      }
+
+      const lastFile = data[0];
+      return {
+        timestamp: lastFile.created_at,
+        fileSize: lastFile.metadata?.size || 0,
+        fileName: lastFile.name
+      };
+
+    } catch (error) {
+      console.error('Error getting last backup from storage:', error);
+      return null;
+    }
+  }
+
+  /**
+   * List all backups
+   */
+  async listBackups(limit = 10) {
+    try {
+      const { data, error } = await this.supabase
+        .from('backup_history')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(limit);
+
+      if (error) {
+        console.warn('Could not fetch backup history:', error);
+        return [];
+      }
+
+      return data || [];
+
+    } catch (error) {
+      console.error('Error listing backups:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Download a backup file
+   */
+  async downloadBackup(fileName) {
+    try {
+      const { data, error } = await this.supabase.storage
+        .from(this.backupBucketName)
+        .download(fileName);
+
+      if (error) {
+        throw error;
+      }
+
+      // Create download link
+      const url = window.URL.createObjectURL(data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      return { success: true };
+
+    } catch (error) {
+      console.error('Error downloading backup:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Initialize backup storage bucket
+   */
+  async initializeBackupBucket() {
+    try {
+      // Check if bucket exists
+      const { data: buckets } = await this.supabase.storage.listBuckets();
+      const bucketExists = buckets?.some(b => b.name === this.backupBucketName);
+
+      if (!bucketExists) {
+        console.log('Creating backup bucket...');
+        const { data, error } = await this.supabase.storage.createBucket(this.backupBucketName, {
+          public: false,
+          fileSizeLimit: 52428800 // 50MB
+        });
+
+        if (error) {
+          console.error('Error creating backup bucket:', error);
+          return false;
+        }
+
+        console.log('Backup bucket created successfully');
+      }
+
+      return true;
+
+    } catch (error) {
+      console.error('Error initializing backup bucket:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Format file size for display
+   */
+  formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  }
+
+  /**
+   * Format timestamp for display
+   */
+  formatTimestamp(timestamp) {
+    const now = new Date();
+    const then = new Date(timestamp);
+    const diffMs = now - then;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+
+    return then.toLocaleDateString();
+  }
+}
+
+export default new DatabaseBackupService();

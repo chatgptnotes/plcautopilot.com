@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Examine qeegParser.js to understand PDF parsing logic",
+    "status": "in_progress",
+    "activeForm": "Examining qeegParser.js PDF parsing logic"
+  },
+  {
+    "content": "Check if PDF files are corrupted or have format issues",
+    "status": "pending",
+    "activeForm": "Checking PDF file format and integrity"
+  },
+  {
+    "content": "Implement better PDF extraction with fallback methods",
+    "status": "pending",
+    "activeForm": "Implementing improved PDF extraction"
+  },
+  {
+    "content": "Add better error handling and logging for PDF parsing",
+    "status": "pending",
+    "activeForm": "Adding error handling and logging"
+  },
+  {
+    "content": "Test the fix with the uploaded PDF files",
+    "status": "pending",
+    "activeForm": "Testing the fix with PDF files"
+  }
+]

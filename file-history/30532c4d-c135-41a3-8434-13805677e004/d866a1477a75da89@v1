@@ -1,0 +1,223 @@
+/**
+ * Numbers at a Glance Generator
+ * Displays summary of key QEEG metrics for both Eyes Closed and Eyes Open conditions
+ */
+
+const { COLORS, FONTS, LAYOUT, startNewSection, addPageFooter, drawRoundedRect } = require('./pdfStyles');
+
+/**
+ * Generate the Numbers at a Glance section
+ */
+function generateNumbersAtGlance(doc, qeegData, algorithmResults) {
+  let yPos = startNewSection(doc, 'Numbers at a Glance');
+
+  // Page title
+  doc.fontSize(FONTS.heading1)
+     .fillColor(COLORS.primaryDark)
+     .font(FONTS.bold)
+     .text('Numbers at a Glance', LAYOUT.margin.left, yPos);
+
+  yPos += 40;
+
+  const intro = 'This section provides a quick overview of your key QEEG metrics measured under two conditions: Eyes Closed (resting state) and Eyes Open (active state). These measurements help assess different aspects of brain function and regulation.';
+
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.darkGray)
+     .font(FONTS.regular)
+     .text(intro, LAYOUT.margin.left, yPos, {
+       width: LAYOUT.contentWidth,
+       align: 'justify',
+       lineGap: 3
+     });
+
+  yPos += 70;
+
+  // Eyes Closed Condition
+  doc.fontSize(FONTS.heading2)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text('Eyes Closed Condition (Resting State)', LAYOUT.margin.left, yPos);
+
+  yPos += 30;
+
+  yPos = drawMetricsTable(doc, qeegData, 'EC', LAYOUT.margin.left, yPos);
+
+  yPos += 40;
+
+  // Eyes Open Condition
+  if (yPos > LAYOUT.pageHeight - 300) {
+    yPos = startNewSection(doc, 'Numbers at a Glance');
+  }
+
+  doc.fontSize(FONTS.heading2)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text('Eyes Open Condition (Active State)', LAYOUT.margin.left, yPos);
+
+  yPos += 30;
+
+  yPos = drawMetricsTable(doc, qeegData, 'EO', LAYOUT.margin.left, yPos);
+
+  // Footer
+  addPageFooter(doc);
+}
+
+/**
+ * Draw metrics table for a condition (EC or EO)
+ */
+function drawMetricsTable(doc, qeegData, condition, x, yPos) {
+  const tableWidth = LAYOUT.contentWidth;
+  const rowHeight = 30;
+
+  // Extract metrics
+  const metrics = extractMetrics(qeegData, condition);
+
+  // Draw header
+  drawRoundedRect(doc, x, yPos, tableWidth, rowHeight, 5, COLORS.primary);
+
+  doc.fontSize(FONTS.body)
+     .fillColor(COLORS.white)
+     .font(FONTS.bold)
+     .text('Metric', x + 15, yPos + 10, { width: tableWidth * 0.5 })
+     .text('Value', x + tableWidth * 0.5, yPos + 10, { width: tableWidth * 0.25 })
+     .text('Status', x + tableWidth * 0.75, yPos + 10, { width: tableWidth * 0.25 });
+
+  yPos += rowHeight;
+
+  // Draw rows
+  metrics.forEach((metric, index) => {
+    const bgColor = index % 2 === 0 ? COLORS.veryLightGray : COLORS.white;
+    drawRoundedRect(doc, x, yPos, tableWidth, rowHeight, 0, bgColor);
+
+    // Metric name
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text(metric.name, x + 15, yPos + 10, { width: tableWidth * 0.5 });
+
+    // Value
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.bold)
+       .text(metric.value, x + tableWidth * 0.5, yPos + 10, { width: tableWidth * 0.25 });
+
+    // Status
+    const statusColor = getStatusColor(metric.status);
+    doc.fontSize(FONTS.small)
+       .fillColor(statusColor)
+       .font(FONTS.bold)
+       .text(metric.status, x + tableWidth * 0.75, yPos + 10, { width: tableWidth * 0.25 });
+
+    yPos += rowHeight;
+  });
+
+  // Draw border
+  doc.save();
+  doc.rect(x, yPos - (metrics.length + 1) * rowHeight, tableWidth, (metrics.length + 1) * rowHeight)
+     .strokeColor(COLORS.lightGray)
+     .lineWidth(1)
+     .stroke();
+  doc.restore();
+
+  return yPos;
+}
+
+/**
+ * Extract key metrics from QEEG data
+ */
+function extractMetrics(qeegData, condition) {
+  const metrics = [];
+
+  try {
+    if (condition === 'EC') {
+      // Eyes Closed metrics
+      const pzAlpha = qeegData.EC?.absolute?.Pz?.Alpha || 0;
+      const pzBeta = qeegData.EC?.absolute?.Pz?.Beta || 0;
+      const alphaPeak = qeegData.EC?.special?.alphaPeak || 0;
+      const f3Alpha = qeegData.EC?.absolute?.F3?.Alpha || 0;
+      const f4Alpha = qeegData.EC?.absolute?.F4?.Alpha || 0;
+
+      metrics.push(
+        {
+          name: 'Alpha Peak Frequency',
+          value: `${alphaPeak.toFixed(1)} Hz`,
+          status: alphaPeak > 9 ? 'Normal' : 'Low'
+        },
+        {
+          name: 'Alpha/Beta Ratio (Pz)',
+          value: pzBeta > 0 ? (pzAlpha / pzBeta).toFixed(2) : 'N/A',
+          status: (pzAlpha / pzBeta) > 1.5 ? 'Normal' : 'Low'
+        },
+        {
+          name: 'Frontal Alpha Asymmetry',
+          value: f3Alpha > 0 ? (f4Alpha / f3Alpha).toFixed(2) : 'N/A',
+          status: (f4Alpha / f3Alpha) < 1 ? 'Balanced' : 'Right Dominant'
+        },
+        {
+          name: 'Posterior Dominant Rhythm',
+          value: `${alphaPeak.toFixed(1)} Hz`,
+          status: alphaPeak >= 8 && alphaPeak <= 12 ? 'Normal' : 'Atypical'
+        }
+      );
+    } else {
+      // Eyes Open metrics
+      const fzTheta = qeegData.EO?.absolute?.Fz?.Theta || 0;
+      const fzBeta = qeegData.EO?.absolute?.Fz?.Beta || 0;
+      const fzHiBeta = qeegData.EO?.absolute?.Fz?.HiBeta || 0;
+      const czTheta = qeegData.EO?.absolute?.Cz?.Theta || 0;
+      const czBeta = qeegData.EO?.absolute?.Cz?.Beta || 0;
+
+      const avgThetaBeta = ((fzTheta / fzBeta) + (czTheta / czBeta)) / 2;
+      const avgArousal = fzBeta > 0 ? (fzHiBeta / fzBeta) : 0;
+
+      metrics.push(
+        {
+          name: 'Theta/Beta Ratio (Focus)',
+          value: avgThetaBeta.toFixed(2),
+          status: avgThetaBeta < 1.5 ? 'Good' : 'Elevated'
+        },
+        {
+          name: 'Arousal Score (HiBeta/Beta)',
+          value: avgArousal.toFixed(2),
+          status: avgArousal < 1 ? 'Normal' : 'High'
+        },
+        {
+          name: 'Frontal Theta Activity',
+          value: `${fzTheta.toFixed(1)} μV²`,
+          status: fzTheta < 5 ? 'Normal' : 'Elevated'
+        },
+        {
+          name: 'Beta Activity (Alertness)',
+          value: `${fzBeta.toFixed(1)} μV²`,
+          status: fzBeta > 3 && fzBeta < 8 ? 'Normal' : 'Atypical'
+        }
+      );
+    }
+  } catch (error) {
+    console.error('Error extracting metrics:', error);
+    metrics.push({
+      name: 'Data Processing',
+      value: 'N/A',
+      status: 'Error'
+    });
+  }
+
+  return metrics;
+}
+
+/**
+ * Get color based on status
+ */
+function getStatusColor(status) {
+  const normalStatuses = ['Normal', 'Good', 'Balanced', 'Healthy'];
+  const cautionStatuses = ['Low', 'Elevated', 'Atypical'];
+  const alertStatuses = ['High', 'Error'];
+
+  if (normalStatuses.includes(status)) return COLORS.success;
+  if (cautionStatuses.includes(status)) return COLORS.warning;
+  if (alertStatuses.includes(status)) return COLORS.danger;
+
+  return COLORS.gray;
+}
+
+module.exports = { generateNumbersAtGlance };

@@ -1,0 +1,243 @@
+# Gemini API Quota Increase Guide
+
+## Problem: API Quota Exceeded Error
+
+You're seeing this error even with billing enabled:
+```
+Error: ⚠️ API Quota Exceeded
+Google Gemini API has reached its free tier limit.
+```
+
+## Root Cause
+
+**Even with billing enabled, your Google Cloud project still has DEFAULT quota limits set to free tier values.**
+
+- **Free tier default**: 20 requests/day, 2 requests/minute
+- **Billing enabled ≠ Automatic quota increase**
+- You must **manually request quota increases** after enabling billing
+
+## Solution: Request Quota Increase
+
+### Step 1: Verify Billing is Enabled
+
+1. Go to [Google Cloud Console - Billing](https://console.cloud.google.com/billing)
+2. Select your project (the one with your API key)
+3. Verify billing account is linked and active
+4. Check payment method is valid
+
+### Step 2: Enable "Pay as you go" for Generative Language API
+
+1. Go to [AI Studio](https://aistudio.google.com/app/prompts/new_chat)
+2. Check the pricing tier displayed
+3. If it says "Free tier", click to upgrade to "Pay as you go"
+4. This enables paid tier features and higher quotas
+
+### Step 3: Request Quota Increase in Google Cloud Console
+
+1. **Navigate to Quotas Page:**
+   ```
+   https://console.cloud.google.com/apis/api/generativelanguage.googleapis.com/quotas
+   ```
+
+2. **Select Your Project:**
+   - Use the project dropdown at top
+   - Choose the project containing your API key
+
+3. **Filter Quotas:**
+   - Filter by "Requests per minute" and "Requests per day"
+   - Look for these quotas:
+     - `Requests per minute per project`
+     - `Requests per day per project`
+
+4. **Request Increase:**
+   - Click on each quota limit
+   - Click "EDIT QUOTAS" button
+   - Fill out the quota increase request form:
+     - **New Limit**: Request what you need (e.g., 1000 requests/day, 60 requests/minute)
+     - **Reason**: "Production application processing QEEG brain analysis reports for patients"
+   - Submit the request
+
+5. **Wait for Approval:**
+   - Usually approved within 24-48 hours
+   - You'll receive email notification
+   - Some increases are instant, others require manual review
+
+### Step 4: Verify New Quotas
+
+After approval, verify in your app:
+
+1. **Check via API endpoint:**
+   ```bash
+   curl http://localhost:5000/api/qeeg/quota-status
+   ```
+
+2. **Check in Google Cloud Console:**
+   - Go back to quotas page
+   - Verify new limits are reflected
+
+## Alternative: Use Vertex AI (Recommended for Production)
+
+Vertex AI has better quota management and higher default limits:
+
+1. **Enable Vertex AI API:**
+   ```
+   https://console.cloud.google.com/apis/library/aiplatform.googleapis.com
+   ```
+
+2. **Update your code** to use Vertex AI SDK instead of Generative Language API
+   - Vertex AI quotas: Much higher (thousands of requests/minute)
+   - Better for production workloads
+   - More enterprise features
+
+3. **Code change required:**
+   ```javascript
+   // Instead of:
+   const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+   // Use:
+   const { VertexAI } = require('@google-cloud/vertexai');
+   ```
+
+## Current Rate Limiting in Your App
+
+The app now has built-in rate limiting to prevent hitting quotas too quickly:
+
+### Configuration (Environment Variables)
+
+Add these to your `.env` file to customize:
+
+```env
+# Gemini API Quota Configuration
+GEMINI_DAILY_LIMIT=20              # Free tier: 20, Paid tier: 1000+
+GEMINI_REQUESTS_PER_MINUTE=2       # Free tier: 2, Paid tier: 60+
+GEMINI_REQUEST_DELAY_MS=30000      # 30 seconds between requests (default)
+```
+
+### How It Works
+
+1. **Automatic Delays:**
+   - 30 seconds enforced between each API call
+   - Prevents hitting rate limits
+
+2. **Quota Tracking:**
+   - Tracks daily and per-minute usage
+   - Throws error when quota exhausted
+
+3. **Smart Caching:**
+   - Re-uploading SAME files uses cache (no quota consumed)
+   - Cache is based on PDF file hash
+
+### Check Quota Status
+
+**Via API:**
+```bash
+GET http://localhost:5000/api/qeeg/quota-status
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "quota": {
+    "daily": {
+      "used": 12,
+      "limit": 20,
+      "remaining": 8,
+      "percentUsed": "60.0%",
+      "status": "OK"
+    },
+    "minute": {
+      "used": 1,
+      "limit": 2
+    },
+    "lastRequest": "2025-01-09T10:30:00.000Z",
+    "nextReset": "2025-01-10T00:00:00.000Z",
+    "hoursUntilReset": "13.5"
+  },
+  "recommendations": [
+    "Quota is healthy. You can process 4 more patients today."
+  ]
+}
+```
+
+## Pricing Information
+
+### Free Tier (No Billing)
+- **Limit**: 20 requests/day, 2 requests/minute
+- **Cost**: $0
+- **Best for**: Testing, development, personal projects
+
+### Pay-as-you-go (Billing Enabled + Quota Increase)
+- **Default after increase**: 1000+ requests/day, 60+ requests/minute
+- **Cost**: ~$0.00025 per request (varies by model)
+- **Example**: 100 requests/day = ~$0.025/day = ~$0.75/month
+- **Best for**: Production applications
+
+### Vertex AI (Enterprise)
+- **Limit**: Thousands of requests/minute
+- **Cost**: Similar to Generative Language API
+- **Features**: Better quota management, SLA, enterprise support
+- **Best for**: Large-scale production deployments
+
+## Troubleshooting
+
+### Issue: "Quota exceeded" even after billing enabled
+
+**Cause:** Billing enabled but quotas not increased.
+
+**Solution:** Follow Step 3 above to request quota increase.
+
+---
+
+### Issue: "Quota increase request denied"
+
+**Cause:** Google requires usage history or business justification.
+
+**Solution:**
+1. Use free tier for a few days to establish usage pattern
+2. Provide detailed business case in quota request
+3. Contact Google Cloud support for assistance
+
+---
+
+### Issue: "API key works in AI Studio but not in app"
+
+**Cause:** API key might be from different project than billing-enabled one.
+
+**Solution:**
+1. Verify API key is from the correct project
+2. Delete old API key
+3. Create new API key in the billing-enabled project
+4. Update `.env` file with new key
+
+---
+
+### Issue: "Still getting quota errors with high limits"
+
+**Cause:** App might be making too many concurrent requests.
+
+**Solution:**
+1. Check app rate limiting is enabled
+2. Increase `GEMINI_REQUEST_DELAY_MS` in `.env`
+3. Monitor quota usage via `/api/qeeg/quota-status` endpoint
+
+## Summary
+
+1. ✅ **Enable Billing** on Google Cloud project
+2. ✅ **Upgrade to "Pay as you go"** in AI Studio
+3. ✅ **Request Quota Increase** in Google Cloud Console quotas page
+4. ✅ **Wait for approval** (24-48 hours)
+5. ✅ **Update .env** with new limits after approval
+6. ✅ **Monitor usage** via `/api/qeeg/quota-status` endpoint
+
+**Current Status with Rate Limiting:**
+- Your app now enforces 30-second delays between API calls
+- Automatically tracks daily usage
+- Prevents exceeding quotas
+- Works within free tier limits (10 patients/day max)
+- Ready to scale up when quota increase is approved
+
+**Need Help?**
+- Google Cloud Support: https://cloud.google.com/support
+- Gemini API Pricing: https://ai.google.dev/pricing
+- Vertex AI Docs: https://cloud.google.com/vertex-ai/docs

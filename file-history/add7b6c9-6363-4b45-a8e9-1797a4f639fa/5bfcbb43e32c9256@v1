@@ -1,0 +1,909 @@
+/**
+ * QEEG Z-Score Algorithm Calculator
+ * Calculates 7 brain health parameters using Z-score data instead of raw power values
+ * Z-scores represent standard deviations from age-matched norms
+ * Each parameter has 3 sub-metrics, scored 0-3, classified as Low/Medium/High
+ */
+
+const THRESHOLDS = require('./zscoreThresholds');
+
+class ZScoreCalculator {
+  constructor(qeegData) {
+    this.data = qeegData;
+    this.results = {
+      parameters: [],
+      rawCalculations: {},
+      overallScore: 0
+    };
+  }
+
+  /**
+   * Main calculation method - calculates all 7 parameters
+   */
+  calculate() {
+    const parameters = [
+      this.calculateCognition(),
+      this.calculateStress(),
+      this.calculateFocusAttention(),
+      this.calculateBurnoutFatigue(),
+      this.calculateEmotionalRegulation(),
+      this.calculateLearning(),
+      this.calculateCreativity()
+    ];
+
+    this.results.parameters = parameters;
+    this.results.overallScore = parameters.reduce((sum, p) => sum + p.score, 0);
+
+    return this.results;
+  }
+
+  // ==================== HELPER METHODS ====================
+
+  /**
+   * Get Z-score value from QEEG data
+   * @param {string} condition - 'EC' (Eyes Closed) or 'EO' (Eyes Open)
+   * @param {string} powerType - 'absolute' or 'relative'
+   * @param {string} channel - e.g., 'Fz', 'Cz', 'Pz'
+   * @param {string} band - e.g., 'Theta', 'Alpha', 'Beta', 'HiBeta', 'Delta'
+   */
+  getZScore(condition, powerType, channel, band) {
+    try {
+      // Z-scores are stored in data[condition].zscores[powerType][channel][band]
+      return this.data[condition].zscores[powerType][channel][band];
+    } catch (error) {
+      console.error(`Error getting Z-score: ${condition}.zscores.${powerType}.${channel}.${band}`);
+      return null;
+    }
+  }
+
+  /**
+   * Check if Z-score is within normal range
+   * @param {number} zscore - The Z-score value
+   * @param {number} threshold - Threshold value (typically 1.0 or 2.0)
+   * @param {string} comparison - 'within', 'above', 'below'
+   * @returns {number} 1 if passes, 0 if fails
+   */
+  scoreZMetric(zscore, threshold, comparison = 'within') {
+    if (zscore === null || zscore === undefined) return 0;
+
+    if (comparison === 'within') {
+      // Check if Z-score is within ±threshold (normal range)
+      return Math.abs(zscore) <= threshold ? 1 : 0;
+    } else if (comparison === 'below') {
+      // Check if Z-score is below threshold (not elevated)
+      return zscore < threshold ? 1 : 0;
+    } else if (comparison === 'above') {
+      // Check if Z-score is above threshold (not reduced)
+      return zscore > threshold ? 1 : 0;
+    }
+    return 0;
+  }
+
+  /**
+   * Classify score to bucket (Low/Medium/High)
+   */
+  classifyScore(score) {
+    if (score <= 1) return 'Low';
+    if (score === 2) return 'Medium';
+    return 'High';
+  }
+
+  // ==================== INDIVIDUAL METRICS ====================
+
+  /**
+   * COGNITION METRICS
+   */
+
+  /**
+   * Metric 1: Focus Score (Theta & Beta Z-scores)
+   * Eyes Open, Check Fz & Cz Theta and Beta Z-scores
+   * Pass if Theta Z-score < 1.0 AND Beta Z-score > -1.0
+   */
+  calculateFocusScore() {
+    const fzTheta = this.getZScore('EO', 'absolute', 'Fz', 'Theta');
+    const fzBeta = this.getZScore('EO', 'absolute', 'Fz', 'Beta');
+    const czTheta = this.getZScore('EO', 'absolute', 'Cz', 'Theta');
+    const czBeta = this.getZScore('EO', 'absolute', 'Cz', 'Beta');
+
+    if (fzTheta == null || fzBeta == null || czTheta == null || czBeta == null) {
+      return {
+        name: 'Focus Score',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Z-score data for frontal regions'
+      };
+    }
+
+    // Pass if all conditions met
+    const fzPass = fzTheta < THRESHOLDS.COGNITION.FOCUS_SCORE.THETA_ELEVATED &&
+                   fzBeta > THRESHOLDS.COGNITION.FOCUS_SCORE.BETA_REDUCED;
+    const czPass = czTheta < THRESHOLDS.COGNITION.FOCUS_SCORE.THETA_ELEVATED &&
+                   czBeta > THRESHOLDS.COGNITION.FOCUS_SCORE.BETA_REDUCED;
+
+    const score = (fzPass && czPass) ? 1 : 0;
+
+    return {
+      name: 'Focus Score',
+      value: { fzTheta, fzBeta, czTheta, czBeta },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Fz: Theta Z=${fzTheta.toFixed(2)}, Beta Z=${fzBeta.toFixed(2)} | Cz: Theta Z=${czTheta.toFixed(2)}, Beta Z=${czBeta.toFixed(2)}`
+    };
+  }
+
+  /**
+   * Metric 2: Alpha Peak
+   * Eyes Closed, Alpha Peak Frequency Z-score
+   * Pass if Z-score within ±1.0
+   */
+  calculateAlphaPeak() {
+    const alphaPeakZscore = this.data.EC?.special?.alphaPeakZscore || 0.0;
+
+    const score = this.scoreZMetric(alphaPeakZscore, THRESHOLDS.COGNITION.ALPHA_PEAK.NORMAL_RANGE, 'within');
+
+    return {
+      name: 'Alpha Peak',
+      value: alphaPeakZscore,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Alpha Peak Z-score: ${alphaPeakZscore.toFixed(2)} (within ±1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Alpha/Theta Balance
+   * Eyes Closed, Check if Alpha Z-score > -1.0 and Theta Z-score < 1.0 across regions
+   * Pass if all regions meet criteria
+   */
+  calculateAlphaThetaBalance() {
+    const fzAlpha = this.getZScore('EC', 'absolute', 'Fz', 'Alpha');
+    const fzTheta = this.getZScore('EC', 'absolute', 'Fz', 'Theta');
+    const czAlpha = this.getZScore('EC', 'absolute', 'Cz', 'Alpha');
+    const czTheta = this.getZScore('EC', 'absolute', 'Cz', 'Theta');
+    const pzAlpha = this.getZScore('EC', 'absolute', 'Pz', 'Alpha');
+    const pzTheta = this.getZScore('EC', 'absolute', 'Pz', 'Theta');
+
+    if (fzAlpha == null || fzTheta == null || czAlpha == null || czTheta == null || pzAlpha == null || pzTheta == null) {
+      return {
+        name: 'Alpha/Theta Balance',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Z-score data'
+      };
+    }
+
+    // Check if all regions pass
+    const allRegionsPass =
+      fzAlpha > THRESHOLDS.COGNITION.ALPHA_THETA_BALANCE.ALPHA_LOW &&
+      fzTheta < THRESHOLDS.COGNITION.ALPHA_THETA_BALANCE.THETA_HIGH &&
+      czAlpha > THRESHOLDS.COGNITION.ALPHA_THETA_BALANCE.ALPHA_LOW &&
+      czTheta < THRESHOLDS.COGNITION.ALPHA_THETA_BALANCE.THETA_HIGH &&
+      pzAlpha > THRESHOLDS.COGNITION.ALPHA_THETA_BALANCE.ALPHA_LOW &&
+      pzTheta < THRESHOLDS.COGNITION.ALPHA_THETA_BALANCE.THETA_HIGH;
+
+    const score = allRegionsPass ? 1 : 0;
+
+    return {
+      name: 'Alpha/Theta Balance',
+      value: { fzAlpha, fzTheta, czAlpha, czTheta, pzAlpha, pzTheta },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Alpha Z-scores: Fz=${fzAlpha.toFixed(2)}, Cz=${czAlpha.toFixed(2)}, Pz=${pzAlpha.toFixed(2)} | Theta Z-scores: Fz=${fzTheta.toFixed(2)}, Cz=${czTheta.toFixed(2)}, Pz=${pzTheta.toFixed(2)}`
+    };
+  }
+
+  /**
+   * STRESS METRICS
+   */
+
+  /**
+   * Metric 1: Arousal Score (HiBeta Z-scores)
+   * Eyes Open, HiBeta Z-scores across Fz, Cz, Pz
+   * Pass if all < 1.0 (not elevated)
+   */
+  calculateArousalScore() {
+    const fzHiBeta = this.getZScore('EO', 'absolute', 'Fz', 'HiBeta');
+    const czHiBeta = this.getZScore('EO', 'absolute', 'Cz', 'HiBeta');
+    const pzHiBeta = this.getZScore('EO', 'absolute', 'Pz', 'HiBeta');
+
+    if (fzHiBeta == null || czHiBeta == null || pzHiBeta == null) {
+      return {
+        name: 'Arousal Score',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing HiBeta Z-score data'
+      };
+    }
+
+    const allWithinRange =
+      fzHiBeta < THRESHOLDS.STRESS.AROUSAL_SCORE.HIBETA_ELEVATED &&
+      czHiBeta < THRESHOLDS.STRESS.AROUSAL_SCORE.HIBETA_ELEVATED &&
+      pzHiBeta < THRESHOLDS.STRESS.AROUSAL_SCORE.HIBETA_ELEVATED;
+
+    const score = allWithinRange ? 1 : 0;
+
+    return {
+      name: 'Arousal Score',
+      value: { fzHiBeta, czHiBeta, pzHiBeta },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `HiBeta Z-scores: Fz=${fzHiBeta.toFixed(2)}, Cz=${czHiBeta.toFixed(2)}, Pz=${pzHiBeta.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 2: Relaxation Score (Posterior Theta)
+   * Eyes Closed, Pz Theta Z-score
+   * Pass if > -1.0 (not reduced)
+   */
+  calculateRelaxationScore() {
+    const pzTheta = this.getZScore('EC', 'absolute', 'Pz', 'Theta');
+
+    if (pzTheta == null) {
+      return {
+        name: 'Relaxation Score',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Pz Theta Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(pzTheta, THRESHOLDS.STRESS.RELAXATION_SCORE.THETA_LOW, 'above');
+
+    return {
+      name: 'Relaxation Score',
+      value: pzTheta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Pz Theta Z-score: ${pzTheta.toFixed(2)} (> -1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Regeneration (Posterior Alpha)
+   * Eyes Closed, Pz Alpha Z-score
+   * Pass if > -1.0 (not reduced)
+   */
+  calculateRegeneration() {
+    const pzAlpha = this.getZScore('EC', 'absolute', 'Pz', 'Alpha');
+
+    if (pzAlpha == null) {
+      return {
+        name: 'Regeneration',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Pz Alpha Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(pzAlpha, THRESHOLDS.STRESS.REGENERATION.ALPHA_LOW, 'above');
+
+    return {
+      name: 'Regeneration',
+      value: pzAlpha,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Pz Alpha Z-score: ${pzAlpha.toFixed(2)} (> -1.0 is normal)`
+    };
+  }
+
+  /**
+   * FOCUS AND ATTENTION METRICS
+   */
+
+  /**
+   * Metric 1: Focus Theta (Frontal Theta)
+   * Eyes Open, Fz Theta Z-score
+   * Pass if < 1.0 (not elevated)
+   */
+  calculateFocusTheta() {
+    const fzTheta = this.getZScore('EO', 'absolute', 'Fz', 'Theta');
+
+    if (fzTheta == null) {
+      return {
+        name: 'Focus Theta',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Fz Theta Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(fzTheta, THRESHOLDS.FOCUS_AND_ATTENTION.FOCUS_THETA.THETA_ELEVATED, 'below');
+
+    return {
+      name: 'Focus Theta',
+      value: fzTheta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Fz Theta Z-score: ${fzTheta.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 2: Beta Coherence (C3-C4 Beta asymmetry)
+   * Eyes Open, Check C3 and C4 Beta Z-score difference
+   * Pass if |difference| < 1.0
+   */
+  calculateBetaCoherence() {
+    const c3Beta = this.getZScore('EO', 'absolute', 'C3', 'Beta');
+    const c4Beta = this.getZScore('EO', 'absolute', 'C4', 'Beta');
+
+    if (c3Beta == null || c4Beta == null) {
+      return {
+        name: 'Beta Coherence',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing C3/C4 Beta Z-scores'
+      };
+    }
+
+    const asymmetry = Math.abs(c3Beta - c4Beta);
+    const score = asymmetry < THRESHOLDS.FOCUS_AND_ATTENTION.BETA_COHERENCE.ASYMMETRY_THRESHOLD ? 1 : 0;
+
+    return {
+      name: 'Beta Coherence',
+      value: { c3Beta, c4Beta, asymmetry },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `C3 Beta Z=${c3Beta.toFixed(2)}, C4 Beta Z=${c4Beta.toFixed(2)}, Asymmetry=${asymmetry.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Theta/Beta Ratio
+   * Eyes Open, Cz Theta and Beta Z-scores
+   * Pass if Theta < 1.0 and Beta > -1.0
+   */
+  calculateThetaBetaRatio() {
+    const czTheta = this.getZScore('EO', 'absolute', 'Cz', 'Theta');
+    const czBeta = this.getZScore('EO', 'absolute', 'Cz', 'Beta');
+
+    if (czTheta == null || czBeta == null) {
+      return {
+        name: 'Theta/Beta Ratio',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Cz Theta/Beta Z-scores'
+      };
+    }
+
+    const score = (czTheta < THRESHOLDS.FOCUS_AND_ATTENTION.THETA_BETA_RATIO.THETA_HIGH &&
+                   czBeta > THRESHOLDS.FOCUS_AND_ATTENTION.THETA_BETA_RATIO.BETA_LOW) ? 1 : 0;
+
+    return {
+      name: 'Theta/Beta Ratio',
+      value: { czTheta, czBeta },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Cz Theta Z=${czTheta.toFixed(2)} (< 1.0), Beta Z=${czBeta.toFixed(2)} (> -1.0)`
+    };
+  }
+
+  /**
+   * BURNOUT AND FATIGUE METRICS
+   */
+
+  /**
+   * Metric 1: Delta Activity (Frontal Delta)
+   * Eyes Open, Fz Delta Z-score
+   * Pass if < 1.0 (not elevated)
+   */
+  calculateDeltaActivity() {
+    const fzDelta = this.getZScore('EO', 'absolute', 'Fz', 'Delta');
+
+    if (fzDelta == null) {
+      return {
+        name: 'Delta Activity',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Fz Delta Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(fzDelta, THRESHOLDS.BURNOUT_AND_FATIGUE.DELTA_ACTIVITY.DELTA_ELEVATED, 'below');
+
+    return {
+      name: 'Delta Activity',
+      value: fzDelta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Fz Delta Z-score: ${fzDelta.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 2: Theta Dominance
+   * Eyes Open, Average Theta Z-score across regions
+   * Pass if average < 1.0
+   */
+  calculateThetaDominance() {
+    const fzTheta = this.getZScore('EO', 'absolute', 'Fz', 'Theta');
+    const czTheta = this.getZScore('EO', 'absolute', 'Cz', 'Theta');
+    const pzTheta = this.getZScore('EO', 'absolute', 'Pz', 'Theta');
+
+    if (fzTheta == null || czTheta == null || pzTheta == null) {
+      return {
+        name: 'Theta Dominance',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Theta Z-scores'
+      };
+    }
+
+    const avgTheta = (fzTheta + czTheta + pzTheta) / 3;
+    const score = avgTheta < THRESHOLDS.BURNOUT_AND_FATIGUE.THETA_DOMINANCE.THETA_EXCESSIVE ? 1 : 0;
+
+    return {
+      name: 'Theta Dominance',
+      value: avgTheta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Average Theta Z-score: ${avgTheta.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Alpha Suppression
+   * Eyes Closed, Average Alpha Z-score
+   * Pass if > -1.0 (not suppressed)
+   */
+  calculateAlphaSuppression() {
+    const fzAlpha = this.getZScore('EC', 'absolute', 'Fz', 'Alpha');
+    const czAlpha = this.getZScore('EC', 'absolute', 'Cz', 'Alpha');
+    const pzAlpha = this.getZScore('EC', 'absolute', 'Pz', 'Alpha');
+
+    if (fzAlpha == null || czAlpha == null || pzAlpha == null) {
+      return {
+        name: 'Alpha Suppression',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Alpha Z-scores'
+      };
+    }
+
+    const avgAlpha = (fzAlpha + czAlpha + pzAlpha) / 3;
+    const score = avgAlpha > THRESHOLDS.BURNOUT_AND_FATIGUE.ALPHA_SUPPRESSION.ALPHA_LOW ? 1 : 0;
+
+    return {
+      name: 'Alpha Suppression',
+      value: avgAlpha,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Average Alpha Z-score: ${avgAlpha.toFixed(2)} (> -1.0 is normal)`
+    };
+  }
+
+  /**
+   * EMOTIONAL REGULATION METRICS
+   */
+
+  /**
+   * Metric 1: Right Frontal Alpha
+   * Eyes Closed, F4 Alpha Z-score
+   * Pass if > -1.0 (not reduced)
+   */
+  calculateRightFrontalAlpha() {
+    const f4Alpha = this.getZScore('EC', 'absolute', 'F4', 'Alpha');
+
+    if (f4Alpha == null) {
+      return {
+        name: 'Right Frontal Alpha',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing F4 Alpha Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(f4Alpha, THRESHOLDS.EMOTIONAL_REGULATION.RIGHT_FRONTAL_ALPHA.ALPHA_LOW, 'above');
+
+    return {
+      name: 'Right Frontal Alpha',
+      value: f4Alpha,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `F4 Alpha Z-score: ${f4Alpha.toFixed(2)} (> -1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 2: Alpha Asymmetry (F3-F4)
+   * Eyes Closed, F3 and F4 Alpha Z-score difference
+   * Pass if |difference| < 1.0
+   */
+  calculateAlphaAsymmetry() {
+    const f3Alpha = this.getZScore('EC', 'absolute', 'F3', 'Alpha');
+    const f4Alpha = this.getZScore('EC', 'absolute', 'F4', 'Alpha');
+
+    if (f3Alpha == null || f4Alpha == null) {
+      return {
+        name: 'Alpha Asymmetry',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing F3/F4 Alpha Z-scores'
+      };
+    }
+
+    const asymmetry = Math.abs(f3Alpha - f4Alpha);
+    const score = asymmetry < THRESHOLDS.EMOTIONAL_REGULATION.ALPHA_ASYMMETRY.ASYMMETRY_THRESHOLD ? 1 : 0;
+
+    return {
+      name: 'Alpha Asymmetry',
+      value: { f3Alpha, f4Alpha, asymmetry },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `F3 Alpha Z=${f3Alpha.toFixed(2)}, F4 Alpha Z=${f4Alpha.toFixed(2)}, Asymmetry=${asymmetry.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Beta Stress Response
+   * Eyes Open, Frontal Beta Z-scores
+   * Pass if both F3 and F4 < 1.0
+   */
+  calculateBetaStress() {
+    const f3Beta = this.getZScore('EO', 'absolute', 'F3', 'Beta');
+    const f4Beta = this.getZScore('EO', 'absolute', 'F4', 'Beta');
+
+    if (f3Beta == null || f4Beta == null) {
+      return {
+        name: 'Beta Stress Response',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing F3/F4 Beta Z-scores'
+      };
+    }
+
+    const score = (f3Beta < THRESHOLDS.EMOTIONAL_REGULATION.BETA_STRESS.BETA_ELEVATED &&
+                   f4Beta < THRESHOLDS.EMOTIONAL_REGULATION.BETA_STRESS.BETA_ELEVATED) ? 1 : 0;
+
+    return {
+      name: 'Beta Stress Response',
+      value: { f3Beta, f4Beta },
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `F3 Beta Z=${f3Beta.toFixed(2)}, F4 Beta Z=${f4Beta.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  /**
+   * LEARNING METRICS
+   */
+
+  /**
+   * Metric 1: Central Theta
+   * Eyes Closed, Cz Theta Z-score
+   * Pass if within ±1.0
+   */
+  calculateCentralTheta() {
+    const czTheta = this.getZScore('EC', 'absolute', 'Cz', 'Theta');
+
+    if (czTheta == null) {
+      return {
+        name: 'Central Theta',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Cz Theta Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(czTheta, THRESHOLDS.LEARNING.CENTRAL_THETA.NORMAL_RANGE, 'within');
+
+    return {
+      name: 'Central Theta',
+      value: czTheta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Cz Theta Z-score: ${czTheta.toFixed(2)} (within ±1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 2: Alpha Modulation
+   * Eyes Closed, Cz Alpha Z-score
+   * Pass if within ±1.0
+   */
+  calculateAlphaModulation() {
+    const czAlpha = this.getZScore('EC', 'absolute', 'Cz', 'Alpha');
+
+    if (czAlpha == null) {
+      return {
+        name: 'Alpha Modulation',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Cz Alpha Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(czAlpha, THRESHOLDS.LEARNING.ALPHA_MODULATION.NORMAL_RANGE, 'within');
+
+    return {
+      name: 'Alpha Modulation',
+      value: czAlpha,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Cz Alpha Z-score: ${czAlpha.toFixed(2)} (within ±1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Beta Engagement
+   * Eyes Open, Cz Beta Z-score
+   * Pass if within ±1.0
+   */
+  calculateBetaEngagement() {
+    const czBeta = this.getZScore('EO', 'absolute', 'Cz', 'Beta');
+
+    if (czBeta == null) {
+      return {
+        name: 'Beta Engagement',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing Cz Beta Z-score'
+      };
+    }
+
+    const score = this.scoreZMetric(czBeta, THRESHOLDS.LEARNING.BETA_ENGAGEMENT.NORMAL_RANGE, 'within');
+
+    return {
+      name: 'Beta Engagement',
+      value: czBeta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Cz Beta Z-score: ${czBeta.toFixed(2)} (within ±1.0 is normal)`
+    };
+  }
+
+  /**
+   * CREATIVITY METRICS
+   */
+
+  /**
+   * Metric 1: Alpha Power
+   * Eyes Closed, Parietal Alpha Z-scores (P3, P4, Pz)
+   * Pass if average > -1.0
+   */
+  calculateAlphaPower() {
+    const p3Alpha = this.getZScore('EC', 'absolute', 'P3', 'Alpha');
+    const p4Alpha = this.getZScore('EC', 'absolute', 'P4', 'Alpha');
+    const pzAlpha = this.getZScore('EC', 'absolute', 'Pz', 'Alpha');
+
+    if (p3Alpha == null || p4Alpha == null || pzAlpha == null) {
+      return {
+        name: 'Alpha Power',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing parietal Alpha Z-scores'
+      };
+    }
+
+    const avgAlpha = (p3Alpha + p4Alpha + pzAlpha) / 3;
+    const score = avgAlpha > THRESHOLDS.CREATIVITY.ALPHA_POWER.ALPHA_LOW ? 1 : 0;
+
+    return {
+      name: 'Alpha Power',
+      value: avgAlpha,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Average parietal Alpha Z-score: ${avgAlpha.toFixed(2)} (> -1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 2: Theta Enhancement
+   * Eyes Closed, Parietal Theta Z-scores
+   * Pass if average within ±1.0
+   */
+  calculateThetaEnhancement() {
+    const p3Theta = this.getZScore('EC', 'absolute', 'P3', 'Theta');
+    const p4Theta = this.getZScore('EC', 'absolute', 'P4', 'Theta');
+    const pzTheta = this.getZScore('EC', 'absolute', 'Pz', 'Theta');
+
+    if (p3Theta == null || p4Theta == null || pzTheta == null) {
+      return {
+        name: 'Theta Enhancement',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing parietal Theta Z-scores'
+      };
+    }
+
+    const avgTheta = (p3Theta + p4Theta + pzTheta) / 3;
+    const score = this.scoreZMetric(avgTheta, THRESHOLDS.CREATIVITY.THETA_ENHANCEMENT.NORMAL_RANGE, 'within');
+
+    return {
+      name: 'Theta Enhancement',
+      value: avgTheta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Average parietal Theta Z-score: ${avgTheta.toFixed(2)} (within ±1.0 is normal)`
+    };
+  }
+
+  /**
+   * Metric 3: Low Beta Activity
+   * Eyes Closed, Parietal Beta Z-scores
+   * Pass if average < 1.0
+   */
+  calculateLowBeta() {
+    const p3Beta = this.getZScore('EC', 'absolute', 'P3', 'Beta');
+    const p4Beta = this.getZScore('EC', 'absolute', 'P4', 'Beta');
+    const pzBeta = this.getZScore('EC', 'absolute', 'Pz', 'Beta');
+
+    if (p3Beta == null || p4Beta == null || pzBeta == null) {
+      return {
+        name: 'Low Beta Activity',
+        value: null,
+        score: 0,
+        interpretation: 'Insufficient data',
+        details: 'Missing parietal Beta Z-scores'
+      };
+    }
+
+    const avgBeta = (p3Beta + p4Beta + pzBeta) / 3;
+    const score = avgBeta < THRESHOLDS.CREATIVITY.LOW_BETA.BETA_HIGH ? 1 : 0;
+
+    return {
+      name: 'Low Beta Activity',
+      value: avgBeta,
+      score,
+      interpretation: score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+      details: `Average parietal Beta Z-score: ${avgBeta.toFixed(2)} (< 1.0 is normal)`
+    };
+  }
+
+  // ==================== PARAMETER AGGREGATIONS ====================
+
+  /**
+   * Parameter 1: COGNITION (Score 0-3)
+   */
+  calculateCognition() {
+    const metric1 = this.calculateFocusScore();
+    const metric2 = this.calculateAlphaPeak();
+    const metric3 = this.calculateAlphaThetaBalance();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Cognition',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+
+  /**
+   * Parameter 2: STRESS (Score 0-3)
+   */
+  calculateStress() {
+    const metric1 = this.calculateArousalScore();
+    const metric2 = this.calculateRelaxationScore();
+    const metric3 = this.calculateRegeneration();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Stress',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+
+  /**
+   * Parameter 3: FOCUS AND ATTENTION (Score 0-3)
+   */
+  calculateFocusAttention() {
+    const metric1 = this.calculateFocusTheta();
+    const metric2 = this.calculateBetaCoherence();
+    const metric3 = this.calculateThetaBetaRatio();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Focus and Attention',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+
+  /**
+   * Parameter 4: BURNOUT AND FATIGUE (Score 0-3)
+   */
+  calculateBurnoutFatigue() {
+    const metric1 = this.calculateDeltaActivity();
+    const metric2 = this.calculateThetaDominance();
+    const metric3 = this.calculateAlphaSuppression();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Burnout and Fatigue',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+
+  /**
+   * Parameter 5: EMOTIONAL REGULATION (Score 0-3)
+   */
+  calculateEmotionalRegulation() {
+    const metric1 = this.calculateRightFrontalAlpha();
+    const metric2 = this.calculateAlphaAsymmetry();
+    const metric3 = this.calculateBetaStress();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Emotional Regulation',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+
+  /**
+   * Parameter 6: LEARNING (Score 0-3)
+   */
+  calculateLearning() {
+    const metric1 = this.calculateCentralTheta();
+    const metric2 = this.calculateAlphaModulation();
+    const metric3 = this.calculateBetaEngagement();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Learning',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+
+  /**
+   * Parameter 7: CREATIVITY (Score 0-3)
+   */
+  calculateCreativity() {
+    const metric1 = this.calculateAlphaPower();
+    const metric2 = this.calculateThetaEnhancement();
+    const metric3 = this.calculateLowBeta();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Creativity',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [metric1, metric2, metric3]
+    };
+  }
+}
+
+module.exports = ZScoreCalculator;

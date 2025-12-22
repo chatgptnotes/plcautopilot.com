@@ -1,0 +1,1633 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Brain, ShieldCheck, Users, Truck, ArrowDown, Menu, X, Linkedin, Facebook, Youtube, Instagram, MapPin } from 'lucide-react';
+import BrainParametersSlider from '../components/BrainParametersSlider';
+
+const Landing = () => {
+  const navigate = useNavigate();
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedType, setSelectedType] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sectionsVisible, setSectionsVisible] = useState({});
+  const sectionRefs = useRef({});
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const carouselRef = useRef(null);
+  const [showFullBio, setShowFullBio] = useState(false);
+
+  // Stat counter states
+  const [stats, setStats] = useState({
+    sleep: 0,
+    stress: 0,
+    mental: 0
+  });
+  const [statsAnimated, setStatsAnimated] = useState(false);
+  const statsRef = useRef(null);
+
+  // Scroll animation states
+  const [visibleSections, setVisibleSections] = useState(new Set());
+  const observerRefs = useRef([]);
+
+  useEffect(() => {
+    setIsVisible(true);
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setSectionsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true,
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    Object.values(sectionRefs.current).forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Stat Counter Animation with Intersection Observer
+  useEffect(() => {
+    const statsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !statsAnimated) {
+            setStatsAnimated(true);
+
+            // Animate sleep stat (62%)
+            animateValue('sleep', 0, 62, 2000);
+
+            // Animate stress stat (77%)
+            animateValue('stress', 0, 77, 2000);
+
+            // Animate mental health stat (displayed as "1 in 4")
+            animateValue('mental', 0, 25, 2000); // 25 for calculation
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (statsRef.current) {
+      statsObserver.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        statsObserver.unobserve(statsRef.current);
+      }
+    };
+  }, [statsAnimated]);
+
+  // Easing function for smooth counter animation
+  const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
+
+  const animateValue = (key, start, end, duration) => {
+    const startTime = performance.now();
+
+    const updateValue = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutQuart(progress);
+      const currentValue = Math.floor(start + (end - start) * easedProgress);
+
+      setStats((prev) => ({
+        ...prev,
+        [key]: currentValue
+      }));
+
+      if (progress < 1) {
+        requestAnimationFrame(updateValue);
+      }
+    };
+
+    requestAnimationFrame(updateValue);
+  };
+
+  // Scroll-triggered animations for all sections
+  useEffect(() => {
+    const scrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('data-scroll-section');
+            if (sectionId) {
+              setVisibleSections((prev) => new Set([...prev, sectionId]));
+              entry.target.classList.add('animate-in');
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    // Observe all elements with data-scroll-section attribute
+    const elements = document.querySelectorAll('[data-scroll-section]');
+    elements.forEach((el) => {
+      scrollObserver.observe(el);
+      observerRefs.current.push(el);
+    });
+
+    return () => {
+      observerRefs.current.forEach((el) => {
+        if (el) scrollObserver.unobserve(el);
+      });
+    };
+  }, []);
+
+  // 3D circular carousel rotation for Measure section
+  useEffect(() => {
+    let rotation = 0;
+    const rotationInterval = setInterval(() => {
+      rotation += 120; // Rotate 120 degrees (360/3 cards)
+      if (carouselRef.current) {
+        carouselRef.current.style.transform = `rotateY(${rotation}deg)`;
+      }
+      setCurrentCardIndex((prev) => (prev + 1) % 3);
+    }, 3500); // Rotate every 3.5 seconds
+
+    return () => clearInterval(rotationInterval);
+  }, []);
+
+  const handlePersonalSignup = () => {
+    // Navigate directly to login page with patient user type
+    navigate('/login', {
+      state: {
+        userType: 'patient',
+        fromLanding: true
+      }
+    });
+  };
+
+  const handleClinicSignup = () => {
+    // Navigate directly to login page with clinic user type
+    navigate('/login', {
+      state: {
+        userType: 'clinic',
+        fromLanding: true
+      }
+    });
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleRegister = (userType = 'clinic') => {
+    // Navigate to register page with state to pre-select user type
+    navigate('/register', {
+      state: {
+        userType: userType,
+        fromLanding: true
+      }
+    });
+  };
+
+  return (
+    <div className="w-full min-h-screen bg-white m-0 p-0">
+      {/* Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-center">
+          {/* Center Navigation Pill with Logo, Links and Buttons ALL INSIDE */}
+          <div className="hidden lg:flex items-center bg-white/95 backdrop-blur-lg rounded-full shadow-lg px-6 py-2.5 gap-6 border border-gray-100">
+            {/* Logo INSIDE Pill */}
+            <div className="flex items-center justify-center pr-6 border-r border-gray-200 w-32">
+              <img
+                src="/NeuroSense_Version_7_White_BG-removebg-preview.png"
+                alt="NeuroSense Logo"
+                className="h-12 w-28 object-cover"
+                style={{ objectPosition: 'center' }}
+              />
+            </div>
+
+            {/* Navigation Links */}
+            <a href="/lbw-updates" className="text-gray-700 hover:text-gray-900 text-base font-semibold transition-colors whitespace-nowrap">
+              How It Works
+            </a>
+            <a href="/lbw" className="text-gray-700 hover:text-gray-900 text-base font-semibold transition-colors whitespace-nowrap">
+              Our Program
+            </a>
+            <a href="/technicians" className="text-gray-700 hover:text-gray-900 text-base font-semibold transition-colors whitespace-nowrap">
+              For Clinics
+            </a>
+
+            {/* Action Buttons Inside Same Pill */}
+            <button
+              onClick={handlePersonalSignup}
+              className="bg-[#323956] hover:bg-[#232D3C] text-white px-5 py-2 rounded-full text-[13px] font-medium transition-all whitespace-nowrap shadow-sm"
+            >
+              Start
+            </button>
+            <button
+              onClick={handleClinicSignup}
+              className="bg-gray-900 hover:bg-black text-white px-5 py-2 rounded-full text-[13px] font-medium transition-all whitespace-nowrap shadow-sm"
+            >
+              For Practices
+            </button>
+          </div>
+
+          {/* Mobile - Logo and Menu Button */}
+          <div className="lg:hidden flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <img
+                src="/NeuroSense_Version_7_White_BG-removebg-preview.png"
+                alt="NeuroSense Logo"
+                className="h-20 w-auto object-contain"
+              />
+            </div>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-gray-800 transition-transform duration-300"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Sidebar Menu Overlay */}
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* Sidebar */}
+          <div className="fixed top-0 left-0 h-full w-80 bg-white z-50 lg:hidden shadow-2xl transform transition-transform duration-300">
+            <div className="p-6">
+              {/* Logo */}
+              <div className="flex items-center mb-12 mt-2">
+                <img
+                  src="/NeuroSense_Version_7_White_BG-removebg-preview.png"
+                  alt="NeuroSense Logo"
+                  className="h-24 w-auto object-contain"
+                />
+              </div>
+
+              {/* Navigation Links */}
+              <div className="flex flex-col space-y-6 mb-12">
+                <a href="/lbw-updates" className="text-gray-900 hover:text-gray-600 text-lg font-semibold transition-colors">
+                  How It Works
+                </a>
+                <a href="/lbw" className="text-gray-900 hover:text-gray-600 text-lg font-semibold transition-colors">
+                  Our Program
+                </a>
+                <a href="/technicians" className="text-gray-900 hover:text-gray-600 text-lg font-semibold transition-colors">
+                  For Clinics
+                </a>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col space-y-3">
+                <button
+                  onClick={handlePersonalSignup}
+                  className="bg-[#323956] hover:bg-[#232D3C] text-white px-6 py-3 rounded-full text-base font-medium transition-all w-full"
+                >
+                  For Myself
+                </button>
+                <button
+                  onClick={handleClinicSignup}
+                  className="bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-full text-base font-medium transition-all w-full"
+                >
+                  For My Clinic
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Hero Section - Myndlift Style */}
+      <section
+        id="start"
+        className="relative w-full bg-white pt-2 sm:pt-3 pb-4 sm:pb-6 px-1 sm:px-2 md:px-3 lg:px-4"
+        style={{ opacity: 1, transform: 'none' }}
+      >
+        {/* Hero Container with Rounded Corners */}
+        <div className="w-[99.5%] mx-auto relative overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem]"
+          style={{
+            minHeight: 'clamp(400px, 60vh, 650px)'
+          }}>
+
+          {/* Video Background */}
+          <div className="absolute inset-0 neural-pulse-hero">
+            <video
+              src="/hero_section.mp4"
+              loop
+              preload="auto"
+              muted
+              playsInline
+              autoPlay
+              style={{
+                cursor: 'auto',
+                width: '100%',
+                height: '100%',
+                borderRadius: '0px',
+                display: 'block',
+                objectFit: 'cover',
+                backgroundColor: 'rgb(133, 119, 95)',
+                objectPosition: '50% 50%'
+              }}
+            />
+          </div>
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
+
+          {/* Content Section */}
+          <section
+            className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 py-16 sm:py-20 md:py-24"
+            style={{ opacity: 1, transform: 'none' }}
+          >
+            <div className="max-w-2xl lg:max-w-3xl">
+              {/* Text Container */}
+              <div className="mb-8">
+                {/* Main Heading */}
+                <div className="framer-37bogi animate-slide-down" style={{ justifyContent: 'center' }}>
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+                    The Future Of Personalized Brain Care Is Here
+                  </h1>
+                </div>
+
+                {/* Subtitle */}
+                <div className="framer-fun1vz animate-slide-up delay-200" style={{ justifyContent: 'center' }}>
+                  <h5 className="text-2xl sm:text-3xl font-bold text-white mb-8" style={{ letterSpacing: '0.05em', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                    UNLOCK YOUR BRAIN AT LIMITLESS BRAIN LAB
+                  </h5>
+                </div>
+
+                {/* Description Text */}
+                <div className="mt-6 animate-fade-in-up delay-400">
+                  <p className="text-xl text-gray-200 leading-relaxed max-w-2xl" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                    With the first-ever NeuroSense Brain Health Optimization Report, create personalized daily habits including targeted breathwork, meditation, music, yoga or exercises, and mantra-based practices designed specifically for your brain.
+                  </p>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  onClick={handlePersonalSignup}
+                  className="inline-block cursor-pointer animate-slide-in-left delay-600"
+                >
+                  <div>
+                    <p className="bg-[#323956] hover:bg-[#232D3C] text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                      I want it for myself
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  onClick={handleClinicSignup}
+                  className="inline-block cursor-pointer animate-slide-in-right delay-600"
+                >
+                  <div>
+                    <p className="bg-gray-900 hover:bg-black text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                      I want it for my practice
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* Scroll Indicator - Arrow Down */}
+          <div
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 hidden sm:block"
+            style={{ borderRadius: 'inherit' }}
+          >
+            <div className="flex flex-col items-center">
+              <ArrowDown
+                className="h-6 w-6 text-white/70"
+                style={{
+                  animation: 'bounce-smooth 2s ease-in-out infinite'
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Options Modal - Fixed Position Overlay */}
+      {showOptions && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm"
+            onClick={() => setShowOptions(false)}
+            style={{
+              animation: 'fadeIn 0.3s ease-out'
+            }}
+          />
+
+          {/* Modal Content */}
+          <div
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[101] w-[90%] sm:w-auto"
+            style={{
+              animation: 'slideUp 0.4s ease-out'
+            }}
+          >
+            <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md mx-auto shadow-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                {selectedType === 'personal' ? "Personal Account" : "Clinic Account"}
+              </h3>
+              <p className="text-xl text-gray-600 mb-6 text-center">
+                {selectedType === 'personal'
+                  ? "Get started with your personal neurofeedback journey"
+                  : "Register your clinic for professional neurofeedback services"
+                }
+              </p>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => handleRegister(selectedType === 'personal' ? 'patient' : 'clinic')}
+                  className="bg-[#323956] hover:bg-[#232D3C] text-white px-6 py-3.5 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Create New Account
+                </button>
+                <button
+                  onClick={handleLogin}
+                  className="bg-gray-900 hover:bg-black text-white px-6 py-3.5 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  I Already Have an Account
+                </button>
+                <button
+                  onClick={() => setShowOptions(false)}
+                  className="text-sm text-gray-600 hover:text-gray-900 underline mt-2 font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      <style jsx>{`
+        /* Neural Pulse Hero Animation */
+        @keyframes neuralPulse {
+          0%, 100% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+        }
+
+        .neural-pulse-hero {
+          animation: neuralPulse 8s ease-in-out infinite;
+        }
+
+        /* Smooth Section Fade */
+        @keyframes sectionFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .section-fade {
+          animation: sectionFadeIn 0.8s ease-out forwards;
+        }
+
+        /* Medical-Grade Card Hover */
+        .medical-card {
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(200, 200, 200, 0.3);
+        }
+
+        .medical-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 0 20px rgba(0, 150, 255, 0.3);
+          border-color: rgba(0, 200, 255, 0.6);
+        }
+
+        /* Scroll-triggered animations */
+        .scroll-fade-left {
+          opacity: 0;
+          transform: translateX(-100px) translateY(20px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-left.animate-in {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .scroll-fade-right {
+          opacity: 0;
+          transform: translateX(100px) translateY(20px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-right.animate-in {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .scroll-fade-up {
+          opacity: 0;
+          transform: translateY(60px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-up.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .scroll-fade-down {
+          opacity: 0;
+          transform: translateY(-60px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-fade-down.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Staggered animations for children */
+        .stagger-item {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-in .stagger-item:nth-child(1) {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.1s;
+        }
+
+        .animate-in .stagger-item:nth-child(2) {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.2s;
+        }
+
+        .animate-in .stagger-item:nth-child(3) {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.3s;
+        }
+
+        .animate-in .stagger-item:nth-child(4) {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.4s;
+        }
+
+        .animate-in .stagger-item:nth-child(5) {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.5s;
+        }
+
+        .animate-in .stagger-item:nth-child(6) {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.6s;
+        }
+
+        /* Alternating card animations - odd from left, even from right */
+        .card-slide-alternate:nth-child(odd) {
+          opacity: 0;
+          transform: translateX(-120px) translateY(40px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-slide-alternate:nth-child(even) {
+          opacity: 0;
+          transform: translateX(120px) translateY(40px);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-in .card-slide-alternate:nth-child(odd) {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        .animate-in .card-slide-alternate:nth-child(even) {
+          opacity: 1;
+          transform: translateX(0) translateY(0);
+        }
+
+        /* Staggered delays for alternating cards */
+        .animate-in .card-slide-alternate:nth-child(1) {
+          transition-delay: 0.15s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(2) {
+          transition-delay: 0.3s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(3) {
+          transition-delay: 0.45s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(4) {
+          transition-delay: 0.6s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(5) {
+          transition-delay: 0.75s;
+        }
+
+        .animate-in .card-slide-alternate:nth-child(6) {
+          transition-delay: 0.9s;
+        }
+
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes bounce-smooth {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        @keyframes floatUpDown {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        @keyframes floatLeftRight {
+          0%, 100% {
+            transform: translateX(0px);
+          }
+          50% {
+            transform: translateX(15px);
+          }
+        }
+
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes rotateIn {
+          from {
+            opacity: 0;
+            transform: rotate(-10deg) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+          }
+        }
+
+        @keyframes brainwave {
+          0%, 100% {
+            transform: scaleX(1) scaleY(1);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scaleX(1.05) scaleY(0.95);
+            opacity: 1;
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.4);
+          }
+          50% {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px 10px rgba(0, 137, 123, 0);
+          }
+        }
+
+        @keyframes neuronPulse {
+          0%, 100% {
+            opacity: 0.6;
+            transform: scale(0.98);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.02);
+          }
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes glow {
+          0%, 100% {
+            box-shadow: 0 0 10px rgba(0, 137, 123, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 25px rgba(0, 137, 123, 0.6);
+          }
+        }
+
+        @keyframes shimmer {
+          0% {
+            background-position: -1000px 0;
+          }
+          100% {
+            background-position: 1000px 0;
+          }
+        }
+
+        .animate-slide-up {
+          animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .animate-slide-down {
+          animation: slideDown 0.8s ease-out forwards;
+        }
+
+        .animate-slide-in-left {
+          animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+          animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        .animate-float-up-down {
+          animation: floatUpDown 3s ease-in-out infinite;
+        }
+
+        .animate-float-left-right {
+          animation: floatLeftRight 4s ease-in-out infinite;
+        }
+
+        .animate-scale-in {
+          animation: scaleIn 0.6s ease-out forwards;
+        }
+
+        .animate-rotate-in {
+          animation: rotateIn 0.8s ease-out forwards;
+        }
+
+        .animate-brainwave {
+          animation: brainwave 3s ease-in-out infinite;
+        }
+
+        .animate-pulse-card {
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animate-neuron {
+          animation: neuronPulse 2.5s ease-in-out infinite;
+        }
+
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in-down {
+          animation: fadeInDown 0.8s ease-out forwards;
+        }
+
+        .animate-glow {
+          animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-shimmer {
+          background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+          background-size: 1000px 100%;
+          animation: shimmer 2s infinite;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+        .delay-900 { animation-delay: 0.9s; }
+        .delay-1000 { animation-delay: 1s; }
+
+        @keyframes dashFlow {
+          0% {
+            background-position: 0 0;
+          }
+          100% {
+            background-position: 0 40px;
+          }
+        }
+
+        @keyframes dotPulse {
+          0%, 100% {
+            transform: translate(-50%, -50%) scale(1);
+            box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.7);
+          }
+          50% {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 0 10px rgba(0, 137, 123, 0);
+          }
+        }
+
+        @keyframes lineGrow {
+          from {
+            height: 0;
+            opacity: 0;
+          }
+          to {
+            height: 100%;
+            opacity: 1;
+          }
+        }
+      `}</style>
+
+      {/* Choose Your Goals Section */}
+      <section className="pt-16 pb-6 sm:pt-20 sm:pb-8 md:pt-24 md:pb-10 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#323956] mb-12 scroll-fade-down" data-scroll-section="goals-title">
+            Choose Your Goals To Begin
+          </h2>
+
+          {/* Goal Options */}
+          <div className="flex flex-wrap justify-center gap-4 mb-10" data-scroll-section="goal-buttons-1">
+            <button className="card-slide-alternate px-6 py-3 bg-white hover:bg-[#323956] hover:text-white text-gray-900 rounded-full text-base font-medium shadow-md transition-all duration-300 border-2 border-gray-200 hover:border-[#323956]">
+              Attention difficulties
+            </button>
+            <button className="card-slide-alternate px-6 py-3 bg-white hover:bg-[#323956] hover:text-white text-gray-900 rounded-full text-base font-medium shadow-md transition-all duration-300 border-2 border-gray-200 hover:border-[#323956]">
+              Anxiety
+            </button>
+            <button className="card-slide-alternate px-6 py-3 bg-white hover:bg-[#323956] hover:text-white text-gray-900 rounded-full text-base font-medium shadow-md transition-all duration-300 border-2 border-gray-200 hover:border-[#323956]">
+              Peak performance
+            </button>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4 mb-12" data-scroll-section="goal-buttons-2">
+            <button className="card-slide-alternate px-6 py-3 bg-white hover:bg-[#323956] hover:text-white text-gray-900 rounded-full text-base font-medium shadow-md transition-all duration-300 border-2 border-gray-200 hover:border-[#323956]">
+              Stress management
+            </button>
+            <button className="card-slide-alternate px-6 py-3 bg-white hover:bg-[#323956] hover:text-white text-gray-900 rounded-full text-base font-medium shadow-md transition-all duration-300 border-2 border-gray-200 hover:border-[#323956]">
+              Sleep
+            </button>
+          </div>
+
+          {/* Get Started Button */}
+          <button
+            onClick={() => handleRegister('clinic')}
+            className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#323956] hover:bg-[#232D3C] text-white rounded-full text-lg font-semibold transition-all hover:scale-105 shadow-lg mb-8"
+          >
+            Get started
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      {/* Early Brain Insights Section */}
+      <section className="pt-8 pb-16 sm:pt-10 sm:pb-20 md:pt-12 md:pb-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="scroll-fade-left" data-scroll-section="early-brain-content">
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#323956] mb-6">
+                Early Brain Insights Can Outsmart Dementia
+              </h2>
+              <p className="text-lg text-gray-700 mb-4">
+                Alzheimer's affects over 55 million people—and could reach 139 million by 2050. Most signs start 10–20 years before diagnosis.
+              </p>
+              <p className="text-base text-gray-600 mb-8">
+                An early brain check can help you stay ahead and protect your future.
+              </p>
+              <button
+                onClick={() => handleRegister('clinic')}
+                className="inline-flex items-center justify-center px-8 py-3 bg-black hover:bg-gray-800 text-white rounded-full text-base font-semibold transition-all"
+              >
+                Book Your Test Today
+              </button>
+            </div>
+
+            {/* Right Image */}
+            <div className="flex justify-center scroll-fade-right" data-scroll-section="early-brain-image">
+              <div className="relative w-full max-w-md">
+                <img
+                  src="/Early Brain.png"
+                  alt="Brain with lightbulb representing insights"
+                  className="w-full h-auto"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                {/* Fallback SVG if image not found */}
+                <div className="hidden w-full aspect-square bg-gradient-to-br from-orange-100 to-orange-50 rounded-full items-center justify-center">
+                  <svg className="w-3/4 h-3/4 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Brain Decline Section */}
+      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="scroll-fade-left" data-scroll-section="brain-decline-content">
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#323956] mb-6">
+                Take Charge Before Brain Decline Begins.
+              </h2>
+              <p className="text-base text-gray-700 leading-relaxed mb-6">
+                The principle that "what you can measure, you can manage" is especially true when it comes to brain health. Just as we routinely check blood parameters, liver function, or kidney performance to preempt disease, it's equally vital to assess our brain's well-being before symptoms arise.
+              </p>
+            </div>
+
+            {/* Right Image */}
+            <div className="flex justify-center scroll-fade-right" data-scroll-section="brain-decline-image">
+              <div className="relative w-full max-w-md">
+                <img
+                  src="/Brain Health Timeline.jpeg"
+                  alt="Brain Health Timeline chart by age"
+                  className="w-full h-auto"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                {/* Fallback if image not found */}
+                <div className="hidden w-full aspect-square bg-gradient-to-br from-green-50 via-yellow-50 to-red-50 rounded-full items-center justify-center border-4 border-gray-200">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 font-semibold mb-2">Brain Health Timeline</p>
+                    <div className="space-y-1 text-xs text-gray-500">
+                      <p>0-40: Primary Prevention</p>
+                      <p>40-60: Secondary Prevention</p>
+                      <p>60+: Tertiary Prevention</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NeuroSense Information & Philosophy Section */}
+      <section
+        ref={(el) => (sectionRefs.current.neurosenseInfo = el)}
+        data-section="neurosenseInfo"
+        className="py-12 sm:py-16 md:py-20 bg-white transition-all duration-1000 relative opacity-100 translate-y-0"
+      >
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+          {/* Call to Action Section */}
+          <div className="text-center mb-20 relative z-10 scroll-fade-up" data-scroll-section="cta-main">
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#323956] mb-6">
+              Take Control Of Your Brain Health Today
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+              Join thousands who have transformed their lives by adopting a brain-first approach, understanding and optimizing the brain's power to enhance mental strength, emotional balance, and overall well-being.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={handlePersonalSignup}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#323956] hover:bg-[#232D3C] text-white rounded-full text-lg font-medium transition-all hover:scale-105 shadow-lg"
+              >
+                Start Your Journey
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              <button
+                onClick={handleClinicSignup}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 hover:bg-black text-white rounded-full text-lg font-medium transition-all hover:scale-105 shadow-lg"
+              >
+                For Practices
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Problem Statement Section */}
+          <div className="my-20 relative z-10">
+            <div className="text-center mb-12 scroll-fade-down" data-scroll-section="crisis-title">
+              <h2 className="text-4xl font-bold text-[#323956] mb-4">
+                The Global Brain Health Crisis
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Protect from brain degeneration and the impact of stress
+              </p>
+            </div>
+
+            <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8" data-scroll-section="stat-cards">
+              {/* Sleep Crisis */}
+              <div className="medical-card bg-white rounded-3xl p-8 shadow-lg stagger-item">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#323956] rounded-2xl mb-4">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-5xl font-bold text-[#323956] mb-2">{stats.sleep}%</h3>
+                  <h4 className="text-2xl font-semibold text-gray-900 mb-3">Sleep Crisis</h4>
+                  <p className="text-gray-700 leading-relaxed">
+                    Of adults worldwide report chronic sleep problems affecting their daily performance and mental health
+                  </p>
+                </div>
+              </div>
+
+              {/* Stress Epidemic */}
+              <div className="medical-card bg-white rounded-3xl p-8 shadow-lg stagger-item">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F5D05D] rounded-2xl mb-4">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-5xl font-bold text-[#F5D05D] mb-2">{stats.stress}%</h3>
+                  <h4 className="text-2xl font-semibold text-gray-900 mb-3">Stress Epidemic</h4>
+                  <p className="text-gray-700 leading-relaxed">
+                    Experience stress that impacts their physical and mental wellbeing on a regular basis
+                  </p>
+                </div>
+              </div>
+
+              {/* Mental Health Crisis */}
+              <div className="medical-card bg-white rounded-3xl p-8 shadow-lg stagger-item">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#323956] rounded-2xl mb-4">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-5xl font-bold text-[#323956] mb-2">1 in 4</h3>
+                  <h4 className="text-2xl font-semibold text-gray-900 mb-3">Mental Health</h4>
+                  <p className="text-gray-700 leading-relaxed">
+                    People worldwide will experience a mental health challenge in their lifetime
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center mt-12 scroll-fade-up" data-scroll-section="solution-cta">
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#323956] mb-6">
+                It's Time For A Solution
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                NeuroSense Provides Science-Backed Brain Assessment And Personalized Care To Help You Take Control Of Your Mental Wellness
+              </p>
+            </div>
+          </div>
+
+          {/* Solution Section */}
+          <div className="medical-card bg-gray-50 rounded-3xl p-8 sm:p-10 md:p-12 mb-12 shadow-lg relative z-10 scroll-fade-up" data-scroll-section="solution-section">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold text-[#323956] mb-4">
+                The Solution: NeuroSense
+              </h2>
+            </div>
+            <div className="space-y-6">
+              <p className="text-base sm:text-lg text-gray-900 leading-relaxed font-normal">
+                For the very first time, a clinical grade EEG combined with proprietary and globally validated brain assessment parameters to measure your true brain performance, trusted all over the world.
+              </p>
+
+              <p className="text-base sm:text-lg text-gray-900 leading-relaxed font-semibold animate-brainwave text-center">
+                Don't just track your bank balance, track your brain's balance.
+              </p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <button
+                onClick={handlePersonalSignup}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#F5D05D] hover:bg-[#E5C04D] text-white rounded-full text-lg font-medium transition-all hover:scale-105 shadow-lg"
+              >
+                Get Started
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Philosophy Section with MOVERS and 3M Animation */}
+          <div className="medical-card bg-white rounded-3xl p-8 sm:p-10 md:p-12 mb-12 shadow-lg relative z-10 scroll-fade-up" data-scroll-section="philosophy-section">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold text-[#323956] mb-6">
+                Our Core Philosophy
+              </h2>
+            </div>
+
+            {/* MOVERS Protocol Text */}
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 mb-10 scroll-fade-left" data-scroll-section="movers-text">
+              <p className="text-base sm:text-lg leading-relaxed font-normal text-center">
+                We blend ancient truths with modern scientific proofs to create a personalized <span className="font-bold">MOVERS protocol</span> integrating <span className="font-semibold">M</span>editation, <span className="font-semibold">O</span>xygenation (breathwork), <span className="font-semibold">V</span>isualization or Theta techniques, <span className="font-semibold">E</span>xercises, Affirmations, targeted <span className="font-semibold">R</span>elaxation and Nutrition, and <span className="font-semibold">S</span>leep or Stress Relief through HRV(Heart rate variability) for complete brain care.
+              </p>
+            </div>
+
+            {/* 3M Animation Section */}
+            <div className="text-center scroll-fade-right" data-scroll-section="3m-section">
+              <div className="flex items-center justify-center gap-4 text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-8">
+                <span className="font-semibold text-[#F5D05D] animate-neuron">3 M</span>
+              </div>
+
+              {/* 3Ms appearing one by one */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 text-xl sm:text-2xl md:text-3xl text-gray-900" data-scroll-section="3m-items">
+                <span className="px-8 py-4 bg-gray-50 rounded-full font-medium hover:text-[#F5D05D] hover:bg-gray-100 transition-all duration-500 cursor-pointer card-slide-alternate">
+                  Measure
+                </span>
+                <span className="hidden sm:inline text-gray-400 card-slide-alternate">&</span>
+                <span className="px-8 py-4 bg-gray-50 rounded-full font-medium hover:text-[#F5D05D] hover:bg-gray-100 transition-all duration-500 cursor-pointer card-slide-alternate">
+                  Monitor
+                </span>
+                <span className="hidden sm:inline text-gray-400 card-slide-alternate">&</span>
+                <span className="px-8 py-4 bg-gray-50 rounded-full font-medium hover:text-[#F5D05D] hover:bg-gray-100 transition-all duration-500 cursor-pointer card-slide-alternate">
+                  Manage
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Connect Section - Enhanced */}
+          <div className="py-20 bg-gradient-to-br from-gray-50 to-white">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16 scroll-fade-down" data-scroll-section="connect-title">
+                <h2 className="text-4xl font-bold text-[#323956] mb-4">
+                  Connect
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Find Us At A Clinic Near You To Start Your Journey With NeuroSense.
+                </p>
+              </div>
+
+              {/* EEG Video Call Mockup */}
+              <div className="flex justify-center mb-12 scroll-fade-up" data-scroll-section="connect-phone">
+                <div className="relative" style={{ width: '300px' }}>
+                  {/* Phone Screen */}
+                  <div className="rounded-[2.5rem] overflow-hidden relative shadow-2xl" style={{ aspectRatio: '9/19.5' }}>
+                    <img
+                      src="/connect-person.png"
+                      alt="EEG monitoring session with video consultation"
+                      className="w-full h-full object-cover"
+                    />
+
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-5 bg-black rounded-b-xl z-20"></div>
+
+                    {/* CTA Button on Image */}
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-[85%]">
+                      <button
+                        onClick={handlePersonalSignup}
+                        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#F5D05D] hover:bg-[#E5C04D] text-white rounded-full text-sm font-bold shadow-lg transition-all duration-300 hover:scale-105"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        CLINICS NEAR YOU
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Glow Effect */}
+                  <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-gradient-to-br from-[#F5D05D]/15 to-purple-400/15 rounded-full blur-3xl"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Brain Parameters Slider Section */}
+          <BrainParametersSlider />
+
+          {/* Care Section */}
+          <div className="mb-20 relative z-10">
+            <h2 className="text-5xl sm:text-6xl font-extrabold text-[#323956] mb-16 text-center bg-white relative z-20 scroll-fade-down" data-scroll-section="care-title">
+              Care
+            </h2>
+
+            {/* Grid Layout - Image Left, Content Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
+              {/* Left: Image */}
+              <div className="scroll-fade-left" data-scroll-section="care-image">
+                <img
+                  src="/care.jpeg"
+                  alt="Personalized brain care and optimization"
+                  className="w-full rounded-3xl shadow-2xl object-cover"
+                />
+              </div>
+
+              {/* Right: Content */}
+              <div className="medical-card bg-white rounded-3xl p-8 sm:p-10 shadow-lg scroll-fade-right" data-scroll-section="care-content">
+                <p className="text-base sm:text-lg leading-relaxed">
+                  <span className="font-bold">Build a personalized brain optimization plan tailored to your needs.</span> Leverage our lab tested brainwave frequencies, special sounds and music (mantras), ANS (Autonomic Nervous System) reset protocols, guided meditations, and targeted light and sound therapies. Track your progress, refine your plan, and sustain your gains with ongoing expert support. Available for both <span className="font-semibold">home and clinic based care</span>, depending on your requirements.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* My Vision and Signature Section */}
+          <div className="py-16 sm:py-20 md:py-24 bg-gray-50 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+                {/* Left: Vision Quote */}
+                <div className="scroll-fade-left" data-scroll-section="vision-quote">
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal text-gray-900 leading-snug">
+                    "I envision a world where brain health is understood early, nurtured intentionally, and optimized before breakdown begins."
+                  </h2>
+                </div>
+
+                {/* Right: Details and Signature */}
+                <div className="scroll-fade-right" data-scroll-section="vision-details">
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-10">
+                    I believe neuroscience should move beyond disease to unlocking human potential, clarity, and emotional resilience. I am committed to integrating <span className="font-bold">science, technology, and awareness</span> to build conscious, high-performing brains. My purpose is to help every individual not just cope with life—but lead it with balance and purpose.
+                  </p>
+
+                  {/* Signature */}
+                  <div className="mt-12">
+                    <img
+                      src="/signiture.png"
+                      alt="Dr. Sweta Adatia Signature"
+                      className="h-20 w-auto mb-6"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                    <p className="text-base font-bold text-gray-900">Dr. Sweta Adatia<span className="font-normal text-gray-600"> / Founder</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* About Dr. Sweta Adatia Section */}
+          <div className="mb-20 relative z-10">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#323956] mb-4 text-left max-w-7xl mx-auto px-4 bg-white relative z-20 scroll-fade-left" data-scroll-section="about-title">
+              About Dr. Sweta Adatia
+            </h2>
+
+            {/* Grid Layout - Content Left, Image Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-7xl mx-auto px-4">
+              {/* Left: Content */}
+              <div className="medical-card bg-white rounded-3xl p-8 sm:p-10 shadow-lg scroll-fade-left" data-scroll-section="about-content">
+                <p className="text-lg text-[#323956] font-semibold mb-6">
+                  Neurologist | Author | TEDx Speaker | Coach | Entrepreneur | Spiritual Seeker
+                </p>
+                <p className="text-base leading-relaxed mb-4 text-gray-700">
+                  Dr. Sweta Adatia is a distinguished neurologist at Gargash Hospital, Dubai, with a passion for stroke and migraine care. A recipient of over 13 gold medals in Medicine and Neurology, she holds a stroke fellowship from the University of Calgary and an MBA from the University of Cambridge. She has contributed to global healthcare initiatives, including Defeat NCD UN's care funding program for LMICs.
+                </p>
+
+                {showFullBio && (
+                  <>
+                    <p className="text-base leading-relaxed mb-4 text-gray-700">
+                      An author of Future Ready Now and a pioneer in neuroscience-driven career mapping through Mybraindesign, Dr. Sweta has delivered 200+ workshops, impacting thousands worldwide. Beyond medicine, she is a multilingual musician, national table tennis champion, and certified in pranic healing, hypnotherapy, aura photography, and neurofeedback. With a deep interest in alternative medicine and spiritual sciences, she seamlessly blends science and mindfulness in her approach.
+                    </p>
+                    <p className="text-base leading-relaxed mb-4 text-gray-700">
+                      She has over 1 billion impressions on internet and over 25 million views on her channel.
+                    </p>
+                    <p className="text-base leading-relaxed text-gray-700">
+                      She has been a pioneer in brain health education for the world. Founder of the Neurosense protocols helping the people customize their emotional and brain health optimization.
+                    </p>
+                  </>
+                )}
+
+                <button
+                  onClick={() => setShowFullBio(!showFullBio)}
+                  className="mt-4 text-[#323956] font-semibold hover:underline text-sm"
+                >
+                  {showFullBio ? 'Read Less' : 'Read More'}
+                </button>
+
+                {/* Statistics Section Inside Card */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="grid grid-cols-3 gap-4" data-scroll-section="about-stats">
+                    {/* Stat 1 - Students Careers */}
+                    <div className="flex flex-col items-center text-center card-slide-alternate">
+                      <div className="w-12 h-12 mb-2 flex items-center justify-center">
+                        <svg className="w-full h-full text-[#323956]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-[#323956] mb-0.5">5000+</h3>
+                      <p className="text-[10px] text-gray-700 font-medium leading-tight">Student's Careers mapped</p>
+                    </div>
+
+                    {/* Stat 2 - Gold Medals */}
+                    <div className="flex flex-col items-center text-center card-slide-alternate">
+                      <div className="w-12 h-12 mb-2 flex items-center justify-center">
+                        <svg className="w-full h-full text-[#323956]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 7a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 1.5l1.323 2.68 2.957.43-2.14 2.085.505 2.946L12 17.25l-2.645 1.39.505-2.945-2.14-2.086 2.957-.43L12 10.5zM18 2v3l-1.363 1.138A9.935 9.935 0 0 0 13 5.049V2h5zm-7-.001v3.05a9.935 9.935 0 0 0-3.637 1.088L6 5V2h5z"/>
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-[#323956] mb-0.5">13+</h3>
+                      <p className="text-[10px] text-gray-700 font-medium leading-tight">Gold Medals</p>
+                    </div>
+
+                    {/* Stat 3 - Social Media Views */}
+                    <div className="flex flex-col items-center text-center card-slide-alternate">
+                      <div className="w-12 h-12 mb-2 flex items-center justify-center">
+                        <svg className="w-full h-full text-[#323956]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-[#323956] mb-0.5">30 Million +</h3>
+                      <p className="text-[10px] text-gray-700 font-medium leading-tight">Views Various social media</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Image */}
+              <div className="relative scroll-fade-right" data-scroll-section="about-image">
+                <div className="bg-white rounded-3xl overflow-hidden shadow-2xl">
+                  <img
+                    src="/dr.sweta.JPG"
+                    alt="Dr. Sweta Adatia"
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Featured On Section */}
+          <div className="py-20 sm:py-24">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#323956] text-center mb-12 tracking-tight scroll-fade-down" data-scroll-section="featured-title">
+                CHANGING ONE BRAIN AT A TIME
+              </h2>
+
+              {/* Media Logos in Gray Box */}
+              <div className="bg-gray-100 rounded-2xl py-8 px-4 overflow-x-auto scroll-fade-up" data-scroll-section="featured-logos">
+                <div className="flex items-center justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-16 min-w-max mx-auto">
+                  <img
+                    src="https://static.wixstatic.com/media/2e455c_2381e9f048d14c5a9651215e792970f0~mv2.webp/v1/fill/w_133,h_79,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1.webp"
+                    alt="TEDx"
+                    className="h-12 sm:h-16 md:h-20 w-auto object-contain transform transition-all duration-300 hover:scale-110 flex-shrink-0 card-slide-alternate"
+                  />
+                  <img
+                    src="https://static.wixstatic.com/media/2e455c_7cd6c5d0803d4251bf212df261fd849f~mv2.webp/v1/fill/w_206,h_119,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/5_e92e2056-cd87-4cd5-a572-e69573640c02.webp"
+                    alt="Gulf News"
+                    className="h-12 sm:h-16 md:h-20 w-auto object-contain transform transition-all duration-300 hover:scale-110 flex-shrink-0 card-slide-alternate"
+                  />
+                  <img
+                    src="https://static.wixstatic.com/media/2e455c_bf0fce9a94674b4e957a5f2f911eeabc~mv2.webp/v1/fill/w_120,h_72,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2.webp"
+                    alt="Dubai One"
+                    className="h-12 sm:h-16 md:h-20 w-auto object-contain transform transition-all duration-300 hover:scale-110 flex-shrink-0 card-slide-alternate"
+                  />
+                  <img
+                    src="https://static.wixstatic.com/media/2e455c_57d334944bf74d8c83387b6e3af49cfd~mv2.webp/v1/fill/w_197,h_119,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/3.webp"
+                    alt="Khaleej Times"
+                    className="h-12 sm:h-16 md:h-20 w-auto object-contain transform transition-all duration-300 hover:scale-110 flex-shrink-0 card-slide-alternate"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Ask Ashok Interactive (AI) Section */}
+          <div className="text-center mb-16 relative z-10">
+            <div className="relative">
+
+              <h2 className="text-4xl font-bold text-[#F5D05D] mb-4 bg-white relative z-20">
+                Ask Dr Sweta Interactive (AI)
+              </h2>
+
+              {/* Content Box */}
+              <div>
+                <div className="relative">
+                  <div className="medical-card bg-white rounded-3xl p-8 sm:p-10 md:p-12 mx-auto max-w-4xl shadow-lg relative z-20">
+                <p className="text-xl text-gray-900 leading-relaxed mb-6">
+                  Ask AI trained about your condition and how NeuroSense can help, in any language.
+                </p>
+
+                <p className="text-sm text-gray-600 leading-relaxed mb-8">
+                  This would be reworded for dr sweta the Ai, "AI generated content may contain errors or inaccuracies, and is not a substitute for professional advice, treatment or therapy. Please check with your Doctor or Therapist before following any advice given. By using this Ai, you agree to the terms and conditions on the website, are over 18, and agree that you are solely responsible. All conversations are anonymous and never shared."
+                </p>
+
+                {/* AI Avatar and Name */}
+                <div className="flex flex-col items-center mb-6">
+                  <div className="w-24 h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center overflow-hidden">
+                    <svg className="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-1">Dr Sweta Adatia - Free Version 🤖</h3>
+                  <p className="text-sm text-gray-600">Neurologist with a specialization in stroke and migraine - Premium Version</p>
+
+                  {/* Ask Button */}
+                  <div className="flex justify-center mt-4">
+                    <a
+                      href="https://www.limitlessbrainacademy.com/talk/drsweta"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#323956] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#252b42] transition-colors"
+                    >
+                      Ask
+                    </a>
+                  </div>
+                </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-12 sm:py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8">
+            {/* Left Column - Brand & Socials */}
+            <div className="space-y-6">
+              {/* Logo */}
+              <div className="flex items-center">
+                <img
+                  src="/footer logo.png"
+                  alt="NeuroSense Logo"
+                  className="h-12 w-auto object-contain"
+                />
+              </div>
+
+              {/* Socials */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Socials</h3>
+                <div className="flex gap-3">
+                  <a href="https://www.linkedin.com/in/drswetaadatia/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                  <a href="https://www.facebook.com/sweta.adatia" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                    <Facebook className="h-4 w-4" />
+                  </a>
+                  <a href="https://www.youtube.com/@drsweta.adatia" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                    <Youtube className="h-4 w-4" />
+                  </a>
+                  <a href="https://www.instagram.com/drsweta.adatia/?hl=en" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors">
+                    <Instagram className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Links Column */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Quick Links</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-base hover:text-[#F5D05D] transition-colors">Neurosense Demo Report</a></li>
+                <li><a href="#" className="text-base hover:text-[#F5D05D] transition-colors">Pricing</a></li>
+                <li><a href="#" className="text-base hover:text-[#F5D05D] transition-colors">Blog</a></li>
+                <li><Link to="/faq" className="text-base hover:text-[#F5D05D] transition-colors">FAQ</Link></li>
+              </ul>
+            </div>
+
+            {/* Resources Column */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Resources</h3>
+              <ul className="space-y-3">
+                <li><Link to="/guide-to-brainwaves" className="text-base hover:text-[#F5D05D] transition-colors">Guide to Brainwaves</Link></li>
+                <li><a href="#" className="text-base hover:text-[#F5D05D] transition-colors">Reviews</a></li>
+              </ul>
+            </div>
+
+            {/* Company & Franchise Column */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Company</h3>
+              <ul className="space-y-3">
+                <li><Link to="/about-us" className="text-base hover:text-[#F5D05D] transition-colors">About Us</Link></li>
+                <li><Link to="/privacy-policy" className="text-base hover:text-[#F5D05D] transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms-and-conditions" className="text-base hover:text-[#F5D05D] transition-colors">Terms & Conditions</Link></li>
+              </ul>
+
+              {/* Franchise Inquiry Form */}
+              <div className="mt-6 p-4 bg-[#F5D05D]/20 rounded-lg border border-[#F5D05D]/30">
+                <h4 className="text-sm font-semibold mb-3">Franchise Inquiry</h4>
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    placeholder="Your name"
+                    className="w-full px-3 py-2 bg-gray-800 text-white rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#F5D05D]"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    className="w-full px-3 py-2 bg-gray-800 text-white rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#F5D05D]"
+                  />
+                  <button className="w-full px-4 py-2 bg-[#F5D05D] hover:bg-[#E5C04D] text-white rounded-lg text-sm font-medium transition-colors">
+                    Submit Inquiry
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Copyright */}
+          <div className="mt-12 pt-8 border-t border-gray-800">
+            <div className="text-center">
+              <p className="text-sm text-gray-400">&copy; 2024 NeuroSense Inc. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Landing;

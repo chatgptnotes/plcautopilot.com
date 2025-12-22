@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Analyze existing PDF format and structure",
+    "status": "completed",
+    "activeForm": "Analyzing existing PDF format and structure"
+  },
+  {
+    "content": "Verify OpenAI returns same JSON structure as Gemini",
+    "status": "completed",
+    "activeForm": "Verifying OpenAI returns same JSON structure"
+  },
+  {
+    "content": "Update PDF footer from 'Gemini AI' to 'OpenAI'",
+    "status": "completed",
+    "activeForm": "Updating PDF footer branding"
+  },
+  {
+    "content": "Test complete PDF generation with OpenAI",
+    "status": "in_progress",
+    "activeForm": "Testing complete PDF generation"
+  }
+]

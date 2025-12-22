@@ -1,0 +1,245 @@
+# QEEG Algorithm Processor Setup Instructions
+
+## Overview
+This system integrates OpenAI API with your QEEG Algorithm Data Processor to calculate 7 brain health parameters from uploaded QEEG files (PDF or CSV/Excel).
+
+## Setup Steps
+
+### 1. Add Your OpenAI API Key
+
+Open the `.env` file in the root directory and update the OpenAI API key:
+
+```env
+OPENAI_API_KEY=your_actual_openai_api_key_here
+```
+
+Also update the backend `.env` file at `server/.env`:
+
+```env
+OPENAI_API_KEY=your_actual_openai_api_key_here
+```
+
+**Important:** Replace `your_actual_openai_api_key_here` with your real OpenAI API key.
+
+### 2. Install Dependencies (if not already done)
+
+Backend dependencies are already installed. If you need to reinstall:
+
+```bash
+cd server
+npm install
+```
+
+### 3. Start the Backend Server
+
+Open a terminal and run:
+
+```bash
+cd server
+npm start
+```
+
+Or use `npm run dev` for development mode with auto-restart:
+
+```bash
+cd server
+npm run dev
+```
+
+The backend server will start on `http://localhost:3001`
+
+### 4. Start the Frontend
+
+In a **separate terminal**, start the React frontend:
+
+```bash
+npm run dev
+```
+
+The frontend will run on `http://localhost:3000`
+
+### 5. Access the Algorithm Processor
+
+1. Login as Super Admin
+2. Navigate to **Algorithm Data Processor** from the sidebar
+3. Select a patient
+4. Upload QEEG files:
+   - **Eyes Open** data (PDF, CSV, or Excel)
+   - **Eyes Closed** data (PDF, CSV, or Excel)
+5. Click **Execute Calculation**
+
+## How It Works
+
+### File Processing Flow
+
+1. **File Upload**: Frontend uploads both Eyes Open and Eyes Closed files
+2. **File Parsing**: Backend parses files using:
+   - PDF files → OpenAI Vision API extracts QEEG tables
+   - CSV/Excel files → Direct parsing using XLSX library
+3. **Algorithm Calculation**: Backend calculates 7 parameters:
+   - Cognition (2/3 for Rhea)
+   - Stress (0/3 - healthy)
+   - Focus & Attention (1/3)
+   - Burnout & Fatigue (0/3 - healthy)
+   - Emotional Regulation (3/3)
+   - Learning (2/3)
+   - Creativity (2/3)
+4. **Results Display**: Frontend shows calculated scores and classifications (Low/Medium/High)
+5. **Database Storage**: Results saved to Supabase for history tracking
+
+### 7 Parameter Calculation Algorithm
+
+Each parameter has 3 sub-metrics, scored 0-3 total:
+
+**Scoring Logic:**
+- **0-1 points** = Low
+- **2 points** = Medium
+- **3 points** = High
+
+**Parameters:**
+
+1. **Cognition**
+   - Focus Score (Theta:Beta Ratio)
+   - Alpha Peak Frequency
+   - Alpha:Theta Balance
+
+2. **Stress**
+   - Arousal Score (HiBeta:Beta)
+   - Relaxation Score (Alpha:Beta at Pz)
+   - Regeneration (Alpha Modulation)
+
+3. **Focus & Attention**
+   - Focus Theta (Relative Power)
+   - Alpha:Theta Balance
+   - Focus Stimulus Control (Theta:Beta)
+
+4. **Burnout & Fatigue**
+   - Arousal Score
+   - Relaxation Score
+   - Excessive Delta
+
+5. **Emotional Regulation**
+   - Alpha Asymmetry (Frontal)
+   - Arousal Score
+   - Regeneration
+
+6. **Learning**
+   - Alpha Peak
+   - Theta:Beta Ratio
+   - Arousal Score
+
+7. **Creativity**
+   - Relaxation Score
+   - Theta:Beta Ratio
+   - Alpha Peak
+
+## File Format Requirements
+
+### PDF Files
+- Must contain QEEG tables with:
+  - Absolute Power (μV²) table
+  - Relative Power (%) table
+  - Channels: Fz, Cz, Pz, F3, F4, C3, C4, P3, P4 (minimum required)
+  - Bands: Delta, Theta, Alpha, Beta, HiBeta
+
+### CSV/Excel Files
+Expected structure:
+
+| Channel | PowerType | Delta | Theta | Alpha | Beta | HiBeta |
+|---------|-----------|-------|-------|-------|------|--------|
+| Fz      | absolute  | 75.4  | 128.0 | 173.3 | 76.1 | 76.8   |
+| Fz      | relative  | 14.4  | 9.9   | 13.4  | 8.8  | 14.7   |
+| ...     | ...       | ...   | ...   | ...   | ...  | ...    |
+
+## Troubleshooting
+
+### Backend not starting
+- Check if port 3001 is available
+- Verify `.env` file exists in `server/` directory
+- Check OpenAI API key is valid
+
+### OpenAI API errors
+- Verify API key is correct
+- Check OpenAI account has sufficient credits
+- For PDF parsing, ensure file is readable
+
+### File upload errors
+- Maximum file size: 10MB
+- Supported formats: PDF, CSV, XLSX, XLS
+- Ensure both files are uploaded before clicking Execute
+
+### CORS errors
+- Backend must be running on port 3001
+- Frontend must be running on port 3000
+- Check CORS configuration in `server/index.js`
+
+## API Endpoints
+
+### Process QEEG Files
+```
+POST http://localhost:3001/api/qeeg/process
+Content-Type: multipart/form-data
+
+Fields:
+- eyesOpen: File (PDF/CSV/Excel)
+- eyesClosed: File (PDF/CSV/Excel)
+- patientId: string
+- patientName: string
+- clinicName: string
+
+Response:
+{
+  "success": true,
+  "data": {
+    "results": [...],
+    "overallScore": 11,
+    "maxScore": 21
+  }
+}
+```
+
+### Health Check
+```
+GET http://localhost:3001/api/health
+
+Response:
+{
+  "status": "ok",
+  "message": "Neuro360 Backend Server is running",
+  "timestamp": "2025-11-26T10:30:00.000Z"
+}
+```
+
+## Testing with Sample Data
+
+Use the provided `Rhea's Report (1).pdf` to test the system. Expected results:
+- Cognition: Medium (2/3)
+- Stress: Low (0/3)
+- Focus & Attention: Low (1/3)
+- Burnout & Fatigue: Low (0/3)
+- Emotional Regulation: High (3/3)
+- Learning: Medium (2/3)
+- Creativity: Medium (2/3)
+
+## Security Notes
+
+- ⚠️ **Never commit .env files to git** - They contain sensitive API keys
+- ✅ OpenAI API key is only stored on backend (not exposed to browser)
+- ✅ File uploads are temporary and cleaned up after processing
+- ✅ CORS is configured to only accept requests from localhost:3000
+
+## Support
+
+For issues or questions:
+1. Check console logs in both terminal windows
+2. Verify all environment variables are set correctly
+3. Ensure OpenAI API key has sufficient credits
+4. Test with sample PDF file first
+
+---
+
+**Built with:**
+- React + Vite (Frontend)
+- Express + Node.js (Backend)
+- OpenAI API (GPT-4 for PDF parsing)
+- Supabase (Database)

@@ -1,0 +1,286 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Brain,
+  Activity,
+  Users,
+  Target,
+  TrendingUp,
+  Heart,
+  Zap,
+  BookOpen,
+  BarChart3,
+  Award,
+  Clock,
+  Star,
+  CheckCircle,
+  ArrowRight,
+  Sparkles
+} from 'lucide-react';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+
+const LBWMainLanding = () => {
+  const navigate = useNavigate();
+
+  const features = [
+    {
+      title: 'Brain Wellness Assessments',
+      description: 'Evidence-based assessments including ADHD, anxiety, stress, memory, and mood evaluations',
+      icon: <Brain className="w-8 h-8" />,
+      path: '/assessments',
+      color: 'from-[#323956] to-[#F5D05D]',
+      items: ['ADHD Rating Scale', 'GAD-7 Anxiety', 'PSS-10 Stress', 'Memory Tests', 'Mood Evaluation']
+    },
+    {
+      title: 'Expert Coaching',
+      description: 'Connect with certified brain wellness coaches for personalized guidance',
+      icon: <Users className="w-8 h-8" />,
+      path: '/coaching',
+      color: 'from-[#323956] to-[#F5D05D]',
+      items: ['Brain Performance', 'Nervous System', 'qEEG Consultation', 'Stress Management', 'ADHD Support']
+    },
+    {
+      title: 'Progress Tracking',
+      description: 'Monitor your brain fitness journey with detailed analytics and insights',
+      icon: <TrendingUp className="w-8 h-8" />,
+      path: '/lbw/progress',
+      color: 'from-[#323956] to-[#F5D05D]',
+      items: ['Weekly Reports', 'Goal Setting', 'Improvement Metrics', 'Personalized Insights']
+    },
+    {
+      title: 'Educational Content',
+      description: 'Learn about brain wellness with our comprehensive resource library',
+      icon: <BookOpen className="w-8 h-8" />,
+      path: '/lbw/content',
+      color: 'from-[#323956] to-[#F5D05D]',
+      items: ['Video Tutorials', 'Articles', 'Research Papers', 'Webinars']
+    },
+    {
+      title: 'Personal Dashboard',
+      description: 'Your central hub for all brain wellness activities and data',
+      icon: <BarChart3 className="w-8 h-8" />,
+      path: '/lbw/dashboard',
+      color: 'from-[#323956] to-[#F5D05D]',
+      items: ['Activity Overview', 'Upcoming Sessions', 'Recent Results', 'Recommendations']
+    }
+  ];
+
+  const stats = [
+    { number: '10,000+', label: 'Active Users' },
+    { number: '95%', label: 'Success Rate' },
+    { number: '50+', label: 'Expert Coaches' },
+    { number: '24/7', label: 'Support Available' }
+  ];
+
+  const testimonials = [
+    {
+      name: 'Success Story 1',
+      role: 'Corporate Clarity',
+      content: 'Through brain assessments and qEEG insights, a senior leader moved from mental overload to focused, calm decision-making. With expert coaching and progress tracking, performance became sustainable—not stressful.',
+      rating: 5
+    },
+    {
+      name: 'Success Story 2',
+      role: 'Student Confidence',
+      content: 'A child struggling with focus and anxiety unlocked hidden potential through brain-first assessment and guided coaching. Improved attention, emotional balance, and confidence followed—without pressure or labels.',
+      rating: 5
+    },
+    {
+      name: 'Success Story 3',
+      role: 'Burnout to Brain Fitness',
+      content: 'A high performer reversed burnout by understanding and regulating stress circuits through qEEG-led optimization. Energy, sleep, and emotional resilience were restored through structured brain fitness tracking.',
+      rating: 5
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#E4EFFF] via-white to-gray-50">
+      <NavBar />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#323956]/10 to-[#F5D05D]/10"></div>
+        <div className="container mx-auto px-4 py-20 relative">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="flex justify-center mb-6">
+              <div className="p-4 bg-gradient-to-br from-[#323956] to-[#F5D05D] rounded-2xl">
+                <Brain className="w-16 h-16 text-white" />
+              </div>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              Limitless Brain Wellness
+              <span className="block text-3xl md:text-4xl mt-4 bg-gradient-to-r from-[#323956] to-[#F5D05D] bg-clip-text text-transparent">
+                Transform your brain. Elevate your life.
+              </span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              Comprehensive brain fitness platform with evidence-based assessments, expert brain coaching and personalized MOVERS protocols.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button
+                onClick={() => navigate('/assessments')}
+                className="px-8 py-4 bg-gradient-to-r from-[#323956] to-[#F5D05D] text-white rounded-xl font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                Start Free Assessment
+              </button>
+              <button
+                onClick={() => navigate('/coaching')}
+                className="px-8 py-4 bg-white text-gray-800 rounded-xl font-semibold text-lg border-2 border-gray-200 hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                Find Your Clinic/Coach
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#323956] to-[#F5D05D] bg-clip-text text-transparent">
+                  {stat.number}
+                </div>
+                <div className="text-gray-600 mt-2">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Complete Brain Wellness Suite
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Everything you need for optimal brain health and cognitive performance
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group"
+                onClick={() => navigate(feature.path)}
+              >
+                <div className={`h-2 bg-gradient-to-r ${feature.color}`}></div>
+                <div className="p-8">
+                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform`}>
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    {feature.description}
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {feature.items.slice(0, 3).map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-4 h-4 text-[#323956]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Your Journey to Brain Wellness
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              A simple, science-backed process to optimize your cognitive health
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { step: '1', title: 'Assess', desc: 'Take comprehensive brain wellness assessments', icon: <Brain /> },
+              { step: '2', title: 'Analyze', desc: 'Get detailed insights and brain mapping', icon: <Activity /> },
+              { step: '3', title: 'Connect', desc: 'Match with expert coaches and protocols', icon: <Users /> },
+              { step: '4', title: 'Transform', desc: 'Track progress and achieve your goals', icon: <Sparkles /> }
+            ].map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-[#323956] to-[#F5D05D] rounded-full flex items-center justify-center text-white mx-auto mb-4 [&>div]:w-10 [&>div]:h-10 [&_svg]:w-full [&_svg]:h-full">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                <p className="text-gray-600">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Success Stories
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Join thousands who have transformed their brain health
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-lg p-8">
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-500 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-600 mb-6 italic">"{testimonial.content}"</p>
+                <div>
+                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                  <div className="text-sm text-gray-500">{testimonial.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-[#323956] to-[#F5D05D]">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Ready to Unlock Your Brain's Full Potential?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Start your journey today with our free assessment and personalized recommendations
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button
+              onClick={() => navigate('/assessments')}
+              className="px-8 py-4 bg-white text-[#323956] rounded-xl font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            >
+              Get Started Free
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default LBWMainLanding;

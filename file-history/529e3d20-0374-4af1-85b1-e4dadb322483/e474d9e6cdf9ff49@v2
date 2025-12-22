@@ -1,0 +1,141 @@
+-- ================================================
+-- FIX CLINICAL_REPORTS TABLE
+-- ================================================
+-- This script will completely recreate the clinical_reports table
+-- Run this in Supabase SQL Editor
+
+-- Step 1: Drop all related objects
+DROP TRIGGER IF EXISTS clinical_reports_updated_at ON clinical_reports;
+DROP FUNCTION IF EXISTS update_clinical_reports_updated_at() CASCADE;
+
+DROP POLICY IF EXISTS "Authenticated users can view clinical reports" ON clinical_reports;
+DROP POLICY IF EXISTS "Authenticated users can insert clinical reports" ON clinical_reports;
+DROP POLICY IF EXISTS "Authenticated users can update clinical reports" ON clinical_reports;
+DROP POLICY IF EXISTS "Authenticated users can delete clinical reports" ON clinical_reports;
+
+DROP INDEX IF EXISTS idx_clinical_reports_patient_id;
+DROP INDEX IF EXISTS idx_clinical_reports_org_id;
+DROP INDEX IF EXISTS idx_clinical_reports_patient_uid;
+DROP INDEX IF EXISTS idx_clinical_reports_created_at;
+
+-- Step 2: Drop the table
+DROP TABLE IF EXISTS clinical_reports CASCADE;
+
+-- Step 3: Create fresh table with all columns
+CREATE TABLE clinical_reports (
+  -- Primary identifiers
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  patient_uid TEXT,
+  org_id UUID,
+  clinic_name TEXT,
+
+  -- Patient Information
+  full_name TEXT NOT NULL,
+  date_of_birth DATE,
+  gender TEXT CHECK (gender IN ('male', 'female', 'other')),
+  handedness TEXT,
+  occupation TEXT,
+  date_of_test DATE,
+  referring_physician TEXT,
+  referral_reason TEXT,
+
+  -- Clinical & Medical History
+  presenting_complaints TEXT,
+  symptom_duration TEXT,
+  past_medical_history TEXT,
+  current_medications TEXT,
+  family_psychiatric_history TEXT,
+  substance_use_history TEXT,
+
+  -- Lifestyle & Contributing Factors
+  sleep_quality_issues TEXT,
+  chronic_stress_trauma BOOLEAN DEFAULT FALSE,
+  excessive_caffeine_stimulant BOOLEAN DEFAULT FALSE,
+  physical_activity_level TEXT,
+  diet_nutrition_factors TEXT,
+  screen_time_tech_overuse BOOLEAN DEFAULT FALSE,
+  occupational_stressors BOOLEAN DEFAULT FALSE,
+
+  -- Mental Status Examination
+  appearance_behavior TEXT,
+  mood_affect TEXT,
+  thought_process_content TEXT,
+  cognitive_assessment TEXT,
+  insight_judgment TEXT,
+
+  -- EEG Findings
+  eeg_frequency_bands JSONB,
+  eeg_connectivity JSONB,
+  eeg_asymmetry_patterns JSONB,
+  eeg_artifact_quality TEXT,
+
+  -- Neurosense Brain Health Parameters
+  brain_parameters JSONB,
+
+  -- Clinical Interpretation
+  primary_findings TEXT,
+  correlations_clinical_eeg TEXT,
+  differential_considerations TEXT,
+
+  -- Recommendations
+  lifestyle_modifications TEXT,
+  cognitive_behavioral_strategies TEXT,
+  neurofeedback_protocol TEXT,
+  pharmacological_considerations TEXT,
+  referrals_followup TEXT,
+
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Step 4: Create indexes
+CREATE INDEX idx_clinical_reports_patient_id ON clinical_reports(patient_id);
+CREATE INDEX idx_clinical_reports_org_id ON clinical_reports(org_id);
+CREATE INDEX idx_clinical_reports_patient_uid ON clinical_reports(patient_uid);
+CREATE INDEX idx_clinical_reports_created_at ON clinical_reports(created_at);
+
+-- Step 5: Enable RLS
+ALTER TABLE clinical_reports ENABLE ROW LEVEL SECURITY;
+
+-- Step 6: Create policies
+CREATE POLICY "Authenticated users can view clinical reports"
+  ON clinical_reports FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can insert clinical reports"
+  ON clinical_reports FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update clinical reports"
+  ON clinical_reports FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can delete clinical reports"
+  ON clinical_reports FOR DELETE
+  USING (auth.role() = 'authenticated');
+
+-- Step 7: Create trigger function
+CREATE OR REPLACE FUNCTION update_clinical_reports_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Step 8: Create trigger
+CREATE TRIGGER clinical_reports_updated_at
+  BEFORE UPDATE ON clinical_reports
+  FOR EACH ROW
+  EXECUTE FUNCTION update_clinical_reports_updated_at();
+
+-- Step 9: Add comment
+COMMENT ON TABLE clinical_reports IS 'Stores comprehensive clinical assessment reports for patients including EEG findings and neurosense brain health parameters';
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE 'clinical_reports table created successfully with all columns including date_of_birth!';
+END $$;

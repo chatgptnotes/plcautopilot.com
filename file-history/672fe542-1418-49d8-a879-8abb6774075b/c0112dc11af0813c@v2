@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient UID Migration - Neuro360</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    button:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+    #output {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+      min-height: 200px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+    .success { color: #4CAF50; }
+    .error { color: #f44336; }
+    .info { color: #2196F3; }
+    .warning { color: #ff9800; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 Patient UID Migration Tool</h1>
+    <p>This tool will update your Supabase organizations table to add clinic codes for patient UID generation.</p>
+
+    <div>
+      <strong>UID Format:</strong> <code>CLINICCODE-YYYYMM-XXXX</code><br>
+      <strong>Example:</strong> <code>HOPE-202502-0012</code>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button onclick="checkDatabase()" id="checkBtn">1. Check Database</button>
+      <button onclick="addClinicCodeColumn()" id="addColumnBtn">2. Add clinic_code Column</button>
+      <button onclick="generateClinicCodes()" id="generateBtn">3. Generate Clinic Codes</button>
+      <button onclick="testPatientUid()" id="testBtn">4. Test UID Generation</button>
+    </div>
+
+    <div id="output">Ready to start migration...\n</div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://omyltmcesgbhnqmhrrvq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWx0bWNlc2diaG5xbWhycnZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNzY2NTAsImV4cCI6MjA3Mzc1MjY1MH0.d4VqaDBlrEJ1xYPt4kt60y90RRbtndRRaF9WzpWxWcU';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const output = document.getElementById('output');
+
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const className = type;
+      output.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+      output.scrollTop = output.scrollHeight;
+      console.log(message);
+    }
+
+    async function checkDatabase() {
+      log('🔍 Checking database structure...', 'info');
+
+      try {
+        const { data, error } = await supabase
+          .from('organizations')
+          .select('*')
+          .limit(1);
+
+        if (error) {
+          log('❌ Error: ' + error.message, 'error');
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const columns = Object.keys(data[0]);
+          log('✅ Organizations table found', 'success');
+          log('📋 Columns: ' + columns.join(', '), 'info');
+
+          if (columns.includes('clinic_code')) {
+            log('✅ clinic_code column already exists!', 'success');
+          } else {
+            log('⚠️ clinic_code column NOT found - needs to be added', 'warning');
+          }
+        }
+
+        // Check all organizations
+        const { data: allOrgs, error: countError } = await supabase
+          .from('organizations')
+          .select('id, name, clinic_code');
+
+        if (countError) {
+          log('❌ Error fetching organizations: ' + countError.message, 'error');
+          return;
+        }
+
+        log(`\n📊 Found ${allOrgs.length} organizations:`, 'info');
+        allOrgs.forEach(org => {
+          const status = org.clinic_code ? '✅' : '⚠️';
+          log(`${status} ${org.name}: ${org.clinic_code || 'NO CODE'}`, org.clinic_code ? 'success' : 'warning');
+        });
+
+      } catch (err) {
+        log('❌ Unexpected error: ' + err.message, 'error');
+      }
+    }
+
+    async function addClinicCodeColumn() {
+      log('\n⚙️ Attempting to add clinic_code column...', 'info');
+      log('⚠️ Note: This requires ADMIN access via Supabase SQL Editor', 'warning');
+      log('\nPlease run this SQL in Supabase Dashboard > SQL Editor:\n', 'info');
+
+      const sql = `-- Add clinic_code column to organizations
+ALTER TABLE organizations
+ADD COLUMN IF NOT EXISTS clinic_code VARCHAR(50);
+
+-- Add unique constraint
+ALTER TABLE organizations
+ADD CONSTRAINT organizations_clinic_code_key UNIQUE (clinic_code);
+
+-- Create index
+CREATE INDEX IF NOT EXISTS idx_organizations_clinic_code ON organizations(clinic_code);`;
+
+      log(sql, 'info');
+      log('\n✅ Copy the SQL above and run it in Supabase SQL Editor', 'success');
+      log('Then click "Check Database" to verify', 'info');
+    }
+
+    async function generateClinicCodes() {
+      log('\n🔨 Generating clinic codes...', 'info');
+
+      try {
+        const { data: organizations, error: fetchError } = await supabase
+          .from('organizations')
+          .select('id, name, clinic_code');
+
+        if (fetchError) {
+          log('❌ Error fetching organizations: ' + fetchError.message, 'error');
+          return;
+        }
+
+        log(`✅ Found ${organizations.length} organizations`, 'success');
+
+        const usedCodes = new Set();
+        let updated = 0;
+
+        // Collect existing codes
+        organizations.forEach(org => {
+          if (org.clinic_code) {
+            usedCodes.add(org.clinic_code);
+          }
+        });
+
+        // Generate codes for organizations without them
+        for (const org of organizations) {
+          if (!org.clinic_code) {
+            let baseCode = org.name
+              .toUpperCase()
+              .replace(/[^A-Z0-9]/g, '')
+              .substring(0, 8);
+
+            if (!baseCode) baseCode = 'CLINIC';
+
+            let finalCode = baseCode;
+            let counter = 1;
+
+            while (usedCodes.has(finalCode)) {
+              finalCode = baseCode + String(counter).padStart(2, '0');
+              counter++;
+            }
+
+            usedCodes.add(finalCode);
+
+            log(`Updating "${org.name}" → "${finalCode}"...`, 'info');
+
+            const { error: updateError } = await supabase
+              .from('organizations')
+              .update({ clinic_code: finalCode })
+              .eq('id', org.id);
+
+            if (updateError) {
+              log(`❌ Failed to update "${org.name}": ${updateError.message}`, 'error');
+            } else {
+              log(`✅ "${org.name}" → "${finalCode}"`, 'success');
+              updated++;
+            }
+          } else {
+            log(`ℹ️ "${org.name}" already has: ${org.clinic_code}`, 'info');
+          }
+        }
+
+        log(`\n✅ Migration completed!`, 'success');
+        log(`📊 Summary: ${updated} updated, ${organizations.length - updated} existing`, 'success');
+
+      } catch (err) {
+        log('❌ Error: ' + err.message, 'error');
+      }
+    }
+
+    async function testPatientUid() {
+      log('\n🧪 Testing patient UID generation...', 'info');
+
+      try {
+        const { data: orgs, error } = await supabase
+          .from('organizations')
+          .select('id, name, clinic_code')
+          .limit(1);
+
+        if (error || !orgs || orgs.length === 0) {
+          log('❌ No organizations found', 'error');
+          return;
+        }
+
+        const org = orgs[0];
+        if (!org.clinic_code) {
+          log('❌ Organization has no clinic_code yet. Run step 3 first.', 'error');
+          return;
+        }
+
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const yearMonth = `${year}${month}`;
+
+        const testUid = `${org.clinic_code}-${yearMonth}-0001`;
+
+        log(`✅ Test UID generated successfully!`, 'success');
+        log(`Organization: ${org.name}`, 'info');
+        log(`Clinic Code: ${org.clinic_code}`, 'info');
+        log(`Sample UID: ${testUid}`, 'success');
+        log(`\n🎉 Patient UID system is ready!`, 'success');
+
+      } catch (err) {
+        log('❌ Error: ' + err.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>

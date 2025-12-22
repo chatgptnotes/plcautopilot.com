@@ -1,0 +1,320 @@
+/**
+ * AI-Powered PDF Report Generator
+ * Uses OpenAI to generate comprehensive, modern QEEG reports
+ * Based on the enhanced prompt specifications
+ */
+
+const OpenAI = require('openai');
+const fs = require('fs');
+const path = require('path');
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+class AIPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+  }
+
+  /**
+   * Generate the NeuroSense report system prompt
+   * Senior neurotech data analyst specialized in QEEG analysis and patient-friendly reporting
+   */
+  getSystemPrompt() {
+    return `You are a senior neurotech data analyst and report generator for the NeuroSense platform. Your task is to read the uploaded QEEG patient data and generate the final NeuroSense report in PDF-ready formatted content.
+
+## GOAL
+Input: QEEG report data with Z-score tables and formulas
+Output: A final NeuroSense report written in clean formatted text containing:
+- Patient details
+- 7 parameter score cards (with score, bucket, explanation)
+- Brain-type compact pattern summary line
+- Key highlights section
+- Individual detailed narrative explanations
+- Recommendations / coaching focus
+- Final conclusion in patient-friendly language
+
+## IMPORTANT GUIDELINES
+✓ Use only data found inside the patient data provided
+✓ DO NOT return JSON - return formatted text ready for PDF
+✓ DO NOT give any medical diagnosis
+✓ Write in simple language for patients
+✓ If any metric is missing or unclear, mention it politely instead of guessing
+
+## PRE-CALCULATED SCORES
+You will receive pre-calculated scores for all 7 brain health parameters. Each score (0-3) has been calculated by our validated QEEG algorithms using 9 different brain metrics including theta:beta ratios, alpha modulation, arousal scores, and frequency analysis.
+
+Your role is NOT to calculate or verify these scores. Your role is to:
+1. Accept the provided scores as accurate
+2. Generate patient-friendly explanations for what each score means
+3. Provide personalized recommendations based on the score patterns
+4. Write a comprehensive narrative connecting all parameters
+
+## PARAMETER SCORING (0–3)
+Each of these 7 parameters gets a score 0–3 based on formulas:
+1. Cognition
+2. Stress
+3. Focus & Attention
+4. Burnout & Fatigue
+5. Emotional Regulation
+6. Learning
+7. Creativity
+
+Score to bucket mapping:
+- 0–1 = Low
+- 2 = Medium
+- 3 = High
+
+## BRAIN-TYPE PATTERN LINE
+Based on each score convert to L / M / H and format like:
+Cognition M · Stress L · Focus L · Burnout/Fatigue L · Emotional Reg H · Learning M · Creativity M
+
+## FINAL OUTPUT FORMAT (NO JSON)
+Return the report exactly in this structure:
+
+==============================
+NEUROSENSE BRAIN FUNCTION REPORT
+
+Patient Information
+Name: <if available>
+Age: <if available>
+Recording Date: <if available>
+Notes: <if available>
+
+Brain-Type Pattern Summary
+<pattern line with L/M/H letters>
+<short 2–4 sentence overview in simple language>
+
+Key Highlights
+• <3–6 bullet points summarizing the patient brain profile>
+
+Parameter Score Cards
+
+Cognition: <bucket> (Score <0–3>)
+Short status: <1-line summary>
+Explanation: <2–4 sentences explaining pattern and what it means for the patient>
+
+Stress: <bucket> (Score <0–3>)
+Short status: <1-line summary>
+Explanation: <2–4 sentences>
+
+Focus & Attention: <bucket> (Score <0–3>)
+Short status: <1-line summary>
+Explanation: <2–4 sentences>
+
+Burnout & Fatigue: <bucket> (...)
+Emotional Regulation: <bucket> (...)
+Learning: <bucket> (...)
+Creativity: <bucket> (...)
+
+Detailed Narrative
+A longer plain-language explanation that connects how stress, focus, learning, emotional balance and creativity interact in this person's profile.
+
+Coaching Focus & Next Steps
+• <priority #1>
+• <priority #2>
+• <priority #3>
+<2 sentences on expected improvement outcome>
+
+End Note
+A warm positive closing note written for the patient about brain improvement and self-development.
+
+==============================`;
+  }
+
+  /**
+   * Generate user prompt with actual patient data
+   */
+  getUserPrompt() {
+    const parametersText = this.algorithmResults.parameters.map((param, index) => {
+      const metricsText = param.metrics.map((metric, idx) => {
+        return `      ${idx + 1}. **${metric.name}**: Score ${metric.score}/1
+         - Value: ${typeof metric.value === 'object' ? JSON.stringify(metric.value) : metric.value}
+         - Description: ${metric.description}`;
+      }).join('\n');
+
+      return `${index + 1}. **${param.name}**: ${param.score}/${param.maxScore} (${param.classification})
+   Subparameters:
+${metricsText}`;
+    }).join('\n\n');
+
+    return `Generate a comprehensive QEEG Intelligence report for the following patient:
+
+## PATIENT INFORMATION:
+- Name: ${this.patientData.name}
+- Date of Recording: ${this.patientData.dateOfRecording}
+- Age: ${this.patientData.age}
+- Gender: ${this.patientData.gender}
+- Handedness: ${this.patientData.handedness}
+- Symptoms: ${this.patientData.symptoms ? this.patientData.symptoms.join(', ') : 'Not specified'}
+
+## ALGORITHM RESULTS:
+Overall Brain Health Score: ${this.algorithmResults.overallScore}/21
+
+### Parameter Scores:
+${parametersText}
+
+## QEEG DATA SUMMARY:
+### Eyes Closed (EC):
+- Alpha Peak: ${this.qeegData.EC?.special?.alphaPeak || 'N/A'} Hz
+- Key Locations: Fz, Cz, Pz
+- Absolute Power Available: ${this.qeegData.EC?.absolute ? 'Yes' : 'No'}
+- Relative Power Available: ${this.qeegData.EC?.relative ? 'Yes' : 'No'}
+
+### Eyes Open (EO):
+- Absolute Power Available: ${this.qeegData.EO?.absolute ? 'Yes' : 'No'}
+- Relative Power Available: ${this.qeegData.EO?.relative ? 'Yes' : 'No'}
+
+---
+
+Please generate a complete, professional QEEG report following the design requirements and structure specified in the system prompt. Include all sections with detailed explanations, health implications, and improvement recommendations for each parameter and subparameter.`;
+  }
+
+  /**
+   * Generate PDF report using OpenAI
+   * @param {string} outputPath - Path to save the generated PDF
+   * @returns {Promise<Object>} Generated report data and metadata
+   */
+  async generateReport(outputPath) {
+    try {
+      console.log('\n🤖 === AI PDF Generation Started ===\n');
+      console.log('👤 Patient:', this.patientData.name);
+      console.log('📊 Parameters:', this.algorithmResults.parameters.length);
+      console.log('🎯 Overall Score:', this.algorithmResults.overallScore, '/21');
+
+      // Step 1: Generate report content using OpenAI
+      console.log('\n📝 Generating report content with AI...');
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          {
+            role: 'system',
+            content: this.getSystemPrompt()
+          },
+          {
+            role: 'user',
+            content: this.getUserPrompt()
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 4000
+        // Note: No response_format specified - we want plain text, not JSON
+      });
+
+      const reportContent = response.choices[0].message.content;
+
+      console.log('✅ AI content generated successfully');
+      console.log('📄 Content length:', reportContent.length, 'characters');
+
+      // Step 2: Save report content as plain text
+      const reportData = {
+        patientInfo: this.patientData,
+        algorithmResults: this.algorithmResults,
+        qeegData: this.qeegData,
+        aiGeneratedContent: reportContent,
+        metadata: {
+          generatedAt: new Date().toISOString(),
+          generatedBy: 'NeuroSense AI Report Generator',
+          model: 'gpt-4-turbo-preview',
+          version: '2.0.0'
+        }
+      };
+
+      // Save both text and JSON versions
+      const textOutputPath = outputPath.replace('.pdf', '.txt');
+      const jsonOutputPath = outputPath.replace('.pdf', '.json');
+
+      // Save plain text report
+      fs.writeFileSync(textOutputPath, reportContent);
+
+      // Save structured data with metadata
+      fs.writeFileSync(jsonOutputPath, JSON.stringify(reportData, null, 2));
+
+      console.log('\n✅ === AI NeuroSense Report Generation Completed ===');
+      console.log('📄 Text Report saved to:', textOutputPath);
+      console.log('📄 Data saved to:', jsonOutputPath);
+      console.log('💡 Note: Text report is ready for PDF conversion or direct use.\n');
+
+      return {
+        success: true,
+        reportData,
+        reportText: reportContent,
+        textOutputPath: textOutputPath,
+        outputPath: jsonOutputPath,
+        contentLength: reportContent.length,
+        tokensUsed: response.usage.total_tokens
+      };
+
+    } catch (error) {
+      console.error('\n❌ === AI PDF Generation Failed ===');
+      console.error('Error:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Generate sample report for testing
+   */
+  static async generateSampleReport() {
+    const samplePatient = {
+      name: 'Jane Smith',
+      dateOfRecording: new Date().toISOString().split('T')[0],
+      age: 42,
+      gender: 'Female',
+      handedness: 'Right',
+      symptoms: ['Stress', 'Focus Issues', 'Sleep Problems']
+    };
+
+    const sampleResults = {
+      parameters: [
+        {
+          name: 'Cognition',
+          score: 2,
+          maxScore: 3,
+          classification: 'Medium',
+          metrics: [
+            { name: 'Focus Score (Theta:Beta)', value: 1.2, score: 1, description: 'Healthy theta:beta ratio indicating good attention' },
+            { name: 'Alpha Peak', value: 10.3, score: 1, description: 'Strong alpha peak showing good mental relaxation capability' },
+            { name: 'Alpha:Theta Balance', value: 'Normal', score: 0, description: 'Balanced state between alertness and relaxation' }
+          ]
+        },
+        {
+          name: 'Stress',
+          score: 1,
+          maxScore: 3,
+          classification: 'Low',
+          metrics: [
+            { name: 'Arousal Score', value: 0.8, score: 1, description: 'Low arousal indicating minimal stress' },
+            { name: 'Relaxation Score', value: 8.5, score: 0, description: 'Moderate relaxation capacity' },
+            { name: 'Regeneration', value: 35.2, score: 1, description: 'Good alpha modulation for recovery' }
+          ]
+        }
+      ],
+      overallScore: 14
+    };
+
+    const sampleQEEG = {
+      EC: {
+        absolute: { Fz: { Delta: 5.2, Theta: 4.1, Alpha: 8.3, Beta: 6.2, HiBeta: 3.1 } },
+        relative: { Pz: { Alpha: 45.2 } },
+        special: { alphaPeak: 10.3, O1: 10.1 }
+      },
+      EO: {
+        absolute: { Fz: { Theta: 3.8, Beta: 3.2, HiBeta: 2.5 } },
+        relative: { Pz: { Alpha: 28.7 } }
+      }
+    };
+
+    const generator = new AIPdfGenerator(samplePatient, sampleResults, sampleQEEG);
+    const outputPath = path.join(__dirname, '../uploads/ai-sample-report.pdf');
+
+    return await generator.generateReport(outputPath);
+  }
+}
+
+module.exports = AIPdfGenerator;

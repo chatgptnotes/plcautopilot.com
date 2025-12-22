@@ -1,0 +1,12 @@
+-- Add pdf_url column to algorithm_results table
+-- This stores the URL/path to the generated PDF report (either local or Supabase storage)
+
+-- Add pdf_url column
+ALTER TABLE public.algorithm_results
+ADD COLUMN IF NOT EXISTS pdf_url TEXT;
+
+-- Add comment
+COMMENT ON COLUMN public.algorithm_results.pdf_url IS 'URL or path to generated PDF report (local storage or Supabase bucket)';
+
+-- Create index for faster lookups
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_pdf_url ON public.algorithm_results(pdf_url) WHERE pdf_url IS NOT NULL;

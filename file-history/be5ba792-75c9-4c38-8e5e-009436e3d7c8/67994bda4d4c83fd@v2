@@ -1,0 +1,190 @@
+#!/usr/bin/env node
+/**
+ * Restore Data from PostgreSQL Backup File
+ *
+ * This script extracts COPY statements from backup file
+ * and converts them to INSERT statements for Supabase
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+// Configuration
+const BACKUP_FILE_PATH = 'c:\\Users\\Hp\\Downloads\\db_cluster-24-11-2025@16-41-20.backup (1)\\db_cluster-24-11-2025@16-41-20.backup (1)';
+const OUTPUT_FILE = path.join(__dirname, 'RESTORED_DATA.sql');
+
+// Tables to import (in dependency order)
+const TABLES_TO_IMPORT = [
+  'clinics',
+  'organizations',
+  'patients',
+  'profiles',
+  'subscriptions',
+  'payment_history',
+  'payments',
+  'reports',
+  'uploaded_files',
+  'algorithm_results',
+  'sessions',
+  'assessments',
+  'daily_progress',
+  'documents',
+  'eeg_reports',
+  'clinical_reports'
+];
+
+console.log('🔄 Starting backup data extraction...\n');
+
+try {
+  // Read backup file
+  console.log('📖 Reading backup file...');
+  const backupContent = fs.readFileSync(BACKUP_FILE_PATH, 'utf8');
+  const lines = backupContent.split('\n');
+
+  console.log(`✅ Backup file loaded: ${lines.length} lines\n`);
+
+  // Initialize output
+  let sqlOutput = `-- =====================================================
+-- RESTORED DATA FROM BACKUP
+-- =====================================================
+-- Generated: ${new Date().toISOString()}
+-- Source: ${path.basename(BACKUP_FILE_PATH)}
+-- =====================================================
+
+-- Disable triggers temporarily
+SET session_replication_role = replica;
+
+`;
+
+  // Extract data for each table
+  let totalRecords = 0;
+
+  for (const tableName of TABLES_TO_IMPORT) {
+    console.log(`🔍 Extracting data for table: ${tableName}`);
+
+    const { sql, recordCount } = extractTableData(lines, tableName);
+
+    if (recordCount > 0) {
+      sqlOutput += sql + '\n\n';
+      totalRecords += recordCount;
+      console.log(`   ✅ ${recordCount} records found\n`);
+    } else {
+      console.log(`   ⚠️  No data found\n`);
+    }
+  }
+
+  sqlOutput += `
+-- Re-enable triggers
+SET session_replication_role = DEFAULT;
+
+-- =====================================================
+-- VERIFICATION QUERIES
+-- =====================================================
+`;
+
+  for (const tableName of TABLES_TO_IMPORT) {
+    sqlOutput += `SELECT '${tableName}' as table_name, COUNT(*) as record_count FROM ${tableName};\n`;
+  }
+
+  sqlOutput += `\nSELECT 'TOTAL RECORDS IMPORTED: ${totalRecords}' as status;\n`;
+
+  // Write output file
+  fs.writeFileSync(OUTPUT_FILE, sqlOutput, 'utf8');
+
+  console.log('═══════════════════════════════════════════════════');
+  console.log(`✅ SUCCESS! Data extraction complete!`);
+  console.log(`📊 Total records extracted: ${totalRecords}`);
+  console.log(`📄 Output file: ${OUTPUT_FILE}`);
+  console.log('═══════════════════════════════════════════════════\n');
+
+  console.log('📝 Next steps:');
+  console.log('1. Open Supabase SQL Editor');
+  console.log('2. Copy contents of RESTORED_DATA.sql');
+  console.log('3. Paste and Run in SQL Editor');
+  console.log('4. Verify data import\n');
+
+} catch (error) {
+  console.error('❌ Error:', error.message);
+  process.exit(1);
+}
+
+/**
+ * Extract data for a specific table from backup file
+ */
+function extractTableData(lines, tableName) {
+  let sql = `-- =====================================================\n`;
+  sql += `-- TABLE: ${tableName}\n`;
+  sql += `-- =====================================================\n\n`;
+
+  let recordCount = 0;
+  let inDataSection = false;
+  let columns = [];
+  let dataLines = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Find COPY statement for this table
+    if (line.startsWith(`COPY public.${tableName} (`)) {
+      inDataSection = true;
+
+      // Extract column names
+      const match = line.match(/COPY public\.\w+ \((.*?)\) FROM stdin;/);
+      if (match) {
+        columns = match[1].split(', ').map(col => col.trim());
+      }
+
+      continue;
+    }
+
+    // End of data section
+    if (inDataSection && line === '\\.') {
+      break;
+    }
+
+    // Collect data lines
+    if (inDataSection && line.trim() && line !== '\\.') {
+      dataLines.push(line);
+      recordCount++;
+    }
+  }
+
+  // Convert COPY format to INSERT statements
+  if (recordCount > 0 && columns.length > 0) {
+    sql += `-- Inserting ${recordCount} records into ${tableName}\n\n`;
+    sql += `INSERT INTO ${tableName} (${columns.join(', ')})\nVALUES\n`;
+
+    const valueStrings = dataLines.map((line, index) => {
+      const values = line.split('\t').map(val => {
+        // Handle NULL values
+        if (val === '\\N' || val === '') {
+          return 'NULL';
+        }
+
+        // Handle special characters
+        val = val.replace(/'/g, "''"); // Escape single quotes
+
+        // Check if it's a number, boolean, or needs quotes
+        if (val === 't' || val === 'true') return 'true';
+        if (val === 'f' || val === 'false') return 'false';
+        if (!isNaN(val) && val.trim() !== '') return val;
+
+        return `'${val}'`;
+      });
+
+      const isLast = index === dataLines.length - 1;
+      return `  (${values.join(', ')})${isLast ? ';' : ','}`;
+    });
+
+    sql += valueStrings.join('\n');
+    sql += '\n\nON CONFLICT (id) DO NOTHING;\n';
+  }
+
+  return { sql, recordCount };
+}
+
+console.log(`
+╔════════════════════════════════════════════════════╗
+║   NEURO360 - BACKUP DATA RESTORATION TOOL         ║
+╚════════════════════════════════════════════════════╝
+`);

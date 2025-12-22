@@ -1,0 +1,1314 @@
+import React, { useState, useEffect } from 'react';
+import { Upload, Play, Download, FileText, CheckCircle, Activity, User, Building2, Calendar, History, X, ArrowLeft, Search, Filter } from 'lucide-react';
+import DatabaseService from '../../services/databaseService';
+import toast from 'react-hot-toast';
+
+const AlgorithmDataProcessor = () => {
+  const [patients, setPatients] = useState([]);
+  const [clinics, setClinics] = useState([]);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [showProcessingUI, setShowProcessingUI] = useState(false);
+  const [processingHistory, setProcessingHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Filter states
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedClinicFilter, setSelectedClinicFilter] = useState('');
+  const [dateFilter, setDateFilter] = useState('');
+
+  const [eyesOpenFile, setEyesOpenFile] = useState(null);
+  const [eyesClosedFile, setEyesClosedFile] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processingComplete, setProcessingComplete] = useState(false);
+  const [consoleLog, setConsoleLog] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [results, setResults] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState(null);
+
+  useEffect(() => {
+    loadPatients();
+  }, []);
+
+  useEffect(() => {
+    if (selectedPatient && showProcessingUI) {
+      loadProcessingHistory(selectedPatient.id);
+    }
+  }, [selectedPatient, showProcessingUI]);
+
+  const loadPatients = async () => {
+    try {
+      const patientsData = await DatabaseService.get('patients');
+      const clinicsData = await DatabaseService.get('clinics');
+      const algorithmResults = await DatabaseService.get('algorithmResults') || [];
+
+      // Enrich patients with clinic names and algorithm status
+      const enrichedPatients = patientsData.map(patient => {
+        const patientResults = algorithmResults.filter(r => r.patientId === patient.id);
+        const lastResult = patientResults.length > 0
+          ? patientResults.sort((a, b) => new Date(b.processedAt) - new Date(a.processedAt))[0]
+          : null;
+
+        return {
+          ...patient,
+          clinicName: clinicsData.find(c => c.id === patient.clinicId)?.name || 'Unknown Clinic',
+          algorithmStatus: lastResult ? 'completed' : 'pending',
+          lastProcessed: lastResult?.processedAt,
+          totalScans: patientResults.length
+        };
+      });
+
+      setPatients(enrichedPatients);
+      setClinics(clinicsData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading patients:', error);
+      toast.error('Failed to load patients');
+      setLoading(false);
+    }
+  };
+
+  const loadProcessingHistory = async (patientId) => {
+    try {
+      // Load algorithm results for this patient
+      const results = await DatabaseService.get('algorithmResults');
+      const patientResults = results.filter(r => r.patientId === patientId);
+      setProcessingHistory(patientResults);
+    } catch (error) {
+      console.error('Error loading processing history:', error);
+      setProcessingHistory([]);
+    }
+  };
+
+  const handleGenerateReport = (patient) => {
+    setSelectedPatient(patient);
+    setShowProcessingUI(true);
+    // Reset upload states
+    setEyesOpenFile(null);
+    setEyesClosedFile(null);
+    setResults(null);
+    setProcessingComplete(false);
+    setConsoleLog([]);
+    setIsSaved(false);
+    setPdfUrl(null);
+    setIsSaving(false);
+  };
+
+  const handleBackToList = () => {
+    setShowProcessingUI(false);
+    setSelectedPatient(null);
+    setEyesOpenFile(null);
+    setEyesClosedFile(null);
+    setResults(null);
+    setProcessingComplete(false);
+    setConsoleLog([]);
+    setProcessingHistory([]);
+    setIsSaved(false);
+    setIsSaving(false);
+    // Reload patients to update status
+    loadPatients();
+  };
+
+  // Helper function to get patient name (handles different field names)
+  const getPatientName = (patient) => {
+    return patient?.fullName || patient?.full_name || patient?.name || patient?.email || 'Unknown Patient';
+  };
+
+  // Helper function to get status badge
+  const getStatusBadge = (status, lastProcessed) => {
+    if (status === 'completed') {
+      return (
+        <div className="flex flex-col items-start">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+            <CheckCircle className="h-3 w-3 mr-1" />
+            Completed
+          </span>
+          {lastProcessed && (
+            <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              {new Date(lastProcessed).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </span>
+          )}
+        </div>
+      );
+    }
+    return (
+      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+        <Activity className="h-3 w-3 mr-1" />
+        Pending
+      </span>
+    );
+  };
+
+  // Filter patients based on search and filters
+  const filteredPatients = patients.filter(patient => {
+    const matchesSearch = searchTerm === '' ||
+      getPatientName(patient).toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.email?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesClinic = selectedClinicFilter === '' || patient.clinicId === selectedClinicFilter;
+
+    const matchesDate = dateFilter === '' ||
+      (patient.lastProcessed && new Date(patient.lastProcessed).toISOString().split('T')[0] === dateFilter);
+
+    return matchesSearch && matchesClinic && matchesDate;
+  });
+
+  // Group filtered patients by clinic
+  const groupedPatients = clinics.map(clinic => ({
+    clinic,
+    patients: filteredPatients.filter(p => p.clinicId === clinic.id)
+  })).filter(group => group.patients.length > 0);
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedClinicFilter('');
+    setDateFilter('');
+  };
+
+  const handleFileUpload = (type, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (type === 'eo') {
+        setEyesOpenFile(file);
+      } else {
+        setEyesClosedFile(file);
+      }
+      // Reset processing state when new files are uploaded
+      setProcessingComplete(false);
+      setResults(null);
+      setConsoleLog([]);
+      setProgress(0);
+      setIsSaved(false);
+      setIsSaving(false);
+      setPdfUrl(null);
+    }
+  };
+
+  const processQEEGFiles = async () => {
+    setIsProcessing(true);
+    setConsoleLog([]);
+    setProgress(0);
+
+    try {
+      // Console log: Starting process
+      setConsoleLog(prev => [...prev, '🚀 Starting QEEG analysis...']);
+      setProgress(10);
+
+      // Create FormData to send files
+      const formData = new FormData();
+      formData.append('eyesOpen', eyesOpenFile);
+      formData.append('eyesClosed', eyesClosedFile);
+      formData.append('patientId', selectedPatient.id);
+      formData.append('patientName', getPatientName(selectedPatient));
+      formData.append('clinicName', selectedPatient.clinicName);
+
+      setConsoleLog(prev => [...prev, '📤 Uploading files to server...']);
+      setProgress(20);
+
+      // Call backend API
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+      const response = await fetch(`${apiUrl}/qeeg/process`, {
+        method: 'POST',
+        body: formData
+      });
+
+      setConsoleLog(prev => [...prev, '📊 Parsing QEEG data tables...']);
+      setProgress(40);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to process QEEG files');
+      }
+
+      const data = await response.json();
+
+      // Auto-set PDF URL if returned from backend
+      if (data.data.pdfUrl) {
+        setPdfUrl(data.data.pdfUrl);
+        console.log('✅ PDF auto-generated:', data.data.pdfUrl);
+        setConsoleLog(prev => [...prev, '📄 PDF report generated automatically']);
+      }
+
+      setConsoleLog(prev => [...prev, '🧮 Calculating 7 brain health parameters...']);
+      setProgress(60);
+
+      // Simulate calculation steps for better UX
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setConsoleLog(prev => [...prev, '  ✓ Cognition parameter calculated']);
+      setProgress(65);
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setConsoleLog(prev => [...prev, '  ✓ Stress parameter calculated']);
+      setProgress(70);
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setConsoleLog(prev => [...prev, '  ✓ Focus & Attention parameter calculated']);
+      setProgress(75);
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setConsoleLog(prev => [...prev, '  ✓ Burnout & Fatigue parameter calculated']);
+      setProgress(80);
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setConsoleLog(prev => [...prev, '  ✓ Emotional Regulation parameter calculated']);
+      setProgress(85);
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setConsoleLog(prev => [...prev, '  ✓ Learning parameter calculated']);
+      setProgress(90);
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setConsoleLog(prev => [...prev, '  ✓ Creativity parameter calculated']);
+      setProgress(95);
+
+      // Convert API results to display format
+      const finalResults = data.data.results.map(param => ({
+        parameter: param.name,
+        score: Math.round((param.score / param.maxScore) * 100), // Convert to percentage
+        rawScore: `${param.score}/${param.maxScore}`,
+        status: param.classification,
+        color: param.classification === 'High' ? 'green' :
+               param.classification === 'Medium' ? 'blue' : 'orange',
+        metrics: param.metrics
+      }));
+
+      setConsoleLog(prev => [...prev, '✅ Analysis complete!']);
+      setConsoleLog(prev => [...prev, `📈 Overall Score: ${data.data.overallScore}/${data.data.maxScore}`]);
+      setProgress(100);
+
+      setResults(finalResults);
+      setIsProcessing(false);
+      setProcessingComplete(true);
+      setIsSaved(false); // Mark as not saved yet
+
+      toast.success('QEEG analysis completed successfully!');
+
+    } catch (error) {
+      console.error('Error processing QEEG files:', error);
+      setConsoleLog(prev => [...prev, `❌ Error: ${error.message}`]);
+      setIsProcessing(false);
+      toast.error(error.message || 'Failed to process QEEG files');
+    }
+  };
+
+  const saveResultsToDatabase = async (resultData) => {
+    if (!resultData) {
+      toast.error('No results to save');
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      toast.loading('Saving results to database...', { id: 'save-results' });
+
+      console.log('💾 Saving results to database...');
+
+      // PDF should already exist from auto-generation
+      if (!pdfUrl) {
+        console.warn('⚠️ No PDF URL available - PDF may not have been generated');
+      }
+
+      const algorithmResult = {
+        id: `alg_${Date.now()}_${selectedPatient.id}`,
+        patientId: selectedPatient.id,
+        patientName: getPatientName(selectedPatient),
+        clinicId: selectedPatient.clinicId,
+        clinicName: selectedPatient.clinicName,
+        pdfUrl: pdfUrl || null, // Use existing PDF URL from auto-generation
+        pdfPath: pdfUrl || null,
+        results: resultData,
+        eyesOpenFile: eyesOpenFile?.name,
+        eyesClosedFile: eyesClosedFile?.name,
+        processedAt: new Date().toISOString(),
+        processedBy: 'super_admin' // Could be dynamic based on logged-in user
+      };
+
+      console.log('💾 Saving to database...', algorithmResult);
+
+      await DatabaseService.add('algorithmResults', algorithmResult);
+
+      setIsSaved(true);
+      setIsSaving(false);
+
+      toast.success('✅ Results saved successfully!', { id: 'save-results' });
+
+      // Reload history and patient list to update status
+      loadProcessingHistory(selectedPatient.id);
+      loadPatients();
+    } catch (error) {
+      console.error('❌ Error saving results:', error);
+      setIsSaving(false);
+      toast.error('❌ Failed to save results: ' + error.message, { id: 'save-results' });
+    }
+  };
+
+  const handleSaveResults = async () => {
+    if (results) {
+      await saveResultsToDatabase(results);
+      // After saving, automatically download PDF if available
+      if (pdfUrl) {
+        setTimeout(() => {
+          handleDownloadPDF();
+        }, 500); // Small delay to let save complete
+      }
+    }
+  };
+
+  const handleExecuteCalculation = () => {
+    if (eyesOpenFile && eyesClosedFile) {
+      processQEEGFiles();
+    } else {
+      toast.error('Please upload both QEEG data files');
+    }
+  };
+
+  const handleExportResults = () => {
+    if (results) {
+      // Create CSV content
+      const csvContent = [
+        ['Parameter', 'Score (%)', 'Status'],
+        ...results.map(r => [r.parameter, r.score, r.status])
+      ].map(row => row.join(',')).join('\n');
+
+      // Create and download file
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'neurosense-algorithm-results.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
+  const generatePDFReport = async (resultData) => {
+    if (!resultData || !selectedPatient) {
+      console.error('❌ Cannot generate PDF: Missing resultData or selectedPatient');
+      toast.error('Cannot generate PDF: Missing data');
+      return null;
+    }
+
+    try {
+      console.log('🔧 Preparing patient data...');
+
+      // Prepare patient data
+      const patientData = {
+        name: getPatientName(selectedPatient),
+        dateOfRecording: selectedPatient.dateOfBirth || new Date().toISOString().split('T')[0],
+        age: selectedPatient.age || calculateAge(selectedPatient.dateOfBirth),
+        gender: selectedPatient.gender || 'Not specified',
+        handedness: selectedPatient.handedness || 'Not specified',
+        patientId: selectedPatient.id,
+        occupation: selectedPatient.occupation || 'Not specified',
+        symptoms: selectedPatient.symptoms || []
+      };
+
+      console.log('👤 Patient Data:', patientData);
+
+      // Prepare algorithm results
+      const algorithmResults = {
+        parameters: resultData.map(result => ({
+          name: result.parameter,
+          score: parseInt(result.rawScore.split('/')[0]),
+          maxScore: parseInt(result.rawScore.split('/')[1]),
+          classification: result.status,
+          metrics: result.metrics || []
+        })),
+        overallScore: resultData.reduce((sum, r) => sum + parseInt(r.rawScore.split('/')[0]), 0)
+      };
+
+      console.log('📊 Algorithm Results:', algorithmResults);
+
+      // Prepare QEEG data (use sample data if not available)
+      const qeegData = {
+        EC: {
+          absolute: { Fz: { Delta: 5.2, Theta: 4.1, Alpha: 8.3, Beta: 6.2, HiBeta: 3.1 } },
+          relative: { Pz: { Alpha: 45.2 } },
+          special: { alphaPeak: 10.3, O1: 10.1 }
+        },
+        EO: {
+          absolute: { Fz: { Theta: 3.8, Beta: 3.2, HiBeta: 2.5 } },
+          relative: { Pz: { Alpha: 28.7 } }
+        }
+      };
+
+      // Call backend API to generate PDF
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+      const pdfEndpoint = `${apiUrl}/qeeg/generate-pdf`;
+
+      console.log('🌐 Calling backend API:', pdfEndpoint);
+      console.log('📡 Request payload size:', JSON.stringify({ patientData, algorithmResults, qeegData }).length, 'bytes');
+
+      // Add timeout handling
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+      const response = await fetch(pdfEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          patientData,
+          algorithmResults,
+          qeegData
+        }),
+        signal: controller.signal
+      }).catch(error => {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+          throw new Error('PDF generation timed out after 30 seconds. Server might be slow or not responding.');
+        }
+        throw error;
+      });
+
+      clearTimeout(timeoutId);
+
+      console.log('📡 Backend response status:', response.status);
+      console.log('📡 Backend response headers:', Object.fromEntries(response.headers.entries()));
+
+      if (!response.ok) {
+        let errorMessage = `Server returned ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+          console.error('❌ Backend error data:', errorData);
+        } catch (e) {
+          const errorText = await response.text();
+          errorMessage = errorText || errorMessage;
+          console.error('❌ Backend error text:', errorText);
+        }
+        throw new Error(`Failed to generate PDF: ${errorMessage}`);
+      }
+
+      const data = await response.json();
+      console.log('📦 Backend response data:', data);
+
+      if (!data || !data.success || !data.data) {
+        console.error('❌ Invalid response format:', data);
+        throw new Error('Invalid response from server');
+      }
+
+      // Use the complete URL from backend instead of constructing it
+      const pdfResult = {
+        url: data.data.url, // Backend already provides complete URL
+        path: data.data.path,
+        filename: data.data.filename
+      };
+
+      console.log('✅ PDF generated successfully!', pdfResult);
+      console.log('✅ PDF URL:', pdfResult.url);
+
+      return pdfResult;
+
+    } catch (error) {
+      console.error('❌ Error generating PDF:', error);
+      console.error('❌ Error name:', error.name);
+      console.error('❌ Error message:', error.message);
+
+      if (error.message && error.stack) {
+        console.error('❌ Error stack:', error.stack);
+      }
+
+      // Provide specific error messages based on error type
+      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+        console.error('❌ NETWORK ERROR: Cannot connect to backend server');
+        console.error('❌ Please ensure backend server is running on http://localhost:3001');
+        toast.error('Cannot connect to server. Please ensure backend is running on port 3001.');
+      } else if (error.name === 'AbortError') {
+        console.error('❌ TIMEOUT ERROR: PDF generation took too long');
+        toast.error('PDF generation timed out. Server might be overloaded.');
+      } else {
+        console.error('❌ PDF GENERATION ERROR:', error.message);
+        toast.error(`PDF generation failed: ${error.message}`);
+      }
+
+      return null;
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (pdfUrl) {
+      try {
+        toast.loading('Downloading PDF...', { id: 'download-pdf' });
+
+        // Construct full backend URL
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+        const backendBaseUrl = apiUrl.replace('/api', ''); // Remove /api to get base URL
+        const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${backendBaseUrl}${pdfUrl}`;
+
+        console.log('🔽 Attempting to download from:', fullPdfUrl);
+
+        // Fetch the PDF file
+        const response = await fetch(fullPdfUrl);
+
+        if (!response.ok) {
+          console.error('❌ Download failed with status:', response.status);
+          throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+        }
+
+        // Convert to blob
+        const blob = await response.blob();
+
+        // Verify blob is valid
+        if (!blob || blob.size === 0) {
+          throw new Error('Downloaded file is empty');
+        }
+
+        console.log('✅ PDF fetched successfully, size:', blob.size, 'bytes');
+
+        // Create download link
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = pdfUrl.split('/').pop() || 'neurosense-report.pdf';
+
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl);
+
+        toast.success('PDF downloaded successfully!', { id: 'download-pdf' });
+      } catch (error) {
+        console.error('❌ Download error:', error);
+        console.error('❌ PDF URL:', pdfUrl);
+        toast.error(`Failed to download PDF: ${error.message}`, { id: 'download-pdf' });
+      }
+    } else {
+      toast.error('PDF not available. Please save results first.');
+    }
+  };
+
+  const calculateAge = (dateOfBirth) => {
+    if (!dateOfBirth) return 'N/A';
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Helper function to get color based on score
+  // 1/3 = Red, 2/3 = Yellow, 3/3 = Green
+  const getScoreColor = (rawScore) => {
+    if (!rawScore) return 'gray';
+
+    const [score, maxScore] = rawScore.split('/').map(Number);
+
+    if (score === 1) return 'red';      // 1/3
+    if (score === 2) return 'yellow';   // 2/3
+    if (score === 3) return 'green';    // 3/3
+
+    return 'gray';
+  };
+
+  const getStatusColor = (rawScore) => {
+    const color = getScoreColor(rawScore);
+    switch (color) {
+      case 'red': return 'text-red-500';
+      case 'yellow': return 'text-yellow-500';
+      case 'green': return 'text-green-500';
+      default: return 'text-gray-500';
+    }
+  };
+
+  const getStatusBgColor = (rawScore) => {
+    const color = getScoreColor(rawScore);
+    if (color === 'green') return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
+    if (color === 'yellow') return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
+    if (color === 'red') return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
+    return 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400';
+  };
+
+  const getProgressBarColor = (rawScore) => {
+    const color = getScoreColor(rawScore);
+    switch (color) {
+      case 'red': return 'bg-red-500';
+      case 'yellow': return 'bg-yellow-500';
+      case 'green': return 'bg-green-500';
+      default: return 'bg-gray-500';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading patients...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Patient List View
+  if (!showProcessingUI) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-primary to-navy-700 rounded-lg p-6 text-white shadow-lg">
+          <h1 className="text-2xl font-bold">NeuroSense - Algorithm 1 Data Processor</h1>
+          <p className="text-primary-light mt-2">Select a patient to generate Algorithm 1 report</p>
+        </div>
+
+        {/* Filter Bar */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Patient Search */}
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Search Patient
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                <input
+                  type="text"
+                  placeholder="Search by name or email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+            </div>
+
+            {/* Clinic Filter */}
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Filter by Clinic
+              </label>
+              <div className="relative">
+                <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                <select
+                  value={selectedClinicFilter}
+                  onChange={(e) => setSelectedClinicFilter(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
+                >
+                  <option value="">All Clinics</option>
+                  {clinics.map(clinic => (
+                    <option key={clinic.id} value={clinic.id}>
+                      {clinic.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Date Filter */}
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Filter by Date
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                <input
+                  type="date"
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+            </div>
+
+            {/* Clear Filters Button */}
+            {(searchTerm || selectedClinicFilter || dateFilter) && (
+              <div className="flex items-end">
+                <button
+                  onClick={clearFilters}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
+                >
+                  <X className="h-4 w-4" />
+                  <span>Clear</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Active Filters Display */}
+          {(searchTerm || selectedClinicFilter || dateFilter) && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {searchTerm && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                  Search: "{searchTerm}"
+                </span>
+              )}
+              {selectedClinicFilter && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
+                  Clinic: {clinics.find(c => c.id === selectedClinicFilter)?.name}
+                </span>
+              )}
+              {dateFilter && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                  Date: {new Date(dateFilter).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </span>
+              )}
+              <span className="text-xs text-gray-500 dark:text-gray-400 self-center">
+                ({filteredPatients.length} {filteredPatients.length === 1 ? 'patient' : 'patients'} found)
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Patient List - Clinic-wise */}
+        <div className="space-y-4">
+          {groupedPatients.length > 0 ? (
+            groupedPatients.map(({ clinic, patients: clinicPatients }) => (
+            <div key={clinic.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+              {/* Clinic Header */}
+              <div className="bg-accent-light dark:bg-primary/20 border-b border-primary-light dark:border-primary px-6 py-3">
+                <div className="flex items-center">
+                  <Building2 className="h-5 w-5 text-primary mr-2" />
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {clinic.name}
+                  </h3>
+                  <span className="ml-3 text-sm text-gray-600 dark:text-gray-400">
+                    ({clinicPatients.length} {clinicPatients.length === 1 ? 'patient' : 'patients'})
+                  </span>
+                </div>
+              </div>
+
+              {/* Patient Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Patient Name
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Email
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Previous Scans
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {clinicPatients.map(patient => (
+                      <tr key={patient.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <User className="h-4 w-4 text-gray-400 dark:text-gray-500 mr-2" />
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">
+                              {getPatientName(patient)}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                          {patient.email || 'N/A'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                          <span className="flex items-center">
+                            <History className="h-4 w-4 mr-1" />
+                            {patient.totalScans || 0} {patient.totalScans === 1 ? 'scan' : 'scans'}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {getStatusBadge(patient.algorithmStatus, patient.lastProcessed)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <button
+                            onClick={() => handleGenerateReport(patient)}
+                            className="bg-primary hover:bg-navy-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-md flex items-center ml-auto"
+                          >
+                            <FileText className="h-4 w-4 mr-2" />
+                            {patient.algorithmStatus === 'completed' ? 'View/Generate' : 'Generate Report'}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            ))
+          ) : (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
+              <Filter className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-gray-400 font-medium">
+                {searchTerm || selectedClinicFilter || dateFilter
+                  ? 'No patients match your filters'
+                  : 'No patients found'
+                }
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
+                {searchTerm || selectedClinicFilter || dateFilter
+                  ? 'Try adjusting your search criteria or clear filters'
+                  : 'Patients will appear here once they are registered in the system'
+                }
+              </p>
+              {(searchTerm || selectedClinicFilter || dateFilter) && (
+                <button
+                  onClick={clearFilters}
+                  className="mt-4 px-4 py-2 bg-primary hover:bg-navy-700 text-white rounded-lg text-sm font-medium transition-colors"
+                >
+                  Clear Filters
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Processing UI View
+  return (
+    <div className="space-y-6">
+      {/* Header with Back Button */}
+      <div className="bg-gradient-to-r from-primary to-navy-700 rounded-lg p-6 text-white shadow-lg">
+        <button
+          onClick={handleBackToList}
+          className="flex items-center text-primary-light hover:text-white mb-3 transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Back to Patient List
+        </button>
+        <h1 className="text-2xl font-bold">NeuroSense - Algorithm 1 Data Processor</h1>
+        <p className="text-primary-light mt-2">
+          Processing for: <span className="font-semibold">{getPatientName(selectedPatient)}</span> | {selectedPatient?.clinicName}
+        </p>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Panel - QEEG Data Input */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            QEEG Data Input (Pages 13 & 24)
+          </h2>
+
+          {/* Eyes Open Upload */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Page 13 (EO - Eyes Open)
+            </label>
+            <div className="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary dark:hover:border-primary-light transition-colors">
+              <input
+                type="file"
+                accept=".csv,.txt,.dat,.pdf"
+                onChange={(e) => handleFileUpload('eo', e)}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <Upload className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {eyesOpenFile ? eyesOpenFile.name : 'Drag & Drop or Click to Upload'}
+              </p>
+              {eyesOpenFile && (
+                <CheckCircle className="h-6 w-6 text-green-500 mx-auto mt-2" />
+              )}
+            </div>
+          </div>
+
+          {/* Eyes Closed Upload */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Page 24 (EC - Eyes Closed)
+            </label>
+            <div className="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary dark:hover:border-primary-light transition-colors">
+              <input
+                type="file"
+                accept=".csv,.txt,.dat,.pdf"
+                onChange={(e) => handleFileUpload('ec', e)}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <Upload className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {eyesClosedFile ? eyesClosedFile.name : 'Drag & Drop or Click to Upload'}
+              </p>
+              {eyesClosedFile && (
+                <CheckCircle className="h-6 w-6 text-green-500 mx-auto mt-2" />
+              )}
+            </div>
+          </div>
+
+          {/* Data Loaded Progress */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Data Loaded
+            </label>
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+              <div
+                className="bg-green-500 h-2.5 rounded-full transition-all duration-300"
+                style={{ width: `${eyesOpenFile && eyesClosedFile ? 100 : eyesOpenFile || eyesClosedFile ? 50 : 0}%` }}
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Middle Panel - Algorithm Processing */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Algorithm 1 Processing
+          </h2>
+
+          {/* Execute Button */}
+          <button
+            onClick={handleExecuteCalculation}
+            disabled={!eyesOpenFile || !eyesClosedFile || isProcessing}
+            className={`w-full mb-6 py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors shadow-md ${
+              eyesOpenFile && eyesClosedFile && !isProcessing
+                ? 'bg-primary hover:bg-navy-700 text-white'
+                : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+            }`}
+          >
+            <Play className="h-5 w-5" />
+            <span>Execute Calculation</span>
+          </button>
+
+          {/* Processing Animation */}
+          {isProcessing && (
+            <div className="bg-gradient-to-r from-primary to-navy-700 rounded-lg p-6 text-center mb-6 shadow-lg">
+              <div className="relative inline-block">
+                <Activity className="h-16 w-16 text-white animate-pulse" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-20 h-20 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                </div>
+              </div>
+              <p className="text-white font-medium mt-4">Processing...</p>
+              <p className="text-primary-light text-sm">{consoleLog.length} actions done</p>
+            </div>
+          )}
+
+          {/* Processing Complete */}
+          {processingComplete && (
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center mb-6">
+              <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-2" />
+              <p className="text-green-800 dark:text-green-400 font-medium">Processing Complete!</p>
+            </div>
+          )}
+
+          {/* Console */}
+          <div className="bg-gray-900 dark:bg-black rounded-lg p-4 min-h-[200px] max-h-[300px] overflow-y-auto">
+            <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-700">
+              <h3 className="text-sm font-medium text-gray-300">Console</h3>
+              <button
+                onClick={() => setConsoleLog([])}
+                className="text-xs text-gray-400 hover:text-gray-200"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="space-y-1 font-mono text-xs">
+              {consoleLog.length > 0 ? (
+                consoleLog.map((log, index) => (
+                  <div key={index} className="text-green-400">
+                    &gt; {log}
+                  </div>
+                ))
+              ) : (
+                <div className="text-gray-500 italic">Console output will appear here...</div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Panel - Final 7 Parameter Scores */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Final 7 Parameter Scores
+          </h2>
+
+          {results ? (
+            <>
+              <div className="space-y-4 mb-6">
+                {results.map((result, index) => (
+                  <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+                    {/* Main Parameter */}
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                        {result.parameter}
+                      </span>
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-base font-bold ${getStatusColor(result.rawScore)}`}>
+                          {result.rawScore}
+                        </span>
+                        <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${getStatusBgColor(result.rawScore)}`}>
+                          {result.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
+                      <div
+                        className={`h-2 rounded-full ${getProgressBarColor(result.rawScore)}`}
+                        style={{ width: `${result.score}%` }}
+                      ></div>
+                    </div>
+
+                    {/* Sub-Parameters */}
+                    {result.metrics && result.metrics.length > 0 && (
+                      <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                        <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
+                          Sub-Parameters:
+                        </div>
+                        <div className="space-y-2">
+                          {result.metrics.map((metric, mIndex) => (
+                            <div key={mIndex} className="flex items-center justify-between text-xs pl-2">
+                              <span className="text-gray-600 dark:text-gray-400 flex-1">
+                                {metric.name}
+                              </span>
+                              <div className="flex items-center space-x-2">
+                                {metric.score === 1 ? (
+                                  <CheckCircle className="h-3.5 w-3.5 text-green-500" />
+                                ) : (
+                                  <X className="h-3.5 w-3.5 text-red-500" />
+                                )}
+                                <span className={`font-medium ${metric.score === 1 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                                  {metric.score}/1
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="space-y-3">
+                {/* Save and Download PDF Button */}
+                <button
+                  onClick={handleSaveResults}
+                  disabled={isSaving || isSaved}
+                  className={`w-full py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors shadow-md ${
+                    isSaved
+                      ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-not-allowed'
+                      : isSaving
+                      ? 'bg-blue-400 text-white cursor-wait'
+                      : 'bg-primary hover:bg-navy-700 text-white'
+                  }`}
+                >
+                  {isSaving ? (
+                    <>
+                      <Activity className="h-5 w-5 animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : isSaved ? (
+                    <>
+                      <CheckCircle className="h-5 w-5" />
+                      <span>Saved ✓</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="h-5 w-5" />
+                      <span>Save and Download PDF</span>
+                    </>
+                  )}
+                </button>
+
+                {/* Export CSV Button */}
+                <button
+                  onClick={handleExportResults}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors shadow-md"
+                >
+                  <Download className="h-5 w-5" />
+                  <span>Export CSV</span>
+                </button>
+
+                {/* Single Download PDF Button */}
+                {pdfUrl ? (
+                  <button
+                    onClick={handleDownloadPDF}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors shadow-md"
+                  >
+                    <Download className="h-5 w-5" />
+                    <span>Download PDF Report</span>
+                  </button>
+                ) : (
+                  <div className="w-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg py-3 px-4 text-center">
+                    <FileText className="h-5 w-5 text-gray-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      PDF will be generated automatically after processing
+                    </p>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <FileText className="h-16 w-16 text-gray-400 dark:text-gray-500 mb-4" />
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Upload data files and execute calculation to see results
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Processing History */}
+      {selectedPatient && processingHistory.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+            <History className="h-5 w-5 mr-2" />
+            Processing History for {getPatientName(selectedPatient)}
+          </h2>
+          <div className="space-y-3">
+            {processingHistory.map((record, index) => (
+              <div
+                key={record.id}
+                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        {new Date(record.processedAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                      {/* PDF Status Badge */}
+                      {record.pdfUrl ? (
+                        <span className="px-2 py-0.5 text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full flex items-center space-x-1">
+                          <CheckCircle className="h-3 w-3" />
+                          <span>PDF Available</span>
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 rounded-full">
+                          No PDF
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1 mb-3">
+                      <p>📁 Files: {record.eyesOpenFile}, {record.eyesClosedFile}</p>
+                      <p>👤 Processed by: {record.processedBy}</p>
+                    </div>
+
+                    {/* Quick Summary of Results */}
+                    {record.results && record.results.length > 0 && (
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        {record.results.slice(0, 4).map((result, idx) => (
+                          <div key={idx} className="text-xs bg-gray-50 dark:bg-gray-700 rounded p-2">
+                            <span className="text-gray-600 dark:text-gray-400">{result.parameter}:</span>
+                            <span className={`ml-2 font-semibold ${getStatusColor(result.rawScore)}`}>
+                              {result.rawScore}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col space-y-2">
+                    {/* View Full Results Button */}
+                    <button
+                      onClick={() => {
+                        setResults(record.results);
+                        setProcessingComplete(true);
+                        setIsSaved(true);
+                        // Set PDF URL if available
+                        if (record.pdfUrl) {
+                          setPdfUrl(record.pdfUrl);
+                        }
+                        toast.success('Previous results loaded');
+                      }}
+                      className="px-3 py-2 text-sm bg-primary hover:bg-navy-700 text-white rounded-lg transition-colors flex items-center justify-center space-x-1"
+                    >
+                      <FileText className="h-4 w-4" />
+                      <span>View Results</span>
+                    </button>
+
+                    {/* Download PDF Button */}
+                    {record.pdfUrl && (
+                      <button
+                        onClick={async () => {
+                          try {
+                            toast.loading('Downloading PDF...', { id: 'history-download' });
+
+                            // Construct full URL (works with both local and Supabase URLs)
+                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+                            const backendBaseUrl = apiUrl.replace('/api', '');
+                            const fullPdfUrl = record.pdfUrl.startsWith('http') ? record.pdfUrl : `${backendBaseUrl}${record.pdfUrl}`;
+
+                            console.log('📥 Downloading from:', fullPdfUrl);
+
+                            // Fetch the PDF file
+                            const response = await fetch(fullPdfUrl);
+                            if (!response.ok) throw new Error('Failed to fetch PDF');
+
+                            // Convert to blob
+                            const blob = await response.blob();
+
+                            // Create download link
+                            const downloadUrl = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = downloadUrl;
+                            link.download = record.pdfUrl.split('/').pop() || 'neurosense-report.pdf';
+
+                            // Trigger download
+                            document.body.appendChild(link);
+                            link.click();
+
+                            // Cleanup
+                            document.body.removeChild(link);
+                            window.URL.revokeObjectURL(downloadUrl);
+
+                            toast.success('PDF downloaded successfully!', { id: 'history-download' });
+                          } catch (error) {
+                            console.error('Download error:', error);
+                            toast.error('Failed to download PDF', { id: 'history-download' });
+                          }
+                        }}
+                        className="px-3 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center justify-center space-x-1"
+                        title="Download PDF Report"
+                      >
+                        <Download className="h-4 w-4" />
+                        <span>Download PDF</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Expandable Details */}
+                {record.results && record.results.length > 4 && (
+                  <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 text-xs">
+                    <div className="grid grid-cols-3 gap-2">
+                      {record.results.slice(4).map((result, idx) => (
+                        <div key={idx} className="flex justify-between">
+                          <span className="text-gray-600 dark:text-gray-400">{result.parameter}:</span>
+                          <span className="font-semibold">{result.rawScore}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Info Section */}
+      <div className="bg-accent-light dark:bg-primary/20 border border-primary-light dark:border-primary rounded-lg p-4 shadow-sm">
+        <h3 className="text-sm font-medium text-primary dark:text-primary-light mb-2">
+          About Algorithm 1 Processing
+        </h3>
+        <p className="text-sm text-navy-800 dark:text-gray-300">
+          This processor analyzes QEEG data files (Eyes Open and Eyes Closed) and generates 7 key parameters using proprietary
+          binary scoring logic. The algorithm evaluates brain activity patterns to assess cognitive and emotional health markers.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AlgorithmDataProcessor;

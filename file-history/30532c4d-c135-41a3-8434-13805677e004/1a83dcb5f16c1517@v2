@@ -1,0 +1,272 @@
+/**
+ * AI-Powered PDF Report Generator
+ * Uses OpenAI to generate comprehensive, modern QEEG reports
+ * Based on the enhanced prompt specifications
+ */
+
+const OpenAI = require('openai');
+const fs = require('fs');
+const path = require('path');
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+class AIPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+  }
+
+  /**
+   * Generate the enhanced system prompt for PDF generation
+   * This combines the original requirements with the new enhanced specifications
+   */
+  getSystemPrompt() {
+    return `You are a senior software developer and design expert specialized in creating professional medical reports.
+
+Your task is to generate a single comprehensive QEEG Intelligence PDF report that contains:
+
+## CONTENT REQUIREMENTS:
+1. **All Parameter Scores**: Display scores of all 7 brain health parameters (Cognition, Stress, Focus & Attention, Burnout & Fatigue, Emotional Regulation, Learning, Creativity)
+2. **All Subparameter Scores**: Show detailed scores of all subparameters/metrics under each parameter
+3. **Clear Descriptions**: Provide a clear and concise description for every parameter and subparameter
+4. **Health Implications**: Explain what each score means for the patient's brain health
+5. **Improvement Recommendations**: Provide actionable suggestions to improve scores
+
+## DESIGN REQUIREMENTS:
+• **Modern and Stylish Layout**: Use contemporary design principles with clean lines and professional aesthetics
+• **Professional Look and Feel**: Maintain medical report standards while being visually appealing
+• **Icons and Supporting Images**: Use relevant icons and images throughout the document to support understanding
+• **Clear Visual Separation**: Use distinct sections with proper headers, dividers, and spacing
+• **Readability and Clean Typography**: Ensure text is easy to read with appropriate font sizes and hierarchy
+• **Cover Page**: Include a professional cover page with title, patient info, and branding
+• **Table of Contents**: Provide a clear navigation structure
+• **Charts and Visual Score Highlights**: Include visual representations of scores where appropriate
+
+## VISUAL STYLE GUIDELINES:
+Based on the reference NeuroSense report:
+• **Color Scheme**: Use blue gradient theme (#4A90E2, #5BA3F5, #87CEEB for primary colors)
+• **Accent Colors**: Turquoise/teal (#7DD3C0, #A8E6CF) for highlights and secondary elements
+• **Layout**: Clean, modern with generous white space
+• **Brain Imagery**: Include brain illustrations and wave patterns
+• **Data Visualization**: Use brain maps, topographical heat maps, and wave diagrams
+• **Section Headers**: Use rounded blue badges for section titles
+• **Icons**: Include relevant medical/brain health icons for each metric
+
+## STRUCTURE:
+1. **Cover Page**: Title, patient info, date, branding, brain illustration
+2. **Introduction**: Purpose, disclaimer, patient symptoms, EEG recording info
+3. **Brain Waves Profile**: Explanation of Delta, Theta, Alpha, Beta, SMR
+4. **Numbers at a Glance**: Eyes Open vs Eyes Closed summary with brain maps
+5. **Individual Parameter Pages** (7 pages):
+   - Parameter name and score
+   - All subparameter scores with descriptions
+   - Health implications (positive and concerning)
+   - How to improve recommendations
+   - Visual score indicators
+6. **Brain Type Classification**: Based on overall patterns
+7. **Appendix**: Additional resources, breathing techniques, references
+
+## IMPORTANT NOTES:
+• A reference PDF has been provided only for STYLE INSPIRATION
+• DO NOT copy or extract content from the reference PDF
+• You may follow its visual style, formatting, structure, and aesthetic
+• All text content should be generated based on the actual patient data provided
+• Ensure all medical disclaimers are included
+• Maintain scientific accuracy while being accessible to patients
+
+## OUTPUT FORMAT:
+Generate the report content in a structured format that can be converted to PDF, including:
+- HTML/Markdown with styling for text content
+- Data structures for charts and visualizations
+- Image references for icons and illustrations
+- Layout specifications for each page
+
+The final outcome should be a single polished PDF report that can be shared directly with clients and healthcare providers.`;
+  }
+
+  /**
+   * Generate user prompt with actual patient data
+   */
+  getUserPrompt() {
+    const parametersText = this.algorithmResults.parameters.map((param, index) => {
+      const metricsText = param.metrics.map((metric, idx) => {
+        return `      ${idx + 1}. **${metric.name}**: Score ${metric.score}/1
+         - Value: ${typeof metric.value === 'object' ? JSON.stringify(metric.value) : metric.value}
+         - Description: ${metric.description}`;
+      }).join('\n');
+
+      return `${index + 1}. **${param.name}**: ${param.score}/${param.maxScore} (${param.classification})
+   Subparameters:
+${metricsText}`;
+    }).join('\n\n');
+
+    return `Generate a comprehensive QEEG Intelligence report for the following patient:
+
+## PATIENT INFORMATION:
+- Name: ${this.patientData.name}
+- Date of Recording: ${this.patientData.dateOfRecording}
+- Age: ${this.patientData.age}
+- Gender: ${this.patientData.gender}
+- Handedness: ${this.patientData.handedness}
+- Symptoms: ${this.patientData.symptoms ? this.patientData.symptoms.join(', ') : 'Not specified'}
+
+## ALGORITHM RESULTS:
+Overall Brain Health Score: ${this.algorithmResults.overallScore}/21
+
+### Parameter Scores:
+${parametersText}
+
+## QEEG DATA SUMMARY:
+### Eyes Closed (EC):
+- Alpha Peak: ${this.qeegData.EC?.special?.alphaPeak || 'N/A'} Hz
+- Key Locations: Fz, Cz, Pz
+- Absolute Power Available: ${this.qeegData.EC?.absolute ? 'Yes' : 'No'}
+- Relative Power Available: ${this.qeegData.EC?.relative ? 'Yes' : 'No'}
+
+### Eyes Open (EO):
+- Absolute Power Available: ${this.qeegData.EO?.absolute ? 'Yes' : 'No'}
+- Relative Power Available: ${this.qeegData.EO?.relative ? 'Yes' : 'No'}
+
+---
+
+Please generate a complete, professional QEEG report following the design requirements and structure specified in the system prompt. Include all sections with detailed explanations, health implications, and improvement recommendations for each parameter and subparameter.`;
+  }
+
+  /**
+   * Generate PDF report using OpenAI
+   * @param {string} outputPath - Path to save the generated PDF
+   * @returns {Promise<Object>} Generated report data and metadata
+   */
+  async generateReport(outputPath) {
+    try {
+      console.log('\n🤖 === AI PDF Generation Started ===\n');
+      console.log('👤 Patient:', this.patientData.name);
+      console.log('📊 Parameters:', this.algorithmResults.parameters.length);
+      console.log('🎯 Overall Score:', this.algorithmResults.overallScore, '/21');
+
+      // Step 1: Generate report content using OpenAI
+      console.log('\n📝 Generating report content with AI...');
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          {
+            role: 'system',
+            content: this.getSystemPrompt()
+          },
+          {
+            role: 'user',
+            content: this.getUserPrompt()
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 4000
+      });
+
+      const reportContent = response.choices[0].message.content;
+
+      console.log('✅ AI content generated successfully');
+      console.log('📄 Content length:', reportContent.length, 'characters');
+
+      // Step 2: Save report content as structured data
+      const reportData = {
+        patientInfo: this.patientData,
+        algorithmResults: this.algorithmResults,
+        qeegData: this.qeegData,
+        aiGeneratedContent: reportContent,
+        metadata: {
+          generatedAt: new Date().toISOString(),
+          generatedBy: 'AI-Powered PDF Generator',
+          model: 'gpt-4-turbo-preview',
+          version: '1.0.0'
+        }
+      };
+
+      // Save as JSON for now (can be converted to PDF later)
+      const jsonOutputPath = outputPath.replace('.pdf', '.json');
+      fs.writeFileSync(jsonOutputPath, JSON.stringify(reportData, null, 2));
+
+      console.log('\n✅ === AI PDF Generation Completed ===');
+      console.log('📄 Report saved to:', jsonOutputPath);
+      console.log('💡 Note: This generates structured content. Convert to PDF using a PDF library.\n');
+
+      return {
+        success: true,
+        reportData,
+        outputPath: jsonOutputPath,
+        contentLength: reportContent.length,
+        tokensUsed: response.usage.total_tokens
+      };
+
+    } catch (error) {
+      console.error('\n❌ === AI PDF Generation Failed ===');
+      console.error('Error:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Generate sample report for testing
+   */
+  static async generateSampleReport() {
+    const samplePatient = {
+      name: 'Jane Smith',
+      dateOfRecording: new Date().toISOString().split('T')[0],
+      age: 42,
+      gender: 'Female',
+      handedness: 'Right',
+      symptoms: ['Stress', 'Focus Issues', 'Sleep Problems']
+    };
+
+    const sampleResults = {
+      parameters: [
+        {
+          name: 'Cognition',
+          score: 2,
+          maxScore: 3,
+          classification: 'Medium',
+          metrics: [
+            { name: 'Focus Score (Theta:Beta)', value: 1.2, score: 1, description: 'Healthy theta:beta ratio indicating good attention' },
+            { name: 'Alpha Peak', value: 10.3, score: 1, description: 'Strong alpha peak showing good mental relaxation capability' },
+            { name: 'Alpha:Theta Balance', value: 'Normal', score: 0, description: 'Balanced state between alertness and relaxation' }
+          ]
+        },
+        {
+          name: 'Stress',
+          score: 1,
+          maxScore: 3,
+          classification: 'Low',
+          metrics: [
+            { name: 'Arousal Score', value: 0.8, score: 1, description: 'Low arousal indicating minimal stress' },
+            { name: 'Relaxation Score', value: 8.5, score: 0, description: 'Moderate relaxation capacity' },
+            { name: 'Regeneration', value: 35.2, score: 1, description: 'Good alpha modulation for recovery' }
+          ]
+        }
+      ],
+      overallScore: 14
+    };
+
+    const sampleQEEG = {
+      EC: {
+        absolute: { Fz: { Delta: 5.2, Theta: 4.1, Alpha: 8.3, Beta: 6.2, HiBeta: 3.1 } },
+        relative: { Pz: { Alpha: 45.2 } },
+        special: { alphaPeak: 10.3, O1: 10.1 }
+      },
+      EO: {
+        absolute: { Fz: { Theta: 3.8, Beta: 3.2, HiBeta: 2.5 } },
+        relative: { Pz: { Alpha: 28.7 } }
+      }
+    };
+
+    const generator = new AIPdfGenerator(samplePatient, sampleResults, sampleQEEG);
+    const outputPath = path.join(__dirname, '../uploads/ai-sample-report.pdf');
+
+    return await generator.generateReport(outputPath);
+  }
+}
+
+module.exports = AIPdfGenerator;

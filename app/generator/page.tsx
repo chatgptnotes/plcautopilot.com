@@ -71,18 +71,42 @@ export default function GeneratorPage() {
     }
   };
 
-  const handleDownload = () => {
-    if (!generatedFile) return;
+  const handleDownload = async () => {
+    if (!generatedFile || !selectedModel) return;
 
-    const blob = new Blob([generatedFile.content], { type: 'application/octet-stream' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = generatedFile.filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    try {
+      const response = await fetch('/api/download-program', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          programCode: generatedFile.content,
+          platform: selectedModel.manufacturer,
+          plcModel: selectedModel.model,
+          language: selectedModel.programmingLanguages[0],
+          projectName: 'PLCAutoProgram',
+        }),
+      });
+
+      if (!response.ok) throw new Error('Download failed');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const filename = contentDisposition
+        ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+        : generatedFile.filename;
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Failed to download file');
+    }
   };
 
   return (

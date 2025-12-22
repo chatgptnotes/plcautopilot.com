@@ -1,0 +1,333 @@
+# NeuroSense PDF Template Guide
+
+This directory contains PDF templates used for generating NeuroSense QEEG reports.
+
+## Overview
+
+The NeuroSense system now supports **template-based PDF generation**, where:
+- You create a professional PDF template with your design (letterhead, logo, borders, etc.)
+- The system automatically overlays dynamic patient data on top of the template
+- No code changes needed when updating the template design
+
+## Quick Start
+
+### 1. Create Your PDF Template
+
+Create a multi-page PDF file with your desired design:
+
+**Required Pages:**
+- **Page 1**: Cover Page
+  - Leave blank spaces for: Patient Name, Patient ID, Date, Age, Gender, Clinic Name
+  - Add your logo, letterhead, borders, company branding
+
+- **Page 2**: Numbers at a Glance (Summary Results)
+  - Leave blank spaces for: Overall Score, 7 Brain Parameters with scores
+  - Add section headers, decorative elements
+
+- **Page 3**: Brain Type Classification (Optional)
+  - Leave blank space for: Brain Type Name, Description, Recommendations
+
+**Template Specifications:**
+- Page Size: A4 (595.28 x 841.89 points)
+- Format: PDF file
+- Color Mode: RGB
+- Resolution: 300 DPI recommended
+
+### 2. Place Template File
+
+Save your template as:
+```
+server/assets/pdf-templates/Neurosense Report.pdf
+```
+
+That's it! The system will automatically detect and use your template.
+
+## Coordinate Customization
+
+### Where is Data Placed?
+
+The exact position (X, Y coordinates) where each piece of data appears is defined in:
+```
+server/config/pdfCoordinates.js
+```
+
+### Adjusting Coordinates
+
+1. Open `pdfCoordinates.js`
+2. Find the field you want to adjust (e.g., `patientName`)
+3. Modify the `x` and `y` values:
+
+```javascript
+patientName: {
+  x: 150,     // Distance from left edge (in points)
+  y: 650,     // Distance from bottom edge (in points)
+  fontSize: 18,
+  font: 'Helvetica-Bold',
+  color: { r: 0, g: 0, b: 0 }
+}
+```
+
+**Coordinate System:**
+- Origin (0, 0) is at the **bottom-left** corner
+- X increases going **right**
+- Y increases going **up**
+- 1 point = 1/72 inch
+
+### Finding the Right Coordinates
+
+**Method 1: Trial and Error**
+1. Set coordinates in `pdfCoordinates.js`
+2. Generate a test report
+3. Check the PDF output
+4. Adjust coordinates as needed
+5. Repeat until perfect
+
+**Method 2: Use a PDF Editor**
+1. Open your template in Adobe Acrobat or similar
+2. Use the ruler/grid to measure positions
+3. Note down X,Y coordinates for each field
+4. Transfer to `pdfCoordinates.js`
+
+**Method 3: Use Design Software**
+1. Create template in Adobe Illustrator/Figma
+2. Export as PDF with guides/rulers
+3. Read coordinates from the design file
+4. Convert to points (1 inch = 72 points)
+
+## Page Structure
+
+### Page 1: Cover Page
+
+**Dynamic Fields:**
+- Patient Name (large, bold)
+- Patient ID
+- Date of Recording
+- Age
+- Gender
+- Clinic Name (your clinic's name)
+
+**Static Elements (in your template):**
+- Company logo
+- Letterhead
+- Decorative borders
+- Footer with contact information
+- "NeuroSense Brain Health Assessment" title
+- Background colors/gradients
+
+### Page 2: Numbers at a Glance
+
+**Dynamic Fields:**
+- Overall Score (e.g., "18/21")
+- 7 Brain Parameters:
+  1. Cognition (name, score, classification)
+  2. Stress
+  3. Focus & Attention
+  4. Burnout & Fatigue
+  5. Emotional Regulation
+  6. Learning
+  7. Creativity
+- Brain-Type Pattern (e.g., "Cognition H · Stress M · Focus L...")
+
+**Static Elements:**
+- Page title
+- Section headers
+- Parameter icons/illustrations
+- Color-coded classification legend
+- Footer
+
+### Page 3: Brain Type Classification (Optional)
+
+**Dynamic Fields:**
+- Brain Type Name (e.g., "Balanced Brain")
+- Description (multi-line text)
+- Recommendations (multi-line text)
+
+**Static Elements:**
+- Brain type illustration
+- Section headers
+- Decorative elements
+
+## Template Design Tips
+
+### 1. Leave Sufficient Space
+
+Ensure blank areas are large enough for text:
+- Patient names can be long (20+ characters)
+- Parameter names are standardized but need breathing room
+- Classifications have varying lengths (Low, Medium, High)
+
+### 2. Use Safe Margins
+
+Keep content within safe print margins:
+- Top/Bottom: At least 50 points (0.7 inches)
+- Left/Right: At least 50 points (0.7 inches)
+
+### 3. Color Schemes
+
+The system uses these classification colors:
+- **Low**: Orange/Red (rgb(0.85, 0.35, 0.13))
+- **Medium**: Blue (rgb(0.29, 0.56, 0.89))
+- **High**: Green (rgb(0.18, 0.8, 0.44))
+
+Match your template design to these colors for consistency.
+
+### 4. Font Compatibility
+
+The system currently supports:
+- Helvetica (regular, bold, italic)
+
+If you want custom fonts:
+1. Embed fonts in your template PDF
+2. Update `pdfGeneratorTemplate.js` to use embedded fonts
+
+### 5. Multi-Language Support
+
+If generating reports in multiple languages:
+- Leave extra space for longer translations
+- Use Unicode-compatible fonts
+- Test with longest possible text
+
+## Fallback Behavior
+
+**If template is not found:**
+- System automatically falls back to standard PDF generator
+- No errors or crashes
+- Console shows: `"Using standard PDF generator (no template found)"`
+
+**To disable template:**
+- Simply rename or remove `neurosense-template.pdf`
+- System will use the standard generator
+
+## Testing Your Template
+
+### 1. Generate a Test Report
+
+```bash
+# In server directory
+node test-template.js
+```
+
+(Create this test script to generate sample reports)
+
+### 2. Check Output
+
+Look for these indicators in console:
+```
+✨ Using template-based PDF generator
+📄 Loading PDF template from: server/assets/pdf-templates/neurosense-template.pdf
+✅ Template loaded successfully: 3 pages
+✅ PDF generated successfully!
+```
+
+### 3. Verify PDF
+
+- Open generated PDF
+- Check all fields are visible
+- Verify alignment and positioning
+- Test with different patient names (long/short)
+- Test with all score combinations
+
+## Troubleshooting
+
+### Template Not Loading
+
+**Error**: `Template file not found`
+**Solution**: Check file path is exactly:
+```
+server/assets/pdf-templates/neurosense-template.pdf
+```
+
+### Text Not Visible
+
+**Possible causes:**
+- Coordinates are outside page bounds
+- Text color matches background
+- Font size is too small
+- Text is behind template elements
+
+**Solution**:
+- Check `pdfCoordinates.js` values
+- Ensure Y coordinate is between 0-841
+- Ensure X coordinate is between 0-595
+
+### Text Overlapping
+
+**Solution**:
+- Increase `parameterSpacing` in coordinates
+- Adjust starting Y position
+- Reduce font size
+
+### Missing Pages
+
+**Error**: Cannot fill page X
+**Solution**:
+- Ensure template has at least 2 pages
+- Add blank pages to template if needed
+
+## Advanced Customization
+
+### Adding New Fields
+
+1. Edit `pdfCoordinates.js`:
+```javascript
+page1: {
+  // ... existing fields
+  customField: {
+    x: 200,
+    y: 400,
+    fontSize: 12,
+    font: 'Helvetica',
+    color: { r: 0, g: 0, b: 0 }
+  }
+}
+```
+
+2. Edit `pdfGeneratorTemplate.js`:
+```javascript
+async fillCoverPage(page) {
+  // ... existing code
+
+  // Add new field
+  if (this.patientData.customField) {
+    page.drawText(this.patientData.customField, {
+      x: coord.customField.x,
+      y: coord.customField.y,
+      size: coord.customField.fontSize,
+      font: this.fonts.helvetica,
+      color: rgb(coord.customField.color.r, coord.customField.color.g, coord.customField.color.b)
+    });
+  }
+}
+```
+
+### Multiple Templates
+
+To support different templates:
+
+1. Create multiple templates:
+   - `neurosense-template.pdf` (default)
+   - `neurosense-template-clinic1.pdf`
+   - `neurosense-template-clinic2.pdf`
+
+2. Modify `templateManager.js`:
+```javascript
+setTemplatePath(newPath);
+```
+
+3. Call before generating PDF:
+```javascript
+templateManager.setTemplatePath('path/to/custom-template.pdf');
+```
+
+## Support
+
+For questions or issues:
+1. Check console logs for detailed error messages
+2. Verify coordinate values in `pdfCoordinates.js`
+3. Test with a minimal template first
+4. Contact development team
+
+---
+
+**Last Updated**: November 2025
+**Version**: 1.0.0

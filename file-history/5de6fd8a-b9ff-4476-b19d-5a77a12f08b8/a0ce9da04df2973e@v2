@@ -1,0 +1,120 @@
+# Gemini API Quota Error - Fixed ✅
+
+## Problem
+The console was showing error 429 (Too Many Requests) when trying to process QEEG files because the Gemini API free tier quota (20 requests/day) was exceeded.
+
+## What Was Fixed
+
+### 1. Frontend Error Handling (`AlgorithmDataProcessor.jsx`)
+- ✅ Added specific error handling for 429 (quota exceeded) errors
+- ✅ Displays user-friendly message with solutions
+- ✅ Handles both quota errors and general Gemini API errors
+- ✅ Provides clear instructions on how to resolve the issue
+
+### 2. Backend Error Handling (`qeegRoutes.js`)
+- ✅ Enhanced error detection for quota-related errors
+- ✅ Automatically categorizes quota errors (429 status code)
+- ✅ Returns detailed error messages with actionable solutions
+- ✅ Provides cache information to help users avoid quota consumption
+
+### 3. Parser Error Handling (`qeegParser.js`)
+- ✅ Already had retry logic with exponential backoff (5s, 10s, 20s delays)
+- ✅ Properly throws GEMINI_QUOTA_EXCEEDED error after max retries
+- ✅ Includes file caching to avoid re-processing same files
+
+## Solutions for Users
+
+### Immediate Solutions (No Cost)
+1. **Wait for Quota Reset**
+   - Quota resets daily at midnight PST
+   - Usually takes a few hours to reset
+
+2. **Use File Cache**
+   - Re-upload the SAME files you processed before
+   - The system caches them by MD5 hash
+   - Cached files don't consume quota!
+
+3. **Check Cache Stats**
+   - Look at backend console for cache hit/miss statistics
+   - If you see "CACHE HIT", no quota was used
+
+### Long-term Solutions
+1. **Upgrade Gemini API Plan**
+   - Visit: https://ai.google.dev/pricing
+   - Paid plans have much higher quotas
+
+2. **Alternative: Use Multiple API Keys**
+   - Rotate between different API keys
+   - Each key gets 20 free requests/day
+
+## Error Message Users Will See
+
+```
+⚠️ API Quota Exceeded
+
+The Gemini AI service has reached its daily request limit.
+
+Solutions:
+• Wait for quota reset (usually resets at midnight PST)
+• Re-upload the same files (cached, no quota used)
+• Contact administrator to upgrade API plan
+
+Technical Details: [error details here]
+```
+
+## How to Monitor Quota Usage
+
+### Backend Console
+Check the server console for messages like:
+- `✅ CACHE HIT! Using cached extraction result` ← No quota used
+- `⚠️ Cache miss - extracting data with Gemini AI...` ← Quota consumed
+- `📊 Cache Stats: X hits, Y misses, Z% hit rate`
+
+### Cache Statistics
+The system tracks:
+- Total extractions
+- Cache hits (no quota used)
+- Cache misses (quota consumed)
+- Hit rate percentage
+
+## Testing the Fix
+
+1. Try uploading QEEG files
+2. If quota exceeded:
+   - You'll see a user-friendly error message
+   - Message explains what happened
+   - Message provides clear solutions
+
+3. Try uploading the same files again:
+   - Should use cache (no quota consumed)
+   - Console shows "CACHE HIT!"
+
+## Technical Details
+
+### Files Modified
+1. `src/components/admin/AlgorithmDataProcessor.jsx` (lines 426-443)
+2. `server/routes/qeegRoutes.js` (lines 551-596)
+
+### Error Codes
+- `GEMINI_QUOTA_EXCEEDED` - Quota limit reached
+- Status 429 - Too Many Requests (HTTP standard)
+
+### Cache Mechanism
+- Files are cached by MD5 hash + condition + report type
+- Cache key format: `{md5hash}_{EO/EC}_{raw/zscore}`
+- Cache persists in memory (resets on server restart)
+
+## Next Steps
+
+1. ✅ Error handling improved
+2. ✅ User messages are clear and helpful
+3. ⏳ Wait for quota reset OR upgrade API plan
+4. ✅ System will automatically use cache for previously processed files
+
+## Questions?
+
+If users ask about the error:
+1. Explain it's a daily limit from Google
+2. Suggest waiting a few hours
+3. Mention that re-uploading same files won't use quota
+4. Provide link to upgrade: https://ai.google.dev/pricing

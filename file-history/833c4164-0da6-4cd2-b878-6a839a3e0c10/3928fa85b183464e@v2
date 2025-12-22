@@ -1,0 +1,40 @@
+{
+  "software_list": [
+    {
+      "name": "Notepad",
+      "search_term": "notepad",
+      "run_command": "notepad",
+      "method": "search"
+    },
+    {
+      "name": "Calculator",
+      "search_term": "calculator",
+      "run_command": "calc",
+      "method": "run"
+    },
+    {
+      "name": "Chrome",
+      "search_term": "chrome",
+      "run_command": "chrome",
+      "method": "search"
+    },
+    {
+      "name": "File Explorer",
+      "search_term": "file explorer",
+      "run_command": "explorer",
+      "method": "run"
+    },
+    {
+      "name": "Paint",
+      "search_term": "paint",
+      "run_command": "mspaint",
+      "method": "run"
+    }
+  ],
+  "settings": {
+    "default_wait_time": 2,
+    "typing_interval": 0.1,
+    "mouse_duration": 0.5,
+    "failsafe": true
+  }
+}
