@@ -4,6 +4,7 @@ import Problem from './components/Problem';
 import Solution from './components/Solution';
 import MultiPlatform from './components/MultiPlatform';
 import CompetitiveAdvantages from './components/CompetitiveAdvantages';
+import SimulationTesting from './components/SimulationTesting';
 import Features from './components/Features';
 import Platforms from './components/Platforms';
 import OnPremises from './components/OnPremises';
@@ -23,6 +24,7 @@ export default function Home() {
         <Hero />
         <MultiPlatform />
         <CompetitiveAdvantages />
+        <SimulationTesting />
         <Problem />
         <Solution />
         <Features />
