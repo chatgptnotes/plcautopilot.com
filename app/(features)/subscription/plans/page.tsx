@@ -55,7 +55,7 @@ export default function SubscriptionPlans() {
       id: 'professional',
       name: 'Professional',
       tagline: 'Automating the Automation for professionals',
-      price: billingCycle === 'monthly' ? 49 : 470,
+      price: billingCycle === 'monthly' ? 20 : 200,
       billingCycle,
       features: [
         '50 program generations per year (no time restrictions)',
@@ -83,7 +83,7 @@ export default function SubscriptionPlans() {
       id: 'enterprise',
       name: 'Enterprise',
       tagline: 'Complete automation solutions for mass production',
-      price: billingCycle === 'monthly' ? 199 : 1910,
+      price: billingCycle === 'monthly' ? 80 : 800,
       billingCycle,
       features: [
         'Unlimited program generations',

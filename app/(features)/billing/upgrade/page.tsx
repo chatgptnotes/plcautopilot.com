@@ -12,8 +12,8 @@ export default function UpgradePage() {
       id: 'starter',
       name: 'Starter',
       description: 'Perfect for individuals and small projects',
-      monthlyPrice: 29,
-      annualPrice: 290,
+      monthlyPrice: 20,
+      annualPrice: 200,
       features: [
         '25 PLC programs per year (no time restrictions)',
         '100 AI generation requests per year',
@@ -36,8 +36,8 @@ export default function UpgradePage() {
       id: 'professional',
       name: 'Professional',
       description: 'Best for growing teams and multiple projects',
-      monthlyPrice: 99,
-      annualPrice: 990,
+      monthlyPrice: 60,
+      annualPrice: 600,
       features: [
         '100 PLC programs per year (no time restrictions)',
         '500 AI generation requests per year',
@@ -62,8 +62,8 @@ export default function UpgradePage() {
       id: 'enterprise',
       name: 'Enterprise',
       description: 'For large organizations with advanced needs',
-      monthlyPrice: 299,
-      annualPrice: 2990,
+      monthlyPrice: 120,
+      annualPrice: 1200,
       features: [
         'Unlimited PLC programs',
         'Unlimited AI generation',

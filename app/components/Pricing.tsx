@@ -4,7 +4,7 @@ export default function Pricing() {
   const plans = [
     {
       name: 'Starter',
-      price: '$497',
+      price: '$20',
       period: '/month',
       features: [
         { text: 'Up to 10 projects/year (no monthly restrictions)', included: true },
@@ -17,7 +17,7 @@ export default function Pricing() {
     },
     {
       name: 'Professional',
-      price: '$1,497',
+      price: '$60',
       period: '/month',
       popular: true,
       features: [
