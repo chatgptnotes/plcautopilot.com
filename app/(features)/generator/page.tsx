@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { plcModels, getManufacturers, getModelsByManufacturer, searchModels, type PLCModel } from '../data/plc-models';
+import { plcModels, getManufacturers, getModelsByManufacturer, searchModels, type PLCModel } from '../../data/plc-models';
 
 export default function GeneratorPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -110,7 +110,7 @@ export default function GeneratorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 py-12 px-4">
+    <div className="py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
