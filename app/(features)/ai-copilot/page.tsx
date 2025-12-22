@@ -1,7 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Send, Code, FileText, TestTube, Upload, Sparkles, Zap, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Send, Code, FileText, TestTube, Upload, Sparkles, Zap, CheckCircle, Clock, Loader2 } from 'lucide-react';
+
+interface ProgressStage {
+  name: string;
+  duration: number;
+  status: 'pending' | 'in-progress' | 'completed';
+}
 
 export default function AICopilotPage() {
   const [activeTab, setActiveTab] = useState<'generate' | 'explain' | 'test'>('generate');
@@ -10,6 +16,14 @@ export default function AICopilotPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
 
+  // Progress tracking state
+  const [progressStages, setProgressStages] = useState<ProgressStage[]>([]);
+  const [currentStage, setCurrentStage] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [estimatedTime, setEstimatedTime] = useState(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+
   const examplePrompts = [
     "Write a PLC program to control two pumps in a water pump station. Pump 1 should go on when well is greater than 50%, pump 2 should go on when well is greater than 80%. Sound an alarm when well is greater than 90%. Pumps should go off when well is less than 20%. Well is 15 ft deep.",
     "Create a motor start/stop program with emergency stop and safety interlocks",
@@ -17,13 +31,112 @@ export default function AICopilotPage() {
     "Build a temperature control system with PID loop for industrial oven"
   ];
 
+  // Define stages based on active tab
+  const getStagesForTab = (tab: string): ProgressStage[] => {
+    if (tab === 'generate') {
+      return [
+        { name: 'Analyzing Requirements', duration: 2000, status: 'pending' },
+        { name: 'Selecting Libraries', duration: 1500, status: 'pending' },
+        { name: 'Generating Code', duration: 3000, status: 'pending' },
+        { name: 'Validating Syntax', duration: 1000, status: 'pending' },
+        { name: 'Creating Documentation', duration: 1500, status: 'pending' }
+      ];
+    } else if (tab === 'explain') {
+      return [
+        { name: 'Parsing Code Structure', duration: 1500, status: 'pending' },
+        { name: 'Analyzing Logic Flow', duration: 2000, status: 'pending' },
+        { name: 'Identifying Variables', duration: 1000, status: 'pending' },
+        { name: 'Generating Diagrams', duration: 2000, status: 'pending' },
+        { name: 'Writing Explanation', duration: 2500, status: 'pending' }
+      ];
+    } else {
+      return [
+        { name: 'Understanding Code', duration: 1500, status: 'pending' },
+        { name: 'Identifying Test Cases', duration: 2000, status: 'pending' },
+        { name: 'Generating Scenarios', duration: 2500, status: 'pending' },
+        { name: 'Creating Validation', duration: 1500, status: 'pending' },
+        { name: 'Building Test Report', duration: 1500, status: 'pending' }
+      ];
+    }
+  };
+
+  // Timer effect for elapsed time
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isLoading && startTime) {
+      interval = setInterval(() => {
+        setElapsedTime(Date.now() - startTime);
+      }, 100);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isLoading, startTime]);
+
+  // Progress simulation effect
+  useEffect(() => {
+    if (!isLoading || progressStages.length === 0) return;
+
+    const stages = [...progressStages];
+    let stageIndex = 0;
+    let stageProgress = 0;
+
+    const interval = setInterval(() => {
+      if (stageIndex >= stages.length) {
+        clearInterval(interval);
+        return;
+      }
+
+      const currentStageDuration = stages[stageIndex].duration;
+      const increment = 100 / (currentStageDuration / 100);
+
+      stageProgress += increment;
+
+      if (stageProgress >= 100) {
+        stages[stageIndex].status = 'completed';
+        stageIndex++;
+        stageProgress = 0;
+
+        if (stageIndex < stages.length) {
+          stages[stageIndex].status = 'in-progress';
+        }
+      } else {
+        stages[stageIndex].status = 'in-progress';
+      }
+
+      setProgressStages([...stages]);
+      setCurrentStage(stageIndex);
+
+      // Calculate overall progress
+      const completedStages = stages.filter(s => s.status === 'completed').length;
+      const totalProgress = (completedStages / stages.length) * 100 +
+                          (stageProgress / stages.length);
+      setProgress(Math.min(totalProgress, 100));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isLoading, progressStages.length]);
+
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
 
     setIsLoading(true);
     setChatHistory([...chatHistory, { role: 'user', content: prompt }]);
 
-    // Simulate AI response (replace with actual API call)
+    // Initialize progress tracking
+    const stages = getStagesForTab(activeTab);
+    const totalTime = stages.reduce((sum, stage) => sum + stage.duration, 0);
+
+    setProgressStages(stages.map(s => ({ ...s, status: 'pending' })));
+    setCurrentStage(0);
+    setProgress(0);
+    setElapsedTime(0);
+    setEstimatedTime(totalTime);
+    setStartTime(Date.now());
+
+    // Simulate AI response with stages
     setTimeout(() => {
       const response = generateMockResponse(prompt, activeTab);
       setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
@@ -32,7 +145,8 @@ export default function AICopilotPage() {
       }
       setIsLoading(false);
       setPrompt('');
-    }, 2000);
+      setStartTime(null);
+    }, totalTime);
   };
 
   const generateMockResponse = (userPrompt: string, tab: string) => {
@@ -148,10 +262,87 @@ Converts raw level reading to percentage for easier threshold comparisons.
     }
   };
 
+  // Format time helper
+  const formatTime = (ms: number) => {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return minutes > 0 ? `${minutes}m ${remainingSeconds}s` : `${remainingSeconds}s`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Transparent Status Bar Overlay */}
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-blue-600/95 backdrop-blur-sm shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Loader2 className="animate-spin text-white" size={20} />
+                <div>
+                  <div className="text-white font-medium text-sm">
+                    {progressStages[currentStage]?.name || 'Processing...'}
+                  </div>
+                  <div className="text-blue-100 text-xs">
+                    Step {currentStage + 1} of {progressStages.length}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-6">
+                {/* Progress percentage */}
+                <div className="text-right">
+                  <div className="text-white font-bold text-lg">{progress.toFixed(0)}%</div>
+                  <div className="text-blue-100 text-xs">Complete</div>
+                </div>
+
+                {/* Time tracking */}
+                <div className="text-right border-l border-blue-400/50 pl-6">
+                  <div className="text-white font-medium text-sm flex items-center gap-1">
+                    <Clock size={14} />
+                    {formatTime(elapsedTime)}
+                  </div>
+                  <div className="text-blue-100 text-xs">
+                    {estimatedTime - elapsedTime > 0
+                      ? `${formatTime(estimatedTime - elapsedTime)} remaining`
+                      : 'Finalizing...'}
+                  </div>
+                </div>
+
+                {/* Mini progress bar */}
+                <div className="w-32">
+                  <div className="h-1.5 bg-blue-400/30 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-white transition-all duration-300 ease-out"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Stages progress dots */}
+            <div className="mt-2 flex items-center gap-1">
+              {progressStages.map((stage, idx) => (
+                <div
+                  key={idx}
+                  className={`flex-1 h-1 rounded-full transition-all duration-300 ${
+                    stage.status === 'completed'
+                      ? 'bg-green-400'
+                      : stage.status === 'in-progress'
+                      ? 'bg-white animate-pulse'
+                      : 'bg-blue-400/30'
+                  }`}
+                  title={stage.name}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+      <div className={`bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-all duration-300 ${isLoading ? 'mt-20' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -295,10 +486,84 @@ Converts raw level reading to percentage for easier threshold comparisons.
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
-                      <span className="text-sm text-gray-600 dark:text-gray-300">Generating response...</span>
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 w-full max-w-2xl">
+                    <div className="space-y-4">
+                      {/* Header with spinner */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="animate-spin text-blue-600" size={20} />
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {progressStages[currentStage]?.name || 'Processing...'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                          <Clock size={14} />
+                          <span>{(elapsedTime / 1000).toFixed(1)}s / {(estimatedTime / 1000).toFixed(1)}s</span>
+                        </div>
+                      </div>
+
+                      {/* Progress bar */}
+                      <div className="space-y-2">
+                        <div className="h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-300 ease-out"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-gray-600 dark:text-gray-400">{progress.toFixed(0)}% Complete</span>
+                          <span className="text-gray-600 dark:text-gray-400">
+                            {estimatedTime - elapsedTime > 0
+                              ? `~${((estimatedTime - elapsedTime) / 1000).toFixed(0)}s remaining`
+                              : 'Finalizing...'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Stage indicators */}
+                      <div className="flex items-center justify-between gap-1">
+                        {progressStages.map((stage, idx) => (
+                          <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+                            <div
+                              className={`w-full h-1 rounded-full transition-colors duration-300 ${
+                                stage.status === 'completed'
+                                  ? 'bg-green-500'
+                                  : stage.status === 'in-progress'
+                                  ? 'bg-blue-500 animate-pulse'
+                                  : 'bg-gray-300 dark:bg-gray-600'
+                              }`}
+                            />
+                            <div
+                              className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
+                                stage.status === 'completed'
+                                  ? 'bg-green-500 border-green-500'
+                                  : stage.status === 'in-progress'
+                                  ? 'bg-blue-500 border-blue-500 scale-125'
+                                  : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'
+                              }`}
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Stage names */}
+                      <div className="grid grid-cols-5 gap-1 text-xs">
+                        {progressStages.map((stage, idx) => (
+                          <div
+                            key={idx}
+                            className={`text-center transition-colors duration-300 ${
+                              stage.status === 'completed'
+                                ? 'text-green-600 dark:text-green-400 font-medium'
+                                : stage.status === 'in-progress'
+                                ? 'text-blue-600 dark:text-blue-400 font-medium'
+                                : 'text-gray-500 dark:text-gray-500'
+                            }`}
+                          >
+                            {stage.status === 'completed' && '✓ '}
+                            {stage.name.split(' ')[0]}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
