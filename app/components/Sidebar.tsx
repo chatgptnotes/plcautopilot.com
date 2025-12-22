@@ -46,6 +46,25 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       items: [],
     },
     {
+      id: 'ai-copilot',
+      title: 'AI Co-Pilot',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+      link: '/ai-copilot',
+      items: [
+        { title: 'Generate Code', link: '/ai-copilot?tab=generate' },
+        { title: 'Explain Code', link: '/ai-copilot?tab=explain' },
+        { title: 'Test & Debug', link: '/ai-copilot?tab=test' },
+        { title: 'Application Generator', link: '/ai-application-generator' },
+        { title: 'Code Optimizer', link: '/ai-code-optimizer' },
+        { title: 'Library Manager', link: '/ai-library-manager' },
+      ],
+      badge: 'AI',
+    },
+    {
       id: 'generator',
       title: 'PLC Generator',
       icon: (
@@ -297,6 +316,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                       </div>
                       {section.badge && (
                         <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
+                          section.badge === 'AI' ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700' :
                           section.badge === 'Popular' ? 'bg-blue-100 text-blue-700' :
                           section.badge === 'New' ? 'bg-green-100 text-green-700' :
                           section.badge === 'Live' ? 'bg-red-100 text-red-700' :
@@ -323,6 +343,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                         <div className="flex items-center space-x-3">
                           {section.icon}
                           <span className="font-medium">{section.title}</span>
+                          {section.badge && (
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
+                              section.badge === 'AI' ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700' :
+                              section.badge === 'Popular' ? 'bg-blue-100 text-blue-700' :
+                              section.badge === 'New' ? 'bg-green-100 text-green-700' :
+                              section.badge === 'Live' ? 'bg-red-100 text-red-700' :
+                              'bg-gray-100 text-gray-700'
+                            }`}>
+                              {section.badge}
+                            </span>
+                          )}
                         </div>
                         <svg
                           className={`w-4 h-4 transition-transform duration-200 ${
