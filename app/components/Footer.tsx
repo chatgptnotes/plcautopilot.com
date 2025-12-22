@@ -12,7 +12,7 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-xl font-bold">PLCAutoPilot</span>
+              <span className="text-base sm:text-lg md:text-xl font-bold">PLCAutoPilot</span>
             </Link>
             <p className="text-gray-400">
               AI-powered PLC programming assistant for industrial automation engineers.

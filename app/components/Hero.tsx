@@ -14,7 +14,7 @@ export default function Hero() {
               AI-Powered Automation Engineering
             </div>
 
-            <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up">
               Transform Specs Into Production-Ready{' '}
               <span className="bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent">
                 PLC Code
@@ -22,7 +22,7 @@ export default function Hero() {
               in Minutes
             </h1>
 
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed">
               The world&apos;s first AI assistant that works with ALL major PLC platforms: Siemens, Rockwell, Mitsubishi, Schneider, and 500+ CODESYS brands.
               Reduce project time by 80% while maintaining safety standards.
             </p>
@@ -45,18 +45,18 @@ export default function Hero() {
               </Link>
             </div>
 
-            <div className="flex gap-12 pt-8 border-t border-gray-200">
+            <div className="grid grid-cols-3 gap-4 sm:gap-8 md:gap-12 pt-8 border-t border-gray-200">
               <div>
-                <div className="text-4xl font-extrabold text-blue-600">80%</div>
-                <div className="text-sm text-gray-600">Faster Development</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-600">80%</div>
+                <div className="text-xs sm:text-sm text-gray-600">Faster Development</div>
               </div>
               <div>
-                <div className="text-4xl font-extrabold text-blue-600">99.9%</div>
-                <div className="text-sm text-gray-600">Code Accuracy</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-600">99.9%</div>
+                <div className="text-xs sm:text-sm text-gray-600">Code Accuracy</div>
               </div>
               <div>
-                <div className="text-4xl font-extrabold text-blue-600">100%</div>
-                <div className="text-sm text-gray-600">Safety Verified</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-600">100%</div>
+                <div className="text-xs sm:text-sm text-gray-600">Safety Verified</div>
               </div>
             </div>
           </div>
@@ -71,31 +71,31 @@ export default function Hero() {
                 </div>
                 <span className="text-gray-400 text-sm font-medium">ConveyorControl.ld</span>
               </div>
-              <div className="p-6 font-mono text-sm space-y-2">
-                <div className="flex gap-6">
+              <div className="p-4 sm:p-6 font-mono text-xs sm:text-sm space-y-2 overflow-x-auto">
+                <div className="flex gap-3 sm:gap-6 min-w-max">
                   <span className="text-gray-500">1</span>
                   <span className="text-gray-300">
                     |--[<span className="text-blue-400">START_BTN</span>]--[<span className="text-blue-400">SAFETY_OK</span>]--( <span className="text-green-400">MOTOR_RUN</span> )
                   </span>
                 </div>
-                <div className="flex gap-6">
+                <div className="flex gap-3 sm:gap-6 min-w-max">
                   <span className="text-gray-500">2</span>
                   <span className="text-gray-300">|</span>
                 </div>
-                <div className="flex gap-6 items-center bg-blue-500/10 -mx-6 px-6 py-1">
+                <div className="flex gap-3 sm:gap-6 items-center bg-blue-500/10 -mx-4 sm:-mx-6 px-4 sm:px-6 py-1 min-w-max">
                   <span className="text-gray-500">3</span>
                   <span className="text-gray-300">
                     |--[/<span className="text-blue-400">ESTOP</span>]--[/<span className="text-blue-400">FAULT</span>]--(<span className="text-green-400">ENABLE</span>)
                   </span>
-                  <span className="ml-auto text-xs bg-red-500 text-white px-2 py-1 rounded font-bold">
+                  <span className="ml-auto text-xs bg-red-500 text-white px-2 py-1 rounded font-bold whitespace-nowrap">
                     SAFETY CRITICAL
                   </span>
                 </div>
-                <div className="flex gap-6">
+                <div className="flex gap-3 sm:gap-6 min-w-max">
                   <span className="text-gray-500">4</span>
                   <span className="text-gray-300">|</span>
                 </div>
-                <div className="flex gap-6">
+                <div className="flex gap-3 sm:gap-6 min-w-max">
                   <span className="text-gray-500">5</span>
                   <span className="text-gray-300">
                     |--[<span className="text-blue-400">SENSOR_1</span>]--[<span className="text-blue-400">TIMER_DN</span>]--( <span className="text-green-400">OUTPUT_1</span> )

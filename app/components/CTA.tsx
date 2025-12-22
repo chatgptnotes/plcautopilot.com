@@ -25,10 +25,10 @@ export default function CTA() {
     <section id="contact" className="py-20 bg-gray-900 text-white">
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
             Ready to Transform Your PLC Development?
           </h2>
-          <p className="text-xl text-gray-400">
+          <p className="text-base sm:text-lg md:text-xl text-gray-400">
             Join the early access program and get 3 months at 50% off
           </p>
         </div>

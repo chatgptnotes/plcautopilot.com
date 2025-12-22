@@ -6,19 +6,19 @@ export default function MultiPlatform() {
           <div className="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold mb-4">
             UNIVERSAL COMPATIBILITY
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             The Only AI Tool for <span className="text-blue-600">ALL Major PLC Platforms</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             Stop being limited to one brand. PLCAutoPilot works with every major PLC manufacturer, giving you unmatched flexibility and market coverage.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-blue-200 hover:border-blue-400 transition-all">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
+          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-blue-200 hover:border-blue-400 transition-all">
             <div className="flex items-center gap-3 mb-4">
-              <span className="material-icons text-blue-600 text-4xl">precision_manufacturing</span>
-              <h3 className="text-2xl font-bold text-gray-900">The Big Three</h3>
+              <span className="material-icons text-blue-600 text-3xl sm:text-4xl">precision_manufacturing</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">The Big Three</h3>
             </div>
             <p className="text-gray-600 mb-6">70-80% of global market coverage</p>
             <ul className="space-y-4">
@@ -49,10 +49,10 @@ export default function MultiPlatform() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-purple-200 hover:border-purple-400 transition-all">
+          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-purple-200 hover:border-purple-400 transition-all">
             <div className="flex items-center gap-3 mb-4">
-              <span className="material-icons text-purple-600 text-4xl">inventory_2</span>
-              <h3 className="text-2xl font-bold text-gray-900">CODESYS</h3>
+              <span className="material-icons text-purple-600 text-3xl sm:text-4xl">inventory_2</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">CODESYS</h3>
             </div>
             <p className="text-gray-600 mb-6">Universal coverage, 500+ brands</p>
             <ul className="space-y-4">
@@ -87,10 +87,10 @@ export default function MultiPlatform() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-green-200 hover:border-green-400 transition-all">
+          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-green-200 hover:border-green-400 transition-all sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <span className="material-icons text-green-600 text-4xl">emoji_objects</span>
-              <h3 className="text-2xl font-bold text-gray-900">Why This Matters</h3>
+              <span className="material-icons text-green-600 text-3xl sm:text-4xl">emoji_objects</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Why This Matters</h3>
             </div>
             <p className="text-gray-600 mb-6">Competitive advantages</p>
             <ul className="space-y-4">
@@ -126,25 +126,25 @@ export default function MultiPlatform() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-2xl p-8 md:p-12 text-white text-center">
-          <h3 className="text-3xl font-bold mb-4">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-white text-center">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">
             The ONLY AI Tool with Complete Multi-Platform Support
           </h3>
-          <p className="text-xl mb-8 text-blue-100 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-blue-100 max-w-3xl mx-auto px-4">
             Competitors lock you into one brand. PLCAutoPilot gives you the freedom to work with Siemens, Rockwell, Mitsubishi, Schneider, and 500+ other PLC brands from a single platform.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-sm text-blue-100">One Platform</p>
-              <p className="text-2xl font-bold">500+ Brands</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3">
+              <p className="text-xs sm:text-sm text-blue-100">One Platform</p>
+              <p className="text-xl sm:text-2xl font-bold">500+ Brands</p>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-sm text-blue-100">Market Coverage</p>
-              <p className="text-2xl font-bold">95%+</p>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3">
+              <p className="text-xs sm:text-sm text-blue-100">Market Coverage</p>
+              <p className="text-xl sm:text-2xl font-bold">95%+</p>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-sm text-blue-100">Time Savings</p>
-              <p className="text-2xl font-bold">80%</p>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3">
+              <p className="text-xs sm:text-sm text-blue-100">Time Savings</p>
+              <p className="text-xl sm:text-2xl font-bold">80%</p>
             </div>
           </div>
         </div>
