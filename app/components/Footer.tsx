@@ -55,9 +55,9 @@ export default function Footer() {
           <p>Founded by Dr. Murali BK | Powered by Dr.M Hope Softwares | A Bettroi Product</p>
           <p>Not affiliated with Schneider Electric. EcoStruxure and Modicon are registered trademarks.</p>
           <p className="text-xs text-gray-500 mt-4">
-            Version 1.5 | Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} |
+            PLCAutoPilot v1.3 | Last Updated: December 22, 2025 |
             <a href="https://github.com/chatgptnotes/plcautopilot.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 ml-1">
-              GitHub Repository
+              github.com/chatgptnotes/plcautopilot.com
             </a>
           </p>
         </div>
