@@ -11,7 +11,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8 animate-slide-in-left">
             <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold animate-fade-in">
-              Automating the Automation - Mass Production Engineering
+              Automating the Automation
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up">
@@ -23,7 +23,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed">
-              Automating the Automation for mass production engineering. The world&apos;s first AI-powered PLC autopilot that works with ALL major platforms:
+              The world&apos;s first AI-powered PLC autopilot that works with ALL major platforms:
               Siemens, Rockwell, Mitsubishi, Schneider Electric, and 500+ CODESYS brands. Complete automation solutions for PLC, SCADA, and industrial controls.
               Reduce project time by 80% while maintaining IEC 61508 safety standards.
             </p>
