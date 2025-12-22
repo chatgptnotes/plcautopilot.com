@@ -33,9 +33,9 @@ export default function SubscriptionPlans() {
       price: 0,
       billingCycle: 'monthly',
       features: [
-        '5 program generations per month',
+        '5 program generations per year (no time restrictions)',
         'Basic PLC models (Schneider M221, TM221)',
-        '2 error rectification requests',
+        '2 error rectification requests per year',
         'Community forum support',
         'Standard scan time programs',
         'Ladder Logic (LD) only',
@@ -58,9 +58,9 @@ export default function SubscriptionPlans() {
       price: billingCycle === 'monthly' ? 49 : 470,
       billingCycle,
       features: [
-        '50 program generations per month',
+        '50 program generations per year (no time restrictions)',
         'All standard PLC models (100+ models)',
-        '20 error rectification requests',
+        '20 error rectification requests per year',
         'Email + chat support (4h response)',
         'All IEC 61131-3 languages (LD, ST, IL, FBD)',
         'Motion control programs',

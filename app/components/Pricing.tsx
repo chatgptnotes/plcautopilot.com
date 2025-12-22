@@ -7,7 +7,7 @@ export default function Pricing() {
       price: '$497',
       period: '/month',
       features: [
-        { text: 'Up to 10 projects/month', included: true },
+        { text: 'Up to 10 projects/year (no monthly restrictions)', included: true },
         { text: 'Machine Expert Basic support', included: true },
         { text: 'Email support', included: true },
         { text: 'Safety verification', included: true },

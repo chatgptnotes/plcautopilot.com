@@ -15,8 +15,8 @@ export default function UpgradePage() {
       monthlyPrice: 29,
       annualPrice: 290,
       features: [
-        '25 PLC programs per month',
-        '100 AI generation requests',
+        '25 PLC programs per year (no time restrictions)',
+        '100 AI generation requests per year',
         'Single user account',
         '2 GB storage',
         'Basic support (email)',
@@ -39,8 +39,8 @@ export default function UpgradePage() {
       monthlyPrice: 99,
       annualPrice: 990,
       features: [
-        '100 PLC programs per month',
-        '500 AI generation requests',
+        '100 PLC programs per year (no time restrictions)',
+        '500 AI generation requests per year',
         'Up to 5 team members',
         '10 GB storage',
         'Priority email support',
