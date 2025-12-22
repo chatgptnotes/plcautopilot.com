@@ -77,3 +77,11 @@ next-env.d.ts
 *.temp
 temp/
 tmp/
+
+# Large installer files (download separately)
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.deb
+*.rpm
