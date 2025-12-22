@@ -61,14 +61,14 @@ export default function SAPExportPage() {
 
       if (data.connected) {
         setIsConnected(true);
-        setConnectionStatus(`✓ Connected to SAP ${data.systemInfo.systemType} - ${data.systemInfo.release}`);
+        setConnectionStatus(`Connected to SAP ${data.systemInfo.systemType} - ${data.systemInfo.release}`);
       } else {
         setIsConnected(false);
-        setConnectionStatus('✗ Connection failed. Please check credentials.');
+        setConnectionStatus('Connection failed. Please check credentials.');
       }
     } catch (error) {
       setIsConnected(false);
-      setConnectionStatus('✗ Connection error occurred');
+      setConnectionStatus('Connection error occurred');
     }
   };
 
@@ -219,10 +219,19 @@ export default function SAPExportPage() {
                 </button>
 
                 {connectionStatus && (
-                  <div className={`p-4 rounded-lg ${
+                  <div className={`p-4 rounded-lg flex items-center gap-2 ${
                     isConnected ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
                   }`}>
-                    {connectionStatus}
+                    {isConnected ? (
+                      <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    )}
+                    <span>{connectionStatus}</span>
                   </div>
                 )}
               </div>
