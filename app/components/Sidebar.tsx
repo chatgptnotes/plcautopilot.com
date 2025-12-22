@@ -9,17 +9,37 @@ interface SidebarProps {
   onClose: () => void;
 }
 
+interface MenuSection {
+  id: string;
+  title: string;
+  icon: React.ReactNode;
+  link: string;
+  items: Array<{ title: string; link: string }>;
+  badge?: string;
+}
+
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   const menuSections = [
     {
+      id: 'home',
+      title: 'Home',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      ),
+      link: '/',
+      items: [],
+    },
+    {
       id: 'dashboard',
       title: 'Dashboard',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 13a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1v-7z" />
         </svg>
       ),
       link: '/dashboard',
@@ -35,6 +55,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       ),
       link: '/generator',
       items: [],
+      badge: 'Popular',
+    },
+    {
+      id: 'plc-selector',
+      title: 'PLC Selector',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+        </svg>
+      ),
+      link: '/plc-selector',
+      items: [],
+      badge: 'New',
     },
     {
       id: 'solutions',
@@ -46,9 +79,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       ),
       link: '/solutions',
       items: [
+        { title: 'Recommendation Engine', link: '/solutions/recommend' },
         { title: 'Compare Solutions', link: '/solutions/compare' },
         { title: 'Cost Calculator', link: '/solutions/calculator' },
-        { title: 'Recommendation Engine', link: '/solutions/recommend' },
       ],
     },
     {
@@ -133,6 +166,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       ],
     },
     {
+      id: 'engineer-chat',
+      title: 'Engineer Support',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      ),
+      link: '/engineer-chat',
+      items: [],
+      badge: 'Live',
+    },
+    {
       id: 'settings',
       title: 'Settings',
       icon: (
@@ -152,7 +197,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     },
     {
       id: 'support',
-      title: 'Support',
+      title: 'Help & Support',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -163,7 +208,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         { title: 'Help Center', link: '/support/help' },
         { title: 'Contact Us', link: '/support/contact' },
         { title: 'Submit Ticket', link: '/support/ticket' },
-        { title: 'Live Chat', link: '/support/chat' },
+        { title: 'Documentation', link: '/resources/docs' },
       ],
     },
   ];
@@ -221,7 +266,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     <Link
                       href={section.link}
                       className={`
-                        flex items-center space-x-3 px-3 py-2 rounded-lg
+                        flex items-center justify-between px-3 py-2 rounded-lg
                         transition-colors duration-150
                         ${
                           isActive(section.link)
@@ -231,8 +276,20 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                       `}
                       onClick={() => onClose()}
                     >
-                      {section.icon}
-                      <span className="font-medium">{section.title}</span>
+                      <div className="flex items-center space-x-3">
+                        {section.icon}
+                        <span className="font-medium">{section.title}</span>
+                      </div>
+                      {section.badge && (
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
+                          section.badge === 'Popular' ? 'bg-blue-100 text-blue-700' :
+                          section.badge === 'New' ? 'bg-green-100 text-green-700' :
+                          section.badge === 'Live' ? 'bg-red-100 text-red-700' :
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                          {section.badge}
+                        </span>
+                      )}
                     </Link>
                   ) : (
                     <>
