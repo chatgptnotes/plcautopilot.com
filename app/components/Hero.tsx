@@ -30,19 +30,19 @@ export default function Hero() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="#contact"
+                href="/generator"
                 className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold text-center hover:shadow-lg hover:-translate-y-0.5 transition-all"
               >
-                Request Early Access
+                Try Generator Now
               </Link>
               <Link
-                href="#demo"
-                className="px-8 py-4 border-2 border-gray-900 text-gray-900 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-gray-900 hover:text-white transition-all"
+                href="/login"
+                className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                 </svg>
-                Watch Demo
+                Login
               </Link>
             </div>
 

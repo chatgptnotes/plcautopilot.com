@@ -49,8 +49,11 @@ export default function Navbar() {
             <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Pricing
             </Link>
-            <Link href="#contact" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all">
-              Request Demo
+            <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              Login
+            </Link>
+            <Link href="/generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all">
+              Try Generator
             </Link>
           </div>
 
@@ -74,8 +77,9 @@ export default function Navbar() {
               <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium">Platforms</Link>
               <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium">Blog</Link>
               <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium">Pricing</Link>
-              <Link href="#contact" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold text-center">
-                Request Demo
+              <Link href="/login" className="text-gray-700 hover:text-blue-600 font-medium">Login</Link>
+              <Link href="/generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold text-center">
+                Try Generator
               </Link>
             </div>
           </div>
