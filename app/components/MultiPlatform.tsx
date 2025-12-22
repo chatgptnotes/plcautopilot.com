@@ -98,7 +98,7 @@ export default function MultiPlatform() {
                 <span className="material-icons text-blue-600 text-xl mt-0.5">trending_up</span>
                 <div>
                   <p className="font-semibold text-gray-900">Win More Projects</p>
-                  <p className="text-sm text-gray-600">Support any client's existing hardware</p>
+                  <p className="text-sm text-gray-600">Support any client&apos;s existing hardware</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
