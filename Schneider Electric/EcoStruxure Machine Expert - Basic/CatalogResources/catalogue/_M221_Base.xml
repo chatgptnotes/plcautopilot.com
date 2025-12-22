@@ -1,0 +1,2206 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd">
+
+  <Content key="#Modules">
+    <!-- TM2 modules-->
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DRA8RT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DRA16RT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DMM8DRT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DMM24DRF"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO8UT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO8TT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO32UK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO32TK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO16UK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO16TK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI8DT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI32DK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI16DT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI16DK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DAI8DT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AVO2HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8LT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8LRJ"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMO1HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMM6HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMM3HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI8HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI4LT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI2LT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI2HT"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ALM3LT"/>
+    <!-- TM3 modules-->
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI8/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI8A"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI16/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI16K"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI32K"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8T/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8U/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16T/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16U/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16TK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16UK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ32TK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ32UK"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DM8R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DM24R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI2H/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI4/G"/>
+	<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI8/G"/>
+	<!--AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI8/G/C/CG" condition="catalogVersion gte v2900"/-->
+	<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AM6/G"/>
+	<!--AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AM6/G/C/CG" condition="catalogVersion gte v2900"/-->
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ2/G"/>
+	<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ4/G"/>
+    <!--AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ4/G/C/CG" condition="catalogVersion gte v2900"/-->
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TM3/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI4/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI4D/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI8T/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAC5R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAF5R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAFL5R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAK6R/G"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3XTYS4"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3_XTRA1_XREC1"/>
+  </Content>
+
+  <Content key="#Cartridges">
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2AI2"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2AQ2C"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2AQ2V"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2CONV01"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2HOIS01"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2PACK01"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2SL1"/>
+    <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TMC2TI2"/>
+  </Content>
+
+  <Content key="#Extended_Settings">
+    <ts:TargetSettings>
+      <ts:section name="runtime_features">
+        <ts:setting name="cycle_control_in_iec" type="boolean" access="edit">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="cycle_control_version_2" type="boolean" access="edit">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:section name="boot_project">
+          <ts:setting name="boot_project_on_download_tag" type="boolean" access="edit">
+            <ts:value>1</ts:value>
+          </ts:setting>
+          <ts:setting name="boot_project_on_download_default" type="boolean" access="edit">
+            <ts:value>1</ts:value>
+          </ts:setting>
+          <ts:setting name="boot_project_on_online_change_default" type="boolean" access="edit">
+            <ts:value>0</ts:value>
+          </ts:setting>
+          <ts:setting name="remind_boot_project_default" type="boolean" access="edit">
+            <ts:value>1</ts:value>
+          </ts:setting>
+        </ts:section>
+        <ts:setting name="source_download_allowed" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="online_change_supported" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="dynamic_memory_supported" type="boolean" access="visible">
+          <ts:value>0</ts:value>
+        </ts:setting>
+      </ts:section>
+      <ts:section name="networkvariables">
+        <ts:section name="protocols">
+          <ts:setting name="numofprotocols" type="integer" access="visible">
+            <ts:value>1</ts:value>
+          </ts:setting>
+          <ts:section name="protocol1">
+            <ts:setting name="protocolname" type="string" access="visible">
+              <ts:value>UDP</ts:value>
+            </ts:setting>
+            <ts:setting name="library" type="string" access="visible">
+              <ts:value>SE_NetVarUdp</ts:value>
+            </ts:setting>
+            <ts:setting name="libraryversion" type="string" access="visible">
+              <ts:value>3.4.12.10</ts:value>
+            </ts:setting>
+            <ts:setting name="packetsize" type="integer" access="visible">
+              <ts:value>256</ts:value>
+            </ts:setting>
+          </ts:section>
+        </ts:section>
+      </ts:section>
+      <ts:section name="codegenerator">
+        <ts:setting name="CPU" type="codegenerators" access="edit">
+          <ts:value>ARM</ts:value>
+        </ts:setting>
+        <ts:setting name="FPU" type="boolean" access="edit">
+          <ts:value>0</ts:value>
+        </ts:setting>
+        <ts:setting name="Motorola byte order" type="boolean" access="edit">
+          <ts:value>0</ts:value>
+        </ts:setting>
+        <ts:setting name="codegenerator-guid" type="string" access="visible">
+          <ts:value>{901DECDD-9EB4-4a5b-951F-42FB21B27718}</ts:value>
+        </ts:setting>
+        <ts:setting name="codegenerator-version-constraint" type="string" access="visible">
+          <ts:value>newest</ts:value>
+        </ts:setting>
+        <ts:setting name="backend-guid" type="string" access="visible">
+          <ts:value>{CC6D601F-AB32-4991-AC54-1EE1B3E1C871}</ts:value>
+        </ts:setting>
+        <ts:setting name="backend-version-constraint" type="string" access="visible">
+          <ts:value>newest</ts:value>
+        </ts:setting>
+        <ts:setting name="lint-data-types" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="lreal-data-type" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="retain-in-cycle" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="check-multiple-task-output-write" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="check_misaligned_address" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+      </ts:section>
+      <ts:section name="memory-layout">
+        <ts:setting name="additional-areas" type="boolean" access="visible">
+          <ts:value>0</ts:value>
+        </ts:setting>
+        <ts:setting name="memory-size" type="integer" access="visible">
+          <ts:value>120000</ts:value>
+        </ts:setting>
+        <ts:setting name="input-size" type="integer" access="visible">
+          <ts:value>4096</ts:value>
+        </ts:setting>
+        <ts:setting name="output-size" type="integer" access="visible">
+          <ts:value>4096</ts:value>
+        </ts:setting>
+        <ts:setting name="retain-size" type="integer" access="visible">
+          <ts:value>32768</ts:value>
+        </ts:setting>
+        <ts:setting name="retain-in-own-segment" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="pack-mode" type="integer" access="visible">
+          <ts:value>8</ts:value>
+        </ts:setting>
+        <ts:setting name="stack-alignment" type="integer" access="visible">
+          <ts:value>4</ts:value>
+        </ts:setting>
+        <ts:setting name="minimal-area-size" type="integer" access="visible">
+          <ts:value>65536</ts:value>
+        </ts:setting>
+        <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+          <ts:value>0</ts:value>
+        </ts:setting>
+        <ts:setting name="code-segment-prolog-size" type="integer" access="visible">
+          <ts:value>12</ts:value>
+        </ts:setting>
+        <ts:section name="areas">
+          <ts:setting name="number" type="integer" access="visible">
+            <ts:value>6</ts:value>
+          </ts:setting>
+          <!-- Memory Words -->
+          <ts:section name="area_0">
+            <ts:setting name="flags" type="integer" access="visible">
+              <ts:value>0x10</ts:value>
+            </ts:setting>
+            <ts:setting name="minimal-area-size" type="integer" access="visible">
+              <ts:value>120000</ts:value>
+            </ts:setting>
+            <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+              <ts:value>0</ts:value>
+            </ts:setting>
+          </ts:section>
+          <!-- Inputs -->
+          <ts:section name="area_1">
+            <ts:setting name="flags" type="integer" access="visible">
+              <ts:value>0x4</ts:value>
+            </ts:setting>
+            <ts:setting name="minimal-area-size" type="integer" access="visible">
+              <ts:value>4096</ts:value>
+            </ts:setting>
+            <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+              <ts:value>0</ts:value>
+            </ts:setting>
+          </ts:section>
+          <!-- Outputs -->
+          <ts:section name="area_2">
+            <ts:setting name="flags" type="integer" access="visible">
+              <ts:value>0x8</ts:value>
+            </ts:setting>
+            <ts:setting name="minimal-area-size" type="integer" access="visible">
+              <ts:value>4096</ts:value>
+            </ts:setting>
+            <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+              <ts:value>0</ts:value>
+            </ts:setting>
+          </ts:section>
+          <!-- Retain (FW defines 32792. Value - 24) -->
+          <ts:section name="area_3">
+            <ts:setting name="flags" type="integer" access="visible">
+              <ts:value>0x20</ts:value>
+            </ts:setting>
+            <ts:setting name="minimal-area-size" type="integer" access="visible">
+              <ts:value>32768</ts:value>
+            </ts:setting>
+            <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+              <ts:value>0</ts:value>
+            </ts:setting>
+          </ts:section>
+          <!-- Application (data + code) -->
+          <ts:section name="area_4">
+            <ts:setting name="flags" type="integer" access="visible">
+              <ts:value>0xfec3</ts:value>
+            </ts:setting>
+            <ts:setting name="minimal-area-size" type="integer" access="visible">
+              <ts:value>10436608</ts:value>
+            </ts:setting>
+            <ts:setting name="maximal-area-size" type="integer" access="visible">
+              <ts:value>10436608</ts:value>
+            </ts:setting>
+            <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+              <ts:value>0</ts:value>
+            </ts:setting>
+          </ts:section>
+          <!-- Persistente-Retain (FW defines 32836. Value - (24 + 44) -24) -->
+          <ts:section name="area_5">
+            <ts:setting name="flags" type="integer" access="visible">
+              <ts:value>0x120</ts:value>
+            </ts:setting>
+            <ts:setting name="minimal-area-size" type="integer" access="visible">
+              <ts:value>32768</ts:value>
+            </ts:setting>
+            <ts:setting name="maximal-area-size" type="integer" access="visible">
+              <ts:value>32768</ts:value>
+            </ts:setting>
+            <ts:setting name="allocation-plus-in-percent" type="integer" access="visible">
+              <ts:value>0</ts:value>
+            </ts:setting>
+          </ts:section>
+        </ts:section>
+      </ts:section>
+      <ts:section name="taskconfiguration">
+        <ts:setting name="supportmicroseconds" type="boolean" access="visible">
+          <ts:value>0</ts:value>
+        </ts:setting>
+        <ts:setting name="supportfreewheeling" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="supportinterval" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="supportevent" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="supportexternal" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="supportextendedwatchdog" type="boolean" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="defaulttaskpriority" type="integer" access="visible">
+          <ts:value>2</ts:value>
+        </ts:setting>
+        <ts:setting name="mintaskpriority" type="integer" access="visible">
+          <ts:value>0</ts:value>
+        </ts:setting>
+        <ts:setting name="maxtaskpriority" type="integer" access="visible">
+          <ts:value>31</ts:value>
+        </ts:setting>
+        <ts:setting name="maxnumoftasks" type="integer" access="visible">
+          <ts:value>20</ts:value>
+        </ts:setting>
+        <ts:setting name="maxeventtasks" type="integer" access="visible">
+          <ts:value>8</ts:value>
+        </ts:setting>
+        <ts:setting name="maxintervaltasks" type="integer" access="visible">
+          <ts:value>4</ts:value>
+        </ts:setting>
+        <ts:setting name="maxexternalevents" type="integer" access="visible">
+          <ts:value>8</ts:value>
+        </ts:setting>
+        <ts:setting name="maxfreetasks" type="integer" access="visible">
+          <ts:value>1</ts:value>
+        </ts:setting>
+        <ts:setting name="cycletimedefault" type="string" access="visible">
+          <ts:value>t#20ms</ts:value>
+        </ts:setting>
+        <ts:setting name="externalevents" type="cdata" access="hidden">
+          <ts:value>
+            <![CDATA[
+					<externalevents>
+						<externalevent>
+							<name>BLOCK0_I0</name>
+							<description>Input 0 of block 0 has changed</description>
+							<id>0</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_I1</name>
+							<description>Input 1 of block 0 has changed</description>
+							<id>1</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_I2</name>
+							<description>Input 2 of block 0 has changed</description>
+							<id>2</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_I3</name>
+							<description>Input 3 of block 0 has changed</description>
+							<id>3</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_I0</name>
+							<description>Input 0 of block 1 has changed</description>
+							<id>4</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_I1</name>
+							<description>Input 2 of block 1 has changed</description>
+							<id>5</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_I2</name>
+							<description>Input 2 of block 1 has changed</description>
+							<id>6</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_I3</name>
+							<description>Input 3 of block 1 has changed</description>
+							<id>7</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_TH0</name>
+							<description>HSC of block 0 has crossed Threshold 0</description>
+							<id>8</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_TH1</name>
+							<description>HSC of block 0 has crossed Threshold 1</description>
+							<id>9</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_TH2</name>
+							<description>HSC of block 0 has crossed Threshold 2</description>
+							<id>10</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_TH3</name>
+							<description>HSC of block 0 has crossed Threshold 3</description>
+							<id>11</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_TH0</name>
+							<description>HSC of block 1 has crossed Threshold 0</description>
+							<id>12</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_TH1</name>
+							<description>HSC of block 1 has crossed Threshold 1</description>
+							<id>13</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_TH2</name>
+							<description>HSC of block 1 has crossed Threshold 2</description>
+							<id>14</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_TH3</name>
+							<description>HSC of block 1 has crossed Threshold 3</description>
+							<id>15</id>
+						</externalevent>				
+						<externalevent>
+							<name>ENCODER_TH0</name>
+							<description>Encoder has crossed Threshold 0</description>
+							<id>12</id>
+						</externalevent>
+						<externalevent>
+							<name>ENCODER_TH1</name>
+							<description>Encoder has crossed Threshold 1</description>
+							<id>13</id>
+						</externalevent>
+						<externalevent>
+							<name>ENCODER_TH2</name>
+							<description>Encoder has crossed Threshold 2</description>
+							<id>14</id>
+						</externalevent>
+						<externalevent>
+							<name>ENCODER_TH3</name>
+							<description>Encoder has crossed Threshold 3</description>
+							<id>15</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK0_HSCSTOP</name>
+							<description>HSC of block 0 has stopped (One-shot)</description>
+							<id>12</id>
+						</externalevent>
+						<externalevent>
+							<name>BLOCK1_HSCSTOP</name>
+							<description>HSC of block 1 has stopped (One-shot)</description>
+							<id>13</id>
+						</externalevent>
+						<externalevent>
+							<name>CAN0_SYNC</name>
+							<description>SYNC motion signal event on CAN0</description>
+							<id>14</id>
+						</externalevent>
+					</externalevents>
+				]]>
+          </ts:value>
+        </ts:setting>
+        <ts:setting name="customparameterlist" type="cdata" access="visible">
+          <ts:value/>
+        </ts:setting>
+        <ts:setting name="intervalparameterlist" type="cdata" access="visible">
+          <ts:value/>
+        </ts:setting>
+        <ts:setting name="freewheelingparameterlist" type="cdata" access="visible">
+          <ts:value/>
+        </ts:setting>
+        <ts:setting name="eventparameterlist" type="cdata" access="visible">
+          <ts:value/>
+        </ts:setting>
+        <ts:setting name="systemevents" type="cdata" access="visible">
+          <ts:value/>
+        </ts:setting>
+        <setting name="prohibit-duplicate-priorities" type="boolean" access="visible">
+          <value>1</value>
+        </setting>
+      </ts:section>
+      <ts:section name="library-management">
+        <ts:section name="placeholder-libraries">
+          <!-- **********************************************  3S Placeholder  ***************************************************** -->
+          <ts:setting name="IODrvEtherCAT" type="string" access="visible">
+            <ts:value>IODrvEtherCAT, 3.4.1.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvBase" type="string" access="visible">
+            <ts:value>IoDrvBase, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CanConfig" type="string" access="visible">
+            <ts:value>3S CANopenStack, 3.4.1.70 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="3S CANopenStack" type="string" access="visible">
+            <ts:value>3S CANopenStack, 3.4.1.70 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="3S CANopenDevice" type="string" access="visible">
+            <ts:value>3S CANopenDevice, 3.4.1.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="ModbusTCP Slave" type="string" access="visible">
+            <ts:value>ModbusTCP Slave, 3.4.1.10 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvModbusTCP" type="string" access="visible">
+            <ts:value>IoDrvModbusTCP, 3.4.1.70 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvCIFXDeviceNet" type="string" access="visible">
+            <ts:value>IoDrvCIFXDeviceNet, 3.4.0.10 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="Rts Service Handler" type="string" access="visible">
+            <ts:value>Rts Service Handler, 3.4.1.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpApp" type="string" access="visible">
+            <ts:value>CmpApp, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpAsyncMgr" type="string" access="visible">
+            <ts:value>CmpAsyncMgr, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpBinTagUtilIec" type="string" access="visible">
+            <ts:value>CmpBinTagUtilIec, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpBitmapPool" type="string" access="visible">
+            <ts:value>CmpBitmapPool, 3.0.2.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpChannelClientIec" type="string" access="visible">
+            <ts:value>CmpChannelClientIec, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpChecksum" type="string" access="visible">
+            <ts:value>CmpChecksum, 3.3.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpDynamicText" type="string" access="visible">
+            <ts:value>CmpDynamicText, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpErrors" type="string" access="visible">
+            <ts:value>CmpErrors, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpEventMgr" type="string" access="visible">
+            <ts:value>CmpEventMgr, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpIecTask" type="string" access="visible">
+            <ts:value>CmpIecTask, 3.3.2.30 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpIecVarAccess" type="string" access="visible">
+            <ts:value>CmpIecVarAccess, 3.4.1.30 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpIoDrvC" type="string" access="visible">
+            <ts:value>CmpIoDrvC, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpIoMgr" type="string" access="visible">
+            <ts:value>CmpIoMgr, 3.1.3.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpLog" type="string" access="visible">
+            <ts:value>CmpLog, 3.4.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpNameServiceClientIec" type="string" access="visible">
+            <ts:value>CmpNameServiceClientIec, 3.4.1.30 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpRouter" type="string" access="visible">
+            <ts:value>CmpRouter, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpSchedule" type="string" access="visible">
+            <ts:value>CmpSchedule, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpSettings" type="string" access="visible">
+            <ts:value>CmpSettings, 3.0.2.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpSrv" type="string" access="visible">
+            <ts:value>CmpSrv, 3.3.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="CmpVisuHandler" type="string" access="visible">
+            <ts:value>CmpVisuHandler, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="Component Manager" type="string" access="visible">
+            <ts:value>Component Manager, 3.4.1.10 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvCifXBase" type="string" access="visible">
+            <ts:value>IoDrvCifXBase, 3.4.3.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvCIFXProfibus" type="string" access="visible">
+            <ts:value>IoDrvCIFXProfibus, 3.4.1.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvCIFXProfiNet" type="string" access="visible">
+            <ts:value>IoDrvCIFXProfiNet, 3.4.1.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoStandard" type="string" access="visible">
+            <ts:value>IoStandard, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SDO Server" type="string" access="visible">
+            <ts:value>SDO Server, 3.4.0.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysCom" type="string" access="visible">
+            <ts:value>SysCom, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysCpuHandling" type="string" access="visible">
+            <ts:value>SysCpuHandling, 3.4.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysDir" type="string" access="visible">
+            <ts:value>SysDir, 3.0.2.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysEvent" type="string" access="visible">
+            <ts:value>SysEvent, 3.0.2.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysExcept" type="string" access="visible">
+            <ts:value>SysExcept, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysFile" type="string" access="visible">
+            <ts:value>SysFile, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysFileAsync" type="string" access="visible">
+            <ts:value>SysFileAsync, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysInt" type="string" access="visible">
+            <ts:value>SysInt, 3.0.2.1 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysMem" type="string" access="visible">
+            <ts:value>SysMem, 3.2.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysPci" type="string" access="visible">
+            <ts:value>SysPci, 3.0.2.1 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysPort" type="string" access="visible">
+            <ts:value>SysPort, 3.0.2.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysProcess" type="string" access="visible">
+            <ts:value>SysProcess, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysSem" type="string" access="visible">
+            <ts:value>SysSem, 3.2.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysSemProcess" type="string" access="visible">
+            <ts:value>SysSemProcess, 3.0.2.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysShm" type="string" access="visible">
+            <ts:value>SysShm, 3.3.1.10 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysSocket" type="string" access="visible">
+            <ts:value>SysSocket, 3.4.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTarget" type="string" access="visible">
+            <ts:value>SysTarget, 3.4.0.0 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTask" type="string" access="visible">
+            <ts:value>SysTask, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTime" type="string" access="visible">
+            <ts:value>SysTime, 3.4.1.20 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTimeCore" type="string" access="visible">
+            <ts:value>SysTimeCore, 3.4.1.20 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTimer" type="string" access="visible">
+            <ts:value>SysTimer, 3.3.1.40 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTimeRtc" type="string" access="visible">
+            <ts:value>SysTimeRtc, 3.4.1.20 (System)</ts:value>
+          </ts:setting>
+          <ts:setting name="SysTypes" type="string" access="visible">
+            <ts:value>SysTypes, 3.1.2.0 (System)</ts:value>
+            <!--Do not use SysTypes any more, use ISysTypes instead -->
+          </ts:setting>
+          <ts:setting name="CmpXMLParser" type="string" access="visible">
+            <ts:value>CmpXMLParser, 3.4.1.0 (System)</ts:value>
+          </ts:setting>
+          <!-- **********************************************  CAA Placeholder  ***************************************************** -->
+          <ts:setting name="CAA Async Manager" type="string" access="visible">
+            <ts:value>CAA Async Manager Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Behaviour Model" type="string" access="visible">
+            <ts:value>CAA Behaviour Model, 3.4.1.50 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Callback" type="string" access="visible">
+            <ts:value>CAA Callback Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA CanL2" type="string" access="visible">
+            <ts:value>CAA Can Low Level Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA CanL2I" type="string" access="visible">
+            <ts:value>CAA Can Low Level Imp Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA CANopen Manager" type="string" access="visible">
+            <ts:value>CAA CANopen Manager, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA CANopen Stack" type="string" access="visible">
+            <ts:value>CAA CANopen Stack, 3.4.1.20 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA CiA405" type="string" access="visible">
+            <ts:value>CAA CiA 405, 3.4.1.20 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA DTUtility" type="string" access="visible">
+            <ts:value>CAA DTUtil Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Element Behaviour Model" type="string" access="visible">
+            <ts:value>CAA Element Behaviour Model, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA FB Factory" type="string" access="visible">
+            <ts:value>CAA FB Factory, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA File" type="string" access="visible">
+            <ts:value>CAA File, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA GenericListAndTreeFactory" type="string" access="visible">
+            <ts:value>CAA Generic List And Tree Factory, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Instance Behaviour Model" type="string" access="visible">
+            <ts:value>CAA Instance Behaviour Model, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA List And Tree" type="string" access="visible">
+            <ts:value>CAA List And Tree, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Mathematics" type="string" access="visible">
+            <ts:value>CAA Mathematics, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA MemBlockMan" type="string" access="visible">
+            <ts:value>CAA Memory Block Manager Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Memory" type="string" access="visible">
+            <ts:value>CAA Memory, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA NetBaseSrv" type="string" access="visible">
+            <ts:value>CAA Net Base Services, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA ResMan" type="string" access="visible">
+            <ts:value>CAA Ressource Manager Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA RTCLK" type="string" access="visible">
+            <ts:value>CAA Real Time Clock Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA SegBufMan" type="string" access="visible">
+            <ts:value>CAA Segmented Buffer Manager Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA SerialCom" type="string" access="visible">
+            <ts:value>CAA SerialCom, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Settings" type="string" access="visible">
+            <ts:value>CAA Settings Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Tick" type="string" access="visible">
+            <ts:value>CAA Tick Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA TickUtil" type="string" access="visible">
+            <ts:value>CAA TickUtil Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Timer" type="string" access="visible">
+            <ts:value>CAA Timer Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Tree Behaviour Model" type="string" access="visible">
+            <ts:value>CAA Tree Behaviour Model, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA TypedElement Behaviour Model" type="string" access="visible">
+            <ts:value>CAA TypedElement Behaviour Model, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA TypedTree Behaviour Model" type="string" access="visible">
+            <ts:value>CAA TypedTree Behaviour Model, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <ts:setting name="CAA Types" type="string" access="visible">
+            <ts:value>CAA Types Extern, 3.4.1.0 (CAA Technical Workgroup)</ts:value>
+          </ts:setting>
+          <!-- **********************************************  SoftMotion Placeholders  ***************************************************** -->
+          <ts:setting name="SM3_ETC_ITF" type="string" access="visible">
+            <ts:value>SM3_ETC_ITF, 3.4.1.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <!-- **********************************************  FDT Placeholders  *************************************************************-->
+          <ts:setting name="FDT Manager" type="string" access="visible">
+            <ts:value>FDT Manager, 3.3.1.40 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="FDT_CANOpenDriver" type="string" access="visible">
+            <ts:value>FDT_CANOpenDriver, 3.4.1.30 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="FDT_CANOpenDriverEvt" type="string" access="visible">
+            <ts:value>FDT_CANOpenDriverEvt, 3.3.1.60 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="FDT_ProfibusDriver" type="string" access="visible">
+            <ts:value>FDT_ProfibusDriver, 3.4.0.0 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+
+          <!-- 3S Schneider Specific -->
+          <ts:setting name="SE_ModbusIOScanner" type="string" access="visible">
+            <ts:value>IoDrvModbusSerial, 3.4.1.80 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_Distributed_IO" type="string" access="visible">
+            <ts:value>IoDrvDistributedIO, 3.3.0.4 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SM3_Drive_CAN" type="string" access="visible">
+            <ts:value>SM3_Drive_CAN, 3.4.1.50 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="SM3_Drive_CAN_Schneider_Lexium05" type="string" access="visible">
+            <ts:value>SM3_Drive_CAN_Schneider_Lexium05, 3.3.1.40 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="SM3_Drive_CAN_Schneider_Lexium32" type="string" access="visible">
+            <ts:value>SM3_Drive_CAN_Schneider_Lexium32, 3.3.1.40 (3S - Smart Software Solutions GmbH)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_DataLogging" type="string" access="visible">
+            <ts:value>DataLogging, 3.2.0.15 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_ToolboxAdvance" type="string" access="visible">
+            <ts:value>Toolbox_Advance, 1.0.0.1 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvSlave" type="string" access="visible">
+            <ts:value>IoDrvSlave, 1.35.2.7 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_LMC_Utility" type="string" access="visible">
+            <ts:value>SE_LMC_Utility, 1.31.10.0 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SystemInterface" type="string" access="visible">
+            <ts:value>SystemInterface, 1.31.10.0 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SystemConfigurationItf" type="string" access="visible">
+            <ts:value>SystemConfigurationItf, 1.34.1.0 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvPROFIBUSDPV1Slave" type="string" access="visible">
+            <ts:value>IoDrvPROFIBUSDPV1Slave, 1.35.0.5 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvTM5PCDPS" type="string" access="visible">
+            <ts:value>IoDrvTM5PCDPS, 1.0.0.18 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="IoDrvTM5SEAISG" type="string" access="visible">
+            <ts:value>IoDrvTM5SEAISG, 3.3.1.5 (Schneider Electric)</ts:value>
+          </ts:setting>
+
+          <!--M258 Placeholder-->
+          <ts:setting name="SE_PLCCommunication" type="string" access="visible">
+            <ts:value>PLCCommunication, 1.0.2.14 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_M2XXCommunication" type="string" access="visible">
+            <ts:value>M2xx Communication, 2.0.1.5 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_PLCSystem" type="string" access="visible">
+            <ts:value>M258 PLCSystem, 1.0.2.6 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_RelocationTable" type="string" access="visible">
+            <ts:value>M258 Relocation Table, 1.0.0.4 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_ExpertIO" type="string" access="visible">
+            <ts:value>M258 Expert IO, 1.0.1.14 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_Motion" type="string" access="visible">
+            <ts:value>LMC058 Motion, 1.0.1.3 (Schneider Electric)</ts:value>
+          </ts:setting>
+          <ts:setting name="SE_Modem" type="string" access="visible">
+            <ts:value>Modem, 1.0.0.4 (Schneider Electric)</ts:value>
+          </ts:setting>
+        </ts:section>
+      </ts:section>
+      <ts:section name="dataserver">
+        <ts:setting name="supportedbydevice" type="boolean" access="visible">
+          <!-- If this value is set to true, then it is possible to insert dataserver objects below plcs of this device type. Otherwise, no 
+					 dataserver objects can be inserted and applications that try to use the dataserver anyway will generate compile errors.
+					 The default value is 1 for compatibility reasons. -->
+          <ts:value>0</ts:value>
+        </ts:setting>
+      </ts:section>
+      <ts:section name="visualization">
+        <ts:section name="targetsupport">
+          <ts:setting name="targetvisualization" type="boolean" access="visible">
+            <!-- If this value is set to true, then this runtime supports the targetvisualization -->
+            <ts:value>0</ts:value>
+          </ts:setting>
+          <ts:setting name="visualizationinplc" type="boolean" access="visible">
+            <!-- If this value is set to true, then this runtime supports the execution of the visualization code -->
+            <ts:value>0</ts:value>
+          </ts:setting>
+        </ts:section>
+      </ts:section>
+      <ts:section name="symbolconfiguration">
+        <ts:setting name="max-area-size" type="integer" access="visible">
+          <ts:value>2048000</ts:value>
+        </ts:setting>
+        <ts:setting name="generate_as_separate_application" type="boolean" access="edit">
+          <!-- If this value is set to false, the symbolconfiguration will be generated in the application itself and not as a separate child application. -->
+          <ts:value>0</ts:value>
+        </ts:setting>
+      </ts:section>
+      <!--ts:section name="RecipeManager">
+			<ts:setting name="FilePath" type="string" access="readonly">
+				<ts:value>/usr/Rcp</ts:value>
+			</ts:setting>
+			<ts:setting name="FileExtension" type="string" access="readonly">
+				<ts:value>.rcp</ts:value>
+			</ts:setting>
+			</ts:section-->
+      <ts:section name="deviceconfiguration">
+        <ts:setting name="manual-address-allowed" type="boolean" access="visible">
+          <ts:value>false</ts:value>
+        </ts:setting>
+        <ts:setting name="enablePlcOptionsStopProgram" type="boolean" access="visible">
+          <ts:value>false</ts:value>
+        </ts:setting>
+      </ts:section>
+      <ts:section name="onlinemanager">
+        <ts:setting name="OnlineApplication-typeguid" type="string" access="readonly">
+          <ts:value>{DB0F535C-CD3E-4bbf-AE0F-F72EB4C2113B}</ts:value>
+        </ts:setting>
+        <ts:setting name="communication-buffer-size" type="integer" access="visible">
+          <ts:value>90000</ts:value>
+        </ts:setting>
+      </ts:section>
+    </ts:TargetSettings>
+  </Content>
+
+  <Content key="#Custom">
+    <se:MemoryManagement>
+      <se:InternalRamStart>0x00000000</se:InternalRamStart>
+      <!--Modif by LDE-->
+      <se:PlcStartAddrSysBits>0x00000010</se:PlcStartAddrSysBits>
+      <!--OK-->
+      <se:PlcStartAddrSysWords>0x0000002C</se:PlcStartAddrSysWords>
+      <!--External-->
+      <!--Total external size is 0x38000 instep 1, 2, 2+ -->
+      <!--ExternalRamSize = TotalExternalSize - MetadataAreaSize-->
+      <se:ExternalRamSize condition="catalogVersion lt v1200">0x38000</se:ExternalRamSize>
+      <se:ExternalRamSize condition="catalogVersion gte v1200">0x2D000</se:ExternalRamSize>
+      <!--from step 3 we add the exact size of the display setup and we remove the size of the metadata (see below) -->
+      <!--ExternalRamSizeWithDisplay = TotalExternalSize - MetadataAreaSize + Display setup application-->
+      <se:ExternalRamSizeWithDisplay condition="catalogVersion gte v1200" conditionEnd="catalogVersion lt v1600">0x352B8</se:ExternalRamSizeWithDisplay>
+      <se:ExternalRamSizeWithDisplay condition="catalogVersion gte v1600">0x36250</se:ExternalRamSizeWithDisplay>
+      <!--ExternalRamStart = MetadataAreaStart + MetadataAreaSize-->
+      <!--WARNING: the ExternalRamStart MUST end with 8000 otherwise the generated code in the FW is wrong -->
+      <se:ExternalRamStart condition="catalogVersion lt v1200">0x07008000</se:ExternalRamStart>
+      <se:ExternalRamStart condition="catalogVersion gte v1200">0x07018000</se:ExternalRamStart>
+      <!--OK-->
+      <se:InternalRamAppStart>0x00000200</se:InternalRamAppStart>
+      <!--OK-->
+      <se:InternalRamSize>130560</se:InternalRamSize>
+      <!--OK-->
+      <se:InternalRamAppSize>32256</se:InternalRamAppSize>
+      <!--Added by LDE-->
+      <se:InternalBitsMax condition="catalogVersion lt v1200">512</se:InternalBitsMax>
+      <se:InternalBitsMax condition="catalogVersion gte v1200">1024</se:InternalBitsMax>
+      <!--Metadata-->
+      <se:MetadataAreaStart condition="catalogVersion gte v1200">0x0700D000</se:MetadataAreaStart>
+      <!--If Metadata size change, you need to update ExternalRamSize and ExternalRamStart-->
+      <se:MetadataAreaSize condition="catalogVersion gte v1200">0xB000</se:MetadataAreaSize>
+      <!--OK-->
+      <se:MemoryWordsMax>8000</se:MemoryWordsMax>
+      <se:MemoryConstantWordsMax>512</se:MemoryConstantWordsMax>
+      <!--OK-->
+      <se:InternalEepromSize>32</se:InternalEepromSize>
+      <!--OK-->
+    </se:MemoryManagement>
+
+    <se:prenaming symbolIdTemplate="{Address}.Symbol" commentIdTemplate="{Address}.Comment" applyForSystemBit="true" applyForSystemWord="true"/>
+    <se:FormatKey>FormatKey</se:FormatKey>
+    <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+    <se:InputKey>InputKey</se:InputKey>
+    <se:OutputKey>OutputKey</se:OutputKey>
+    <se:ModuleTypeKey>ModuleTypeKey</se:ModuleTypeKey>
+    <se:PowerSupplyKey>PowerSupplyKey</se:PowerSupplyKey>
+    <se:CommPortsKey>CommPortsKey</se:CommPortsKey>
+    <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+    <se:PrenamingSymbolPrefix/>
+    <se:SystemObjectReadOnly>
+      <se:Exception>%S4</se:Exception>
+      <se:Exception>%S5</se:Exception>
+      <se:Exception>%S6</se:Exception>
+      <se:Exception>%S7</se:Exception>
+      <se:Exception>%S10</se:Exception>
+      <se:Exception>%S11</se:Exception>
+      <se:Exception>%S12</se:Exception>
+      <se:Exception>%S13</se:Exception>
+      <se:Exception>%S14</se:Exception>
+      <se:Exception>%S15</se:Exception>
+      <se:Exception>%S16</se:Exception>
+      <se:Exception>%S52</se:Exception>
+      <se:Exception>%S75</se:Exception>
+      <se:Exception>%S92</se:Exception>
+      <se:Exception>%S96</se:Exception>
+      <se:Exception>%S119</se:Exception>
+      <se:Exception>%SW6</se:Exception>
+      <se:Exception>%SW7</se:Exception>
+      <se:Exception>%SW13</se:Exception>
+      <se:Exception>%SW14</se:Exception>
+      <se:Exception>%SW15</se:Exception>
+      <se:Exception>%SW16</se:Exception>
+      <se:Exception>%SW48</se:Exception>
+      <se:Exception>%SW54</se:Exception>
+      <se:Exception>%SW55</se:Exception>
+      <se:Exception>%SW56</se:Exception>
+      <se:Exception>%SW57</se:Exception>
+      <se:Exception>%SW58</se:Exception>
+	  <se:Exception>%SW61</se:Exception>
+      <se:Exception>%SW62</se:Exception>
+      <se:Exception>%SW63</se:Exception>
+      <se:Exception>%SW64</se:Exception>
+      <se:Exception>%SW65</se:Exception>
+      <se:Exception>%SW67</se:Exception>
+      <se:Exception>%SW75</se:Exception>
+      <se:Exception>%SW94</se:Exception>
+      <se:Exception>%SW95</se:Exception>
+      <se:Exception>%SW96</se:Exception>
+      <se:Exception>%SW98</se:Exception>
+      <se:Exception>%SW99</se:Exception>
+      <se:Exception>%SW100</se:Exception>
+      <se:Exception>%SW107</se:Exception>
+      <se:Exception>%SW108</se:Exception>
+      <se:Exception>%SW109</se:Exception>
+      <se:Exception>%SW118</se:Exception>
+      <se:Exception>%SW119</se:Exception>
+      <se:Exception>%SW120</se:Exception>
+      <se:Exception>%SW128</se:Exception>
+      <se:Exception>%SW129</se:Exception>
+      <se:Exception>%SW139</se:Exception>
+      <se:Exception>%SW147</se:Exception>
+      <se:Exception>%SW167</se:Exception>
+      <se:Exception>%SW168</se:Exception>
+      <se:Exception>%SW182</se:Exception>
+      <se:Exception>%SW183</se:Exception>
+      <se:Exception>%SW185</se:Exception>
+      <se:Exception>%SW202</se:Exception>
+      <se:Exception>%SW203</se:Exception>
+      <se:Exception>%SW204</se:Exception>
+      <se:Exception>%SW205</se:Exception>
+      <se:Exception>%SW207</se:Exception>
+      <se:Exception>%SW210</se:Exception>
+      <se:Exception>%SW211</se:Exception>
+      <se:Exception>%SW212</se:Exception>
+    </se:SystemObjectReadOnly>
+  </Content>
+
+  <Content key="#Configuration">
+    <!--Needed items - Added by Fred-->
+    <!--From Twido.rls.xml-->
+    <se:AcceptedLeftModuleMax>0</se:AcceptedLeftModuleMax>
+    <!-- 0 -->
+    <!--From DBF file-->
+    <se:ConnectorsAvailable>0x01aa</se:ConnectorsAvailable>
+
+    <!-- #region: COMM Configuration -->
+    <se:ComTechnicalConfiguration condition="catalogVersion eq v1100">
+      <se:ReadVarBasicMax>4</se:ReadVarBasicMax>
+      <se:WriteVarBasicMax>5</se:WriteVarBasicMax>
+      <se:WriteReadVarBasicMax>6</se:WriteReadVarBasicMax>
+      <se:SendRecvMsgBasicMax>7</se:SendRecvMsgBasicMax>
+    </se:ComTechnicalConfiguration>
+    <!-- #endregion -->
+
+    <!-- #region: COMM Configuration -->
+    <se:ComTechnicalConfiguration condition="catalogVersion gte v1200" conditionEnd="catalogVersion lt v2400">
+      <se:ReadVarBasicMax>16</se:ReadVarBasicMax>
+      <se:WriteVarBasicMax>16</se:WriteVarBasicMax>
+      <se:WriteReadVarBasicMax>16</se:WriteReadVarBasicMax>
+      <se:SendRecvMsgBasicMax>16</se:SendRecvMsgBasicMax>
+      <se:SendRecvSmsMax condition="catalogVersion gte v1400">1</se:SendRecvSmsMax>
+    </se:ComTechnicalConfiguration>
+    <!-- #endregion -->
+
+    <!-- #region: COMM Configuration -->
+    <se:ComTechnicalConfiguration condition="catalogVersion gte v2400">
+      <se:ReadVarBasicMax>32</se:ReadVarBasicMax>
+      <se:WriteVarBasicMax>32</se:WriteVarBasicMax>
+      <se:WriteReadVarBasicMax>32</se:WriteReadVarBasicMax>
+      <se:SendRecvMsgBasicMax>16</se:SendRecvMsgBasicMax>
+      <se:SendRecvSmsMax>1</se:SendRecvSmsMax>
+    </se:ComTechnicalConfiguration>
+    <!-- #endregion -->
+
+    <!-- to manage Xintu not supporting backup in RUN -->
+    <se:CanBackupInRun>true</se:CanBackupInRun>
+    <!-- ??? -->
+    <se:InternalRTC>true</se:InternalRTC>
+    <!-- true -->
+    <!--END Needed items - Added by Fred-->
+    <se:Compatibility>0</se:Compatibility>
+    <!--Not found-->
+    <se:FourInputsEventTask>0x05040302</se:FourInputsEventTask>
+    <!--OK-->
+    <se:GrafcetBitsMax condition="catalogVersion lt v2300">96</se:GrafcetBitsMax>
+    <se:GrafcetBitsMax condition="catalogVersion gte v2300">200</se:GrafcetBitsMax>
+    <!--OK-->
+    <se:LabelsMax>64</se:LabelsMax>
+    <!---->
+    <se:LoopConditionsMax condition="catalogVersion lt v2000">0</se:LoopConditionsMax>
+    <se:LoopConditionsMax condition="catalogVersion gte v2000">128</se:LoopConditionsMax>
+    <!--OK-->
+    <se:LfRegistersMax>4</se:LfRegistersMax>
+    <!--OK-->
+    <!--OK-->
+    <se:NumRelaysMax>9999</se:NumRelaysMax>
+    <!--OK-->
+    <!--OK-->
+    <se:NumTransistorsMax>9999</se:NumTransistorsMax>
+    <!--OK-->
+    <se:PidAmountMax>14</se:PidAmountMax>
+    <!--OK-->
+    <se:PlcNumberSysBits>160</se:PlcNumberSysBits>
+    <!--OK-->
+    <se:PlcNumberSysWords>234</se:PlcNumberSysWords>
+    <!--OK-->
+    <se:TimersMax>255</se:TimersMax>
+    <!--OK-->
+    <se:AnalogInputPrecision>1</se:AnalogInputPrecision>
+    <!--OK-->
+    <se:AnalogOutputPrecision>0</se:AnalogOutputPrecision>
+    <!--OK-->
+    <se:StepCountersMax>8</se:StepCountersMax>
+    <!--Not found-->
+    <se:CountersMax>255</se:CountersMax>
+    <!--OK-->
+    <se:FastCountersMax>4</se:FastCountersMax>
+    <!--OK-->
+    <se:DrumsMax>8</se:DrumsMax>
+    <!--OK-->
+    <se:ScheduleBlocksMax>16</se:ScheduleBlocksMax>
+    <!--Not found-->
+    <se:ShiftBitRegistersMax>8</se:ShiftBitRegistersMax>
+    <!--Not found-->
+    <se:SubroutinesMax>64</se:SubroutinesMax>
+
+    <se:UDFMax condition="catalogVersion lt v2000">0</se:UDFMax>
+    <se:UDFMax condition="catalogVersion gte v2000">64</se:UDFMax>
+
+    <se:UDFObjectsMax condition="catalogVersion lt v2000">0</se:UDFObjectsMax>
+    <se:UDFObjectsMax condition="catalogVersion gte v2000">4096</se:UDFObjectsMax>
+    
+    <!--OK-->
+    <se:SupportDoubleWord>true</se:SupportDoubleWord>
+    <!--OK-->
+    <se:SupportEvents>true</se:SupportEvents>
+    <!--OK-->
+    <se:SupportFloatingPoint>true</se:SupportFloatingPoint>
+    <!--OK-->
+    <se:NumberOf1MsTimerBase>6</se:NumberOf1MsTimerBase>
+    <!--OK-->
+    <se:DefaultAllocatedMemoryBit condition="catalogVersion eq v1100">1000</se:DefaultAllocatedMemoryBit>
+    <se:DefaultAllocatedMemoryBit condition="catalogVersion gte v1200">512</se:DefaultAllocatedMemoryBit>
+    <se:DefaultAllocatedMemoryWord condition="catalogVersion gte v1100">2000</se:DefaultAllocatedMemoryWord>
+
+    <se:HSC0ReflexOutput0>2</se:HSC0ReflexOutput0>
+    <se:HSC0ReflexOutput1>3</se:HSC0ReflexOutput1>
+    <se:HSC1ReflexOutput0>4</se:HSC1ReflexOutput0>
+    <se:HSC1ReflexOutput1>5</se:HSC1ReflexOutput1>
+    <se:HSC2ReflexOutput0 condition="catalogVersion gte v1200">2</se:HSC2ReflexOutput0>
+    <se:HSC2ReflexOutput1 condition="catalogVersion gte v1200">3</se:HSC2ReflexOutput1>
+    <se:HSC3ReflexOutput0 condition="catalogVersion gte v1200">4</se:HSC3ReflexOutput0>
+    <se:HSC3ReflexOutput1 condition="catalogVersion gte v1200">5</se:HSC3ReflexOutput1>
+    <se:IsCwCcwAllowed>false</se:IsCwCcwAllowed>
+    <se:IsOneShotAllowed>false</se:IsOneShotAllowed>
+    <se:IsModuloLoopAllowed>false</se:IsModuloLoopAllowed>
+
+    <!-- Start with auto run forced allowed -->
+    <se:AllowStartWithAutoRunForced condition="catalogVersion gte v1300">true</se:AllowStartWithAutoRunForced>
+
+    <se:ModbusIoScanTM3BCMax condition="catalogVersion lt v2500">0</se:ModbusIoScanTM3BCMax>
+    <se:ModbusIoScanTM3BCMax condition="catalogVersion gte v2500">2</se:ModbusIoScanTM3BCMax>
+    <se:ModbusIoScanManagerMax condition="catalogVersion lt v1800">0</se:ModbusIoScanManagerMax>
+    <se:ModbusIoScanManagerMax condition="catalogVersion gte v1800">16</se:ModbusIoScanManagerMax>
+    <se:ModbusIoScanDigitalInputsMax condition="catalogVersion lt v1800">0</se:ModbusIoScanDigitalInputsMax>
+    <se:ModbusIoScanDigitalInputsMax condition="catalogVersion gte v1800" conditionEnd="catalogVersion lt v2500">128</se:ModbusIoScanDigitalInputsMax>
+    <se:ModbusIoScanDigitalInputsMax condition="catalogVersion gte v2500">512</se:ModbusIoScanDigitalInputsMax>
+    <se:ModbusIoScanDigitalOutputsMax condition="catalogVersion lt v1800">0</se:ModbusIoScanDigitalOutputsMax>
+    <se:ModbusIoScanDigitalOutputsMax condition="catalogVersion gte v1800" conditionEnd="catalogVersion lt v2500">128</se:ModbusIoScanDigitalOutputsMax>
+    <se:ModbusIoScanDigitalOutputsMax condition="catalogVersion gte v2500">512</se:ModbusIoScanDigitalOutputsMax>
+    <se:ModbusIoScanRegisterInputsMax condition="catalogVersion lt v1800">0</se:ModbusIoScanRegisterInputsMax>
+    <se:ModbusIoScanRegisterInputsMax condition="catalogVersion gte v1800" conditionEnd="catalogVersion lt v2000">128</se:ModbusIoScanRegisterInputsMax>
+    <se:ModbusIoScanRegisterInputsMax condition="catalogVersion gte v2000">512</se:ModbusIoScanRegisterInputsMax>
+    <se:ModbusIoScanRegisterOutputsMax condition="catalogVersion lt v1800">0</se:ModbusIoScanRegisterOutputsMax>
+    <se:ModbusIoScanRegisterOutputsMax condition="catalogVersion gte v1800" conditionEnd="catalogVersion lt v2000">128</se:ModbusIoScanRegisterOutputsMax>
+    <se:ModbusIoScanRegisterOutputsMax condition="catalogVersion gte v2000">512</se:ModbusIoScanRegisterOutputsMax>
+    <se:ModbusIoScanChannelMax condition="catalogVersion lt v1800">0</se:ModbusIoScanChannelMax>
+    <se:ModbusIoScanChannelMax condition="catalogVersion gte v1800">10</se:ModbusIoScanChannelMax>
+    <se:ModbusIoScanInitRequestMax condition="catalogVersion lt v1800">0</se:ModbusIoScanInitRequestMax>
+    <se:ModbusIoScanInitRequestMax condition="catalogVersion gte v1800">20</se:ModbusIoScanInitRequestMax>
+
+    <!-- /!\ Also modify value in TwidoProjectHelper (ConvertTwidoFile() method) if necessary -->
+    <se:MaxProgramLines condition="catalogVersion gte v1200">12000</se:MaxProgramLines>
+    <se:MaxProgramLines condition="catalogVersion lt v1200">10000</se:MaxProgramLines>
+
+    <se:RtcMax condition="catalogVersion lt v1800">0</se:RtcMax>
+    <se:RtcMax condition="catalogVersion gte v1800">2</se:RtcMax>
+    <se:DriveMax condition="catalogVersion lt v1800">0</se:DriveMax>
+    <se:DriveMax condition="catalogVersion gte v1800">16</se:DriveMax>
+    <se:DataLoggingMax condition="catalogVersion lt v2000">0</se:DataLoggingMax>
+    <se:DataLoggingMax condition="catalogVersion gte v2000">4</se:DataLoggingMax>
+    <se:UdfbInstanceMax condition="catalogVersion lt v2000">0</se:UdfbInstanceMax>
+    <se:UdfbInstanceMax condition="catalogVersion gte v2000">32</se:UdfbInstanceMax>
+
+    <!-- Drive Technical Configuration -->
+    <se:DriveTechnicalConfiguration condition="catalogVersion lt v1800">
+      <se:McPowerAtvMax>0</se:McPowerAtvMax>
+      <se:McJogAtvMax>0</se:McJogAtvMax>
+      <se:McMoveVelAtvMax>0</se:McMoveVelAtvMax>
+      <se:McStopAtvMax>0</se:McStopAtvMax>
+      <se:McReadStatusAtvMax>0</se:McReadStatusAtvMax>
+      <se:McReadMotionStateAtvMax>0</se:McReadMotionStateAtvMax>
+      <se:McResetAtvMax>0</se:McResetAtvMax>
+    </se:DriveTechnicalConfiguration>
+    
+    <!-- Drive Technical Configuration -->
+    <se:DriveTechnicalConfiguration condition="catalogVersion gte v1800">
+        <se:McPowerAtvMax>16</se:McPowerAtvMax>
+        <se:McJogAtvMax>16</se:McJogAtvMax>
+        <se:McMoveVelAtvMax>16</se:McMoveVelAtvMax>
+        <se:McStopAtvMax>16</se:McStopAtvMax>
+        <se:McReadStatusAtvMax>16</se:McReadStatusAtvMax>
+        <se:McReadMotionStateAtvMax>16</se:McReadMotionStateAtvMax>
+        <se:McResetAtvMax>16</se:McResetAtvMax>
+    </se:DriveTechnicalConfiguration>
+
+    <se:RisingMax condition="catalogVersion lt v2000">0</se:RisingMax>
+    <se:RisingMax condition="catalogVersion gte v2000" conditionEnd="catalogVersion lt v2400">32</se:RisingMax>
+    <se:RisingMax condition="catalogVersion gte v2400">255</se:RisingMax>
+    <se:FallingMax condition="catalogVersion lt v2000">0</se:FallingMax>
+    <se:FallingMax condition="catalogVersion gte v2000" conditionEnd="catalogVersion lt v2400">32</se:FallingMax>
+    <se:FallingMax condition="catalogVersion gte v2400">255</se:FallingMax>
+    
+  </Content>
+
+  <Content key="#PTO_TechnicalConfiguration">
+    <!-- PTO Technical Configuration -->
+    <se:PtoTechnicalConfiguration condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1400">
+      <se:McPowerPtoMax>2</se:McPowerPtoMax>
+      <se:McMoveVelPtoMax>16</se:McMoveVelPtoMax>
+      <se:McMoveRelPtoMax>16</se:McMoveRelPtoMax>
+      <se:McMoveAbsPtoMax>16</se:McMoveAbsPtoMax>
+      <se:McHomePtoMax>2</se:McHomePtoMax>
+      <se:McSetPosPtoMax>2</se:McSetPosPtoMax>
+      <se:McStopPtoMax>16</se:McStopPtoMax>
+      <se:McHaltPtoMax>16</se:McHaltPtoMax>
+      <se:McReadActVelPtoMax>4</se:McReadActVelPtoMax>
+      <se:McReadActPosPtoMax>4</se:McReadActPosPtoMax>
+      <se:McReadStsPtoMax>2</se:McReadStsPtoMax>
+      <se:McReadMotionStatePtoMax>2</se:McReadMotionStatePtoMax>
+      <se:McReadAxisErrorPtoMax>2</se:McReadAxisErrorPtoMax>
+      <se:McResetPtoMax>2</se:McResetPtoMax>
+      <se:McTouchProbePtoMax>2</se:McTouchProbePtoMax>
+      <se:McAbortTriggerPtoMax>2</se:McAbortTriggerPtoMax>
+      <se:McReadParPtoMax>4</se:McReadParPtoMax>
+      <se:McWriteParPtoMax>4</se:McWriteParPtoMax>
+    </se:PtoTechnicalConfiguration>
+
+    <!-- PTO Technical Configuration -->
+    <se:PtoTechnicalConfiguration condition="catalogVersion gte v1500">
+      <se:McPowerPtoMax>86</se:McPowerPtoMax>
+      <se:McMoveVelPtoMax>86</se:McMoveVelPtoMax>
+      <se:McMoveRelPtoMax>86</se:McMoveRelPtoMax>
+      <se:McMoveAbsPtoMax>86</se:McMoveAbsPtoMax>
+      <se:McHomePtoMax>86</se:McHomePtoMax>
+      <se:McSetPosPtoMax>86</se:McSetPosPtoMax>
+      <se:McStopPtoMax>86</se:McStopPtoMax>
+      <se:McHaltPtoMax>86</se:McHaltPtoMax>
+      <se:McReadActVelPtoMax>40</se:McReadActVelPtoMax>
+      <se:McReadActPosPtoMax>40</se:McReadActPosPtoMax>
+      <se:McReadStsPtoMax>40</se:McReadStsPtoMax>
+      <se:McReadMotionStatePtoMax>40</se:McReadMotionStatePtoMax>
+      <se:McReadAxisErrorPtoMax>40</se:McReadAxisErrorPtoMax>
+      <se:McResetPtoMax>40</se:McResetPtoMax>
+      <se:McTouchProbePtoMax>40</se:McTouchProbePtoMax>
+      <se:McAbortTriggerPtoMax>40</se:McAbortTriggerPtoMax>
+      <se:McReadParPtoMax>40</se:McReadParPtoMax>
+      <se:McWriteParPtoMax>40</se:McWriteParPtoMax>
+      <se:McMotionTaskPtoMax>2</se:McMotionTaskPtoMax>
+    </se:PtoTechnicalConfiguration>
+  </Content>
+
+  <Content key="#Configuration_0_PulseTrainOutput">
+    <!-- ??? -->
+    <se:PlsPwmMax>0</se:PlsPwmMax>
+
+    <!-- Max number of Freqency Generator -->
+    <se:FreqGenMax>0</se:FreqGenMax>
+
+    <!-- Max number of PTO -->
+    <se:PtoMax>0</se:PtoMax>
+  </Content>
+
+  <Content key="#Configuration_2_PulseTrainOutput_C16">
+    <!-- ??? -->
+    <se:PlsPwmMax>2</se:PlsPwmMax>
+
+    <!-- Max number of Freqency Generator -->
+    <se:FreqGenMax condition="catalogVersion lt v1600">0</se:FreqGenMax>
+    <se:FreqGenMax condition="catalogVersion gte v1600">2</se:FreqGenMax>
+
+    <!-- Max number of PTO -->
+    <se:PtoMax condition="catalogVersion eq v1000">0</se:PtoMax>
+    <se:PtoMax condition="catalogVersion gte v1100">2</se:PtoMax>
+
+    <!-- Number of MotionTaskTable -->
+    <se:MotionTaskTableMax condition="catalogVersion gte v1500">4</se:MotionTaskTableMax>
+
+    <!-- PTO Mapping -->
+    <se:PTOIoMapping>
+      <!-- PLS0 -->
+      <se:PLS0Mapping>
+        <!-- %Q0.0 -->
+        <se:PlsOutputMapping required="true" access="read">0x0001</se:PlsOutputMapping>
+      </se:PLS0Mapping>
+      <!-- PLS1 -->
+      <se:PLS1Mapping>
+        <!-- %Q0.1 -->
+        <se:PlsOutputMapping required="true" access="read">0x0002</se:PlsOutputMapping>
+      </se:PLS1Mapping>
+      <!-- PWM0 -->
+      <se:PWM0Mapping>
+        <!-- %Q0.0 -->
+        <se:PwmOutputMapping required="true" access="read">0x0001</se:PwmOutputMapping>
+      </se:PWM0Mapping>
+      <!-- PWM1 -->
+      <se:PWM1Mapping>
+        <!-- %Q0.1 -->
+        <se:PwmOutputMapping required="true" access="read">0x0002</se:PwmOutputMapping>
+      </se:PWM1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.2 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0004</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2 -->
+        <se:RefInputMapping>0x0004</se:RefInputMapping>
+        <!-- %I0.3 -->
+        <se:ProbeInputMapping>0x0008</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.3 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0008</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.5 -->
+        <se:RefInputMapping>0x0020</se:RefInputMapping>
+        <!-- %I0.4 -->
+        <se:ProbeInputMapping>0x0010</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.6 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="2">0x007E</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.6 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="3">0x007D</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1800">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.6 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="2">0x007E</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1800">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.6 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="3">0x007D</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- FREQGEN0 -->
+      <se:FREQGEN0Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.0 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0001</se:FreqGenOutputMapping>
+      </se:FREQGEN0Mapping>
+      <!-- FREQGEN1 -->
+      <se:FREQGEN1Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.1 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0002</se:FreqGenOutputMapping>
+      </se:FREQGEN1Mapping>
+    </se:PTOIoMapping>
+    <!-- PTO Mapping -->
+
+  </Content>
+
+  <Content key="#Configuration_2_PulseTrainOutput_M16">
+    <!-- ??? -->
+    <se:PlsPwmMax>2</se:PlsPwmMax>
+
+    <!-- Max number of Freqency Generator -->
+    <se:FreqGenMax condition="catalogVersion lt v1600">0</se:FreqGenMax>
+    <se:FreqGenMax condition="catalogVersion gte v1600">2</se:FreqGenMax>
+
+    <!-- Max number of PTO -->
+    <se:PtoMax condition="catalogVersion eq v1000">0</se:PtoMax>
+    <se:PtoMax condition="catalogVersion gte v1100">2</se:PtoMax>
+
+    <!-- Number of MotionTaskTable -->
+    <se:MotionTaskTableMax condition="catalogVersion gte v1500">4</se:MotionTaskTableMax>
+
+    <!-- PTO Mapping -->
+    <se:PTOIoMapping>
+      <!-- PLS0 -->
+      <se:PLS0Mapping>
+        <!-- %Q0.0 -->
+        <se:PlsOutputMapping required="true" access="read">0x0001</se:PlsOutputMapping>
+      </se:PLS0Mapping>
+      <!-- PLS1 -->
+      <se:PLS1Mapping>
+        <!-- %Q0.1 -->
+        <se:PlsOutputMapping required="true" access="read">0x0002</se:PlsOutputMapping>
+      </se:PLS1Mapping>
+      <!-- PWM0 -->
+      <se:PWM0Mapping>
+        <!-- %Q0.0 -->
+        <se:PwmOutputMapping required="true" access="read">0x0001</se:PwmOutputMapping>
+      </se:PWM0Mapping>
+      <!-- PWM1 -->
+      <se:PWM1Mapping>
+        <!-- %Q0.1 -->
+        <se:PwmOutputMapping required="true" access="read">0x0002</se:PwmOutputMapping>
+      </se:PWM1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.2 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0004</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2 -->
+        <se:RefInputMapping>0x0004</se:RefInputMapping>
+        <!-- %I0.3 -->
+        <se:ProbeInputMapping>0x0008</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.3 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0008</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.5 -->
+        <se:RefInputMapping>0x0020</se:RefInputMapping>
+        <!-- %I0.4 -->
+        <se:ProbeInputMapping>0x0010</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.7 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="2">0x00FE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.7 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="3">0x00FD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1800">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.7 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="2">0x00FE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1800">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.7 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="3">0x00FD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- FREQGEN0 -->
+      <se:FREQGEN0Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.0 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0001</se:FreqGenOutputMapping>
+      </se:FREQGEN0Mapping>
+      <!-- FREQGEN1 -->
+      <se:FREQGEN1Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.1 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0002</se:FreqGenOutputMapping>
+      </se:FREQGEN1Mapping>
+    </se:PTOIoMapping>
+    <!-- PTO Mapping -->
+
+  </Content>
+
+  <Content key="#Configuration_2_PulseTrainOutput_C24">
+    <!-- ??? -->
+    <se:PlsPwmMax>2</se:PlsPwmMax>
+
+    <!-- Max number of Freqency Generator -->
+    <se:FreqGenMax condition="catalogVersion lt v1600">0</se:FreqGenMax>
+    <se:FreqGenMax condition="catalogVersion gte v1600">2</se:FreqGenMax>
+
+    <!-- Max number of PTO -->
+    <se:PtoMax condition="catalogVersion eq v1000">0</se:PtoMax>
+    <se:PtoMax condition="catalogVersion gte v1100">2</se:PtoMax>
+
+    <!-- Number of MotionTaskTable -->
+    <se:MotionTaskTableMax condition="catalogVersion gte v1500">4</se:MotionTaskTableMax>
+
+    <!-- PTO Mapping -->
+    <se:PTOIoMapping>
+      <!-- PLS0 -->
+      <se:PLS0Mapping>
+        <!-- %Q0.0 -->
+        <se:PlsOutputMapping required="true" access="read">0x0001</se:PlsOutputMapping>
+      </se:PLS0Mapping>
+      <!-- PLS1 -->
+      <se:PLS1Mapping>
+        <!-- %Q0.1 -->
+        <se:PlsOutputMapping required="true" access="read">0x0002</se:PlsOutputMapping>
+      </se:PLS1Mapping>
+      <!-- PWM0 -->
+      <se:PWM0Mapping>
+        <!-- %Q0.0 -->
+        <se:PwmOutputMapping required="true" access="read">0x0001</se:PwmOutputMapping>
+      </se:PWM0Mapping>
+      <!-- PWM1 -->
+      <se:PWM1Mapping>
+        <!-- %Q0.1 -->
+        <se:PwmOutputMapping required="true" access="read">0x0002</se:PwmOutputMapping>
+      </se:PWM1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.2 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0004</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2 -->
+        <se:RefInputMapping>0x0004</se:RefInputMapping>
+        <!-- %I0.3 -->
+        <se:ProbeInputMapping>0x0008</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.3 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0008</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.5 -->
+        <se:RefInputMapping>0x0020</se:RefInputMapping>
+        <!-- %I0.4 -->
+        <se:ProbeInputMapping>0x0010</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.9 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="2">0x03FE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.9 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="3">0x03FD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1800">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.9 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="2">0x03FE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1800">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.9 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="3">0x03FD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- FREQGEN0 -->
+      <se:FREQGEN0Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.0 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0001</se:FreqGenOutputMapping>
+      </se:FREQGEN0Mapping>
+      <!-- FREQGEN1 -->
+      <se:FREQGEN1Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.1 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0002</se:FreqGenOutputMapping>
+      </se:FREQGEN1Mapping>
+    </se:PTOIoMapping>
+    <!-- PTO Mapping -->
+
+  </Content>
+    
+  <Content key="#Configuration_2_PulseTrainOutput_C40_M32">
+    <!-- ??? -->
+    <se:PlsPwmMax>2</se:PlsPwmMax>
+
+    <!-- Max number of Freqency Generator -->
+    <se:FreqGenMax condition="catalogVersion lt v1600">0</se:FreqGenMax>
+    <se:FreqGenMax condition="catalogVersion gte v1600">2</se:FreqGenMax>
+
+    <!-- Max number of PTO -->
+    <se:PtoMax condition="catalogVersion eq v1000">0</se:PtoMax>
+    <se:PtoMax condition="catalogVersion gte v1100">2</se:PtoMax>
+
+    <!-- Number of MotionTaskTable -->
+    <se:MotionTaskTableMax condition="catalogVersion gte v1500">4</se:MotionTaskTableMax>
+
+    <!-- PTO Mapping -->
+    <se:PTOIoMapping>
+      <!-- PLS0 -->
+      <se:PLS0Mapping>
+        <!-- %Q0.0 -->
+        <se:PlsOutputMapping required="true" access="read">0x0001</se:PlsOutputMapping>
+      </se:PLS0Mapping>
+      <!-- PLS1 -->
+      <se:PLS1Mapping>
+        <!-- %Q0.1 -->
+        <se:PlsOutputMapping required="true" access="read">0x0002</se:PlsOutputMapping>
+      </se:PLS1Mapping>
+      <!-- PWM0 -->
+      <se:PWM0Mapping>
+        <!-- %Q0.0 -->
+        <se:PwmOutputMapping required="true" access="read">0x0001</se:PwmOutputMapping>
+      </se:PWM0Mapping>
+      <!-- PWM1 -->
+      <se:PWM1Mapping>
+        <!-- %Q0.1 -->
+        <se:PwmOutputMapping required="true" access="read">0x0002</se:PwmOutputMapping>
+      </se:PWM1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.2 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0004</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2 -->
+        <se:RefInputMapping>0x0004</se:RefInputMapping>
+        <!-- %I0.3 -->
+        <se:ProbeInputMapping>0x0008</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1100" conditionEnd="catalogVersion lte v1500">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.3 -->
+        <se:PulseDirectionSecondOutputMapping required="true" access="read">0x0008</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.5 -->
+        <se:RefInputMapping>0x0020</se:RefInputMapping>
+        <!-- %I0.4 -->
+        <se:ProbeInputMapping>0x0010</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="2">0xFFFE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1600" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="3">0xFFFD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1800">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="2">0xFFFE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1800">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="3">0xFFFD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:RefInputMapping>0x003C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5 -->
+        <se:ProbeInputMapping>0x003C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- FREQGEN0 -->
+      <se:FREQGEN0Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.0 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0001</se:FreqGenOutputMapping>
+      </se:FREQGEN0Mapping>
+      <!-- FREQGEN1 -->
+      <se:FREQGEN1Mapping condition="catalogVersion gte v1600">
+        <!-- %Q0.1 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0002</se:FreqGenOutputMapping>
+      </se:FREQGEN1Mapping>
+    </se:PTOIoMapping>
+    <!-- PTO Mapping -->
+
+  </Content>
+
+  <Content key="#Configuration_4_PulseTrainOutput">
+    <!-- ??? -->
+    <se:PlsPwmMax>2</se:PlsPwmMax>
+
+    <!-- Max number of Freqency Generator -->
+    <se:FreqGenMax condition="catalogVersion lt v1600">0</se:FreqGenMax>
+    <se:FreqGenMax condition="catalogVersion gte v1600">4</se:FreqGenMax>
+
+    <!-- Max number of PTO -->
+    <se:PtoMax>4</se:PtoMax>
+
+    <!-- Number of MotionTaskTable -->
+    <se:MotionTaskTableMax>4</se:MotionTaskTableMax>
+
+    <!-- PTO Mapping -->
+    <se:PTOIoMapping>
+      <!-- PLS0 -->
+      <se:PLS0Mapping>
+        <!-- %Q0.0 -->
+        <se:PlsOutputMapping required="true" access="read">0x0001</se:PlsOutputMapping>
+      </se:PLS0Mapping>
+      <!-- PLS1 -->
+      <se:PLS1Mapping>
+        <!-- %Q0.1 -->
+        <se:PlsOutputMapping required="true" access="read">0x0002</se:PlsOutputMapping>
+      </se:PLS1Mapping>
+      <!-- PWM0 -->
+      <se:PWM0Mapping>
+        <!-- %Q0.0 -->
+        <se:PwmOutputMapping required="true" access="read">0x0001</se:PwmOutputMapping>
+      </se:PWM0Mapping>
+      <!-- PWM1 -->
+      <se:PWM1Mapping>
+        <!-- %Q0.1 -->
+        <se:PwmOutputMapping required="true" access="read">0x0002</se:PwmOutputMapping>
+      </se:PWM1Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="4">0xFFFE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="5">0xFFFD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO2 -->
+      <se:PTO2Mapping shared="PTO3" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.2 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0004</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0 -> %Q0.1 / %Q0.3 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="6">0xFFFB</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.2 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0004</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.3 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0008</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO2Mapping>
+      <!-- PTO3 -->
+      <se:PTO3Mapping shared="PTO2" conditionEnd="catalogVersion lte v1700">
+        <!-- %Q0.3 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0008</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0 -> %Q0.2 / %Q0.4 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping required="true" defaultValue="7">0xFFF7</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO3Mapping>
+      <!-- PTO0 -->
+      <se:PTO0Mapping shared="PTO1" condition="catalogVersion gte v1800">
+        <!-- %Q0.0 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0001</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.1 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="4">0xFFFE</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.0 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0001</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.1 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0002</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO0Mapping>
+      <!-- PTO1 -->
+      <se:PTO1Mapping shared="PTO0" condition="catalogVersion gte v1800">
+        <!-- %Q0.1 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0002</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0/%Q0.2 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="5">0xFFFD</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO1Mapping>
+      <!-- PTO2 -->
+      <se:PTO2Mapping shared="PTO3" condition="catalogVersion gte v1800">
+        <!-- %Q0.2 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0004</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0 -> %Q0.1 / %Q0.3 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="6">0xFFFB</se:PulseDirectionSecondOutputMapping>
+        <!-- %Q0.2 -->
+        <se:CwCcwFirstOutputMapping required="true" access="read">0x0004</se:CwCcwFirstOutputMapping>
+        <!-- %Q0.3 -->
+        <se:CwCcwSecondOutputMapping required="true" access="read">0x0008</se:CwCcwSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO2Mapping>
+      <!-- PTO3 -->
+      <se:PTO3Mapping shared="PTO2" condition="catalogVersion gte v1800">
+        <!-- %Q0.3 -->
+        <se:PulseDirectionFirstOutputMapping required="true" access="read">0x0008</se:PulseDirectionFirstOutputMapping>
+        <!-- %Q0.0 -> %Q0.2 / %Q0.4 -> %Q0.15 -->
+        <se:PulseDirectionSecondOutputMapping defaultValue="7">0xFFF7</se:PulseDirectionSecondOutputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:RefInputMapping>0x033C</se:RefInputMapping>
+        <!-- %I0.2/%I0.3/%I0.4/%I0.5/%I0.8/%I0.9 -->
+        <se:ProbeInputMapping>0x033C</se:ProbeInputMapping>
+      </se:PTO3Mapping>
+      <!-- FREQGEN0 -->
+      <se:FREQGEN0Mapping>
+        <!-- %Q0.0 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0001</se:FreqGenOutputMapping>
+      </se:FREQGEN0Mapping>
+      <!-- FREQGEN1 -->
+      <se:FREQGEN1Mapping>
+        <!-- %Q0.1 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0002</se:FreqGenOutputMapping>
+      </se:FREQGEN1Mapping>
+      <!-- FREQGEN2 -->
+      <se:FREQGEN2Mapping>
+        <!-- %Q0.2 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0004</se:FreqGenOutputMapping>
+      </se:FREQGEN2Mapping>
+      <!-- FREQGEN3 -->
+      <se:FREQGEN3Mapping>
+        <!-- %Q0.3 -->
+        <se:FreqGenOutputMapping required="true" access="read">0x0008</se:FreqGenOutputMapping>
+      </se:FREQGEN3Mapping>
+    </se:PTOIoMapping>
+    <!-- PTO Mapping -->
+
+    <!-- PTO Technical Configuration -->
+    <se:PtoTechnicalConfiguration>
+      <se:McPowerPtoMax>86</se:McPowerPtoMax>
+      <se:McMoveVelPtoMax>86</se:McMoveVelPtoMax>
+      <se:McMoveRelPtoMax>86</se:McMoveRelPtoMax>
+      <se:McMoveAbsPtoMax>86</se:McMoveAbsPtoMax>
+      <se:McHomePtoMax>86</se:McHomePtoMax>
+      <se:McSetPosPtoMax>86</se:McSetPosPtoMax>
+      <se:McStopPtoMax>86</se:McStopPtoMax>
+      <se:McHaltPtoMax>86</se:McHaltPtoMax>
+      <se:McReadActVelPtoMax>40</se:McReadActVelPtoMax>
+      <se:McReadActPosPtoMax>40</se:McReadActPosPtoMax>
+      <se:McReadStsPtoMax>40</se:McReadStsPtoMax>
+      <se:McReadMotionStatePtoMax>40</se:McReadMotionStatePtoMax>
+      <se:McReadAxisErrorPtoMax>40</se:McReadAxisErrorPtoMax>
+      <se:McResetPtoMax>40</se:McResetPtoMax>
+      <se:McTouchProbePtoMax>40</se:McTouchProbePtoMax>
+      <se:McAbortTriggerPtoMax>40</se:McAbortTriggerPtoMax>
+      <se:McReadParPtoMax>40</se:McReadParPtoMax>
+      <se:McWriteParPtoMax>40</se:McWriteParPtoMax>
+      <se:McMotionTaskPtoMax>4</se:McMotionTaskPtoMax>
+    </se:PtoTechnicalConfiguration>
+    <!-- #endregion-->
+  </Content>
+  
+  <Content key="#Configuration_No_EthernetIP">
+    <!--OK-->
+    <se:SupportEthIp>false</se:SupportEthIp>
+    
+    <!--OK-->
+    <se:SupportEthModbusMapping>false</se:SupportEthModbusMapping>
+  </Content>
+
+  <Content key="#Configuration_EthernetIP">
+    
+    <!-- No Ethernet IP (FL < V1.3 SP2) -->
+    <se:SupportEthIp condition="catalogVersion lt v1400">false</se:SupportEthIp>
+
+    <se:EthIpDefaultOutputInstance condition="catalogVersion lt v1400">0</se:EthIpDefaultOutputInstance>
+    <se:EthIpMinOutputInstance condition="catalogVersion lt v1400">0</se:EthIpMinOutputInstance>
+    <se:EthIpMaxOutputInstance condition="catalogVersion lt v1400">0</se:EthIpMaxOutputInstance>
+    <se:EthIpDefaultOutputSize condition="catalogVersion lt v1400">0</se:EthIpDefaultOutputSize>
+    <se:EthIpMinOutputSize condition="catalogVersion lt v1400">0</se:EthIpMinOutputSize>
+    <se:EthIpMaxOutputSize condition="catalogVersion lt v1400">0</se:EthIpMaxOutputSize>
+
+    <se:EthIpDefaultInputInstance condition="catalogVersion lt v1400">0</se:EthIpDefaultInputInstance>
+    <se:EthIpMinInputInstance condition="catalogVersion lt v1400">0</se:EthIpMinInputInstance>
+    <se:EthIpMaxInputInstance condition="catalogVersion lt v1400">0</se:EthIpMaxInputInstance>
+    <se:EthIpDefaultInputSize condition="catalogVersion lt v1400">0</se:EthIpDefaultInputSize>
+    <se:EthIpMinInputSize condition="catalogVersion lt v1400">0</se:EthIpMinInputSize>
+    <se:EthIpMaxInputSize condition="catalogVersion lt v1400">0</se:EthIpMaxInputSize>
+    <!-- /No Ethernet IP (FL < V1.3 SP2) -->
+
+    <!-- Ethernet IP (FL >= V1.3 SP2) -->
+    <se:SupportEthIp condition="catalogVersion gte v1400">true</se:SupportEthIp>
+    
+    <se:EthIpDefaultOutputInstance condition="catalogVersion gte v1400">100</se:EthIpDefaultOutputInstance>
+    <se:EthIpMinOutputInstance condition="catalogVersion gte v1400">1</se:EthIpMinOutputInstance>
+    <se:EthIpMaxOutputInstance condition="catalogVersion gte v1400">255</se:EthIpMaxOutputInstance>
+    <se:EthIpDefaultOutputSize condition="catalogVersion gte v1400">20</se:EthIpDefaultOutputSize>
+    <se:EthIpMinOutputSize condition="catalogVersion gte v1400">1</se:EthIpMinOutputSize>
+    <se:EthIpMaxOutputSize condition="catalogVersion gte v1400">20</se:EthIpMaxOutputSize>
+
+    <se:EthIpDefaultInputInstance condition="catalogVersion gte v1400">150</se:EthIpDefaultInputInstance>
+    <se:EthIpMinInputInstance condition="catalogVersion gte v1400">1</se:EthIpMinInputInstance>
+    <se:EthIpMaxInputInstance condition="catalogVersion gte v1400">255</se:EthIpMaxInputInstance>
+    <se:EthIpDefaultInputSize condition="catalogVersion gte v1400">20</se:EthIpDefaultInputSize>
+    <se:EthIpMinInputSize condition="catalogVersion gte v1400">1</se:EthIpMinInputSize>
+    <se:EthIpMaxInputSize condition="catalogVersion gte v1400">20</se:EthIpMaxInputSize>
+    <!-- Ethernet IP (FL >= V1.3 SP2) -->
+
+    <!-- No Ethernet Modbus Mapping (FL < V1.3 SP2) -->
+    <se:SupportEthModbusMapping condition="catalogVersion lt v1400">false</se:SupportEthModbusMapping>
+
+    <se:ModbusMappingDefaultHoldingRegister condition="catalogVersion lt v1400">0</se:ModbusMappingDefaultHoldingRegister>
+    <se:ModbusMappingMinHoldingRegister condition="catalogVersion lt v1400">0</se:ModbusMappingMinHoldingRegister>
+    <se:ModbusMappingMaxHoldingRegister condition="catalogVersion lt v1400">0</se:ModbusMappingMaxHoldingRegister>
+    <se:ModbusMappingDefaultInputRegister condition="catalogVersion lt v1400">0</se:ModbusMappingDefaultInputRegister>
+    <se:ModbusMappingMinInputRegister condition="catalogVersion lt v1400">0</se:ModbusMappingMinInputRegister>
+    <se:ModbusMappingMaxInputRegister condition="catalogVersion lt v1400">0</se:ModbusMappingMaxInputRegister>
+    <!-- /No Ethernet Modbus Mapping (FL < V1.3 SP2) -->
+
+    <!-- Ethernet Modbus Mapping (FL >= V1.3 SP2) -->
+    <se:SupportEthModbusMapping condition="catalogVersion gte v1400">true</se:SupportEthModbusMapping>
+
+    <se:ModbusMappingDefaultHoldingRegister condition="catalogVersion gte v1400">10</se:ModbusMappingDefaultHoldingRegister>
+    <se:ModbusMappingMinHoldingRegister condition="catalogVersion gte v1400">1</se:ModbusMappingMinHoldingRegister>
+    <se:ModbusMappingMaxHoldingRegister condition="catalogVersion gte v1400">20</se:ModbusMappingMaxHoldingRegister>
+    <se:ModbusMappingDefaultInputRegister condition="catalogVersion gte v1400">10</se:ModbusMappingDefaultInputRegister>
+    <se:ModbusMappingMinInputRegister condition="catalogVersion gte v1400">1</se:ModbusMappingMinInputRegister>
+    <se:ModbusMappingMaxInputRegister condition="catalogVersion gte v1400">20</se:ModbusMappingMaxInputRegister>
+    <!-- /Ethernet Modbus Mapping (FL >= V1.3 SP2) -->
+  </Content>
+
+  <Content key="#Configuration_Slot_C-16_IO">
+    <se:Cartridge1XPosition>170</se:Cartridge1XPosition>
+    <se:Cartridge1YPosition>110</se:Cartridge1YPosition>
+    <se:Cartridge1XSize>155</se:Cartridge1XSize>
+    <se:Cartridge1YSize>190</se:Cartridge1YSize>
+
+    <se:SerialLine1XPosition>80</se:SerialLine1XPosition>
+    <se:SerialLine1YPosition>202</se:SerialLine1YPosition>
+    <se:SerialLine1XSize>95</se:SerialLine1XSize>
+    <se:SerialLine1YSize>94</se:SerialLine1YSize>
+
+    <se:AnlogInputXPosition>80</se:AnlogInputXPosition>
+    <se:AnlogInputYPosition>115</se:AnlogInputYPosition>
+    <se:AnlogInputXSize>95</se:AnlogInputXSize>
+    <se:AnlogInputYSize>88</se:AnlogInputYSize>
+
+    <se:DigitalInputXPosition>130</se:DigitalInputXPosition>
+    <se:DigitalInputYPosition>5</se:DigitalInputYPosition>
+    <se:DigitalInputXSize>275</se:DigitalInputXSize>
+    <se:DigitalInputYSize>42</se:DigitalInputYSize>
+
+    <se:DigitalOutputXPosition>195</se:DigitalOutputXPosition>
+    <se:DigitalOutputYPosition>350</se:DigitalOutputYPosition>
+    <se:DigitalOutputXSize>210</se:DigitalOutputXSize>
+    <se:DigitalOutputYSize>41</se:DigitalOutputYSize>
+
+    <se:EthernetXPosition>78</se:EthernetXPosition>
+    <se:EthernetYPosition>295</se:EthernetYPosition>
+    <se:EthernetXSize>98</se:EthernetXSize>
+    <se:EthernetYSize>94</se:EthernetYSize>
+  </Content>
+
+  <Content key="#Configuration_Slot_C-24_IO">
+    <se:Cartridge1XPosition>170</se:Cartridge1XPosition>
+    <se:Cartridge1YPosition>110</se:Cartridge1YPosition>
+    <se:Cartridge1XSize>155</se:Cartridge1XSize>
+    <se:Cartridge1YSize>190</se:Cartridge1YSize>
+
+    <se:SerialLine1XPosition>80</se:SerialLine1XPosition>
+    <se:SerialLine1YPosition>202</se:SerialLine1YPosition>
+    <se:SerialLine1XSize>95</se:SerialLine1XSize>
+    <se:SerialLine1YSize>94</se:SerialLine1YSize>
+
+    <se:AnlogInputXPosition>80</se:AnlogInputXPosition>
+    <se:AnlogInputYPosition>115</se:AnlogInputYPosition>
+    <se:AnlogInputXSize>95</se:AnlogInputXSize>
+    <se:AnlogInputYSize>88</se:AnlogInputYSize>
+
+    <se:DigitalInputXPosition>78</se:DigitalInputXPosition>
+    <se:DigitalInputYPosition>5</se:DigitalInputYPosition>
+    <se:DigitalInputXSize>390</se:DigitalInputXSize>
+    <se:DigitalInputYSize>42</se:DigitalInputYSize>
+
+    <se:DigitalOutputXPosition>173</se:DigitalOutputXPosition>
+    <se:DigitalOutputYPosition>350</se:DigitalOutputYPosition>
+    <se:DigitalOutputXSize>295</se:DigitalOutputXSize>
+    <se:DigitalOutputYSize>41</se:DigitalOutputYSize>
+
+    <se:EthernetXPosition>78</se:EthernetXPosition>
+    <se:EthernetYPosition>295</se:EthernetYPosition>
+    <se:EthernetXSize>90</se:EthernetXSize>
+    <se:EthernetYSize>94</se:EthernetYSize>
+  </Content>
+
+  <Content key="#Configuration_Slot_C-40_IO">
+    <se:Cartridge1XPosition>170</se:Cartridge1XPosition>
+    <se:Cartridge1YPosition>110</se:Cartridge1YPosition>
+    <se:Cartridge2XPosition>335</se:Cartridge2XPosition>
+    <se:Cartridge2YPosition>110</se:Cartridge2YPosition>
+    <se:Cartridge1XSize>155</se:Cartridge1XSize>
+    <se:Cartridge1YSize>190</se:Cartridge1YSize>
+    <se:Cartridge2XSize>155</se:Cartridge2XSize>
+    <se:Cartridge2YSize>190</se:Cartridge2YSize>
+
+    <se:SerialLine1XPosition>80</se:SerialLine1XPosition>
+    <se:SerialLine1YPosition>202</se:SerialLine1YPosition>
+    <se:SerialLine1XSize>95</se:SerialLine1XSize>
+    <se:SerialLine1YSize>94</se:SerialLine1YSize>
+
+    <se:AnlogInputXPosition>80</se:AnlogInputXPosition>
+    <se:AnlogInputYPosition>115</se:AnlogInputYPosition>
+    <se:AnlogInputXSize>95</se:AnlogInputXSize>
+    <se:AnlogInputYSize>88</se:AnlogInputYSize>
+
+    <se:DigitalInputXPosition>84</se:DigitalInputXPosition>
+    <se:DigitalInputYPosition>5</se:DigitalInputYPosition>
+    <se:DigitalInputXSize>610</se:DigitalInputXSize>
+    <se:DigitalInputYSize>42</se:DigitalInputYSize>
+
+    <se:DigitalOutputXPosition>244</se:DigitalOutputXPosition>
+    <se:DigitalOutputYPosition>350</se:DigitalOutputYPosition>
+    <se:DigitalOutputXSize>450</se:DigitalOutputXSize>
+    <se:DigitalOutputYSize>41</se:DigitalOutputYSize>
+
+    <se:EthernetXPosition>78</se:EthernetXPosition>
+    <se:EthernetYPosition>295</se:EthernetYPosition>
+    <se:EthernetXSize>98</se:EthernetXSize>
+    <se:EthernetYSize>94</se:EthernetYSize>
+  </Content>
+
+  <Content key="#Configuration_Slot_M-16_IO">
+    <se:SerialLine1XPosition>18</se:SerialLine1XPosition>
+    <se:SerialLine1YPosition>178</se:SerialLine1YPosition>
+    <se:SerialLine1XSize>90</se:SerialLine1XSize>
+    <se:SerialLine1YSize>85</se:SerialLine1YSize>
+
+    <se:SerialLine2XPosition>18</se:SerialLine2XPosition>
+    <se:SerialLine2YPosition>292</se:SerialLine2YPosition>
+    <se:SerialLine2XSize>90</se:SerialLine2XSize>
+    <se:SerialLine2YSize>85</se:SerialLine2YSize>
+
+    <se:EthernetXPosition>16</se:EthernetXPosition>
+    <se:EthernetYPosition>278</se:EthernetYPosition>
+    <se:EthernetXSize>102</se:EthernetXSize>
+    <se:EthernetYSize>108</se:EthernetYSize>
+
+    <se:AnlogInputXPosition>10</se:AnlogInputXPosition>
+    <se:AnlogInputYPosition>5</se:AnlogInputYPosition>
+    <se:AnlogInputXSize>106</se:AnlogInputXSize>
+    <se:AnlogInputYSize>135</se:AnlogInputYSize>
+
+    <se:DigitalInputXPosition>180</se:DigitalInputXPosition>
+    <se:DigitalInputYPosition>192</se:DigitalInputYPosition>
+    <se:DigitalInputXSize>60</se:DigitalInputXSize>
+    <se:DigitalInputYSize>187</se:DigitalInputYSize>
+
+    <se:DigitalOutputXPosition>240</se:DigitalOutputXPosition>
+    <se:DigitalOutputYPosition>175</se:DigitalOutputYPosition>
+    <se:DigitalOutputXSize>65</se:DigitalOutputXSize>
+    <se:DigitalOutputYSize>202</se:DigitalOutputYSize>
+  </Content>
+
+  <Content key="#Configuration_Slot_M-32_IO">
+    <se:SerialLine1XPosition>18</se:SerialLine1XPosition>
+    <se:SerialLine1YPosition>178</se:SerialLine1YPosition>
+    <se:SerialLine1XSize>90</se:SerialLine1XSize>
+    <se:SerialLine1YSize>85</se:SerialLine1YSize>
+
+    <se:SerialLine2XPosition>18</se:SerialLine2XPosition>
+    <se:SerialLine2YPosition>292</se:SerialLine2YPosition>
+    <se:SerialLine2XSize>90</se:SerialLine2XSize>
+    <se:SerialLine2YSize>85</se:SerialLine2YSize>
+
+    <se:EthernetXPosition>16</se:EthernetXPosition>
+    <se:EthernetYPosition>278</se:EthernetYPosition>
+    <se:EthernetXSize>102</se:EthernetXSize>
+    <se:EthernetYSize>108</se:EthernetYSize>
+
+    <se:AnlogInputXPosition>10</se:AnlogInputXPosition>
+    <se:AnlogInputYPosition>5</se:AnlogInputYPosition>
+    <se:AnlogInputXSize>106</se:AnlogInputXSize>
+    <se:AnlogInputYSize>135</se:AnlogInputYSize>
+
+    <se:DigitalInputXPosition>191</se:DigitalInputXPosition>
+    <se:DigitalInputYPosition>172</se:DigitalInputYPosition>
+    <se:DigitalInputXSize>55</se:DigitalInputXSize>
+    <se:DigitalInputYSize>205</se:DigitalInputYSize>
+
+    <se:DigitalOutputXPosition>245</se:DigitalOutputXPosition>
+    <se:DigitalOutputYPosition>172</se:DigitalOutputYPosition>
+    <se:DigitalOutputXSize>55</se:DigitalOutputXSize>
+    <se:DigitalOutputYSize>205</se:DigitalOutputYSize>
+  </Content>
+
+</Content>

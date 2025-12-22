@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationModules>
+  <Items>
+    <Objectives>
+      <Objective id="mainObjective" name="SMBObjective" description="Develop PLC program" isReadOnly="true">
+        <AvailableTasks>
+          <AvailableTask id="propertiesTask"/>
+          <AvailableTask id="configureTask" isDefault="true" />
+          <AvailableTask id="programTask"/>
+          <AvailableTask id="displayTask"/>
+          <AvailableTask id="commissioningTask"/>
+          <!-- ID used to detect the commissionning tab for shortcut => Do not forget to update it in mainWindows.xaml.cs -->
+        </AvailableTasks>
+      </Objective>
+    </Objectives>
+    <Tasks>
+      <Task id="propertiesTask" name="taskProperties" description="taskPropertiesToolTip" isReadOnly="true" >
+        <AvailableViews>
+          <AvailableView id="propertiesView"/>
+          <AvailableView id="propertiesTreeView"/>
+        </AvailableViews>
+      </Task>
+      <Task id="configureTask" name="taskConfiguration" description="taskConfigurationToolTip" isReadOnly="true" >
+        <AvailableViews>
+          <AvailableView id="catalogView"/>
+          <AvailableView id="editorView"/>
+          <AvailableView id="hardwareDataView"/>
+        </AvailableViews>
+      </Task>
+      <Task id="programTask" name="taskProgram" description="taskProgramToolTip" isReadOnly="false" >
+        <AvailableViews>
+          <AvailableView id="workspaceProgramView"/>
+          <AvailableView id="treeProgramView"/>
+        </AvailableViews>
+      </Task>
+      <Task id="displayTask" name="taskDisplay" description="taskDisplayToolTip" isReadOnly="true" >
+        <AvailableViews>
+          <AvailableView id="moduleDisplay"/>
+          <AvailableView id="displayPageListView"/>
+        </AvailableViews>
+      </Task>
+      <Task id="commissioningTask" name="taskCommissioning" description="taskCommissioningToolTip" isReadOnly="true" >
+        <AvailableViews>
+          <AvailableView id="commissioningView"/>
+          <AvailableView id="commissioningTreeView"/>
+        </AvailableViews>
+      </Task>
+    </Tasks>
+    <Views>
+      <View id="propertiesView"
+            name="viewModuleProperties" allowclose="false" hasHeader="false"
+            description="viewModulePropertiesToolTip"
+            fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleProperties.ModulePropertiesView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="propertiesTreeView"
+            name="viewModulePropertiesTree" allowclose="false" hasHeader="false"
+            description="viewModulePropertiesTreeToolTip"
+            fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModulePropertiesTree.ModulePropertiesTreeView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="hardwareDataView"
+            name="viewHardwareTree" allowclose="false" hasHeader="false"
+            description="viewHardwareTreeToolTip"
+            fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleHardwareTree.ModuleHardwareTree, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="catalogView"
+            name="viewCatalog" allowclose="false" hasHeader="false"
+            description="viewCatalogToolTip"
+            fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleCatalog.ModuleCatalog, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="editorView"
+            name="viewEditor" allowclose="false" hasHeader="false"
+            description="viewEditorToolTip"
+            fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleEditor.ModuleEditorView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="workspaceProgramView"
+           name="viewModuleProgramWorkspace" allowclose="false" hasHeader="false"
+           description="viewModuleProgramWorkspaceToolTip"
+           fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleProgramWorkspace.ModuleProgramWorkspaceView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="treeProgramView"
+           name="viewModuleProgramTree" allowclose="false" hasHeader="false"
+           description="viewModuleProgramTreeToolTip"
+           fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleProgramTree.ModuleProgramDataTreeView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/> 
+      <View id="commissioningTreeView"
+         name="viewCommissioningTree" allowclose="false" hasHeader="false"
+         description="viewCommissioningTreeToolTip"
+         fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleCommissioningTree.ModuleCommissioningTreeView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="commissioningView"
+          name="viewCommissioning" allowclose="false" hasHeader="false"
+          description="viewCommissioningToolTip"
+          fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleCommissioning.ModuleCommissioningView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <!--displayEditorView-->
+      <View id="moduleDisplay"
+          name="viewDisplayEditor" allowclose="false" hasHeader="false"
+          description="viewDisplayEditorToolTip"
+          fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleDisplayWorkspace.ModuleDisplay, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+      <View id="displayPageListView"
+          name="viewDisplayPageList" allowclose="false" hasHeader="false"
+          description="viewDisplayPageListToolTip"
+          fullName="SchneiderElectric.Automation.SoMachineBasic.UI.DisplayModules.ModuleDisplayPageList.DisplayPageTreeView, SchneiderElectric.SoMachineBasic.DisplayModules, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5beddbc0114a5f07"/>
+    </Views>
+  </Items>
+  <Layout>
+    <ObjectivesLayout>
+      <ObjectiveLayout id="mainObjective">
+        <DisplayedTasks>
+          <DisplayedTask id="propertiesTask" state="Normal">
+            <Position index="0"/>
+          </DisplayedTask>
+          <DisplayedTask id="configureTask" state="Normal">
+            <Position index="1"/>
+          </DisplayedTask>
+          <DisplayedTask id="programTask" state="Normal">
+            <Position index="2"/>
+          </DisplayedTask>
+          <DisplayedTask id="commissioningTask" state="Normal">
+            <Position index="3"/>
+          </DisplayedTask>
+          <DisplayedTask id="displayTask" state="Normal">
+            <Position index="4"/>
+          </DisplayedTask>
+        </DisplayedTasks>
+      </ObjectiveLayout>
+    </ObjectivesLayout>
+    <TasksLayout>
+      <TaskLayout id="propertiesTask">
+        <DisplayedViews>
+          <DisplayedView id="propertiesTreeView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="36" height="1"/>
+          </DisplayedView>
+          <DisplayedView id="propertiesView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="156" height="1"/>
+          </DisplayedView>
+        </DisplayedViews>
+      </TaskLayout>
+      <TaskLayout id="configureTask">
+        <DisplayedViews>
+          <DisplayedView id="hardwareDataView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="35" height="1"/>
+          </DisplayedView>
+          <DisplayedView id="editorView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="122" height="1"/>
+          </DisplayedView>
+          <DisplayedView id="catalogView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="35" height="1"/>
+          </DisplayedView>
+        </DisplayedViews>
+      </TaskLayout>
+      <TaskLayout id="programTask">
+        <DisplayedViews>
+          <DisplayedView id="treeProgramView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="31" height="1"/>
+          </DisplayedView>
+          <DisplayedView id="workspaceProgramView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="161" height="1"/>
+          </DisplayedView>
+        </DisplayedViews>
+      </TaskLayout>
+      <TaskLayout id="displayTask">
+        <DisplayedViews>
+          <DisplayedView id="displayPageListView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="33" height="1"/>
+          </DisplayedView>
+          <DisplayedView id="moduleDisplay" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="161" height="1"/>
+          </DisplayedView>
+        </DisplayedViews>
+      </TaskLayout>
+      <TaskLayout id="commissioningTask">
+        <DisplayedViews>
+          <DisplayedView id="commissioningTreeView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="33" height="1"/>
+          </DisplayedView>
+          <DisplayedView id="commissioningView" state="Normal">
+            <Position dockType="Left" relativeSource="" />
+            <Size width="159" height="1"/>
+          </DisplayedView>
+        </DisplayedViews>
+      </TaskLayout>
+    </TasksLayout>
+  </Layout>
+</ApplicationModules>

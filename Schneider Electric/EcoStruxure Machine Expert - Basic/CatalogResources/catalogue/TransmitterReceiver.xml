@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Transmitter / Receiver expansion modules.</String>
+      <String identifier="ModuleTypeKey">Transmitter_Receiver</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Modules d&apos;extension émetteur / récepteur.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Sender / Empfänger-Erweiterungsmodule.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Módulos de ampliación transmisor / receptor.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Moduli di espansione trasmettitore / ricevitore.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+发射器/接收器扩展模块。</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Módulos de expansão de transmissor / receptor.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Verici / Alıcı genişletme modülleri.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Rozšiřující / Rozšiřující vysílací modul.</String>
+      <String identifier="FeaturesKey">Remote IO Bus</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TransmitterReceiver.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TransmitterReceiver.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="OutputsIcon">
+        <LocalFile>Images/transmitter.png</LocalFile>
+      </File>
+      <File fileref="local" identifier="Expander">
+        <LocalFile>Images/transmitter.png</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51426</Type>
+      <Id>101a 0450</Id>
+      <Version>1.0.1.4</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM3_XTRA1_XREC1</Name>
+      <Description name="localStrings:TM3XTRA1.DeviceDescription">TM3XTRA1
+Transmitter expansion module.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM3_XTRA1_XREC1</OrderNumber>
+      <Image name="localFiles:Expander" />
+      <Icon name="localFiles:OutputsIcon" />
+      <DefaultInstanceName name="local:dummy">TM3_XTRA1_XREC1</DefaultInstanceName>
+      <Family>4122:1330</Family>
+      <Category>1</Category>
+      <AdditionalFiles />
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Expert">
+              <SubCategory name="TM3" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTRA1" moduleType="51426" role="child" alwaysmapping="true">
+      <Fixed>
+        <Module basename="IO_Bus">
+          <LocalModuleId>IO_EXPANSION_BUS</LocalModuleId>
+        </Module>
+      </Fixed>
+    </Connector>
+    <Custom>
+      <se:deviceType>Expander</se:deviceType>
+      <se:ModuleTypeKey>ModuleTypeKey</se:ModuleTypeKey>
+      <se:FeaturesKey>FeaturesKey</se:FeaturesKey>
+      <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+    </Custom>
+  </Device>
+  <Modules>
+    <Module>
+      <ModuleId>IO_EXPANSION_BUS</ModuleId>
+      <DeviceInfo>
+        <Name name="local:dummy">TM3XREC1</Name>
+        <Description name="localStrings:TM3XREC1.Description">TM3XREC1
+Receiver expansion module.</Description>
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>TM3XREC1</OrderNumber>
+        <Icon name="localFiles:IO_EXPANSION_BUS" />
+        <DefaultInstanceName name="local:dummy">TM3XREC1</DefaultInstanceName>
+        <Family>4122:1330</Family>
+        <Category />
+        <AdditionalFiles />
+        <Custom>
+          <Catalog name="Modules">
+            <Section name="IO Modules">
+              <Category name="Expert">
+                <SubCategory name="TM3" />
+              </Category>
+            </Section>
+          </Catalog>
+        </Custom>
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XREC1" moduleType="51427" role="child" alwaysmapping="true">
+        <InterfaceName name="local:dummy" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <Parameter ParameterId="2415919106" type="std:UINT">
+            <!-- 0x90000002 -->
+            <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+            <Default>0</Default>
+            <Name name="local:dummy">24V I/O segment external current</Name>
+            <Unit name="local:dummy">mA</Unit>
+            <Description name="local:dummy">24V I/O segment external current on power supply bus</Description>
+          </Parameter>
+          <Parameter ParameterId="2415919107" type="std:UINT">
+            <!-- 0x90000003 -->
+            <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+            <Default>560</Default>
+            <Name name="local:dummy">Current provided on power bus</Name>
+            <Unit name="local:dummy">mA</Unit>
+            <Description name="local:dummy">Current provided on power bus</Description>
+          </Parameter>
+          <Parameter ParameterId="2415919108" type="std:UINT">
+            <!-- 0x90000004 -->
+            <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+            <Default>560</Default>
+            <Name name="local:dummy">Current provided on 24V I/O segment</Name>
+            <Unit name="local:dummy">mA</Unit>
+            <Description name="local:dummy">24V I/O segment power supply</Description>
+          </Parameter>
+          <Parameter ParameterId="2415919109" type="std:UINT">
+            <!-- 0x90000005 -->
+            <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+            <Default>100</Default>
+            <Name name="local:dummy">Power bus internal current</Name>
+            <Unit name="local:dummy">mA</Unit>
+            <Description name="local:dummy">Power bus internal current</Description>
+          </Parameter>
+          <Parameter ParameterId="2415919110" type="std:UINT">
+            <!-- 0x90000006 -->
+            <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+            <Default>0</Default>
+            <Name name="local:dummy">24V I/O segment internal current</Name>
+            <Unit name="local:dummy">mA</Unit>
+            <Description name="local:dummy">24V I/O segment internal current</Description>
+          </Parameter>
+        </HostParameterSet>
+        <Custom>
+          <!-- consumption by transmitter on the CPU power -->
+          <se:PowerConsumption voltage="5V">100</se:PowerConsumption>
+          <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+          <se:ExternalBusType value="Receiver" />
+          <!-- power capacity by receiver -->
+          <se:PowerCapacity voltage="5V">560</se:PowerCapacity>
+          <se:PowerCapacity voltage="24V">560</se:PowerCapacity>
+        </Custom>
+      </Connector>
+      <Connector connectorId="2" hostpath="-1" interface="MSD.TM2-3.ExpansionBus" moduleType="45201" role="parent" explicit="false">
+        <InterfaceName name="local:dummy" />
+        <Var max="7" />
+        <HostParameterSet />
+        <!--TM2 modules-->
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI8DT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DAI8DT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI16DT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI16DK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI32DK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO8UT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO8TT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO16TK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO16UK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO32TK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO32UK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DMM8DRT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DMM24DRF" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DRA8RT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DRA16RT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ALM3LT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI2HT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI2LT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI4LT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI8HT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMM3HT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMM6HT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMO1HT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8HT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8LRJ" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8LT" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AVO2HT" />
+        <!--TM3 modules-->
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI8_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI16_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI16K" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI32K" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DM8R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DM24R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8T_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8U_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16T_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16TK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16U_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16UK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ32TK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ32UK" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI8A" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3XTYS4" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI2H_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI4_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI8_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ2_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ4_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AM6_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TM3_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI4_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI4D_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI8T_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3XPID2" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAC5R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAF5R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAFL5R_G" />
+        <AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAK6R_G" />
+        <Custom>
+          <se:ParameterFilters FallBack="false" />
+        </Custom>
+        <Appearance>
+          <ShowEditor>DeviceInformation</ShowEditor>
+        </Appearance>
+      </Connector>
+      <Custom>
+        <se:IOManager DefaultNamingModule="true" AutoIOMapping="false" />
+      </Custom>
+    </Module>
+  </Modules>
+</DeviceDescription>

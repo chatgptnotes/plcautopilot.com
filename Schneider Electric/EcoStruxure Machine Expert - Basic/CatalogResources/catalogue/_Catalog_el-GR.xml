@@ -1,0 +1,1632 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd">
+
+  <Content key="#TM221C16R.xml">
+    <String identifier="TM221C16R.DeviceDescription">TM221C16R (Κλέμμες με βίδες)
+9 ψηφιακές εισόδους, 7 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 100-240 Vac, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C16R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C16R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C16R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C16R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C16R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">7 ρελέ</String>
+    <String identifier="ModuleTypeKey">Compact Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C16T.xml">
+    <String identifier="TM221C16T.DeviceDescription">TM221C16T (Κλέμμες με βίδες)
+9 ψηφιακές εισόδους, 7 εξόδους τρανζίστορ θετικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C16T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C16T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C16T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C16T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C16T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">7 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C16U.xml">
+    <String identifier="TM221C16U.DeviceDescription">TM221C16U (Κλέμμες με βίδες)
+9 ψηφιακές εισόδους, 7 εξόδους τρανζίστορ αρνητικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C16U.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C16U.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C16U.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C16U.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C16U.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">7 τρανζίστορ αρνητικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C24R.xml">
+    <String identifier="TM221C24R.DeviceDescription">TM221C24R (Κλέμμες με βίδες)
+14 ψηφιακές εισόδους, 10 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 100-240 Vac, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C24R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C24R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C24R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C24R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C24R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">10 ρελέ</String>
+    <String identifier="ModuleTypeKey">Compact Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C24T.xml">
+    <String identifier="TM221C24T.DeviceDescription">TM221C24T (Κλέμμες με βίδες)
+14 ψηφιακές εισόδους, 10 εξόδους τρανζίστορ θετικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C24T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C24T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C24T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C24T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C24T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">10 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C24U.xml">
+    <String identifier="TM221C24U.DeviceDescription">TM221C24U (Κλέμμες με βίδες)
+14 ψηφιακές εισόδους, 10 εξόδους τρανζίστορ αρνητικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C24U.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C24U.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C24U.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C24U.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C24U.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">10 τρανζίστορ αρνητικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C40R.xml">
+    <String identifier="TM221C40R.DeviceDescription">TM221C40R (Κλέμμες με βίδες)
+24 ψηφιακές εισόδους, 16 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 100-240 Vac, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C40R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C40R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C40R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C40R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C40R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">16 ρελέ</String>
+    <String identifier="ModuleTypeKey">Compact Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C40T.xml">
+    <String identifier="TM221C40T.DeviceDescription">TM221C40T (Κλέμμες με βίδες)
+24 ψηφιακές εισόδους, 16 εξόδους τρανζίστορ θετικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C40T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C40T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C40T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C40T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C40T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C40U.xml">
+    <String identifier="TM221C40U.DeviceDescription">TM221C40U (Κλέμμες με βίδες)
+24 ψηφιακές εισόδους, 16 εξόδους τρανζίστορ αρνητικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221C40U.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221C40U.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221C40U.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221C40U.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221C40U.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">16 τρανζίστορ αρνητικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221CE16R.xml">
+    <String identifier="TM221CE16R.DeviceDescription">TM221CE16R (Κλέμμες με βίδες)
+9 ψηφιακές εισόδους, 7 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 100-240 Vac, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE16R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE16R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE16R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE16R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE16R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">7 ρελέ</String>
+    <String identifier="ModuleTypeKey">Compact Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE16T.xml">
+    <String identifier="TM221CE16T.DeviceDescription">TM221CE16T (Κλέμμες με βίδες)
+9 ψηφιακές εισόδους, 7 εξόδους τρανζίστορ θετικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE16T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE16T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE16T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE16T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE16T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">7 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE16U.xml">
+    <String identifier="TM221CE16U.DeviceDescription">TM221CE16U (Κλέμμες με βίδες)
+9 ψηφιακές εισόδους, 7 εξόδους τρανζίστορ αρνητικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE16U.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE16U.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE16U.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE16U.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE16U.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">7 τρανζίστορ αρνητικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE24R.xml">
+    <String identifier="TM221CE24R.DeviceDescription">TM221CE24R (Κλέμμες με βίδες)
+14 ψηφιακές εισόδους, 10 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 100-240 Vac, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE24R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE24R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE24R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE24R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE24R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">10 ρελέ</String>
+    <String identifier="ModuleTypeKey">Compact Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE24T.xml">
+    <String identifier="TM221CE24T.DeviceDescription">TM221CE24T (Κλέμμες με βίδες)
+14 ψηφιακές εισόδους, 10 εξόδους τρανζίστορ θετικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE24T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE24T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE24T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE24T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE24T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">10 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE24U.xml">
+    <String identifier="TM221CE24U.DeviceDescription">TM221CE24U (Κλέμμες με βίδες)
+14 ψηφιακές εισόδους, 10 εξόδους τρανζίστορ αρνητικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE24U.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE24U.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE24U.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE24U.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE24U.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">10 τρανζίστορ αρνητικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE40R.xml">
+    <String identifier="TM221CE40R.DeviceDescription">TM221CE40R (Κλέμμες με βίδες)
+24 ψηφιακές εισόδους, 16 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 100-240 Vac, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE40R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE40R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE40R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE40R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE40R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">16 ρελέ</String>
+    <String identifier="ModuleTypeKey">Compact Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE40T.xml">
+    <String identifier="TM221CE40T.DeviceDescription">TM221CE40T (Κλέμμες με βίδες)
+24 ψηφιακές εισόδους, 16 εξόδους τρανζίστορ θετικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE40T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE40T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE40T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE40T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE40T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE40U.xml">
+    <String identifier="TM221CE40U.DeviceDescription">TM221CE40U (Κλέμμες με βίδες)
+24 ψηφιακές εισόδους, 16 εξόδους τρανζίστορ αρνητικής λογικής(0,5 A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221CE40U.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221CE40U.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221CE40U.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221CE40U.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221CE40U.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey">Brick</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">16 τρανζίστορ αρνητικής λογικής</String>
+    <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221M16R.xml">
+    <String identifier="TM221M16R.DeviceDescription">TM221M16R (Κλέμμες με βίδες), TM221M16RG (Κλέμμες με ελατήριο)
+8 ψηφιακές εισόδους, 8 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 2 σειριακές θύρες, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221M16R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221M16R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221M16R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221M16R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221M16R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TM221M16T.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey">Book</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">8 ρελέ</String>
+    <String identifier="ModuleTypeKey">Modular 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">2 SL</String>
+  </Content>
+  <Content key="#TM221M16T.xml">
+    <String identifier="TM221M16T.DeviceDescription">TM221M16T (Κλέμμες με βίδες), TM221M16TG (Κλέμμες με ελατήριο)
+8 ψηφιακές εισόδους, 8 εξόδους τρανζίστορ θετικής λογικής(0,5A), 2 αναλογικές εισόδους, 2 σειριακές θύρες, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221M16T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221M16T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221M16T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221M16T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221M16T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TM221M16T.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey">Book</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">8 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Modular 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">2 SL</String>
+  </Content>
+  <Content key="#TM221M32TK.xml">
+    <String identifier="TM221M32TK.DeviceDescription">TM221M32TK (HE10)
+16 ψηφιακές εισόδους, 16 εξόδους τρανζίστορ θετικής λογικής(0,1A), 2 αναλογικές εισόδους, 2 σειριακές θύρες, τροφοδοσία ελεγκτή 24 Vdc, με HE10 βύσμα.</String>
+    <String identifier="TM221M32TK.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221M32TK.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221M32TK.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221M32TK.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221M32TK.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TM221M32TK.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey">Book</String>
+    <String identifier="InputKey">16</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Modular 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">2 SL</String>
+  </Content>
+  <Content key="#TM221ME16R.xml">
+    <String identifier="TM221ME16R.DeviceDescription">TM221ME16R (Κλέμμες με βίδες), TM221ME16RG (Κλέμμες με ελατήριο)
+8 ψηφιακές εισόδους, 8 εξόδους ρελέ (2A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221ME16R.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221ME16R.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221ME16R.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221ME16R.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221ME16R.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TM221ME16R.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey">Book</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">8 ρελέ</String>
+    <String identifier="ModuleTypeKey">Modular 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221ME16T.xml">
+    <String identifier="TM221ME16T.DeviceDescription">TM221ME16T (Κλέμμες με βίδες), TM221ME16TG (Κλέμμες με ελατήριο)
+8 ψηφιακές εισόδους, 8 εξόδους τρανζίστορ θετικής λογικής(0,5A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με αποσπώμενες κλέμμες.</String>
+    <String identifier="TM221ME16T.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221ME16T.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221ME16T.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221ME16T.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221ME16T.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TM221ME16T.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey">Book</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">8 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Modular 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221ME32TK.xml">
+    <String identifier="TM221ME32TK.DeviceDescription">TM221ME32TK (HE10)
+16 ψηφιακές εισόδους, 16 εξόδους τρανζίστορ θετικής λογικής(0,1A), 2 αναλογικές εισόδους, 1 σειριακή θύρα, 1 θύρα Ethernet, τροφοδοσία ελεγκτή 24 Vdc, με HE10 βύσμα.</String>
+    <String identifier="TM221ME32TK.Expansion">Δίαυλος (Bus) καρτών επέκτασης</String>
+    <String identifier="TM221ME32TK.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM221ME32TK.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM221ME32TK.ParameterSectionNameHSC">Γρήγορος μετρητής (HSC)</String>
+    <String identifier="TM221ME32TK.ParameterSectionNamePTO">Έξοδος Παλμοσειράς (PTO)</String>
+    <String identifier="TM221ME32TK.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey">Book</String>
+    <String identifier="InputKey">16</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+    <String identifier="ModuleTypeKey">Modular 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+
+  <Content key="#TMC2AI2.devdesc.xml">
+    <String identifier="TMC2AI2.DeviceDescription">TMC2AI2
+TMC2 κασέτα με 2 αναλογικές εισόδους τάσης ή έντασης (0 - 10V, 0-20mA, 4 - 20mA), 12 bits.</String>
+    <String identifier="TMC2AI2.Maintain">Μανδάλωση</String>
+    <String identifier="TMC2AI2.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TMC2AI2.Inputs">Είσοδοι</String>
+    <String identifier="TMC2AI2.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TMC2AI2.0_10v">0 - 10 V</String>
+    <String identifier="TMC2AI2.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2AI2.0_20mA">0 - 20 mA</String>
+    <String identifier="TMC2AI2.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2AI2.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2AI2.Type_description">Εύρος</String>
+    <String identifier="TMC2AI2.Scope_description">Μονάδα μέτρησης</String>
+    <String identifier="TMC2AI2.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TMC2AI2.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="ModuleTypeKey">Αναλογικές</String>
+    <String identifier="FeaturesKey">2 εισόδους τάσης ή έντασης </String>
+  </Content>
+  <Content key="#TMC2AQ2C.devdesc.xml">
+    <String identifier="TMC2AQ2C.DeviceDescription">TMC2AQ2C
+TMC2 κασέτα με 2 αναλογικές εξόδους έντασης (4 - 20mA), 12 bits.</String>
+    <String identifier="TMC2AQ2C.Maintain">Μανδάλωση</String>
+    <String identifier="TMC2AQ2C.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TMC2AQ2C.Outputs">Έξοδοι</String>
+    <String identifier="TMC2AQ2C.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TMC2AQ2C.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2AQ2C.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2AQ2C.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2AQ2C.Type_description">Εύρος</String>
+    <String identifier="TMC2AQ2C.Scope_description">Μονάδα μέτρησης</String>
+    <String identifier="TMC2AQ2C.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TMC2AQ2C.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">Αναλογικές</String>
+    <String identifier="FeaturesKey">2 εξόδους έντασης</String>
+  </Content>
+  <Content key="#TMC2AQ2V.devdesc.xml">
+    <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2 κασέτα με 2 αναλογικές εξόδους τάσης (0 - 10V), 12 bits.</String>
+    <String identifier="TMC2AQ2V.Maintain">Μανδάλωση</String>
+    <String identifier="TMC2AQ2V.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TMC2AQ2V.Output_Conf.Type_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TMC2AQ2V.Output_Conf.Type_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TMC2AQ2V.Outputs">Έξοδοι</String>
+    <String identifier="TMC2AQ2V.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TMC2AQ2V.0_10v">0 - 10 V</String>
+    <String identifier="TMC2AQ2V.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2AQ2V.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2AQ2V.Type_description">Εύρος</String>
+    <String identifier="TMC2AQ2V.Scope_description">Μονάδα μέτρησης</String>
+    <String identifier="TMC2AQ2V.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TMC2AQ2V.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">Αναλογικές</String>
+    <String identifier="FeaturesKey">2 εξόδους τάσης</String>
+  </Content>
+  <Content key="#TMC2TI2.devdesc.xml">
+    <String identifier="TMC2TI2.DeviceDescription">TMC2TI2
+TMC2 κασέτα με 2 αναλογικές εισόδους θερμοκρασίας (Θερμοστοιχείο, RTD), 14bits.</String>
+    <String identifier="TMC2TI2.Inputs">Είσοδοι</String>
+    <String identifier="TMC2TI2.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TMC2TI2.ThermocoupleK">K Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleJ">J Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleR">R Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleS">S Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleB">B Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleE">E Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleT">T Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleN">N Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.ThermocoupleC">C Θερμοστοιχείο</String>
+    <String identifier="TMC2TI2.PT100">PT100</String>
+    <String identifier="TMC2TI2.PT1000">PT1000</String>
+    <String identifier="TMC2TI2.NI100">NI100</String>
+    <String identifier="TMC2TI2.NI1000">NI1000</String>
+    <String identifier="TMC2TI2.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2TI2.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2TI2.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TMC2TI2.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TMC2TI2.Type_description">Εύρος</String>
+    <String identifier="TMC2TI2.Scope_description">Μονάδα μέτρησης</String>
+    <String identifier="TMC2TI2.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TMC2TI2.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κασέτα</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">Αναλογικές</String>
+    <String identifier="FeaturesKey">2 εισόδους θερμοκρασίας</String>
+  </Content>
+  <Content key="#TMC2SL1.devdesc.xml">
+    <String identifier="TMC2SL1.DeviceDescription">TMC2SL1
+TMC2 κασέτα με 1 σειριακή θύρα (RS232 ή RS485).</String>
+    <String identifier="TMC2SL1.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey"></String>
+    <String identifier="FormatKey">Κασέτα</String>
+    <String identifier="ModuleTypeKey">Σειριακή θύρα</String>
+    <String identifier="FeaturesKey">1 σειριακή θύρα</String>
+  </Content>
+  <Content key="#TMC2CONV01.devdesc.xml">
+    <String identifier="TMC2CONV01.DeviceDescription">TMC2CONV01
+TMC2 κασέτα με 1 σειριακή θύρα για εφαρμογή ταινιόδρομου.</String>
+    <String identifier="TMC2CONV01.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey"></String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">Σειριακή θύρα</String>
+    <String identifier="FeaturesKey">Εφαρμογή ταινιόδρομου</String>
+  </Content>
+  <Content key="#TMC2HOIS01.devdesc.xml">
+    <String identifier="TMC2HOIS01.DeviceDescription">TMC2HOIS01
+TMC2 κασέτα με 2 αναλογικές εισόδους τάσης ή έντασης  για δυναμοκυψέλη κάθετης ανάληψης.</String>
+    <String identifier="TMC2HOIS01.Maintain">Μανδάλωση</String>
+    <String identifier="TMC2HOIS01.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TMC2HOIS01.Inputs">Είσοδοι</String>
+    <String identifier="TMC2HOIS01.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TMC2HOIS01.0_10v">0 - 10 V</String>
+    <String identifier="TMC2HOIS01.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2HOIS01.0_20mA">0 - 20 mA</String>
+    <String identifier="TMC2HOIS01.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2HOIS01.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2HOIS01.Type_description">Εύρος</String>
+    <String identifier="TMC2HOIS01.Scope_description">Μονάδα μέτρησης</String>
+    <String identifier="TMC2HOIS01.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TMC2HOIS01.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="ModuleTypeKey">Αναλογικές</String>
+    <String identifier="FeaturesKey">Εφαρμογή κάθετης ανάληψης</String>
+  </Content>
+  <Content key="#TMC2PACK01.devdesc.xml">
+    <String identifier="TMC2PACK01.DeviceDescription">TMC2PACK01
+TMC2 κασέτα με 2 αναλογικές εισόδους τάσης ή έντασης  για G557.</String>
+    <String identifier="TMC2PACK01.Maintain">Μανδάλωση</String>
+    <String identifier="TMC2PACK01.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TMC2PACK01.Inputs">Είσοδοι</String>
+    <String identifier="TMC2PACK01.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TMC2PACK01.0_10v">0 - 10 V</String>
+    <String identifier="TMC2PACK01.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2PACK01.0_20mA">0 - 20 mA</String>
+    <String identifier="TMC2PACK01.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2PACK01.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TMC2PACK01.Type_description">Εύρος</String>
+    <String identifier="TMC2PACK01.Scope_description">Μονάδα μέτρησης</String>
+    <String identifier="TMC2PACK01.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TMC2PACK01.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="ModuleTypeKey">Αναλογικές</String>
+    <String identifier="FeaturesKey">Εφαρμογή συσκευασίας</String>
+  </Content>
+
+  <Content key="#ModemGeneric.devdesc.xml">
+    <String identifier="ModemGENERIC.Description">Μόντεμ Γενικού τύπου</String>
+    <String identifier="ModemGENERIC.ParameterName">Εντολή Reset μορφής HaΝαι </String>
+  </Content>
+  <Content key="#SR2MOD01.devdesc.xml">
+    <String identifier="SR2MOD01.Description">Μόντεμ RTC (SIXNET)</String>
+    <String identifier="SR2MOD01.ParameterName">Εντολή Reset μορφής HaΝαι </String>
+  </Content>
+  <Content key="#SR2MOD03.devdesc.xml">
+    <String identifier="SR2MOD03.Description">Μόντεμ GSM</String>
+    <String identifier="SR2MOD03.ParameterName">Εντολή Reset μορφής HaΝαι </String>
+  </Content>
+
+  <Content key="#TM2ALM3LT.devdesc.xml">
+    <String identifier="TM2ALM3LT.DeviceDescription">TM2ALM3LT
+Κάρτα επέκτασης με 2 αναλογικές εισόδους (Θερμοστοιχεία K, J, T, PT100 3 καλωδίων) και 1 έξοδο (0 - 10V, 4 - 20mA), 12 bits, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2ALM3LT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2ALM3LT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2ALM3LT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2ALM3LT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2ALM3LT.Inputs">Είσοδοι</String>
+    <String identifier="TM2ALM3LT.Outputs">Έξοδοι</String>
+    <String identifier="TM2ALM3LT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2ALM3LT.ThermocoupleK">Θερμοστοιχείο K</String>
+    <String identifier="TM2ALM3LT.ThermocoupleJ">Θερμοστοιχείο J</String>
+    <String identifier="TM2ALM3LT.ThermocoupleT">Θερμοστοιχείο T</String>
+    <String identifier="TM2ALM3LT.PT100">PT100</String>
+    <String identifier="TM2ALM3LT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2ALM3LT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2ALM3LT.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM2ALM3LT.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM2ALM3LT.Type_description">Εύρος</String>
+    <String identifier="TM2ALM3LT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2ALM3LT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2ALM3LT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">2 x Θερμοστοιχεία ή PT100</String>
+    <String identifier="OutputKey">1 x 0..10 V ή 4..20 mA</String>
+  </Content>
+  <Content key="#TM2AMI2HT.devdesc.xml">
+    <String identifier="TM2AMI2HT.DeviceDescription">TM2AMI2HT
+Κάρτα επέκτασης με 2 αναλογικές εισόδους (0 - 10V, 4 - 20mA), 12 bits, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2AMI2HT.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM2AMI2HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMI2HT.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMI2HT.ScopeCustomized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMI2HT.InputParameter.TypeDescription">Εύρος</String>
+    <String identifier="TM2AMI2HT.InputParameter.ScopeDescription">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMI2HT.InputParameter.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMI2HT.InputParameter.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">2 x 0..10 V ή 4..20 mA</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMI2LT.devdesc.xml">
+    <String identifier="TM2AMI2LT.DeviceDescription">TM2AMI2LT
+Κάρτα επέκτασης με 2 αναλογικές εισόδους (Θερμοστοιχεία K, J, και T), 12 bits, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2AMI2LT.Inputs">Είσοδοι</String>
+    <String identifier="TM2AMI2LT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMI2LT.ThermocoupleK">Θερμοστοιχείο K</String>
+    <String identifier="TM2AMI2LT.ThermocoupleJ">Θερμοστοιχείο J</String>
+    <String identifier="TM2AMI2LT.ThermocoupleT">Θερμοστοιχείο T</String>
+    <String identifier="TM2AMI2LT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMI2LT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMI2LT.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM2AMI2LT.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM2AMI2LT.Type_description">Εύρος</String>
+    <String identifier="TM2AMI2LT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMI2LT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMI2LT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">2 x Θερμοστοιχεία</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMI4LT.devdesc.xml">
+    <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Κάρτα επέκτασης με 4 αναλογικές εισόδους, (0 - 10V, 0 - 20mA, PT100 3 καλωδίων, PT1000 3 καλωδίων, NI100 3 καλωδίων, NI1000 3 καλωδίων), 12 bits, αποσπώμενη κλέμμα.</String>
+    <String identifier="TM2AMI4LT.Mode">Κατάσταση</String>
+    <String identifier="TM2AMI4LT.Mode_Description">Κατάσταση</String>
+    <String identifier="TM2AMI4LT.Inputs">Είσοδοι</String>
+    <String identifier="TM2AMI4LT.Mode_Voltage">Τάση</String>
+    <String identifier="TM2AMI4LT.Mode_Current">Ενταση</String>
+    <String identifier="TM2AMI4LT.Mode_Temperature">Θερμοκρασία</String>
+    <String identifier="TM2AMI4LT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMI4LT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMI4LT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMI4LT.Resistance">Αντίσταση (Ohm)</String>
+    <String identifier="TM2AMI4LT.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM2AMI4LT.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM2AMI4LT.Type_description">Εύρος</String>
+    <String identifier="TM2AMI4LT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMI4LT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMI4LT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TM2AMI4LT.LowerLimit_description">Τιμή χαμηλότερου ορίου</String>
+    <String identifier="TM2AMI4LT.UpperLimit_description">Τιμή υψηλότερου ορίου</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x 0..10 V ή 0..20 mA</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMI8HT.devdesc.xml">
+    <String identifier="TM2AMI8HT.DeviceDescription">TM2AMI8HT
+Κάρτα επέκτασης με 8 αναλογικές εισόδους, (0 - 10V, 0 - 20mA), 10 bits, αποσπώμενη κλέμμα.</String>
+    <String identifier="TM2AMI8HT.Mode">Κατάσταση</String>
+    <String identifier="TM2AMI8HT.Mode_Description">Κατάσταση</String>
+    <String identifier="TM2AMI8HT.Type_Description">Εύρος</String>
+    <String identifier="TM2AMI8HT.Mode_Voltage">Τάση</String>
+    <String identifier="TM2AMI8HT.Mode_Current">Ενταση</String>
+    <String identifier="TM2AMI8HT.Inputs">Είσοδοι</String>
+    <String identifier="TM2AMI8HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMI8HT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMI8HT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMI8HT.Scope_Description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMI8HT.Minimum_Description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMI8HT.Maximum_Description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x 0..10 V ή 0..20 mA</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMM3HT.devdesc.xml">
+    <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Κάρτα επέκτασης με 2 αναλογικές εισόδους και 1 έξοδο (0 - 10V, 4 - 20mA), 12 bits, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2AMM3HT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2AMM3HT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2AMM3HT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2AMM3HT.Inputs">Είσοδοι</String>
+    <String identifier="TM2AMM3HT.Outputs">Έξοδοι</String>
+    <String identifier="TM2AMM3HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMM3HT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMM3HT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMM3HT.Type_description">Εύρος</String>
+    <String identifier="TM2AMM3HT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMM3HT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMM3HT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">2 x 0..10 V ή 4..20 mA</String>
+    <String identifier="OutputKey">1 x 0..10 V ή 4..20 mA</String>
+  </Content>
+  <Content key="#TM2AMM6HT.devdesc.xml">
+    <String identifier="TM2AMM6HT.DeviceDescription">TM2AMM6HT
+Κάρτα επέκτασης με 4 εισόδους και 2 εξόδους (0 - 10V, 4 - 20mA), 12 bits, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2AMM6HT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2AMM6HT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2AMM6HT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2AMM6HT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2AMM6HT.Inputs">Είσοδοι</String>
+    <String identifier="TM2AMM6HT.Outputs">Έξοδοι</String>
+    <String identifier="TM2AMM6HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMM6HT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMM6HT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMM6HT.Type_description">Εύρος</String>
+    <String identifier="TM2AMM6HT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMM6HT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMM6HT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x 0..10 V ή 4..20 mA</String>
+    <String identifier="OutputKey">2 x 0..10 V ή 4..20 mA</String>
+  </Content>
+  <Content key="#TM2AMO1HT.devdesc.xml">
+    <String identifier="TM2AMO1HT.DeviceDescription">TM2AMO1HT
+Κάρτα επέκτασης με 1 αναλογική έξοδο (0 - 10V, 4 - 20mA), 12 bits, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2AMO1HT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2AMO1HT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2AMO1HT.Output_Conf.Type_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2AMO1HT.Output_Conf.Type_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2AMO1HT.Outputs">Έξοδοι</String>
+    <String identifier="TM2AMO1HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AMO1HT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AMO1HT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AMO1HT.Type_description">Εύρος</String>
+    <String identifier="TM2AMO1HT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AMO1HT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AMO1HT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">1 x 0..10 V ή 4..20 mA</String>
+  </Content>
+  <Content key="#TM2ARI8HT.devdesc.xml">
+    <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Κάρτα επέκτασης με 8 αναλογικές εισόδους, 10 bits, αποσπώμενη κλέμμα. Αισθητήριο NTC / PTC.</String>
+    <String identifier="TM2ARI8HT.Inputs">Είσοδοι</String>
+    <String identifier="TM2ARI8HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2ARI8HT.NTC">NTC</String>
+    <String identifier="TM2ARI8HT.PTC">PTC</String>
+    <String identifier="TM2ARI8HT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2ARI8HT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2ARI8HT.Resistance">Αντίσταση (Ohm)</String>
+    <String identifier="TM2ARI8HT.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM2ARI8HT.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM2ARI8HT.Type_description">Εύρος</String>
+    <String identifier="TM2ARI8HT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2ARI8HT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2ARI8HT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+    <String identifier="TM2ARI8HT.R_description">Αναφορά αντίστασης σε Ohm στην αναφορά θερμοκρασίας</String>
+    <String identifier="TM2ARI8HT.TValueUnit">* 0,01 K</String>
+    <String identifier="TM2ARI8HT.T_description">Τιμή αναφοράς θερμοκρασίας σε Kelvin (0.01 K)</String>
+    <String identifier="TM2ARI8HT.B_description">Ευαισθησία αισθητηρίου</String>
+    <String identifier="TM2ARI8HT.Activation_description">Κατώφλι ενεργοποίησης</String>
+    <String identifier="TM2ARI8HT.Reactivation_description">Κατώφλι επανενεργοποίησης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x αισθητήρια NTC / PTC </String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2ARI8LRJ.devdesc.xml">
+    <String identifier="TM2ARI8LRJ.DeviceDescription">TM2ARI8LRJ
+Κάρτα επέκτασης με 8 αναλογικές εισόδους (PT100, PT1000), 12 bits, βύσμα RJ11.</String>
+    <String identifier="TM2ARI8LRJ.Inputs">Είσοδοι</String>
+    <String identifier="TM2ARI8LRJ.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2ARI8LRJ.Scope_Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2ARI8LRJ.Scope_Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2ARI8LRJ.Scope_Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM2ARI8LRJ.Scope_Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM2ARI8LRJ.TypeDescription">Εύρος</String>
+    <String identifier="TM2ARI8LRJ.ScopeDescription">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2ARI8LRJ.MinDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM2ARI8LRJ.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x PT100 / PT1000</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2ARI8LT.devdesc.xml">
+    <String identifier="TM2ARI8LT.DeviceDescription">TM2ARI8LT
+Κάρτα επέκτασης με 8 αναλογικές εισόδους (PT100, PT1000) 12 bits.</String>
+    <String identifier="TM2ARI8LT.Inputs">Είσοδοι</String>
+    <String identifier="TM2ARI8LT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2ARI8LT.Scope_Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2ARI8LT.Scope_Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2ARI8LT.Scope_Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM2ARI8LT.Scope_Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM2ARI8LT.TypeDescription">Εύρος</String>
+    <String identifier="TM2ARI8LT.ScopeDescription">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2ARI8LT.MinDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM2ARI8LT.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x PT100 / PT1000</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AVO2HT.devdesc.xml">
+    <String identifier="TM2AVO2HT.DeviceDescription">TM2AVO2HT
+Κάρτα επέκτασης με 2 αναλογικές εξόδους, (-10 to +10V), 11 bits + πρόσημο, αποσπώμενη κλέμμα.</String>
+    <String identifier="TM2AVO2HT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2AVO2HT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2AVO2HT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2AVO2HT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2AVO2HT.Outputs">Έξοδοι</String>
+    <String identifier="TM2AVO2HT.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM2AVO2HT.Normal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM2AVO2HT.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM2AVO2HT.Type_description">Εύρος</String>
+    <String identifier="TM2AVO2HT.Scope_description">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM2AVO2HT.Minimum_description">Ελάχιστη τιμή</String>
+    <String identifier="TM2AVO2HT.Maximum_description">Μέγιστη τιμή</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">2 x -10..10 V</String>
+  </Content>
+
+  <Content key="#TM2DAI8DT.devdesc.xml">
+    <String identifier="TM2DAI8DT.DeviceDescription">TM2DAI8DT
+Κάρτα επέκτασης με 8 εισόδους, 120V AC, αποσπώμενες κλέμμες με βίδες, 2 κοινά σημεία.</String>
+    <String identifier="TM2DAI8DT.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x 120 Vac</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI8DT.devdesc.xml">
+    <String identifier="TM2DDI8DT.DeviceDescription">TM2DDI8DT
+Κάρτα επέκτασης με 8 24V DC εισόδους, αποσπώμενες κλέμμες με βίδες, 1 κοινό σημείο, τρανζίστορ θετικής/αρνητικής λογικής.</String>
+    <String identifier="TM2DDI8DT.ParameterSectionName">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI16DK.devdesc.xml">
+    <String identifier="TM2DDI16DK.DeviceDescription">TM2DDI16DK
+Κάρτα επέκτασης με 16 24V DC εισόδους, HE10 (MIL 20) βύσμα, 1 κοινό σημείο, τρανζίστορ θετικής/αρνητικής λογικής.</String>
+    <String identifier="TM2DDI16DK.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">16 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI16DT.devdesc.xml">
+    <String identifier="TM2DDI16DT.DeviceDescription">TM2DDI16DT
+Κάρτα επέκτασης με 16 24V DC εισόδους, αποσπώμενες κλέμμες με βίδες, 1 κοινό σημείο, τρανζίστορ θετικής/αρνητικής λογικής.</String>
+    <String identifier="TM2DDI16DT.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">16 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI32DK.devdesc.xml">
+    <String identifier="TM2DDI32DK.DeviceDescription">TM2DDI32DK
+Κάρτα επέκτασης με 32 24V DC εισόδους, HE10 (MIL 20) βύσμα, 2 κοινά σημεία, τρανζίστορ θετικής/αρνητικής λογικής.</String>
+    <String identifier="TM2DDI32DK.ParameterSectionName">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">32 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDO8TT.devdesc.xml">
+    <String identifier="TM2DDO8TT.DeviceDescription">TM2DDO8TT
+Κάρτα επέκτασης με 8 εξόδους, 0,5A τρανζίστορ θετικής λογικής, 1 κοινό σημείο, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2DDO8TT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DDO8TT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DDO8TT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DDO8TT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DDO8TT.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">8 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM2DDO8UT.devdesc.xml">
+    <String identifier="TM2DDO8UT.DeviceDescription">TM2DDO8UT
+Κάρτα επέκτασης με 8 εξόδους, 0,3A τρανζίστορ αρνητικής λογικής, 1 κοινό σημείο, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2DDO8UT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DDO8UT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DDO8UT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DDO8UT.Output_Conf.Type_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DDO8UT.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">8 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+  <Content key="#TM2DDO16TK.devdesc.xml">
+    <String identifier="TM2DDO16TK.DeviceDescription">TM2DDO16TK
+Κάρτα επέκτασης με 16 εξόδους, 0,4A τρανζίστορ θετικής λογικής, 1 κοινό σημείο, HE10 (MIL 20) βύσμα.</String>
+    <String identifier="TM2DDO16TK.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DDO16TK.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DDO16TK.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DDO16TK.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DDO16TK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM2DDO16UK.devdesc.xml">
+    <String identifier="TM2DDO16UK.DeviceDescription">TM2DDO16UK
+Κάρτα επέκτασης με 16 εξόδους (0,1A τρανζίστορ αρνητικής λογικής), 1 κοινό σημείο, HE10 (MIL 20) βύσμα.</String>
+    <String identifier="TM2DDO16UK.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DDO16UK.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DDO16UK.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DDO16UK.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DDO16UK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+  <Content key="#TM2DDO32TK.devdesc.xml">
+    <String identifier="TM2DDO32TK.DeviceDescription">TM2DDO32TK
+Κάρτα επέκτασης με 32 εξόδους (0,4A τρανζίστορ θετικής λογικής), 2 κοινά σημεία, HE10 (MIL 20) βύσμα.</String>
+    <String identifier="TM2DDO32TK.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DDO32TK.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DDO32TK.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DDO32TK.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DDO32TK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">32 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM2DDO32UK.devdesc.xml">
+    <String identifier="TM2DDO32UK.DeviceDescription">TM2DDO32UK
+Κάρτα επέκτασης με 32 εξόδους (0,1A τρανζίστορ αρνητικής λογικής), 2 κοινά σημεία, HE10 (MIL 20) βύσμα.</String>
+    <String identifier="TM2DDO32UK.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DDO32UK.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DDO32UK.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DDO32UK_Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DDO32UK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">32 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+  <Content key="#TM2DMM8DRT.devdesc.xml">
+    <String identifier="TM2DMM8DRT.DeviceDescription">TM2DMM8DRT
+Κάρτα επέκτασης με 4 24V DC εισόδους, 1 κοινό σημείο), 4 εξόδους (ρελέ 2A, 2 κοινά σημεία), αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2DMM8DRT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DMM8DRT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DMM8DRT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DMM8DRT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DMM8DRT.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM2DMM8DRT.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x 24 Vdc</String>
+    <String identifier="OutputKey">4 ρελέ</String>
+  </Content>
+  <Content key="#TM2DMM24DRF.devdesc.xml">
+    <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Κάρτα επέκτασης με 16 εισόδους (24V DC, 1 κοινό σημείο), 8 εξόδους (ρελέ 2A, 2 κοινά σημεία), μή αποσπώμενες κλέμμες με ελατήριο.</String>
+    <String identifier="TM2DMM24DRF.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DMM24DRF.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Kλέμμες με ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">16 x 24 Vdc</String>
+    <String identifier="OutputKey">8 ρελέ</String>
+  </Content>
+  <Content key="#TM2DRA8RT.devdesc.xml">
+    <String identifier="TM2DRA8RT.DeviceDescription">TM2DRA8RT
+Κάρτα επέκτασης με 8 εξόδους (ρελέ 2A), 2 κοινά σημεία, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2DRA8RT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DRA8RT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DRA8RT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DRA8RT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DRA8RT.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">8 ρελέ</String>
+  </Content>
+  <Content key="#TM2DRA16RT.devdesc.xml">
+    <String identifier="TM2DRA16RT.DeviceDescription">TM2DRA16RT
+Κάρτα επέκτασης με 16 εξόδους (ρελέ 2A), 2 κοινά σημεία, αποσπώμενες κλέμμες με βίδες.</String>
+    <String identifier="TM2DRA16RT.Maintain">Μανδάλωση</String>
+    <String identifier="TM2DRA16RT.Fallback">Τιμή επαναφοράς</String>
+    <String identifier="TM2DRA16RT.Output_Conf.Mode_description">Κατάσταση επαναφοράς</String>
+    <String identifier="TM2DRA16RT.Output_Conf.Force_description">Τιμή εξαναγκασμού (Force)</String>
+    <String identifier="TM2DRA16RT.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 ρελέ</String>
+  </Content>
+
+  <Content key="#TM3AI2H_G.devdesc.xml">
+    <String identifier="TM3AI2H_G.DeviceDescription">TM3AI2H (Κλέμμες με βίδες), TM3AI2HG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 2 αναλογικές εισόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 16 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AI2H_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3AI2H_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AI2H_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AI2H_G.ScopeNormal">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AI2H_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AI2H_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AI2H_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AI2H_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AI2H_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AI2H_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AI2H_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AI2H_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3AI2H_G.Sampling_1_ms">1 ms/Κανάλι</String>
+    <String identifier="TM3AI2H_G.InputParameter.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3AI2H_G.InputParameter.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3AI2H_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">2 x τάσης ή έντασης</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AI4_G.devdesc.xml">
+    <String identifier="TM3AI4_G.DeviceDescription">TM3AI4 (Κλέμμες με βίδες), TM3AI4G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εισόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AI4_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3AI4_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AI4_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AI4_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AI4_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AI4_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AI4_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AI4_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AI4_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AI4_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AI4_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3AI4_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3AI4_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3AI4_G.Sampling_1_ms">1 ms/Κανάλι</String>
+    <String identifier="TM3AI4_G.Sampling_10_ms">10 ms/Κανάλι</String>
+    <String identifier="TM3AI4_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x τάσης ή έντασης</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AI8_G.devdesc.xml">
+    <String identifier="TM3AI8_G.DeviceDescription">TM3AI8 (Κλέμμες με βίδες), TM3AI8G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 αναλογικές εισόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AI8_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3AI8_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AI8_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AI8_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AI8_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AI8_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AI8_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AI8_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AI8_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AI8_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AI8_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3AI8_G.Sampling_1_ms">1 ms/Κανάλι</String>
+    <String identifier="TM3AI8_G.Sampling_10_ms">10 ms/Κανάλι</String>
+    <String identifier="TM3AI8_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3AI8_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3AI8_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x τάσης ή έντασης</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+   <Content key="#TM3AI8_G_C_CG.devdesc.xml">
+    <String identifier="TM3AI8_G.DeviceDescription">TM3AI8/C (Κλέμμες με βίδες), TM3AI8G/CG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 αναλογικές εισόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AI8_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3AI8_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AI8_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AI8_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AI8_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AI8_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AI8_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AI8_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AI8_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AI8_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AI8_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3AI8_G.Sampling_1_ms">1 ms/Κανάλι</String>
+    <String identifier="TM3AI8_G.Sampling_10_ms">10 ms/Κανάλι</String>
+    <String identifier="TM3AI8_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3AI8_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3AI8_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x τάσης ή έντασης</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AM6_G.devdesc.xml">
+    <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (Κλέμμες με βίδες), TM3AM6G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εισόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA) και 2 αναλογικές εξόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3AM6_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AM6_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AM6_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AM6_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AM6_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AM6_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AM6_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AM6_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AM6_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Κανάλι</String>
+    <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Κανάλι</String>
+    <String identifier="TM3AM6_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3AM6_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3AM6_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x τάσης ή έντασης</String>
+    <String identifier="OutputKey">2 x τάσης ή έντασης</String>
+  </Content>
+  <Content key="#TM3AM6_G_C_CG.devdesc.xml">
+    <String identifier="TM3AM6_G.DeviceDescription">TM3AM6/C (Κλέμμες με βίδες), TM3AM6G/CG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εισόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA) και 2 αναλογικές εξόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3AM6_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AM6_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AM6_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AM6_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AM6_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AM6_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AM6_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AM6_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AM6_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Κανάλι</String>
+    <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Κανάλι</String>
+    <String identifier="TM3AM6_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3AM6_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3AM6_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x τάσης ή έντασης</String>
+    <String identifier="OutputKey">2 x τάσης ή έντασης</String>
+  </Content>
+  <Content key="#TM3AQ2_G.devdesc.xml">
+    <String identifier="TM3AQ2_G.DeviceDescription">TM3AQ2 (Κλέμμες με βίδες), TM3AQ2G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 2 αναλογικές εξόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AQ2_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3AQ2_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AQ2_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AQ2_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AQ2_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AQ2_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AQ2_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AQ2_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AQ2_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AQ2_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AQ2_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">2 x τάσης ή έντασης</String>
+  </Content>
+  <Content key="#TM3AQ4_G.devdesc.xml">
+    <String identifier="TM3AQ4_G.DeviceDescription">TM3AQ4 (Κλέμμες με βίδες), TM3AQ4G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εξόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AQ4_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3AQ4_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AQ4_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AQ4_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AQ4_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AQ4_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AQ4_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AQ4_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AQ4_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AQ4_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AQ4_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">4 x τάσης ή έντασης</String>
+  </Content>
+  <Content key="#TM3AQ4_G_C_CG.devdesc.xml">
+    <String identifier="TM3AQ4_G.DeviceDescription">TM3AQ4/C (Κλέμμες με βίδες), TM3AQ4G/CG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εξόδους (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3AQ4_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3AQ4_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3AQ4_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3AQ4_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3AQ4_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3AQ4_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3AQ4_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3AQ4_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3AQ4_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3AQ4_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3AQ4_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">4 x τάσης ή έντασης</String>
+  </Content>
+
+  <Content key="#TM3DI8A.devdesc.xml">
+    <String identifier="TM3DI8A.DeviceDescription">TM3DI8A
+Κάρτα επέκτασης με 8 120 Vac εισόδους, με 2 κοινά σημεία, sink/source και αποσπώμενες κλέμμες με βίδες block.</String>
+    <String identifier="TM3DI8A.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x 120 Vac</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI8_G.devdesc.xml">
+    <String identifier="TM3DI8_G.DeviceDescription">TM3DI8 (Κλέμμες με βίδες), TM3DI8G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 24 Vdc εισόδους, με 1 κοινό σημείο, sink/source και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DI8_G.ParameterSectionName">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI16_G.devdesc.xml">
+    <String identifier="TM3DI16_G.DeviceDescription">TM3DI16 (Κλέμμες με βίδες), TM3DI16G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 16 24 Vdc εισόδους, με 1 κοινό σημείο, sink/source και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DI16_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">16 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI16K.devdesc.xml">
+    <String identifier="TM3DI16K.DeviceDescription">TM3DI16K
+Κάρτα επέκτασης με 16 24 Vdc εισόδους, με 1 κοινό σημείο, sink/source και HE10 βύσμα.</String>
+    <String identifier="TM3DI16K.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">16 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI32K.devdesc.xml">
+    <String identifier="TM3DI32K.DeviceDescription">TM3DI32K
+Κάρτα επέκτασης με 32 24 Vdc εισόδους, με 2 κοινά σημεία, sink/source και HE10 βύσμα.</String>
+    <String identifier="TM3DI32K.ParameterSectionName">Είσοδοι</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">32 x 24 Vdc</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DM8R_G.devdesc.xml">
+    <String identifier="TM3DM8R_G.DeviceDescription">TM3DM8R (Κλέμμες με βίδες), TM3DM8RG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης 24 Vdc με 4 εισόδους θετικής/αρνητικής λογικής, με 1 κοινό σημείο, 4 εξόδους ρελέ 2A, με 1 κοινό σημείο και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DM8R_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3DM8R_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x 24 Vdc</String>
+    <String identifier="OutputKey">4 ρελέ</String>
+  </Content>
+  <Content key="#TM3DM24R_G.devdesc.xml">
+    <String identifier="TM3DM24R_G.DeviceDescription">TM3DM24R (Κλέμμες με βίδες), TM3DM24RG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης 24 Vdc με 16 εισόδους θετικής/αρνητικής λογικής, με 1 κοινό σημείο, 4 εξόδους ρελέ 2A, με 2 κοινά σημεία και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DM24R_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3DM24R_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">16 x 24 Vdc</String>
+    <String identifier="OutputKey">8 ρελέ</String>
+  </Content>
+  <Content key="#TM3DQ8R_G.devdesc.xml">
+    <String identifier="TM3DQ8R_G.DeviceDescription">TM3DQ8R (Κλέμμες με βίδες), TM3DQ8RG(Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 εξόδους ρελέ 2A, με 2 κοινά σημεία και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DQ8R_G.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">8 ρελέ</String>
+  </Content>
+  <Content key="#TM3DQ8T_G.devdesc.xml">
+    <String identifier="TM3DQ8T_G.DeviceDescription">TM3DQ8T (Κλέμμες με βίδες), TM3DQ8TG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 εξόδους τρανζίστορ θετικής λογικής 0,5A, με 1 κοινό σημείο και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DQ8T_G.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">8 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ8U_G.devdesc.xml">
+    <String identifier="TM3DQ8U_G.DeviceDescription">TM3DQ8U (Κλέμμες με βίδες), TM3DQ8UG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 εξόδους τρανζίστορ αρνητικής λογικής 0,5A, με 1 κοινό σημείο και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DQ8U_G.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">8 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ16R_G.devdesc.xml">
+    <String identifier="TM3DQ16R_G.DeviceDescription">TM3DQ16R (Κλέμμες με βίδες), TM3DQ16RG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 16 εξόδους ρελέ 2A, με 2 κοινά σημεία και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DQ16R_G.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 ρελέ</String>
+  </Content>
+  <Content key="#TM3DQ16T_G.devdesc.xml">
+    <String identifier="TM3DQ16T_G.DeviceDescription">TM3DQ16T (Κλέμμες με βίδες), TM3DQ16TG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 16 εξόδους τρανζίστορ θετικής λογικής 0,5A, με 1 κοινό σημείο και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DQ16T_G.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ16TK.devdesc.xml">
+    <String identifier="TM3DQ16TK.DeviceDescription">TM3DQ16TK
+Κάρτα επέκτασης με 16 εξόδους τρανζίστορ θετικής λογικής 0,5A, με 1 κοινό σημείο και HE10 βύσμα.</String>
+    <String identifier="TM3DQ16TK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ16U_G.devdesc.xml">
+    <String identifier="TM3DQ16U_G.DeviceDescription">TM3DQ16U (Κλέμμες με βίδες), TM3DQ16UG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 16 εξόδους τρανζίστορ αρνητικής λογικής 0,4A, με 1 κοινό σημείο και αποσπώμενη κλέμμα.</String>
+    <String identifier="TM3DQ16U_G.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ16UK.devdesc.xml">
+    <String identifier="TM3DQ16UK.DeviceDescription">TM3DQ16UK
+Κάρτα επέκτασης με 16 εξόδους τρανζίστορ αρνητικής λογικής 0,1A, με 1 κοινό σημείο και HE10 βύσμα.</String>
+    <String identifier="TM3DQ16UK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">16 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ32TK.devdesc.xml">
+    <String identifier="TM3DQ32TK.DeviceDescription">TM3DQ32TK
+Κάρτα επέκτασης με 32 εξόδους τρανζίστορ θετικής λογικής 0,1A, με 2 κοινά σημεία και HE10 βύσμα.</String>
+    <String identifier="TM3DQ32TK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">32 τρανζίστορ θετικής λογικής</String>
+  </Content>
+  <Content key="#TM3DQ32UK.devdesc.xml">
+    <String identifier="TM3DQ32UK.DeviceDescription">TM3DQ32UK
+Κάρτα επέκτασης με 32 εξόδους τρανζίστορ αρνητικής λογικής 0,1A, με 2 κοινά σημεία και HE10 βύσμα.</String>
+    <String identifier="TM3DQ32UK.ParameterSectionName">Έξοδοι</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">32 τρανζίστορ αρνητικής λογικής</String>
+  </Content>
+
+  <Content key="#TM3TI4_G.devdesc.xml">
+    <String identifier="TM3TI4_G.DeviceDescription">TM3TI4 (Κλέμμες με βίδες), TM3TI4G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εισόδους (+-10,0-10V,0-20mA,4-20mA, NI100, NI1000, PT100, PT1000, Θερμοστοιχείο: J,K,R,S,B,T,N), 16 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3TI4_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3TI4_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3TI4_G.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM3TI4_G.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM3TI4_G.Fahrenheit2">Φαρενάϊτ (0.2°F)</String>
+    <String identifier="TM3TI4_G.ThermocoupleK">K Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleJ">J Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleR">R Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleS">S Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleB">B Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleE">E Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleT">T Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleN">N Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ThermocoupleC">C Θερμοστοιχείο</String>
+    <String identifier="TM3TI4_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3TI4_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3TI4_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3TI4_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3TI4_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3TI4_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3TI4_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3TI4_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3TI4_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3TI4_G.Sampling_100ms">100 ms/Κανάλι</String>
+    <String identifier="TM3TI4_G.Sampling_10ms">10 ms/Κανάλι</String>
+    <String identifier="TM3TI4_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3TI4_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3TI4_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x τάσης, έντασης ή Θερμοκρασία</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3TI4D_G.devdesc.xml">
+    <String identifier="TM3TI4D_G.DeviceDescription">TM3TI4D (Κλέμμες με βίδες), TM3TI4DG (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 4 αναλογικές εισόδους (Θερμοστοιχείο: J,K,R,S,B,T,N), 16 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3TI4D_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3TI4D_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3TI4D_G.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM3TI4D_G.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM3TI4D_G.Fahrenheit2">Φαρενάϊτ (0.2°F)</String>
+    <String identifier="TM3TI4D_G.ThermocoupleK">K Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleJ">J Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleR">R Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleS">S Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleB">B Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleE">E Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleT">T Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleN">N Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ThermocoupleC">C Θερμοστοιχείο</String>
+    <String identifier="TM3TI4D_G.ScopeCustomized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3TI4D_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3TI4D_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3TI4D_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3TI4D_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3TI4D_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3TI4D_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3TI4D_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3TI4D_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3TI4D_G.Sampling_100ms">100 ms/Κανάλι</String>
+    <String identifier="TM3TI4D_G.Sampling_10ms">10 ms/Κανάλι</String>
+    <String identifier="TM3TI4D_G.InputFilterDescription">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3TI4D_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3TI4D_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">4 x Θερμοκρασία</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3TI8T_G.devdesc.xml">
+    <String identifier="TM3TI8T_G.DeviceDescription">TM3TI8 (Κλέμμες με βίδες), TM3TI8G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 8 αναλογικές εισόδους ( NTC, PTC, Θερμοστοιχείο: J,K,R,S,B,T,N), 16 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3TI8T_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3TI8T_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3TI8T_G.ThermocoupleK">K Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleJ">J Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleR">R Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleS">S Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleB">B Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleE">E Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleT">T Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleN">N Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.ThermocoupleC">C Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.NTCThermistor">NTC Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.PTCThermistor">PTC Θερμοστοιχείο</String>
+    <String identifier="TM3TI8T_G.Customized">Ρύθμιση χρήστη</String>
+    <String identifier="TM3TI8T_G.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM3TI8T_G.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM3TI8T_G.Fahrenheit2">Φαρενάϊτ (0.2°F)</String>
+    <String identifier="TM3TI8T_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3TI8T_G.ScopeDescription">Μονάδα μέτρησης / Εύρος</String>
+    <String identifier="TM3TI8T_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3TI8T_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3TI8T_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3TI8T_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3TI8T_G.RValueUnit">* 1 Ohm</String>
+    <String identifier="TM3TI8T_G.RDescription">Αναφορά αντίστασης σε Ohm στην αναφορά θερμοκρασίας</String>
+    <String identifier="TM3TI8T_G.TValueUnit">* 1 °C</String>
+    <String identifier="TM3TI8T_G.TDescription">Τιμή αναφοράς θερμοκρασίας σε Κελσίου</String>
+    <String identifier="TM3TI8T_G.BDescription">Ευαισθησία αισθητηρίου</String>
+    <String identifier="TM3TI8T_G.InputFilterUnit">X 100 ms</String>
+    <String identifier="TM3TI8T_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3TI8T_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3TI8T_G.Sampling_0_100ms">100 ms/Κανάλι</String>
+    <String identifier="TM3TI8T_G.Sampling_100_ms">100 ms/Κανάλι</String>
+    <String identifier="TM3TI8T_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3TI8T_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3TI8T_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">8 x Θερμοκρασία</String>
+    <String identifier="OutputKey">0</String>
+    <String identifier="TM3TI8T_G.Ohmmeter">Ωμόμετρο</String>
+    <String identifier="TM3TI8T_G.Resistance">Αντίσταση (Ohm)</String>
+    <String identifier="TM3TI8T_G.Threshold">Κατώφλι</String>
+    <String identifier="TM3TI8T_G.ThresholdHighDescription">Κατώφλι ενεργοποίησης</String>
+    <String identifier="TM3TI8T_G.ThresholdLowDescription">Κατώφλι επανενεργοποίησης</String>
+  </Content>
+  <Content key="#TM3TM3_G.devdesc.xml">
+    <String identifier="TM3TM3_G.DeviceDescription">TM3TM3 (Κλέμμες με βίδες), TM3TM3G (Κλέμμες με ελατήριο)
+Κάρτα επέκτασης με 2 αναλογικές εισόδους (+-10, 0-10V, 0-20mA, 4-20mA, NI100, NI1000, PT100, PT1000, Θερμοστοιχείο: J,K,R,S,B,T,N), 16 bits και 1 αναλογικές έξοδος (+- 10 V, 0 - 10V, 0 - 20 mA, 4 - 20mA), 12 bits, αποσπώμενες κλέμμες.</String>
+    <String identifier="TM3TM3_G.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3TM3_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3TM3_G.NotUsed">Δεν χρησιμοποιείται</String>
+    <String identifier="TM3TM3_G.ThermocoupleK">K Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleJ">J Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleR">R Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleS">S Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleB">B Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleE">E Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleT">T Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleN">N Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.ThermocoupleC">C Θερμοστοιχείο</String>
+    <String identifier="TM3TM3_G.Customized">Εργοστασιακή ρύθμιση</String>
+    <String identifier="TM3TM3_G.Celsius">Κελσίου (0,1°C)</String>
+    <String identifier="TM3TM3_G.Fahrenheit">Φαρενάϊτ (0,1°F)</String>
+    <String identifier="TM3TM3_G.Fahrenheit2">Φαρενάϊτ (0.2°F)</String>
+    <String identifier="TM3TM3_G.EnumYesNo.No">Όχι</String>
+    <String identifier="TM3TM3_G.EnumYesNo.Yes">Ναι</String>
+    <String identifier="TM3TM3_G.TypeDescription">Εύρος</String>
+    <String identifier="TM3TM3_G.ScopeDescription">Μονάδα μέτρησης</String>
+    <String identifier="TM3TM3_G.MinimumDescription">Ελάχιστη τιμή</String>
+    <String identifier="TM3TM3_G.MaximumDescription">Μέγιστη τιμή</String>
+    <String identifier="TM3TM3_G.InputFilterUnit">X 100 ms</String>
+    <String identifier="TM3TM3_G.InputFilterDescription">Είσοδος φίλτρου</String>
+    <String identifier="TM3TM3_G.SamplingUnit">Ms/Κανάλι</String>
+    <String identifier="TM3TM3_G.Sampling_100ms">100 ms/Κανάλι</String>
+    <String identifier="TM3TM3_G.Sampling_10ms">10 ms/Κανάλι</String>
+    <String identifier="TM3TM3_G.SamplingSelectionDescription">Επιλογή φίλτρου εισόδου </String>
+    <String identifier="TM3TM3_G.ParameterSectionNameDiagnostic">Διαγνωστικά</String>
+    <String identifier="TM3TM3_G.StatusParameter">Ενεργοποίηση κατάστασης</String>
+    <String identifier="TerminalBlockKey">Κλέμμες με βίδες/ελατήριο</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">2 x τάσης, έντασης ή Θερμοκρασία</String>
+    <String identifier="OutputKey">1 x τάσης ή έντασης</String>
+  </Content>
+
+  <Content key="#TransmitterReceiver.xml">
+    <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1 / TM3XREC1
+Κάρτες επέκτασης Πομπού / Δέκτη .</String>
+    <String identifier="ModuleTypeKey">Πομπός_Δέκτης</String>
+    <String identifier="FeaturesKey">Απομακρυσμένος δίαυλος Ι/Ο(Remote IO Bus)</String>
+  </Content>
+
+  <Content key="#TM3SAC5R_G.devdesc.xml">
+    <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R(Κλέμμες με βίδες), TM3SAC5RG(Κλέμμες με ελατήριο),
+Κάρτα επέκτασης ασφαλείας, 1 λειτουργία, CAT3, μέγιστη κατηγορία PL d/SIL2.</String>
+    <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Διαγνωστικά</String>
+    <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Έξοδος ασφαλείας ενεργή</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Τροφοδοσία Ok</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Τροφοδοσία εκτός ορίων</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Κανάλι 1 ενεργό</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Έναρξη ενεργή</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Ρελέ K1 ενεργοποιημένο</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Ρελέ K2 ενεργοποιημένο</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Αναμονή για συνθήκη έναρξης</String>
+    <String identifier="TM3SAC5R_G.Output.Bit0.Description">Έξοδοι ασφαλείας ενεργοποιημένες</String>
+    <String identifier="TM3SAC5R_G.Output.Bit1.Description">Απενεργοποίηση κάρτας επέκτασης ασφαλείας (τρέχουσα πηγή ανενεργή)</String>
+    <String identifier="TM3SAC5R_G.Output.Bit2.Description">Η λειτουργία ασφαλείας παραμένει ενεργή ακόμη και όταν ο δίαυλος(bus) είναι ανενεργός (μετά από χρονικό όριο)</String>
+    <String identifier="ModuleTypeKey">Ασφάλεια</String>
+    <String identifier="FeaturesKey">1 λειτουργία, CAT3</String>
+  </Content>
+  <Content key="#TM3SAF5R_G.devdesc.xml">
+    <String identifier="TM3SAF5R_G.DeviceDescription">TM3SAF5R(Κλέμμες με βίδες), TM3SAF5RG(Κλέμμες με ελατήριο), 
+Κάρτα επέκτασης ασφαλείας, 1 λειτουργία, CAT4, μέγιστη κατηγορία PL e/SIL3.</String>
+    <String identifier="TM3SAF5R_G.ParameterSectionNameInputs">Διαγνωστικά</String>
+    <String identifier="TM3SAF5R_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit0.Description">Έξοδος ασφαλείας ενεργή</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit1.Description">Τροφοδοσία διαθέσιμη (A1/A2)</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit2.Description">Τροφοδοσία εκτός ορίων</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit3.Description">Κανάλι 1 ενεργό</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit4.Description">Κανάλι 2 ενεργό</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit5.Description">Έναρξη ενεργή</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit6.Description">Ρελέ K1 ενεργοποιημένο</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit7.Description">Ρελέ K2 ενεργοποιημένο</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit9.Description">S1 ενεργό</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit10.Description">S2 ενεργό</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit11.Description">S4 ενεργό</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit12.Description">Αναμονή για συνθήκη έναρξης</String>
+    <String identifier="TM3SAF5R_G.Output.Bit0.Description">Έξοδοι ασφαλείας ενεργοποιημένες</String>
+    <String identifier="TM3SAF5R_G.Output.Bit1.Description">Απενεργοποίηση κάρτας επέκτασης ασφαλείας (τρέχουσα πηγή ανενεργή)</String>
+    <String identifier="TM3SAF5R_G.Output.Bit2.Description">Η λειτουργία ασφαλείας παραμένει ενεργή ακόμη και όταν ο δίαυλος(bus) είναι ανενεργός (μετά από χρονικό όριο)</String>
+    <String identifier="ModuleTypeKey">Ασφάλεια</String>
+    <String identifier="FeaturesKey">1 λειτουργία, CAT4</String>
+  </Content>
+  <Content key="#TM3SAFL5R_G.devdesc.xml">
+    <String identifier="TM3SAFL5R_G.DeviceDescription">TM3SAFL5R(Κλέμμες με βίδες), TM3SAFL5RG(Κλέμμες με ελατήριο), 
+Κάρτα επέκτασης ασφαλείας, 2 λειτουργίεs, CAT3, μέγιστη κατηγορία PL d/SIL2.</String>
+    <String identifier="TM3SAFL5R_G.ParameterSectionNameInputs">Διαγνωστικά</String>
+    <String identifier="TM3SAFL5R_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit0.Description">Έξοδος ασφαλείας ενεργή</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit1.Description">Τροφοδοσία διαθέσιμη (A1/A2)</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit2.Description">Τροφοδοσία εκτός ορίων</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit3.Description">Κανάλι 1 ενεργό</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit4.Description">Κανάλι 2 ενεργό</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit5.Description">Έναρξη ενεργή</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit6.Description">Ρελέ K1 ενεργοποιημένο</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit7.Description">Ρελέ K2 ενεργοποιημένο</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit8.Description">S1 ενεργό</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit10.Description">S2 ενεργό</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit11.Description">S4 ενεργό</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit12.Description">Αναμονή για συνθήκη έναρξης</String>
+    <String identifier="TM3SAFL5R_G.Output.Bit0.Description">Έξοδοι ασφαλείας ενεργοποιημένες</String>
+    <String identifier="TM3SAFL5R_G.Output.Bit1.Description">Απενεργοποίηση κάρτας επέκτασης ασφαλείας (τρέχουσα πηγή ανενεργή)</String>
+    <String identifier="TM3SAFL5R_G.Output.Bit2.Description">Η λειτουργία ασφαλείας παραμένει ενεργή ακόμη και όταν ο δίαυλος(bus) είναι ανενεργός (μετά από χρονικό όριο)</String>
+    <String identifier="ModuleTypeKey">Ασφάλεια</String>
+    <String identifier="FeaturesKey">2 λειτουργίεs, CAT3</String>
+  </Content>
+  <Content key="#TM3SAK6R_G.devdesc.xml">
+    <String identifier="TM3SAK6R_G.DeviceDescription">TM3SAK6R(Κλέμμες με βίδες), TM3SAK6RG(Κλέμμες με ελατήριο),
+Κάρτα επέκτασης ασφαλείας, 3 λειτουργίεs, CAT4, μέγιστη κατηγορία PL e/SIL3.</String>
+    <String identifier="TM3SAK6R_G.ParameterSectionNameInputs">Διαγνωστικά</String>
+    <String identifier="TM3SAK6R_G.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit0.Description">Έξοδος ασφαλείας ενεργή</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit1.Description">Τροφοδοσία διαθέσιμη (A1/A2)</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit2.Description">Τροφοδοσία εκτός ορίων</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit3.Description">Κανάλι 1 ενεργό</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit4.Description">Κανάλι 2 ενεργό</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit5.Description">Έναρξη ενεργή</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit6.Description">Ρελέ K1 ενεργοποιημένο</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit7.Description">Ρελέ K2 ενεργοποιημένο</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit8.Description">S1 ενεργό</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit9.Description">S2 ενεργό</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit10.Description">S3 ενεργό</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit11.Description">S4 ενεργό</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit12.Description">Αναμονή για συνθήκη έναρξης</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit13.Description">Αποτυχία συγχρονισμού. Επαναλειτουργία S2 και S3.</String>
+    <String identifier="TM3SAK6R_G.Output.Bit0.Description">Έξοδοι ασφαλείας ενεργοποιημένες</String>
+    <String identifier="TM3SAK6R_G.Output.Bit1.Description">Απενεργοποίηση κάρτας επέκτασης ασφαλείας (τρέχουσα πηγή ανενεργή)</String>
+    <String identifier="TM3SAK6R_G.Output.Bit2.Description">Η λειτουργία ασφαλείας παραμένει ενεργή ακόμη και όταν ο δίαυλος(bus) είναι ανενεργός (μετά από χρονικό όριο)</String>
+    <String identifier="TM3SAK6R_G.Output.Bit3.Description">Επιτήρηση χρόνου συγχρονισμού ενεργή</String>
+    <String identifier="ModuleTypeKey">Ασφάλεια</String>
+    <String identifier="FeaturesKey">3 λειτουργίεs, CAT4</String>
+  </Content>
+
+  <Content key="#TM3XTYS4.devdesc.xml">
+    <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+Κάρτα επέκτασης 4 εκκινητών κινητήρα Tesys.</String>
+    <String identifier="TM3XTYS4.ParameterSectionNameInputs">Είσοδοι</String>
+    <String identifier="TM3XTYS4.Input.Ready.Description">Αυτή η είσοδος είναι ενεργή, αν ο επιλογέας του εκκινητή βρίσκεται σε ενεργή θέση (ON)</String>
+    <String identifier="TM3XTYS4.Input.Run.Description">Αυτή η είσοδος υποδηλώνει την κλειστή κατάσταση των πόλων ισχύος</String>
+    <String identifier="TM3XTYS4.Input.Trip.Description">Αυτή η είσοδος είναι ενεργή, εάν ο επιλογέας  του εκκινητή βρίσκεται στη θέση σφάλματος (TRIP)</String>
+    <String identifier="TM3XTYS4.Input.Error.Description">Ένδειξη σφάλματος υπερέντασης των εξόδων προστασίας πηγής (0: Σφάλμα, 1: κανονική)</String>
+    <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Έξοδοι</String>
+    <String identifier="TM3XTYS4.Output.Dir1Control.Description">Αυτή η έξοδος 24 V οδηγεί την έναρξη(προς τα εμπρός) του κινητήρα. Η ισχύς αυτής της εξόδου προέρχεται από εξόδους 24V</String>
+    <String identifier="TM3XTYS4.Output.Dir2Control.Description">Αυτή η έξοδος 24 V οδηγεί την αναστροφή(προς τα πίσω) του κινητήρα. Η ισχύς αυτής της εξόδου προέρχεται από εξόδους 24V </String>
+    <String identifier="TM3XTYS4.DOL">Απ'ευθείας εκκινητές (DOL)</String>
+    <String identifier="TM3XTYS4.FR">Απ'ευθείας και ανάστροφοι εκκινητές</String>
+    <String identifier="TM3XTYS4.Module.TesysType">Το μοντέλο TesysU είναι συνδεδεμένο στη μονάδα TM3</String>
+    <String identifier="ModuleTypeKey">Tesys</String>
+    <String identifier="FeaturesKey">4 x εκκινητές κινητήρων</String>
+  </Content>
+
+</Content>

@@ -1,0 +1,2184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectVersion>1.4.0.0</ProjectVersion>
+  <ManagementLevel>FunctLevelMan5_0</ManagementLevel>
+  <Name>xSample_EtherNetIP_Miror</Name>
+  <FullName>xSample_EtherNetIP_Miror.smbe</FullName>
+  <SoftwareConfiguration>
+    <Pous>
+      <ProgramOrganizationUnits>
+        <Name>Miror_EIP</Name>
+        <Rungs>
+          <RungEntity>
+            <LadderElements />
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD 1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE0 := %IWE0]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE1 := %IWE1]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE2 := %IWE2]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE3 := %IWE3]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE4 := %IWE4]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE5 := %IWE5]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE6 := %IWE6]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE7 := %IWE7]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE8 := %IWE8]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE9 := %IWE9]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE10 := %IWE10]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE11 := %IWE11]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE12 := %IWE12]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE13 := %IWE13]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE14 := %IWE14]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE15 := %IWE15]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE16 := %IWE16]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE17 := %IWE17]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE18 := %IWE18]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%QWE19 := %IWE19]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Copy_IWE_on_QWE</Name>
+            <MainComment />
+            <Label />
+            <IsLadderSelected>false</IsLadderSelected>
+            <Category />
+          </RungEntity>
+        </Rungs>
+        <SectionNumber>1</SectionNumber>
+        <Comment>Rung allow to Test the Connexion between Master EIP and M221</Comment>
+        <IsGrafcet>false</IsGrafcet>
+        <GrafcetNodes />
+        <GrafcetLinks />
+      </ProgramOrganizationUnits>
+    </Pous>
+    <Subroutines />
+    <WatchLists>
+      <WatchListEntity>
+        <Name>QWE</Name>
+        <WatchListItemEntities>
+          <WatchListItemEntity>
+            <Address>%QWE0</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE1</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE2</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE3</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE4</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE5</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE6</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE7</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE8</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE9</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE10</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE11</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE12</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE13</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE14</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE15</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE16</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE17</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE18</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWE19</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+        </WatchListItemEntities>
+      </WatchListEntity>
+      <WatchListEntity>
+        <Name>IWE</Name>
+        <WatchListItemEntities>
+          <WatchListItemEntity>
+            <Address>%IWE0</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE1</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE2</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE3</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE4</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE5</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE6</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE7</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE8</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE9</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE10</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE11</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE12</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE13</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE14</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE15</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE16</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE17</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE18</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWE19</Address>
+            <IsTraced>false</IsTraced>
+          </WatchListItemEntity>
+        </WatchListItemEntities>
+      </WatchListEntity>
+    </WatchLists>
+    <CustomSymbols />
+    <ConstantWordsMemoryAllocation />
+    <MemoryBitsMemoryAllocation>
+      <Allocation>Manual</Allocation>
+      <ForcedCount>512</ForcedCount>
+    </MemoryBitsMemoryAllocation>
+    <MemoryWordsMemoryAllocation>
+      <Allocation>Manual</Allocation>
+      <ForcedCount>2000</ForcedCount>
+    </MemoryWordsMemoryAllocation>
+    <TimersMemoryAllocation />
+    <CountersMemoryAllocation />
+    <RegistersMemoryAllocation />
+    <DrumsMemoryAllocation />
+    <SbrsMemoryAllocation />
+    <ScsMemoryAllocation />
+    <FcsMemoryAllocation />
+    <SchsMemoryAllocation />
+    <HscsMemoryAllocation />
+    <PtosMemoryAllocation />
+    <MemoryBits />
+    <SystemBits>
+      <MemoryBit>
+        <Address>%S0</Address>
+        <Index>0</Index>
+        <Symbol>SB_COLDSTART</Symbol>
+        <Comment>Indicates there was a cold start with loss of data</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S1</Address>
+        <Index>1</Index>
+        <Symbol>SB_WARMSTART</Symbol>
+        <Comment>Indicates there was a warm start with data backup</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S4</Address>
+        <Index>4</Index>
+        <Symbol>SB_TB10MS</Symbol>
+        <Comment>Time base of 10 ms generated by an internal clock</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S5</Address>
+        <Index>5</Index>
+        <Symbol>SB_TB100MS</Symbol>
+        <Comment>Time base of 100 ms generated by an internal clock</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S6</Address>
+        <Index>6</Index>
+        <Symbol>SB_TB1S</Symbol>
+        <Comment>Time base of 1 s generated by an internal clock</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S7</Address>
+        <Index>7</Index>
+        <Symbol>SB_TB1MIN</Symbol>
+        <Comment>Time base of 1 min generated by an internal clock</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S10</Address>
+        <Index>10</Index>
+        <Symbol>SB_IOCOMBUS</Symbol>
+        <Comment>The I/O communication is running correctly</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S11</Address>
+        <Index>11</Index>
+        <Symbol>SB_WATCHDOG</Symbol>
+        <Comment>Watchdog overflow causes the controller to change to HALT</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S12</Address>
+        <Index>12</Index>
+        <Symbol>SB_RUNMODE</Symbol>
+        <Comment>The controller is running</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S13</Address>
+        <Index>13</Index>
+        <Symbol>SB_FIRSTRUN</Symbol>
+        <Comment>Indicates the first controller cycle in RUN mode</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S14</Address>
+        <Index>14</Index>
+        <Symbol>SB_IOFORCED</Symbol>
+        <Comment>This bit indicates there is at least one input or output forced</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S15</Address>
+        <Index>15</Index>
+        <Symbol>SB_INFORCED</Symbol>
+        <Comment>This bit indicates there is at least one input forced</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S16</Address>
+        <Index>16</Index>
+        <Symbol>SB_OUTFORCED</Symbol>
+        <Comment>This bit indicates there is at least one output forced</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S17</Address>
+        <Index>17</Index>
+        <Symbol>SB_LASTBIT</Symbol>
+        <Comment>It indicates the value of the last ejected bit</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S18</Address>
+        <Index>18</Index>
+        <Symbol>SB_OPERROR</Symbol>
+        <Comment>It indicates an overflow when a 16 bit operation is performed</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S19</Address>
+        <Index>19</Index>
+        <Symbol>SB_OVERRUN</Symbol>
+        <Comment>It indicates scan time greater than the period defined by the user</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S20</Address>
+        <Index>20</Index>
+        <Symbol>SB_INDERROR</Symbol>
+        <Comment>This bit indicates an index overflow of the indexed object address when a 16 bit operation is performed</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S21</Address>
+        <Index>21</Index>
+        <Symbol>SB_INITGRAFCET</Symbol>
+        <Comment>At state 1, this bit causes GRAFCET initialization. Active steps are deactivated and initial steps are activated</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S22</Address>
+        <Index>22</Index>
+        <Symbol>SB_RESETGRAFCET</Symbol>
+        <Comment>At state 1, this bit causes the active steps of the entire GRAFCET to be deactivated</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S23</Address>
+        <Index>23</Index>
+        <Symbol>SB_FREEZEGRAFCET</Symbol>
+        <Comment>Set to 1, this bit validates the pre-positioning of GRAFCET. Maintaining this bit at 1 freezes the GRAFCET (freezes the chart)</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S33</Address>
+        <Index>33</Index>
+        <Symbol>SB_CONFETH</Symbol>
+        <Comment>This bit indicates if a new Ethernet configuration is changing</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S34</Address>
+        <Index>34</Index>
+        <Symbol>SB_AUTOETH</Symbol>
+        <Comment>Set to 1, this bit allows to force some specific Ethernet configuration set in %S35 and %S36</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S35</Address>
+        <Index>35</Index>
+        <Symbol>SB_DUPLEXMODE</Symbol>
+        <Comment>This bit indicates Ethernet Duplex mode. Set to 0 if Half Duplex, Set to 1 if Full Duplex</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S36</Address>
+        <Index>36</Index>
+        <Symbol>SB_SPEEDETH</Symbol>
+        <Comment>This bit indicates Ethernet speed. Set to 0 if 10 Mbps, Set to 1 if 100 Mbps</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S38</Address>
+        <Index>38</Index>
+        <Symbol>SB_ALLOWEVENT</Symbol>
+        <Comment>This bit indicates if events are placed in the events queue as soon as they are detected</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S39</Address>
+        <Index>39</Index>
+        <Symbol>SB_LOSTEVENT</Symbol>
+        <Comment>This bit indicates if there is a saturation of events queue</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S49</Address>
+        <Index>49</Index>
+        <Symbol>SB_REARMOUTPUTS</Symbol>
+        <Comment>Set to 1, the automatic re-arming of outputs following a short circuit is enabled</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S50</Address>
+        <Index>50</Index>
+        <Symbol>SB_RTCUPDATE</Symbol>
+        <Comment>Set to 1, this bit allows to update the date and time</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S51</Address>
+        <Index>51</Index>
+        <Symbol>SB_RTCSTATUS</Symbol>
+        <Comment>Set to 1, the date and time must be initialized by the user.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S52</Address>
+        <Index>52</Index>
+        <Symbol>SB_RTCERROR</Symbol>
+        <Comment>At state 1, the date and time must be initialized.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S59</Address>
+        <Index>59</Index>
+        <Symbol>SB_DATEUPDATE</Symbol>
+        <Comment>Set to 1, the date and time are incremented or decremented according to the rising edges on the control bits set in %SW59.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S75</Address>
+        <Index>75</Index>
+        <Symbol>SB_BATSTATUS</Symbol>
+        <Comment>Set to 1, external battery power is low, or no external battery is detected.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S91</Address>
+        <Index>91</Index>
+        <Symbol>SB_MWERASE</Symbol>
+        <Comment>User sets this bit to 1 to erase all %MW variables in the flash memory</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S92</Address>
+        <Index>92</Index>
+        <Symbol>SB_MWSAVED</Symbol>
+        <Comment>Set to 1 if there is valid data saved on flash.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S93</Address>
+        <Index>93</Index>
+        <Symbol>SB_MWBACKUP</Symbol>
+        <Comment>User set this bit to 1 to store the %MW variable in the flash (up to 1000).</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S94</Address>
+        <Index>94</Index>
+        <Symbol>SB_MWRESTORE</Symbol>
+        <Comment>User set this bit to 1 to restore the saved data.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S96</Address>
+        <Index>96</Index>
+        <Symbol>SB_PROGBACKUP</Symbol>
+        <Comment>Set to 1, the backup program is valid.</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S101</Address>
+        <Index>101</Index>
+        <Symbol>SB_MBADDRESS</Symbol>
+        <Comment>Set to 1, the address can be changed by changing the values of %SW101 (port 1) or %SW102 (port 2).</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S103</Address>
+        <Index>103</Index>
+        <Symbol>SB_ASCIICOM1</Symbol>
+        <Comment>Set to 1, this bit allows to configure ASCII protocol on Serial Line 1</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S104</Address>
+        <Index>104</Index>
+        <Symbol>SB_ASCIICOM2</Symbol>
+        <Comment>Set to 1, this bit allows to configure ASCII protocol on Serial Line 2</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S119</Address>
+        <Index>119</Index>
+        <Symbol>SB_IOERROR</Symbol>
+        <Comment>This bit is set to 0 when an I/O communication interruption is detected on the base controller</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S122</Address>
+        <Index>122</Index>
+        <Symbol>SB_DALARM</Symbol>
+        <Comment>The display will switch automatically to the alarm page</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S123</Address>
+        <Index>123</Index>
+        <Symbol>SB_DRED</Symbol>
+        <Comment>The Display backlight will be red as long as an alarm is active</Comment>
+      </MemoryBit>
+    </SystemBits>
+    <SystemWords>
+      <MemoryWord>
+        <Address>%SW0</Address>
+        <Index>0</Index>
+        <Symbol>SW_MASTERTASK</Symbol>
+        <Comment>Modifies controller scan period defined at configuration through the user program in the Animation Table Editor.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW1</Address>
+        <Index>1</Index>
+        <Symbol>SW_PERTASK</Symbol>
+        <Comment>Modifies the cycle time [2...255 ms] of the Periodic task.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW6</Address>
+        <Index>6</Index>
+        <Symbol>SW_CONTROLSTATUS</Symbol>
+        <Comment>Controller Status: NO CONFIG, STOP, RUN, HALT, POWERLESS MODE</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW7</Address>
+        <Index>7</Index>
+        <Symbol>SW_STATE</Symbol>
+        <Comment>This word shows the state of the controller (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW11</Address>
+        <Index>11</Index>
+        <Symbol>SW_WATCHDOG</Symbol>
+        <Comment>Contains the maximum value of the watchdog.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW13</Address>
+        <Index>13</Index>
+        <Symbol>SW_BOOTVERSION</Symbol>
+        <Comment>Contains the boot version of the controller</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW14</Address>
+        <Index>14</Index>
+        <Symbol>SW_COMVERSION</Symbol>
+        <Comment>Contains the commercial version of the controller</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW15</Address>
+        <Index>15</Index>
+        <Symbol>SW_FW1VERSION</Symbol>
+        <Comment>Contains the Firmware version of the controller (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW16</Address>
+        <Index>16</Index>
+        <Symbol>SW_FW2VERSION</Symbol>
+        <Comment>Contains the Firmware version of the controller (2° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW17</Address>
+        <Index>17</Index>
+        <Symbol>SW_FLOATSTATUS</Symbol>
+        <Comment>Default status when an error is detected in a floating arithmetic operation (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW18</Address>
+        <Index>18</Index>
+        <Symbol>SW_TM1COUNTER</Symbol>
+        <Comment>Contains the absolute timer counter (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW19</Address>
+        <Index>19</Index>
+        <Symbol>SW_TM2COUNTER</Symbol>
+        <Comment>Contains the absolute timer counter (2° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW30</Address>
+        <Index>30</Index>
+        <Symbol>SW_LASTSCAN1</Symbol>
+        <Comment>Shows execution time of the last controller scan cycle (in ms).If the scan time is 2,250 ms, %SW30 = 2 and %SW70 = 250.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW31</Address>
+        <Index>31</Index>
+        <Symbol>SW_MAXSCAN1</Symbol>
+        <Comment>Shows execution time of the longest controller scan cycle since last cold start (in ms). If the scan time is 2,250 ms, %SW31 = 2 and %SW71 = 250.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW32</Address>
+        <Index>32</Index>
+        <Symbol>SW_MINSCAN1</Symbol>
+        <Comment>Shows execution time of shortest controller scan cycle since the last cold start (in ms). If the scan time is 2,250 ms, %SW32 = 2 and %SW72 = 250.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW33</Address>
+        <Index>33</Index>
+        <Symbol>SW_IP1ADDRESS</Symbol>
+        <Comment>For IP address AA.BB.CC.DD: %SW33 = CC.DD and %SW34 = AA.BB (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW34</Address>
+        <Index>34</Index>
+        <Symbol>SW_IP2ADDRESS</Symbol>
+        <Comment>For IP address AA.BB.CC.DD: %SW33 = CC.DD and %SW34 = AA.BB (2° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW35</Address>
+        <Index>35</Index>
+        <Symbol>SW_SUBNET1</Symbol>
+        <Comment>For Sub-network mask AA.BB.CC.DD: %SW35 = CC.DD and %SW36 = AA.BB (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW36</Address>
+        <Index>36</Index>
+        <Symbol>SW_SUBNET2</Symbol>
+        <Comment>For Sub-network mask AA.BB.CC.DD: %SW35 = CC.DD and %SW36 = AA.BB (2° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW37</Address>
+        <Index>37</Index>
+        <Symbol>SW_GATEWAY1</Symbol>
+        <Comment>For Gateway address AA.BB.CC.DD: %SW37 = CC.DD and %SW38 = AA.BB (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW38</Address>
+        <Index>38</Index>
+        <Symbol>SW_GATEWAY2</Symbol>
+        <Comment>For Gateway address AA.BB.CC.DD: %SW37 = CC.DD and %SW38 = AA.BB (2° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW39</Address>
+        <Index>39</Index>
+        <Symbol>SW_PERTIME</Symbol>
+        <Comment>Shows the average execution time of the periodic task in µs (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW40</Address>
+        <Index>40</Index>
+        <Symbol>SW_EV0TIME</Symbol>
+        <Comment>Shows the average execution time of the event 0 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW41</Address>
+        <Index>41</Index>
+        <Symbol>SW_EV1TIME</Symbol>
+        <Comment>Shows the average execution time of the event 1 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW42</Address>
+        <Index>42</Index>
+        <Symbol>SW_EV2TIME</Symbol>
+        <Comment>Shows the average execution time of the event 2 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW43</Address>
+        <Index>43</Index>
+        <Symbol>SW_EV3TIME</Symbol>
+        <Comment>Shows the average execution time of the event 3 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW44</Address>
+        <Index>44</Index>
+        <Symbol>SW_EV4TIME</Symbol>
+        <Comment>Shows the average execution time of the event 4 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW45</Address>
+        <Index>45</Index>
+        <Symbol>SW_EV5TIME</Symbol>
+        <Comment>Shows the average execution time of the event 5 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW46</Address>
+        <Index>46</Index>
+        <Symbol>SW_EV6TIME</Symbol>
+        <Comment>Shows the average execution time of the event 6 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW47</Address>
+        <Index>47</Index>
+        <Symbol>SW_EV7TIME</Symbol>
+        <Comment>Shows the average execution time of the event 7 in us (last 5 times)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW48</Address>
+        <Index>48</Index>
+        <Symbol>SW_NBEVENTS</Symbol>
+        <Comment>Shows how many events have been executed since the last cold start.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW49</Address>
+        <Index>49</Index>
+        <Symbol>SW_RTCDAY</Symbol>
+        <Comment>RTC Function: contains in BCD xN Day of the week (N=1 for Monday)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW50</Address>
+        <Index>50</Index>
+        <Symbol>SW_RTCSEC</Symbol>
+        <Comment>RTC Function: contains in BCD 00SS Seconds</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW51</Address>
+        <Index>51</Index>
+        <Symbol>SW_RTCHHMM</Symbol>
+        <Comment>RTC Function: contains in BCD HHMM: hour and minute</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW52</Address>
+        <Index>52</Index>
+        <Symbol>SW_RTCMMDD</Symbol>
+        <Comment>RTC Function: contains in BCD MMDD: month and day</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW53</Address>
+        <Index>53</Index>
+        <Symbol>SW_RTCCCYY</Symbol>
+        <Comment>RTC Function: contains in BCD CCYY: century and year</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW54</Address>
+        <Index>54</Index>
+        <Symbol>SW_LS1TIME</Symbol>
+        <Comment>Time of the last power failure or controller stop (in BCD): SS Seconds</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW55</Address>
+        <Index>55</Index>
+        <Symbol>SW_LS2TIME</Symbol>
+        <Comment>Time of the last power failure or controller stop (in BCD): HHMM Hour and minute</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW56</Address>
+        <Index>56</Index>
+        <Symbol>SW_LS3TIME</Symbol>
+        <Comment>Time of the last power failure or controller stop (in BCD): MMDD Month and day</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW57</Address>
+        <Index>57</Index>
+        <Symbol>SW_LS4TIME</Symbol>
+        <Comment>Time of the last power failure or controller stop (in BCD): CCYY Century and year</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW58</Address>
+        <Index>58</Index>
+        <Symbol>SW_LASTSTOP</Symbol>
+        <Comment>Displays code giving cause of last stop: Run/Stop input edge,Stop at software detected fault, Stop command, Power outage,Stop at hardware detected fault</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW59</Address>
+        <Index>59</Index>
+        <Symbol>SW_ADJUSTDATE</Symbol>
+        <Comment>Contains two sets of 8 bits to adjust current date.The operation is always performed on rising edge of the bit. This word is enabled by bit %S59.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW62</Address>
+        <Index>62</Index>
+        <Symbol>SW_ETHERROR</Symbol>
+        <Comment>Shows the Ethernet error code (0 No error, 1  Duplicate IP, 2  DHCP in Progress, 3 BOOTP in Progress, 4 Invalid parameters, 5 Fixed IP in progress, 6 Ethernet com in Fail)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW63</Address>
+        <Index>63</Index>
+        <Symbol>SW_EXCH1ERROR</Symbol>
+        <Comment>Contains EXCH1 error code, see online help for details.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW64</Address>
+        <Index>64</Index>
+        <Symbol>SW_EXCH2ERROR</Symbol>
+        <Comment>Contains EXCH2 error code, see online help for details.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW65</Address>
+        <Index>65</Index>
+        <Symbol>SW_EXCH3ERROR</Symbol>
+        <Comment>Contains EXCH3 error code for Ethernet controllers, see online help for details.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW67</Address>
+        <Index>67</Index>
+        <Symbol>SW_CONTID</Symbol>
+        <Comment>Contains the logic controller code ID. For more information, refer to the M221 Logic Controller Code ID table.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW70</Address>
+        <Index>70</Index>
+        <Symbol>SW_LASTSCAN2</Symbol>
+        <Comment>Shows the microseconds of the execution time of the last controller scan cycle. If the scan time is 2,250 ms the %SW30 will be 2 and the %SW70 = 250.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW71</Address>
+        <Index>71</Index>
+        <Symbol>SW_MAXSCAN2</Symbol>
+        <Comment>Shows the microseconds of the execution time of the longest controller scan cycle since the last cold start. If the scan time is 2,250 ms the %SW31 will be 2 and the %SW71 = 250.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW72</Address>
+        <Index>72</Index>
+        <Symbol>SW_MINSCAN2</Symbol>
+        <Comment>Shows the microseconds of the execution time of shortest controller scan cycle since the last cold start. If the scan time is 2,250 ms the %SW32 will be 2 and the %SW72 = 250.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW75</Address>
+        <Index>75</Index>
+        <Symbol>SW_CPULOAD</Symbol>
+        <Comment>Shows percentage of processing load.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW76</Address>
+        <Index>76</Index>
+        <Symbol>SW_COUNTD1</Symbol>
+        <Comment>Down Counter 1, decremented individually by the system every ms</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW77</Address>
+        <Index>77</Index>
+        <Symbol>SW_COUNTD2</Symbol>
+        <Comment>Down Counter 2, decremented individually by the system every ms</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW78</Address>
+        <Index>78</Index>
+        <Symbol>SW_COUNTD3</Symbol>
+        <Comment>Down Counter 3, decremented individually by the system every ms</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW79</Address>
+        <Index>79</Index>
+        <Symbol>SW_COUNTD4</Symbol>
+        <Comment>Down Counter 4, decremented individually by the system every ms</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW80</Address>
+        <Index>80</Index>
+        <Symbol>SW_ANASTATUS</Symbol>
+        <Comment>Each bit indicate status of the embedded analog inputs.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW94</Address>
+        <Index>94</Index>
+        <Symbol>SW_SIGNATURE</Symbol>
+        <Comment>Contains the signature, changes in case of an application change, in terms of configuration or programming data.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW95</Address>
+        <Index>95</Index>
+        <Symbol>SW_SIGNATURE1</Symbol>
+        <Comment>Contains the signature, changes in case of an application change, in terms of configuration or programming data.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW96</Address>
+        <Index>96</Index>
+        <Symbol>SW_SAVERESTORE</Symbol>
+        <Comment>Contains the command and/or diagnostics for save/restore function of application program (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW98</Address>
+        <Index>98</Index>
+        <Symbol>SW_SL1POSTST</Symbol>
+        <Comment>Post configuration status of Serial Line 1. The bits are set to 1 when the post configuration was applied for the parameter.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW99</Address>
+        <Index>99</Index>
+        <Symbol>SW_SL2POSTST</Symbol>
+        <Comment>Post configuration status of Serial Line 2. The bits are set to 1 when the post configuration was applied for the parameter.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW100</Address>
+        <Index>100</Index>
+        <Symbol>SW_ETHPOSTST</Symbol>
+        <Comment>Post configuration status of Ethernet port. The bits are set to 1 when the post configuration was applied for the parameter.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW101</Address>
+        <Index>101</Index>
+        <Symbol>SW_SL1ADDRESS</Symbol>
+        <Comment>Address of port 1, when bit %S101 is set to 1, you can change the Modbus address.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW102</Address>
+        <Index>102</Index>
+        <Symbol>SW_SL2ADDRESS</Symbol>
+        <Comment>Address of port 2, when bit %S101 is set to 1, you can change the Modbus address.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW103</Address>
+        <Index>103</Index>
+        <Symbol>SW_SL1CONF1</Symbol>
+        <Comment>Configuration for use of the ASCII protocol of port 1 when bit %S103 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW104</Address>
+        <Index>104</Index>
+        <Symbol>SW_SL2CONF1</Symbol>
+        <Comment>Configuration for use of the ASCII protocol of port 2 when bit %S104 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW105</Address>
+        <Index>105</Index>
+        <Symbol>SW_SL1CONF2</Symbol>
+        <Comment>Configuration for use of the ASCII protocol of port 1 when bit %S103 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW106</Address>
+        <Index>106</Index>
+        <Symbol>SW_SL2CONF2</Symbol>
+        <Comment>Configuration for use of the ASCII protocol of port 2 when bit %S104 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW107</Address>
+        <Index>107</Index>
+        <Symbol>SW_MACAD1</Symbol>
+        <Comment>For MAC address AA:BB:CC:DD:EE:FF %SW107 = AA:BB (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW108</Address>
+        <Index>108</Index>
+        <Symbol>SW_MACAD2</Symbol>
+        <Comment>For MAC address AA:BB:CC:DD:EE:FF %SW108 = CC:DD (2° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW109</Address>
+        <Index>109</Index>
+        <Symbol>SW_MACAD3</Symbol>
+        <Comment>For MAC address AA:BB:CC:DD:EE:FF %SW108 = EE:FF (3° word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW114</Address>
+        <Index>114</Index>
+        <Symbol>SW_SCH_ENABLE</Symbol>
+        <Comment>Enables or disables operation of schedule blocks by the user program or operator display.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW118</Address>
+        <Index>118</Index>
+        <Symbol>SW_CONTROLIOBUS</Symbol>
+        <Comment>Shows IO bus controller status (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW119</Address>
+        <Index>119</Index>
+        <Symbol>SW_IOOPTION</Symbol>
+        <Comment>Shows optional expansion module configuration (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW120</Address>
+        <Index>120</Index>
+        <Symbol>SW_IOSTATUS</Symbol>
+        <Comment>Shows expansion I/O module status (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW121</Address>
+        <Index>121</Index>
+        <Symbol>SW_SL1CONF3</Symbol>
+        <Comment>Configuration for use of the ASCII frame size of port 1 when bit %S103 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW122</Address>
+        <Index>122</Index>
+        <Symbol>SW_SL2CONF3</Symbol>
+        <Comment>Configuration for use of the ASCII frame size of port 2 when bit %S104 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW128</Address>
+        <Index>128</Index>
+        <Symbol>SW_CAR1STATUS</Symbol>
+        <Comment>Shows the status code for the Cartridge 1 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW129</Address>
+        <Index>129</Index>
+        <Symbol>SW_CAR2STATUS</Symbol>
+        <Comment>Shows the status code for the Cartridge 2 (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW130</Address>
+        <Index>130</Index>
+        <Symbol>SW_EXE1MICROS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.2 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW131</Address>
+        <Index>131</Index>
+        <Symbol>SW_EXE2MICROS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.3 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW132</Address>
+        <Index>132</Index>
+        <Symbol>SW_EXE3MICROS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.4 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW133</Address>
+        <Index>133</Index>
+        <Symbol>SW_EXE4MICROS</Symbol>
+        <Comment>Shows the last execution time of the event  input %I0.5 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW134</Address>
+        <Index>134</Index>
+        <Symbol>SW_EXE5MICROS</Symbol>
+        <Comment>Shows the last execution time of the event Threshold 0 of HSC0 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW135</Address>
+        <Index>135</Index>
+        <Symbol>SW_EXE6MICROS</Symbol>
+        <Comment>Shows the last execution time of the event Threshold 1 of HSC0 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW136</Address>
+        <Index>136</Index>
+        <Symbol>SW_EXE7MICROS</Symbol>
+        <Comment>Shows the last execution time of the event Threshold 0 of HSC1 in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW137</Address>
+        <Index>137</Index>
+        <Symbol>SW_EXE8MICROS</Symbol>
+        <Comment>Shows the last execution time of the event Threshold 1 of HSC1  in µs</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW138</Address>
+        <Index>138</Index>
+        <Symbol>SW_PERLAST</Symbol>
+        <Comment>Shows the last execution time of the periodic task in µs.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW139</Address>
+        <Index>139</Index>
+        <Symbol>SW_OUTPROT</Symbol>
+        <Comment>Shows the protection error status of output blocks</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW148</Address>
+        <Index>148</Index>
+        <Symbol>SW_NBPERS</Symbol>
+        <Comment>Number of persistent variables (maximum 1,000)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW149</Address>
+        <Index>149</Index>
+        <Symbol>SW_EXE1MS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.2 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW150</Address>
+        <Index>150</Index>
+        <Symbol>SW_EXE2MS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.3 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW151</Address>
+        <Index>151</Index>
+        <Symbol>SW_EXE3MS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.4 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW152</Address>
+        <Index>152</Index>
+        <Symbol>SW_EXE4MS</Symbol>
+        <Comment>Shows the last execution time of the event input %I0.5 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW153</Address>
+        <Index>153</Index>
+        <Symbol>SW_EXE5MS</Symbol>
+        <Comment>Shows the last execution time of the event threshold 0 of HSC0 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW154</Address>
+        <Index>154</Index>
+        <Symbol>SW_EXE6MS</Symbol>
+        <Comment>Shows the last execution time of the event threshold 1 of HSC0 in ms</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW155</Address>
+        <Index>155</Index>
+        <Symbol>SW_EXE7MS</Symbol>
+        <Comment>Shows the last execution time of the event threshold 0 of HSC1 in ms. </Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW156</Address>
+        <Index>156</Index>
+        <Symbol>SW_EXE8MS</Symbol>
+        <Comment>Shows the last execution time of the event threshold 1 of HSC1 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW157</Address>
+        <Index>157</Index>
+        <Symbol>SW_PERLASTMS</Symbol>
+        <Comment>Shows the last execution time of the PERIODIC task in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW158</Address>
+        <Index>158</Index>
+        <Symbol>SW_PERAVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of the PERIODIC task in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW159</Address>
+        <Index>159</Index>
+        <Symbol>SW_EV0AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 0 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW160</Address>
+        <Index>160</Index>
+        <Symbol>SW_EV1AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 1 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW161</Address>
+        <Index>161</Index>
+        <Symbol>SW_EV2AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 2 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW162</Address>
+        <Index>162</Index>
+        <Symbol>SW_EV3AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 3 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW163</Address>
+        <Index>163</Index>
+        <Symbol>SW_EV4AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 4 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW164</Address>
+        <Index>164</Index>
+        <Symbol>SW_EV5AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 5 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW165</Address>
+        <Index>165</Index>
+        <Symbol>SW_EV6AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 6 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW166</Address>
+        <Index>166</Index>
+        <Symbol>SW_EV7AVGMS</Symbol>
+        <Comment>Shows the average execution time (last 5 times) of event 7 in ms.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW167</Address>
+        <Index>167</Index>
+        <Symbol>SW_MODSTATUS</Symbol>
+        <Comment>Describes the answer of the modem to the last init command.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW168</Address>
+        <Index>168</Index>
+        <Symbol>SW_NBETHCON</Symbol>
+        <Comment>Shows the number of Ethernet Modbus TCP server connections in use</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW170</Address>
+        <Index>170</Index>
+        <Symbol>SW_NBSL1FRAMES</Symbol>
+        <Comment>Counts the number of frames transmitted by the Serial Line 1.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW171</Address>
+        <Index>171</Index>
+        <Symbol>SW_NBSL2FRAMES</Symbol>
+        <Comment>Counts the number of frames transmitted by the Serial Line 2.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW172</Address>
+        <Index>172</Index>
+        <Symbol>SW_NBUSBFRAMES</Symbol>
+        <Comment>Counts the number of frames transmitted by the USB channel.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW173</Address>
+        <Index>173</Index>
+        <Symbol>SW_NBTCPFRAMES</Symbol>
+        <Comment>Counts the number of frames transmitted by Modbus TCP on Ethernet.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW174</Address>
+        <Index>174</Index>
+        <Symbol>SW_NBSL1OK</Symbol>
+        <Comment>Counts the number of frames correctly received by the Serial Line 1.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW175</Address>
+        <Index>175</Index>
+        <Symbol>SW_NBSL2OK</Symbol>
+        <Comment>Counts the number of frames correctly received by the Serial Line 2.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW176</Address>
+        <Index>176</Index>
+        <Symbol>SW_NBUSBOK</Symbol>
+        <Comment>Counts the number of frames correctly received by the USB channel.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW177</Address>
+        <Index>177</Index>
+        <Symbol>SW_NBTCPOK</Symbol>
+        <Comment>Counts the number of frames correctly received by Modbus TCP on Ethernet.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW178</Address>
+        <Index>178</Index>
+        <Symbol>SW_NBSL1ERROR</Symbol>
+        <Comment>Counts the number of frames received in error by the Serial Line 1.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW179</Address>
+        <Index>179</Index>
+        <Symbol>SW_NBSL2ERROR</Symbol>
+        <Comment>Counts the number of frames received in error by the Serial Line 2.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW180</Address>
+        <Index>180</Index>
+        <Symbol>SW_NBUSBERROR</Symbol>
+        <Comment>Counts the number of frames received in error by the USB channel.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW181</Address>
+        <Index>181</Index>
+        <Symbol>SW_NBTCPERROR</Symbol>
+        <Comment>Counts the number of frames received in error by Modbus TCP on Ethernet.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW182</Address>
+        <Index>182</Index>
+        <Symbol>SW_DSPSTATE</Symbol>
+        <Comment>Remote Graphic Display connection state.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW183</Address>
+        <Index>183</Index>
+        <Symbol>SW_DSPERROR</Symbol>
+        <Comment>Remote Graphic Display last error detected.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW184</Address>
+        <Index>184</Index>
+        <Symbol>SW_DINDEX</Symbol>
+        <Comment>Contains the Display page INDEX and allows to choose an other page.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW188</Address>
+        <Index>188</Index>
+        <Symbol>SW_MAPTRFRAMES</Symbol>
+        <Comment>Counts the number of frames transmitted by the Modbus mapping table.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW189</Address>
+        <Index>189</Index>
+        <Symbol>SW_MAPRECFRAMES</Symbol>
+        <Comment>Counts the number of frames correctly received by the Modbus mapping table.</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW190</Address>
+        <Index>190</Index>
+        <Symbol>SW_NBIPTRA1</Symbol>
+        <Comment>Counts the number of frames transmitted on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW191</Address>
+        <Index>191</Index>
+        <Symbol>SW_NBIPTRA2</Symbol>
+        <Comment>Counts the number of frames transmitted on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW192</Address>
+        <Index>192</Index>
+        <Symbol>SW_NBIPREC1</Symbol>
+        <Comment>Counts the number of frames received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW193</Address>
+        <Index>193</Index>
+        <Symbol>SW_NBIPREC2</Symbol>
+        <Comment>Counts the number of frames received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW194</Address>
+        <Index>194</Index>
+        <Symbol>SW_NBIPUNMES1</Symbol>
+        <Comment>Counts the number of unconnected messages received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW195</Address>
+        <Index>195</Index>
+        <Symbol>SW_NBIPUNMES2</Symbol>
+        <Comment>Counts the number of unconnected messages received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW196</Address>
+        <Index>196</Index>
+        <Symbol>SW_NBIPINVMES1</Symbol>
+        <Comment>Counts the number of invalid unconnected messages received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW197</Address>
+        <Index>197</Index>
+        <Symbol>SW_NBIPINVMES2</Symbol>
+        <Comment>Counts the number of invalid unconnected messages received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW198</Address>
+        <Index>198</Index>
+        <Symbol>SW_NBIPC3REQ1</Symbol>
+        <Comment>Counts the number of class 3 requests received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW199</Address>
+        <Index>199</Index>
+        <Symbol>SW_NBIPC3REQ2</Symbol>
+        <Comment>Counts the number of class 3 requests received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW200</Address>
+        <Index>200</Index>
+        <Symbol>SW_NBIPC3INV1</Symbol>
+        <Comment>Counts the number of invalid class 3 requests received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW201</Address>
+        <Index>201</Index>
+        <Symbol>SW_NBIPC3INV2</Symbol>
+        <Comment>Counts the number of invalid class 3 requests received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW202</Address>
+        <Index>202</Index>
+        <Symbol>SW_IPININST</Symbol>
+        <Comment>Reads the input Assembly Instance Number</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW203</Address>
+        <Index>203</Index>
+        <Symbol>SW_IPINSIZE</Symbol>
+        <Comment>Reads the input Assembly Instance Size</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW204</Address>
+        <Index>204</Index>
+        <Symbol>SW_IPOUTINST</Symbol>
+        <Comment>Reads the output Assembly Instance Number</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW205</Address>
+        <Index>205</Index>
+        <Symbol>SW_IPOUTSIZE</Symbol>
+        <Comment>Reads the output Assembly Instance Size</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW206</Address>
+        <Index>206</Index>
+        <Symbol>SW_IPNBTIMEOUT</Symbol>
+        <Comment>Counts the number of connection timeouts on Ethernet IP</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW207</Address>
+        <Index>207</Index>
+        <Symbol>SW_IPFLAGIDLE</Symbol>
+        <Comment>Reads the Ethernet IP flag Run (value=1), Idle (value=0)</Comment>
+      </MemoryWord>
+    </SystemWords>
+    <GrafcetSteps />
+    <MemoryWords />
+    <MemoryDoubleWords />
+    <MemoryFloats />
+    <ConstantWords />
+    <ConstantDoubleWords />
+    <ConstantMemoryFloats />
+    <Timers />
+    <Counters />
+    <FastCounters />
+    <Registers />
+    <Drums />
+    <ShiftBitRegisters />
+    <StepCounters />
+    <ScheduleBlocks />
+    <Pids />
+    <MessageBlocks>
+      <MessageBlock>
+        <Address>%MSG1</Address>
+        <Index>0</Index>
+        <OutputPort>Serial1</OutputPort>
+      </MessageBlock>
+      <MessageBlock>
+        <Address>%MSG3</Address>
+        <Index>2</Index>
+        <OutputPort>Ethernet</OutputPort>
+      </MessageBlock>
+    </MessageBlocks>
+    <FunctionBlocks />
+    <FastTask>
+      <Period>255</Period>
+    </FastTask>
+    <MastTask>
+      <UsePeriodScanMode>false</UsePeriodScanMode>
+      <PeriodScan>100</PeriodScan>
+    </MastTask>
+    <CpuBehavior>
+      <StartingMode>StartAsPreviousState</StartingMode>
+      <RunStopAddress />
+      <AutoSaveRamOnEeprom>true</AutoSaveRamOnEeprom>
+      <WatchdogPeriod>250</WatchdogPeriod>
+    </CpuBehavior>
+    <TraceTimeBase>Time5Sec</TraceTimeBase>
+  </SoftwareConfiguration>
+  <HardwareConfiguration>
+    <Plc>
+      <Cpu>
+        <Index>0</Index>
+        <InputNb>0</InputNb>
+        <OutputNb>0</OutputNb>
+        <Kind>0</Kind>
+        <Reference>TM221ME16R/G</Reference>
+        <Name>EtherNet/IP</Name>
+        <Consumption5V>520</Consumption5V>
+        <Consumption24V>460</Consumption24V>
+        <TechnicalConfiguration>
+          <PtoConfiguration>
+            <McPowerPtoMax>0</McPowerPtoMax>
+            <McMoveVelPtoMax>0</McMoveVelPtoMax>
+            <McMoveRelPtoMax>0</McMoveRelPtoMax>
+            <McMoveAbsPtoMax>0</McMoveAbsPtoMax>
+            <McHomePtoMax>0</McHomePtoMax>
+            <McSetPosPtoMax>0</McSetPosPtoMax>
+            <McStopPtoMax>0</McStopPtoMax>
+            <McHaltPtoMax>0</McHaltPtoMax>
+            <McReadActVelPtoMax>0</McReadActVelPtoMax>
+            <McReadActPosPtoMax>0</McReadActPosPtoMax>
+            <McReadStsPtoMax>0</McReadStsPtoMax>
+            <McReadMotionStatePtoMax>0</McReadMotionStatePtoMax>
+            <McReadAxisErrorPtoMax>0</McReadAxisErrorPtoMax>
+            <McResetPtoMax>0</McResetPtoMax>
+            <McTouchProbePtoMax>0</McTouchProbePtoMax>
+            <McAbortTriggerPtoMax>0</McAbortTriggerPtoMax>
+            <McReadParPtoMax>0</McReadParPtoMax>
+            <McWriteParPtoMax>0</McWriteParPtoMax>
+          </PtoConfiguration>
+          <ComConfiguration>
+            <ReadVarBasicMax>16</ReadVarBasicMax>
+            <WriteVarBasicMax>16</WriteVarBasicMax>
+            <WriteReadVarBasicMax>16</WriteReadVarBasicMax>
+            <SendRecvMsgBasicMax>16</SendRecvMsgBasicMax>
+            <SendRecvSmsMax>1</SendRecvSmsMax>
+          </ComConfiguration>
+          <Compatibility>0</Compatibility>
+          <FastCounterMax>4</FastCounterMax>
+          <FourInputsEventTask>84148994</FourInputsEventTask>
+          <GrafcetBitsMax>96</GrafcetBitsMax>
+          <InternalRamStart>0</InternalRamStart>
+          <LabelsMax>64</LabelsMax>
+          <LfRegistersMax>4</LfRegistersMax>
+          <MemoryConstantWordsMax>512</MemoryConstantWordsMax>
+          <MemoryWordsMax>8000</MemoryWordsMax>
+          <NumRelays>8</NumRelays>
+          <NumRelaysMax>102</NumRelaysMax>
+          <NumTransistors>0</NumTransistors>
+          <NumTransistorsMax>9999</NumTransistorsMax>
+          <PidAmountMax>14</PidAmountMax>
+          <PlcNumberSysBits>160</PlcNumberSysBits>
+          <PlcNumberSysWords>234</PlcNumberSysWords>
+          <PlcStartAddrSysBits>16</PlcStartAddrSysBits>
+          <PlcType>0</PlcType>
+          <TimersMax>255</TimersMax>
+          <AnalogInputPrecision>0</AnalogInputPrecision>
+          <AnalogOutputPrecision>0</AnalogOutputPrecision>
+          <StepCountersMax>8</StepCountersMax>
+          <CountersMax>255</CountersMax>
+          <DrumsMax>8</DrumsMax>
+          <ExternalRamSize>184320</ExternalRamSize>
+          <ExternalRamSizeWithDisplay>217784</ExternalRamSizeWithDisplay>
+          <ExternalRamStart>117538816</ExternalRamStart>
+          <InternalRamAppStart>512</InternalRamAppStart>
+          <InternalRamSize>130560</InternalRamSize>
+          <InternalBitsMax>1024</InternalBitsMax>
+          <InternalEepromSize>32</InternalEepromSize>
+          <ScheduleBlocksMax>16</ScheduleBlocksMax>
+          <ShiftBitRegistersMax>8</ShiftBitRegistersMax>
+          <SubroutinesMax>0</SubroutinesMax>
+          <SupportDoubleWord>false</SupportDoubleWord>
+          <SupportEvents>true</SupportEvents>
+          <SupportFloatingPoint>true</SupportFloatingPoint>
+          <NumberOf1MsTimerBase>6</NumberOf1MsTimerBase>
+        </TechnicalConfiguration>
+        <DigitalInputs>
+          <DiscretInput>
+            <Address>%I0.0</Address>
+            <Index>0</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.1</Address>
+            <Index>1</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.2</Address>
+            <Index>2</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.3</Address>
+            <Index>3</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.4</Address>
+            <Index>4</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.5</Address>
+            <Index>5</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.6</Address>
+            <Index>6</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.7</Address>
+            <Index>7</Index>
+          </DiscretInput>
+        </DigitalInputs>
+        <DigitalOutputs>
+          <DiscretOutput>
+            <Address>%Q0.0</Address>
+            <Index>0</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.1</Address>
+            <Index>1</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.2</Address>
+            <Index>2</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.3</Address>
+            <Index>3</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.4</Address>
+            <Index>4</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.5</Address>
+            <Index>5</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.6</Address>
+            <Index>6</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.7</Address>
+            <Index>7</Index>
+          </DiscretOutput>
+        </DigitalOutputs>
+        <AnalogInputs>
+          <AnalogIO>
+            <Address>%IW0.0</Address>
+            <Index>0</Index>
+            <Type>
+              <Value>0</Value>
+              <Name>Type_0_10V</Name>
+            </Type>
+            <Scope>
+              <Value>0</Value>
+              <Name>Scope_Normal</Name>
+            </Scope>
+            <Minimum>0</Minimum>
+            <Maximum>1000</Maximum>
+            <IsInput>true</IsInput>
+            <R>1</R>
+            <B>1</B>
+            <T>1</T>
+            <Activation>3100</Activation>
+            <Reactivation>1500</Reactivation>
+            <InputFilter>0</InputFilter>
+          </AnalogIO>
+          <AnalogIO>
+            <Address>%IW0.1</Address>
+            <Index>1</Index>
+            <Type>
+              <Value>0</Value>
+              <Name>Type_0_10V</Name>
+            </Type>
+            <Scope>
+              <Value>0</Value>
+              <Name>Scope_Normal</Name>
+            </Scope>
+            <Minimum>0</Minimum>
+            <Maximum>1000</Maximum>
+            <IsInput>true</IsInput>
+            <R>1</R>
+            <B>1</B>
+            <T>1</T>
+            <Activation>3100</Activation>
+            <Reactivation>1500</Reactivation>
+            <InputFilter>0</InputFilter>
+          </AnalogIO>
+        </AnalogInputs>
+        <AnalogInputsStatus />
+        <AnalogOutputs />
+        <AnalogOutputsStatus />
+        <HighSpeedCounters>
+          <HighSpeedCounter>
+            <Address>%HSC0</Address>
+            <Index>0</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC1</Address>
+            <Index>1</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC2</Address>
+            <Index>2</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC3</Address>
+            <Index>3</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+        </HighSpeedCounters>
+        <PulseTrainOutputs />
+        <HardwareId>1921</HardwareId>
+        <IsExpander>false</IsExpander>
+        <EthernetConfiguration>
+          <NetworkName>M221</NetworkName>
+          <IpAllocationMode>FixedAddress</IpAllocationMode>
+          <IpAddress>85.221.221.221</IpAddress>
+          <SubnetMask>255.0.0.0</SubnetMask>
+          <GatewayAddress>85.221.221.251</GatewayAddress>
+          <TransfertRate>TransfertRateAuto</TransfertRate>
+          <EthernetProtocol>ProtocolEthernet2</EthernetProtocol>
+          <ModbusTcpSlave>
+            <IpMasterAddress>0.0.0.0</IpMasterAddress>
+            <UseTimeout>true</UseTimeout>
+            <Timeout>2</Timeout>
+            <SlavePort>502</SlavePort>
+            <UnitId xsi:nil="true" />
+            <HoldingRegister>0</HoldingRegister>
+            <InputRegister>0</InputRegister>
+            <RemoteServers />
+            <ModbusServerEnabled>false</ModbusServerEnabled>
+          </ModbusTcpSlave>
+          <EthernetIpEntity>
+            <EthernetIpEnabled>true</EthernetIpEnabled>
+            <OutputAssemblyInstance>100</OutputAssemblyInstance>
+            <OutputAssemblySize>20</OutputAssemblySize>
+            <InputAssemblySize>20</InputAssemblySize>
+            <InputAssemblyInstance>150</InputAssemblyInstance>
+          </EthernetIpEntity>
+          <ProgrammingProtocolEnabled>true</ProgrammingProtocolEnabled>
+          <EthernetIpAdapterEnabled>true</EthernetIpAdapterEnabled>
+          <ModbusServerEnabled>true</ModbusServerEnabled>
+          <AutoDiscoveryProtocolEnabled>true</AutoDiscoveryProtocolEnabled>
+        </EthernetConfiguration>
+        <MaxCartridge>0</MaxCartridge>
+        <C1TranslationX>170</C1TranslationX>
+        <C1TranslationY>110</C1TranslationY>
+        <C2TranslationX>0</C2TranslationX>
+        <C2TranslationY>0</C2TranslationY>
+        <C1SizeX>155</C1SizeX>
+        <C1SizeY>190</C1SizeY>
+        <C2SizeX>0</C2SizeX>
+        <C2SizeY>0</C2SizeY>
+        <InputAssemblys>
+          <NetworkObject>
+            <Address>%IWE0</Address>
+            <Index>0</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE1</Address>
+            <Index>1</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE2</Address>
+            <Index>2</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE3</Address>
+            <Index>3</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE4</Address>
+            <Index>4</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE5</Address>
+            <Index>5</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE6</Address>
+            <Index>6</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE7</Address>
+            <Index>7</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE8</Address>
+            <Index>8</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE9</Address>
+            <Index>9</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE10</Address>
+            <Index>10</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE11</Address>
+            <Index>11</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE12</Address>
+            <Index>12</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE13</Address>
+            <Index>13</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE14</Address>
+            <Index>14</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE15</Address>
+            <Index>15</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE16</Address>
+            <Index>16</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE17</Address>
+            <Index>17</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE18</Address>
+            <Index>18</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%IWE19</Address>
+            <Index>19</Index>
+          </NetworkObject>
+        </InputAssemblys>
+        <OutputAssemblys>
+          <NetworkObject>
+            <Address>%QWE0</Address>
+            <Index>0</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE1</Address>
+            <Index>1</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE2</Address>
+            <Index>2</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE3</Address>
+            <Index>3</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE4</Address>
+            <Index>4</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE5</Address>
+            <Index>5</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE6</Address>
+            <Index>6</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE7</Address>
+            <Index>7</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE8</Address>
+            <Index>8</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE9</Address>
+            <Index>9</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE10</Address>
+            <Index>10</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE11</Address>
+            <Index>11</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE12</Address>
+            <Index>12</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE13</Address>
+            <Index>13</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE14</Address>
+            <Index>14</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE15</Address>
+            <Index>15</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE16</Address>
+            <Index>16</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE17</Address>
+            <Index>17</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE18</Address>
+            <Index>18</Index>
+          </NetworkObject>
+          <NetworkObject>
+            <Address>%QWE19</Address>
+            <Index>19</Index>
+          </NetworkObject>
+        </OutputAssemblys>
+        <InputRegisters />
+        <HoldingRegisters />
+      </Cpu>
+      <Extensions />
+      <SerialLineConfiguration>
+        <Baud>Baud19200</Baud>
+        <ModemReference>No Modem</ModemReference>
+        <Parity>ParityEven</Parity>
+        <DataBits>DataBits8</DataBits>
+        <StopBits>StopBits1</StopBits>
+        <TimeBetweenFrames>10</TimeBetweenFrames>
+        <ResponseTime>10</ResponseTime>
+        <StartCharacterEnabled>false</StartCharacterEnabled>
+        <FirstEndCharacterEnabled>true</FirstEndCharacterEnabled>
+        <SecondEndCharacterEnabled>false</SecondEndCharacterEnabled>
+        <FrameLengthReceivedAvailable>false</FrameLengthReceivedAvailable>
+        <FrameReceivedTimeoutAvailable>false</FrameReceivedTimeoutAvailable>
+        <InitCommand />
+        <SendFrameCharacter>false</SendFrameCharacter>
+        <StartCharacter>0</StartCharacter>
+        <FirstEndCharacter>10</FirstEndCharacter>
+        <FrameLengthReceived>0</FrameLengthReceived>
+        <FrameReceivedTimeout>0</FrameReceivedTimeout>
+        <SecondEndCharacter>0</SecondEndCharacter>
+        <PhysicalMedium>PhysicalMediumRs485</PhysicalMedium>
+        <TransmissionMode>TransmissionModeModbusRtu</TransmissionMode>
+        <SlaveId>1</SlaveId>
+        <MinTimeBetweenFrames>2</MinTimeBetweenFrames>
+        <Addressing>SlaveAddressing</Addressing>
+        <Polarization>
+          <Value>0</Value>
+          <Name>No</Name>
+        </Polarization>
+      </SerialLineConfiguration>
+      <Power5VCapacities>520</Power5VCapacities>
+      <Power24VCapacities>460</Power24VCapacities>
+      <Power5VTotalConsumption>0</Power5VTotalConsumption>
+      <Power24VTotalConsumption>0</Power24VTotalConsumption>
+      <ExpanderPower5VCapacities>0</ExpanderPower5VCapacities>
+      <ExpanderPower24VCapacities>0</ExpanderPower24VCapacities>
+      <ExpanderPower5VTotalConsumption>0</ExpanderPower5VTotalConsumption>
+      <ExpanderPower24VTotalConsumption>0</ExpanderPower24VTotalConsumption>
+    </Plc>
+  </HardwareConfiguration>
+  <GlobalProperties>
+    <UserInformations />
+    <CompanyInformations>
+      <Name>Schneider Electric</Name>
+      <Logo>/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAQCAwMDAgQDAwMEBAQEBQkGBQUFBQsICAYJDQsNDQ0LDAwOEBQRDg8TDwwMEhgSExUWFxcXDhEZGxkWGhQWFxb/2wBDAQQEBAUFBQoGBgoWDwwPFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhb/wAARCAEYARgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7+ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiio6QiSio6KLhckoqOii4XJKKjoouFySio6KLhckoqOii4XJKKjoouFySio6KLhckoqOii4XJKKjoouFySio6KLhckoqOii4XJKKjoouFySiiimMKKKKACiiigAooooAKKKKACo6kqOkxMKKKKQgooooAKKKKACiiigA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uGWGqqT9nOyfkfMVcmx1OrN4OvyQk22rK6b3s7Hyj8HvhF43+KfipvFfiqa9sdPuZfMuruUGOa655WNew7Zr7J0PTbPSNHt9L0+LybW1jEcSD+ECrSgAYAAA6AUtb0MPGitNW+p6eV5TRy+D5XzSlvJ7s8k8VfDzx7H8X9T8b+DvEel2B1OyhtZYb20M3yxgdMe4rs/hvZeN7Oxuk8a61p2ozMwMD2Vp5KouOcjJzXUUVcaSi7ps6KWCp0qrqRb1bdru135bHH/BrwfceC/D17p11dR3L3Wp3F4GjXAAkkLAfrXJXPw58c+HfEup3Xw78T6XZ6ZrV0buew1Oy84W0x+80RB7+hr12ih0o8qXYUsvoOnCmrrl2abTXzMDS/D8s3gVvD3ia/8A7Xe4geG8uDGIvOVycgKOgAOB9K4Pwd4F+KXhUWnh/R/GmlzeG7KZPI+2aeWu44AwJiBB2/d4Br1uiiVOLs+xVTBUpuLd04q102nbs31ML4meG4vF/gTU/Dc1w1uuo27Q+aoyYyejfgayPhJo3jrRrJrXxhrmm6hDBEsNolnbNGcKMbnYnkmu0opuCcubqXLDQdZVteZK2+6811t0OO+Ffg658Kah4juLi6juBrerPexhFx5alQMH8q0fijoEvif4fav4fgnWCXUbN4ElbopYY5roKKFCKjy9Bxw1ONF0Uvdd/wAd/wAzk9R8EWmr/CRfA+qyF4HsEtpZYuCCoGGX6EZrA8A+Gfiromo2Onap4x0i+0KxwmfsBF3PGOFVmztH1r0uik6cW0+xnLBUnOM1dNJLRtXS6PuFFFFaHWSUUUVRQUUUUAFFFFABRRRQAUUUUAFR1JUdJiYUUUUhBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUASUUUVRQUUUUAFFFFABRRRQAUUUUAFR1JUdJiYUUUUhBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUASUUUVRQUUUUAFFFFABRRRQAUUUUAFR1JUdJiYUUUUhBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUASUUUVRQUUUUAFFFFABRRRQAUUUUAFR1JUdJiYUUUUhBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUASUUUVRQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH/9k=</Logo>
+    </CompanyInformations>
+    <ProjectInformations>
+      <Name>xSample_EtherNet/IP_Miror</Name>
+      <Description>********Disclaimer Of Warranty********
+THE INFORMATION CONTAINED HEREIN IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ALL IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OR OTHER VIOLATION OF RIGHTS. SCHNEIDER ELECTRIC DOES NOT WARRANT OR MAKE ANY REPRESENTATIONS REGARDING THE USE, VALIDITY, ACCURACY, OR RELIABILITY OF, OR THE RESULTS OF THE USE OF, OR OTHERWISE, RESPECTING THE MATERIALS, SPECIFICATIONS, CHARACTERISTICS OR OTHER INFORMATION SPECIFIED HEREIN. FURTHERMORE, ALL WARRANTIES, CONDITIONS, REPRESENTATIONS, INDEMNITIES AND GUARANTEES WITH RESPECT TO THE ACCURACY, OPERATION, CAPACITY, SPEED, FUNCTIONALITY, QUALIFICATIONS, OR CAPABILITIES OF THE SOFTWARE, SYSTEMS AND SERVICES COMPRISING OR UTILIZED IN THE COURSE OF APPLYING THIS INFORMATION, SPECIFICATIONS, OR MATERIALS, WHETHER EXPRESS OR IMPLIED, ARISING BY LAW, CUSTOM, PRIOR ORAL OR WRITTEN STATEMENTS BY SCHNEIDER ELECTRIC, OR OTHERWISE (INCLUDING, BUT NOT LIMITED TO ANY WARRANTY OF SATISFACTORY QUALITY, MERCHANTABILITY, FITNESS FOR PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT) ARE HEREBY EXPRESSLY EXCLUDED AND DISCLAIMED:
+********Disclaimer Of Liability*********
+UNDER NO CIRCUMSTANCES (INCLUDING NEGLIGENCE OR FORESEEABLE MISUSE) WILL SCHNEIDER ELECTRIC BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE OR CONSEQUENTIAL DAMAGES (INCLUDING WITHOUT LIMITATION, BUSINESS INTERRUPTION, DELAYS, LOSS OF DATA OR PROFIT) ARISING OUT OF THE APPLICATION OF THE INFORMATION, SPECIFICATIONS, CHARACTERISTICS OR MATERIALS CONTAINED HEREIN EVEN IF SCHNEIDER ELECTRIC HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+************************************
+The information, program and configuration contained herein are provided as general training on the products concerned, in part, by way of theoretical and/or hypothetical examples.  Only you, the user, can be aware of all the conditions and factors present during setup, operation, and maintenance of your machine and its application; therefore, only you, the user, can determine the automation equipment and the related safeties and interlocks which can be properly used.  When selecting automation and control equipment and related software for a particular application, you must refer to the applicable local and national standards and regulations.
+************************************
+Copyright © 2014 Schneider Electric. All rights reserved.
+
+This applicaiton allows to test quickly the connexion between EIP Master and M221 Adaptor.
+"%QWEa := %IWEa"
+Please use the EDS provide in SetUP of SoMachine Basic
+T -&gt; O : Instance=100 - Size=20
+O -&gt; T : Instance=150 - Size=20</Description>
+    </ProjectInformations>
+    <ProjectProtection>
+      <Active>false</Active>
+      <CanView>true</CanView>
+    </ProjectProtection>
+    <ApplicationProtection>
+      <Active>false</Active>
+    </ApplicationProtection>
+    <RemoteIpAddresses>
+      <IpAddresses />
+    </RemoteIpAddresses>
+    <ModemConfigurations>
+      <ModemConfigurationEntities />
+    </ModemConfigurations>
+    <KeepModbusParameters>false</KeepModbusParameters>
+    <UnitId>1</UnitId>
+    <DownloadSettings>
+      <ResetMemories>true</ResetMemories>
+    </DownloadSettings>
+  </GlobalProperties>
+  <ReportConfiguration>
+    <PageSetup>
+      <PaperKind>A4</PaperKind>
+      <IsLandscape>false</IsLandscape>
+      <ReportUnit>HundredthsOfAnInch</ReportUnit>
+      <Top>100</Top>
+      <Bottom>100</Bottom>
+      <Left>100</Left>
+      <Right>100</Right>
+    </PageSetup>
+    <SubReportConfigurations />
+  </ReportConfiguration>
+</ProjectDescriptor>

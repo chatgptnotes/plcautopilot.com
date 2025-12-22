@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+    xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+    xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd">
+    <Types namespace="localTypes" />
+    <Strings namespace="localStrings">
+        <Language lang="en">
+            <String identifier="TMH2GDB.Description">en-Display KP</String>
+            <String identifier="TMH2GDB.ParameterName">en-Display KP</String>
+        </Language>
+        <Language lang="fr">
+            <String identifier="TMH2GDB.Description">fr-Display KP</String>
+            <String identifier="TMH2GDB.ParameterName">fr-Display KP</String>
+        </Language>
+        <Language lang="de">
+            <String identifier="TMH2GDB.Description">de-Display KP</String>
+            <String identifier="TMH2GDB.ParameterName">de-Display KP</String>
+        </Language>
+        <Language lang="es">
+            <String identifier="TMH2GDB.Description">Modem GSM</String>
+            <String identifier="TMH2GDB.ParameterName">Comando Hayes Reset</String>
+        </Language>
+        <Language lang="it">
+            <String identifier="TMH2GDB.Description">it-Display KP</String>
+            <String identifier="TMH2GDB.ParameterName">it-Display KP</String>
+        </Language>
+        <Language lang="zh-chs">
+            <String identifier="TMH2GDB.Description">GSM 调制解调器</String> <!-- connerie -->
+            <String identifier="TMH2GDB.ParameterName">Hayes 复位命令</String>    <!-- connerie -->
+        </Language>
+    </Strings>
+
+    <Files namespace="localFiles">
+        <Language lang="en">
+            <File fileref="local" identifier="TMH2GDB">
+                <LocalFile>./Images/TMH2GDB.gif</LocalFile>
+            </File>
+            <File fileref="local" identifier="ModemV90"> <!-- ?? Je verrai a quoi ca correspond -->
+                <LocalFile>./Icons/TMH2GDB.ico</LocalFile>
+            </File>
+        </Language>
+    </Files>
+
+
+    <Device>
+        <DeviceIdentification>
+            <Type>41103</Type>
+            <Id>101a 001f</Id> <!-- <== ce sera a changer: fournit par Thierry GAYOUT-->
+            <Version>4.0.0.0</Version>
+        </DeviceIdentification>
+        <DeviceInfo>
+            <Name name="local:dummy">TMH2GDB</Name>
+            <Description name="localStrings:TMH2GDB.Description">Display KP</Description>
+            <Vendor name="local:dummy">Schneider Electric</Vendor>
+            <OrderNumber>--TMH2GDB--</OrderNumber>
+            <Image name="localFiles:TMH2GDB" />
+            <Icon name="localFiles:ModemV90" />
+            <Family>4122:1060</Family>
+            <!-- Risque identifié si on ne considere pas le Display comme un Modem ... A REVOIR Par la suite-->
+        </DeviceInfo>
+        <Connector connectorId="1" hostpath="-1" interface="Schneider.Serial.TMH2GDB" moduleType="40132" role="child"
+                   explicit="false"><!-- Non modifié pour l'instant-->
+            <InterfaceName name="local:dummy">ASCII</InterfaceName>
+            <Slot allowEmpty="true" count="1" />
+            <HostParameterSet>
+                <Parameter ParameterId="10001" type="std:STRING">
+                    <Attributes channel="none" />
+                    <Default>''</Default>
+                    <Name name="localStrings:TMH2GDB.ParameterName">fr-TMH2GDB parametername</Name>
+                </Parameter>
+            </HostParameterSet>
+            <DriverInfo needsBusCycle="false">
+                <RequiredLib identifier="Modem" libname="Modem" placeholderlib="SE_Modem" vendor="Schneider Electric"
+                             version="1.0.1.1" /><!-- A voir si il faut/ si on peux/ modifier ceci-->
+            </DriverInfo>
+        </Connector>
+        <Custom>
+            <se:Configuration>
+                <se:ModemType>0x0004</se:ModemType> <!-- Arbitraire -->
+            </se:Configuration>
+            <se:SLConfig>
+                <se:Element name="Bauds" access="read">19200</se:Element>
+                <se:Element name="Parity" access="read">Even</se:Element>
+                <se:Element name="StopBit" access="read">1</se:Element>
+                <se:Element name="PhysicalMedium" access="read">Rs485</se:Element>
+                <se:Element name="Polarization" access="read">No</se:Element> <!-- ?? ??? -->
+                <se:Element name="TransmissionMode" access="read">ModbusRtu</se:Element>
+                <se:Element name="Addressing" access="read">Slave</se:Element>
+            </se:SLConfig>
+            <!-- Defines between which catalog version, this modem can be used -->
+            <Version min="1.2.0.0" />
+        </Custom>
+    </Device>
+</DeviceDescription>

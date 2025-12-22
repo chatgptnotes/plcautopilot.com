@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+         xmlns:xi="http://www.w3.org/2003/XInclude">
+
+  <Content key="#Prenaming">
+    <String identifier="S0.Comment">Bir soğuk başlatmayı gösterir veya yürütür (veri varsayılan değerlere ilklenir)</String>
+    <String identifier="S1.Comment">Veri yedeğiyle sıcak bir başlatma olduğunu gösterir</String>
+    <String identifier="S4.Comment">Dahili bir saatle oluşturulan 10 ms zaman tabanı</String>
+    <String identifier="S5.Comment">Dahili bir saatle oluşturulan 100 ms zaman tabanı</String>
+    <String identifier="S6.Comment">Dahili bir saatle oluşturulan 1 sn zaman tabanı</String>
+    <String identifier="S7.Comment">Dahili bir saatle oluşturulan 1 dak zaman tabanı</String>
+    <String identifier="S10.Comment">G/Ç iletişimi düzgün çalışıyor (1), G/Ç iletişim hatası algılandı (0)</String>
+    <String identifier="S11.Comment">İzleyici taşması denetleyicinin DUR olarak değişmesine neden olur</String>
+    <String identifier="S12.Comment">Denetleyici çalışıyor</String>
+    <String identifier="S13.Comment">ÇALIŞTIR modunda ilk denetleyici döngüsünü gösterir</String>
+    <String identifier="S14.Comment">Bu bit en az bir girişin veya çıkışın zorlandığını gösterir</String>
+    <String identifier="S15.Comment">Bu bit en az bir girişin zorlandığını gösterir</String>
+    <String identifier="S16.Comment">Bu bit en az bir çıkışın zorlandığını gösterir</String>
+    <String identifier="S17.Comment">Son çıkarılan bitin değerini gösterir</String>
+    <String identifier="S18.Comment">Bir 16 bit işlem gerçekleştirildiğinde bir akışı gösterir</String>
+    <String identifier="S19.Comment">Kullanıcının tanımladığını süreden büyük tarama zamanını gösterir</String>
+    <String identifier="S20.Comment">Bu bit 16 bit işlem gerçekleştirildiğinde dizinlenen nesne adresinin bir dizin taşmasını gösterir</String>
+    <String identifier="S21.Comment">Durum 1'de, bu bit GRAFCET ilklemesine neden olur. Etkin adımlar devre dışı bırakılır ve başlangıç adımları etkinleştirilir</String>
+    <String identifier="S22.Comment">Durum 1'de, bu bit tüm GRAFCET etkin adımlarının devre dışı bırakılmasına neden olur</String>
+    <String identifier="S23.Comment">1'e ayarlandığında, bu bit GRAFCET'in ön konumunu doğrular. Bu biti 1'de tutma GRAFCET'i dondurur (çizelgeyi dondurur)</String>
+    <String condition="catalogVersion lt v1700" identifier="S33.Comment">1'e ayarlandığında (kullanımda sonradan yapılandırma yoksa), %SW33 - %SW38 ile bu bit yeni Ethernet yapılandırması ayarlamayı sağlar</String>
+    <String condition="catalogVersion gte v1700" identifier="S33.Comment">1'e ayarlandığında (kullanımda sonradan yapılandırma yoksa), %SW33 - %SW38 ile bu bit yeni Ethernet yapılandırması ayarlamayı sağlar</String>
+    <String identifier="S34.Comment">1'e ayarlandığında, bu bit %S35 ve %S36 içinde ayarlanan bazı belirli Ethernet yapılandırmasını zorlamaya izin verir</String>
+    <String identifier="S35.Comment">Bu bit Ethernet Dupleks modunu gösterir. Yarı Dupleks ise 0'a ayarlayın, Tam Dupleks ise 1'e ayarlayın</String>
+    <String identifier="S36.Comment">Bu bit Ethernet hızını gösterir. 10 Mb/sn ise 0'a ayarlanır, 100 Mb/sn ise 1'e ayarlanır</String>
+    <String identifier="S38.Comment">Bu bit, olaylar algılanır algılanmaz olayların olaylar kuyruğuna yerleştirilip yerleştirilmediğini gösterir</String>
+    <String identifier="S39.Comment">Bu bit, olaylar kuyruğunun doygunluğu varsa gösterir</String>
+    <String identifier="S49.Comment">1'e ayarlandığında, bir kısa devreyi izleyen çıkışların otomatik yeniden hızlandırılması etkinleştirilir</String>
+    <String identifier="S50.Comment">1'e ayarlandığında, bu bit tarih ve saati güncellemenize izin verir</String>
+    <String identifier="S51.Comment">1'e ayarlandığında, tarih ve saat kullanıcı tarafından başlatılmalıdır</String>
+    <String identifier="S52.Comment">Durum 1'de, tarih ve saat başlatılmalıdır</String>
+    <String identifier="S59.Comment">1'e ayarlıyken, %SW59 içinde ayarlanan kontrol bitlerinde tarih ve saat yükselen kenarlara göre artırılır veya azaltılır</String>
+    <String condition="catalogVersion gte v2300" identifier="S66.Comment">1 olarak ayarlandığında pil LED'ini devre dışı bırakır</String>
+    <String identifier="S75.Comment">1'e ayarlıyken harici pil gücü azdır veya hiç harici pil algılanmamıştır</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="S91.Comment">Flaş bellekte tüm %MW değişkenlerini silmek için kullanıcı bu biti 1'e ayarlar</String>
+    <String condition="catalogVersion lt v1800" identifier="S93.Comment">%MW değişkenini flaşta (en fazla 1000) depolamak için kullanıcı bu biti 1'e ayarlar</String>
+    <String identifier="S96.Comment">1'e ayarlıyken, yedek program geçerlidir</String>
+    <String conditionEnd="catalogVersion lt v2800" identifier="S101.Comment">1'e ayarlıyken, adres %SW101 (bağlantı noktası 1) veya %SW102 (bağlantı noktası 2) değerleri değiştirilerek değiştirilebilir</String>
+    <String identifier="S103.Comment">1'e ayarlandığında, bu bit Seri Hat 1'de ASCII protokolünü yapılandırmanıza izin verir</String>
+    <String identifier="S104.Comment">1'e ayarlandığında, bu bit Seri Hat 2'de ASCII protokolünü yapılandırmanıza izin verir</String>
+    <String identifier="S119.Comment">Taban denetleyicisinde bir G/Ç iletişim kesintisi algılandığında bu biti 0'a ayarlayın</String>
+    <String identifier="SW0.Comment">Animasyon Tablosu Düzenleyicisi'nde kullanıcı programı yoluyla yapılandırmada tanımlanan denetleyici tarama dönemini değiştirir</String>
+    <String condition="catalogVersion lt v1300" identifier="SW1.Comment">Periyodik görevin döngü süresini değiştirir</String>
+    <String condition="catalogVersion gte v1300" conditionEnd="catalogVersion lt v1800" identifier="SW1.Comment">Periyodik görevin döngü süresini değiştirir</String>
+    <String identifier="SW6.Comment">Denetletici Durumu: UYGULAMA YOK (0), STOP (2), RUN (3), HALT (4), POWERLESS MODE (5)</String>
+    <String identifier="SW11.Comment">İzleyicinin maksimum değerini içerir</String>
+    <String identifier="SW13.Comment">Denetleyicinin önyükleme sürümünü içerir</String>
+    <String identifier="SW14.Comment">Denetleyicinin ticari sürümünü içerir</String>
+    <String identifier="SW15.Comment">Denetleyicinin Bellenim sürümünü içerir (1. sözcük)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW16.Comment">Denetleyicinin Bellenim sürümünü içerir (2. sözcük)</String>
+    <String identifier="SW18.Comment">Mutlak zamanlayıcı sayacını içerir (1. sözcük)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW19.Comment">Mutlak zamanlayıcı sayacını içerir (2. sözcük)</String>
+    <String identifier="SW30.Comment">Son denetleyici taramanın yürütme süresini gösterir (ms cinsinden). Tarama süresi 2.250 ms ise %SW30 = 2 ve %SW70 = 250</String>
+    <String identifier="SW31.Comment">Son soğuk başlatmadan beri en uzun denetleyici tarama döngüsünün yürütme süresini gösterir (ms cinsinden). Tarama süresi 2.250 ms ise %SW31 = 2 ve %SW71 = 250</String>
+    <String identifier="SW32.Comment">Son soğuk başlatmadan beri en kısa denetleyici tarama döngüsünün yürütme süresini gösterir (ms cinsinden). Tarama süresi 2.250 ms ise %SW32 = 2 ve %SW72 = 250</String>
+    <String identifier="SW39.Comment">Periyodik görevin ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW48.Comment">Son soğuk başlatmadan beri kaç olayın yürütüldüğünü gösterir</String>
+    <String identifier="SW49.Comment">RTC İşlevi: BCD xN Haftanın günü (Pazartesi için N=1) olarak içerir</String>
+    <String identifier="SW50.Comment">RTC İşlevi: BCD 00SS Saniye olarak içerir</String>
+    <String identifier="SW51.Comment">RTC İşlevi: BCD HHMM: saat ve dakika olarak içerir</String>
+    <String identifier="SW52.Comment">RTC İşlevi: BCD MMDD: ay ve gün olarak içerir</String>
+    <String identifier="SW53.Comment">RTC İşlevi: BCD CCYY: yüzyıl ve yıl olarak içerir</String>
+    <String identifier="SW54.Comment">Son güç kesintisi veya denetleyici durdurma süresi (BCD olarak): SS Saniye</String>
+    <String identifier="SW55.Comment">Son güç kesintisi veya denetleyici durdurma süresi (BCD olarak): HHMM Saat ve dakika</String>
+    <String identifier="SW56.Comment">Son güç kesintisi veya denetleyici durdurma süresi (BCD olarak): MMDD Ay ve gün</String>
+    <String identifier="SW57.Comment">Son güç kesintisi veya denetleyici durdurma süresi (BCD olarak): CCYY Yüzyıl ve yıl</String>
+    <String identifier="SW58.Comment">Son durdurma nedenini vererek kodu görüntüler: Giriş kenarını çalıştır/durdur, Yazılım algılama arızasında durdur, Durdur komutu, Güç kesintisi, Donanım algılama arızasında durdur</String>
+    <String identifier="SW59.Comment">Geçerli tarihi ayarlamak için 8 bitlik iki set içerir. İşlem her zaman bitin yükselen kenarında gerçekleştirilir. Bu sözcük bit %S59 ile etkinleştirilir</String>
+    <String identifier="SW61.Comment">Ethernet denetleyicisi donanım kimliğini görüntüler</String>
+    <String identifier="SW63.Comment">EXCH1 hata kodunu içerir, ayrıntılar için çevrimiçi yardıma bakın</String>
+    <String identifier="SW64.Comment">EXCH2 hata kodunu içerir, ayrıntılar için çevrimiçi yardıma bakın</String>
+    <String identifier="SW67.Comment">Mantık denetleyicisi kod kimliğini içerir. Daha fazla bilgi için M221 Mantık Denetleyicisi Kodu Kimliği tablosuna bakın</String>
+    <String identifier="SW70.Comment">Son denetleyici tarama döngüsünün yürütme süresinin mikrosaniyesini gösterir. Tarama süresi 2.250 ms ise %SW30 2 olacak ve %SW70 = 250 olacaktır</String>
+    <String identifier="SW71.Comment">Son soğuk başlatmadan beri en uzun denetleyici tarama döngüsünün yürütme süresinin mikrosaniyesini gösterir. Tarama süresi 2.250 ms ise %SW31 2 olacak ve %SW71 = 250 olacaktır</String>
+    <String identifier="SW72.Comment">Son soğuk başlatmadan beri en kısa denetleyici tarama döngüsünün yürütme süresinin mikrosaniyesini gösterir. Tarama süresi 2.250 ms ise %SW32 2 olacak ve %SW72 = 250 olacaktır</String>
+    <String identifier="SW75.Comment">İşleme yükünün yüzdesini gösterir</String>
+    <String identifier="SW76.Comment">Geri Sayacı 1, sistem tarafından her ms'de tek tek azalır</String>
+    <String identifier="SW77.Comment">Geri Sayacı 2, sistem tarafından her ms'de tek tek azalır</String>
+    <String identifier="SW78.Comment">Geri Sayacı 3, sistem tarafından her ms'de tek tek azalır</String>
+    <String identifier="SW79.Comment">Geri Sayacı 4, sistem tarafından her ms'de tek tek azalır</String>
+    <String identifier="SW80.Comment">Her bit katıştırılmış analog girişlerin durumunu gösterir</String>
+    <String identifier="SW94.Comment">İmza, uygulama değişmesinde değişiklikler, yapılandırma ve programlama verileri açısından</String>
+    <String identifier="SW95.Comment">İmza, uygulama değişmesinde değişiklikler, yapılandırma ve programlama verileri açısından</String>
+    <String identifier="SW98.Comment">Seri Hat 1'in sonradan yapılandırma durumu. Sonradan yapılandırma parametreye uygulandığında bitler 1'e ayarlanır</String>
+    <String identifier="SW99.Comment">Seri Hat 2'nin sonradan yapılandırma durumu. Sonradan yapılandırma parametreye uygulandığında bitler 1'e ayarlanır</String>
+    <String identifier="SW101.Comment">Bağlantı noktası 1'in adresi, bit %S101 1 olarak ayarlandığında, Modbus adresini değiştirebilirsiniz</String>
+    <String identifier="SW102.Comment">Bağlantı noktası 2'nin adresi, bit %S101 1 olarak ayarlandığında, Modbus adresini değiştirebilirsiniz</String>
+    <String identifier="SW114.Comment">Kullanıcı programı veya operatör ekranı ile zamanlama bloklarının işlemini etkinleştirir veya devre dışı bırakır</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="SW119.Comment">İsteğe bağlı olarak yapılandırılan genişletme modüllerini gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW130.Comment">%I0.2 olay girişinin son yürütme zamanını µs cinsinden gösterir</String>
+    <String identifier="SW131.Comment">%I0.3 olay girişinin son yürütme zamanını µs cinsinden gösterir</String>
+    <String identifier="SW132.Comment">%I0.4 olay girişinin son yürütme zamanını µs cinsinden gösterir</String>
+    <String identifier="SW133.Comment">%I0.5 olay girişinin son yürütme zamanını µs cinsinden gösterir</String>
+    <String identifier="SW134.Comment">HSC0 olay Eşiği 0'ın son yürütme süresini µs cinsinden gösterir</String>
+    <String identifier="SW135.Comment">HSC0 olay Eşiği 1'in son yürütme süresini µs cinsinden gösterir</String>
+    <String identifier="SW136.Comment">HSC1 olay Eşiği 0'ın son yürütme süresini µs cinsinden gösterir</String>
+    <String identifier="SW137.Comment">HSC1 olay Eşiği 1'in son yürütme süresini µs cinsinden gösterir</String>
+    <String identifier="SW138.Comment">Periyodik görevin son yürütme süresini µs olarak gösterir</String>
+    <String identifier="SW139.Comment">Çıkış bloklarının koruma hata durumunu gösterir</String>
+    <String condition="catalogVersion lt v1800" identifier="SW148.Comment">Kalıcı değişken sayısı (maksimum 1000)</String>
+    <String identifier="SW149.Comment">%I0.2 olay girişinin son yürütme zamanını ms cinsinden gösterir</String>
+    <String identifier="SW150.Comment">%I0.3 olay girişinin son yürütme zamanını ms cinsinden gösterir</String>
+    <String identifier="SW151.Comment">%I0.4 olay girişinin son yürütme zamanını ms cinsinden gösterir</String>
+    <String identifier="SW152.Comment">%I0.5 olay girişinin son yürütme zamanını ms cinsinden gösterir</String>
+    <String identifier="SW153.Comment">HSC0 event eşiği 0'ın son yürütme süresini ms cinsinden gösterir</String>
+    <String identifier="SW154.Comment">HSC0 event eşiği 1'in son yürütme süresini ms cinsinden gösterir</String>
+    <String identifier="SW155.Comment">HSC1 event eşiği 0'ın son yürütme süresini ms cinsinden gösterir</String>
+    <String identifier="SW156.Comment">HSC1 event eşiği 1'in son yürütme süresini ms cinsinden gösterir</String>
+    <String identifier="SW157.Comment">PERIODIC task'inin son yürütme süresini ms olarak gösterir</String>
+    <String identifier="SW158.Comment">PERIODIC task'inin ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW159.Comment">Event 0'ın ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW160.Comment">Event 1'in ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW161.Comment">Event 2'nin ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW162.Comment">Event 3'ün ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW163.Comment">Event 4'ün ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW164.Comment">Event 5'in ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW165.Comment">Event 6'nın ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW166.Comment">Event 7'nin ortalama yürütme süresini (en az 5 kez) ms cinsinden gösterir</String>
+    <String identifier="SW170.Comment">Seri Hat 1 tarafından iletilen çerçeve sayısını sayar</String>
+    <String identifier="SW171.Comment">Seri Hat 2 tarafından iletilen çerçeve sayısını sayar</String>
+    <String identifier="SW172.Comment">USB kanalıyla iletilen çerçeve sayısını sayar</String>
+    <String identifier="SW174.Comment">Seri Hat 1 tarafından düzgün alınan çerçeve sayısını sayar</String>
+    <String identifier="SW175.Comment">Seri Hat 2 tarafından düzgün alınan çerçeve sayısını sayar</String>
+    <String identifier="SW176.Comment">USB kanalıyla düzgün alınan çerçeve sayısını sayar</String>
+    <String identifier="SW178.Comment">Seri Hat 1 ile alınan çerçeve sayısını sayar</String>
+    <String identifier="SW179.Comment">Seri Hat 2 ile alınan çerçeve sayısını sayar</String>
+    <String identifier="SW180.Comment">USB kanalı ile alınan çerçeve sayısını sayar</String>
+
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_lt_v2000" condition="catalogVersion lt v2000"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_gte_v2000" condition="catalogVersion gte v2000"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_gte_v2800" condition="catalogVersion gte v2800"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_gte_v2900" condition="catalogVersion gte v2900"/>
+  </Content>
+
+  <Content key="#Prenaming_gte_v1800">
+    <String identifier="S9.Comment">Dijital ve analog çıkışlarda geri dönüşleri uygulamak için 1'e ayarlayın</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="S93.Comment">%MW değişkenini flaşta (en fazla 2000) depolamak için kullanıcı bu biti 1'e ayarlar</String>
+    <String identifier="S106.Comment">Varsayılan değer 0'dır. 1'e ayarlandığında, kalıcı bir hatayla bile GÇ modülü değişimlerini yöneterek GÇ veri yolu davranışını değiştirir</String>
+    <String identifier="S107.Comment">Bu bitteki yükselen kenar GÇ veri yolunu yeniden yapılandırmaya ve yeniden başlatmaya izin verir</String>
+    <String identifier="S110.Comment">Seri Hat 1'de IOScanner'ı sıfırlamak için 1'e ayarlayın</String>
+    <String identifier="S111.Comment">Seri Hat 2'de IOScanner'ı sıfırlamak için 1'e ayarlayın</String>
+    <String identifier="S113.Comment">Seri Hat 1'de IOScanner'ı askıya almak için 1'e ayarlayın</String>
+    <String identifier="S114.Comment">Seri Hat 2'de IOScanner'ı askıya almak için 1'e ayarlayın</String>
+    <String identifier="SW1.Comment">Periyodik görevin döngü süresini değiştirir</String>
+    <String identifier="SW16.Comment">Denetleyicinin Bellenim sürümünü içerir (2. sözcük)</String>
+    <String identifier="SW19.Comment">Mutlak zamanlayıcı sayacını içerir (2. sözcük)</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="SW148.Comment">Kalıcı değişken sayısı (maksimum 2000)</String>
+    <String identifier="SW210.Comment">Seri Hat 1'in IOScanner durumunu içerir</String>
+    <String identifier="SW211.Comment">Seri Hat 2'nin IOScanner durumunu içerir</String>
+  </Content>
+
+  <Content key="#Prenaming_lt_v2000">
+    <String identifier="S92.Comment">Flaşta kayıtlı geçerli veri varsa 1'e ayarlanır</String>
+    <String identifier="S94.Comment">Kayıtlı verileri geri yüklemek için kullanıcı bu biti 1'e ayarlar</String>
+    <String identifier="SW7.Comment">Sözcük denetleyicinin durumunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW17.Comment">Kayan aritmatik işlemde bir hata algılandığında varsayılan durum (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW40.Comment">Event 0'ın ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW41.Comment">Event 1'in ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW42.Comment">Event 2'nin ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW43.Comment">Event 3'ün ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW44.Comment">Event 4'ün ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW45.Comment">Event 5'in ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW46.Comment">Event 6'nın ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW47.Comment">Event 7'nin ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW96.Comment">Uygulama programının kaydetme/depolama işlevi için (ayrıntılar için çevrimiçi yardıma bakın) komut ve/veya tanılamasını içerir</String>
+    <String identifier="SW103.Comment">%S103 olduğunda bağlantı noktası 1'in ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW104.Comment">%S104 olduğunda bağlantı noktası 2'nin ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW105.Comment">%S103 olduğunda bağlantı noktası 1'in ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW106.Comment">%S104 olduğunda bağlantı noktası 2'nin ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW118.Comment">GÇ veri yolu denetleyicisi durumunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW120.Comment">Genişletme G/Ç modülü durumunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW121.Comment">%S103 olduğunda bağlantı noktası 1'in ASCII çerçeve boyutunun kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW122.Comment">%S104 olduğunda bağlantı noktası 2'nin ASCII çerçeve boyutunun kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW128.Comment">Kartuş 1'in durum kodunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW129.Comment">Kartuş 2'nin durum kodunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2000">
+    <String identifier="S28.Comment">1'e ayarlandığında, dizeleri yönetirken bir bellek nesnesinde bir taşma olduğunu gösterir</String>
+    <String identifier="S90.Comment">Bellek değerlerini geçici olmayan belleğe/bellekten (0, varsayılan) veya SD karta/karttan (1) yedekleme/geri yükleme</String>
+    <String identifier="S91.Comment">Geçici olmayan bellekteki tüm bellek değerlerini silmek için bu biti 1'e ayarlayın</String>
+    <String identifier="S92.Comment">Geçici olmayan bellekte kayıtlı geçerli bellek değişkenleri varsa 1'e ayarlayın</String>
+    <String identifier="S93.Comment">Bellek değerlerini geçici olmayan belleğe (%S90 = 0) veya SD karta (%S90 = 1) yedeklemek için bu biti 1'e ayarlayın</String>
+    <String identifier="S94.Comment">Bellek değerlerini geçici olmayan bellekten (%S90 = 0) veya SD karttan (%S90 = 1) geri yüklemek için bu biti 1'e ayarlayın</String>
+    <String identifier="SW7.Comment">Sözcük denetleyicinin durumunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW17.Comment">Kayan aritmatik işlemde bir hata algılandığında varsayılan durum (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW40.Comment">Event 0'ın ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW41.Comment">Event 1'in ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW42.Comment">Event 2'nin ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW43.Comment">Event 3'ün ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW44.Comment">Event 4'ün ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW45.Comment">Event 5'in ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW46.Comment">Event 6'nın ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW47.Comment">Event 7'nin ortalama yürütme süresini µs cinsinden gösterir (son 5 kez)</String>
+    <String identifier="SW96.Comment">Uygulama programının kaydetme/depolama işlevi için (ayrıntılar için çevrimiçi yardıma bakın) komut ve/veya tanılamasını içerir</String>
+    <String identifier="SW103.Comment">%S103 olduğunda bağlantı noktası 1'in ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW104.Comment">%S104 olduğunda bağlantı noktası 2'nin ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW105.Comment">%S103 olduğunda bağlantı noktası 1'in ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW106.Comment">%S104 olduğunda bağlantı noktası 2'nin ASCII protokolünün kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW115.Comment">Denetleyici Seri numarası parça 1 (BCD)</String>
+    <String identifier="SW116.Comment">Denetleyici Seri numarası parça 2 (BCD)</String>
+    <String identifier="SW117.Comment">Denetleyici Seri numarası parça 3 (BCD)</String>
+    <String identifier="SW118.Comment">GÇ veri yolu denetleyicisi durumunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW119.Comment">İsteğe bağlı olarak yapılandırılan genişletme modüllerini gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW120.Comment">Genişletme G/Ç modülü durumunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW121.Comment">%S103 olduğunda bağlantı noktası 1'in ASCII çerçeve boyutunun kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW122.Comment">%S104 olduğunda bağlantı noktası 2'nin ASCII çerçeve boyutunun kullanımı için yapılandırma (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW128.Comment">Kartuş 1'in durum kodunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW129.Comment">Kartuş 2'nin durum kodunu gösterir (ayrıntılar için çevrimiçi yardıma bakın)</String>
+    <String identifier="SW140.Comment">Denetleyici son hata kodu 1</String>
+    <String identifier="SW141.Comment">Denetleyici son hata kodu 2</String>
+    <String identifier="SW142.Comment">Denetleyici son hata kodu 3</String>
+    <String identifier="SW143.Comment">PlcLog.csv içinde giriş sayısı</String>
+    <String identifier="SW147.Comment">SD karta/karttan yedekleme/geri yükleme işleminin durumunu sağlar</String>
+    <String identifier="SW148.Comment">Geçici olmayan belleğe/bellekten (%S90 = 0) veya SD karta/karttan (%S90 = 1) yedeklenecek/geri yüklenecek bellek değerlerinin sayısı</String>
+  </Content>
+
+  <Content key="#Prenaming_Modem">
+    <String condition="catalogVersion gte v1300" identifier="S105.Comment">1 olarak ayarlandığında, bu bit modemi başlatmanıza izin verir, ayrıca bkz. %SW167</String>
+    <String condition="catalogVersion gte v1200" identifier="SW167.Comment">Modemin son ilkleme komutuna olan yanıtını açıklar</String>
+  </Content>
+
+  <Content key="#Prenaming_Display">
+    <String condition="catalogVersion gte v1600" identifier="SW185.Comment">Uzak Grafik Ekranının sürümünü içerir</String>
+
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_Display_gte_v1200" condition="catalogVersion gte v1200"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_Display_gte_v1400" condition="catalogVersion gte v1400"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1200">
+    <String identifier="SW182.Comment">Uzak Grafik Ekran bağlantısı durumu</String>
+    <String identifier="SW183.Comment">Uzak Grafik Ekran son hatası algılandı</String>
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1400">
+    <String identifier="S122.Comment">Ekran alarm sayfasına otomatik geçer</String>
+    <String identifier="S123.Comment">Ekran arka ışığı alarm etkin olduğu sürece kırmızı olacaktır</String>
+    <String identifier="SW184.Comment">Ekran sayfası DİZİN'i içerir ve başka bir sayfa seçmenize izin verir</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet">
+    <String identifier="SW62.Comment">Ethernet hata kodunu gösterir (0 Hata yok, 1 Yinelenen IP, 2 DHCP Sürüyor, 3 BOOTP Sürüyor, 4 Geçersiz parametreler, 5 Sabit IP sürüyor, 6 Ethernet com Başarısızlıkta)</String>
+    <String identifier="SW65.Comment">Ethernet denetleyiciler için EXCH3 hata kodunu içerir, ayrıntılar için çevrimiçi yardıma bakın</String>
+    <String identifier="SW100.Comment">Ethernet bağlantı noktasının sonradan yapılandırma durumu. Sonradan yapılandırma parametreye uygulandığında bitler 1'e ayarlanır</String>
+    <String identifier="SW168.Comment">Ethernet Modbus TCP sunucusunun kullanımdaki bağlantılarını gösterir</String>
+    <String identifier="SW173.Comment">Ethernet üzerinde Modbus TCP ile iletilen çerçeve sayısını hesaplar</String>
+    <String identifier="SW177.Comment">Ethernet üzerinde Modbus TCP ile düzgün alınan çerçeve sayısını hesaplar</String>
+    <String identifier="SW181.Comment">Ethernet'te Modbus TCP ile hatada alınan çerçeve sayısını hesaplar</String>
+
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_Ethernet_lt_v1800" condition="catalogVersion lt v1800"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_Ethernet_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_Ethernet_gte_v2000" condition="catalogVersion gte v2000"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_lt_v1800">
+    <String identifier="SW33.Comment">AA.BB.CC.DD IP adresinin 2. CC.DD bölümünü içerir</String>
+    <String identifier="SW34.Comment">AA.BB.CC.DD IP adresinin 1. AA.BB bölümünü içerir</String>
+    <String identifier="SW35.Comment">AA.BB.CC.DD alt ağ maskesinin 2. CC.DD bölümünü içerir</String>
+    <String identifier="SW36.Comment">AA.BB.CC.DD alt ağ maskesinin 1. AA.BB bölümünü içerir</String>
+    <String identifier="SW37.Comment">AA.BB.CC.DD Ağ Geçidi adresinin 2. CC.DD bölümünü içerir</String>
+    <String identifier="SW38.Comment">AA.BB.CC.DD Ağ Geçidi adresinin 1. AA.BB bölümünü içerir</String>
+    <String identifier="SW107.Comment">AA:BB:CC:DD:EE:FF MAC adresinin 1. AA.BB parçasını içerir</String>
+    <String identifier="SW108.Comment">AA:BB:CC:DD:EE:FF MAC adresinin 2. CC.DD parçasını içerir</String>
+    <String identifier="SW109.Comment">AA:BB:CC:DD:EE:FF MAC adresinin 3. EE.FF parçasını içerir</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v1800">
+    <String identifier="SW33.Comment">AA.BB.CC.DD IP adresinin 2. CC.DD bölümünü içerir</String>
+    <String identifier="SW34.Comment">AA.BB.CC.DD IP adresinin 1. AA.BB bölümünü içerir</String>
+    <String identifier="SW35.Comment">AA.BB.CC.DD alt ağ maskesinin 2. CC.DD bölümünü içerir</String>
+    <String identifier="SW36.Comment">AA.BB.CC.DD alt ağ maskesinin 1. AA.BB bölümünü içerir</String>
+    <String identifier="SW37.Comment">AA.BB.CC.DD Ağ Geçidi adresinin 2. CC.DD bölümünü içerir</String>
+    <String identifier="SW38.Comment">AA.BB.CC.DD Ağ Geçidi adresinin 1. AA.BB bölümünü içerir</String>
+    <String identifier="SW107.Comment">AA:BB:CC:DD:EE:FF MAC adresinin 1. AA.BB parçasını içerir</String>
+    <String identifier="SW108.Comment">AA:BB:CC:DD:EE:FF MAC adresinin 2. CC.DD parçasını içerir</String>
+    <String identifier="SW109.Comment">AA:BB:CC:DD:EE:FF MAC adresinin 3. EE.FF parçasını içerir</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v2000">
+    <String identifier="S112.Comment">Ethernet'te IOScanner'ı sıfırlamak için 1'e ayarlayın</String>
+    <String identifier="S115.Comment">Ethernet'te IOScanner'ı askıya almak için 1'e ayarlayın</String>
+    <String identifier="SW212.Comment">Ethernet'te IOScanner durumunu içerir</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping">
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400" condition="catalogVersion gte v1400"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000" condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000"/>
+    <xi:include href="_M221_tr-TR.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000" condition="catalogVersion gte v2000"/>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400">
+    <String identifier="SW188.Comment">Modbus eşleme tablosuyla alınan çerçeve sayısını hesaplar</String>
+    <String identifier="SW189.Comment">Modbus eşleme tablosuyla düzgün alınan çerçeve sayısını hesaplar</String>
+    <String identifier="SW202.Comment">Giriş Derleme Örnek Numarasını okur</String>
+    <String identifier="SW203.Comment">Giriş Derleme Örnek Boyutunu okur</String>
+    <String identifier="SW204.Comment">Çıkış Derleme Örnek Numarasını okur</String>
+    <String identifier="SW205.Comment">Çıkış Derleme Örnek Boyutunu okur</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000">
+    <String identifier="SW190.Comment">EtherNet/IP'de iletilen çerçeve sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW191.Comment">EtherNet/IP'de iletilen çerçeve sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW192.Comment">EtherNet/IP'de alınan çerçeve sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW193.Comment">EtherNet/IP'de alınan çerçeve sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW194.Comment">EtherNet/IP'de iletilen bağlı olmayan mesaj sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW195.Comment">EtherNet/IP'de iletilen bağlı olmayan mesaj sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW196.Comment">EtherNet/IP'de iletilen geçersiz bağlı olmayan mesaj sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW197.Comment">EtherNet/IP'de iletilen geçersiz bağlı olmayan mesaj sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW198.Comment">EtherNet/IP'de alınan sınıf 3 isteklerini hesaplar (1. sözcük)</String>
+    <String identifier="SW199.Comment">EtherNet/IP'de alınan sınıf 3 isteklerini hesaplar (2. sözcük)</String>
+    <String identifier="SW200.Comment">EtherNet/IP'de alınan geçersiz sınıf 3 isteklerini hesaplar (1. sözcük)</String>
+    <String identifier="SW201.Comment">EtherNet/IP'de alınan geçersiz sınıf 3 isteklerini hesaplar (2. sözcük)</String>
+    <String identifier="SW206.Comment">EtherNet/IP'de bağlantı zaman aşımları sayısını okur</String>
+    <String identifier="SW207.Comment">Son G/Ç paketinden EtherNet/IP bayrağını okur: Boşta (değer=0), Çalıştır (değer=1), Hata (değer=2)</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000">
+    <String identifier="SW190.Comment">EtherNet/IP'de iletilen çerçeve sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW191.Comment">EtherNet/IP'de iletilen çerçeve sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW192.Comment">EtherNet/IP'de alınan çerçeve sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW193.Comment">EtherNet/IP'de alınan çerçeve sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW194.Comment">EtherNet/IP'de iletilen bağlı olmayan mesaj sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW195.Comment">EtherNet/IP'de iletilen bağlı olmayan mesaj sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW196.Comment">EtherNet/IP'de iletilen geçersiz bağlı olmayan mesaj sayısını hesaplar (1. sözcük)</String>
+    <String identifier="SW197.Comment">EtherNet/IP'de iletilen geçersiz bağlı olmayan mesaj sayısını hesaplar (2. sözcük)</String>
+    <String identifier="SW198.Comment">EtherNet/IP'de alınan sınıf 3 isteklerini hesaplar (1. sözcük)</String>
+    <String identifier="SW199.Comment">EtherNet/IP'de alınan sınıf 3 isteklerini hesaplar (2. sözcük)</String>
+    <String identifier="SW200.Comment">EtherNet/IP'de alınan geçersiz sınıf 3 isteklerini hesaplar (1. sözcük)</String>
+    <String identifier="SW201.Comment">EtherNet/IP'de alınan geçersiz sınıf 3 isteklerini hesaplar (2. sözcük)</String>
+    <String identifier="SW206.Comment">EtherNet/IP'de bağlantı zaman aşımları sayısını okur</String>
+    <String identifier="SW207.Comment">Son G/Ç paketinden EtherNet/IP bayrağını okur: Boşta (değer=0), Çalıştır (değer=1), Hata (değer=2)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2800">
+    <String condition="catalogVersion gte v2800" identifier="S101.Comment">1'e ayarlıyken, adres %SW101 (bağlantı noktası 1) veya %SW102 (bağlantı noktası 2) veya %SW111 (bağlantı noktası 5) değerleri değiştirilerek değiştirilebilir</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2900">
+    <String condition="catalogVersion gte v2900" identifier="S32.Comment">1'e ayarlamanız, Ethernet/IP protokolünde CIP kimliği nesnesi kullanılarak aygıtın sıfırlanmasını etkinleştirir</String>
+  </Content>
+</Content>

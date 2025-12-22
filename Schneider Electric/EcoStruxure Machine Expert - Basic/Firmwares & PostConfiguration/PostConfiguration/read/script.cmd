@@ -1,0 +1,1 @@
+Upload "/usr/cfg"

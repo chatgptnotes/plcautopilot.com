@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+    xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+    xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <BitfieldType basetype="std:WORD" name="INPUTS_TM3SAC5R_G">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit0.Symbol">OutputOn</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit0.Description">Safety output on</Description>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit1.Symbol">Supply</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit1.Description">Supply available (A1/A2)</Description>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit2.Symbol">SupplyFail</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit2.Description">Supply out of tolerance</Description>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit3.Symbol">Reserved</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit4.Symbol">Reserved</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit5.Symbol">Start</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit5.Description">Start active</Description>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit6.Symbol">K1</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit6.Description">Relay K1 activated</Description>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit7.Symbol">K2</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit7.Description">Relay K2 activated</Description>
+      </Component>
+      <Component identifier="Bit8" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit8.Symbol">Reserved</VisibleName>
+      </Component>
+      <Component identifier="Bit9" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit9.Symbol">Reserved</VisibleName>
+      </Component>
+      <Component identifier="Bit10" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit10.Symbol">Reserved</VisibleName>
+      </Component>
+      <Component identifier="Bit11" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit11.Symbol">Reserved</VisibleName>
+      </Component>
+      <Component identifier="Bit12" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit12.Symbol">WaitingForStart</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Diagnostic.Bit12.Description">Waiting for start condition</Description>
+      </Component>
+      <Component identifier="Bit13" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Diagnostic.Bit13.Symbol">Reserved</VisibleName>
+      </Component>
+    </BitfieldType>
+    <BitfieldType basetype="std:BYTE" name="OUTPUTS_TM3SAC5R_G">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Output.Bit0.Symbol">Enable</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Output.Bit0.Description">Activation of Safety outputs enabled</Description>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Output.Bit1.Symbol">ResetModule</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Output.Bit1.Description">Deactivate module (current source switched off)</Description>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Output.Bit2.Symbol">KeepAlive</VisibleName>
+        <Description name="localStrings:TM3SAC5R_G.Output.Bit2.Description">Safety function stays active even when bus is 'dead' (timeout)</Description>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3SAC5R_G.Output.Bit3.Symbol">Reserved</VisibleName>
+      </Component>
+    </BitfieldType>
+    <!--typedef struct{
+    RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+    RTS_UI8 IdCode1;
+    RTS_UI8 IdCode2;            // if NbIdCode = 2
+    RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                // but in the read table of the module at offset 7
+    RTS_UI8 ImplicitPageIndex;  // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+    RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+    RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+    RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+    RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+    RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+    RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+    RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+    RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+    RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+                                // if 1 the status are included in the ImplicitRead
+                                // if 0 an explicit read is done on user demand (see StatusAddr)
+    RTS_UI8 StatusPageIndex;    // 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+                                //index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+    RTS_UI8 StatusSize;         // 0-127. Meaningful only for special module
+                                // Size in bytes of the status 
+    RTS_UI8 StatusAddr;         // 0-127. Meaningful only for special module
+                                // if StatusInImplicit == 1 : offset of the status in the implicit read buffer
+                                // if StatusInImplicit == 0 : offset of the status in the module read memory mapping
+    RTS_UI8 ConfPageIndex;      // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+    RTS_UI8 ConfForSpecialModuleSize;
+    RTS_UI8 ConfForSpecialModuleAddr;
+    RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R(Screw), TM3SAC5RG(Spring),
+Safety module, 1 function, CAT3, maximum PL d/SIL2.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnostics</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Safety output on</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Supply Ok</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Supply out of tolerance</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Channel 1 active</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Start active</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relay K1 activated</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relay K2 activated</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Waiting for start condition</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Activation of Safety outputs enabled</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Deactivate module (current source switched off)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">Safety function stays active even when bus is 'dead' (timeout)</String>
+      <String identifier="ModuleTypeKey">Safety</String>
+      <String identifier="FeaturesKey">1 function, CAT3</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R (vis), TM3SAC5RG (ressort)
+Module de sécurité, 1 fonction, CAT3, PL maximum d/SIL2.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnostics</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Sorties</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Sortie de sécurité active</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Alimentation disponible (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Alimentation hors tolérance</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Voie 1 active</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Démarrer la voie active</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relais K1 activé</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relais K2 activé</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">En attente de la condition de démarrage</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Activation des sorties de sécurité activée</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Désactiver le module (source de courant hors tension)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">La fonction de sécurité reste active même lorsque le bus ne répond plus (timeout)</String>
+      <String identifier="ModuleTypeKey">Sécurité</String>
+      <String identifier="FeaturesKey">1 fonction, CAT3</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R (Schraub), TM3SAC5RG (Federzug)
+Sicherheitsmodul, 1 Funktion, CAT3, max. PL d/SIL2.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnose</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Ausgänge</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Sicherheitsausgang Ein</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Versorgung verfügbar (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Versorgung außerhalb des Bereichs</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Kanal 1 aktiv</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Start aktiv</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relais K1 aktiviert</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relais K2 aktiviert</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Warten auf Startbedingung</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Aktivierung von Sicherheitsausgängen freigegeben</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Modul deaktivieren (Stromquelle ausgeschaltet)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">Sicherheitsfunktion bleibt aktiv, auch wenn Bus &apos;stromlos&apos; ist (Timeout)</String>
+      <String identifier="ModuleTypeKey">Sicherheit</String>
+      <String identifier="FeaturesKey">1 Funktion, CAT3</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R (tornillo), TM3SAC5RG (resorte)
+Módulo de seguridad, 1 función, CAT3, PL d/SIL2 máximo.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnósticos</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Salidas</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Salida de seguridad activada</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Alimentación disponible (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Alimentación no tolerada</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Canal 1 activo</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Inicio activo</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relé K1 activado</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relé K2 activado</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Esperando condición de inicio</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Activación de salidas de seguridad habilitada</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Desactivar módulo (fuente de corriente desconectada)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">La función de seguridad permanece activa aun cuando el bus esté &quot;muerto&quot; (timeout)</String>
+      <String identifier="ModuleTypeKey">Seguridad</String>
+      <String identifier="FeaturesKey">1 función, CAT3</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R (vite), TM3SAC5RG (molla)
+Modulo Safety, 1 funzione, CAT3, max. PL d/SIL2.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnostica</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Uscite</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Uscita Safety on</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Alimentazione disponibile (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Alimentazione fuori tolleranza</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Canale 1 attivo</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Start attivo</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relè K1 attivato</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relè K2 attivato</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">In attesa di condizione di avvio</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Attivazione delle uscite Safety abilitata</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Disattiva il modulo (sorgente di corrente disattivata)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">La funzione di sicurezza resta attiva anche quando il bus è inattivo (timeout)</String>
+      <String identifier="ModuleTypeKey">Sicurezza</String>
+      <String identifier="FeaturesKey">1 funzione, CAT3</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R（螺钉），TM3SAC5RG（弹簧）
+安全模块，1 个功能，CAT3，最大 PL d/SIL2。</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">诊断</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">输出</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">安全输出开启</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">电源可用 (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">电源超出公差</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">通道 1 处于活动状态</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">启动处于活动状态</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">继电器 K1 已激活</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">继电器 K2 已激活</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">等待启动条件</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">安全输出的激活已启用</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">停用模块（电源已关闭）</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">安全功能保持活动状态，即使总线已“失灵”（超时）</String>
+      <String identifier="ModuleTypeKey">安全</String>
+      <String identifier="FeaturesKey">1 个功能, CAT3</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R(Parafuso), TM3SAC5RG (Mola)
+Módulo de segurança, 1 função, CAT3, PL d/SIL2 máximo.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnóstico</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Saídas</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Saída de segurança ligada</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Fornecimento disponível (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Fornecimento fora de tolerância</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Canal 1 ativo</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Início ativo</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relé K1 ativado</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relé k2 ativado</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Aguardando por condição de início</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Ativação das saídas de segurança habilitada</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Módulo de desativação (fonte atual desligada)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">Função de segurança permanece ativa mesmo quando o barramento está &apos;inativo&apos; (tempo esgotado)</String>
+      <String identifier="ModuleTypeKey">Segurança</String>
+      <String identifier="FeaturesKey">1 função, CAT3</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R(Vida), TM3SAC5RG(Yay)
+Güvenlik modülü, 1 fonksiyon, CAT3, maksimum PL d/SIL2.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Tanılama</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Çıkışlar</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Güvenlik çıkışı açık</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Besleme kullanılabilir (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Besleme tolerans dışında</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Kanal 1 etkin</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Başlama etkin</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Röle K1 etkinleştirildi</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Röle K2 etkinleştirildi</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Başlama koşulu bekleniyor</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Güvenlik çıkışlarını etkinleştirme etkin</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Modülü devre dışı bırak (akım kaynağı kapatıldı)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">Güvenlik fonksiyonu veriyolu &apos;öldüğünde&apos; (zaman aşımı) dahi etkin kalır</String>
+      <String identifier="ModuleTypeKey">Güvenlik</String>
+      <String identifier="FeaturesKey">1 fonksiyon, CAT3</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R(šroubkový), TM3SAC5RG(pružinový),
+Bezpečnostní modul, 1 funkce, CAT3, maximum PL d/SIL2.</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">Diagnostika</String>
+      <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">Výstupy</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">Bezpečnostní výstup zapnutý</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">Napajení k dispozici (A1/A2)</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">Napájení mimo toleranci</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">Kanál 1 aktivní</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">Start aktivní</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">Relé K1 aktivováno</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">Relé K2 aktivováno</String>
+      <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">Čekání na start</String>
+      <String identifier="TM3SAC5R_G.Output.Bit0.Description">Aktivace bezpečnostních výstupů povolena</String>
+      <String identifier="TM3SAC5R_G.Output.Bit1.Description">Deaktivovat modul (zdroj proudu je vypnutý)</String>
+      <String identifier="TM3SAC5R_G.Output.Bit2.Description">Bezpečnostní funkce zůstává aktivní i když je zběrnice 'mrtvá' (timeout)</String>
+      <String identifier="ModuleTypeKey">Bezpečnost</String>
+      <String identifier="FeaturesKey">1 funkce, CAT3</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM3SAC5R_G.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM3SAC5R_G.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsOutputsIcon">
+        <LocalFile>./Icons/TM3SAC5R_G.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM3SAC5R_G">
+        <LocalFile>./Images/TM3SAC5R_G.png</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51436</Type>
+      <Id>101a 0460</Id>
+      <Version>1.0.1.12</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM3SAC5R/G</Name>
+      <Description name="localStrings:TM3SAC5R_G.DeviceDescription">TM3SAC5R(Screw), TM3SAC5RG(Spring),
+Safety module, 1 function, CAT3, maximum PL d/SIL2.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM3SAC5R/G</OrderNumber>
+      <Image name="localFiles:TM3SAC5R_G" />
+      <Icon name="localFiles:InputsOutputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1330</Family>
+      <Category>1</Category>
+      <AdditionalFiles />
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Safety">
+              <SubCategory name="TM3" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3SAC5R_G" moduleType="51436" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <ParameterSection>
+          <Name name="localStrings:TM3SAC5R_G.ParameterSectionNameInputs">Diagnostics</Name>
+          <Parameter ParameterId="34560" type="localTypes:INPUTS_TM3SAC5R_G">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:ParameterName">IW0</Name>
+          </Parameter>
+        </ParameterSection>
+        <ParameterSection>
+          <Name name="localStrings:TM3SAC5R_G.ParameterSectionNameOutputs">Outputs</Name>
+          <Parameter ParameterId="34592" type="localTypes:OUTPUTS_TM3SAC5R_G">
+            <Attributes channel="output" alwaysmapping="true" />
+            <Default />
+            <Name name="local:ParameterName">QB0</Name>
+          </Parameter>
+        </ParameterSection>
+        <Parameter ParameterId="2168717317" type="std:DWORD">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>34560</Default>
+          <Name name="local:dummy">IW</Name>
+          <Custom>
+            <POINTER_TO_IOCONFIGADDRESS />
+          </Custom>
+        </Parameter>
+        <Parameter ParameterId="2172911618" type="std:DWORD">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>34592</Default>
+          <Name name="local:dummy">QW</Name>
+          <Custom>
+            <POINTER_TO_IOCONFIGADDRESS />
+          </Custom>
+        </Parameter>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">146</Element>
+            <Element name="IdCode2"></Element>
+            <Element name="TM2AnalogModuleType">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">2</Element>
+            <!-- 2 bytes because 16 inputs  -->
+            <Element name="ImplicitReadAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitInOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitWriteSize">2</Element>
+            <!-- 2 bytes because 16 outputs  -->
+            <Element name="ImplicitWriteAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitOutOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">0</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">0</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="InterByteDelayDC2">-1</Element>
+            <!-- not used for digital module  -->
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>40</Default>
+          <Name name="local:dummy">TM3 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM3 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>0</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:PowerConsumption voltage="5V">40</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+        <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{E33362E7-80F9-41f0-83A9-64EE6160A87F}" />
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+      <DriverInfo needsBusCycle="false">
+        <RequiredLib identifier="TM3Safety" libname="TM3Safety" vendor="Schneider Electric" version="1.0.0.4">
+          <FBInstance basename="$(DeviceName)" fbname="TM3_SAx">
+            <Initialize methodName="Initialize" />
+          </FBInstance>
+        </RequiredLib>
+      </DriverInfo>
+    </Connector>
+    <Custom>
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <se:ModuleType>0x0092</se:ModuleType>
+        <se:GenericReference>TM3SAC5R-</se:GenericReference>
+        <se:NumRelays>3</se:NumRelays>
+        <se:NumTransistors>0</se:NumTransistors>
+      </se:Configuration>
+      <se:ModuleTypeKey>ModuleTypeKey</se:ModuleTypeKey>
+      <se:FeaturesKey>FeaturesKey</se:FeaturesKey>
+      <se:IoPrenamingEnabled>true</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix>SA_</se:PrenamingSymbolPrefix>
+
+      <se:DigitalInputXPosition>5</se:DigitalInputXPosition>
+      <se:DigitalInputYPosition>145</se:DigitalInputYPosition>
+      <se:DigitalInputXSize>60</se:DigitalInputXSize>
+      <se:DigitalInputYSize>215</se:DigitalInputYSize>
+
+      <se:DigitalOutputXPosition>90</se:DigitalOutputXPosition>
+      <se:DigitalOutputYPosition>200</se:DigitalOutputYPosition>
+      <se:DigitalOutputXSize>65</se:DigitalOutputXSize>
+      <se:DigitalOutputYSize>160</se:DigitalOutputYSize>
+    </Custom>
+  </Device>
+</DeviceDescription>

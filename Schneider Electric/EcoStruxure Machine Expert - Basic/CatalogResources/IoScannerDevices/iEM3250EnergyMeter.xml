@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- iEM3250 Energy Meter -->
+<Device>
+    <DeviceTypeName>iEM3250 Energy Meter</DeviceTypeName>
+    <DeviceTypeId>14</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+    <VendorId>Schneider Electric</VendorId>
+    <ProductCode>A9MEM3250</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+
+    <Channels>
+		<Channel>
+            <Name>Write_Command</Name>
+            <AccessType>IoScannerChannelAccessWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerRisingEdge</Trigger>
+            <CyclingTime></CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Writes to the command word, enter a memory bit according to your application</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>5249</WriteOffset>
+            <WriteLength>26</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+        <Channel>
+            <Name>Read_Command</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the command status and results</Comment>
+            <ReadOffset>5374</ReadOffset>
+            <ReadLength>2</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+        <Channel>
+            <Name>Read_Current</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the current value of each phase</Comment>
+            <ReadOffset>2999</ReadOffset>
+            <ReadLength>6</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Read_Voltage_LL</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the voltage between each phase, you can remove this channel for Y topology circuits</Comment>
+            <ReadOffset>3019</ReadOffset>
+            <ReadLength>8</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Read_Voltage_LN</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the voltage between each phase, you can remove this channel for delta topology circuits</Comment>
+            <ReadOffset>3027</ReadOffset>
+            <ReadLength>10</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Read_Power</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the power by each phase and the total power</Comment>
+            <ReadOffset>3053</ReadOffset>
+            <ReadLength>8</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Read_Power_Factor</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the power factor</Comment>
+            <ReadOffset>3083</ReadOffset>
+            <ReadLength>2</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Read_Frequency</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the frequency</Comment>
+            <ReadOffset>3109</ReadOffset>
+            <ReadLength>2</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Read_Total_Energy_Import</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the total energy import</Comment>
+            <ReadOffset>3203</ReadOffset>
+            <ReadLength>4</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

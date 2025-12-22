@@ -1,0 +1,36 @@
+<Grafcet>
+  <Node Key="TR" Category="Transition" Location="200 175" Text="%M0" />
+  <Node Key="IS 2" Category="InitStep" Location="200 80" Text="1" />
+  <Node Key="S" Category="Step" Location="200 240" Text="2" />
+  <Node Key="S 2" Category="Step" Location="100 400" Text="3" />
+  <Node Key="S 3" Category="Step" Location="300 400" Text="4" />
+  <Node Key="TR 2" Category="Transition" Location="100 335" Text="%I0.0" />
+  <Node Key="TR 3" Category="Transition" Location="300 335" Text="%I0.1" />
+  <Node Key="S 4" Category="Step" Location="200 560" Text="5" />
+  <Node Key="TR 4" Category="Transition" Location="100 495" Text="%M1" />
+  <Node Key="TR 5" Category="Transition" Location="300 495" Text="%M2" />
+  <Node Key="TR 6" Category="Transition" Location="200 655" Text="%Q0.3" />
+  <Node Key="BAR" Category="Parallel" Location="100 690" />
+  <Node Key="S 5" Category="Step" Location="100 720" Text="6" />
+  <Node Key="S 6" Category="Step" Location="300 720" Text="7" />
+  <Node Key="BAR 2" Category="Parallel" Location="100 850" />
+  <Node Key="TR 7" Category="Transition" Location="200 975" Text="%M3" />
+  <Link From="IS 2" To="TR" FromPort="0" ToPort="1" />
+  <Link From="TR" To="S" FromPort="0" ToPort="1" />
+  <Link From="S" To="TR 2" FromPort="0" ToPort="1" />
+  <Link From="S" To="TR 3" FromPort="0" ToPort="1" />
+  <Link From="TR 2" To="S 2" FromPort="0" ToPort="1" />
+  <Link From="TR 3" To="S 3" FromPort="0" ToPort="1" />
+  <Link From="S 2" To="TR 4" FromPort="0" ToPort="1" />
+  <Link From="TR 4" To="S 4" FromPort="0" ToPort="1" />
+  <Link From="S 3" To="TR 5" FromPort="0" ToPort="1" />
+  <Link From="TR 5" To="S 4" FromPort="0" ToPort="1" />
+  <Link From="S 4" To="TR 6" FromPort="0" ToPort="1" />
+  <Link From="TR 6" To="BAR" FromPort="0" ToPort="1" />
+  <Link From="BAR" To="S 5" FromPort="0" ToPort="1" />
+  <Link From="BAR" To="S 6" FromPort="0" ToPort="1" />
+  <Link From="S 5" To="BAR 2" FromPort="0" ToPort="1" />
+  <Link From="S 6" To="BAR 2" FromPort="0" ToPort="1" />
+  <Link From="BAR 2" To="TR 7" FromPort="0" ToPort="1" />
+  <Link From="TR 7" To="S" FromPort="0" ToPort="1" />
+</Grafcet>

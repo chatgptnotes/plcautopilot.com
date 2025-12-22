@@ -1,0 +1,739 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TM2AMI4LT_ModeEnum">
+      <Enum identifier="Mode_Voltage">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Mode_Voltage">Voltage</VisibleName>
+      </Enum>
+      <Enum identifier="Mode_Current">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Mode_Current">Current</VisibleName>
+      </Enum>
+      <Enum identifier="Mode_Temperature">
+        <Value>2</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Mode_Temperature">Temperature</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM2AMI4LT_TypeEnum">
+      <Enum identifier="Type_NotUsed">
+        <Value>15</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_10V">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0 - 10 V</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_20mA">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">0 - 20 mA</VisibleName>
+      </Enum>
+      <Enum identifier="Type_PT100">
+        <Value>3</Value>
+        <VisibleName name="local:dummy">PT100</VisibleName>
+      </Enum>
+      <Enum identifier="Type_PT1000">
+        <Value>5</Value>
+        <VisibleName name="local:dummy">PT1000</VisibleName>
+      </Enum>
+      <Enum identifier="Type_NI100">
+        <Value>4</Value>
+        <VisibleName name="local:dummy">NI100</VisibleName>
+      </Enum>
+      <Enum identifier="Type_NI1000">
+        <Value>6</Value>
+        <VisibleName name="local:dummy">NI1000</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM2AMI4LT_ScopeEnum">
+      <Enum identifier="Scope_NotUsed">
+        <Value>240</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Normal">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Normal">Normal</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Customized">
+        <Value>16</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Customized">Customized</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Resistance">
+        <Value>32</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Resistance">Resistance (Ohm)</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Celsius">
+        <Value>48</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Celsius">Celsius (0.1 °C)</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Fahrenheit">
+        <Value>64</Value>
+        <VisibleName name="localStrings:TM2AMI4LT.Fahrenheit">Fahrenheit (0.1 °F)</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TM2AMI4LT_Input_Conf">
+      <Component identifier="type_enum" type="localTypes:TM2AMI4LT_TypeEnum">
+        <Default>15</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TM2AMI4LT.Type_description">Range mode</Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TM2AMI4LT_ScopeEnum">
+        <Default>240</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TM2AMI4LT.Scope_description">Unit / Range</Description>
+      </Component>
+      <Component identifier="minValue" type="std:INT">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TM2AMI4LT.Minimum_description">Minimum value</Description>
+      </Component>
+      <Component identifier="maxValue" type="std:INT">
+        <Default>4095</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TM2AMI4LT.Maximum_description">Maximum value</Description>
+      </Component>
+      <Component identifier="LowerLimitValue" type="std:INT">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">LowerLimit</VisibleName>
+        <Description name="localStrings:TM2AMI4LT.LowerLimit_description">Lower limit value</Description>
+      </Component>
+      <Component identifier="UpperLimitValue" type="std:INT">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">UpperLimit</VisibleName>
+        <Description name="localStrings:TM2AMI4LT.UpperLimit_description">Upper limit value</Description>
+      </Component>
+    </StructType>
+    <!--typedef struct{
+	RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+	RTS_UI8 IdCode1;
+	RTS_UI8 IdCode2;            // if NbIdCode = 2
+	RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+	RTS_UI8 ImplicitPageIndex;	 // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+	RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+	RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+	RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+	RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+	RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+								// if 1 the status are included in the ImplicitRead
+								// if 0 an explicit read is done on user demand (see StatusAddr)
+	RTS_UI8 StatusPageIndex;	// 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+								//index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+	RTS_UI8 StatusSize;	        // 0-127. Meaningful only for special module
+								// Size in bytes of the status 
+	RTS_UI8 StatusAddr;	        // 0-127. Meaningful only for special module
+								// if StatusInImplicit == 1 : offset of the status in the implicit read buffer 
+								// if StatusInImplicit == 0 : offset of the status in the module read memory mapping 
+	RTS_UI8 ConfPageIndex;	     // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+	RTS_UI8 ConfForSpecialModuleSize;
+	RTS_UI8 ConfForSpecialModuleAddr;
+	RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Expansion module with 4 analog inputs, (0 - 10V, 0 - 20mA, 3-wire PT100, 3-wire PT1000, 3-wire NI 100, 3-wire NI1000), 12 bits, removable terminal block.</String>
+      <String identifier="TM2AMI4LT.Mode">Mode</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Mode</String>
+      <String identifier="TM2AMI4LT.Inputs">Inputs</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Voltage</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Current</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Temperature</String>
+      <String identifier="TM2AMI4LT.NotUsed">Not used</String>
+      <String identifier="TM2AMI4LT.Normal">Normal</String>
+      <String identifier="TM2AMI4LT.Customized">Customized</String>
+      <String identifier="TM2AMI4LT.Resistance">Resistance (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Celsius (0.1 °C)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0.1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Range mode</String>
+      <String identifier="TM2AMI4LT.Scope_description">Unit / Range</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Minimum value</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Maximum value</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Lower limit value</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Upper limit value</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V or 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Module d&apos;extension avec 4 entrées analogiques, (0 à 10 V, 0 à 20 mA, PT100 3 fils, PT1000 3 fils, NI100 3 fils, NI1000 3 fils), 12 bits, bornier débrochable.</String>
+      <String identifier="TM2AMI4LT.Mode">Mode</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Mode</String>
+      <String identifier="TM2AMI4LT.Inputs">Entrées</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Tension</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Courant</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Température</String>
+      <String identifier="TM2AMI4LT.NotUsed">Non utilisé</String>
+      <String identifier="TM2AMI4LT.Normal">Normal</String>
+      <String identifier="TM2AMI4LT.Customized">Personnalisé</String>
+      <String identifier="TM2AMI4LT.Resistance">Résistance (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Celsius (0,1 °C)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Mode de plage</String>
+      <String identifier="TM2AMI4LT.Scope_description">Unité</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Valeur minimum</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Valeur maximum</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Valeur limite inférieure</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Valeur limite supérieure</String>
+      <String identifier="TerminalBlockKey">Vis/Ressort</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V ou 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Erweiterungsmodul mit 4 Analogeingängen (0-10 V, 0-20 mA, 3-adriges PT100, 3-adriges PT1000, 3-adriges NI 100, 3-adriges NI1000), 12 Bit, abnehmbare Klemmenleiste.</String>
+      <String identifier="TM2AMI4LT.Mode">Modus</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Modus</String>
+      <String identifier="TM2AMI4LT.Inputs">Eingänge</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Spannung</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Strom</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Temperatur</String>
+      <String identifier="TM2AMI4LT.NotUsed">Nicht verwendet</String>
+      <String identifier="TM2AMI4LT.Normal">Standard</String>
+      <String identifier="TM2AMI4LT.Customized">Benutzerdefiniert</String>
+      <String identifier="TM2AMI4LT.Resistance">Widerstand (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Celsius (0,1 ℃)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Bereichsmodus</String>
+      <String identifier="TM2AMI4LT.Scope_description">Einheit</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Minimalwert</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Maximalwert</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Unterer Grenzwert</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Oberer Grenzwert</String>
+      <String identifier="TerminalBlockKey">Schraub/Federzug</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V oder 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Módulo de ampliación de 4 entradas analógicas, (0 - 10 V, 0 - 20 mA, PT100 de 3 hilos, PT1000 de 3 hilos, NI100 de 3 hilos, NI1000 de 3 hilos), 12 bits y bloque de terminales extraíble.</String>
+      <String identifier="TM2AMI4LT.Mode">Modalidad</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Modalidad</String>
+      <String identifier="TM2AMI4LT.Inputs">Entradas</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Voltaje</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Corriente</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Temperatura</String>
+      <String identifier="TM2AMI4LT.NotUsed">No se utiliza</String>
+      <String identifier="TM2AMI4LT.Normal">Normal</String>
+      <String identifier="TM2AMI4LT.Customized">Personalizado</String>
+      <String identifier="TM2AMI4LT.Resistance">Resistencia (ohmios)</String>
+      <String identifier="TM2AMI4LT.Celsius">Centígrados (0,1 °C)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Modalidad de rango</String>
+      <String identifier="TM2AMI4LT.Scope_description">Unidad</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Valor mínimo</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Valor máximo</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Valor límite inferior</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Valor límite superior</String>
+      <String identifier="TerminalBlockKey">Tornillo/resorte</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V o 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Modulo di espansione con 4 ingressi analogici, (0 - 10V, 0 - 20mA, PT100 a 3 fili, PT1000 a 3 fili, NI 100 a 3 fili, NI1000 a 3 fili), 12 bit, morsettiera rimovibile.</String>
+      <String identifier="TM2AMI4LT.Mode">Modalità</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Modalità</String>
+      <String identifier="TM2AMI4LT.Inputs">Ingressi</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Tensione</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Corrente</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Temperatura</String>
+      <String identifier="TM2AMI4LT.NotUsed">Non usato</String>
+      <String identifier="TM2AMI4LT.Normal">Normale</String>
+      <String identifier="TM2AMI4LT.Customized">Personalizzato</String>
+      <String identifier="TM2AMI4LT.Resistance">Resistenza (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Celsius (0,1 °C)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Modalità intervallo</String>
+      <String identifier="TM2AMI4LT.Scope_description">Unità</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Valore minimo</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Valore massimo</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Valore limite inferiore</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Valore limite superiore</String>
+      <String identifier="TerminalBlockKey">Vite/Molla</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0-10 V o 0-20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+扩展模块，4 路模拟量输入，（0 - 10V，0 - 20mA，3 线 PT100，3 线 PT1000，3 线 NI 100，3 线 NI1000），12 位，可插拔端子块。</String>
+      <String identifier="TM2AMI4LT.Mode">模式</String>
+      <String identifier="TM2AMI4LT.Mode_Description">模式</String>
+      <String identifier="TM2AMI4LT.Inputs">输入</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">电压</String>
+      <String identifier="TM2AMI4LT.Mode_Current">电流</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">温度</String>
+      <String identifier="TM2AMI4LT.NotUsed">未使用</String>
+      <String identifier="TM2AMI4LT.Normal">正常</String>
+      <String identifier="TM2AMI4LT.Customized">自定义</String>
+      <String identifier="TM2AMI4LT.Resistance">电阻（欧姆）</String>
+      <String identifier="TM2AMI4LT.Celsius">摄氏度 (0.1 ℃)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">华氏度 (0.1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">范围模式</String>
+      <String identifier="TM2AMI4LT.Scope_description">单位</String>
+      <String identifier="TM2AMI4LT.Minimum_description">最小值</String>
+      <String identifier="TM2AMI4LT.Maximum_description">最大值</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">下限值</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">上限值</String>
+      <String identifier="TerminalBlockKey">螺钉/弹簧</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V 或 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Módulo de expansão  com 4 entradas analógicas, (0 - 10 V, 0 - 20 mA, PT100 de 3 fios, PT1000 de 3 fios, NI 100 de 3 fios, NI1000 de 3 fios), 12 bits, bloco terminal removível.</String>
+      <String identifier="TM2AMI4LT.Mode">Modo</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Modo</String>
+      <String identifier="TM2AMI4LT.Inputs">Entradas</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Voltagem</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Atual</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Temperatura</String>
+      <String identifier="TM2AMI4LT.NotUsed">Não usado</String>
+      <String identifier="TM2AMI4LT.Normal">Normal</String>
+      <String identifier="TM2AMI4LT.Customized">Personalizado</String>
+      <String identifier="TM2AMI4LT.Resistance">Resistência (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Celsius (0,1 ℃)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Modo de intervalo</String>
+      <String identifier="TM2AMI4LT.Scope_description">Unidade</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Valor mínimo</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Valor máximo</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Valor de limite inferior</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Valor de limite superior</String>
+      <String identifier="TerminalBlockKey">Parafuso/Mola</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V ou 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Genişletme modülü - 4 analog giriş (0 - 10 V, 0 - 20 mA, 3 telli PT100, 3 telli PT1000, 3 telli NI 100, 3 telli NI1000), 12 bit, çıkarılabilir terminal bloğu.</String>
+      <String identifier="TM2AMI4LT.Mode">Mod</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Mod</String>
+      <String identifier="TM2AMI4LT.Inputs">Girişler</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Voltaj</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Geçerli</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Sıcaklık</String>
+      <String identifier="TM2AMI4LT.NotUsed">Kullanılmıyor</String>
+      <String identifier="TM2AMI4LT.Normal">Normal</String>
+      <String identifier="TM2AMI4LT.Customized">Özelleştirildi</String>
+      <String identifier="TM2AMI4LT.Resistance">Direnç (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Santigrat (0,1°C)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenhayt (0,1°F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Aralık modu</String>
+      <String identifier="TM2AMI4LT.Scope_description">Birim</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Minimum değer</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Maksimum değer</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Alt sınır değeri</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Üst sınır değeri</String>
+      <String identifier="TerminalBlockKey">Vida/Yay</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10 V veya 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Rozšiřující modul se 4 analogovými vstupy, (0 - 10V, 0 - 20mA, 3-drátový PT100, 3-drátový PT1000, 3-drátový NI 100, 3-drátový NI1000), 12 bitů,odnímatelná svorkovnice.</String>
+      <String identifier="TM2AMI4LT.Mode">Mód</String>
+      <String identifier="TM2AMI4LT.Mode_Description">Mód</String>
+      <String identifier="TM2AMI4LT.Inputs">Vstupy</String>
+      <String identifier="TM2AMI4LT.Mode_Voltage">Vapětí</String>
+      <String identifier="TM2AMI4LT.Mode_Current">Proud</String>
+      <String identifier="TM2AMI4LT.Mode_Temperature">Teplota</String>
+      <String identifier="TM2AMI4LT.NotUsed">Nepoužíváno</String>
+      <String identifier="TM2AMI4LT.Normal">Normální</String>
+      <String identifier="TM2AMI4LT.Customized">Přizpůsobené</String>
+      <String identifier="TM2AMI4LT.Resistance">Odpor (Ohm)</String>
+      <String identifier="TM2AMI4LT.Celsius">Celsius (0.1 °C)</String>
+      <String identifier="TM2AMI4LT.Fahrenheit">Fahrenheit (0.1 °F)</String>
+      <String identifier="TM2AMI4LT.Type_description">Režim rozsahu</String>
+      <String identifier="TM2AMI4LT.Scope_description">Jednotka / Rozsah</String>
+      <String identifier="TM2AMI4LT.Minimum_description">Minimální hodnota</String>
+      <String identifier="TM2AMI4LT.Maximum_description">Maximální hodnota</String>
+      <String identifier="TM2AMI4LT.LowerLimit_description">Snížit limitní hodnotu</String>
+      <String identifier="TM2AMI4LT.UpperLimit_description">Hodnota horní meze</String>
+      <String identifier="TerminalBlockKey">Šroubek/pružina</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">4 x 0..10V nebo 0..20 mA</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM2AMI4LT.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM2AMI4LT.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsIcon">
+        <LocalFile>./Icons/TM2AMI4LT.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM2AMI4LT">
+        <LocalFile>./Images/TM2AMI4LT.png</LocalFile>
+      </File>
+      <File fileref="local" identifier="DeviceConvertRules">
+        <LocalFile>./ConvertRules_TM2AMI4LT.dcrx</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51218</Type>
+      <Id>101a 0168</Id>
+      <Version>3.1.1.15</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM2AMI4LT</Name>
+      <Description name="localStrings:TM2AMI4LT.DeviceDescription">TM2AMI4LT
+Expansion module with 4 analog inputs, (0 - 10V, 0 - 20mA, 3-wire PT100, 3-wire PT1000, 3-wire NI 100, 3-wire NI1000), 12 bits, removable terminal block.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM2AMI4LT</OrderNumber>
+      <Image name="localFiles:TM2AMI4LT" />
+      <Icon name="localFiles:InputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1021</Family>
+      <Category>1</Category>
+      <AdditionalFiles>
+        <File key="Common.File.DeviceConvertRules" name="localFiles:DeviceConvertRules">ConvertRules_TM2AMI4LT.dcrx</File>
+      </AdditionalFiles>
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Analog In">
+              <SubCategory name="TM2" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM2AMI4LT" moduleType="51218" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <Parameter ParameterId="37952" type="localTypes:TM2AMI4LT_ModeEnum">
+          <Attributes channel="none" />
+          <Default>0</Default>
+          <Name name="localStrings:TM2AMI4LT.Mode">Mode</Name>
+          <Description name="localStrings:TM2AMI4LT.Mode_Description">Mode</Description>
+        </Parameter>
+        <ParameterSection>
+          <Name name="localStrings:TM2AMI4LT.Inputs">Inputs</Name>
+          <!--INPUTS-->
+          <Parameter ParameterId="37888" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="37889" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+          <Parameter ParameterId="37890" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW2</Name>
+          </Parameter>
+          <Parameter ParameterId="37891" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW3</Name>
+          </Parameter>
+          <!--PARAMETERS-->
+          <Parameter ParameterId="37953" type="localTypes:TM2AMI4LT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="37954" type="localTypes:TM2AMI4LT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+          <Parameter ParameterId="37955" type="localTypes:TM2AMI4LT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW2</Name>
+          </Parameter>
+          <Parameter ParameterId="37956" type="localTypes:TM2AMI4LT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW3</Name>
+          </Parameter>
+        </ParameterSection>
+        <!--InterByteDelay Parameter-->
+        <Parameter ParameterId="38143" type="std:BYTE">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">Delay</Name>
+        </Parameter>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">96</Element>
+            <Element name="IdCode2"></Element>
+            <Element name="TM2AnalogModuleType">4</Element>
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">16</Element>
+            <!-- 16 bytes because 4 status, 4 reserved, 4 IW  -->
+            <Element name="ImplicitReadAddr">8</Element>
+            <Element name="ImplicitInOffset">8</Element>
+            <Element name="ImplicitWriteSize">0</Element>
+            <Element name="ImplicitWriteAddr">0</Element>
+            <Element name="ImplicitOutOffset">-1</Element>
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">1</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">4</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">104</Element>
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <Element name="InterByteDelayDC2">55</Element>
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="200000" type="std:ARRAY[0..103] OF BYTE">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</Default>
+          <Name name="local:dummy">KPI Configuration</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">TM2 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM2 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>0</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{9B14A790-1189-40bc-9B2B-E270239E5B84}" />
+        <se:PowerConsumption voltage="5V">50</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+        <se:Mechanical size="width">23.5</se:Mechanical>
+        <se:ConfigurationMapping>
+          <se:Module name="Mode_Voltage" default="true">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_0_10V">
+              <se:Scope name="Scope_Normal" default="true" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+            </se:Type>
+          </se:Module>
+          <se:Module name="Mode_Current">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_0_20mA">
+              <se:Scope name="Scope_Normal" default="true" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+            </se:Type>
+          </se:Module>
+          <se:Module name="Mode_Temperature">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_PT100">
+              <se:Scope name="Scope_Normal" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+              <se:Scope name="Scope_Resistance" minimum="18" maximum="314" changeable="false" />
+              <se:Scope name="Scope_Celsius" default="true" minimum="-2000" maximum="6000" changeable="false" />
+              <se:Scope name="Scope_Fahrenheit" minimum="-3280" maximum="11120" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_PT1000">
+              <se:Scope name="Scope_Normal" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+              <se:Scope name="Scope_Resistance" minimum="184" maximum="3138" changeable="false" />
+              <se:Scope name="Scope_Celsius" default="true" minimum="-2000" maximum="6000" changeable="false" />
+              <se:Scope name="Scope_Fahrenheit" minimum="-3280" maximum="11120" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_NI100">
+              <se:Scope name="Scope_Normal" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+              <se:Scope name="Scope_Resistance" minimum="74" maximum="199" changeable="false" />
+              <se:Scope name="Scope_Celsius" default="true" minimum="-500" maximum="1500" changeable="false" />
+              <se:Scope name="Scope_Fahrenheit" minimum="-580" maximum="3020" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_NI1000">
+              <se:Scope name="Scope_Normal" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+              <se:Scope name="Scope_Resistance" minimum="742" maximum="1987" changeable="false" />
+              <se:Scope name="Scope_Celsius" default="true" minimum="-500" maximum="1500" changeable="false" />
+              <se:Scope name="Scope_Fahrenheit" minimum="-580" maximum="3020" changeable="false" />
+            </se:Type>
+          </se:Module>
+        </se:ConfigurationMapping>
+        <se:ConfForSpecialModule>
+          <se:OperationModeSetting length="10" default="0" inputIndex="0" outputIndex="4" isBigBuffer="true" custom="true" param1="Type_NotUsed" param2="Scope_NotUsed" param3="Mode_Temperature" />
+          <se:InputsToRead length="1" custom="true" />
+          <se:InputType length="1" isModeValue="true" />
+          <se:DA0CH length="4" default="0" />
+          <se:InputLimit index="16" custom="true" />
+          <se:OutputLimit index="32" />
+        </se:ConfForSpecialModule>
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <Custom>
+      <se:BusManager InputChannelsCount="4" OutputChannelsCount="0" RelaysCount="0" />
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <!--<se:DigitalInputsMax>8</se:DigitalInputsMax>-->
+        <!--<se:DigitalOutputsMax>0</se:DigitalOutputsMax>-->
+        <!--<se:AnalogInputsMax>0</se:AnalogInputsMax>-->
+        <!--<se:AnalogOutputsMax>0</se:AnalogOutputsMax>-->
+        <se:ModuleType>0x0460</se:ModuleType>
+        <se:GenericReference>TM2AMI4LT</se:GenericReference>
+        <se:ModuleKind>1</se:ModuleKind>
+        <se:NewPartNumber></se:NewPartNumber>
+        <se:NumRelays>0</se:NumRelays>
+        <se:IsConfigurable>true</se:IsConfigurable>
+        <se:AnalogInputTypeMask>0</se:AnalogInputTypeMask>
+        <se:AnalogOutputTypeMask>0</se:AnalogOutputTypeMask>
+        <se:AnalogInputRangeMask>0</se:AnalogInputRangeMask>
+        <se:AnalogOutputRangeMask>0</se:AnalogOutputRangeMask>
+        <se:NumTransistors>0</se:NumTransistors>
+        <se:ModuleExtendedKind>1</se:ModuleExtendedKind>
+        <se:AnalogInputKindMask>0x0700</se:AnalogInputKindMask>
+        <se:HasCombo>true</se:HasCombo>
+        <se:HasUsedCol>false</se:HasUsedCol>
+        <se:MinMaxOfset>3</se:MinMaxOfset>
+        <se:Compatibility>3</se:Compatibility>
+        <se:ModeEnumType>TM2AMI4LT_ModeEnum</se:ModeEnumType>
+        <se:Scope_CelsiusUnits>0.1 °C</se:Scope_CelsiusUnits>
+        <se:Scope_FahrenheitUnits>0.1 °F</se:Scope_FahrenheitUnits>
+        <se:Scope_ResistanceUnits>Ohm</se:Scope_ResistanceUnits>
+      </se:Configuration>
+      <se:FormatKey>FormatKey</se:FormatKey>
+      <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+      <se:InputKey>InputKey</se:InputKey>
+      <se:OutputKey>OutputKey</se:OutputKey>
+      <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+
+      <se:AnlogInputXPosition>10</se:AnlogInputXPosition>
+      <se:AnlogInputYPosition>190</se:AnlogInputYPosition>
+      <se:AnlogInputXSize>55</se:AnlogInputXSize>
+      <se:AnlogInputYSize>195</se:AnlogInputYSize>
+    </Custom>
+  </Device>
+</DeviceDescription>

@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ReportConfiguration>
+  <SubReports>
+    <SubReport guid="E565148D-3770-49AB-9047-538F7E943F73" factoryId="ProjectDescription" keyName="ProjectDescription" defaultTitle="Project Description"/>
+    <SubReport guid="E75454BD-11AC-4565-99B8-243C7261D75E" factoryId="BOM"                keyName="BillOfMaterial"     defaultTitle="Bill Of Material"/>
+
+    <SubReport guid="0B6FD88D-FD4E-443C-875A-DBCD331ACA81" factoryId="Title" keyName="HardwareConfigurationTitle" defaultTitle="Hardware Configuration" hideWhenEmpty="true" >
+        <SubReportElements>
+        <SubReportElement>PLC</SubReportElement>
+        <SubReportElement>BUSCOUPLER</SubReportElement>
+        </SubReportElements>
+	    <Children>
+        <SubReport guid="00AAC601-17A0-4EC3-AE57-99D2D768186A" factoryId="DigitalInputs"      keyName="DigitalInputs"     defaultTitle="Digital Inputs"      hideInReportSetting="true"/>
+        <SubReport guid="81761D76-0606-4C41-B1F2-BDD905DEC17D" factoryId="DigitalOutputs"     keyName="DigitalOutputs"    defaultTitle="Digital Outputs"     hideInReportSetting="true"/>
+        <SubReport guid="7D391676-BDA6-4EC0-8DDC-561F45FAA81B" factoryId="AnalogInputs"       keyName="AnalogInputs"      defaultTitle="Analog Inputs"       hideInReportSetting="true"/>
+        <SubReport guid="4FDFC1D5-085F-4334-BFA8-BAB0AB62377A" factoryId="AnalogOutputs"      keyName="AnalogOutputs"     defaultTitle="Analog Outputs"      hideInReportSetting="true"/>
+        <SubReport guid="E0675BD1-2B34-4A9E-BE23-EEB5DC2B391B" factoryId="FastCounters"       keyName="lblFastCounters"   defaultTitle="Fast Counters"       hideInReportSetting="true" />
+        <SubReport guid="7F5A6243-F1FF-4CEE-8E20-38C2E656B2D5" factoryId="HighSpeedCounters"  keyName="HighSpeedCounters" defaultTitle="High Speed Counters" hideInReportSetting="true" />
+        <SubReport guid="279E02D5-0473-4620-A897-9BEC4D5AA97A" factoryId="PulseGenerators"    keyName="PulseGenerators"   defaultTitle="Pulse Generators"    hideInReportSetting="true"/>
+        <SubReport guid="43B43F5A-3CC2-4B0B-91AC-FA2BCFF13CA2" factoryId="Ethernet"           keyName="Ethernet"          defaultTitle="Ethernet"            hideInReportSetting="true">
+            <Children>
+            <SubReport guid="F2C3E2FA-DB91-4E22-AC21-22DD7266C68E" factoryId="ModbusTCPSlave" keyName="TreeItemNameModbus" defaultTitle="Modbus TCP Slave" />
+            <SubReport guid="CDBB6AFB-9429-4600-9B2B-BA47E0D24FCA" factoryId="EthernetIpProtocol" keyName="EthernetIpProtocol" defaultTitle="Ethernet/IP protocol" />
+            </Children>
+        </SubReport>
+        <SubReport guid="BA0B06E6-FA02-4C69-9572-8E1DC734284D" factoryId="SerialLine"  keyName="SerialLine" defaultTitle="Serial Line" hideInReportSetting="true"/>
+
+        <SubReport guid="4CC9EFDF-BD28-45DC-AB05-08C6EC777AE5" factoryId="IoBus"       keyName="lblIOBus"   defaultTitle="IO Bus" hideWhenEmpty="true">
+            <SubReportElements>
+            <SubReportElement>EXTENSION</SubReportElement>
+            </SubReportElements>
+            <Children>
+            <SubReport guid="00AAC601-17A0-4EC3-AE57-99D2D768186A" factoryId="DigitalInputs"      keyName="DigitalInputs"     defaultTitle="Digital Inputs"  hideInReportSetting="true"/>
+            <SubReport guid="81761D76-0606-4C41-B1F2-BDD905DEC17D" factoryId="DigitalOutputs"     keyName="DigitalOutputs"    defaultTitle="Digital Outputs" hideInReportSetting="true"/>
+            <SubReport guid="7D391676-BDA6-4EC0-8DDC-561F45FAA81B" factoryId="AnalogInputs"       keyName="AnalogInputs"      defaultTitle="Analog Inputs"   hideInReportSetting="true"/>
+            <SubReport guid="4FDFC1D5-085F-4334-BFA8-BAB0AB62377A" factoryId="AnalogOutputs"      keyName="AnalogOutputs"     defaultTitle="Analog Outputs"  hideInReportSetting="true"/>
+            </Children>
+        </SubReport>
+
+        <SubReport  guid="69B6B9D2-D0FD-4563-9B62-8D1AFCD2B97E" factoryId="Title" keyName="Cartridges" defaultTitle="Cartridges" hideWhenEmpty="true">
+            <SubReportElements>
+            <SubReportElement>CARTRIDGE</SubReportElement>
+            </SubReportElements>
+            <Children>
+            <SubReport guid="00AAC601-17A0-4EC3-AE57-99D2D768186A" factoryId="DigitalInputs"      keyName="DigitalInputs"     defaultTitle="Digital Inputs"  hideInReportSetting="true"/>
+            <SubReport guid="81761D76-0606-4C41-B1F2-BDD905DEC17D" factoryId="DigitalOutputs"     keyName="DigitalOutputs"    defaultTitle="Digital Outputs" hideInReportSetting="true"/>
+            <SubReport guid="7D391676-BDA6-4EC0-8DDC-561F45FAA81B" factoryId="AnalogInputs"       keyName="AnalogInputs"      defaultTitle="Analog Inputs"   hideInReportSetting="true"/>
+            <SubReport guid="4FDFC1D5-085F-4334-BFA8-BAB0AB62377A" factoryId="AnalogOutputs"      keyName="AnalogOutputs"     defaultTitle="Analog Outputs"  hideInReportSetting="true" />
+            <SubReport guid="BA0B06E6-FA02-4C69-9572-8E1DC734284D" factoryId="SerialLine"         keyName="SerialLine"        defaultTitle="Serial Line"     hideInReportSetting="true" />
+            </Children>
+        </SubReport>
+		
+	    <SubReport guid="4CC9EFDF-BD28-45DC-AB05-08C6EC777AE6" factoryId="BusCoupler1" keyName="BusCoupler1" defaultTitle="Bus Coupler 1"   hideWhenEmpty="true">
+		    <SubReportElements>
+			    <SubReportElement>BUSCOUPLER_1_MODULES</SubReportElement>
+		    </SubReportElements>
+		    <Children>
+			    <SubReport guid="00AAC601-17A0-4EC3-AE57-99D2D768186A" factoryId="DigitalInputs"      keyName="DigitalInputs"     defaultTitle="Digital Inputs"  hideInReportSetting="true"/>
+			    <SubReport guid="81761D76-0606-4C41-B1F2-BDD905DEC17D" factoryId="DigitalOutputs"     keyName="DigitalOutputs"    defaultTitle="Digital Outputs" hideInReportSetting="true"/>
+			    <SubReport guid="7D391676-BDA6-4EC0-8DDC-561F45FAA81B" factoryId="AnalogInputs"       keyName="AnalogInputs"      defaultTitle="Analog Inputs"   hideInReportSetting="true"/>
+			    <SubReport guid="4FDFC1D5-085F-4334-BFA8-BAB0AB62377A" factoryId="AnalogOutputs"      keyName="AnalogOutputs"     defaultTitle="Analog Outputs"  hideInReportSetting="true"/>
+		    </Children>
+	    </SubReport>
+		
+        <SubReport guid="4CC9EFDF-BD28-45DC-AB05-08C6EC777AE7" factoryId="BusCoupler2" keyName="BusCoupler2" defaultTitle="Bus Coupler 2"   hideWhenEmpty="true">
+		    <SubReportElements>
+			    <SubReportElement>BUSCOUPLER_2_MODULES</SubReportElement>
+		    </SubReportElements>
+		    <Children>
+			    <SubReport guid="00AAC601-17A0-4EC3-AE57-99D2D768186A" factoryId="DigitalInputs"      keyName="DigitalInputs"     defaultTitle="Digital Inputs"  hideInReportSetting="true"/>
+			    <SubReport guid="81761D76-0606-4C41-B1F2-BDD905DEC17D" factoryId="DigitalOutputs"     keyName="DigitalOutputs"    defaultTitle="Digital Outputs" hideInReportSetting="true"/>
+			    <SubReport guid="7D391676-BDA6-4EC0-8DDC-561F45FAA81B" factoryId="AnalogInputs"       keyName="AnalogInputs"      defaultTitle="Analog Inputs"   hideInReportSetting="true"/>
+			    <SubReport guid="4FDFC1D5-085F-4334-BFA8-BAB0AB62377A" factoryId="AnalogOutputs"      keyName="AnalogOutputs"     defaultTitle="Analog Outputs"  hideInReportSetting="true"/>
+		    </Children>
+	    </SubReport>
+
+	    </Children>
+    </SubReport>
+
+    <SubReport  guid="7B55F90C-731B-4864-9070-5B98F205D99E" factoryId="Title" keyName="SoftwareConfiguration" defaultTitle="Software Configuration" hideWhenEmpty="true" >
+      <ParameterBool LabelkeyName="SoftwareObjectToPrint" LabelFalse="DataSelectionAll" LabelTrue="Used" DefaultValue="true" />
+      <Children>
+        <SubReport guid="42A052B2-9011-43D9-AFAD-EF21F029F456" factoryId="WordsConstant" keyName="ConstantWords" defaultTitle="Constant words"/>
+        <SubReport  guid="AEA3563C-0068-4C00-9C4D-51510BAAD430" factoryId="Title" keyName="dataTreeNetworkHeader" defaultTitle="Network objects" hideWhenEmpty="true" >
+          <Children>
+            <SubReport guid="37B5FD42-CF25-444B-9CDE-CC9D25BF94E2" factoryId="InputAssembly"   keyName="lblInputAssemblyTree"    defaultTitle="Timers"/>
+            <SubReport guid="D330070E-7DC9-42EF-8BB7-F275F516A876" factoryId="OutputAssembly"  keyName="lblOutputAssemblyTree"   defaultTitle="Counters"/>
+            <SubReport guid="BCA05041-AB3F-4D4D-8E96-3CC4F0C0E312" factoryId="InputRegister"   keyName="lblInputRegisterTree"    defaultTitle="Msgs"/>
+            <SubReport guid="59094978-D9AE-4C38-8902-BC4D7643629B" factoryId="HoldingRegister" keyName="lblHoldingRegisterTree"  defaultTitle="Registers"/>
+            <SubReport guid="CCB4A0A7-506F-4FB6-8749-0EB797D68560" factoryId="DigitalInputIoScanner"    keyName="lblDigitalInputIoScannerTree"      defaultTitle="Digital Inputs"/>
+            <SubReport guid="8A465604-E636-471C-B9FE-E1F5E6FFD12F" factoryId="DigitalOutputIoScanner"   keyName="lblDigitalOutputIoScannerTree"     defaultTitle="Digital Outputs"/>
+            <SubReport guid="C81DC261-E679-4924-A3E4-057C65ECD545" factoryId="RegisterInputIoScanner"   keyName="lblRegisterInputIoScannerTree"     defaultTitle="Register Inputs"/>
+            <SubReport guid="CB0B7126-EB01-495F-A864-CFBEB238366B" factoryId="RegisterOutputIoScanner"  keyName="lblRegisterOutputIoScannerTree"    defaultTitle="Register Outputs"/>
+            <!--SubReport guid="683CA45F-339A-4E1B-BCF4-8D3C1D9FB005" factoryId="IoScannerStatus"          keyName="lblIoScannerStatusTree"            defaultTitle="Io Scanner Status"/-->
+          </Children>
+        </SubReport>
+
+        <SubReport  guid="B299BAFC-927F-4EA7-8A28-D6E9F9DEEB43" factoryId="Title" keyName="dataTreeFunctionBlocksHeader" defaultTitle="Function blocks" hideWhenEmpty="true" >
+          <Children>
+            <SubReport guid="23D21007-F44D-4EAA-814E-0C58E852A625" factoryId="Timers"            keyName="Timers"           defaultTitle="Timers"/>
+            <SubReport guid="0C506192-4674-491F-81EC-A5FDC09AF5A4" factoryId="Counters"          keyName="Counters"         defaultTitle="Counters"/>
+            <SubReport guid="39D581E0-6E75-4B67-AFAF-BA65DF773496" factoryId="Msgs"              keyName="lblMsgs"          defaultTitle="Msgs"/>
+            <SubReport guid="0370C3BF-7DAE-4FF7-AE69-45E819EE3B37" factoryId="Registers"         keyName="lblRegisters"     defaultTitle="Registers"/>
+            <SubReport guid="694A6A79-A869-412A-8B6C-C173C2F98D6C" factoryId="DrumRegisters"     keyName="lblDrumRegisters" defaultTitle="Drum registers"/>
+            <SubReport guid="AAF9DD8C-FAB1-4451-8904-DF2232DD9855" factoryId="ShiftBitRegisters" keyName="SBR"              defaultTitle="Shift bit registers"/>
+            <SubReport guid="46CB67AB-2C35-4E94-B5D1-03F85DAB3BB1" factoryId="StepCounters"      keyName="StepCounters"     defaultTitle="Step counters"/>
+            <SubReport guid="AB2D76DF-D727-4004-B52F-68E46AC55ABC" factoryId="ScheduleBlocks"    keyName="ScheduleBlocks"   defaultTitle="Schedule blocks"/>
+            <SubReport guid="944E7A8B-1C2D-453F-947A-DE753AD2AA85" factoryId="RtcFb"             keyName="Rtc"              defaultTitle="RTC"/>
+            <SubReport guid="54226aac-CBFB-4078-B097-52DCFD50F3AA" factoryId="DataLoggingBlock"  keyName="DataLogging"      defaultTitle="DataLogging"/>
+            <SubReport guid="944E7A8A-1C2D-453F-947A-DE753AD2AA85" factoryId="PID"               keyName="enumPid"          defaultTitle="PID"/>
+            <SubReport guid="947EB035-9FB2-4F85-921A-B603EE99E2CC" factoryId="Graphcet"          keyName="Graphcet"         defaultTitle="Graphcet"/>
+          </Children>
+        </SubReport>
+        <SubReport  guid="F0032994-F4AD-4781-887B-7A4D8D479CF9" factoryId="NotTitleCase" keyName="dataTreePtoObjectsHeader" defaultTitle="PTO Objects" hideWhenEmpty="true" >
+          <Children>
+            <SubReport guid="AF377BC8-A2A4-467E-A3C2-F14E21C2DA96" factoryId="MotionTaskTable"  keyName="lblMotionTaskTables"   defaultTitle="Motion task tables"/>
+            <SubReport guid="FDF2CE14-72CC-4124-9F27-63D3CCBE4636" factoryId="TitleCaseNoPageBreak" keyName="dataTreePtoMotionObjectsHeader" defaultTitle="Motion" hideWhenEmpty="true" >
+              <Children>
+                <SubReport guid="3695062F-ED3F-48F8-AC1A-7D85F74AE1B3"  factoryId="MotionTaskPto"  keyName="lblMotionTaskPto"   defaultTitle="Motion task PTO"/>
+                <SubReport guid="8FD4A034-5F72-4703-8733-C704924AA283" factoryId="PowerPto"        keyName="lblPowerPto"        defaultTitle="Power"/>
+                <SubReport guid="357E4FA1-8FFB-4962-A4A8-C7AEA67F5415" factoryId="MoveVelocityPto" keyName="lblMoveVelocityPto" defaultTitle="Move velocity"/>
+                <SubReport guid="C3BC4073-C3A7-484E-B5EF-07787BDCD794" factoryId="MoveRelativePto" keyName="lblMoveRelativePto" defaultTitle="Move relative"/>
+                <SubReport guid="88A4D2D1-5B9B-4EFD-80A8-B0920BECEA51" factoryId="MoveAbsolutePto" keyName="lblMoveAbsolutePto" defaultTitle="Move absolute"/>
+                <SubReport guid="0130364C-40AE-4F59-94D9-8CAF526825DF" factoryId="HomePto"         keyName="lblHomePto"         defaultTitle="Home"/>
+                <SubReport guid="7D613B59-A6C3-4D82-9328-E6ABF4E700D3" factoryId="SetPositionPto"  keyName="lblSetPositionPto"  defaultTitle="SetPosition"/>
+                <SubReport guid="0EA20FEF-7773-467A-811E-CFC772D2834A" factoryId="StopPto"         keyName="lblStopPto"         defaultTitle="Stop"/>
+                <SubReport guid="17AF4405-E8BE-4CCE-AD32-097A233AD43E" factoryId="HaltPto"         keyName="lblHaltPto"         defaultTitle="Halt"/>
+              </Children>
+            </SubReport>
+            <SubReport guid="FA6E7477-F2DF-4F89-B073-6D9F72FA513E" factoryId="Title" keyName="dataTreePtoAdministrativeObjectsHeader" defaultTitle="Administrative" hideWhenEmpty="true" >
+              <Children>
+                <SubReport guid="F07F8389-5EEE-4D2B-A70D-3EBA63956848" factoryId="ReadActualVelocityPto" keyName="lblReadActualVelocityPto" defaultTitle="ReadActualVelocity"/>
+                <SubReport guid="174F5C36-6C9E-4C89-956D-B271E26BDE58" factoryId="ReadActualPositionPto" keyName="lblReadActualPositionPto" defaultTitle="ReadActualPosition"/>
+                <SubReport guid="7A4D628F-FFBE-4A8C-A25D-F34B57E0F0A1" factoryId="ReadStsPto"            keyName="lblReadStsPto"            defaultTitle="ReadSts"/>
+                <SubReport guid="9570C631-824B-4296-B524-26344EC6DE56" factoryId="ReadMotionStatePto"    keyName="lblReadMotionStatePto"    defaultTitle="ReadMotionState"/>
+                <SubReport guid="BE0BCAD2-BF9D-48B6-9767-4CA3CE6A7EBC" factoryId="ReadAxisErrorPto"      keyName="lblReadAxisErrorPto"      defaultTitle="ReadAxisError"/>
+                <SubReport guid="3865EBF8-8D2E-45BF-8547-71FF33DBFC7B" factoryId="ResetPto"              keyName="lblResetPto"              defaultTitle="Reset"/>
+                <SubReport guid="CD444344-4817-4461-94C5-E9C96049B013" factoryId="TouchProbePto"         keyName="lblTouchProbePto"         defaultTitle="TouchProbe"/>
+                <SubReport guid="799A3736-5E18-48CA-8D46-21D947FC867D" factoryId="AbortTriggerPto"       keyName="lblAbortTriggerPto"       defaultTitle="AbortTrigger"/>
+                <SubReport guid="8D1789D9-7308-44D5-A6C6-745889042069" factoryId="ReadParameterPto"      keyName="lblReadParameterPto"      defaultTitle="ReadParameter"/>
+                <SubReport guid="E5118382-11FF-4AD0-86F9-ADEFCA49A3D6" factoryId="WriteParameterPto"     keyName="lblWriteParameterPto"     defaultTitle="WriteParameter"/>
+              </Children>
+            </SubReport>
+          </Children>
+        </SubReport>
+        <SubReport guid="77E7FAE5-C5BF-4BA1-B085-13C7F54BF529" factoryId="Title" keyName="dataTreeDriveObjectsHeader" defaultTitle="Drive" hideWhenEmpty="true" >
+            <Children>
+                <SubReport guid="25AC9823-DD0B-48CD-AC6D-A5E23A4A977E" factoryId="Drive"              KeyName="lblDrive"                      defaultTitle="Drive"/>
+                <SubReport guid="5BCEF39C-96E1-4EE0-8006-2407F1B232B7" factoryId="McPowerAtv"         KeyName="lblMcPowerAtv"                 defaultTitle="McPowerAtv"/>
+                <SubReport guid="762E10F9-9D9A-47CF-B8F7-179530A69EDF" factoryId="McJogAtv"           KeyName="lblMcJogAtv"                   defaultTitle="McJogAtv"/>
+                <SubReport guid="FB86ED72-E726-43C7-B38A-71EC8AE5D4D0" factoryId="McMoveVelocityAtv"  KeyName="lblMcMoveVelocityAtv"          defaultTitle="McMoveVelocityAtv"/>
+                <SubReport guid="5107754F-5655-459B-954A-07E44CE14DCE" factoryId="McStopAtv"          KeyName="lblMcStopAtv"                  defaultTitle="McStopAtv"/>
+                <SubReport guid="A67F9207-5B35-4C83-B9E9-228219945B28" factoryId="McReadStatus"       KeyName="lblMcReadStatus"               defaultTitle="McReadStatus"/>
+                <SubReport guid="0D16CB21-31F9-4F2B-AD3D-7F0251D8A74A" factoryId="McReadMotionStateAtv" KeyName="lblMcReadMotionStateAtv"     defaultTitle="McReadMotionStateAtv"/>
+                <SubReport guid="944F13D7-96A2-44D7-9107-27B9CC134F35" factoryId="McResetAtv"           KeyName="lblMcResetAtv"               defaultTitle="McResetAtv"/>
+            </Children>
+        </SubReport>
+        <SubReport guid="A93BD1AD-885A-48AA-B7B6-400C1083EDB8" factoryId="NotTitleCase" keyName="dataTreeComObjectsHeader" defaultTitle="COM" hideWhenEmpty="true" >
+          <Children>
+            <SubReport guid="7225FFE9-96A4-4F68-8D06-951A6ACBDD6F" factoryId="ReadVarBasicCom"      KeyName="lblReadVarBasic"      defaultTitle="Read Var Basic"/>
+            <SubReport guid="F5693ADF-6181-4DB8-A4B4-FC368F3CC4FE" factoryId="WriteVarBasicCom"     KeyName="lblWriteVarBasic"     defaultTitle="Write Var Basic"/>
+            <SubReport guid="B4AA8CA2-66B1-4A58-8459-71BA0F148B3F" factoryId="WriteReadVarBasicCom" KeyName="lblWriteReadVarBasic" defaultTitle="Write-Read Var Basic"/>
+            <SubReport guid="434D0494-1711-4D06-A4BA-E4A298774923" factoryId="SendRecvMsgBasicCom"  KeyName="lblSendRecvMsgBasic"  defaultTitle="Send-RecvMsg Basic"/>
+            <SubReport guid="0789A932-0CF8-4752-B6DC-85C165B0BB5F" factoryId="SendRecvSmsCom"       KeyName="lblSendRecvMsgSMS"       defaultTitle="Send-Recv SMS"/>
+          </Children>
+        </SubReport>
+      </Children>
+    </SubReport>
+
+    <SubReport guid="14CBC784-11D1-467E-95D9-F3F18447AA25" factoryId="Title" keyName="Program" defaultTitle="Program" hideWhenEmpty="true" >
+      <Children>
+        <SubReport guid="1F8F4FF0-BA05-48AF-9A6F-873D1BC98F24" factoryId="Behavior"             keyName="Behavior"             defaultTitle="Behavior" />
+        <SubReport guid="DB8777B1-6B64-498E-82BE-1166D7CC9F96" factoryId="MemoryConsumption"    keyName="MemoryConsumption"    defaultTitle="Memory consumption" />
+        <SubReport guid="32CD7E95-49BF-4A69-9819-28D7F0D95762" factoryId="AppStructure"         keyName="ApplicationStructure" defaultTitle="Application Structure" />
+        <SubReport guid="CE6E8289-5B84-403B-8C1A-B09B5F17F2DD" factoryId="Pous"                 keyName="Pou"                  defaultTitle="POUs" />
+      </Children>
+    </SubReport>
+
+    <SubReport  guid="EDA12000-D3BF-49DF-B43E-5C63DA5B8AA1" factoryId="Title" keyName="taskDisplay" defaultTitle="Display" hideWhenEmpty="true">
+      <Children>
+        <SubReport guid="D649F87E-D8B6-41CA-8510-4C900A2BF102" factoryId="DisplayGeneralProperties" keyName="headerDisplayGeneralProperties" defaultTitle="General properties"  >
+          <ParameterBool LabelkeyName="ReportShowPassword" LabelFalse="No" LabelTrue="Yes" DefaultValue="true" />
+        </SubReport>
+        <SubReport guid="174FD120-C0E7-4012-B9E6-E856365044E5" factoryId="DisplayAlarms"            keyName="SetupAppAlarmVizu"              defaultTitle="Alarms view" />
+        <!--<SubReport guid="14829702-E815-46EB-BC8F-809378A56B06" factoryId="DisplayLabels"            keyName="Labels"                         defaultTitle="Labels" />-->
+        <SubReport guid="D00AFC20-EBCB-4623-AC07-825CBE543B37" factoryId="DisplayPages"             keyName="Pages"                          defaultTitle="Pages" />
+      </Children>
+    </SubReport>
+
+    <SubReport guid="70261215-8ABF-435F-902A-1E0A5A229BCB" factoryId="Symbol"             keyName="Symbols"            defaultTitle="Symbols">
+      <DataSelection usedOnlyByDefault="true" keyName="SymbolToPrint"/>
+    </SubReport>
+
+    <SubReport guid="EE8E8D2C-3EDA-4F5D-9493-9F71916ECE2E" factoryId="CrossReference" keyName="CrossReference"  defaultTitle="Cross reference" />
+
+    <SubReport guid="DBC28D49-D051-40F1-A526-CD5BD83CD283" factoryId="AnimationTable" keyName="AnimationTable"  defaultTitle="Animation Table" />
+  </SubReports>
+
+  <Factories>
+    <Factory id="ProjectDescription"       assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDescriptionFactory"/>
+    <Factory id="BOM"                      assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportBillOfMaterialFactory"/>
+    <Factory id="Symbol"                   assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportSymbolsFactory"/>
+    <Factory id="CrossReference"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportCrossReferencesFactory"/>
+    <Factory id="Title"                    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportTitleFactory"/>
+    <Factory id="NotTitleCase"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportNotTitleCaseFactory"/>
+    <Factory id="TitleCaseNoPageBreak"     assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportTitleCaseNoPageBreakFactory"/>
+    <Factory id="Group"                    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportGroupFactory"/>
+    <Factory id="Program"                  assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportProgramFactory"/>
+    <Factory id="Behavior"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportBehaviorFactory"/>
+    <Factory id="AppStructure"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportApplicationStructureFactory"/>
+    <Factory id="Pous"                     assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPousFactory"/>
+    <Factory id="DigitalInputs"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDigitalInputsFactory"/>
+    <Factory id="DigitalOutputs"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDigitalOutputsFactory"/>
+    <Factory id="AnalogInputs"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportAnalogInputsFactory"/>
+    <Factory id="AnalogOutputs"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportAnalogOutputsFactory"/>
+    <Factory id="Ethernet"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportEthernetFactory"/>
+    <Factory id="ModbusTCPSlave"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportModbusTcpSlaveFactory"/>
+    <Factory id="EthernetIpProtocol"       assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportEthernetIpProtocolFactory"/>
+    <Factory id="SerialLine"               assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportSerialLineFactory"/>
+    <Factory id="AnimationTable"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportAnimationTableFactory"/>
+    <Factory id="FastCounters"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFastCounterFactory"/>
+    <Factory id="HighSpeedCounters"        assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportHighSpeedCounterFactory"/>
+    <Factory id="PulseGenerators"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPulseGeneratorFactory"/>
+    <Factory id="DisplayGeneralProperties" assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDisplayGeneralPropertiesFactory"/>
+    <Factory id="DisplayAlarms"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDisplayAlarmsViewFactory"/>
+    <Factory id="DisplayLabels"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDisplayLabelsFactory"/>
+    <Factory id="DisplayPages"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDisplayPagesFactory"/>
+    <Factory id="IoBus"                    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportIoBusDataFactory"/>
+	<Factory id="BusCoupler1"              assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportBusCouplerDataFactory"/>
+    <Factory id="BusCoupler2"              assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportBusCouplerDataFactory"/>
+    <Factory id="MemoryConsumption"        assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportMemoryConsumptionFactory"/>
+    <Factory id="WordsConstant"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportConstantWordsFactory"/>
+    <Factory id="Timers"                   assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbTimersFactory"/>
+    <Factory id="Counters"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbCountersFactory"/>
+    <Factory id="Msgs"                     assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbMsgsFactory"/>
+    <Factory id="Registers"                assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbRegistersFactory"/>
+    <Factory id="DrumRegisters"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbDrumRegistersFactory"/>
+    <Factory id="ShiftBitRegisters"        assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbShiftBitRegistersFactory"/>
+    <Factory id="StepCounters"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbStepCountersFactory"/>
+    <Factory id="ScheduleBlocks"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbScheduleBlocksFactory"/>
+    <Factory id="PID"                      assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPidsFactory"/>
+    <Factory id="Graphcet"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportFbGrafcetFactory"/>
+    <Factory id="MotionTaskTable"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoMotionTaskTableFactory"/>
+    <Factory id="MotionTaskPto"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoMotionTaskPtoFactory"/>
+    <Factory id="PowerPto"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoPowerFactory"/>
+    <Factory id="MoveVelocityPto"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoMoveVelocityFactory"/>
+    <Factory id="MoveRelativePto"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoMoveRelativeFactory"/>
+    <Factory id="MoveAbsolutePto"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoMoveAbsoluteFactory"/>
+    <Factory id="HomePto"                  assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoHomeFactory"/>
+    <Factory id="SetPositionPto"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoSetPositionFactory"/>
+    <Factory id="StopPto"                  assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoStopFactory"/>
+    <Factory id="HaltPto"                  assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoHaltFactory"/>
+    <Factory id="ReadActualVelocityPto"    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoReadActualVelocityFactory"/>
+    <Factory id="ReadActualPositionPto"    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoReadActualPositionFactory"/>
+    <Factory id="ReadStsPto"               assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoReadStsFactory"/>
+    <Factory id="ReadMotionStatePto"       assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoReadMotionStateFactory"/>
+    <Factory id="ReadAxisErrorPto"         assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoReadAxisErrorFactory"/>
+    <Factory id="ResetPto"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoResetFactory"/>
+    <Factory id="TouchProbePto"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoTouchProbeFactory"/>
+    <Factory id="AbortTriggerPto"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoAbortTriggerFactory"/>
+    <Factory id="ReadParameterPto"         assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoReadParameterFactory"/>
+    <Factory id="WriteParameterPto"        assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPtoWriteParameterFactory"/>
+    <Factory id="ReadVarBasicCom"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportComReadVarBasicFactory"/>
+    <Factory id="WriteVarBasicCom"         assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportComWriteVarBasicFactory"/>
+    <Factory id="WriteReadVarBasicCom"     assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportComWriteReadVarBasicFactory"/>
+    <Factory id="SendRecvMsgBasicCom"      assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportComSendRecvMsgBasicFactory"/>
+    <Factory id="SendRecvSmsCom"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportComSendRecvSmsFactory"/>
+    <Factory id="InputAssembly"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportInputAssemblyFactory"/>
+    <Factory id="OutputAssembly"           assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportOutputAssemblyFactory"/>
+    <Factory id="InputRegister"            assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportInputRegisterFactory"/>
+    <Factory id="HoldingRegister"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportHoldingRegisterFactory"/>
+    <Factory id="RegisterInputIoScanner"   assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportRegisterInputIoScannerFactory"/>
+    <Factory id="RegisterOutputIoScanner"  assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportRegisterOutputIoScannerFactory"/>
+    <Factory id="IoScannerStatus"          assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportIoScannerStatusFactory"/>
+    <Factory id="DigitalInputIoScanner"    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDigitalInputIoScannerFactory"/>
+    <Factory id="DigitalOutputIoScanner"   assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDigitalOutputIoScannerFactory"/>
+    <Factory id="RtcFb"                    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportRtcFbFactory"/>
+    <Factory id="McPowerAtv"               assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportPowerAtvFactory"/>
+    <Factory id="McJogAtv"                 assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportJogAtvFactory"/>
+    <Factory id="McMoveVelocityAtv"        assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportMoveVelocityAtvFactory"/>
+    <Factory id="McStopAtv"                assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportStopAtvFactory"/>
+    <Factory id="McReadStatus"             assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportReadStatusAtvFactory"/>
+    <Factory id="McReadMotionStateAtv"     assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportReadMotionStateAtvFactory"/>
+    <Factory id="McResetAtv"               assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportResetAtvFactory"/>
+    <Factory id="Drive"                    assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDriveFactory"/>
+    <Factory id="DataLoggingBlock"         assemblyName="SchneiderElectric.SoMachineBasic.Business" typeName="SchneiderElectric.Automation.SoMachineBasic.Business.Controllers.ModuleReport.SubReportFactories.ReportDataLoggingFactory"/>
+  </Factories>
+</ReportConfiguration>

@@ -1,0 +1,1632 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd">
+
+  <Content key="#TM221C16R.xml">
+    <String identifier="TM221C16R.DeviceDescription">TM221C16R (ネジ式)
+デジタル入力 9 点、リレー出力 7 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 100-240 Vac 電源。</String>
+    <String identifier="TM221C16R.Expansion">拡張バス</String>
+    <String identifier="TM221C16R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C16R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C16R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C16R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">リレー 7 個</String>
+    <String identifier="ModuleTypeKey">コンパクト Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C16T.xml">
+    <String identifier="TM221C16T.DeviceDescription">TM221C16T (ネジ式)
+デジタル入力 9 点、ソーストランジスター出力 7 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221C16T.Expansion">拡張バス</String>
+    <String identifier="TM221C16T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C16T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C16T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C16T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">ソーストランジスター 7 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C16U.xml">
+    <String identifier="TM221C16U.DeviceDescription">TM221C16U (ネジ式)
+デジタル入力 9 点、シンクトランジスター出力 7 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221C16U.Expansion">拡張バス</String>
+    <String identifier="TM221C16U.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C16U.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C16U.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C16U.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">シンクトランジスター 7 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C24R.xml">
+    <String identifier="TM221C24R.DeviceDescription">TM221C24R (ネジ式)
+デジタル入力 14 点、リレー出力 10 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 100-240 Vac 電源コントローラー。</String>
+    <String identifier="TM221C24R.Expansion">拡張バス</String>
+    <String identifier="TM221C24R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C24R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C24R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C24R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">リレー 10 個</String>
+    <String identifier="ModuleTypeKey">コンパクト Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C24T.xml">
+    <String identifier="TM221C24T.DeviceDescription">TM221C24T (ネジ式)
+デジタル入力 14 点、ソーストランジスター出力 10 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221C24T.Expansion">拡張バス</String>
+    <String identifier="TM221C24T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C24T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C24T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C24T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">ソーストランジスター 10 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C24U.xml">
+    <String identifier="TM221C24U.DeviceDescription">TM221C24U (ネジ式)
+デジタル入力 14 点、シンクトランジスター出力 10 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221C24U.Expansion">拡張バス</String>
+    <String identifier="TM221C24U.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C24U.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">シンクトランジスター 10 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C40R.xml">
+    <String identifier="TM221C40R.DeviceDescription">TM221C40R (ネジ式)
+デジタル入力 24 点、リレー出力 16 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 100-240 Vac 電源コントローラー。</String>
+    <String identifier="TM221C40R.Expansion">拡張バス</String>
+    <String identifier="TM221C40R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C40R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C40R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C40R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">リレー 16 個</String>
+    <String identifier="ModuleTypeKey">コンパクト Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C40T.xml">
+    <String identifier="TM221C40T.DeviceDescription">TM221C40T (ネジ式)
+デジタル入力 24 点、ソーストランジスター出力 16 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221C40T.Expansion">拡張バス</String>
+    <String identifier="TM221C40T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C40T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C40T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C40T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221C40U.xml">
+    <String identifier="TM221C40U.DeviceDescription">TM221C40U (ネジ式)
+デジタル入力 24 点、シンクトランジスター出力 16 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221C40U.Expansion">拡張バス</String>
+    <String identifier="TM221C40U.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221C40U.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221C40U.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221C40U.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">シンクトランジスター 16 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL</String>
+  </Content>
+  <Content key="#TM221CE16R.xml">
+    <String identifier="TM221CE16R.DeviceDescription">TM221CE16R (ネジ式)
+デジタル入力 9 点、リレー出力 7 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 点、脱着式端子台付き 100-240 Vac 電源コントローラー。</String>
+    <String identifier="TM221CE16R.Expansion">拡張バス</String>
+    <String identifier="TM221CE16R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE16R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE16R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE16R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">リレー 7 個</String>
+    <String identifier="ModuleTypeKey">コンパクト Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE16T.xml">
+    <String identifier="TM221CE16T.DeviceDescription">TM221CE16T (ネジ式)
+デジタル入力 9 点、ソーストランジスター出力 7 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221CE16T.Expansion">拡張バス</String>
+    <String identifier="TM221CE16T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE16T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE16T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE16T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">ソーストランジスター 7 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE16U.xml">
+    <String identifier="TM221CE16U.DeviceDescription">TM221CE16U (ネジ式)
+デジタル入力 9 点、シンクトランジスター出力 7 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221CE16U.Expansion">拡張バス</String>
+    <String identifier="TM221CE16U.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE16U.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE16U.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE16U.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">9</String>
+    <String identifier="OutputKey">シンクトランジスター 7 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE24R.xml">
+    <String identifier="TM221CE24R.DeviceDescription">TM221CE24R (ネジ式)
+デジタル入力 14 点、リレー出力 10 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 点、脱着式端子台付き 100-240 Vac 電源コントローラー。</String>
+    <String identifier="TM221CE24R.Expansion">拡張バス</String>
+    <String identifier="TM221CE24R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE24R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE24R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE24R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">リレー 10 個</String>
+    <String identifier="ModuleTypeKey">コンパクト Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE24T.xml">
+    <String identifier="TM221CE24T.DeviceDescription">TM221CE24T (ネジ式)
+デジタル入力 14 点、ソーストランジスター出力 10 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221CE24T.Expansion">拡張バス</String>
+    <String identifier="TM221CE24T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE24T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE24T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE24T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">ソーストランジスター 10 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE24U.xml">
+    <String identifier="TM221CE24U.DeviceDescription">TM221CE24U (ネジ式)
+デジタル入力 14 点、シンクトランジスター出力 10 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221CE24U.Expansion">拡張バス</String>
+    <String identifier="TM221CE24U.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE24U.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE24U.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE24U.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">14</String>
+    <String identifier="OutputKey">シンクトランジスター 10 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE40R.xml">
+    <String identifier="TM221CE40R.DeviceDescription">TM221CE40R (ネジ式)
+デジタル入力 24 点、リレー出力 16 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 点、脱着式端子台付き 100-240 Vac 電源コントローラー。</String>
+    <String identifier="TM221CE40R.Expansion">拡張バス</String>
+    <String identifier="TM221CE40R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE40R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE40R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE40R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">リレー 16 個</String>
+    <String identifier="ModuleTypeKey">コンパクト Vac</String>
+    <String identifier="PowerSupplyKey">100...240 Vac</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE40T.xml">
+    <String identifier="TM221CE40T.DeviceDescription">TM221CE40T (ネジ式)
+デジタル入力 24 点、ソーストランジスター出力 16 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221CE40T.Expansion">拡張バス</String>
+    <String identifier="TM221CE40T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE40T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE40T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE40T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221CE40U.xml">
+    <String identifier="TM221CE40U.DeviceDescription">TM221CE40U (ネジ式)
+デジタル入力 24 点、シンクトランジスター出力 16 点 (0.5 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221CE40U.Expansion">拡張バス</String>
+    <String identifier="TM221CE40U.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221CE40U.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221CE40U.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221CE40U.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey">ブリック</String>
+    <String identifier="InputKey">24</String>
+    <String identifier="OutputKey">シンクトランジスター 16 個</String>
+    <String identifier="ModuleTypeKey">コンパクト 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221M16R.xml">
+    <String identifier="TM221M16R.DeviceDescription">TM221M16R (ネジ式)、TM221M16RG (スプリング式)
+デジタル入力 8 点、リレー出力 8 点 (2 A)、アナログ入力 2 点、シリアルラインポート 2 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221M16R.Expansion">拡張バス</String>
+    <String identifier="TM221M16R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221M16R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221M16R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221M16R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TM221M16T.ScopeNormal">ノーマル</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey">ブック</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">リレー 8 個</String>
+    <String identifier="ModuleTypeKey">モジュラー 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">2 SL</String>
+  </Content>
+  <Content key="#TM221M16T.xml">
+    <String identifier="TM221M16T.DeviceDescription">TM221M16T (ネジ式)、TM221M16TG (スプリング式)
+デジタル入力 8 点、ソーストランジスター出力 8 点 (0.5A)、アナログ入力 2 点、シリアルラインポート 2 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221M16T.Expansion">拡張バス</String>
+    <String identifier="TM221M16T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221M16T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221M16T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221M16T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TM221M16T.ScopeNormal">ノーマル</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey">ブック</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">ソーストランジスター 8 個</String>
+    <String identifier="ModuleTypeKey">モジュラー 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">2 SL</String>
+  </Content>
+  <Content key="#TM221M32TK.xml">
+    <String identifier="TM221M32TK.DeviceDescription">TM221M32TK (HE10)
+デジタル入力 16 点、ソーストランジスター出力 16 点 (0.1A)、アナログ入力 2 点、シリアルラインポート 2 つ、HE10 コネクター付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221M32TK.Expansion">拡張バス</String>
+    <String identifier="TM221M32TK.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221M32TK.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221M32TK.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221M32TK.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TM221M32TK.ScopeNormal">ノーマル</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey">ブック</String>
+    <String identifier="InputKey">16</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+    <String identifier="ModuleTypeKey">モジュラー 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">2 SL</String>
+  </Content>
+  <Content key="#TM221ME16R.xml">
+    <String identifier="TM221ME16R.DeviceDescription">TM221ME16R (ネジ式)、TM221ME16RG (スプリング式)
+デジタル入力 8 点、リレー出力 8 点 (2 A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 点、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221ME16R.Expansion">拡張バス</String>
+    <String identifier="TM221ME16R.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221ME16R.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221ME16R.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221ME16R.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TM221ME16R.ScopeNormal">ノーマル</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey">ブック</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">リレー 8 個</String>
+    <String identifier="ModuleTypeKey">モジュラー 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221ME16T.xml">
+    <String identifier="TM221ME16T.DeviceDescription">TM221ME16T (ネジ式)、TM221ME16TG (スプリング式)
+デジタル入力 8 点、ソーストランジスター出力 8 点 (0.5A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、脱着式端子台付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221ME16T.Expansion">拡張バス</String>
+    <String identifier="TM221ME16T.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221ME16T.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221ME16T.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221ME16T.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TM221ME16T.ScopeNormal">ノーマル</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey">ブック</String>
+    <String identifier="InputKey">8</String>
+    <String identifier="OutputKey">ソーストランジスター 8 個</String>
+    <String identifier="ModuleTypeKey">モジュラー 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+  <Content key="#TM221ME32TK.xml">
+    <String identifier="TM221ME32TK.DeviceDescription">TM221ME32TK (HE10)
+デジタル入力 16 点、ソーストランジスター出力 16 点 (0.1A)、アナログ入力 2 点、シリアルラインポート 1 つ、Ethernet ポート 1 つ、HE10 コネクター付き 24 Vdc 電源コントローラー。</String>
+    <String identifier="TM221ME32TK.Expansion">拡張バス</String>
+    <String identifier="TM221ME32TK.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM221ME32TK.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM221ME32TK.ParameterSectionNameHSC">HSC</String>
+    <String identifier="TM221ME32TK.ParameterSectionNamePTO">PTO_FUNC</String>
+    <String identifier="TM221ME32TK.ScopeNormal">ノーマル</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey">ブック</String>
+    <String identifier="InputKey">16</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+    <String identifier="ModuleTypeKey">モジュラー 24Vdc</String>
+    <String identifier="PowerSupplyKey">24 Vdc</String>
+    <String identifier="CommPortsKey">1 SL + 1 ETH</String>
+  </Content>
+
+  <Content key="#TMC2AI2.devdesc.xml">
+    <String identifier="TMC2AI2.DeviceDescription">TMC2AI2
+TMC2 カートリッジ、アナログ電圧または電流入力 (0...10V、 0...20mA、 4...20mA) 2点、12 ビット。</String>
+    <String identifier="TMC2AI2.Maintain">保持</String>
+    <String identifier="TMC2AI2.Fallback">フォールバック値</String>
+    <String identifier="TMC2AI2.Inputs">入力</String>
+    <String identifier="TMC2AI2.NotUsed">未使用</String>
+    <String identifier="TMC2AI2.0_10v">0 - 10 V</String>
+    <String identifier="TMC2AI2.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2AI2.0_20mA">0 - 20 mA</String>
+    <String identifier="TMC2AI2.Normal">ノーマル</String>
+    <String identifier="TMC2AI2.Customized">ノーマル</String>
+    <String identifier="TMC2AI2.Type_description">範囲モード</String>
+    <String identifier="TMC2AI2.Scope_description">ユニット</String>
+    <String identifier="TMC2AI2.Minimum_description">最小値</String>
+    <String identifier="TMC2AI2.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="ModuleTypeKey">アナログ</String>
+    <String identifier="FeaturesKey">電圧または電流入力 2 つ</String>
+  </Content>
+  <Content key="#TMC2AQ2C.devdesc.xml">
+    <String identifier="TMC2AQ2C.DeviceDescription">TMC2AQ2C
+TMC2 カートリッジ、アナログ電流出力 (4...20mA) 2 点、12 ビット。</String>
+    <String identifier="TMC2AQ2C.Maintain">保持</String>
+    <String identifier="TMC2AQ2C.Fallback">フォールバック値</String>
+    <String identifier="TMC2AQ2C.Outputs">出力</String>
+    <String identifier="TMC2AQ2C.NotUsed">未使用</String>
+    <String identifier="TMC2AQ2C.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2AQ2C.Normal">ノーマル</String>
+    <String identifier="TMC2AQ2C.Customized">ノーマル</String>
+    <String identifier="TMC2AQ2C.Type_description">範囲モード</String>
+    <String identifier="TMC2AQ2C.Scope_description">ユニット</String>
+    <String identifier="TMC2AQ2C.Minimum_description">最小値</String>
+    <String identifier="TMC2AQ2C.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">アナログ</String>
+    <String identifier="FeaturesKey">電流出力 2 点</String>
+  </Content>
+  <Content key="#TMC2AQ2V.devdesc.xml">
+    <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2 カートリッジ、アナログ電圧出力 (0...10V) 2 点、12 ビット。</String>
+    <String identifier="TMC2AQ2V.Maintain">保持</String>
+    <String identifier="TMC2AQ2V.Fallback">フォールバック値</String>
+    <String identifier="TMC2AQ2V.Output_Conf.Type_description">フォールバックモード</String>
+    <String identifier="TMC2AQ2V.Output_Conf.Type_description">値の強制</String>
+    <String identifier="TMC2AQ2V.Outputs">出力</String>
+    <String identifier="TMC2AQ2V.NotUsed">未使用</String>
+    <String identifier="TMC2AQ2V.0_10v">0 - 10 V</String>
+    <String identifier="TMC2AQ2V.Normal">ノーマル</String>
+    <String identifier="TMC2AQ2V.Customized">ノーマル</String>
+    <String identifier="TMC2AQ2V.Type_description">範囲モード</String>
+    <String identifier="TMC2AQ2V.Scope_description">ユニット</String>
+    <String identifier="TMC2AQ2V.Minimum_description">最小値</String>
+    <String identifier="TMC2AQ2V.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">アナログ</String>
+    <String identifier="FeaturesKey">電圧出力 2 点</String>
+  </Content>
+  <Content key="#TMC2TI2.devdesc.xml">
+    <String identifier="TMC2TI2.DeviceDescription">TMC2TI2
+TMC2 カートリッジ、アナログ温度入力 (熱電対とRTD) 2点、14 ビット。</String>
+    <String identifier="TMC2TI2.Inputs">入力</String>
+    <String identifier="TMC2TI2.NotUsed">未使用</String>
+    <String identifier="TMC2TI2.ThermocoupleK">熱電対 K</String>
+    <String identifier="TMC2TI2.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TMC2TI2.ThermocoupleR">熱電対 R</String>
+    <String identifier="TMC2TI2.ThermocoupleS">熱電対 S</String>
+    <String identifier="TMC2TI2.ThermocoupleB">熱電対 B</String>
+    <String identifier="TMC2TI2.ThermocoupleE">熱電対 E</String>
+    <String identifier="TMC2TI2.ThermocoupleT">熱電対 T</String>
+    <String identifier="TMC2TI2.ThermocoupleN">熱電対 N</String>
+    <String identifier="TMC2TI2.ThermocoupleC">熱電対 C</String>
+    <String identifier="TMC2TI2.PT100">PT100</String>
+    <String identifier="TMC2TI2.PT1000">PT1000</String>
+    <String identifier="TMC2TI2.NI100">NI100</String>
+    <String identifier="TMC2TI2.NI1000">NI1000</String>
+    <String identifier="TMC2TI2.Normal">ノーマル</String>
+    <String identifier="TMC2TI2.Customized">ノーマル</String>
+    <String identifier="TMC2TI2.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TMC2TI2.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TMC2TI2.Type_description">範囲モード</String>
+    <String identifier="TMC2TI2.Scope_description">ユニット</String>
+    <String identifier="TMC2TI2.Minimum_description">最小値</String>
+    <String identifier="TMC2TI2.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">カートリッジ</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">アナログ</String>
+    <String identifier="FeaturesKey">温度入力 2 点</String>
+  </Content>
+  <Content key="#TMC2SL1.devdesc.xml">
+    <String identifier="TMC2SL1.DeviceDescription">TMC2SL1
+TMC2 カートリッジ、シリアルライン 1 つ (RS232 または RS485) 。</String>
+    <String identifier="TMC2SL1.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey"></String>
+    <String identifier="FormatKey">カートリッジ</String>
+    <String identifier="ModuleTypeKey">シリアルライン</String>
+    <String identifier="FeaturesKey">シリアルライン 1 つ</String>
+  </Content>
+  <Content key="#TMC2CONV01.devdesc.xml">
+    <String identifier="TMC2CONV01.DeviceDescription">TMC2CONV01
+TMC2 カートリッジ、伝送用シリアルライン 1 つ。</String>
+    <String identifier="TMC2CONV01.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey"></String>
+    <String identifier="FormatKey"></String>
+    <String identifier="ModuleTypeKey">シリアルライン</String>
+    <String identifier="FeaturesKey">伝送アプリケーション</String>
+  </Content>
+  <Content key="#TMC2HOIS01.devdesc.xml">
+    <String identifier="TMC2HOIS01.DeviceDescription">TMC2HOIS01
+TMC2 カートリッジ、ホイストロードセル用アナログ電圧または電流入力 2 点</String>
+    <String identifier="TMC2HOIS01.Maintain">保持</String>
+    <String identifier="TMC2HOIS01.Fallback">フォールバック値</String>
+    <String identifier="TMC2HOIS01.Inputs">入力</String>
+    <String identifier="TMC2HOIS01.NotUsed">未使用</String>
+    <String identifier="TMC2HOIS01.0_10v">0 - 10 V</String>
+    <String identifier="TMC2HOIS01.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2HOIS01.0_20mA">0 - 20 mA</String>
+    <String identifier="TMC2HOIS01.Normal">ノーマル</String>
+    <String identifier="TMC2HOIS01.Customized">ノーマル</String>
+    <String identifier="TMC2HOIS01.Type_description">範囲モード</String>
+    <String identifier="TMC2HOIS01.Scope_description">ユニット</String>
+    <String identifier="TMC2HOIS01.Minimum_description">最小値</String>
+    <String identifier="TMC2HOIS01.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="ModuleTypeKey">アナログ</String>
+    <String identifier="FeaturesKey">ホイストアプリケーション</String>
+  </Content>
+  <Content key="#TMC2PACK01.devdesc.xml">
+    <String identifier="TMC2PACK01.DeviceDescription">TMC2PACK01
+TMC2 カートリッジ、パッケージ用アナログ電圧または電流入力 2 点。</String>
+    <String identifier="TMC2PACK01.Maintain">保持</String>
+    <String identifier="TMC2PACK01.Fallback">フォールバック値</String>
+    <String identifier="TMC2PACK01.Inputs">入力</String>
+    <String identifier="TMC2PACK01.NotUsed">未使用</String>
+    <String identifier="TMC2PACK01.0_10v">0 - 10 V</String>
+    <String identifier="TMC2PACK01.4_20mA">4 - 20 mA</String>
+    <String identifier="TMC2PACK01.0_20mA">0 - 20 mA</String>
+    <String identifier="TMC2PACK01.Normal">ノーマル</String>
+    <String identifier="TMC2PACK01.Customized">ノーマル</String>
+    <String identifier="TMC2PACK01.Type_description">範囲モード</String>
+    <String identifier="TMC2PACK01.Scope_description">ユニット</String>
+    <String identifier="TMC2PACK01.Minimum_description">最小値</String>
+    <String identifier="TMC2PACK01.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="ModuleTypeKey">アナログ</String>
+    <String identifier="FeaturesKey">梱包アプリケーション</String>
+  </Content>
+
+  <Content key="#ModemGeneric.devdesc.xml">
+    <String identifier="ModemGENERIC.Description">一般モデム</String>
+    <String identifier="ModemGENERIC.ParameterName">ヘイズリセットコマンド</String>
+  </Content>
+  <Content key="#SR2MOD01.devdesc.xml">
+    <String identifier="SR2MOD01.Description">RTC モデム (SIXNET)</String>
+    <String identifier="SR2MOD01.ParameterName">ヘイズリセットコマンド</String>
+  </Content>
+  <Content key="#SR2MOD03.devdesc.xml">
+    <String identifier="SR2MOD03.Description">GSM モデム</String>
+    <String identifier="SR2MOD03.ParameterName">ヘイズリセットコマンド</String>
+  </Content>
+
+  <Content key="#TM2ALM3LT.devdesc.xml">
+    <String identifier="TM2ALM3LT.DeviceDescription">TM2ALM3LT
+拡張モジュール、アナログ入力 (熱電対 K、J、T、3 線 PT100) 2 点および出力 (0 - 10V, 4 - 20mA) 1 点、12 ビット、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2ALM3LT.Maintain">保持</String>
+    <String identifier="TM2ALM3LT.Fallback">フォールバック値</String>
+    <String identifier="TM2ALM3LT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2ALM3LT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2ALM3LT.Inputs">入力</String>
+    <String identifier="TM2ALM3LT.Outputs">出力</String>
+    <String identifier="TM2ALM3LT.NotUsed">未使用</String>
+    <String identifier="TM2ALM3LT.ThermocoupleK">熱電対 K</String>
+    <String identifier="TM2ALM3LT.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TM2ALM3LT.ThermocoupleT">熱電対 T</String>
+    <String identifier="TM2ALM3LT.PT100">PT100</String>
+    <String identifier="TM2ALM3LT.Normal">ノーマル</String>
+    <String identifier="TM2ALM3LT.Customized">カスタマイズ</String>
+    <String identifier="TM2ALM3LT.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM2ALM3LT.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM2ALM3LT.Type_description">範囲モード</String>
+    <String identifier="TM2ALM3LT.Scope_description">単位/範囲</String>
+    <String identifier="TM2ALM3LT.Minimum_description">最小値</String>
+    <String identifier="TM2ALM3LT.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">熱電対 または PT100 2 個</String>
+    <String identifier="OutputKey">0...10 V または 4...20 mA 1個</String>
+  </Content>
+  <Content key="#TM2AMI2HT.devdesc.xml">
+    <String identifier="TM2AMI2HT.DeviceDescription">TM2AMI2HT
+拡張モジュール、アナログ入力 (0 - 10V、4 - 20mA) 2 点、12 ビット、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2AMI2HT.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM2AMI2HT.NotUsed">未使用</String>
+    <String identifier="TM2AMI2HT.ScopeNormal">ノーマル</String>
+    <String identifier="TM2AMI2HT.ScopeCustomized">カスタマイズ</String>
+    <String identifier="TM2AMI2HT.InputParameter.TypeDescription">範囲モード</String>
+    <String identifier="TM2AMI2HT.InputParameter.ScopeDescription">単位/範囲</String>
+    <String identifier="TM2AMI2HT.InputParameter.MinimumDescription">最小値</String>
+    <String identifier="TM2AMI2HT.InputParameter.MaximumDescription">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0...10 V または 4...20 mA 2個</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMI2LT.devdesc.xml">
+    <String identifier="TM2AMI2LT.DeviceDescription">TM2AMI2LT
+拡張モジュール、アナログ入力 (Th) 2 点、12 ビット、脱着式端子 (ネジ式)。熱電対 K、J、T。</String>
+    <String identifier="TM2AMI2LT.Inputs">入力</String>
+    <String identifier="TM2AMI2LT.NotUsed">未使用</String>
+    <String identifier="TM2AMI2LT.ThermocoupleK">熱電対 K</String>
+    <String identifier="TM2AMI2LT.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TM2AMI2LT.ThermocoupleT">熱電対 T</String>
+    <String identifier="TM2AMI2LT.Normal">ノーマル</String>
+    <String identifier="TM2AMI2LT.Customized">カスタマイズ</String>
+    <String identifier="TM2AMI2LT.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM2AMI2LT.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM2AMI2LT.Type_description">範囲モード</String>
+    <String identifier="TM2AMI2LT.Scope_description">単位/範囲</String>
+    <String identifier="TM2AMI2LT.Minimum_description">最小値</String>
+    <String identifier="TM2AMI2LT.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">熱電対 2 個</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMI4LT.devdesc.xml">
+    <String identifier="TM2AMI4LT.DeviceDescription">TM2AMI4LT
+拡張モジュール、アナログ入力 (0 - 10V、0 - 20mA、3 線 PT100、3 線 PT1000、3 線 NI 100、3 線 NI1000) 4 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM2AMI4LT.Mode">モード</String>
+    <String identifier="TM2AMI4LT.Mode_Description">モード</String>
+    <String identifier="TM2AMI4LT.Inputs">入力</String>
+    <String identifier="TM2AMI4LT.Mode_Voltage">電圧</String>
+    <String identifier="TM2AMI4LT.Mode_Current">現在値</String>
+    <String identifier="TM2AMI4LT.Mode_Temperature">温度</String>
+    <String identifier="TM2AMI4LT.NotUsed">未使用</String>
+    <String identifier="TM2AMI4LT.Normal">ノーマル</String>
+    <String identifier="TM2AMI4LT.Customized">カスタマイズ</String>
+    <String identifier="TM2AMI4LT.Resistance">抵抗 (オーム)</String>
+    <String identifier="TM2AMI4LT.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM2AMI4LT.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM2AMI4LT.Type_description">範囲モード</String>
+    <String identifier="TM2AMI4LT.Scope_description">単位/範囲</String>
+    <String identifier="TM2AMI4LT.Minimum_description">最小値</String>
+    <String identifier="TM2AMI4LT.Maximum_description">最大値</String>
+    <String identifier="TM2AMI4LT.LowerLimit_description">入力限界値 (下限)</String>
+    <String identifier="TM2AMI4LT.UpperLimit_description">入力限界値 (上限)</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0...10 V または 0...20 mA 4個</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMI8HT.devdesc.xml">
+    <String identifier="TM2AMI8HT.DeviceDescription">TM2AMI8HT
+拡張モジュール、アナログ入力 (0 - 10V、0 - 20mA) 8 点、10 ビット、脱着式端子台。</String>
+    <String identifier="TM2AMI8HT.Mode">モード</String>
+    <String identifier="TM2AMI8HT.Mode_Description">モード</String>
+    <String identifier="TM2AMI8HT.Type_Description">範囲モード</String>
+    <String identifier="TM2AMI8HT.Mode_Voltage">電圧</String>
+    <String identifier="TM2AMI8HT.Mode_Current">現在値</String>
+    <String identifier="TM2AMI8HT.Inputs">入力</String>
+    <String identifier="TM2AMI8HT.NotUsed">未使用</String>
+    <String identifier="TM2AMI8HT.Normal">ノーマル</String>
+    <String identifier="TM2AMI8HT.Customized">カスタマイズ</String>
+    <String identifier="TM2AMI8HT.Scope_Description">単位/範囲</String>
+    <String identifier="TM2AMI8HT.Minimum_Description">最小値</String>
+    <String identifier="TM2AMI8HT.Maximum_Description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0...10 V または 0...20 mA 8個</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AMM3HT.devdesc.xml">
+    <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+拡張モジュール、アナログ入力 2 点およびアナログ出力 (0 - 10V、4 - 20mA) 1 点、12 ビット、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2AMM3HT.Maintain">保持</String>
+    <String identifier="TM2AMM3HT.Fallback">フォールバック値</String>
+    <String identifier="TM2AMM3HT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2AMM3HT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2AMM3HT.Inputs">入力</String>
+    <String identifier="TM2AMM3HT.Outputs">出力</String>
+    <String identifier="TM2AMM3HT.NotUsed">未使用</String>
+    <String identifier="TM2AMM3HT.Normal">ノーマル</String>
+    <String identifier="TM2AMM3HT.Customized">カスタマイズ</String>
+    <String identifier="TM2AMM3HT.Type_description">範囲モード</String>
+    <String identifier="TM2AMM3HT.Scope_description">単位/範囲</String>
+    <String identifier="TM2AMM3HT.Minimum_description">最小値</String>
+    <String identifier="TM2AMM3HT.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0...10 V または 4...20 mA 2個</String>
+    <String identifier="OutputKey">0...10 V または 4...20 mA 1個</String>
+  </Content>
+  <Content key="#TM2AMM6HT.devdesc.xml">
+    <String identifier="TM2AMM6HT.DeviceDescription">TM2AMM6HT
+拡張モジュール、入力 4 点および出力 (0 - 10V、4 - 20mA) 2 点、12 ビット、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2AMM6HT.Maintain">保持</String>
+    <String identifier="TM2AMM6HT.Fallback">フォールバック値</String>
+    <String identifier="TM2AMM6HT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2AMM6HT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2AMM6HT.Inputs">入力</String>
+    <String identifier="TM2AMM6HT.Outputs">出力</String>
+    <String identifier="TM2AMM6HT.NotUsed">未使用</String>
+    <String identifier="TM2AMM6HT.Normal">ノーマル</String>
+    <String identifier="TM2AMM6HT.Customized">カスタマイズ</String>
+    <String identifier="TM2AMM6HT.Type_description">範囲モード</String>
+    <String identifier="TM2AMM6HT.Scope_description">単位/範囲</String>
+    <String identifier="TM2AMM6HT.Minimum_description">最小値</String>
+    <String identifier="TM2AMM6HT.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0...10 V または 4...20 mA 4個</String>
+    <String identifier="OutputKey">0...10 V または 4...20 mA 2個</String>
+  </Content>
+  <Content key="#TM2AMO1HT.devdesc.xml">
+    <String identifier="TM2AMO1HT.DeviceDescription">TM2AMO1HT
+拡張モジュール、アナログ出力 (0 - 10V、4 - 20mA) 1 点、12 ビット、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2AMO1HT.Maintain">保持</String>
+    <String identifier="TM2AMO1HT.Fallback">フォールバック値</String>
+    <String identifier="TM2AMO1HT.Output_Conf.Type_description">フォールバックモード</String>
+    <String identifier="TM2AMO1HT.Output_Conf.Type_description">値の強制</String>
+    <String identifier="TM2AMO1HT.Outputs">出力</String>
+    <String identifier="TM2AMO1HT.NotUsed">未使用</String>
+    <String identifier="TM2AMO1HT.Normal">ノーマル</String>
+    <String identifier="TM2AMO1HT.Customized">カスタマイズ</String>
+    <String identifier="TM2AMO1HT.Type_description">範囲モード</String>
+    <String identifier="TM2AMO1HT.Scope_description">単位/範囲</String>
+    <String identifier="TM2AMO1HT.Minimum_description">最小値</String>
+    <String identifier="TM2AMO1HT.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">0...10 V または 4...20 mA 1個</String>
+  </Content>
+  <Content key="#TM2ARI8HT.devdesc.xml">
+    <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+拡張モジュール、アナログ入力 8 点、10 ビット、脱着式端子台。NTC / PTC プローブ。</String>
+    <String identifier="TM2ARI8HT.Inputs">入力</String>
+    <String identifier="TM2ARI8HT.NotUsed">未使用</String>
+    <String identifier="TM2ARI8HT.NTC">NTC</String>
+    <String identifier="TM2ARI8HT.PTC">PTC</String>
+    <String identifier="TM2ARI8HT.Normal">ノーマル</String>
+    <String identifier="TM2ARI8HT.Customized">カスタマイズ</String>
+    <String identifier="TM2ARI8HT.Resistance">抵抗 (オーム)</String>
+    <String identifier="TM2ARI8HT.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM2ARI8HT.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM2ARI8HT.Type_description">範囲モード</String>
+    <String identifier="TM2ARI8HT.Scope_description">単位/範囲</String>
+    <String identifier="TM2ARI8HT.Minimum_description">最小値</String>
+    <String identifier="TM2ARI8HT.Maximum_description">最大値</String>
+    <String identifier="TM2ARI8HT.RValueUnit">* 1 オーム</String>
+    <String identifier="TM2ARI8HT.R_description">基準温度におけるオームの抵抗を参照</String>
+    <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+    <String identifier="TM2ARI8HT.T_description">基準温度値 (ケルビン) (0.01 K)</String>
+    <String identifier="TM2ARI8HT.B_description">プローブの感度</String>
+    <String identifier="TM2ARI8HT.Activation_description">有効化の閾値</String>
+    <String identifier="TM2ARI8HT.Reactivation_description">再有効化の閾値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">NTC / PTC プローブ 8 本</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2ARI8LRJ.devdesc.xml">
+    <String identifier="TM2ARI8LRJ.DeviceDescription">TM2ARI8LRJ
+拡張モジュール、アナログ入力 (PT100、PT1000) 8 点、12 ビット、RJ11 コネクター。</String>
+    <String identifier="TM2ARI8LRJ.Inputs">入力</String>
+    <String identifier="TM2ARI8LRJ.NotUsed">未使用</String>
+    <String identifier="TM2ARI8LRJ.Scope_Normal">ノーマル</String>
+    <String identifier="TM2ARI8LRJ.Scope_Customized">カスタマイズ</String>
+    <String identifier="TM2ARI8LRJ.Scope_Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM2ARI8LRJ.Scope_Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM2ARI8LRJ.TypeDescription">範囲モード</String>
+    <String identifier="TM2ARI8LRJ.ScopeDescription">単位/範囲</String>
+    <String identifier="TM2ARI8LRJ.MinDescription">最小値</String>
+    <String identifier="TM2ARI8LRJ.MaximumDescription">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">PT100 / PT1000 8 個</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2ARI8LT.devdesc.xml">
+    <String identifier="TM2ARI8LT.DeviceDescription">TM2ARI8LT
+拡張モジュール、アナログ入力 (PT100、PT1000) 8 点、12 ビット。</String>
+    <String identifier="TM2ARI8LT.Inputs">入力</String>
+    <String identifier="TM2ARI8LT.NotUsed">未使用</String>
+    <String identifier="TM2ARI8LT.Scope_Normal">ノーマル</String>
+    <String identifier="TM2ARI8LT.Scope_Customized">カスタマイズ</String>
+    <String identifier="TM2ARI8LT.Scope_Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM2ARI8LT.Scope_Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM2ARI8LT.TypeDescription">範囲モード</String>
+    <String identifier="TM2ARI8LT.ScopeDescription">単位/範囲</String>
+    <String identifier="TM2ARI8LT.MinDescription">最小値</String>
+    <String identifier="TM2ARI8LT.MaximumDescription">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">PT100 / PT1000 8 個</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2AVO2HT.devdesc.xml">
+    <String identifier="TM2AVO2HT.DeviceDescription">TM2AVO2HT
+拡張モジュール、アナログ出力 2 点、(-10 .. +10V)、符号付 11 ビット、脱着式端子台。</String>
+    <String identifier="TM2AVO2HT.Maintain">保持</String>
+    <String identifier="TM2AVO2HT.Fallback">フォールバック値</String>
+    <String identifier="TM2AVO2HT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2AVO2HT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2AVO2HT.Outputs">出力</String>
+    <String identifier="TM2AVO2HT.NotUsed">未使用</String>
+    <String identifier="TM2AVO2HT.Normal">ノーマル</String>
+    <String identifier="TM2AVO2HT.Customized">カスタマイズ</String>
+    <String identifier="TM2AVO2HT.Type_description">範囲モード</String>
+    <String identifier="TM2AVO2HT.Scope_description">単位/範囲</String>
+    <String identifier="TM2AVO2HT.Minimum_description">最小値</String>
+    <String identifier="TM2AVO2HT.Maximum_description">最大値</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">-10..10 V 2 点</String>
+  </Content>
+
+  <Content key="#TM2DAI8DT.devdesc.xml">
+    <String identifier="TM2DAI8DT.DeviceDescription">TM2DAI8DT
+拡張モジュール、入力 8 点、120V AC、脱着式端子 (ネジ式)、コモン 2 点。</String>
+    <String identifier="TM2DAI8DT.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">120 Vac 8 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI8DT.devdesc.xml">
+    <String identifier="TM2DDI8DT.DeviceDescription">TM2DDI8DT
+拡張モジュール、24V DC 入力 8 点、脱着式端子 (ネジ式)、コモン 1 点、シンク/ソーストランジスター。</String>
+    <String identifier="TM2DDI8DT.ParameterSectionName">入力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 8 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI16DK.devdesc.xml">
+    <String identifier="TM2DDI16DK.DeviceDescription">TM2DDI16DK
+拡張モジュール、24V DC 入力 16 点、HE10 (MIL 20) コネクター、コモン 1 点、シンク/ソーストランジスター。</String>
+    <String identifier="TM2DDI16DK.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 16 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI16DT.devdesc.xml">
+    <String identifier="TM2DDI16DT.DeviceDescription">TM2DDI16DT
+拡張モジュール、24V DC 入力 16 点、脱着式端子 (ネジ式)、コモン 1 点、シンク/ソーストランジスター。</String>
+    <String identifier="TM2DDI16DT.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 16 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDI32DK.devdesc.xml">
+    <String identifier="TM2DDI32DK.DeviceDescription">TM2DDI32DK
+拡張モジュール、24V DC 入力 32 点、HE10 (MIL 20) コネクター、コモン 2 点、シンク/ソーストランジスター。</String>
+    <String identifier="TM2DDI32DK.ParameterSectionName">入力</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 32 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM2DDO8TT.devdesc.xml">
+    <String identifier="TM2DDO8TT.DeviceDescription">TM2DDO8TT
+拡張モジュール、出力 8 点、0.5A ソーストランジスター、コモン 1 点、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2DDO8TT.Maintain">保持</String>
+    <String identifier="TM2DDO8TT.Fallback">フォールバック値</String>
+    <String identifier="TM2DDO8TT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DDO8TT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DDO8TT.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 8 個</String>
+  </Content>
+  <Content key="#TM2DDO8UT.devdesc.xml">
+    <String identifier="TM2DDO8UT.DeviceDescription">TM2DDO8UT
+拡張モジュール、出力 8 点、0.3A シンクトランジスター、コモン 1 点、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2DDO8UT.Maintain">保持</String>
+    <String identifier="TM2DDO8UT.Fallback">フォールバック値</String>
+    <String identifier="TM2DDO8UT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DDO8UT.Output_Conf.Type_description">値の強制</String>
+    <String identifier="TM2DDO8UT.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 8 個</String>
+  </Content>
+  <Content key="#TM2DDO16TK.devdesc.xml">
+    <String identifier="TM2DDO16TK.DeviceDescription">TM2DDO16TK
+拡張モジュール、出力 16 点、0.4A ソーストランジスター、コモン 1 点、HE10 (MIL 20) コネクター。</String>
+    <String identifier="TM2DDO16TK.Maintain">保持</String>
+    <String identifier="TM2DDO16TK.Fallback">フォールバック値</String>
+    <String identifier="TM2DDO16TK.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DDO16TK.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DDO16TK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+  </Content>
+  <Content key="#TM2DDO16UK.devdesc.xml">
+    <String identifier="TM2DDO16UK.DeviceDescription">TM2DDO16UK
+拡張モジュール、出力 16 点 (0.1A トランジスター、シンク)、コモン 1 点、HE10 (MIL 20) コネクター。</String>
+    <String identifier="TM2DDO16UK.Maintain">保持</String>
+    <String identifier="TM2DDO16UK.Fallback">フォールバック値</String>
+    <String identifier="TM2DDO16UK.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DDO16UK.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DDO16UK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 16 個</String>
+  </Content>
+  <Content key="#TM2DDO32TK.devdesc.xml">
+    <String identifier="TM2DDO32TK.DeviceDescription">TM2DDO32TK
+拡張モジュール、出力 32 点、0.4A ソーストランジスター、コモン 2 点、HE10 (MIL 20) コネクター。</String>
+    <String identifier="TM2DDO32TK.Maintain">保持</String>
+    <String identifier="TM2DDO32TK.Fallback">フォールバック値</String>
+    <String identifier="TM2DDO32TK.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DDO32TK.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DDO32TK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 32 個</String>
+  </Content>
+  <Content key="#TM2DDO32UK.devdesc.xml">
+    <String identifier="TM2DDO32UK.DeviceDescription">TM2DDO32UK
+拡張モジュール、出力 32 点 (0.1A トランジスター、シンク)、コモン 2 点、HE10 (MIL 20) コネクター。</String>
+    <String identifier="TM2DDO32UK.Maintain">保持</String>
+    <String identifier="TM2DDO32UK.Fallback">フォールバック値</String>
+    <String identifier="TM2DDO32UK.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DDO32UK_Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DDO32UK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10 (MIL 20)</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 32 個</String>
+  </Content>
+  <Content key="#TM2DMM8DRT.devdesc.xml">
+    <String identifier="TM2DMM8DRT.DeviceDescription">TM2DMM8DRT
+拡張モジュール、24V DC 入力 4 点、コモン 1 点、出力 (2A リレー、コモン 2 点) 4 点、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2DMM8DRT.Maintain">保持</String>
+    <String identifier="TM2DMM8DRT.Fallback">フォールバック値</String>
+    <String identifier="TM2DMM8DRT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DMM8DRT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DMM8DRT.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM2DMM8DRT.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 4 点</String>
+    <String identifier="OutputKey">リレー 4 個</String>
+  </Content>
+  <Content key="#TM2DMM24DRF.devdesc.xml">
+    <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+拡張モジュール、入力 16 点 (24V DC、コモン 1 点)、出力 (2A リレー、コモン 2 点) 8 点、固定式ワイヤクランプ端子台。</String>
+    <String identifier="TM2DMM24DRF.Maintain">保持</String>
+    <String identifier="TM2DMM24DRF.Fallback">フォールバック値</String>
+    <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DMM24DRF.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TerminalBlockKey">ワイヤクランプ</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 16 点</String>
+    <String identifier="OutputKey">リレー 8 個</String>
+  </Content>
+  <Content key="#TM2DRA8RT.devdesc.xml">
+    <String identifier="TM2DRA8RT.DeviceDescription">TM2DRA8RT
+拡張モジュール、出力 8 点 (2A リレー)、コモン 2 点、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2DRA8RT.Maintain">保持</String>
+    <String identifier="TM2DRA8RT.Fallback">フォールバック値</String>
+    <String identifier="TM2DRA8RT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DRA8RT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DRA8RT.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">リレー 8 個</String>
+  </Content>
+  <Content key="#TM2DRA16RT.devdesc.xml">
+    <String identifier="TM2DRA16RT.DeviceDescription">TM2DRA16RT
+拡張モジュール、出力 16 点 (2A リレー)、コモン 2 点、脱着式端子 (ネジ式)。</String>
+    <String identifier="TM2DRA16RT.Maintain">保持</String>
+    <String identifier="TM2DRA16RT.Fallback">フォールバック値</String>
+    <String identifier="TM2DRA16RT.Output_Conf.Mode_description">フォールバックモード</String>
+    <String identifier="TM2DRA16RT.Output_Conf.Force_description">値の強制</String>
+    <String identifier="TM2DRA16RT.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">リレー 16 個</String>
+  </Content>
+
+  <Content key="#TM3AI2H_G.devdesc.xml">
+    <String identifier="TM3AI2H_G.DeviceDescription">TM3AI2H (ネジ式)、TM3AI2HG (スプリング式)
+拡張モジュール、アナログ入力 (+- 10 V、0-10V、0-20 mA、4-20mA) 2 点、16 ビット、脱着式端子台。</String>
+    <String identifier="TM3AI2H_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3AI2H_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AI2H_G.NotUsed">未使用</String>
+    <String identifier="TM3AI2H_G.ScopeNormal">ノーマル</String>
+    <String identifier="TM3AI2H_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AI2H_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3AI2H_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3AI2H_G.MinimumDescription">最小値</String>
+    <String identifier="TM3AI2H_G.MaximumDescription">最大値</String>
+    <String identifier="TM3AI2H_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AI2H_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AI2H_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3AI2H_G.Sampling_1_ms">1 ms/ チャンネル</String>
+    <String identifier="TM3AI2H_G.InputParameter.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3AI2H_G.InputParameter.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3AI2H_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧または電流 2 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AI4_G.devdesc.xml">
+    <String identifier="TM3AI4_G.DeviceDescription">TM3AI4 (ネジ式)、TM3AI4G (スプリング式)
+拡張モジュール、アナログ入力 (+- 10 V、0-10V、0-20 mA、4-20mA) 4 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AI4_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3AI4_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AI4_G.NotUsed">未使用</String>
+    <String identifier="TM3AI4_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3AI4_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3AI4_G.MinimumDescription">最小値</String>
+    <String identifier="TM3AI4_G.MaximumDescription">最大値</String>
+    <String identifier="TM3AI4_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AI4_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AI4_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AI4_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3AI4_G.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3AI4_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3AI4_G.Sampling_1_ms">1 ms/ チャンネル</String>
+    <String identifier="TM3AI4_G.Sampling_10_ms">10 ms/ チャンネル</String>
+    <String identifier="TM3AI4_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧または電流 4 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AI8_G.devdesc.xml">
+    <String identifier="TM3AI8_G.DeviceDescription">TM3AI8 (ネジ式)、TM3AI8G (スプリング式)
+拡張モジュール、アナログ入力 (+- 10 V、0-10V、0-20 mA、4-20mA) 8 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AI8_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3AI8_G.NotUsed">未使用</String>
+    <String identifier="TM3AI8_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AI8_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3AI8_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3AI8_G.MinimumDescription">最小値</String>
+    <String identifier="TM3AI8_G.MaximumDescription">最大値</String>
+    <String identifier="TM3AI8_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AI8_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AI8_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AI8_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3AI8_G.Sampling_1_ms">1 ms/ チャンネル</String>
+    <String identifier="TM3AI8_G.Sampling_10_ms">10 ms/ チャンネル</String>
+    <String identifier="TM3AI8_G.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3AI8_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3AI8_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧または電流 8 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AI8_G_C_CG.devdesc.xml">
+    <String identifier="TM3AI8_G_C_CG.DeviceDescription">TM3AI8/C (ネジ式)、TM3AI8G/CG (スプリング式)
+拡張モジュール、アナログ入力 (+- 10 V、0-10V、0-20 mA、4-20mA) 8 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AI8_G_C_CG.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3AI8_G_C_CG.NotUsed">未使用</String>
+    <String identifier="TM3AI8_G_C_CG.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AI8_G_C_CG.TypeDescription">範囲モード</String>
+    <String identifier="TM3AI8_G_C_CG.ScopeDescription">ユニット</String>
+    <String identifier="TM3AI8_G_C_CG.MinimumDescription">最小値</String>
+    <String identifier="TM3AI8_G_C_CG.MaximumDescription">最大値</String>
+    <String identifier="TM3AI8_G_C_CG.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AI8_G_C_CG.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AI8_G_C_CG.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AI8_G_C_CG.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3AI8_G_C_CG.Sampling_1_ms">1 ms/ チャンネル</String>
+    <String identifier="TM3AI8_G_C_CG.Sampling_10_ms">10 ms/ チャンネル</String>
+    <String identifier="TM3AI8_G_C_CG.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3AI8_G_C_CG.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3AI8_G_C_CG.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧または電流 8 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3AM6_G.devdesc.xml">
+    <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (ネジ式)、TM3AM6G (スプリング式)
+拡張モジュール、アナログ入力 (+- 10 V、0-10V、0-20 mA、4-20mA) 4 点、アナログ出力 (+- 10 V、0-10V、0-20 mA、4-20mA) 2 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3AM6_G.NotUsed">未使用</String>
+    <String identifier="TM3AM6_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AM6_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3AM6_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3AM6_G.MinimumDescription">最小値</String>
+    <String identifier="TM3AM6_G.MaximumDescription">最大値</String>
+    <String identifier="TM3AM6_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AM6_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AM6_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/ チャンネル</String>
+    <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/ チャンネル</String>
+    <String identifier="TM3AM6_G.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3AM6_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3AM6_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3AM6_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧または電流 4 点</String>
+    <String identifier="OutputKey">電圧または電流 2 点</String>
+  </Content>
+  <Content key="#TM3AM6_G_C_CG.devdesc.xml">
+    <String identifier="TM3AM6_G_C_CG.DeviceDescription">TM3AM6/C (ネジ式)、TM3AM6G/CG (スプリング式)
+拡張モジュール、アナログ入力 (+- 10 V、0-10V、0-20 mA、4-20mA) 4 点、アナログ出力 (+- 10 V、0-10V、0-20 mA、4-20mA) 2 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AM6_G_C_CG.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3AM6_G_C_CG.NotUsed">未使用</String>
+    <String identifier="TM3AM6_G_C_CG.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AM6_G_C_CG.TypeDescription">範囲モード</String>
+    <String identifier="TM3AM6_G_C_CG.ScopeDescription">ユニット</String>
+    <String identifier="TM3AM6_G_C_CG.MinimumDescription">最小値</String>
+    <String identifier="TM3AM6_G_C_CG.MaximumDescription">最大値</String>
+    <String identifier="TM3AM6_G_C_CG.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AM6_G_C_CG.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AM6_G_C_CG.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AM6_G_C_CG.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3AM6_G_C_CG.Sampling_1_ms">1 ms/ チャンネル</String>
+    <String identifier="TM3AM6_G_C_CG.Sampling_10_ms">10 ms/ チャンネル</String>
+    <String identifier="TM3AM6_G_C_CG.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3AM6_G_C_CG.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3AM6_G_C_CG.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3AM6_G_C_CG.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧または電流 4 点</String>
+    <String identifier="OutputKey">電圧または電流 2 点</String>
+  </Content>
+  <Content key="#TM3AQ2_G.devdesc.xml">
+    <String identifier="TM3AQ2_G.DeviceDescription">TM3AQ2 (ネジ式)、TM3AQ2G (スプリング式)
+拡張モジュール、アナログ出力 (+- 10 V、0-10V、0-20 mA、4-20mA) 2 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AQ2_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3AQ2_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AQ2_G.NotUsed">未使用</String>
+    <String identifier="TM3AQ2_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AQ2_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3AQ2_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3AQ2_G.MinimumDescription">最小値</String>
+    <String identifier="TM3AQ2_G.MaximumDescription">最大値</String>
+    <String identifier="TM3AQ2_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AQ2_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AQ2_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">電圧または電流 2 点</String>
+  </Content>
+  <Content key="#TM3AQ4_G.devdesc.xml">
+    <String identifier="TM3AQ4_G.DeviceDescription">TM3AQ4 (ネジ式)、TM3AQ4G (スプリング式)
+拡張モジュール、アナログ出力 (+- 10 V、0-10V、0-20 mA、4-20mA) 4 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AQ4_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3AQ4_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AQ4_G.NotUsed">未使用</String>
+    <String identifier="TM3AQ4_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AQ4_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3AQ4_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3AQ4_G.MinimumDescription">最小値</String>
+    <String identifier="TM3AQ4_G.MaximumDescription">最大値</String>
+    <String identifier="TM3AQ4_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AQ4_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AQ4_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">電圧または電流 4 点</String>
+  </Content>
+  <Content key="#TM3AQ4_G_C_CG.devdesc.xml">
+    <String identifier="TM3AQ4_G_C_CG.DeviceDescription">TM3AQ4/C (ネジ式)、TM3AQ4G/CG (スプリング式)
+拡張モジュール、アナログ出力 (+- 10 V、0-10V、0-20 mA、4-20mA) 4 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3AQ4_G_C_CG.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3AQ4_G_C_CG.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3AQ4_G_C_CG.NotUsed">未使用</String>
+    <String identifier="TM3AQ4_G_C_CG.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3AQ4_G_C_CG.TypeDescription">範囲モード</String>
+    <String identifier="TM3AQ4_G_C_CG.ScopeDescription">ユニット</String>
+    <String identifier="TM3AQ4_G_C_CG.MinimumDescription">最小値</String>
+    <String identifier="TM3AQ4_G_C_CG.MaximumDescription">最大値</String>
+    <String identifier="TM3AQ4_G_C_CG.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3AQ4_G_C_CG.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3AQ4_G_C_CG.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">電圧または電流 4 点</String>
+  </Content>
+  
+  <Content key="#TM3DI8A.devdesc.xml">
+    <String identifier="TM3DI8A.DeviceDescription">TM3DI8A
+8 チャンネル、120 Vac デジタル入力拡張モジュール、コモン 2 点、シンク/ソース および脱着式端子台 (ネジ式)。</String>
+    <String identifier="TM3DI8A.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey">ネジ式</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">120 Vac 8 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI8_G.devdesc.xml">
+    <String identifier="TM3DI8_G.DeviceDescription">TM3DI8 (ネジ式)、TM3DI8G (スプリング式)
+8 チャンネル、24 Vdc デジタル入力拡張モジュール、コモン 1 点、シンク/ソース および脱着式端子台 (ネジ式)。</String>
+    <String identifier="TM3DI8_G.ParameterSectionName">入力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 8 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI16_G.devdesc.xml">
+    <String identifier="TM3DI16_G.DeviceDescription">TM3DI16 (ネジ式)、TM3DI16G (スプリング式)
+16 チャンネル、24 Vdc デジタル入力拡張モジュール、コモン 1 点、シンク/ソース および脱着式端子台 (ネジ式)。</String>
+    <String identifier="TM3DI16_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 16 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI16K.devdesc.xml">
+    <String identifier="TM3DI16K.DeviceDescription">TM3DI16K
+16 チャンネル、24 Vdc デジタル入力拡張モジュール、コモン 1 点、シンク/ソース および HE10 コネクター。</String>
+    <String identifier="TM3DI16K.ParameterSectionNameInputs">入力</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 16 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DI32K.devdesc.xml">
+    <String identifier="TM3DI32K.DeviceDescription">TM3DI32K
+32 チャンネル、24 Vdc デジタル入力拡張モジュール、コモン 2 点、シンク/ソース および HE10 コネクター。</String>
+    <String identifier="TM3DI32K.ParameterSectionName">入力</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 32 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3DM8R_G.devdesc.xml">
+    <String identifier="TM3DM8R_G.DeviceDescription">TM3DM8R (ネジ式)、TM3DM8RG (スプリング式)
+4 チャンネルシンク/ソース入力、コモン 1 点、4 チャンネル 2A リレー出力、コモン 1 点、24 Vdc デジタル拡張モジュール 脱着式端子台。</String>
+    <String identifier="TM3DM8R_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3DM8R_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 4 点</String>
+    <String identifier="OutputKey">リレー 4 個</String>
+  </Content>
+  <Content key="#TM3DM24R_G.devdesc.xml">
+    <String identifier="TM3DM24R_G.DeviceDescription">TM3DM24R (ネジ式)、TM3DM24RG (スプリング式)
+16 チャンネルシンク/ソース入力、コモン 1 点、8 チャンネル 2A リレー出力、コモン 2 点、24 Vdc デジタル拡張モジュール 脱着式端子台。</String>
+    <String identifier="TM3DM24R_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3DM24R_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">24 Vdc 16 点</String>
+    <String identifier="OutputKey">リレー 8 個</String>
+  </Content>
+  <Content key="#TM3DQ8R_G.devdesc.xml">
+    <String identifier="TM3DQ8R_G.DeviceDescription">TM3DQ8R (ネジ式)、TM3DQ8RG (スプリング式)
+8 チャンネル、2A リレー出力拡張モジュール、コモン 2 点および脱着式端子台。</String>
+    <String identifier="TM3DQ8R_G.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">リレー 8 個</String>
+  </Content>
+  <Content key="#TM3DQ8T_G.devdesc.xml">
+    <String identifier="TM3DQ8T_G.DeviceDescription">TM3DQ8T (ネジ式)、TM3DQ8TG (スプリング式)
+8 チャンネル、0.5A ソーストランジスター出力拡張モジュール、コモン 1 点および脱着式端子台。</String>
+    <String identifier="TM3DQ8T_G.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 8 個</String>
+  </Content>
+  <Content key="#TM3DQ8U_G.devdesc.xml">
+    <String identifier="TM3DQ8U_G.DeviceDescription">TM3DQ8U (ネジ式)、TM3DQ8UG (スプリング式)
+8 チャンネル、0.5A シンクトランジスター出力拡張モジュール、コモン 1 点および脱着式端子台。</String>
+    <String identifier="TM3DQ8U_G.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 8 個</String>
+  </Content>
+  <Content key="#TM3DQ16R_G.devdesc.xml">
+    <String identifier="TM3DQ16R_G.DeviceDescription">TM3DQ16R (ネジ式)、TM3DQ16RG (スプリング式)
+16 チャンネル、2A リレー出力拡張モジュール、コモン 2 点および脱着式端子台。</String>
+    <String identifier="TM3DQ16R_G.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">リレー 16 個</String>
+  </Content>
+  <Content key="#TM3DQ16T_G.devdesc.xml">
+    <String identifier="TM3DQ16T_G.DeviceDescription">TM3DQ16T (ネジ式)、TM3DQ16TG (スプリング式)
+16 チャンネル、0.5A ソーストランジスター出力拡張モジュール、コモン 1 点および脱着式端子台。</String>
+    <String identifier="TM3DQ16T_G.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+  </Content>
+  <Content key="#TM3DQ16TK.devdesc.xml">
+    <String identifier="TM3DQ16TK.DeviceDescription">TM3DQ16TK
+16 チャンネル、0.1A ソーストランジスター出力拡張モジュール、コモン 1 点および HE10 コネクター。</String>
+    <String identifier="TM3DQ16TK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 16 個</String>
+  </Content>
+  <Content key="#TM3DQ16U_G.devdesc.xml">
+    <String identifier="TM3DQ16U_G.DeviceDescription">TM3DQ16U (ネジ式)、TM3DQ16UG (スプリング式)
+16 チャンネル、0.4A シンクトランジスター出力拡張モジュール、コモン 1 点および脱着式端子台。</String>
+    <String identifier="TM3DQ16U_G.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 16 個</String>
+  </Content>
+  <Content key="#TM3DQ16UK.devdesc.xml">
+    <String identifier="TM3DQ16UK.DeviceDescription">TM3DQ16UK
+16 チャンネル、0.1A シンクトランジスター出力拡張モジュール、コモン 1 点および HE10 コネクター。</String>
+    <String identifier="TM3DQ16UK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 16 個</String>
+  </Content>
+  <Content key="#TM3DQ32TK.devdesc.xml">
+    <String identifier="TM3DQ32TK.DeviceDescription">TM3DQ32TK
+32 チャンネル、0.1A ソーストランジスター出力拡張モジュール、コモン 2 点および HE10 コネクター。</String>
+    <String identifier="TM3DQ32TK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">ソーストランジスター 32 個</String>
+  </Content>
+  <Content key="#TM3DQ32UK.devdesc.xml">
+    <String identifier="TM3DQ32UK.DeviceDescription">TM3DQ32UK
+32 チャンネル、0.1A シンクトランジスター出力拡張モジュール、コモン 2 点および HE10 コネクター。</String>
+    <String identifier="TM3DQ32UK.ParameterSectionName">出力</String>
+    <String identifier="TerminalBlockKey">HE10</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">0</String>
+    <String identifier="OutputKey">シンクトランジスター 32 個</String>
+  </Content>
+
+  <Content key="#TM3TI4_G.devdesc.xml">
+    <String identifier="TM3TI4_G.DeviceDescription">TM3TI4 (ネジ式)、TM3TI4G (スプリング式)
+拡張モジュール、アナログ入力 4 点 (+- 10V、0-10V、0-20mA、4-20mA、NI100、NI1000、PT100、PT1000、熱電対:J,K,R,S,B,T,N)、16 ビット、脱着式端子台。</String>
+    <String identifier="TM3TI4_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3TI4_G.NotUsed">未使用</String>
+    <String identifier="TM3TI4_G.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM3TI4_G.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM3TI4_G.Fahrenheit2">華氏 (0.2°F)</String>
+    <String identifier="TM3TI4_G.ThermocoupleK">熱電対 K</String>
+    <String identifier="TM3TI4_G.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TM3TI4_G.ThermocoupleR">熱電対 R</String>
+    <String identifier="TM3TI4_G.ThermocoupleS">熱電対 S</String>
+    <String identifier="TM3TI4_G.ThermocoupleB">熱電対 B</String>
+    <String identifier="TM3TI4_G.ThermocoupleE">熱電対 E</String>
+    <String identifier="TM3TI4_G.ThermocoupleT">熱電対 T</String>
+    <String identifier="TM3TI4_G.ThermocoupleN">熱電対 N</String>
+    <String identifier="TM3TI4_G.ThermocoupleC">熱電対 C</String>
+    <String identifier="TM3TI4_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3TI4_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3TI4_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3TI4_G.MinimumDescription">最小値</String>
+    <String identifier="TM3TI4_G.MaximumDescription">最大値</String>
+    <String identifier="TM3TI4_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3TI4_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3TI4_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3TI4_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3TI4_G.Sampling_100ms">100 ms/ チャンネル</String>
+    <String identifier="TM3TI4_G.Sampling_10ms">10 ms/ チャンネル</String>
+    <String identifier="TM3TI4_G.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3TI4_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3TI4_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧、電流または温度 4 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3TI4D_G.devdesc.xml">
+    <String identifier="TM3TI4D_G.DeviceDescription">TM3TI4D (ネジ式)、TM3TI4DG (スプリング式)
+拡張モジュール、アナログ入力 4 点 (熱電対:J,K,R,S,B,T,N)、16 ビット、脱着式端子台。</String>
+    <String identifier="TM3TI4D_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3TI4D_G.NotUsed">未使用</String>
+    <String identifier="TM3TI4D_G.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM3TI4D_G.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM3TI4D_G.Fahrenheit2">華氏 (0.2°F)</String>
+    <String identifier="TM3TI4D_G.ThermocoupleK">熱電対 K</String>
+    <String identifier="TM3TI4D_G.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TM3TI4D_G.ThermocoupleR">熱電対 R</String>
+    <String identifier="TM3TI4D_G.ThermocoupleS">熱電対 S</String>
+    <String identifier="TM3TI4D_G.ThermocoupleB">熱電対 B</String>
+    <String identifier="TM3TI4D_G.ThermocoupleE">熱電対 E</String>
+    <String identifier="TM3TI4D_G.ThermocoupleT">熱電対 T</String>
+    <String identifier="TM3TI4D_G.ThermocoupleN">熱電対 N</String>
+    <String identifier="TM3TI4D_G.ThermocoupleC">熱電対 C</String>
+    <String identifier="TM3TI4D_G.ScopeCustomized">ノーマル</String>
+    <String identifier="TM3TI4D_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3TI4D_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3TI4D_G.MinimumDescription">最小値</String>
+    <String identifier="TM3TI4D_G.MaximumDescription">最大値</String>
+    <String identifier="TM3TI4D_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3TI4D_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3TI4D_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3TI4D_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3TI4D_G.Sampling_100ms">100 ms/ チャンネル</String>
+    <String identifier="TM3TI4D_G.Sampling_10ms">10 ms/ チャンネル</String>
+    <String identifier="TM3TI4D_G.InputFilterDescription">未使用</String>
+    <String identifier="TM3TI4D_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3TI4D_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">温度 4 点</String>
+    <String identifier="OutputKey">0</String>
+  </Content>
+  <Content key="#TM3TI8T_G.devdesc.xml">
+    <String identifier="TM3TI8T_G.DeviceDescription">TM3TI8 (ネジ式)、TM3TI8G (スプリング式)
+拡張モジュール、アナログ入力 8 点 ( NTC、PTC、熱電対:J,K,R,S,B,T,N)、16 ビット、脱着式端子台。</String>
+    <String identifier="TM3TI8T_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3TI8T_G.NotUsed">未使用</String>
+    <String identifier="TM3TI8T_G.ThermocoupleK">熱電対 K</String>
+    <String identifier="TM3TI8T_G.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TM3TI8T_G.ThermocoupleR">熱電対 R</String>
+    <String identifier="TM3TI8T_G.ThermocoupleS">熱電対 S</String>
+    <String identifier="TM3TI8T_G.ThermocoupleB">熱電対 B</String>
+    <String identifier="TM3TI8T_G.ThermocoupleE">熱電対 E</String>
+    <String identifier="TM3TI8T_G.ThermocoupleT">熱電対 T</String>
+    <String identifier="TM3TI8T_G.ThermocoupleN">熱電対 N</String>
+    <String identifier="TM3TI8T_G.ThermocoupleC">熱電対 C</String>
+    <String identifier="TM3TI8T_G.NTCThermistor">NTC サーミスター</String>
+    <String identifier="TM3TI8T_G.PTCThermistor">PTC サーミスター</String>
+    <String identifier="TM3TI8T_G.Customized">カスタマイズ</String>
+    <String identifier="TM3TI8T_G.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM3TI8T_G.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM3TI8T_G.Fahrenheit2">華氏 (0.2°F)</String>
+    <String identifier="TM3TI8T_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3TI8T_G.ScopeDescription">単位/範囲</String>
+    <String identifier="TM3TI8T_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3TI8T_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3TI8T_G.MinimumDescription">最小値</String>
+    <String identifier="TM3TI8T_G.MaximumDescription">最大値</String>
+    <String identifier="TM3TI8T_G.RValueUnit">* 1 オーム</String>
+    <String identifier="TM3TI8T_G.RDescription">基準温度におけるオームの抵抗を参照</String>
+    <String identifier="TM3TI8T_G.TValueUnit">* 1 °C</String>
+    <String identifier="TM3TI8T_G.TDescription">基準温度値 (摂氏)</String>
+    <String identifier="TM3TI8T_G.BDescription">プローブの感度</String>
+    <String identifier="TM3TI8T_G.InputFilterUnit">x 100 ms</String>
+    <String identifier="TM3TI8T_G.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3TI8T_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3TI8T_G.Sampling_0_100ms">100 ms/ チャンネル</String>
+    <String identifier="TM3TI8T_G.Sampling_100_ms">100 ms/ チャンネル</String>
+    <String identifier="TM3TI8T_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3TI8T_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3TI8T_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">温度 8 個</String>
+    <String identifier="OutputKey">0</String>
+    <String identifier="TM3TI8T_G.Ohmmeter">抵抗計</String>
+    <String identifier="TM3TI8T_G.Resistance">抵抗 (オーム)</String>
+    <String identifier="TM3TI8T_G.Threshold">閾値</String>
+    <String identifier="TM3TI8T_G.ThresholdHighDescription">有効化の閾値</String>
+    <String identifier="TM3TI8T_G.ThresholdLowDescription">再有効化の閾値</String>
+  </Content>
+  <Content key="#TM3TM3_G.devdesc.xml">
+    <String identifier="TM3TM3_G.DeviceDescription">TM3TM3 (ネジ式)、TM3TM3G (スプリング式)
+拡張モジュール、アナログ入力 2 点 (+- 10 V、0-10V、0-20mA、4-20mA、NI100、NI1000、PT100、PT1000、熱電対: J,K,R,S,B,T,N)、16 ビットおよびアナログ出力 (+- 10 V、0 - 10V、0 - 20 mA、4 - 20mA) 1 点、12 ビット、脱着式端子台。</String>
+    <String identifier="TM3TM3_G.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3TM3_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3TM3_G.NotUsed">未使用</String>
+    <String identifier="TM3TM3_G.ThermocoupleK">熱電対 K</String>
+    <String identifier="TM3TM3_G.ThermocoupleJ">熱電対 J</String>
+    <String identifier="TM3TM3_G.ThermocoupleR">熱電対 R</String>
+    <String identifier="TM3TM3_G.ThermocoupleS">熱電対 S</String>
+    <String identifier="TM3TM3_G.ThermocoupleB">熱電対 B</String>
+    <String identifier="TM3TM3_G.ThermocoupleE">熱電対 E</String>
+    <String identifier="TM3TM3_G.ThermocoupleT">熱電対 T</String>
+    <String identifier="TM3TM3_G.ThermocoupleN">熱電対 N</String>
+    <String identifier="TM3TM3_G.ThermocoupleC">熱電対 C</String>
+    <String identifier="TM3TM3_G.Customized">ノーマル</String>
+    <String identifier="TM3TM3_G.Celsius">摂氏 (0.1°C)</String>
+    <String identifier="TM3TM3_G.Fahrenheit">華氏 (0.1°F)</String>
+    <String identifier="TM3TM3_G.Fahrenheit2">華氏 (0.2°F)</String>
+    <String identifier="TM3TM3_G.EnumYesNo.No">いいえ</String>
+    <String identifier="TM3TM3_G.EnumYesNo.Yes">はい</String>
+    <String identifier="TM3TM3_G.TypeDescription">範囲モード</String>
+    <String identifier="TM3TM3_G.ScopeDescription">ユニット</String>
+    <String identifier="TM3TM3_G.MinimumDescription">最小値</String>
+    <String identifier="TM3TM3_G.MaximumDescription">最大値</String>
+    <String identifier="TM3TM3_G.InputFilterUnit">x 100 ms</String>
+    <String identifier="TM3TM3_G.InputFilterDescription">入力フィルター</String>
+    <String identifier="TM3TM3_G.SamplingUnit">ms/ チャンネル</String>
+    <String identifier="TM3TM3_G.Sampling_100ms">100 ms/ チャンネル</String>
+    <String identifier="TM3TM3_G.Sampling_10ms">10 ms/ チャンネル</String>
+    <String identifier="TM3TM3_G.SamplingSelectionDescription">入力サンプリング選択</String>
+    <String identifier="TM3TM3_G.ParameterSectionNameDiagnostic">診断</String>
+    <String identifier="TM3TM3_G.StatusParameter">ステータス有効</String>
+    <String identifier="TerminalBlockKey">ネジ/スプリング</String>
+    <String identifier="FormatKey"></String>
+    <String identifier="InputKey">電圧、電流または温度 2 点</String>
+    <String identifier="OutputKey">電圧または電流 1 点</String>
+  </Content>
+
+  <Content key="#TransmitterReceiver.xml">
+    <String identifier="TM3XTRA1.DeviceDescription">TM3XTRA1/TM3XREC1
+送信機/受信機 拡張モジュール。</String>
+    <String identifier="ModuleTypeKey">送信機＿受信機</String>
+    <String identifier="FeaturesKey">リモート IO バス</String>
+  </Content>
+
+  <Content key="#TM3SAC5R_G.devdesc.xml">
+    <String identifier="TM3SAC5R_G.DeviceDescription">TM3SAC5R (ネジ式)、TM3SAC5RG (スプリング式)、
+セーフティーモジュール、ファンクション 1 つ、CAT3、最大 PL d/SIL2。</String>
+    <String identifier="TM3SAC5R_G.ParameterSectionNameInputs">診断</String>
+    <String identifier="TM3SAC5R_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit0.Description">安全出力 ON</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit1.Description">供給 OK</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit2.Description">許容範囲外の供給</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit3.Description">チャンネル 1 はアクティブ</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit5.Description">有効開始</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit6.Description">リレー K1 有効</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit7.Description">リレー K2 有効</String>
+    <String identifier="TM3SAC5R_G.Diagnostic.Bit12.Description">開始待機状態</String>
+    <String identifier="TM3SAC5R_G.Output.Bit0.Description">安全出力の有効化</String>
+    <String identifier="TM3SAC5R_G.Output.Bit1.Description">モジュールを無効化 (電流ソーススイッチ OFF)</String>
+    <String identifier="TM3SAC5R_G.Output.Bit2.Description">バスが動作していない (タイムアウト) 場合でも、安全機能は有効状態を継続します</String>
+    <String identifier="ModuleTypeKey">セーフティー</String>
+    <String identifier="FeaturesKey">ファンクション 1 つ、CAT3</String>
+  </Content>
+  <Content key="#TM3SAF5R_G.devdesc.xml">
+    <String identifier="TM3SAF5R_G.DeviceDescription">TM3SAF5R (ネジ式)、TM3SAF5RG (スプリング式)、 
+セーフティーモジュール、ファンクション 1 つ、CAT4、最大 PL e/SIL3。</String>
+    <String identifier="TM3SAF5R_G.ParameterSectionNameInputs">診断</String>
+    <String identifier="TM3SAF5R_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit0.Description">安全出力 ON</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit1.Description">供給可能 (A1/A2)</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit2.Description">許容範囲外の供給</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit3.Description">チャンネル 1 はアクティブ</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit4.Description">チャンネル 2 はアクティブ</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit5.Description">有効開始</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit6.Description">リレー K1 有効</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit7.Description">リレー K2 有効</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit9.Description">S1 有効</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit10.Description">S2 有効</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit11.Description">S4 有効</String>
+    <String identifier="TM3SAF5R_G.Diagnostic.Bit12.Description">開始待機状態</String>
+    <String identifier="TM3SAF5R_G.Output.Bit0.Description">安全出力の有効化</String>
+    <String identifier="TM3SAF5R_G.Output.Bit1.Description">モジュールを無効化 (電流ソーススイッチ OFF)</String>
+    <String identifier="TM3SAF5R_G.Output.Bit2.Description">バスが動作していない (タイムアウト) 場合でも、安全機能は有効状態を継続します</String>
+    <String identifier="ModuleTypeKey">セーフティー</String>
+    <String identifier="FeaturesKey">ファンクション 1 つ、CAT4</String>
+  </Content>
+  <Content key="#TM3SAFL5R_G.devdesc.xml">
+    <String identifier="TM3SAFL5R_G.DeviceDescription">TM3SAFL5R (ネジ式)、TM3SAFL5RG (スプリング式)、 
+セーフティーモジュール、ファンクション 2 つ、CAT3、最大 PL d/SIL2。</String>
+    <String identifier="TM3SAFL5R_G.ParameterSectionNameInputs">診断</String>
+    <String identifier="TM3SAFL5R_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit0.Description">安全出力 ON</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit1.Description">供給可能 (A1/A2)</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit2.Description">許容範囲外の供給</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit3.Description">チャンネル 1 はアクティブ</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit4.Description">チャンネル 2 はアクティブ</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit5.Description">有効開始</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit6.Description">リレー K1 有効</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit7.Description">リレー K2 有効</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit8.Description">S1 有効</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit10.Description">S2 有効</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit11.Description">S4 有効</String>
+    <String identifier="TM3SAFL5R_G.Diagnostic.Bit12.Description">開始待機状態</String>
+    <String identifier="TM3SAFL5R_G.Output.Bit0.Description">安全出力の有効化</String>
+    <String identifier="TM3SAFL5R_G.Output.Bit1.Description">モジュールを無効化 (電流ソーススイッチ OFF)</String>
+    <String identifier="TM3SAFL5R_G.Output.Bit2.Description">バスが動作していない (タイムアウト) 場合でも、安全機能は有効状態を継続します</String>
+    <String identifier="ModuleTypeKey">セーフティー</String>
+    <String identifier="FeaturesKey">ファンクション 2 つ、CAT3</String>
+  </Content>
+  <Content key="#TM3SAK6R_G.devdesc.xml">
+    <String identifier="TM3SAK6R_G.DeviceDescription">TM3SAK6R (ネジ式)、TM3SAK6RG (スプリング式)、
+セーフティーモジュール、ファンクション 3 つ、CAT4、最大 PL e/SIL3。</String>
+    <String identifier="TM3SAK6R_G.ParameterSectionNameInputs">診断</String>
+    <String identifier="TM3SAK6R_G.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit0.Description">安全出力 ON</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit1.Description">供給可能 (A1/A2)</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit2.Description">許容範囲外の供給</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit3.Description">チャンネル 1 はアクティブ</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit4.Description">チャンネル 2 はアクティブ</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit5.Description">有効開始</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit6.Description">リレー K1 有効</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit7.Description">リレー K2 有効</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit8.Description">S1 有効</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit9.Description">S2 有効</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit10.Description">S3 有効</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit11.Description">S4 有効</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit12.Description">開始待機状態</String>
+    <String identifier="TM3SAK6R_G.Diagnostic.Bit13.Description">同期失敗。S2 および S3 を再使用。</String>
+    <String identifier="TM3SAK6R_G.Output.Bit0.Description">安全出力の有効化</String>
+    <String identifier="TM3SAK6R_G.Output.Bit1.Description">モジュールを無効化 (電流ソーススイッチ OFF)</String>
+    <String identifier="TM3SAK6R_G.Output.Bit2.Description">バスが動作していない (タイムアウト) 場合でも、安全機能は有効状態を継続します</String>
+    <String identifier="TM3SAK6R_G.Output.Bit3.Description">同期時間監視が有効</String>
+    <String identifier="ModuleTypeKey">セーフティー</String>
+    <String identifier="FeaturesKey">ファンクション 3 つ、CAT4</String>
+  </Content>
+
+  <Content key="#TM3XTYS4.devdesc.xml">
+    <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+4 Tesys モータースターター拡張モジュール。</String>
+    <String identifier="TM3XTYS4.ParameterSectionNameInputs">入力</String>
+    <String identifier="TM3XTYS4.Input.Ready.Description">TeSys U のセレクターまたはモーター回路遮断機が ON 位置にあるときこの入力は有効です</String>
+    <String identifier="TM3XTYS4.Input.Run.Description">この入力は電力接点の閉状態を示します。</String>
+    <String identifier="TM3XTYS4.Input.Trip.Description">セレクターが TRIP 位置にあるときこの入力は有効です</String>
+    <String identifier="TM3XTYS4.Input.Error.Description">保護ソース出力の過電流エラーフラグ (0:エラー、1: 正常)</String>
+    <String identifier="TM3XTYS4.ParameterSectionNameOutputs">出力</String>
+    <String identifier="TM3XTYS4.Output.Dir1Control.Description">この 24V 出力はモーターの順方向 (時計方向) コマンドを駆動します。この出力の電源は 24V 出力です</String>
+    <String identifier="TM3XTYS4.Output.Dir2Control.Description">この 24V 出力はモーターの逆方向 (半時計方向) コマンドを駆動します。この出力の電源は 24V 出力です</String>
+    <String identifier="TM3XTYS4.DOL">DOL スターター</String>
+    <String identifier="TM3XTYS4.FR">順方向および逆方向スターター</String>
+    <String identifier="TM3XTYS4.Module.TesysType">TM3 モジュールに接続された TesysU デバイスモデル</String>
+    <String identifier="ModuleTypeKey">Tesys</String>
+    <String identifier="FeaturesKey">モータースターター 4 個</String>
+  </Content>
+
+</Content>

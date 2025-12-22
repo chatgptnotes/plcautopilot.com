@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- ATS22 -->
+<Device>
+    <DeviceTypeName>ATS22 Altistart</DeviceTypeName>
+    <DeviceTypeId>9</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+    <VendorId>Schneider Electric</VendorId>
+    <ProductCode>ATS22*</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+
+    <InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>84</Offset>
+            <Length>1</Length>
+            <InitializationValue>1</InitializationValue>
+            <Comment>Enabling Control by Modbus</Comment>
+            <CanEditInitRequest>True</CanEditInitRequest>
+        </InitRequest>
+    </InitRequests>
+
+    <Channels>
+		<Channel>
+            <Name>ATS22_Write_Command</Name>
+            <AccessType>IoScannerChannelAccessWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Writes the command word of the ATS22</Comment>
+			<ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>752</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		
+        <Channel>
+            <Name>ATS22_Read_ETA</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the status word of the ATS22</Comment>
+            <ReadOffset>256</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		
+		<Channel>
+            <Name>ATS22_Read_LFT</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the last trip(error) of the ATS22</Comment>
+            <ReadOffset>279</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

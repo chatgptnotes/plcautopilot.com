@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TM2ARI8HT_TypeEnum">
+      <Enum identifier="Type_NotUsed">
+        <Value>15</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Type_NTC">
+        <Value>7</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.NTC">NTC</VisibleName>
+      </Enum>
+      <Enum identifier="Type_PTC">
+        <Value>8</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.PTC">PTC</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM2ARI8HT_ScopeEnum">
+      <Enum identifier="Scope_NotUsed">
+        <Value>240</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Normal">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.Normal">Normal</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Customized">
+        <Value>16</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.Customized">Customized</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Resistance">
+        <Value>32</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.Resistance">Resistance (Ohm)</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Celsius">
+        <Value>48</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.Celsius">Celsius (0.1 °C)</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Fahrenheit">
+        <Value>64</Value>
+        <VisibleName name="localStrings:TM2ARI8HT.Fahrenheit">Fahrenheit (0.1 °F)</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TM2ARI8HT_Input_Conf">
+      <Component identifier="type_enum" type="localTypes:TM2ARI8HT_TypeEnum">
+        <Default>15</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.Type_description">Range mode</Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TM2ARI8HT_ScopeEnum">
+        <Default>240</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.Scope_description">Unit / Range</Description>
+      </Component>
+      <Component identifier="minValue" type="std:INT">
+        <Default>-32768</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.Minimum_description">Minimum value</Description>
+      </Component>
+      <Component identifier="maxValue" type="std:INT">
+        <Default>32767</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.Maximum_description">Maximum value</Description>
+      </Component>
+      <Component identifier="RValue" type="std:UINT">
+        <Default>330</Default>
+        <VisibleName name="local:dummy">Rref</VisibleName>
+        <Unit name="localStrings:TM2ARI8HT.RValueUnit">* 1 Ohm</Unit>
+        <Description name="localStrings:TM2ARI8HT.R_description">Reference resistance in Ohm at temperature Tref</Description>
+      </Component>
+      <Component identifier="TValue" type="std:UINT">
+        <Default>29815</Default>
+        <VisibleName name="local:dummy">Tref</VisibleName>
+        <Unit name="localStrings:TM2ARI8HT.TValueUnit">* 0.01 K</Unit>
+        <Description name="localStrings:TM2ARI8HT.T_description">Reference temperature value in Kelvin (0.01 °K)</Description>
+      </Component>
+      <Component identifier="BValue" type="std:INT">
+        <Default>3569</Default>
+        <VisibleName name="local:dummy">Beta</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.B_description">Sensitivity of the probe</Description>
+      </Component>
+      <Component identifier="Activation" type="std:INT">
+        <Default>3100</Default>
+        <VisibleName name="local:dummy">High Threshold</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.Activation_description">Activation threshold</Description>
+      </Component>
+      <Component identifier="Reactivation" type="std:INT">
+        <Default>1500</Default>
+        <VisibleName name="local:dummy">Low Threshold</VisibleName>
+        <Description name="localStrings:TM2ARI8HT.Reactivation_description">Reactivation threshold</Description>
+      </Component>
+    </StructType>
+    <!--typedef struct{
+	RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+	RTS_UI8 IdCode1;
+	RTS_UI8 IdCode2;            // if NbIdCode = 2
+	RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+	RTS_UI8 ImplicitPageIndex;	 // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+	RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+	RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+	RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+	RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+	RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+								// if 1 the status are included in the ImplicitRead
+								// if 0 an explicit read is done on user demand (see StatusAddr)
+	RTS_UI8 StatusPageIndex;	// 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+								//index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+	RTS_UI8 StatusSize;	        // 0-127. Meaningful only for special module
+								// Size in bytes of the status 
+	RTS_UI8 StatusAddr;	        // 0-127. Meaningful only for special module
+								// if StatusInImplicit == 1 : offset of the status in the implicit read buffer 
+								// if StatusInImplicit == 0 : offset of the status in the module read memory mapping 
+	RTS_UI8 ConfPageIndex;	     // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+	RTS_UI8 ConfForSpecialModuleSize;
+	RTS_UI8 ConfForSpecialModuleAddr;
+	RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Expansion module with 8 analog inputs, 10 bits, removable terminal block. NTC / PTC probe.</String>
+      <String identifier="TM2ARI8HT.Inputs">Inputs</String>
+      <String identifier="TM2ARI8HT.NotUsed">Not used</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normal</String>
+      <String identifier="TM2ARI8HT.Customized">Customized</String>
+      <String identifier="TM2ARI8HT.Resistance">Resistance (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Celsius (0.1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0.1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Range mode</String>
+      <String identifier="TM2ARI8HT.Scope_description">Unit / Range</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Minimum value</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Maximum value</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Reference resistance in Ohm at reference temperature</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Reference temperature value in Kelvin (0.01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Sensitivity of the probe</String>
+      <String identifier="TM2ARI8HT.Activation_description">Activation threshold</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Reactivation threshold</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+<String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x NTC / PTC probe</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Module d&apos;extension avec 8 entrées analogiques, 10 bits, bornier débrochable. Sonde NTC / PTC.</String>
+      <String identifier="TM2ARI8HT.Inputs">Entrées</String>
+      <String identifier="TM2ARI8HT.NotUsed">Non utilisé</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normal</String>
+      <String identifier="TM2ARI8HT.Customized">Personnalisé</String>
+      <String identifier="TM2ARI8HT.Resistance">Résistance (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Celsius (0,1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Type de plage</String>
+      <String identifier="TM2ARI8HT.Scope_description">Unité / Plage</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Valeur minimum</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Valeur maximum</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Résistance de référence en Ohms à une température de référence</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Valeur de la température de référence en  Kelvin (0.01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Sensibilité de la sonde</String>
+      <String identifier="TM2ARI8HT.Activation_description">Seuil d&apos;activation</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Seuil de réarmement</String>
+      <String identifier="TerminalBlockKey">Vis/Ressort</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x sonde NTC / PTC</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Erweiterungsmodul mit 8 Analogeingängen, 10 Bit, abnehmbare Klemmenleiste. NTC/PTC-Sonde.</String>
+      <String identifier="TM2ARI8HT.Inputs">Eingänge</String>
+      <String identifier="TM2ARI8HT.NotUsed">Nicht verwendet</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Standard</String>
+      <String identifier="TM2ARI8HT.Customized">Benutzerdefiniert</String>
+      <String identifier="TM2ARI8HT.Resistance">Widerstand (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Celsius (0,1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Bereichsmodus</String>
+      <String identifier="TM2ARI8HT.Scope_description">Einheit / Bereich</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Minimalwert</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Maximalwert</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Referenzwiderstand in Ohm bei Referenztemperatur</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Wert der Referenztemperatur in Kelvin (0,01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Empfindlichkeit der Sonde</String>
+      <String identifier="TM2ARI8HT.Activation_description">Aktivierungsschwellwert</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Reaktivierungsschwellwert</String>
+      <String identifier="TerminalBlockKey">Schraub/Federzug</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x NTC/PTC-Sonde</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Módulo de ampliación con 8 entradas analógicas, 10 bits y bloque de terminales extraíble. Sonda NTC/PTC.</String>
+      <String identifier="TM2ARI8HT.Inputs">Entradas</String>
+      <String identifier="TM2ARI8HT.NotUsed">No se utiliza</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normal</String>
+      <String identifier="TM2ARI8HT.Customized">Personalizado</String>
+      <String identifier="TM2ARI8HT.Resistance">Resistencia (ohmios)</String>
+      <String identifier="TM2ARI8HT.Celsius">Centígrados (0,1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Modalidad de rango</String>
+      <String identifier="TM2ARI8HT.Scope_description">Unidad / Rango</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Valor mínimo</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Valor máximo</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Resistencia de referencia en ohmios a una temperatura de referencia</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Valor de temperatura de referencia en Kelvin (0.01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Sensibilidad de la sonda</String>
+      <String identifier="TM2ARI8HT.Activation_description">Umbral de activación</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Umbral de reactivación</String>
+      <String identifier="TerminalBlockKey">Tornillo/resorte</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x sonda NTC/PTC</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Modulo di espansione con 8 ingressi analogici, 10 bit, morsettiera rimovibile. Sonda NTC / PTC.</String>
+      <String identifier="TM2ARI8HT.Inputs">Ingressi</String>
+      <String identifier="TM2ARI8HT.NotUsed">Non usato</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normale</String>
+      <String identifier="TM2ARI8HT.Customized">Personalizzato</String>
+      <String identifier="TM2ARI8HT.Resistance">Resistenza (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Celsius (0,1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Modalità intervallo</String>
+      <String identifier="TM2ARI8HT.Scope_description">Unità / Intervallo</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Valore minimo</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Valore massimo</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Resistenza di riferimento misurata in Ohm alla temperatura di riferimento</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Valore della temperatura di riferimento in Kelvin (0.01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Sensibilità della sonda</String>
+      <String identifier="TM2ARI8HT.Activation_description">Soglia di attivazione</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Soglia di riattivazione</String>
+      <String identifier="TerminalBlockKey">Vite/Molla</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x sonda NTC / PTC</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+扩展模块，8 路模拟量输入，10 位，可插拔端子块。NTC/PTC 探测器。</String>
+      <String identifier="TM2ARI8HT.Inputs">输入</String>
+      <String identifier="TM2ARI8HT.NotUsed">未使用</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">正常</String>
+      <String identifier="TM2ARI8HT.Customized">自定义</String>
+      <String identifier="TM2ARI8HT.Resistance">电阻（欧姆）</String>
+      <String identifier="TM2ARI8HT.Celsius">摄氏度 (0.1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">华氏度 (0.1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">范围模式</String>
+      <String identifier="TM2ARI8HT.Scope_description">单位 / 范围</String>
+      <String identifier="TM2ARI8HT.Minimum_description">最小值</String>
+      <String identifier="TM2ARI8HT.Maximum_description">最大值</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">温度为 T 时的参考电阻（欧姆）</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">参考温度值</String>
+      <String identifier="TM2ARI8HT.B_description">探测器的灵敏度</String>
+      <String identifier="TM2ARI8HT.Activation_description">激活阈值</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">重新激活阈值</String>
+      <String identifier="TerminalBlockKey">螺钉/弹簧</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x NTC/PTC 探测器</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Módulo de expansão com 8 entradas analógicas, 10 bits, bloco terminal removível. Sonda NTC/PTC.</String>
+      <String identifier="TM2ARI8HT.Inputs">Entradas</String>
+      <String identifier="TM2ARI8HT.NotUsed">Não usado</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normal</String>
+      <String identifier="TM2ARI8HT.Customized">Personalizado</String>
+      <String identifier="TM2ARI8HT.Resistance">Resistência (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Celsius (0,1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0,1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Modo de intervalo</String>
+      <String identifier="TM2ARI8HT.Scope_description">Unidade / Intervalo</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Valor mínimo</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Valor máximo</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Resistência de referência em Ohm à temperatura de referência</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Valor da temperatura de referência em Kelvin (0.01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Sensibilidade do sensor</String>
+      <String identifier="TM2ARI8HT.Activation_description">Limite de ativação</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Limite de reativação</String>
+      <String identifier="TerminalBlockKey">Parafuso/Mola</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x Sonda NTC/PTC</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Genişletme modülü - 8 analog giriş, 10 bit, çıkarılabilir terminal bloğu. NTC / PTC prob.</String>
+      <String identifier="TM2ARI8HT.Inputs">Girişler</String>
+      <String identifier="TM2ARI8HT.NotUsed">Kullanılmıyor</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normal</String>
+      <String identifier="TM2ARI8HT.Customized">Özelleştirildi</String>
+      <String identifier="TM2ARI8HT.Resistance">Direnç (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Santigrat (0,1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenhayt (0,1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Aralık modu</String>
+      <String identifier="TM2ARI8HT.Scope_description">Birim / Aralık</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Minimum değer</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Maksimum değer</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Ohm cinsinden referans sıcaklıkta referans direnci</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Başvuru sıcaklık değeri</String>
+      <String identifier="TM2ARI8HT.B_description">Probun hassaslığı</String>
+      <String identifier="TM2ARI8HT.Activation_description">Etkinleştirme eşiği</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Tekrar etkinleştirme eşiği</String>
+      <String identifier="TerminalBlockKey">Vida/Yay</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x NTC / PTC prob</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Rozšiřující modul s 8 analogovými vstupy, 10 bitů, odnímatelná šroubková svorkovnice. NTC / PTC sonda.</String>
+      <String identifier="TM2ARI8HT.Inputs">Vstupy</String>
+      <String identifier="TM2ARI8HT.NotUsed">Nepoužíváno</String>
+      <String identifier="TM2ARI8HT.NTC">NTC</String>
+      <String identifier="TM2ARI8HT.PTC">PTC</String>
+      <String identifier="TM2ARI8HT.Normal">Normální</String>
+      <String identifier="TM2ARI8HT.Customized">Přizpůsobené</String>
+      <String identifier="TM2ARI8HT.Resistance">Odpor (Ohm)</String>
+      <String identifier="TM2ARI8HT.Celsius">Celsius (0.1 °C)</String>
+      <String identifier="TM2ARI8HT.Fahrenheit">Fahrenheit (0.1 °F)</String>
+      <String identifier="TM2ARI8HT.Type_description">Režim rozsahu</String>
+      <String identifier="TM2ARI8HT.Scope_description">Jednotka / Rozsah</String>
+      <String identifier="TM2ARI8HT.Minimum_description">Minimální hodnota</String>
+      <String identifier="TM2ARI8HT.Maximum_description">Maximální hodnota</String>
+      <String identifier="TM2ARI8HT.RValueUnit">* 1 Ohm</String>
+      <String identifier="TM2ARI8HT.R_description">Referenční odpor v Ohmech při referenční teplotě</String>
+      <String identifier="TM2ARI8HT.TValueUnit">* 0.01 K</String>
+      <String identifier="TM2ARI8HT.T_description">Referenční teplota v Kelvinech (0.01 K)</String>
+      <String identifier="TM2ARI8HT.B_description">Citlivost sondy</String>
+      <String identifier="TM2ARI8HT.Activation_description">Aktvivační práh</String>
+      <String identifier="TM2ARI8HT.Reactivation_description">Práh pro reaktivaci</String>
+      <String identifier="TerminalBlockKey">Šroubek/pružina</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">8 x NTC / PTC sonda</String>
+      <String identifier="OutputKey">0</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM2ARI8HT.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM2ARI8HT.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsIcon">
+        <LocalFile>./Icons/TM2ARI8HT.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM2ARI8HT">
+        <LocalFile>./Images/TM2ARI8HT.png</LocalFile>
+      </File>
+      <File fileref="local" identifier="DeviceConvertRules">
+        <LocalFile>./ConvertRules_TM2ARI8HT.dcrx</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51223</Type>
+      <Id>101a 0173</Id>
+      <Version>3.1.1.19</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM2ARI8HT</Name>
+      <Description name="localStrings:TM2ARI8HT.DeviceDescription">TM2ARI8HT
+Expansion module with 8 analog inputs, 10 bits, removable terminal block. NTC / PTC probe.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM2ARI8HT</OrderNumber>
+      <Image name="localFiles:TM2ARI8HT" />
+      <Icon name="localFiles:InputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1021</Family>
+      <Category>1</Category>
+      <AdditionalFiles>
+        <File key="Common.File.DeviceConvertRules" name="localFiles:DeviceConvertRules">ConvertRules_TM2ARI8HT.dcrx</File>
+      </AdditionalFiles>
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Analog In">
+              <SubCategory name="TM2" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM2ARI8HT" moduleType="51223" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <ParameterSection>
+          <Name name="localStrings:TM2ARI8HT.Inputs">Inputs</Name>
+          <!--INPUTS-->
+          <Parameter ParameterId="38400" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="38401" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+          <Parameter ParameterId="38402" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW2</Name>
+          </Parameter>
+          <Parameter ParameterId="38403" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW3</Name>
+          </Parameter>
+          <Parameter ParameterId="38404" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW4</Name>
+          </Parameter>
+          <Parameter ParameterId="38405" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW5</Name>
+          </Parameter>
+          <Parameter ParameterId="38406" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW6</Name>
+          </Parameter>
+          <Parameter ParameterId="38407" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW7</Name>
+          </Parameter>
+          <!--PARAMETERS-->
+          <Parameter ParameterId="38464" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="38465" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+          <Parameter ParameterId="38466" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW2</Name>
+          </Parameter>
+          <Parameter ParameterId="38467" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW3</Name>
+          </Parameter>
+          <Parameter ParameterId="38468" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW4</Name>
+          </Parameter>
+          <Parameter ParameterId="38469" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW5</Name>
+          </Parameter>
+          <Parameter ParameterId="38470" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW6</Name>
+          </Parameter>
+          <Parameter ParameterId="38471" type="localTypes:TM2ARI8HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW7</Name>
+          </Parameter>
+        </ParameterSection>
+        <!--InterByteDelay Parameter-->
+        <Parameter ParameterId="38655" type="std:BYTE">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">Delay</Name>
+        </Parameter>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">96</Element>
+            <Element name="IdCode2"></Element>
+            <Element name="TM2AnalogModuleType">6</Element>
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">24</Element>
+            <!-- 24 bytes because 8 IW and 8 status -->
+            <Element name="ImplicitReadAddr">8</Element>
+            <Element name="ImplicitInOffset">8</Element>
+            <Element name="ImplicitWriteSize">0</Element>
+            <Element name="ImplicitWriteAddr">0</Element>
+            <Element name="ImplicitOutOffset">-1</Element>
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">1</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">8</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">104</Element>
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <Element name="InterByteDelayDC2">55</Element>
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="200000" type="std:ARRAY[0..103] OF BYTE">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>[0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</Default>
+          <Name name="local:dummy">KPI Configuration</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">TM2 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM2 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>0</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{F78F466A-F883-48dc-98CF-3E5E8A97D0BF}" />
+        <se:PowerConsumption voltage="5V">50</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+        <se:Mechanical size="width">23.5</se:Mechanical>
+        <se:ConfigurationMapping>
+          <se:Module name="" default="true">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_NTC">
+              <se:Scope name="Scope_Normal" minimum="0" maximum="1023" changeable="false">
+                <se:RValue defaultValue="330" />
+                <se:TValue defaultValue="29815" />
+                <se:BValue defaultValue="3569" />
+                <se:R1Value defaultValue="8700" />
+                <se:R2Value defaultValue="330" />
+                <se:T1Value defaultValue="23415" />
+                <se:T2Value defaultValue="29815" />
+              </se:Scope>
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true">
+                <se:RValue defaultValue="330" />
+                <se:TValue defaultValue="29815" />
+                <se:BValue defaultValue="3569" />
+                <se:R1Value defaultValue="8700" />
+                <se:R2Value defaultValue="330" />
+                <se:T1Value defaultValue="23415" />
+                <se:T2Value defaultValue="29815" />
+              </se:Scope>
+              <se:Scope name="Scope_Resistance" minimum="100" maximum="10000" changeable="false" />
+              <!-- se:Scope name="Scope_Celsius" minimum="-789" maximum="580" changeable="false"-->
+              <se:Scope name="Scope_Celsius" default="true" minimum="-789" maximum="2114" changeable="false">
+                <se:RValue defaultValue="330" />
+                <se:TValue defaultValue="29815" />
+                <se:BValue defaultValue="3569" />
+                <se:R1Value defaultValue="8700" />
+                <se:R2Value defaultValue="330" />
+                <se:T1Value defaultValue="23415" />
+                <se:T2Value defaultValue="29815" />
+              </se:Scope>
+              <!--se:Scope name="Scope_Fahrenheit" minimum="-1101" maximum="1364" changeable="false"-->
+              <se:Scope name="Scope_Fahrenheit" minimum="-1101" maximum="4125" changeable="false">
+                <se:RValue defaultValue="330" />
+                <se:TValue defaultValue="29815" />
+                <se:BValue defaultValue="3569" />
+                <se:R1Value defaultValue="8700" />
+                <se:R2Value defaultValue="330" />
+                <se:T1Value defaultValue="23415" />
+                <se:T2Value defaultValue="29815" />
+              </se:Scope>
+            </se:Type>
+            <se:Type name="Type_PTC">
+              <se:Scope name="Scope_Resistance" default="true" minimum="100" maximum="10000" changeable="false" />
+            </se:Type>
+          </se:Module>
+        </se:ConfigurationMapping>
+        <se:ConfForSpecialModule>
+          <se:OperationModeSetting length="10" default="0" inputIndex="0" outputIndex="8" isBigBuffer="true" copyType="true" custom="true" param1="Type_NotUsed" param2="Scope_NotUsed" paramTypePtc="Type_PTC" paramTypeNtc="Type_NTC" param4="56" param5="Scope_Resistance" param6="Scope_Celsius" param7="Scope_Fahrenheit" />
+          <se:InputsToRead length="1" />
+          <se:InputType length="1" default="2" />
+          <se:DA0CH length="4" default="0" />
+          <se:InputLimit index="16" />
+          <se:OutputLimit index="48" />
+        </se:ConfForSpecialModule>
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <Custom>
+      <se:BusManager InputChannelsCount="8" OutputChannelsCount="0" RelaysCount="0" />
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <!--<se:DigitalInputsMax>8</se:DigitalInputsMax>-->
+        <!--<se:DigitalOutputsMax>0</se:DigitalOutputsMax>-->
+        <!--<se:AnalogInputsMax>0</se:AnalogInputsMax>-->
+        <!--<se:AnalogOutputsMax>0</se:AnalogOutputsMax>-->
+        <se:ModuleType>0x0660</se:ModuleType>
+        <se:GenericReference>TM2ARI8HT</se:GenericReference>
+        <se:ModuleKind>1</se:ModuleKind>
+        <se:NewPartNumber></se:NewPartNumber>
+        <se:NumRelays>0</se:NumRelays>
+        <se:IsConfigurable>true</se:IsConfigurable>
+        <se:AnalogInputTypeMask>0</se:AnalogInputTypeMask>
+        <se:AnalogOutputTypeMask>0</se:AnalogOutputTypeMask>
+        <se:AnalogInputRangeMask>0</se:AnalogInputRangeMask>
+        <se:AnalogOutputRangeMask>0</se:AnalogOutputRangeMask>
+        <se:NumTransistors>0</se:NumTransistors>
+        <se:ModuleExtendedKind>3</se:ModuleExtendedKind>
+        <se:AnalogInputKindMask>0x0000</se:AnalogInputKindMask>
+        <se:HasCombo>false</se:HasCombo>
+        <se:HasUsedCol>false</se:HasUsedCol>
+        <se:MinMaxOfset>0</se:MinMaxOfset>
+        <se:Compatibility>3</se:Compatibility>
+        <se:KelvinUnit>0.01 K</se:KelvinUnit>
+        <se:Scope_CelsiusUnits>0.1 °C</se:Scope_CelsiusUnits>
+        <se:Scope_FahrenheitUnits>0.1 °F</se:Scope_FahrenheitUnits>
+        <se:Scope_ResistanceUnits>Ohm</se:Scope_ResistanceUnits>
+        <se:TemperatureUnits>0.01 K</se:TemperatureUnits>
+        <se:SensitivityUnits></se:SensitivityUnits>
+      </se:Configuration>
+      <se:FormatKey>FormatKey</se:FormatKey>
+      <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+      <se:InputKey>InputKey</se:InputKey>
+      <se:OutputKey>OutputKey</se:OutputKey>
+      <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+
+      <se:AnlogInputXPosition>10</se:AnlogInputXPosition>
+      <se:AnlogInputYPosition>190</se:AnlogInputYPosition>
+      <se:AnlogInputXSize>55</se:AnlogInputXSize>
+      <se:AnlogInputYSize>190</se:AnlogInputYSize>
+    </Custom>
+  </Device>
+</DeviceDescription>

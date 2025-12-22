@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AvailableLanguages>
+  <Language>
+    <Code>en-GB</Code>
+    <Name>English - English</Name>
+    <Eula>EULA\EULA.EN.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>fr-FR</Code>
+    <Name>French - Français</Name>
+    <Eula>EULA\EULA.FR.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>de-DE</Code>
+    <Name>German - Deutsch</Name>
+    <Eula>EULA\EULA.DE.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>es-ES</Code>
+    <Name>Spanish - Español</Name>
+    <Eula>EULA\EULA.ES.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>it-IT</Code>
+    <Name>Italian - Italiano</Name>
+    <Eula>EULA\EULA.IT.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>zh-CHS</Code>
+    <Name>Chinese - 中文</Name>
+    <Eula>EULA\EULA.ZH.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>pt-BR</Code>
+    <Name>Portuguese - Português</Name>
+    <Eula>EULA\EULA.PT.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>tr-TR</Code>
+    <Name>Turkish - Türkçe</Name>
+    <Eula>EULA\EULA.TR.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>cs-CZ</Code>
+    <Name>Czech - Čeština</Name>
+    <Eula>EULA\EULA.CS.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>ja-JP</Code>
+    <Name>Japanese - 日本語</Name>
+    <Eula>EULA\EULA.JA.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+  <Language>
+    <Code>el-GR</Code>
+    <Name>Greek - Ελληνικά</Name>
+    <Eula>EULA\EULA.EL.rtf</Eula>
+    <Contact>http://www.schneider-electric.com/b2b/en/support/index.jsp</Contact>
+  </Language>
+</AvailableLanguages>

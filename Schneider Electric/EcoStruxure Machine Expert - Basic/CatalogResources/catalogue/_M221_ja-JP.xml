@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+         xmlns:xi="http://www.w3.org/2003/XInclude">
+
+  <Content key="#Prenaming">
+    <String identifier="S0.Comment">コールドスタートを示す、または実行します (初期値に初期化されたデータ)</String>
+    <String identifier="S1.Comment">データバックアップをともなうウォームスタートが行われたことを示します</String>
+    <String identifier="S4.Comment">内部クロックにより生成された 10ms の時間ベース</String>
+    <String identifier="S5.Comment">内部クロックにより生成された 100ms の時間ベース</String>
+    <String identifier="S6.Comment">内部クロックにより生成された 1 秒 の時間ベース</String>
+    <String identifier="S7.Comment">内部クロックにより生成された 1 分 の時間ベース</String>
+    <String identifier="S10.Comment">I/O 通信は正常に動作しています (1)、I/O 通信エラーが検出されました (0)</String>
+    <String identifier="S11.Comment">ウォッチドッグがオーバーフローすると、コントローラーは HALT になります</String>
+    <String identifier="S12.Comment">コントローラーが実行中です</String>
+    <String identifier="S13.Comment">RUN モードの初回コントローラーサイクルを示します</String>
+    <String identifier="S14.Comment">このビットは 1 つ以上の強制入力または強制出力があることを示します</String>
+    <String identifier="S15.Comment">このビットは 1 つ以上の強制入力があることを示します</String>
+    <String identifier="S16.Comment">このビットは 1 つ以上強制出力があることを示します</String>
+    <String identifier="S17.Comment">最後に排出されたビットの値を示します</String>
+    <String identifier="S18.Comment">16 ビット演算中にオーバーフローが発生したことを示します</String>
+    <String identifier="S19.Comment">スキャン時間がユーザーが定義した周期より長いことを示します</String>
+    <String identifier="S20.Comment">このビットは 16 ビット演算中に、インデックス付きオブジェクトアドレスのインデックスオーバーフローが発生したことを示します</String>
+    <String identifier="S21.Comment">ステート 1 では、このビットでグラフセが初期化されます有効なステップが無効化され、初期ステップが有効化されます</String>
+    <String identifier="S22.Comment">ステート 1 では、このビットでグラフセ全体の有効なステップが無効化されます</String>
+    <String identifier="S23.Comment">1 に設定時、このビットがグラフセの事前移動を検証します。このビットを 1 に保持すると、グラフセをフリーズします (チャートをフリーズ)</String>
+    <String condition="catalogVersion lt v1700" identifier="S33.Comment">1 に設定時 (ポスト設定を使用していない場合)、このビットにより%SW33 から %SW38 に新しい Ethernet 設定 ができます</String>
+    <String condition="catalogVersion gte v1700" identifier="S33.Comment">1 に設定時 (ポスト設定を使用していない場合)、このビットにより%SW33 から %SW38 に新しい Ethernet 設定 ができます</String>
+    <String identifier="S34.Comment">1 に設定時、このビットは %S35 および %S36 に設定された特定の Ethernet 設定を強制します</String>
+    <String identifier="S35.Comment">このビットは Ethernet 2 重モードを示します。半 2 重の場合 0 に設定、全 2 重の場合 1 に設定します</String>
+    <String identifier="S36.Comment">このビットは Ethernet スピードを示します。10 Mbps の場合 0 に設定、100 Mbps の場合 1 に設定します</String>
+    <String identifier="S38.Comment">このビットは、イベント検出後すぐにイベントキューに入れられるかを示します</String>
+    <String identifier="S39.Comment">このビットはイベントキューが飽和しているかを示します</String>
+    <String identifier="S49.Comment">1 に設定時、短絡後の出力自動再始動が有効です</String>
+    <String identifier="S50.Comment">1 に設定時、日付と時刻を初期化できます</String>
+    <String identifier="S51.Comment">1 に設定時、ユーザーが日付と時刻を初期化してください</String>
+    <String identifier="S52.Comment">ステート 1 のときは日付と時刻を初期化してください</String>
+    <String identifier="S59.Comment">1 に設定時、%SW59 に設定されている制御ビットの立上がり接点に応じて、日付と時間がインクリメント、またはデクリメントされます</String>
+    <String condition="catalogVersion gte v2300" identifier="S66.Comment">1 に設定すると、バッテリー LED が無効になります</String>
+    <String identifier="S75.Comment">1 に設定されている場合、外部電池が少ないかまたは電池未検出です</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="S91.Comment">非揮発性メモリー内の全てのメモリー値を削除するには、このビットを 1 に設定します</String>
+    <String condition="catalogVersion lt v1800" identifier="S93.Comment">このビットを 1 に設定すると、変数 ％MW をフラッシュメモリーに格納します (1000 以下)</String>
+    <String identifier="S96.Comment">1 に設定されている場合、バックアッププログラムが有効です</String>
+    <String conditionEnd="catalogVersion lt v2800" identifier="S101.Comment">1 に設定した場合、%SW101 (ポート 1) または %SW102 (ポート 2) の値を変更することでアドレス変更ができます</String>
+    <String identifier="S103.Comment">1 に設定した場合、このビットでシリアルライン 1 上の ASCII プロトコルを設定できます</String>
+    <String identifier="S104.Comment">1 に設定した場合、このビットでシリアルライン 2 上の ASCII プロトコルを設定できます</String>
+    <String identifier="S119.Comment">ベースコントローラーで I/O 通信エラーが検出されると、0 に設定されます</String>
+    <String identifier="SW0.Comment">アニメーションテーブルエディターのユーザープログラムを使用し、設定したコントローラースキャン周期を変更します</String>
+    <String condition="catalogVersion lt v1300" identifier="SW1.Comment">周期タスクのサイクル時間 [5...255 ms] を変更します</String>
+    <String condition="catalogVersion gte v1300" conditionEnd="catalogVersion lt v1800" identifier="SW1.Comment">周期タスクのサイクル時間 [2...255 ms] を変更します</String>
+    <String identifier="SW6.Comment">コントローラーステータス:設定なし (0)、停止 (2)、実行 (3)、 HALT (4)、Powerless モード (5)</String>
+    <String identifier="SW11.Comment">ウォッチドッグの最大値が格納されています</String>
+    <String identifier="SW13.Comment">コントローラーのブートバージョンが格納されています</String>
+    <String identifier="SW14.Comment">コントローラーの商用バージョンが格納されています</String>
+    <String identifier="SW15.Comment">コントローラーのファームウエアバージョンが格納されています (第 1 ワード)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW16.Comment">コントローラーのファームウエアバージョンが格納されています (第 2 ワード)</String>
+    <String identifier="SW18.Comment">絶対時間タイマーカウンターが格納されています (第 1 ワード)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW19.Comment">絶対時間タイマーカウンターが格納されています (第 2 ワード)</String>
+    <String identifier="SW30.Comment">前回のコントローラースキャンサイクルの実行時間 (ms) を示します。スキャン時間が 2,250ms の場合、%SW30 = 2 および %SW70 = 250 です</String>
+    <String identifier="SW31.Comment">前回のコールドスタート後、最長コントローラースキャンサイクルの実行時間を示します (単位: ms)。スキャン時間が 2,250 ms の場合、%SW31 = 2 および %SW71 = 250</String>
+    <String identifier="SW32.Comment">前回のコールドスタート後、最短コントローラースキャンサイクルの実行時間を示します (単位: ms)。スキャン時間が 2,250 ms の場合、%SW32 = 2 および %SW72 = 250</String>
+    <String identifier="SW39.Comment">周期タスクの平均実行時間 (直前の 5 回) を表示します (単位: us )</String>
+    <String identifier="SW48.Comment">前回のコールドスタート後に実行されたイベント数を示します</String>
+    <String identifier="SW49.Comment">RTC ファンクション: BCD 表現の xN 曜日 (N=1 は月曜日) を含みます</String>
+    <String identifier="SW50.Comment">RTC ファンクション: BCD 表現の 00SS 秒を含みます</String>
+    <String identifier="SW51.Comment">RTC ファンクション: BCD 表現の HHMM: 時間と分を含みます</String>
+    <String identifier="SW52.Comment">RTC ファンクション: BCD 表現の MMDD: 月と日を含みます</String>
+    <String identifier="SW53.Comment">RTC ファンクション: BCD 表現の CCYY: 世紀と年を含みます</String>
+    <String identifier="SW54.Comment">最後のコントローラーの停止または電源異常の発生時間 (BCD):SS 秒</String>
+    <String identifier="SW55.Comment">最後のコントローラーの停止または電源異常の発生時間 (BCD):HHMM 時間 と 分</String>
+    <String identifier="SW56.Comment">最後のコントローラーの停止または電源異常の発生時間 (BCD):MMDD: 月 と 日</String>
+    <String identifier="SW57.Comment">最後のコントローラーの停止または電源異常の発生時間 (BCD):CCYY 世紀 と 年</String>
+    <String identifier="SW58.Comment">最後の停止の原因であるコードを表示します:運転/停止入力の接点、ソフトウェアの異常検知による停止、停止命令、停電、ハードウェアの異常検知による停止</String>
+    <String identifier="SW59.Comment">現在の日付を調整する 8 ビット 2 組を含みます。演算は必ずビットの立上がり接点で行いますこのワードはビット %S59 で有効化されます。</String>
+    <String identifier="SW61.Comment">Ethernet コントローラーのハードウェア ID を表示します</String>
+    <String identifier="SW63.Comment">EXCH1 エラーコードが格納されています、詳細はオンラインヘルプを参照してください</String>
+    <String identifier="SW64.Comment">EXCH2 エラーコードが格納されています、詳細はオンラインヘルプを参照してください</String>
+    <String identifier="SW67.Comment">ロジックコントローラーコード ID が格納されています。詳細は、M221 ロジックコントローラーコード ID 表を参照してください。</String>
+    <String identifier="SW70.Comment">前回のコントローラースキャンサイクルの実行時間を示します (単位: μs)。スキャン時間が 2,250 ms の場合、%SW30 は 2 に %SW70 は 250 になります</String>
+    <String identifier="SW71.Comment">前回のコールドスタート以降で最長のコントローラースキャンサイクルの実行時間を示します (単位: μs)。スキャン時間が 2,250 ms の場合、%SW31 は 2 に %SW71 は 250 になります</String>
+    <String identifier="SW72.Comment">前回のコールドスタート以降で最短のコントローラースキャンサイクルの実行時間を示します (単位: μs)。スキャン時間が 2,250 ms の場合、%SW32 は 2 に %SW72 は 250 になります</String>
+    <String identifier="SW75.Comment">処理負荷をパーセントで表示</String>
+    <String identifier="SW76.Comment">減算カウンター 1、1ms 毎にシステムによりデクリメントされます</String>
+    <String identifier="SW77.Comment">減算カウンター 2、1ms 毎にシステムによりデクリメントされます</String>
+    <String identifier="SW78.Comment">減算カウンター 3、1ms 毎にシステムによりデクリメントされます</String>
+    <String identifier="SW79.Comment">減算カウンター 4、1ms 毎にシステムによりデクリメントされます</String>
+    <String identifier="SW80.Comment">各ビットは標準アナログ入力のステータスを示します</String>
+    <String identifier="SW94.Comment">アプリケーション変更 (設定またはプログラミングデータの変更) の際に変更されるシグネチャーを含みます</String>
+    <String identifier="SW95.Comment">アプリケーション変更 (設定またはプログラミングデータの変更) の際に変更されるシグネチャーを含みます</String>
+    <String identifier="SW98.Comment">シリアルライン 1 のポスト設定ステータス。パラメーターにポスト設定が適用された場合はこのビットが 1 に設定されます</String>
+    <String identifier="SW99.Comment">シリアルライン 2 のポスト設定ステータス。パラメーターにポスト設定が適用された場合はこのビットが 1 に設定されます</String>
+    <String identifier="SW101.Comment">ポート 1 のアドレス。ビット ％S101 が 1 に設定された場合、Modbus アドレスを変更できます</String>
+    <String identifier="SW102.Comment">ポート 2 のアドレス。ビット ％S101 が 1 に設定された場合、Modbus アドレスを変更できます</String>
+    <String identifier="SW114.Comment">プログラムまたはオペレーターディスプレイによるスケジュールブロック操作の有効化または無効化</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="SW119.Comment">オプションとして設定された拡張モジュールを示します (詳細はオンラインヘルプを参照)</String>
+    <String identifier="SW130.Comment">イベント入力 %I0.2 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW131.Comment">イベント入力 %I0.3 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW132.Comment">イベント入力 %I0.4 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW133.Comment">イベント入力 %I0.5 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW134.Comment">HSC0 のイベント閾値 0 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW135.Comment">HSC0 のイベント閾値 1 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW136.Comment">HSC1 のイベント閾値 0 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW137.Comment">HSC1 のイベント閾値 1 の前回の実行時間を示します (単位: µs)</String>
+    <String identifier="SW138.Comment">周期タスクの前回の実行時間 (µs) を示します</String>
+    <String identifier="SW139.Comment">出力ブロックの保護エラーステータスを示します</String>
+    <String condition="catalogVersion lt v1800" identifier="SW148.Comment">保持変数の数 (最大 1000個)</String>
+    <String identifier="SW149.Comment">イベント入力 %I0.2 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW150.Comment">イベント入力 %I0.3 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW151.Comment">イベント入力 %I0.4 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW152.Comment">イベント入力 %I0.5 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW153.Comment">HSC0 のイベント閾値 0 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW154.Comment">HSC0 のイベント閾値 1 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW155.Comment">HSC1 のイベント閾値 0 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW156.Comment">HSC1 のイベント閾値 1 の前回の実行時間を示します (単位: ms)</String>
+    <String identifier="SW157.Comment">周期タスクの前回の実行時間 (ms) を示します</String>
+    <String identifier="SW158.Comment">周期タスクの平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW159.Comment">イベント 0 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW160.Comment">イベント 1 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW161.Comment">イベント 2 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW162.Comment">イベント 3 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW163.Comment">イベント 4 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW164.Comment">イベント 5 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW165.Comment">イベント 6 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW166.Comment">イベント 7 の平均実行時間 (直前の 5 回) を示します (単位: ms)</String>
+    <String identifier="SW170.Comment">シリアルライン 1 によって送信されたフレーム数をカウントします</String>
+    <String identifier="SW171.Comment">シリアルライン 2 によって送信されたフレーム数をカウントします</String>
+    <String identifier="SW172.Comment">USB チャンネルによって送信されたフレーム数をカウントします</String>
+    <String identifier="SW174.Comment">シリアルライン 1 によって正常に受信したフレーム数をカウントします</String>
+    <String identifier="SW175.Comment">シリアルライン 2 によって正常に受信したフレーム数をカウントします</String>
+    <String identifier="SW176.Comment">USB チャンネルによって正常に受信したフレーム数をカウントします</String>
+    <String identifier="SW178.Comment">シリアルライン 1 で受信がエラーになったフレーム数をカウントします</String>
+    <String identifier="SW179.Comment">シリアルライン 2 で受信がエラーになったフレーム数をカウントします</String>
+    <String identifier="SW180.Comment">USB チャンネル で受信がエラーになったフレーム数をカウントします</String>
+
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_lt_v2000" condition="catalogVersion lt v2000"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_gte_v2000" condition="catalogVersion gte v2000"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_gte_v2800" condition="catalogVersion gte v2800"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_gte_v2900" condition="catalogVersion gte v2900"/>
+  </Content>
+
+  <Content key="#Prenaming_gte_v1800">
+    <String identifier="S9.Comment">デジタルおよびアナログ出力にフォールバックを適用するには 1 を設定</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="S93.Comment">このビットを 1 に設定すると、変数 ％MW をフラッシュメモリーに格納します (2000 以下)</String>
+    <String identifier="S106.Comment">初期値は 0 です。1 に設定した場合、恒久的なエラーが発生しても IO モジュールの通信を管理することで IO バスの動作を変更します</String>
+    <String identifier="S107.Comment">このビットの立上がり接点でIOバスの再設定と再起動をします</String>
+    <String identifier="S110.Comment">1 に設定すると、シリアルライン 1 の IOScanner がリセットされます</String>
+    <String identifier="S111.Comment">1 に設定すると、シリアルライン 2 の IOScanner がリセットされます</String>
+    <String identifier="S113.Comment">1 に設定すると、シリアルライン 1 の IOScanner が中断されます</String>
+    <String identifier="S114.Comment">1 に設定すると、シリアルライン 2 の IOScanner が中断されます</String>
+    <String identifier="SW1.Comment">周期タスクのサイクル時間を変更します</String>
+    <String identifier="SW16.Comment">コントローラーのファームウエアバージョンが格納されています (第 2 ワード)</String>
+    <String identifier="SW19.Comment">絶対時間タイマーカウンターが格納されています (第 2 ワード)</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="SW148.Comment">保持変数の数 (最大 2000個)</String>
+    <String identifier="SW210.Comment">シリアルライン 1 の IOScanner ステータスを含みます</String>
+    <String identifier="SW211.Comment">シリアルライン 2 の IOScanner ステータスを含みます</String>
+  </Content>
+
+  <Content key="#Prenaming_lt_v2000">
+    <String identifier="S92.Comment">有効なメモリー値が不揮発性メモリーに保存されている場合は 1 に設定します</String>
+    <String identifier="S94.Comment">フラッシュメモリー (%S90 = 0) またはSDカード (%S90 = 1) からデータを復元するには、このビットを 1 に設定します</String>
+    <String identifier="SW7.Comment">このワードはコントローラーのステートを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW17.Comment">浮動小数点演算エラーが検出された際ステータスを初期値に戻します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW40.Comment">イベント 0 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW41.Comment">イベント 1 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW42.Comment">イベント 2 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW43.Comment">イベント 3 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW44.Comment">イベント 4 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW45.Comment">イベント 5 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW46.Comment">イベント 6 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW47.Comment">イベント 7 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW96.Comment">アプリケーションプログラムの保存および復元ファンクションのコマンドおよび診断が格納されています (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW103.Comment">ビット %S103 が 1 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW104.Comment">ビット %S104 が 2 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW105.Comment">ビット %S103 が 1 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW106.Comment">ビット %S104 が 2 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW118.Comment">IO バスコントローラーステータスを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW120.Comment">拡張 I/O モジュールステータスを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW121.Comment">ビット %S103 のとき、ポート 1 の ASCII フレームサイズの設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW122.Comment">ビット %S104 のとき、ポート 2 の ASCII フレームサイズの設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW128.Comment">カートリッジ 1 のステータスコードを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW129.Comment">カートリッジ 2 のステータスコードを示します (詳細はオンラインヘルプ参照)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2000">
+    <String identifier="S28.Comment">1に設定すると、文字列を管理するときにメモリーオブジェクトにオーバーフローが発生したことを示します</String>
+    <String identifier="S90.Comment">内部フラッシュメモリー (0、初期設定) または SD カード (1) へのメモリー値のバックアップまたは復元</String>
+    <String identifier="S91.Comment">非揮発性メモリー内の全てのメモリー値を削除するには、このビットを 1 に設定します</String>
+    <String identifier="S92.Comment">有効なメモリー値が不揮発性メモリーに保存されている場合は 1 に設定します</String>
+    <String identifier="S93.Comment">不揮発性メモリー (%S90 = 0) または SD カード (%S90 = 1) にメモリー値をバックアップするには、このビットを 1 に設定します</String>
+    <String identifier="S94.Comment">フラッシュメモリー (%S90 = 0) またはSDカード (%S90 = 1) からデータを復元するには、このビットを 1 に設定します</String>
+    <String identifier="SW7.Comment">このワードはコントローラーのステートを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW17.Comment">浮動小数点演算エラーが検出された際ステータスを初期値に戻します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW40.Comment">イベント 0 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW41.Comment">イベント 1 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW42.Comment">イベント 2 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW43.Comment">イベント 3 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW44.Comment">イベント 4 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW45.Comment">イベント 5 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW46.Comment">イベント 6 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW47.Comment">イベント 7 の平均実行時間 (直前の 5 回) を表示します (単位: µs )</String>
+    <String identifier="SW96.Comment">アプリケーションプログラムの保存および復元ファンクションのコマンドおよび診断が格納されています (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW103.Comment">ビット %S103 が 1 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW104.Comment">ビット %S104 が 2 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW105.Comment">ビット %S103 が 1 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW106.Comment">ビット %S104 が 2 に設定されたときのポート 1 の ASCII プロトコル設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW115.Comment">コントローラーシリアル番号パート1 (BCD)</String>
+    <String identifier="SW116.Comment">コントローラーシリアル番号パート2 (BCD)</String>
+    <String identifier="SW117.Comment">コントローラーシリアル番号パート3 (BCD)</String>
+    <String identifier="SW118.Comment">IO バスコントローラーステータスを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW119.Comment">オプションとして設定された拡張モジュールを示します (詳細はオンラインヘルプを参照)</String>
+    <String identifier="SW120.Comment">拡張 I/O モジュールステータスを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW121.Comment">ビット %S103 のとき、ポート 1 の ASCII フレームサイズの設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW122.Comment">ビット %S104 のとき、ポート 2 の ASCII フレームサイズの設定 (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW128.Comment">カートリッジ 1 のステータスコードを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW129.Comment">カートリッジ 2 のステータスコードを示します (詳細はオンラインヘルプ参照)</String>
+    <String identifier="SW140.Comment">コントローラーの前回のエラーコード 1</String>
+    <String identifier="SW141.Comment">コントローラーの前回のエラーコード 2</String>
+    <String identifier="SW142.Comment">コントローラーの前回のエラーコード 3</String>
+    <String identifier="SW143.Comment">PlcLog.csv のエントリー数</String>
+    <String identifier="SW147.Comment">SD カードのバックアップおよび復元のステータスを提供します。</String>
+    <String identifier="SW148.Comment">不揮発性メモリー (%S90 = 0) または SD カード (%S90 = 1) にバックアップまたは復元されたメモリー値の数</String>
+  </Content>
+
+  <Content key="#Prenaming_Modem">
+    <String condition="catalogVersion gte v1300" identifier="S105.Comment">1 に設定した場合、このビットでモデムを初期化できます、%SW167 も参照してください</String>
+    <String condition="catalogVersion gte v1200" identifier="SW167.Comment">最後の Init コマンドに対するモデムの応答を記述します</String>
+  </Content>
+
+  <Content key="#Prenaming_Display">
+    <String condition="catalogVersion gte v1600" identifier="SW185.Comment">リモートグラフィック表示のバージョンが格納されています</String>
+
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_Display_gte_v1200" condition="catalogVersion gte v1200"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_Display_gte_v1400" condition="catalogVersion gte v1400"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1200">
+    <String identifier="SW182.Comment">リモートグラフィック表示の接続ステート</String>
+    <String identifier="SW183.Comment">リモートグラフィック表示の最後に検出されエラー</String>
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1400">
+    <String identifier="S122.Comment">表示が自動的にアラームページに切り替わります</String>
+    <String identifier="S123.Comment">アラーム作動中はディスプレイのバックライトが赤くなります</String>
+    <String identifier="SW184.Comment">ディスプレイページのインデックスを格納、その他のページも選択できます</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet">
+    <String identifier="SW62.Comment">Ethernetエラーコードを示します (0 エラー無し、1 IP重複、2 DHCP 処理中、3 BOOTP 処理中、4 無効なパラメーター、5 固定 IP 処理中、6 Ethernet com 失敗)</String>
+    <String identifier="SW65.Comment">Ethernet コントローラーの EXCH3 エラーコードが格納されています、詳細はオンラインヘルプを参照してください</String>
+    <String identifier="SW100.Comment">Ethernet ポートのポスト設定ステータスパラメーターにポスト設定が適用された場合はこのビットが 1 に設定されます</String>
+    <String identifier="SW168.Comment">使用中の Ethernet Modbus TCP サーバー接続の数を示します。</String>
+    <String identifier="SW173.Comment">Ethernet の Modbus TCP によって送信されたフレーム数をカウントします</String>
+    <String identifier="SW177.Comment">Ethernet の Modbus TCP によって正常に受信したフレーム数をカウントします</String>
+    <String identifier="SW181.Comment">Ethernet の Modbus TCP で受信がエラーになったフレーム数をカウントします</String>
+
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_Ethernet_lt_v1800" condition="catalogVersion lt v1800"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_Ethernet_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_Ethernet_gte_v2000" condition="catalogVersion gte v2000"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_lt_v1800">
+    <String identifier="SW33.Comment">IP アドレス AA.BB.CC.DD の後半部分 CC.DD が格納されています</String>
+    <String identifier="SW34.Comment">IP アドレス AA.BB.CC.DD の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW35.Comment">サブネットマスク AA.BB.CC.DD の後半部分 CC.DD が格納されています</String>
+    <String identifier="SW36.Comment">サブネットマスク AA.BB.CC.DD の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW37.Comment">ゲートウェイアドレス AA.BB.CC.DD の後半部分 CC.DD が格納されています</String>
+    <String identifier="SW38.Comment">ゲートウェイアドレス AA.BB.CC.DD の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW107.Comment">MAC アドレス AA:BB:CC:DD:EE:FF の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW108.Comment">MAC アドレス AA:BB:CC:DD:EE:FF の中間部分 CC.DD が格納されています</String>
+    <String identifier="SW109.Comment">MAC アドレス AA:BB:CC:DD:EE:FF の後半部分 EE.FF が格納されています</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v1800">
+    <String identifier="SW33.Comment">IP アドレス AA.BB.CC.DD の後半部分 CC.DD が格納されています</String>
+    <String identifier="SW34.Comment">IP アドレス AA.BB.CC.DD の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW35.Comment">サブネットマスク AA.BB.CC.DD の後半部分 CC.DD が格納されています</String>
+    <String identifier="SW36.Comment">サブネットマスク AA.BB.CC.DD の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW37.Comment">ゲートウェイアドレス AA.BB.CC.DD の後半部分 CC.DD が格納されています</String>
+    <String identifier="SW38.Comment">ゲートウェイアドレス AA.BB.CC.DD の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW107.Comment">MAC アドレス AA:BB:CC:DD:EE:FF の前半部分 AA.BB が格納されています</String>
+    <String identifier="SW108.Comment">MAC アドレス AA:BB:CC:DD:EE:FF の中間部分 CC.DD が格納されています</String>
+    <String identifier="SW109.Comment">MAC アドレス AA:BB:CC:DD:EE:FF の後半部分 EE.FF が格納されています</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v2000">
+    <String identifier="S112.Comment">1 に設定すると、Ethernet の IOScanner がリセットされます</String>
+    <String identifier="S115.Comment">1 に設定すると、Ethernet の IOScanner が中断されます</String>
+    <String identifier="SW212.Comment">Ethernet の IOScanner ステータスが格納されています</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping">
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400" condition="catalogVersion gte v1400"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000" condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000"/>
+    <xi:include href="_M221_ja-JP.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000" condition="catalogVersion gte v2000"/>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400">
+    <String identifier="SW188.Comment">Modbus マッピングテーブルにより送信されたフレームの数をカウントします</String>
+    <String identifier="SW189.Comment">Modbus マッピングテーブルにより正常に受信したフレームの数をカウントします</String>
+    <String identifier="SW202.Comment">入力アセンブリのインスタンス番号を読み込みます</String>
+    <String identifier="SW203.Comment">入力アセンブリのインスタンスサイズを読み込みます</String>
+    <String identifier="SW204.Comment">出力アセンブリのインスタンス番号を読み込みます</String>
+    <String identifier="SW205.Comment">出力アセンブリのインスタンスサイズを読み込みます</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000">
+    <String identifier="SW190.Comment">EtherNet/IP (第 1 ワード) で送信されたフレーム数をカウントします</String>
+    <String identifier="SW191.Comment">EtherNet/IP (第 2 ワード) で送信されたフレーム数をカウントします</String>
+    <String identifier="SW192.Comment">EtherNet/IP (第 1 ワード) で受信したフレーム数をカウントします</String>
+    <String identifier="SW193.Comment">EtherNet/IP (第 2 ワード) で受信したフレーム数をカウントします</String>
+    <String identifier="SW194.Comment">EtherNet/IP (第 1 ワード) で受信した未接続メッセージをカウントします</String>
+    <String identifier="SW195.Comment">EtherNet/IP (第 2 ワード) で受信した未接続メッセージをカウントします</String>
+    <String identifier="SW196.Comment">EtherNet/IP (第 1 ワード) で受信した無効な未接続メッセージをカウントします</String>
+    <String identifier="SW197.Comment">EtherNet/IP (第 2 ワード) で受信した無効な未接続メッセージをカウントします</String>
+    <String identifier="SW198.Comment">EtherNet/IP (第 1 ワード) で受信した class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW199.Comment">EtherNet/IP (第 2 ワード) で受信した class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW200.Comment">EtherNet/IP (第 1 ワード) で受信した無効な class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW201.Comment">EtherNet/IP (第 2 ワード) で受信された無効な class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW206.Comment">EtherNet/IP の接続タイムアウトの数をカウントします</String>
+    <String identifier="SW207.Comment">最後の I/O パケットから EtherNet/IP フラグを読み込みます: アイドル (値 =0)、実行 (値 =1)、エラー (値 =2)</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000">
+    <String identifier="SW190.Comment">EtherNet/IP (第 1 ワード) で送信されたフレーム数をカウントします</String>
+    <String identifier="SW191.Comment">EtherNet/IP (第 2 ワード) で送信されたフレーム数をカウントします</String>
+    <String identifier="SW192.Comment">EtherNet/IP (第 1 ワード) で受信したフレーム数をカウントします</String>
+    <String identifier="SW193.Comment">EtherNet/IP (第 2 ワード) で受信したフレーム数をカウントします</String>
+    <String identifier="SW194.Comment">EtherNet/IP (第 1 ワード) で受信した未接続メッセージをカウントします</String>
+    <String identifier="SW195.Comment">EtherNet/IP (第 2 ワード) で受信した未接続メッセージをカウントします</String>
+    <String identifier="SW196.Comment">EtherNet/IP (第 1 ワード) で受信した無効な未接続メッセージをカウントします</String>
+    <String identifier="SW197.Comment">EtherNet/IP (第 2 ワード) で受信した無効な未接続メッセージをカウントします</String>
+    <String identifier="SW198.Comment">EtherNet/IP (第 1 ワード) で受信した class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW199.Comment">EtherNet/IP (第 2 ワード) で受信した class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW200.Comment">EtherNet/IP (第 1 ワード) で受信した無効な class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW201.Comment">EtherNet/IP (第 2 ワード) で受信された無効な class 3 のリクエスト数をカウントします</String>
+    <String identifier="SW206.Comment">EtherNet/IP の接続タイムアウトの数をカウントします</String>
+    <String identifier="SW207.Comment">最後の I/O パケットから EtherNet/IP フラグを読み込みます: アイドル (値 =0)、実行 (値 =1)、エラー (値 =2)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2800">
+    <String condition="catalogVersion gte v2800" identifier="S101.Comment">1 に設定した場合、%SW101 (ポート 1) または %SW102 (ポート 2) または %SW111 (ポート 5) の値を変更することでアドレス変更ができます</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2900">
+    <String condition="catalogVersion gte v2900" identifier="S32.Comment">設定が1の場合、Ethernet/IPプロトコルでCIP IDオブジェクトを使用してデバイスのリセットができます</String>
+  </Content>
+</Content>

@@ -1,0 +1,627 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TM2DMM24DRF_OutputFailSafeEnum">
+      <Enum identifier="Type_Zero">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0</VisibleName>
+      </Enum>
+      <Enum identifier="Type_One">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">1</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM2DMM24DRF_OutputMainFallbackEnum">
+      <Enum identifier="Type_Maintain">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM2DMM24DRF.Maintain">Maintain</VisibleName>
+      </Enum>
+      <Enum identifier="Type_Fallback">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TM2DMM24DRF.Fallback">Fallback Value</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TM2DMM24DRF_Output_Conf">
+      <Component identifier="Output_mode_enum" type="localTypes:TM2DMM24DRF_OutputMainFallbackEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Mode</VisibleName>
+        <Description name="localStrings:TM2DMM24DRF.Output_Conf.Mode_description">Fallback mode</Description>
+      </Component>
+      <Component identifier="Output_value_enum" type="localTypes:TM2DMM24DRF_OutputFailSafeEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Force value</VisibleName>
+        <Description name="localStrings:TM2DMM24DRF.Output_Conf.Force_description">Force value</Description>
+      </Component>
+    </StructType>
+    <BitfieldType basetype="std:WORD" name="INPUTS_TM2DMM24DRF">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I0</VisibleName>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I1</VisibleName>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I2</VisibleName>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I3</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I4</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I5</VisibleName>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I6</VisibleName>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I7</VisibleName>
+      </Component>
+      <Component identifier="Bit8" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I8</VisibleName>
+      </Component>
+      <Component identifier="Bit9" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I9</VisibleName>
+      </Component>
+      <Component identifier="Bit10" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I10</VisibleName>
+      </Component>
+      <Component identifier="Bit11" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I11</VisibleName>
+      </Component>
+      <Component identifier="Bit12" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I12</VisibleName>
+      </Component>
+      <Component identifier="Bit13" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I13</VisibleName>
+      </Component>
+      <Component identifier="Bit14" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I14</VisibleName>
+      </Component>
+      <Component identifier="Bit15" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I15</VisibleName>
+      </Component>
+    </BitfieldType>
+    <BitfieldType basetype="std:BYTE" name="OUTPUTS_TM2DMM24DRF">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q0</VisibleName>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q1</VisibleName>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q2</VisibleName>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q3</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q4</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q5</VisibleName>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q6</VisibleName>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q7</VisibleName>
+      </Component>
+    </BitfieldType>
+    <!--typedef struct{
+	RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+	RTS_UI8 IdCode1;
+	RTS_UI8 IdCode2;            // if NbIdCode = 2
+	RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+	RTS_UI8 ImplicitPageIndex;	 // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+	RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+	RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+	RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+	RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+	RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+								// if 1 the status are included in the ImplicitRead
+								// if 0 an explicit read is done on user demand (see StatusAddr)
+	RTS_UI8 StatusPageIndex;	// 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+								//index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+	RTS_UI8 StatusSize;	        // 0-127. Meaningful only for special module
+								// Size in bytes of the status 
+	RTS_UI8 StatusAddr;	        // 0-127. Meaningful only for special module
+								// if StatusInImplicit == 1 : offset of the status in the implicit read buffer 
+								// if StatusInImplicit == 0 : offset of the status in the module read memory mapping 
+	RTS_UI8 ConfPageIndex;	     // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+	RTS_UI8 ConfForSpecialModuleSize;
+	RTS_UI8 ConfForSpecialModuleAddr;
+	RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Expansion module with 16 inputs (24V DC, 1 common line), 8 outputs (2A Relays, 2 common lines), non-removable wire clamp terminal block.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Maintain</String>
+      <String identifier="TM2DMM24DRF.Fallback">Fallback Value</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Fallback mode</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Force value</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TerminalBlockKey">wire clamp</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 Vdc</String>
+      <String identifier="OutputKey">8 relays</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Module d&apos;extension avec 16 entrées (24 VCC, 1 ligne commune), 8 sorties (relais 2 A, 2 lignes communes), bornier à bride non débrochable.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Conserver</String>
+      <String identifier="TM2DMM24DRF.Fallback">Valeur de repli</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Mode de repli</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Forcer la valeur</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Entrées</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Sorties</String>
+      <String identifier="TerminalBlockKey">Bride</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 VCC</String>
+      <String identifier="OutputKey">8 relais</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Erweiterungsmodul mit 16 Digitaleingängen (24 VDC, 1 gemeinsame Leitung), 8 Ausgänge (2-A-Relais, 2 gemeinsame Leitungen), nicht abnehmbare Federzug-Klemmenleiste.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Beibehalten</String>
+      <String identifier="TM2DMM24DRF.Fallback">Fehlerausweichwert</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Fehlerausweichmodus</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Wert forcieren</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Eingänge</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Ausgänge</String>
+      <String identifier="TerminalBlockKey">Federzug</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 Vdc</String>
+      <String identifier="OutputKey">8 Relais</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Módulo de ampliación con 16 entradas (24 V CC, 1 línea común), 8 salidas (relés 2 A, 2 líneas comunes) y bloque de terminales de abrazaderas no extraíble.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Mantener</String>
+      <String identifier="TM2DMM24DRF.Fallback">Valor de retorno</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Modalidad de retorno</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Valor de forzado</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Entradas</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Salidas</String>
+      <String identifier="TerminalBlockKey">abrazadera</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 V CC</String>
+      <String identifier="OutputKey">8 relés</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Modulo di espansione con 16 ingressi (24V DC, 1 linea comune), 8 uscite (relè 2A, 2 linee comuni), morsettiera serracavo rimovibile.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Mantieni</String>
+      <String identifier="TM2DMM24DRF.Fallback">Valore di fallback</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Modalità di fallback</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Forza valore</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Ingressi</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Uscite</String>
+      <String identifier="TerminalBlockKey">Serracavo</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 Vdc</String>
+      <String identifier="OutputKey">8 relè</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+扩展模块，16 路输入（24V DC，1 个公共端），8 路输出（2A 继电器，2 个公共端），非可插拔线夹端子块。</String>
+      <String identifier="TM2DMM24DRF.Maintain">维护</String>
+      <String identifier="TM2DMM24DRF.Fallback">故障预置值</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">故障预置模式</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">强制值</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">输入</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">输出</String>
+      <String identifier="TerminalBlockKey">电线夹</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 Vdc</String>
+      <String identifier="OutputKey">8 个继电器</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Módulo de expansão com 16 entradas (24 V CC, 1 linha comum), 8 saídas (Relés de 2 A, 2 linhas comuns), bloco terminal com presilha de fio não removível.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Manter</String>
+      <String identifier="TM2DMM24DRF.Fallback">Valor de reversão</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Modo de reversão</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Valor de força</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Entradas</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Saídas</String>
+      <String identifier="TerminalBlockKey">presilha de fio</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 V CC</String>
+      <String identifier="OutputKey">8 relés</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Genişletme modülü - 16 giriş (24 V DC, 1 ortak hat), 8 çıkış (2 A röleler, 2 ortak hat), çıkarılamaz tel kelepçeli terminal bloğu.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Koru</String>
+      <String identifier="TM2DMM24DRF.Fallback">Geri Dönme Değeri</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Geri Dönme Modu</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Değeri zorla</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Girişler</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Çıkışlar</String>
+      <String identifier="TerminalBlockKey">tel kelepçe</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 Vdc</String>
+      <String identifier="OutputKey">8 röle</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Rozšiřující modul s 16 výstupy (24V DC, 1 společné vedení), 8 výstupů (2A relé, 2 společné vedení), neodnímatelná svorkovnice.</String>
+      <String identifier="TM2DMM24DRF.Maintain">Udržovat</String>
+      <String identifier="TM2DMM24DRF.Fallback">Nouzový mód</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Mode_description">Nouzový mód</String>
+      <String identifier="TM2DMM24DRF.Output_Conf.Force_description">Hodnota síly</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameInputs">Vstupy</String>
+      <String identifier="TM2DMM24DRF.ParameterSectionNameOutputs">Výstupy</String>
+      <String identifier="TerminalBlockKey">svorka</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">16 x 24 Vdc</String>
+      <String identifier="OutputKey">8 relé</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM2DMM24DRF.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM2DMM24DRF.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsOutputsIcon">
+        <LocalFile>./Icons/TM2DMM24DRF.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM2DMM24DRF">
+        <LocalFile>./Images/TM2DMM24DRF.png</LocalFile>
+      </File>
+      <File fileref="local" identifier="DeviceConvertRules">
+        <LocalFile>./ConvertRules_TM2DMM24DRF.dcrx</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51212</Type>
+      <Id>101a 0162</Id>
+      <Version>3.1.2.15</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM2DMM24DRF</Name>
+      <Description name="localStrings:TM2DMM24DRF.DeviceDescription">TM2DMM24DRF
+Expansion module with 16 inputs (24V DC, 1 common line), 8 outputs (2A Relays, 2 common lines), non-removable wire clamp terminal block. </Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM2DMM24DRF</OrderNumber>
+      <Image name="localFiles:TM2DMM24DRF" />
+      <Icon name="localFiles:InputsOutputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1013</Family>
+      <Category>1</Category>
+      <AdditionalFiles>
+        <File key="Common.File.DeviceConvertRules" name="localFiles:DeviceConvertRules">ConvertRules_TM2DMM24DRF.dcrx</File>
+      </AdditionalFiles>
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Mixed IO">
+              <SubCategory name="TM2" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM2DMM24DRF" moduleType="51212" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <ParameterSection>
+          <Name name="localStrings:TM2DMM24DRF.ParameterSectionNameInputs">Inputs</Name>
+          <Parameter ParameterId="34560" type="localTypes:INPUTS_TM2DMM24DRF">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+        </ParameterSection>
+        <ParameterSection>
+          <Name name="localStrings:TM2DMM24DRF.ParameterSectionNameOutputs">Outputs</Name>
+          <Parameter ParameterId="34592" type="localTypes:OUTPUTS_TM2DMM24DRF">
+            <Attributes channel="output" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">QB0</Name>
+          </Parameter>
+          <Parameter ParameterId="38854" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q0</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38855" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q1</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38856" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q2</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38857" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q3</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38858" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q4</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38859" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q5</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38860" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q6</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+          <Parameter ParameterId="38861" type="localTypes:TM2DMM24DRF_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">Q7</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+        </ParameterSection>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">2</Element>
+            <Element name="IdCode1">2</Element>
+            <Element name="IdCode2">5</Element>
+            <Element name="TM2AnalogModuleType">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">2</Element>
+            <!-- 2 bytes because 16 inputs  -->
+            <Element name="ImplicitReadAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitInOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitWriteSize">0</Element>
+            <Element name="ImplicitWriteAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitOutOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">1</Element>
+            <!-- 1 byte because 8 outputs  -->
+            <Element name="StatusInImplicit">0</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">0</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="InterByteDelayDC2">-1</Element>
+            <!-- not used for digital module  -->
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>65</Default>
+          <Name name="local:dummy">TM2 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM2 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>40</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:PowerConsumption voltage="5V">65</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">40</se:PowerConsumption>
+        <se:Mechanical size="width">39.1</se:Mechanical>
+        <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{E33362E7-80F9-41f0-83A9-64EE6160A87F}" />
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <Custom>
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <!--<se:DigitalInputsMax>8</se:DigitalInputsMax>-->
+        <!--<se:DigitalOutputsMax>0</se:DigitalOutputsMax>-->
+        <!--<se:AnalogInputsMax>0</se:AnalogInputsMax>-->
+        <!--<se:AnalogOutputsMax>0</se:AnalogOutputsMax>-->
+        <se:ModuleType>0x0205</se:ModuleType>
+        <se:GenericReference>TM2DMM24DRF</se:GenericReference>
+        <se:ModuleKind>0</se:ModuleKind>
+        <se:NewPartNumber></se:NewPartNumber>
+        <se:NumRelays>8</se:NumRelays>
+        <se:IsConfigurable>false</se:IsConfigurable>
+        <se:AnalogInputTypeMask>0</se:AnalogInputTypeMask>
+        <se:AnalogOutputTypeMask>0</se:AnalogOutputTypeMask>
+        <se:AnalogInputRangeMask>0</se:AnalogInputRangeMask>
+        <se:AnalogOutputRangeMask>0</se:AnalogOutputRangeMask>
+        <se:NumTransistors>0</se:NumTransistors>
+        <se:ModuleExtendedKind>0</se:ModuleExtendedKind>
+        <se:AnalogInputKindMask>0x0000</se:AnalogInputKindMask>
+        <se:HasCombo>false</se:HasCombo>
+        <se:HasUsedCol>false</se:HasUsedCol>
+        <se:MinMaxOfset>0</se:MinMaxOfset>
+        <se:Compatibility>0</se:Compatibility>
+      </se:Configuration>
+      <se:FormatKey>FormatKey</se:FormatKey>
+      <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+      <se:InputKey>InputKey</se:InputKey>
+      <se:OutputKey>OutputKey</se:OutputKey>
+      <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+
+      <se:DigitalInputXPosition>20</se:DigitalInputXPosition>
+      <se:DigitalInputYPosition>75</se:DigitalInputYPosition>
+      <se:DigitalInputXSize>60</se:DigitalInputXSize>
+      <se:DigitalInputYSize>295</se:DigitalInputYSize>
+
+      <se:DigitalOutputXPosition>90</se:DigitalOutputXPosition>
+      <se:DigitalOutputYPosition>170</se:DigitalOutputYPosition>
+      <se:DigitalOutputXSize>55</se:DigitalOutputXSize>
+      <se:DigitalOutputYSize>200</se:DigitalOutputYSize>
+    </Custom>
+  </Device>
+</DeviceDescription>

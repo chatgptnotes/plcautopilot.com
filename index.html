@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLCAutoPilot - AI-Powered PLC Programming Assistant</title>
+    <meta name="description" content="Transform specifications into production-ready PLC code in minutes. AI-powered automation for Schneider Electric EcoStruxure platforms.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="url(#gradient)"/>
+                        <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#1E40AF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">PLCAutoPilot</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#platforms">Platforms</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#contact" class="btn-primary">Request Demo</a>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="badge">AI-Powered Automation Engineering</div>
+                    <h1>Transform Specs Into Production-Ready <span class="gradient-text">PLC Code</span> in Minutes</h1>
+                    <p class="hero-description">
+                        The world's first AI assistant that writes, tests, and deploys ladder logic for Schneider Electric EcoStruxure platforms.
+                        Reduce project time by 80% while maintaining safety standards.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#contact" class="btn-primary btn-large">Request Early Access</a>
+                        <a href="#demo" class="btn-secondary btn-large">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Watch Demo
+                        </a>
+                    </div>
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <span class="trust-number">80%</span>
+                            <span class="trust-label">Faster Development</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-number">99.9%</span>
+                            <span class="trust-label">Code Accuracy</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-number">100%</span>
+                            <span class="trust-label">Safety Verified</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="code-preview">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span class="code-title">ConveyorControl.ld</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-line">
+                                <span class="line-num">1</span>
+                                <span class="code-text"><span class="keyword">|--[</span><span class="variable">START_BTN</span><span class="keyword">]--[</span><span class="variable">SAFETY_OK</span><span class="keyword">]--( MOTOR_RUN )</span></span>
+                            </div>
+                            <div class="code-line">
+                                <span class="line-num">2</span>
+                                <span class="code-text"><span class="keyword">|</span></span>
+                            </div>
+                            <div class="code-line highlight">
+                                <span class="line-num">3</span>
+                                <span class="code-text"><span class="keyword">|--[/</span><span class="variable">ESTOP</span><span class="keyword">]--[/</span><span class="variable">FAULT</span><span class="keyword">]--(</span><span class="variable">ENABLE</span><span class="keyword">)</span></span>
+                                <span class="safety-tag">SAFETY CRITICAL</span>
+                            </div>
+                            <div class="code-line">
+                                <span class="line-num">4</span>
+                                <span class="code-text"><span class="keyword">|</span></span>
+                            </div>
+                            <div class="code-line">
+                                <span class="line-num">5</span>
+                                <span class="code-text"><span class="keyword">|--[</span><span class="variable">SENSOR_1</span><span class="keyword">]--[</span><span class="variable">TIMER_DN</span><span class="keyword">]--( OUTPUT_1 )</span></span>
+                            </div>
+                        </div>
+                        <div class="ai-indicator">
+                            <div class="ai-pulse"></div>
+                            <span>AI Generated & Verified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-gradient"></div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Challenge Every Automation Engineer Faces</h2>
+                <p>PLC programming is tedious, time-consuming, and error-prone</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">⏱️</div>
+                    <h3>Weeks of Manual Coding</h3>
+                    <p>Converting specifications to ladder logic takes 40+ hours per project</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🔄</div>
+                    <h3>Repetitive Work</h3>
+                    <p>Writing the same patterns for motors, conveyors, and safety interlocks</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⚠️</div>
+                    <h3>Safety Risks</h3>
+                    <p>Manual coding increases the chance of critical safety errors</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">👥</div>
+                    <h3>Talent Shortage</h3>
+                    <p>Experienced PLC programmers are expensive and hard to find</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">The Solution</div>
+                <h2>AI That Writes Industrial Code Like a Senior Engineer</h2>
+                <p>Three simple steps to production-ready PLC programs</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">📋</div>
+                    <h3>Upload Specifications</h3>
+                    <p>Provide your process description, I/O list, or functional specification document</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">🤖</div>
+                    <h3>AI Generates Code</h3>
+                    <p>Our trained model writes ladder logic, configures I/O, and implements safety interlocks</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">✅</div>
+                    <h3>Review & Deploy</h3>
+                    <p>Safety-critical sections highlighted for engineer review before deployment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for Industrial Automation</h2>
+                <p>Deep domain knowledge meets cutting-edge AI</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Ladder Logic Expert</h3>
+                    <p>Understands relay logic, timers, counters, and industrial control patterns</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Safety First</h3>
+                    <p>Automatically implements emergency stops, light curtains, and safety interlocks per IEC 61508</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3>Hardware Configuration</h3>
+                    <p>Automatically configures I/O modules for Modicon M221, M241, M251, M258, and M580</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>HMI Integration</h3>
+                    <p>Generates variable tags and screens for Vijeo Designer</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Code Review Assistant</h3>
+                    <p>Highlights safety-critical sections for mandatory human verification</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Documentation Generator</h3>
+                    <p>Creates I/O lists, function block descriptions, and commissioning guides</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms-section" id="platforms">
+        <div class="container">
+            <div class="section-header">
+                <h2>Supports All EcoStruxure Platforms</h2>
+                <p>One unified solution for the entire Schneider Electric ecosystem</p>
+            </div>
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <h3>Machine Expert - Basic</h3>
+                        <span class="platform-badge">Modicon M221</span>
+                    </div>
+                    <p>Compact PLCs for simple machines and small applications</p>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <h3>Machine Expert</h3>
+                        <span class="platform-badge">M241/M251/M258</span>
+                    </div>
+                    <p>Mid-range PLCs for complex machines and process control</p>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <h3>Control Expert</h3>
+                        <span class="platform-badge">M580/M340</span>
+                    </div>
+                    <p>High-performance PLCs for large-scale industrial systems</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <blockquote>
+                    What used to take me 3 weeks now takes 2 days. PLCAutoPilot generates clean, well-structured ladder logic
+                    that I can actually trust. The safety interlock highlighting is brilliant.
+                </blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">ME</div>
+                    <div class="author-info">
+                        <div class="author-name">Michael Chen</div>
+                        <div class="author-title">Senior Controls Engineer, Manufacturing Systems Inc.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose Your Plan</h2>
+                <p>Flexible pricing for teams of all sizes</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Starter</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">497</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Up to 10 projects/month</li>
+                        <li>✓ Machine Expert Basic support</li>
+                        <li>✓ Email support</li>
+                        <li>✓ Safety verification</li>
+                        <li>✗ Custom libraries</li>
+                        <li>✗ Priority support</li>
+                    </ul>
+                    <a href="#contact" class="btn-secondary btn-full">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">1,497</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited projects</li>
+                        <li>✓ All EcoStruxure platforms</li>
+                        <li>✓ Priority support (4hr response)</li>
+                        <li>✓ Custom function blocks</li>
+                        <li>✓ HMI screen generation</li>
+                        <li>✓ Team collaboration (5 users)</li>
+                    </ul>
+                    <a href="#contact" class="btn-primary btn-full">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">
+                            <span class="custom">Custom</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Professional</li>
+                        <li>✓ Unlimited users</li>
+                        <li>✓ On-premise deployment</li>
+                        <li>✓ Custom AI training</li>
+                        <li>✓ Dedicated support engineer</li>
+                        <li>✓ SLA guarantee</li>
+                    </ul>
+                    <a href="#contact" class="btn-secondary btn-full">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety & Compliance -->
+    <section class="compliance-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Safety & Compliance</h2>
+                <p>Built with industrial standards in mind</p>
+            </div>
+            <div class="compliance-grid">
+                <div class="compliance-card">
+                    <h4>Human-in-the-Loop</h4>
+                    <p>All generated code requires engineer review and approval before deployment</p>
+                </div>
+                <div class="compliance-card">
+                    <h4>Safety Highlighting</h4>
+                    <p>Critical safety rungs automatically flagged for mandatory verification</p>
+                </div>
+                <div class="compliance-card">
+                    <h4>IEC 61508 Aware</h4>
+                    <p>Trained on functional safety standards for SIL-rated applications</p>
+                </div>
+                <div class="compliance-card">
+                    <h4>Audit Trail</h4>
+                    <p>Complete version history and change logs for compliance documentation</p>
+                </div>
+            </div>
+            <div class="disclaimer">
+                <strong>Important:</strong> PLCAutoPilot is a code drafting tool designed to accelerate development.
+                All generated code must be reviewed, tested, and validated by certified engineers before deployment to production systems.
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your PLC Development?</h2>
+                <p>Join the early access program and get 3 months at 50% off</p>
+                <form class="cta-form" id="contactForm">
+                    <div class="form-row">
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="email" placeholder="Work Email" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" placeholder="Company Name" required>
+                        <select required>
+                            <option value="">Primary Platform</option>
+                            <option value="basic">Machine Expert Basic</option>
+                            <option value="machine">Machine Expert</option>
+                            <option value="control">Control Expert</option>
+                            <option value="multiple">Multiple Platforms</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary btn-large">Request Early Access</button>
+                    <p class="form-note">No credit card required. 14-day free trial included.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="logo">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="32" height="32" rx="6" fill="url(#gradient2)"/>
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="gradient2" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#3B82F6"/>
+                                    <stop offset="1" stop-color="#1E40AF"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="logo-text">PLCAutoPilot</span>
+                    </div>
+                    <p class="footer-desc">AI-powered PLC programming assistant for industrial automation engineers.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#platforms">Platforms</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#security">Security</a></li>
+                        <li><a href="#compliance">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PLCAutoPilot. All rights reserved.</p>
+                <p class="footer-disclaimer">Not affiliated with Schneider Electric. EcoStruxure and Modicon are registered trademarks.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

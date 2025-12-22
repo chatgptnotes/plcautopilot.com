@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- ZBRN2 -->
+<Device>
+    <DeviceTypeName>ZBRN2 Access Point</DeviceTypeName>
+    <DeviceTypeId>11</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+    <VendorId>Schneider Electric</VendorId>
+    <ProductCode>052849</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+    <InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>6000</Offset>
+            <Length>1</Length>
+            <InitializationValue>1</InitializationValue>
+            <Comment>Configuring the holding time, modify according to your application</Comment>
+            <CanEditInitRequest>True</CanEditInitRequest>
+        </InitRequest>
+    </InitRequests>
+    <Channels>
+        <Channel>
+            <Name>Button_Status</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads the status of the buttons, length can be modified according to your application</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>4</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

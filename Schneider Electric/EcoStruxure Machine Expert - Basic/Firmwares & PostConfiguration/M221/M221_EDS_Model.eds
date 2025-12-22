@@ -1,0 +1,139 @@
+$ EZ-EDS Version 3.9 Generated Electronic Data Sheet
+
+[File]
+        DescText = "Network Interface Module EtherNet/IP";
+        CreateDate = 10-22-2014;
+        CreateTime = 10:48:30;
+        ModDate = 22-07-2020;
+        ModTime = 12:00:00;
+        Revision = 1.10;
+        HomeURL = "http://www.schneider-electric.com";
+
+[Device]
+        VendCode = 243;
+        VendName = "Schneider Electric";
+        ProdType = 14;
+        ProdTypeStr = "Programmable Logic Controller";
+        ProdCode = 4099;
+        MajRev = 1;
+        MinRev = 11;
+        ProdName = "TM221";
+        Catalog = "TM221";
+        Icon = "M221.ico";
+        IconContents =
+                "AAABAAEAEBAAAAAAGABoAwAAFgAAACgAAAAQAAAAIAAAAAEAGAAAAAAAAAMA"
+                "AAAAAAAAAAAAAAAAAAAAAAD///////////////////8Apk8Apk8Apk8Apk/I"
+                "xcX9/f3///////////////////////////////////////8Apk////////8A"
+                "pk+koJ+/vLz7+/r///////////////////////////////////8Apk////8A"
+                "pk8Apk+koJ+koJ+yrq3///////////////////////////////////8Apk//"
+                "//////8Apk+koJ+koJ+koJ////////////////////////////////////8A"
+                "pk////8Apk8Apk+koJ+koJ+koJ//////////////////////////////////"
+                "//8Apk////////8Apk+koJ+koJ+koJ//////////////////////////////"
+                "//////8Apk////8Apk8Apk+koJ+koJ+koJ//////////////////////////"
+                "//////////8Apk////////8Apk+koJ+koJ+koJ//////////////////////"
+                "//////////////8Apk////////8Apk+koJ+koJ+koJ//////////////////"
+                "//////////////////8Apk////////8Apk+koJ+koJ+koJ//////////////"
+                "//////////////////////8Apk////8Apk8Apk+koJ+koJ+koJ//////////"
+                "//////////////////////////8Apk////8Apk8Apk+koJ+koJ+koJ//////"
+                "//////////////////////////////8Apk////8Apk8Apk+koJ+koJ+yr67/"
+                "//////////////////////////////////8Apk////////8Apk+koJ+5trb3"
+                "9/f///////////////////////////////////8Apk8Apk8Apk8Apk/Nysr+"
+                "/v7/////////////////////////////////////////////////////////"
+                "//////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+[Device Classification]
+        Class1 = EtherNetIP;
+        Class2 = 1_RSNetWorx_Connectable_Module;
+
+[Params]
+        Param1 =
+                0,
+                ,,
+                0x0000,
+                0xC8,
+                4,
+                "RPI",
+                "",
+                "",
+                10000,60000000,100000,
+                ,,,,
+                ,,,,
+                ;
+        Param2 =
+                0,
+                ,,
+                0x0000,
+                0xC7,
+                2,
+                "Size 2",
+                "",
+                "",
+                2,40,40,
+                ,,,,
+                ,,,,
+                ;
+        Param3 =
+                0,
+                ,,
+                0x0000,
+                0xC7,
+                2,
+                "Size 3",
+                "",
+                "",
+                2,40,40,
+                ,,,,
+                ,,,,
+                ;
+
+[Connection Manager]
+
+        Connection1 =
+                0x04030002,             $ trigger & transport
+                0x44643405,             $ connection parameters
+                Param1,Param3,,         $ O=>T RPI,Size,Format
+                Param1,0,,              $ T=>O RPI,Size,Format
+                ,,                      $ config part 1 (not used)
+                ,,                      $ config part 2 (not used)
+                "Write Data to 150",    $ connection name
+                "Output Assembly (Originator --> Target, %IW)",    $ Help string
+                "20 04 24 03 2C 96 2C C6";    $ outputs only path
+
+        Connection2 =
+                0x04030002,             $ trigger & transport
+                0x44640405,             $ connection parameters
+                Param1,Param2,,         $ O=>T RPI,Size,Format
+                Param1,Param3,,         $ T=>O RPI,Size,Format
+                ,,                      $ config part 1 (not used)
+                ,,                      $ config part 2 (not used)
+                "Read From 100 / Write to 150",    $ connection name
+                "Read Input Assembly (Target --> Originator, %QW) and Write Output Assembly (Originator --> Target,, %IW) ",    $ Help string
+                "20 04 24 03 2C 96 2C 64";    $ input/output path
+
+        Connection3 =
+                0x02030002,             $ trigger & transport
+                0x44640305,             $ connection parameters
+                Param1,0,,              $ O=>T RPI,Size,Format
+                Param1,Param3,,         $ T=>O RPI,Size,Format
+                ,,                      $ config part 1 (not used)
+                ,,                      $ config part 2 (not used)
+                "Read Data from 100",   $ connection name
+                "Input Assembly (Target --> Originator, %QW)",    $ Help string
+                "20 04 24 03 2C C6 2C 64";    $ inputs only path
+
+[Port]
+        Port2 =
+                TCP,
+                "Ethernet Port",
+                "20 F5 24 01",
+                2;
+
+
+[Capacity]
+        MaxMsgConnections = 8;
+        MaxIOProducers = 32;
+        MaxIOConsumers = 32;
+        TSpec1 = TxRx, 4, 100;
+        TSpec2 = TxRx, 496, 100;
+

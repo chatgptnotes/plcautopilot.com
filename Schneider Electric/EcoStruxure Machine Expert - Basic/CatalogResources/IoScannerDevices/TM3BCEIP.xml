@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    IoScannerBusCoupler
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+    
+  DeviceCompatibility
+     0: Both serial and tcp
+     1: Serial only
+     2: Ethernet only
+  -->
+<!-- Generic device -->
+<Device>
+  <DeviceTypeName>TM3BCEIP</DeviceTypeName>
+  <DeviceTypeId>39</DeviceTypeId>
+  <IoScannerType>IoScannerBusCoupler</IoScannerType>
+  <DeviceCompatibility>2</DeviceCompatibility>
+  <VendorId>Schneider Electric</VendorId>
+  <ProductCode>TM3BCEIP</ProductCode>
+  <MajorMinorRevision></MajorMinorRevision>
+  <Capacity5V>600</Capacity5V>
+  <Capacity24V>600</Capacity24V>
+  <MaxExpansionModules>7</MaxExpansionModules>
+
+  <Timeout>10000</Timeout>
+  <BlockSizeMax>2147483647</BlockSizeMax>
+  <InitrequestSizeMax>240</InitrequestSizeMax>
+  <OffSetCfg>4000</OffSetCfg>
+  <WordCfgMode>1005</WordCfgMode>
+  <StatusOffset>900</StatusOffset>
+  <SizeStatusOffset>2</SizeStatusOffset>
+  <StatusOffset1>930</StatusOffset1>
+  <SizeStatusOffset1>3</SizeStatusOffset1>
+  <ReadOffset>3001</ReadOffset>
+  <WriteOffset>3501</WriteOffset>
+  <PollingRateIO>20</PollingRateIO>
+  <PollingRateSts>1000</PollingRateSts>
+  <!--delayBetweenInitReq>10</delayBetweenInitReq> From 0 to 255, in 100ms unit,waiting time between initRequest for proccessing operation by device , ie time need by TM3BC to write config file -->
+  <DelayBetweenInitReq>10</DelayBetweenInitReq>
+  <!--NbRetriesOnExcepInitReq>2</NbRetriesOnExcepInitReq> nb of retries if device returns an modbus exception code during initialization it means value = 2 > 3 attempts-->
+  <NbRetriesOnExcepInitReq>3</NbRetriesOnExcepInitReq>
+  
+  
+  <InitRequests>
+    <InitRequest>
+      <AccessType>IoScannerInitRequestAccessWriteMultipleRegisters</AccessType>
+      <Offset>1505</Offset>
+      <Length>1</Length>
+      <InitializationValue>1</InitializationValue>
+      <Comment>Config Mode Enter</Comment>
+      <CanEditInitRequest>False</CanEditInitRequest>
+    </InitRequest>
+    <InitRequest>
+      <AccessType>IoScannerInitRequestAccessWriteMultipleRegisters</AccessType>
+      <Offset>4000</Offset>
+      <Length>1</Length>
+      <InitializationValue>0</InitializationValue>
+      <Comment>TM3BC config Buffer</Comment>
+      <CanEditInitRequest>False</CanEditInitRequest>
+    </InitRequest>
+    <InitRequest>
+      <AccessType>IoScannerInitRequestAccessWriteMultipleRegisters</AccessType>
+      <Offset>1505</Offset>
+      <Length>1</Length>
+      <InitializationValue>0</InitializationValue>
+      <Comment>Config Mode Quit</Comment>
+      <CanEditInitRequest>False</CanEditInitRequest>
+    </InitRequest>
+  </InitRequests>
+  
+  <Channels>
+    <Channel>
+      <Name>TM3BC_STATUS</Name>
+      <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+      <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+      <CyclingTime>1000</CyclingTime>
+      <MemoryBit></MemoryBit>
+      <Comment>Status of TM3BC</Comment>
+      <ReadOffset>900</ReadOffset>
+      <ReadLength>2</ReadLength>
+      <WriteOffset>0</WriteOffset>
+      <WriteLength>0</WriteLength>
+      <CanEditChannel>False</CanEditChannel>
+    </Channel>
+    <Channel>
+      <Name>TM3BC_STATUS</Name>
+      <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+      <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+      <CyclingTime>1000</CyclingTime>
+      <MemoryBit></MemoryBit>
+      <Comment>Status of IO expansion module</Comment>
+      <ReadOffset>930</ReadOffset>
+      <ReadLength>3</ReadLength>
+      <WriteOffset>0</WriteOffset>
+      <WriteLength>0</WriteLength> 
+      <CanEditChannel>False</CanEditChannel>
+    </Channel>
+  </Channels>
+</Device>

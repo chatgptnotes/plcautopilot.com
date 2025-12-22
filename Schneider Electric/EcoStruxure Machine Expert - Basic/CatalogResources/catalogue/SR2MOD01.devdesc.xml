@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+    xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+    xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+    xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en">
+      <String identifier="SR2MOD01.Description">RTC Modem (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Hayes Reset Command</String>
+    </Language>
+    <Language lang="fr">
+      <String identifier="SR2MOD01.Description">Modem RTC (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Commande d&apos;initialisation Hayes</String>
+    </Language>
+    <Language lang="de">
+      <String identifier="SR2MOD01.Description">RTC-Modem (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Hayes Reset-Befehl</String>
+    </Language>
+    <Language lang="es">
+      <String identifier="SR2MOD01.Description">Modem RTC (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Comando Hayes Reset</String>
+    </Language>
+    <Language lang="it">
+      <String identifier="SR2MOD01.Description">Modem RTC (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Comando reset Hayes</String>
+    </Language>
+    <Language lang="zh-chs">
+      <String identifier="SR2MOD01.Description">RTC 调制解调器 (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Hayes 复位命令</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="SR2MOD01.Description">RTC Modem (SIXNET)</String>
+      <String identifier="SR2MOD01.ParameterName">Hayes Reset Command</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#SR2MOD01.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#SR2MOD01.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="SR2MOD01">
+        <LocalFile>./Images/SR2MOD01.gif</LocalFile>
+      </File>
+      <File fileref="local" identifier="ModemV90">
+        <LocalFile>./Icons/SR2MOD01.ico</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>41103</Type>
+      <Id>101a 001d</Id>
+      <Version>4.0.0.1</Version>
+    </DeviceIdentification>
+    <DeviceInfo>
+      <Name name="local:dummy">SR2MOD01</Name>
+      <Description name="localStrings:SR2MOD01.Description">RTC Modem (SIXNET)</Description>
+      <Vendor name="local:Vendor">Schneider Electric</Vendor>
+      <OrderNumber>SR2 MOD01</OrderNumber>
+      <Image name="localFiles:SR2MOD01" />
+      <Icon name="localFiles:ModemV90" />
+      <Family>4122:1060</Family>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="Schneider.Serial.SR2MOD01" moduleType="40132" role="child" explicit="false">
+      <InterfaceName name="local:dummy">ASCII</InterfaceName>
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <Parameter ParameterId="10001" type="std:STRING">
+          <Attributes channel="none" />
+          <Default>'ate0\n0\v1&amp;d0&amp;k0s0=1s89=0$EB0#p0$sb19200n0s28=1s37=13&amp;w0'</Default>
+          <Name name="localStrings:SR2MOD01.ParameterName">Hayes Reset Command</Name>
+        </Parameter>
+      </HostParameterSet>
+      <DriverInfo needsBusCycle="false">
+        <RequiredLib identifier="Modem" libname="Modem" placeholderlib="SE_Modem" vendor="Schneider Electric" version="1.0.1.1" />
+      </DriverInfo>
+    </Connector>
+    <Custom>
+      <se:Configuration>
+        <se:ModemType>0x0002</se:ModemType>
+      </se:Configuration>
+      <se:SLConfig>
+        <se:Element name="Bauds" access="readwrite">19200</se:Element>
+        <se:Element name="Parity" access="readwrite">None</se:Element>
+        <se:Element name="StopBit" access="readwrite">1</se:Element>
+        <se:Element name="PhysicalMedium" access="read">Rs232</se:Element>
+      </se:SLConfig>
+      <!-- Defines between which catalog version, this modem can be used -->
+      <Version min="1.2.0.0" />
+    </Custom>
+  </Device>
+</DeviceDescription>
