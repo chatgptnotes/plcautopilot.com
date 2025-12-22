@@ -23,7 +23,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-xl text-gray-600 leading-relaxed">
-              The world&apos;s first AI assistant that writes, tests, and deploys ladder logic for Schneider Electric EcoStruxure platforms.
+              The world&apos;s first AI assistant that works with ALL major PLC platforms: Siemens, Rockwell, Mitsubishi, Schneider, and 500+ CODESYS brands.
               Reduce project time by 80% while maintaining safety standards.
             </p>
 
