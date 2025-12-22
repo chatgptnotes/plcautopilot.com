@@ -55,9 +55,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       ),
       link: '/ai-copilot',
       items: [
-        { title: 'Generate Code', link: '/ai-copilot?tab=generate' },
-        { title: 'Explain Code', link: '/ai-copilot?tab=explain' },
-        { title: 'Test & Debug', link: '/ai-copilot?tab=test' },
+        { title: 'AI Co-Pilot', link: '/ai-copilot' },
         { title: 'Application Generator', link: '/ai-application-generator' },
         { title: 'Code Optimizer', link: '/ai-code-optimizer' },
         { title: 'Library Manager', link: '/ai-library-manager' },
