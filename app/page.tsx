@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import AICapabilities from './components/AICapabilities';
 import Problem from './components/Problem';
 import Solution from './components/Solution';
 import MultiPlatform from './components/MultiPlatform';
@@ -22,6 +23,7 @@ export default function Home() {
       <Navbar />
       <main className="min-h-screen bg-white dark:bg-gray-900">
         <Hero />
+        <AICapabilities />
         <MultiPlatform />
         <CompetitiveAdvantages />
         <SimulationTesting />

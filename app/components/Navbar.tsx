@@ -35,19 +35,19 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="/ai-copilot" className="text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
+              AI Co-Pilot
+            </Link>
+            <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
               Features
             </Link>
-            <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              How It Works
-            </Link>
-            <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
               Platforms
             </Link>
-            <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
               Blog
             </Link>
-            <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
               Pricing
             </Link>
             <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
@@ -72,14 +72,14 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
+          <div className="md:hidden py-4 border-t border-gray-100 dark:border-gray-800">
             <div className="flex flex-col gap-4">
-              <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium">Features</Link>
-              <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 font-medium">How It Works</Link>
-              <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium">Platforms</Link>
-              <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium">Blog</Link>
-              <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium">Pricing</Link>
-              <Link href="/login" className="text-gray-700 hover:text-blue-600 font-medium">Login</Link>
+              <Link href="/ai-copilot" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">AI Co-Pilot</Link>
+              <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Features</Link>
+              <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Platforms</Link>
+              <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Blog</Link>
+              <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Pricing</Link>
+              <Link href="/login" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Login</Link>
               <Link href="/generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold text-center">
                 Try Generator
               </Link>
