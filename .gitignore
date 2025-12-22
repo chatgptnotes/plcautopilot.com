@@ -40,6 +40,7 @@ venv.bak/
 .DS_Store
 Thumbs.db
 desktop.ini
+*.pem
 
 # Screenshots and test outputs
 screenshots/
@@ -47,17 +48,29 @@ screenshots/
 *.jpg
 *.jpeg
 
-# Node modules (for Next.js subdirectory)
-plcautopilot-nextjs/node_modules/
-plcautopilot-nextjs/.next/
-plcautopilot-nextjs/out/
-plcautopilot-nextjs/.vercel/
+# Node.js / Next.js (from web app subdirectory)
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+/coverage
+/.next/
+/out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tsbuildinfo
+next-env.d.ts
 
 # Environment files
 .env
 .env.local
+.env*.local
 .env.production
 .env.development
+
+# Vercel
+.vercel
 
 # Temporary files
 *.tmp
