@@ -3,8 +3,10 @@ import Hero from './components/Hero';
 import Problem from './components/Problem';
 import Solution from './components/Solution';
 import MultiPlatform from './components/MultiPlatform';
+import CompetitiveAdvantages from './components/CompetitiveAdvantages';
 import Features from './components/Features';
 import Platforms from './components/Platforms';
+import OnPremises from './components/OnPremises';
 import Services from './components/Services';
 import Team from './components/Team';
 import Testimonial from './components/Testimonial';
@@ -17,13 +19,15 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-white dark:bg-gray-900">
         <Hero />
         <MultiPlatform />
+        <CompetitiveAdvantages />
         <Problem />
         <Solution />
         <Features />
         <Platforms />
+        <OnPremises />
         <Services />
         <Team />
         <Testimonial />
