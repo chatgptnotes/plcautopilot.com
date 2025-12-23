@@ -72,12 +72,16 @@ function generateSchneiderFile(
   projectName: string,
   timestamp: string
 ): { content: string; filename: string; mimeType: string } {
-  // EcoStruxure Machine Expert uses .smbp format (XML-based)
+  // EcoStruxure Machine Expert Basic uses PLCopen XML format
   const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://www.schneider-electric.com/smbp" version="1.0">
-  <fileHeader company="PLCAutoPilot"
-              productName="EcoStruxure Machine Expert"
+<project xmlns="http://www.plcopen.org/xml/tc6_0201"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:xhtml="http://www.w3.org/1999/xhtml"
+         xsi:schemaLocation="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="PLCAutoPilot"
+              productName="EcoStruxure Machine Expert - Basic"
               productVersion="2.0"
+              productRelease=""
               creationDateTime="${new Date().toISOString()}"
               contentDescription="${projectName}"/>
 
@@ -88,9 +92,6 @@ function generateSchneiderFile(
       <ld><scaling x="1" y="1"/></ld>
       <sfc><scaling x="1" y="1"/></sfc>
     </coordinateInfo>
-    <addData>
-      <data name="protectionEnabled" handleUnknown="implementation">false</data>
-    </addData>
   </contentHeader>
 
   <types>
