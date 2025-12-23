@@ -1,28 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import { plcModels, getManufacturers, getModelsByManufacturer, searchModels, type PLCModel } from '../../data/plc-models';
+import PLCCascadingSelector from '@/app/components/PLCCascadingSelector';
+import type { PLCManufacturer, PLCSeries, PLCModel } from '@/lib/plc-models-database';
 
 export default function GeneratorPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [logicDescription, setLogicDescription] = useState('');
-  const [selectedManufacturer, setSelectedManufacturer] = useState('');
-  const [selectedModel, setSelectedModel] = useState<PLCModel | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedPLC, setSelectedPLC] = useState<{
+    manufacturer: PLCManufacturer | null;
+    series: PLCSeries | null;
+    model: PLCModel | null;
+  }>({
+    manufacturer: null,
+    series: null,
+    model: null,
+  });
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedFile, setGeneratedFile] = useState<{
     content: string;
     filename: string;
     extension: string;
   } | null>(null);
-
-  const manufacturers = getManufacturers();
-  const availableModels = selectedManufacturer
-    ? getModelsByManufacturer(selectedManufacturer)
-    : searchQuery
-    ? searchModels(searchQuery)
-    : plcModels;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -37,7 +37,7 @@ export default function GeneratorPage() {
   };
 
   const handleGenerate = async () => {
-    if (!selectedModel || !logicDescription) {
+    if (!selectedPLC.model || !logicDescription) {
       alert('Please select a PLC model and provide logic description');
       return;
     }
@@ -50,7 +50,10 @@ export default function GeneratorPage() {
         formData.append('image', selectedImage);
       }
       formData.append('logic', logicDescription);
-      formData.append('modelId', selectedModel.id);
+      formData.append('modelId', selectedPLC.model.id);
+      formData.append('manufacturer', selectedPLC.manufacturer?.name || '');
+      formData.append('series', selectedPLC.series?.name || '');
+      formData.append('modelName', selectedPLC.model.name);
 
       const response = await fetch('/api/generate-plc', {
         method: 'POST',
@@ -72,7 +75,7 @@ export default function GeneratorPage() {
   };
 
   const handleDownload = async () => {
-    if (!generatedFile || !selectedModel) return;
+    if (!generatedFile || !selectedPLC.model || !selectedPLC.manufacturer) return;
 
     try {
       const response = await fetch('/api/download-program', {
@@ -80,9 +83,9 @@ export default function GeneratorPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           programCode: generatedFile.content,
-          platform: selectedModel.manufacturer,
-          plcModel: selectedModel.model,
-          language: selectedModel.programmingLanguages[0],
+          platform: selectedPLC.manufacturer.name,
+          plcModel: selectedPLC.model.name,
+          series: selectedPLC.series?.name || '',
           projectName: 'PLCAutoProgram',
         }),
       });
@@ -202,98 +205,15 @@ export default function GeneratorPage() {
                 3. Select PLC Model
               </h2>
 
-              {/* Search */}
-              <div className="mb-4">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by model, series, or manufacturer..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              {/* Manufacturer Filter */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Filter by Manufacturer
-                </label>
-                <select
-                  value={selectedManufacturer}
-                  onChange={(e) => {
-                    setSelectedManufacturer(e.target.value);
-                    setSearchQuery('');
-                  }}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">All Manufacturers</option>
-                  {manufacturers.map((mfg) => (
-                    <option key={mfg} value={mfg}>
-                      {mfg}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Model Selection */}
-              <div className="max-h-96 overflow-y-auto border border-gray-200 rounded-lg">
-                {availableModels.map((model) => (
-                  <div
-                    key={model.id}
-                    onClick={() => setSelectedModel(model)}
-                    className={`p-4 cursor-pointer border-b border-gray-100 hover:bg-blue-50 transition-colors ${
-                      selectedModel?.id === model.id ? 'bg-blue-100' : ''
-                    }`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">
-                          {model.model}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          {model.manufacturer} - {model.series}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {model.description}
-                        </p>
-                        <p className="text-xs text-blue-600 mt-1">
-                          {model.ioPoints} • {model.fileExtension}
-                        </p>
-                      </div>
-                      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
-                        {model.category}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {selectedModel && (
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-semibold text-gray-900 mb-2">
-                    Selected: {selectedModel.model}
-                  </h4>
-                  <div className="text-sm text-gray-700 space-y-1">
-                    <p>
-                      <strong>Languages:</strong>{' '}
-                      {selectedModel.programmingLanguages.join(', ')}
-                    </p>
-                    <p>
-                      <strong>Communication:</strong>{' '}
-                      {selectedModel.communication.join(', ')}
-                    </p>
-                    <p>
-                      <strong>Output Format:</strong> {selectedModel.fileExtension}
-                    </p>
-                  </div>
-                </div>
-              )}
+              <PLCCascadingSelector
+                onSelectionChange={setSelectedPLC}
+              />
             </div>
 
             {/* Generate Button */}
             <button
               onClick={handleGenerate}
-              disabled={!selectedModel || !logicDescription || isGenerating}
+              disabled={!selectedPLC.model || !logicDescription || isGenerating}
               className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
             >
               {isGenerating ? (
