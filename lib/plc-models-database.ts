@@ -110,9 +110,21 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Advanced compact logic controller',
         software: 'EcoStruxure Machine Expert',
         models: [
-          { id: 'm251-24io', name: 'TM251MESE', partNumber: 'TM251MESE', specifications: { io: '24 I/O', memory: '256 KB', scanTime: '0.4 ms', price: '$800-1000' } },
-          { id: 'm251-40io', name: 'TM251MESC', partNumber: 'TM251MESC', specifications: { io: '40 I/O', memory: '256 KB', scanTime: '0.4 ms', price: '$900-1100' } },
-          { id: 'm251-eth', name: 'TM251MESE-Ethernet', partNumber: 'TM251MESE', specifications: { io: 'Ethernet + Serial', memory: '256 KB', scanTime: '0.4 ms', price: '$850-1050' } },
+          // TM251M Series - Compact Logic Controllers
+          { id: 'm251-mese', name: 'TM251MESE', partNumber: 'TM251MESE', specifications: { io: '14DI+10DO', memory: '256 KB', comm: 'Ethernet+Serial', canopen: 'Yes', price: '$800-1000' } },
+          { id: 'm251-mesc', name: 'TM251MESC', partNumber: 'TM251MESC', specifications: { io: '24DI+16DO', memory: '256 KB', comm: 'Ethernet+Serial+CANopen', canopen: 'Yes', price: '$900-1100' } },
+
+          // TM251MEC Series - With Motion and CANopen
+          { id: 'm251-mec5e', name: 'TM251MEC5E', partNumber: 'TM251MEC5E', specifications: { io: '14DI+10DO', memory: '256 KB', motion: '5 axes', comm: 'Ethernet+Serial+CANopen', price: '$1200-1400' } },
+          { id: 'm251-mec10e', name: 'TM251MEC10E', partNumber: 'TM251MEC10E', specifications: { io: '14DI+10DO', memory: '256 KB', motion: '10 axes', comm: 'Ethernet+Serial+CANopen', price: '$1400-1600' } },
+
+          // TM251MESE and MESC variants with different I/O configs
+          { id: 'm251-mese8t', name: 'TM251MESE8T', partNumber: 'TM251MESE8T', specifications: { io: '8DI+8DO Transistor', memory: '256 KB', comm: 'Ethernet+Serial', price: '$750-950' } },
+          { id: 'm251-mese16t', name: 'TM251MESE16T', partNumber: 'TM251MESE16T', specifications: { io: '16DI+16DO Transistor', memory: '256 KB', comm: 'Ethernet+Serial', price: '$850-1050' } },
+
+          // TM251MESC variants with CANopen
+          { id: 'm251-mesc16t', name: 'TM251MESC16T', partNumber: 'TM251MESC16T', specifications: { io: '16DI+16DO Transistor', memory: '256 KB', comm: 'Ethernet+Serial+CANopen', price: '$950-1150' } },
+          { id: 'm251-mesc24t', name: 'TM251MESC24T', partNumber: 'TM251MESC24T', specifications: { io: '24DI+24DO Transistor', memory: '256 KB', comm: 'Ethernet+Serial+CANopen', price: '$1000-1200' } },
         ],
       },
       {
@@ -121,9 +133,23 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'High-end compact controller with motion',
         software: 'EcoStruxure Machine Expert',
         models: [
-          { id: 'm258-standard', name: 'TM258LF42DT4L', partNumber: 'TM258LF42DT4L', specifications: { io: '42 I/O', memory: '1 MB', scanTime: '0.2 ms', motion: '16 axes', price: '$1400-1800' } },
-          { id: 'm258-safety', name: 'TM258LF42DS4LS', partNumber: 'TM258LF42DS4LS', specifications: { io: '42 I/O', memory: '1 MB', scanTime: '0.2 ms', safety: 'SIL 3', price: '$1800-2200' } },
-          { id: 'm258-advanced', name: 'TM258LD42DT4L', partNumber: 'TM258LD42DT4L', specifications: { io: '42 I/O', memory: '1 MB', scanTime: '0.2 ms', motion: '16 axes', price: '$1500-1900' } },
+          // TM258LF Series - High Performance Motion Controllers
+          { id: 'm258-lf42dt4l', name: 'TM258LF42DT4L', partNumber: 'TM258LF42DT4L', specifications: { io: '42 I/O', memory: '1 MB', motion: '16 axes', comm: 'Ethernet+CANopen', price: '$1400-1800' } },
+          { id: 'm258-lf66dt4l', name: 'TM258LF66DT4L', partNumber: 'TM258LF66DT4L', specifications: { io: '66 I/O', memory: '1 MB', motion: '16 axes', comm: 'Ethernet+CANopen', price: '$1600-2000' } },
+
+          // TM258LD Series - Standard Motion Controllers
+          { id: 'm258-ld42dt4l', name: 'TM258LD42DT4L', partNumber: 'TM258LD42DT4L', specifications: { io: '42 I/O', memory: '1 MB', motion: '12 axes', comm: 'Ethernet+CANopen', price: '$1300-1700' } },
+          { id: 'm258-ld66dt4l', name: 'TM258LD66DT4L', partNumber: 'TM258LD66DT4L', specifications: { io: '66 I/O', memory: '1 MB', motion: '12 axes', comm: 'Ethernet+CANopen', price: '$1500-1900' } },
+
+          // TM258LF/LD with Safety (SIL 3)
+          { id: 'm258-lf42ds4ls', name: 'TM258LF42DS4LS', partNumber: 'TM258LF42DS4LS', specifications: { io: '42 I/O', memory: '1 MB', motion: '16 axes', safety: 'SIL 3', comm: 'Ethernet+CANopen', price: '$1800-2200' } },
+          { id: 'm258-lf66ds4ls', name: 'TM258LF66DS4LS', partNumber: 'TM258LF66DS4LS', specifications: { io: '66 I/O', memory: '1 MB', motion: '16 axes', safety: 'SIL 3', comm: 'Ethernet+CANopen', price: '$2000-2400' } },
+          { id: 'm258-ld42ds4ls', name: 'TM258LD42DS4LS', partNumber: 'TM258LD42DS4LS', specifications: { io: '42 I/O', memory: '1 MB', motion: '12 axes', safety: 'SIL 3', comm: 'Ethernet+CANopen', price: '$1700-2100' } },
+          { id: 'm258-ld66ds4ls', name: 'TM258LD66DS4LS', partNumber: 'TM258LD66DS4LS', specifications: { io: '66 I/O', memory: '1 MB', motion: '12 axes', safety: 'SIL 3', comm: 'Ethernet+CANopen', price: '$1900-2300' } },
+
+          // TM258LF/LD Compact versions
+          { id: 'm258-lf10c4dt', name: 'TM258LF10C4DT', partNumber: 'TM258LF10C4DT', specifications: { io: '10 I/O Compact', memory: '1 MB', motion: '16 axes', comm: 'Ethernet+CANopen', price: '$1200-1600' } },
+          { id: 'm258-ld10c4dt', name: 'TM258LD10C4DT', partNumber: 'TM258LD10C4DT', specifications: { io: '10 I/O Compact', memory: '1 MB', motion: '12 axes', comm: 'Ethernet+CANopen', price: '$1100-1500' } },
         ],
       },
       {
@@ -132,8 +158,21 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Modular motion controller',
         software: 'EcoStruxure Machine Expert',
         models: [
-          { id: 'm262-motion', name: 'TM262L10MESE8T', partNumber: 'TM262L10MESE8T', specifications: { memory: '10 MB', motion: '32 axes', io: 'Modular', price: '$2000-2500' } },
-          { id: 'm262-advanced', name: 'TM262M15MESS8T', partNumber: 'TM262M15MESS8T', specifications: { memory: '15 MB', motion: '64 axes', io: 'Modular', price: '$2500-3000' } },
+          // TM262L Series - Logic & Motion Controllers (10 MB)
+          { id: 'm262-l10mese8t', name: 'TM262L10MESE8T', partNumber: 'TM262L10MESE8T', specifications: { memory: '10 MB', motion: '32 axes', io: 'Modular', comm: 'Ethernet+Serial+CANopen', price: '$2000-2500' } },
+          { id: 'm262-l10mes48t', name: 'TM262L10MES48T', partNumber: 'TM262L10MES48T', specifications: { memory: '10 MB', motion: '32 axes', io: '48 I/O Modular', comm: 'Ethernet+Serial+CANopen', price: '$2200-2700' } },
+
+          // TM262M Series - Medium Performance (15 MB)
+          { id: 'm262-m15mess8t', name: 'TM262M15MESS8T', partNumber: 'TM262M15MESS8T', specifications: { memory: '15 MB', motion: '64 axes', io: 'Modular', comm: 'Ethernet+Serial+CANopen', price: '$2500-3000' } },
+          { id: 'm262-m15mes48t', name: 'TM262M15MES48T', partNumber: 'TM262M15MES48T', specifications: { memory: '15 MB', motion: '64 axes', io: '48 I/O Modular', comm: 'Ethernet+Serial+CANopen', price: '$2700-3200' } },
+
+          // TM262H Series - High Performance (20 MB)
+          { id: 'm262-h20mess8t', name: 'TM262H20MESS8T', partNumber: 'TM262H20MESS8T', specifications: { memory: '20 MB', motion: '128 axes', io: 'Modular', comm: 'Ethernet+Serial+CANopen', price: '$3000-3500' } },
+          { id: 'm262-h20mes48t', name: 'TM262H20MES48T', partNumber: 'TM262H20MES48T', specifications: { memory: '20 MB', motion: '128 axes', io: '48 I/O Modular', comm: 'Ethernet+Serial+CANopen', price: '$3200-3700' } },
+
+          // TM262 with Safety (SIL 3)
+          { id: 'm262-l10meses8t', name: 'TM262L10MESES8T', partNumber: 'TM262L10MESES8T', specifications: { memory: '10 MB', motion: '32 axes', safety: 'SIL 3', io: 'Modular', comm: 'Ethernet+Serial+CANopen', price: '$2500-3000' } },
+          { id: 'm262-m15meses8t', name: 'TM262M15MESES8T', partNumber: 'TM262M15MESES8T', specifications: { memory: '15 MB', motion: '64 axes', safety: 'SIL 3', io: 'Modular', comm: 'Ethernet+Serial+CANopen', price: '$3000-3500' } },
         ],
       },
       {
@@ -142,9 +181,25 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Modular PLC for process and infrastructure',
         software: 'EcoStruxure Control Expert',
         models: [
-          { id: 'm340-cpu-27', name: 'BMXP342020', partNumber: 'BMXP342020', specifications: { memory: '256 KB RAM', io: 'Max 1024 I/O', scanTime: '0.2 ms/K', price: '$1500-2000' } },
-          { id: 'm340-cpu-30', name: 'BMXP3420302', partNumber: 'BMXP3420302', specifications: { memory: '1 MB RAM', io: 'Max 1024 I/O', scanTime: '0.15 ms/K', price: '$2000-2500' } },
-          { id: 'm340-cpu-hot', name: 'BMXP342020H', partNumber: 'BMXP342020H', specifications: { memory: '256 KB RAM', hotStandby: 'Yes', io: 'Max 1024 I/O', price: '$2500-3000' } },
+          // BMXP341000 Series - Entry Level
+          { id: 'm340-p341000', name: 'BMXP341000', partNumber: 'BMXP341000', specifications: { memory: '64 KB RAM + 128 KB FLASH', io: 'Max 256 I/O', scanTime: '0.2 ms/K', comm: 'RS-232/485', price: '$1000-1400' } },
+          { id: 'm340-p3415200', name: 'BMXP3415200', partNumber: 'BMXP3415200', specifications: { memory: '128 KB RAM + 256 KB FLASH', io: 'Max 512 I/O', scanTime: '0.2 ms/K', comm: 'RS-232/485', price: '$1200-1600' } },
+
+          // BMXP342000 Series - Standard Performance
+          { id: 'm340-p342000', name: 'BMXP342000', partNumber: 'BMXP342000', specifications: { memory: '128 KB RAM + 256 KB FLASH', io: 'Max 1024 I/O', scanTime: '0.2 ms/K', comm: 'Ethernet', price: '$1400-1800' } },
+          { id: 'm340-p342020', name: 'BMXP342020', partNumber: 'BMXP342020', specifications: { memory: '256 KB RAM + 512 KB FLASH', io: 'Max 1024 I/O', scanTime: '0.2 ms/K', comm: 'Ethernet', price: '$1500-2000' } },
+          { id: 'm340-p3420302', name: 'BMXP3420302', partNumber: 'BMXP3420302', specifications: { memory: '1 MB RAM + 4 MB FLASH', io: 'Max 1024 I/O', scanTime: '0.15 ms/K', comm: 'Ethernet', price: '$2000-2500' } },
+
+          // BMXP3420302H Series - Hot Standby
+          { id: 'm340-p342020h', name: 'BMXP342020H', partNumber: 'BMXP342020H', specifications: { memory: '256 KB RAM + 512 KB FLASH', hotStandby: 'Yes', io: 'Max 1024 I/O', scanTime: '0.2 ms/K', price: '$2500-3000' } },
+          { id: 'm340-p3420302h', name: 'BMXP3420302H', partNumber: 'BMXP3420302H', specifications: { memory: '1 MB RAM + 4 MB FLASH', hotStandby: 'Yes', io: 'Max 1024 I/O', scanTime: '0.15 ms/K', price: '$3000-3500' } },
+
+          // BMXP342030 Series - High Performance
+          { id: 'm340-p342030', name: 'BMXP342030', partNumber: 'BMXP342030', specifications: { memory: '2 MB RAM + 8 MB FLASH', io: 'Max 1024 I/O', scanTime: '0.12 ms/K', comm: 'Ethernet', price: '$2500-3000' } },
+          { id: 'm340-p342030h', name: 'BMXP342030H', partNumber: 'BMXP342030H', specifications: { memory: '2 MB RAM + 8 MB FLASH', hotStandby: 'Yes', io: 'Max 1024 I/O', scanTime: '0.12 ms/K', price: '$3500-4000' } },
+
+          // Legacy Models
+          { id: 'm340-p3415020', name: 'BMXP3415020', partNumber: 'BMXP3415020', specifications: { memory: '160 KB RAM + 384 KB FLASH', io: 'Max 512 I/O', scanTime: '0.2 ms/K', comm: 'Ethernet', price: '$1300-1700' } },
         ],
       },
       {
@@ -153,10 +208,31 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Ethernet PAC for process control and safety',
         software: 'EcoStruxure Control Expert',
         models: [
-          { id: 'm580-standard', name: 'BMEP582020', partNumber: 'BMEP582020', specifications: { memory: '2 MB RAM', ethernet: 'Dual', io: 'Max 3072 I/O', price: '$3000-4000' } },
-          { id: 'm580-advanced', name: 'BMEP583020', partNumber: 'BMEP583020', specifications: { memory: '4 MB RAM', ethernet: 'Dual', io: 'Max 7168 I/O', price: '$4000-5000' } },
-          { id: 'm580-safety', name: 'BMEP585040S', partNumber: 'BMEP585040S', specifications: { memory: '8 MB RAM', ethernet: 'Dual', safety: 'SIL 3', io: 'Max 7168 I/O', price: '$6000-8000' } },
-          { id: 'm580-hot', name: 'BMEP582040H', partNumber: 'BMEP582040H', specifications: { memory: '4 MB RAM', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 7168 I/O', price: '$5000-7000' } },
+          // BMEP58 Series - Standard Performance CPUs
+          { id: 'm580-ep582010', name: 'BMEP582010', partNumber: 'BMEP582010', specifications: { memory: '1 MB RAM + 16 MB FLASH', ethernet: 'Dual', io: 'Max 3072 I/O', scanTime: '0.04 ms/K', price: '$2500-3500' } },
+          { id: 'm580-ep582020', name: 'BMEP582020', partNumber: 'BMEP582020', specifications: { memory: '2 MB RAM + 32 MB FLASH', ethernet: 'Dual', io: 'Max 3072 I/O', scanTime: '0.04 ms/K', price: '$3000-4000' } },
+          { id: 'm580-ep582040', name: 'BMEP582040', partNumber: 'BMEP582040', specifications: { memory: '4 MB RAM + 64 MB FLASH', ethernet: 'Dual', io: 'Max 7168 I/O', scanTime: '0.04 ms/K', price: '$3500-4500' } },
+
+          // BMEP58 Hot Standby CPUs
+          { id: 'm580-ep582010h', name: 'BMEP582010H', partNumber: 'BMEP582010H', specifications: { memory: '1 MB RAM + 16 MB FLASH', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 3072 I/O', price: '$4000-5000' } },
+          { id: 'm580-ep582020h', name: 'BMEP582020H', partNumber: 'BMEP582020H', specifications: { memory: '2 MB RAM + 32 MB FLASH', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 3072 I/O', price: '$4500-5500' } },
+          { id: 'm580-ep582040h', name: 'BMEP582040H', partNumber: 'BMEP582040H', specifications: { memory: '4 MB RAM + 64 MB FLASH', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 7168 I/O', price: '$5000-7000' } },
+
+          // BMEP583 Series - Advanced Performance
+          { id: 'm580-ep583020', name: 'BMEP583020', partNumber: 'BMEP583020', specifications: { memory: '4 MB RAM + 64 MB FLASH', ethernet: 'Dual', io: 'Max 7168 I/O', scanTime: '0.03 ms/K', price: '$4000-5000' } },
+          { id: 'm580-ep583040', name: 'BMEP583040', partNumber: 'BMEP583040', specifications: { memory: '8 MB RAM + 128 MB FLASH', ethernet: 'Dual', io: 'Max 7168 I/O', scanTime: '0.03 ms/K', price: '$4500-5500' } },
+
+          // BMEP583 Hot Standby CPUs
+          { id: 'm580-ep583020h', name: 'BMEP583020H', partNumber: 'BMEP583020H', specifications: { memory: '4 MB RAM + 64 MB FLASH', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 7168 I/O', price: '$5500-6500' } },
+          { id: 'm580-ep583040h', name: 'BMEP583040H', partNumber: 'BMEP583040H', specifications: { memory: '8 MB RAM + 128 MB FLASH', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 7168 I/O', price: '$6000-7000' } },
+
+          // BMEP585 Series - Safety CPUs (SIL 3)
+          { id: 'm580-ep585040s', name: 'BMEP585040S', partNumber: 'BMEP585040S', specifications: { memory: '8 MB RAM + 128 MB FLASH', ethernet: 'Dual', safety: 'SIL 3', io: 'Max 7168 I/O', price: '$6000-8000' } },
+          { id: 'm580-ep585040hs', name: 'BMEP585040HS', partNumber: 'BMEP585040HS', specifications: { memory: '8 MB RAM + 128 MB FLASH', ethernet: 'Dual', safety: 'SIL 3', hotStandby: 'Yes', io: 'Max 7168 I/O', price: '$8000-10000' } },
+
+          // BMEP586 Series - High Performance
+          { id: 'm580-ep586040', name: 'BMEP586040', partNumber: 'BMEP586040', specifications: { memory: '16 MB RAM + 256 MB FLASH', ethernet: 'Dual', io: 'Max 7168 I/O', scanTime: '0.02 ms/K', price: '$5000-6000' } },
+          { id: 'm580-ep586040h', name: 'BMEP586040H', partNumber: 'BMEP586040H', specifications: { memory: '16 MB RAM + 256 MB FLASH', ethernet: 'Dual', hotStandby: 'Yes', io: 'Max 7168 I/O', price: '$7000-8000' } },
         ],
       },
     ],
