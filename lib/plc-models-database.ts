@@ -40,12 +40,18 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Compact logic controller for small machines',
         software: 'EcoStruxure Machine Expert Basic',
         models: [
-          { id: 'm221-16io', name: 'TM221C16R', partNumber: 'TM221C16R', specifications: { io: '16 I/O', memory: '100 KB', price: '$200-400' } },
-          { id: 'm221-24io', name: 'TM221C24R', partNumber: 'TM221C24R', specifications: { io: '24 I/O', memory: '100 KB', price: '$250-450' } },
-          { id: 'm221-40io', name: 'TM221C40R', partNumber: 'TM221C40R', specifications: { io: '40 I/O', memory: '100 KB', price: '$300-500' } },
-          { id: 'm221-16t', name: 'TM221C16T', partNumber: 'TM221C16T', specifications: { io: '16 I/O Transistor', memory: '100 KB', price: '$220-420' } },
-          { id: 'm221-24t', name: 'TM221C24T', partNumber: 'TM221C24T', specifications: { io: '24 I/O Transistor', memory: '100 KB', price: '$270-470' } },
-          { id: 'm221-40t', name: 'TM221C40T', partNumber: 'TM221C40T', specifications: { io: '40 I/O Transistor', memory: '100 KB', price: '$320-520' } },
+          { id: 'm221-c16r', name: 'TM221C16R', partNumber: 'TM221C16R', specifications: { io: '16 I/O Relay', memory: '100 KB', price: '$200-400' } },
+          { id: 'm221-c16t', name: 'TM221C16T', partNumber: 'TM221C16T', specifications: { io: '16 I/O Transistor', memory: '100 KB', price: '$220-420' } },
+          { id: 'm221-c16u', name: 'TM221C16U', partNumber: 'TM221C16U', specifications: { io: '16 I/O Transistor PNP', memory: '100 KB', price: '$230-430' } },
+          { id: 'm221-c24r', name: 'TM221C24R', partNumber: 'TM221C24R', specifications: { io: '24 I/O Relay', memory: '100 KB', price: '$250-450' } },
+          { id: 'm221-c24t', name: 'TM221C24T', partNumber: 'TM221C24T', specifications: { io: '24 I/O Transistor', memory: '100 KB', price: '$270-470' } },
+          { id: 'm221-c24u', name: 'TM221C24U', partNumber: 'TM221C24U', specifications: { io: '24 I/O Transistor PNP', memory: '100 KB', price: '$280-480' } },
+          { id: 'm221-c40r', name: 'TM221C40R', partNumber: 'TM221C40R', specifications: { io: '40 I/O Relay', memory: '100 KB', price: '$300-500' } },
+          { id: 'm221-c40t', name: 'TM221C40T', partNumber: 'TM221C40T', specifications: { io: '40 I/O Transistor', memory: '100 KB', price: '$320-520' } },
+          { id: 'm221-c40u', name: 'TM221C40U', partNumber: 'TM221C40U', specifications: { io: '40 I/O Transistor PNP', memory: '100 KB', price: '$330-530' } },
+          { id: 'm221-me16r', name: 'TM221ME16R', partNumber: 'TM221ME16R', specifications: { io: '16 I/O Ethernet Relay', memory: '100 KB', ethernet: 'Yes', price: '$350-550' } },
+          { id: 'm221-me16t', name: 'TM221ME16T', partNumber: 'TM221ME16T', specifications: { io: '16 I/O Ethernet Transistor', memory: '100 KB', ethernet: 'Yes', price: '$370-570' } },
+          { id: 'm221-me32tk', name: 'TM221ME32TK', partNumber: 'TM221ME32TK', specifications: { io: '32 I/O Ethernet', memory: '100 KB', ethernet: 'Yes', price: '$450-650' } },
         ],
       },
       {
@@ -128,11 +134,30 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Compact controller for small to medium automation',
         software: 'TIA Portal',
         models: [
-          { id: 's7-1211c', name: 'CPU 1211C', partNumber: '6ES7211-1AE40-0XB0', specifications: { memory: '50 KB', io: '14 DI/10 DO', scanTime: '0.1 μs/instruction', price: '$300-500' } },
-          { id: 's7-1212c', name: 'CPU 1212C', partNumber: '6ES7212-1AE40-0XB0', specifications: { memory: '75 KB', io: '14 DI/10 DO/2 AI', scanTime: '0.1 μs/instruction', price: '$400-600' } },
-          { id: 's7-1214c', name: 'CPU 1214C', partNumber: '6ES7214-1AG40-0XB0', specifications: { memory: '100 KB', io: '14 DI/10 DO/2 AI', scanTime: '0.1 μs/instruction', price: '$500-700' } },
-          { id: 's7-1215c', name: 'CPU 1215C', partNumber: '6ES7215-1AG40-0XB0', specifications: { memory: '125 KB', io: '14 DI/10 DO/2 AI', scanTime: '0.1 μs/instruction', price: '$600-800' } },
-          { id: 's7-1217c', name: 'CPU 1217C', partNumber: '6ES7217-1AG40-0XB0', specifications: { memory: '150 KB', io: '14 DI/10 DO/2 AI', scanTime: '0.1 μs/instruction', price: '$700-900' } },
+          // CPU 1211C Series
+          { id: 's7-1211c-dc', name: 'CPU 1211C DC/DC/DC', partNumber: '6ES7211-1AE40-0XB0', specifications: { memory: '50 KB', io: '6DI/4DO/2AI', scanTime: '0.1 μs', price: '$300-500' } },
+          { id: 's7-1211c-ac', name: 'CPU 1211C AC/DC/Relay', partNumber: '6ES7211-1BE40-0XB0', specifications: { memory: '50 KB', io: '6DI/4DO/2AI', scanTime: '0.1 μs', price: '$320-520' } },
+          { id: 's7-1211c-rly', name: 'CPU 1211C DC/DC/Relay', partNumber: '6ES7211-1HE40-0XB0', specifications: { memory: '50 KB', io: '6DI/4DO/2AI', scanTime: '0.1 μs', price: '$310-510' } },
+          // CPU 1212C Series
+          { id: 's7-1212c-dc', name: 'CPU 1212C DC/DC/DC', partNumber: '6ES7212-1AE40-0XB0', specifications: { memory: '75 KB', io: '8DI/6DO/2AI', scanTime: '0.1 μs', price: '$400-600' } },
+          { id: 's7-1212c-ac', name: 'CPU 1212C AC/DC/Relay', partNumber: '6ES7212-1BE40-0XB0', specifications: { memory: '75 KB', io: '8DI/6DO/2AI', scanTime: '0.1 μs', price: '$420-620' } },
+          { id: 's7-1212c-rly', name: 'CPU 1212C DC/DC/Relay', partNumber: '6ES7212-1HE40-0XB0', specifications: { memory: '75 KB', io: '8DI/6DO/2AI', scanTime: '0.1 μs', price: '$410-610' } },
+          { id: 's7-1212fc-dc', name: 'CPU 1212FC DC/DC/DC', partNumber: '6ES7212-1AF40-0XB0', specifications: { memory: '75 KB', io: '8DI/6DO/2AI', failsafe: 'Yes', scanTime: '0.1 μs', price: '$550-750' } },
+          { id: 's7-1212fc-rly', name: 'CPU 1212FC DC/DC/Relay', partNumber: '6ES7212-1HF40-0XB0', specifications: { memory: '75 KB', io: '8DI/6DO/2AI', failsafe: 'Yes', scanTime: '0.1 μs', price: '$540-740' } },
+          // CPU 1214C Series
+          { id: 's7-1214c-dc', name: 'CPU 1214C DC/DC/DC', partNumber: '6ES7214-1AG40-0XB0', specifications: { memory: '100 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$500-700' } },
+          { id: 's7-1214c-ac', name: 'CPU 1214C AC/DC/Relay', partNumber: '6ES7214-1BG40-0XB0', specifications: { memory: '100 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$520-720' } },
+          { id: 's7-1214c-rly', name: 'CPU 1214C DC/DC/Relay', partNumber: '6ES7214-1HG40-0XB0', specifications: { memory: '100 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$510-710' } },
+          { id: 's7-1214fc-dc', name: 'CPU 1214FC DC/DC/DC', partNumber: '6ES7214-1AF40-0XB0', specifications: { memory: '100 KB', io: '14DI/10DO/2AI', failsafe: 'Yes', scanTime: '0.1 μs', price: '$650-850' } },
+          { id: 's7-1214fc-rly', name: 'CPU 1214FC DC/DC/Relay', partNumber: '6ES7214-1HF40-0XB0', specifications: { memory: '100 KB', io: '14DI/10DO/2AI', failsafe: 'Yes', scanTime: '0.1 μs', price: '$640-840' } },
+          // CPU 1215C Series
+          { id: 's7-1215c-dc', name: 'CPU 1215C DC/DC/DC', partNumber: '6ES7215-1AG40-0XB0', specifications: { memory: '125 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$600-800' } },
+          { id: 's7-1215c-ac', name: 'CPU 1215C AC/DC/Relay', partNumber: '6ES7215-1BG40-0XB0', specifications: { memory: '125 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$620-820' } },
+          { id: 's7-1215c-rly', name: 'CPU 1215C DC/DC/Relay', partNumber: '6ES7215-1HG40-0XB0', specifications: { memory: '125 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$610-810' } },
+          { id: 's7-1215fc-dc', name: 'CPU 1215FC DC/DC/DC', partNumber: '6ES7215-1AF40-0XB0', specifications: { memory: '125 KB', io: '14DI/10DO/2AI', failsafe: 'Yes', scanTime: '0.1 μs', price: '$750-950' } },
+          { id: 's7-1215fc-rly', name: 'CPU 1215FC DC/DC/Relay', partNumber: '6ES7215-1HF40-0XB0', specifications: { memory: '125 KB', io: '14DI/10DO/2AI', failsafe: 'Yes', scanTime: '0.1 μs', price: '$740-940' } },
+          // CPU 1217C Series
+          { id: 's7-1217c-dc', name: 'CPU 1217C DC/DC/DC', partNumber: '6ES7217-1AG40-0XB0', specifications: { memory: '150 KB', io: '14DI/10DO/2AI', scanTime: '0.1 μs', price: '$700-900' } },
         ],
       },
       {
@@ -141,11 +166,22 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Advanced modular controller for complex automation',
         software: 'TIA Portal',
         models: [
-          { id: 's7-1511-1', name: 'CPU 1511-1 PN', partNumber: '6ES7511-1AK02-0AB0', specifications: { memory: '175 KB', io: 'Max 2048 I/O', scanTime: '1 ns/instruction', price: '$1500-2000' } },
-          { id: 's7-1513-1', name: 'CPU 1513-1 PN', partNumber: '6ES7513-1AL02-0AB0', specifications: { memory: '300 KB', io: 'Max 4096 I/O', scanTime: '1 ns/instruction', price: '$2000-2500' } },
-          { id: 's7-1515-2', name: 'CPU 1515-2 PN', partNumber: '6ES7515-2AM02-0AB0', specifications: { memory: '500 KB', io: 'Max 8192 I/O', scanTime: '1 ns/instruction', price: '$2500-3500' } },
-          { id: 's7-1516-3', name: 'CPU 1516-3 PN/DP', partNumber: '6ES7516-3AN02-0AB0', specifications: { memory: '1 MB', io: 'Max 12672 I/O', scanTime: '1 ns/instruction', price: '$3500-4500' } },
-          { id: 's7-1518-4', name: 'CPU 1518-4 PN/DP', partNumber: '6ES7518-4AP00-0AB0', specifications: { memory: '2 MB', io: 'Max 12672 I/O', scanTime: '1 ns/instruction', price: '$4500-6000' } },
+          // Standard CPUs
+          { id: 's7-1511-1pn', name: 'CPU 1511-1 PN', partNumber: '6ES7511-1AL03-0AB0', specifications: { memory: '300 KB Work/1.5 MB Load', io: 'Max 2048 I/O', scanTime: '1 ns', price: '$1500-2000' } },
+          { id: 's7-1511f-1pn', name: 'CPU 1511F-1 PN', partNumber: '6ES7511-1FL03-0AB0', specifications: { memory: '450 KB Work/1.5 MB Load', io: 'Max 2048 I/O', failsafe: 'Yes', scanTime: '1 ns', price: '$2000-2500' } },
+          { id: 's7-1513-1pn', name: 'CPU 1513-1 PN', partNumber: '6ES7513-1AM03-0AB0', specifications: { memory: '600 KB Work/2.5 MB Load', io: 'Max 4096 I/O', scanTime: '1 ns', price: '$2000-2500' } },
+          { id: 's7-1513f-1pn', name: 'CPU 1513F-1 PN', partNumber: '6ES7513-1FM03-0AB0', specifications: { memory: '900 KB Work/2.5 MB Load', io: 'Max 4096 I/O', failsafe: 'Yes', scanTime: '1 ns', price: '$2500-3000' } },
+          { id: 's7-1515-2pn', name: 'CPU 1515-2 PN', partNumber: '6ES7515-2AN03-0AB0', specifications: { memory: '1 MB Work/4.5 MB Load', io: 'Max 8192 I/O', scanTime: '1 ns', price: '$2500-3500' } },
+          { id: 's7-1515f-2pn', name: 'CPU 1515F-2 PN', partNumber: '6ES7515-2FN03-0AB0', specifications: { memory: '1.5 MB Work/4.5 MB Load', io: 'Max 8192 I/O', failsafe: 'Yes', scanTime: '1 ns', price: '$3000-4000' } },
+          { id: 's7-1516-3pn', name: 'CPU 1516-3 PN/DP', partNumber: '6ES7516-3AP03-0AB0', specifications: { memory: '2 MB Work/7.5 MB Load', io: 'Max 12672 I/O', scanTime: '1 ns', price: '$3500-4500' } },
+          { id: 's7-1516f-3pn', name: 'CPU 1516F-3 PN/DP', partNumber: '6ES7516-3FP03-0AB0', specifications: { memory: '3 MB Work/7.5 MB Load', io: 'Max 12672 I/O', failsafe: 'Yes', scanTime: '1 ns', price: '$4000-5000' } },
+          { id: 's7-1517-3pn', name: 'CPU 1517-3 PN/DP', partNumber: '6ES7517-3AQ10-0AB0', specifications: { memory: '4 MB Work/50 MB Load', io: 'Max 12672 I/O', scanTime: '1 ns', price: '$4500-6000' } },
+          { id: 's7-1517f-3pn', name: 'CPU 1517F-3 PN/DP', partNumber: '6ES7517-3FQ10-0AB0', specifications: { memory: '6 MB Work/50 MB Load', io: 'Max 12672 I/O', failsafe: 'Yes', scanTime: '1 ns', price: '$5000-6500' } },
+          { id: 's7-1518-4pn', name: 'CPU 1518-4 PN/DP', partNumber: '6ES7518-4AP00-0AB0', specifications: { memory: '8 MB Work/60 MB Load', io: 'Max 12672 I/O', scanTime: '1 ns', price: '$5500-7000' } },
+          { id: 's7-1518f-4pn', name: 'CPU 1518F-4 PN/DP', partNumber: '6ES7518-4FP00-0AB0', specifications: { memory: '12 MB Work/60 MB Load', io: 'Max 12672 I/O', failsafe: 'Yes', scanTime: '1 ns', price: '$6000-7500' } },
+          // Compact CPUs
+          { id: 's7-1511c-1pn', name: 'CPU 1511C-1 PN', partNumber: '6ES7511-1CL03-0AB0', specifications: { memory: '300 KB Work/1.5 MB Load', io: '30 DI/26 DO', scanTime: '1 ns', price: '$1800-2300' } },
+          { id: 's7-1512c-1pn', name: 'CPU 1512C-1 PN', partNumber: '6ES7512-1CM03-0AB0', specifications: { memory: '400 KB Work/2 MB Load', io: '32 DI/32 DO', scanTime: '1 ns', price: '$2000-2500' } },
         ],
       },
       {
@@ -397,4 +433,83 @@ export function searchModels(query: string): Array<{
   });
 
   return results;
+}
+
+// Helper function to get model by ID with full context
+export function getModelWithContext(modelId: string): {
+  manufacturer: PLCManufacturer;
+  series: PLCSeries;
+  model: PLCModel;
+} | null {
+  for (const manufacturer of plcDatabase) {
+    for (const series of manufacturer.series) {
+      const model = series.models.find(m => m.id === modelId);
+      if (model) {
+        return { manufacturer, series, model };
+      }
+    }
+  }
+  return null;
+}
+
+// Convert new database format to legacy format for API compatibility
+export function convertToLegacyFormat(
+  manufacturer: PLCManufacturer,
+  series: PLCSeries,
+  model: PLCModel
+) {
+  return {
+    id: model.id,
+    model: model.name,
+    manufacturer: manufacturer.name,
+    series: series.name,
+    description: series.description,
+    fileExtension: getFileExtension(manufacturer.name, series.name),
+    programmingLanguages: getProgrammingLanguages(series.software),
+    communication: getCommunicationProtocols(manufacturer.name),
+    ioPoints: model.specifications?.io || 'Modular',
+    category: getCategory(series.name),
+  };
+}
+
+function getFileExtension(manufacturer: string, series: string): string {
+  if (manufacturer.includes('Schneider')) return '.xef';
+  if (manufacturer.includes('Siemens')) return '.zap15';
+  if (manufacturer.includes('Rockwell') || manufacturer.includes('Allen-Bradley')) return '.acd';
+  if (manufacturer.includes('Mitsubishi')) return '.gxw';
+  return '.plc';
+}
+
+function getProgrammingLanguages(software: string): string[] {
+  if (software.includes('Machine Expert') || software.includes('SoMachine'))
+    return ['Ladder Logic (LD)', 'Function Block (FBD)', 'Structured Text (ST)'];
+  if (software.includes('TIA Portal') || software.includes('STEP 7'))
+    return ['Ladder Logic (LAD)', 'Function Block (FBD)', 'Structured Control Language (SCL)'];
+  if (software.includes('Studio 5000') || software.includes('RSLogix'))
+    return ['Ladder Logic', 'Function Block', 'Structured Text'];
+  if (software.includes('GX Works'))
+    return ['Ladder Logic', 'Structured Text (ST)', 'Function Block'];
+  return ['Ladder Logic (LD)', 'Structured Text (ST)'];
+}
+
+function getCommunicationProtocols(manufacturer: string): string[] {
+  if (manufacturer.includes('Schneider'))
+    return ['Modbus TCP/RTU', 'Ethernet/IP', 'CANopen'];
+  if (manufacturer.includes('Siemens'))
+    return ['Profinet', 'Profibus', 'Ethernet/IP', 'Modbus TCP'];
+  if (manufacturer.includes('Rockwell') || manufacturer.includes('Allen-Bradley'))
+    return ['Ethernet/IP', 'DeviceNet', 'ControlNet'];
+  if (manufacturer.includes('Mitsubishi'))
+    return ['CC-Link', 'Ethernet/IP', 'Modbus TCP'];
+  return ['Ethernet', 'Modbus TCP', 'OPC UA'];
+}
+
+function getCategory(series: string): string {
+  if (series.includes('M221') || series.includes('M241') || series.includes('1211') || series.includes('1212') || series.includes('FX3'))
+    return 'Small';
+  if (series.includes('M251') || series.includes('M258') || series.includes('1214') || series.includes('1215') || series.includes('FX5'))
+    return 'Medium';
+  if (series.includes('M340') || series.includes('M580') || series.includes('1500') || series.includes('ControlLogix') || series.includes('iQ-R'))
+    return 'Large';
+  return 'Medium';
 }
