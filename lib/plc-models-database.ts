@@ -40,18 +40,41 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'Compact logic controller for small machines',
         software: 'EcoStruxure Machine Expert Basic',
         models: [
-          { id: 'm221-c16r', name: 'TM221C16R', partNumber: 'TM221C16R', specifications: { io: '16 I/O Relay', memory: '100 KB', price: '$200-400' } },
-          { id: 'm221-c16t', name: 'TM221C16T', partNumber: 'TM221C16T', specifications: { io: '16 I/O Transistor', memory: '100 KB', price: '$220-420' } },
-          { id: 'm221-c16u', name: 'TM221C16U', partNumber: 'TM221C16U', specifications: { io: '16 I/O Transistor PNP', memory: '100 KB', price: '$230-430' } },
-          { id: 'm221-c24r', name: 'TM221C24R', partNumber: 'TM221C24R', specifications: { io: '24 I/O Relay', memory: '100 KB', price: '$250-450' } },
-          { id: 'm221-c24t', name: 'TM221C24T', partNumber: 'TM221C24T', specifications: { io: '24 I/O Transistor', memory: '100 KB', price: '$270-470' } },
-          { id: 'm221-c24u', name: 'TM221C24U', partNumber: 'TM221C24U', specifications: { io: '24 I/O Transistor PNP', memory: '100 KB', price: '$280-480' } },
-          { id: 'm221-c40r', name: 'TM221C40R', partNumber: 'TM221C40R', specifications: { io: '40 I/O Relay', memory: '100 KB', price: '$300-500' } },
-          { id: 'm221-c40t', name: 'TM221C40T', partNumber: 'TM221C40T', specifications: { io: '40 I/O Transistor', memory: '100 KB', price: '$320-520' } },
-          { id: 'm221-c40u', name: 'TM221C40U', partNumber: 'TM221C40U', specifications: { io: '40 I/O Transistor PNP', memory: '100 KB', price: '$330-530' } },
-          { id: 'm221-me16r', name: 'TM221ME16R', partNumber: 'TM221ME16R', specifications: { io: '16 I/O Ethernet Relay', memory: '100 KB', ethernet: 'Yes', price: '$350-550' } },
-          { id: 'm221-me16t', name: 'TM221ME16T', partNumber: 'TM221ME16T', specifications: { io: '16 I/O Ethernet Transistor', memory: '100 KB', ethernet: 'Yes', price: '$370-570' } },
-          { id: 'm221-me32tk', name: 'TM221ME32TK', partNumber: 'TM221ME32TK', specifications: { io: '32 I/O Ethernet', memory: '100 KB', ethernet: 'Yes', price: '$450-650' } },
+          // TM221C Series - Compact without Ethernet
+          { id: 'm221-c16r', name: 'TM221C16R', partNumber: 'TM221C16R', specifications: { io: '9DI+7DO Relay', memory: '100 KB', comm: 'Serial', price: '$200-400' } },
+          { id: 'm221-c16t', name: 'TM221C16T', partNumber: 'TM221C16T', specifications: { io: '9DI+7DO Transistor NPN', memory: '100 KB', comm: 'Serial', price: '$220-420' } },
+          { id: 'm221-c16u', name: 'TM221C16U', partNumber: 'TM221C16U', specifications: { io: '9DI+7DO Transistor PNP', memory: '100 KB', comm: 'Serial', price: '$230-430' } },
+          { id: 'm221-c24r', name: 'TM221C24R', partNumber: 'TM221C24R', specifications: { io: '14DI+10DO Relay', memory: '100 KB', comm: 'Serial', price: '$250-450' } },
+          { id: 'm221-c24t', name: 'TM221C24T', partNumber: 'TM221C24T', specifications: { io: '14DI+10DO Transistor NPN', memory: '100 KB', comm: 'Serial', price: '$270-470' } },
+          { id: 'm221-c24u', name: 'TM221C24U', partNumber: 'TM221C24U', specifications: { io: '14DI+10DO Transistor PNP', memory: '100 KB', comm: 'Serial', price: '$280-480' } },
+          { id: 'm221-c40r', name: 'TM221C40R', partNumber: 'TM221C40R', specifications: { io: '24DI+16DO Relay', memory: '100 KB', comm: 'Serial', price: '$300-500' } },
+          { id: 'm221-c40t', name: 'TM221C40T', partNumber: 'TM221C40T', specifications: { io: '24DI+16DO Transistor NPN', memory: '100 KB', comm: 'Serial', price: '$320-520' } },
+          { id: 'm221-c40u', name: 'TM221C40U', partNumber: 'TM221C40U', specifications: { io: '24DI+16DO Transistor PNP', memory: '100 KB', comm: 'Serial', price: '$330-530' } },
+
+          // TM221CE Series - Compact with Ethernet
+          { id: 'm221-ce16r', name: 'TM221CE16R', partNumber: 'TM221CE16R', specifications: { io: '9DI+7DO Relay', memory: '100 KB', comm: 'Ethernet+Serial', price: '$350-550' } },
+          { id: 'm221-ce16t', name: 'TM221CE16T', partNumber: 'TM221CE16T', specifications: { io: '9DI+7DO Transistor NPN', memory: '100 KB', comm: 'Ethernet+Serial', price: '$370-570' } },
+          { id: 'm221-ce16u', name: 'TM221CE16U', partNumber: 'TM221CE16U', specifications: { io: '9DI+7DO Transistor PNP', memory: '100 KB', comm: 'Ethernet+Serial', price: '$380-580' } },
+          { id: 'm221-ce24r', name: 'TM221CE24R', partNumber: 'TM221CE24R', specifications: { io: '14DI+10DO Relay', memory: '100 KB', comm: 'Ethernet+Serial', price: '$400-600' } },
+          { id: 'm221-ce24t', name: 'TM221CE24T', partNumber: 'TM221CE24T', specifications: { io: '14DI+10DO Transistor NPN', memory: '100 KB', comm: 'Ethernet+Serial', price: '$420-620' } },
+          { id: 'm221-ce24u', name: 'TM221CE24U', partNumber: 'TM221CE24U', specifications: { io: '14DI+10DO Transistor PNP', memory: '100 KB', comm: 'Ethernet+Serial', price: '$430-630' } },
+          { id: 'm221-ce40r', name: 'TM221CE40R', partNumber: 'TM221CE40R', specifications: { io: '24DI+16DO Relay', memory: '100 KB', comm: 'Ethernet+Serial', price: '$450-650' } },
+          { id: 'm221-ce40t', name: 'TM221CE40T', partNumber: 'TM221CE40T', specifications: { io: '24DI+16DO Transistor NPN', memory: '100 KB', comm: 'Ethernet+Serial', price: '$470-670' } },
+          { id: 'm221-ce40u', name: 'TM221CE40U', partNumber: 'TM221CE40U', specifications: { io: '24DI+16DO Transistor PNP', memory: '100 KB', comm: 'Ethernet+Serial', price: '$480-680' } },
+
+          // TM221M Series - Modular with Expansion
+          { id: 'm221-m16r', name: 'TM221M16R', partNumber: 'TM221M16R', specifications: { io: '9DI+7DO Relay + Expansion', memory: '100 KB', expansion: '7 modules', comm: 'Serial', price: '$280-480' } },
+          { id: 'm221-m16rg', name: 'TM221M16RG', partNumber: 'TM221M16RG', specifications: { io: '9DI+7DO Relay + Spring', memory: '100 KB', expansion: '7 modules', comm: 'Serial', price: '$290-490' } },
+          { id: 'm221-m16t', name: 'TM221M16T', partNumber: 'TM221M16T', specifications: { io: '9DI+7DO Transistor NPN + Expansion', memory: '100 KB', expansion: '7 modules', comm: 'Serial', price: '$300-500' } },
+          { id: 'm221-m16tg', name: 'TM221M16TG', partNumber: 'TM221M16TG', specifications: { io: '9DI+7DO Transistor NPN + Spring', memory: '100 KB', expansion: '7 modules', comm: 'Serial', price: '$310-510' } },
+          { id: 'm221-m32tx', name: 'TM221M32TK', partNumber: 'TM221M32TK', specifications: { io: '18DI+14DO Transistor + Expansion', memory: '100 KB', expansion: '7 modules', comm: 'Serial', price: '$400-600' } },
+
+          // TM221ME Series - Modular with Ethernet
+          { id: 'm221-me16r', name: 'TM221ME16R', partNumber: 'TM221ME16R', specifications: { io: '9DI+7DO Relay + Expansion', memory: '100 KB', expansion: '7 modules', comm: 'Ethernet+Serial', price: '$430-630' } },
+          { id: 'm221-me16rg', name: 'TM221ME16RG', partNumber: 'TM221ME16RG', specifications: { io: '9DI+7DO Relay + Spring', memory: '100 KB', expansion: '7 modules', comm: 'Ethernet+Serial', price: '$440-640' } },
+          { id: 'm221-me16t', name: 'TM221ME16T', partNumber: 'TM221ME16T', specifications: { io: '9DI+7DO Transistor NPN + Expansion', memory: '100 KB', expansion: '7 modules', comm: 'Ethernet+Serial', price: '$450-650' } },
+          { id: 'm221-me16tg', name: 'TM221ME16TG', partNumber: 'TM221ME16TG', specifications: { io: '9DI+7DO Transistor NPN + Spring', memory: '100 KB', expansion: '7 modules', comm: 'Ethernet+Serial', price: '$460-660' } },
+          { id: 'm221-me32tk', name: 'TM221ME32TK', partNumber: 'TM221ME32TK', specifications: { io: '18DI+14DO Transistor + Expansion', memory: '100 KB', expansion: '7 modules', comm: 'Ethernet+Serial', price: '$550-750' } },
         ],
       },
       {
@@ -60,11 +83,25 @@ export const plcDatabase: PLCManufacturer[] = [
         description: 'High-performance compact controller',
         software: 'EcoStruxure Machine Expert',
         models: [
-          { id: 'm241-24io', name: 'TM241C24R', partNumber: 'TM241C24R', specifications: { io: '24 I/O', memory: '100-256 KB', scanTime: '0.6 ms', price: '$400-600' } },
-          { id: 'm241-40io', name: 'TM241C40R', partNumber: 'TM241C40R', specifications: { io: '40 I/O', memory: '100-256 KB', scanTime: '0.6 ms', price: '$500-700' } },
-          { id: 'm241-24t', name: 'TM241C24T', partNumber: 'TM241C24T', specifications: { io: '24 I/O Transistor', memory: '100-256 KB', scanTime: '0.6 ms', price: '$420-620' } },
-          { id: 'm241-40t', name: 'TM241C40T', partNumber: 'TM241C40T', specifications: { io: '40 I/O Transistor', memory: '100-256 KB', scanTime: '0.6 ms', price: '$520-720' } },
-          { id: 'm241-eth', name: 'TM241CE24R', partNumber: 'TM241CE24R', specifications: { io: '24 I/O + Ethernet', memory: '100-256 KB', scanTime: '0.6 ms', price: '$450-650' } },
+          // TM241C Series - Compact
+          { id: 'm241-c24r', name: 'TM241C24R', partNumber: 'TM241C24R', specifications: { io: '14DI+10DO Relay', memory: '256 KB', scanTime: '0.6 ms', comm: 'CANopen', price: '$400-600' } },
+          { id: 'm241-c24t', name: 'TM241C24T', partNumber: 'TM241C24T', specifications: { io: '14DI+10DO Transistor', memory: '256 KB', scanTime: '0.6 ms', comm: 'CANopen', price: '$420-620' } },
+          { id: 'm241-c24u', name: 'TM241C24U', partNumber: 'TM241C24U', specifications: { io: '14DI+10DO Transistor PNP', memory: '256 KB', scanTime: '0.6 ms', comm: 'CANopen', price: '$430-630' } },
+          { id: 'm241-c40r', name: 'TM241C40R', partNumber: 'TM241C40R', specifications: { io: '24DI+16DO Relay', memory: '256 KB', scanTime: '0.6 ms', comm: 'CANopen', price: '$500-700' } },
+          { id: 'm241-c40t', name: 'TM241C40T', partNumber: 'TM241C40T', specifications: { io: '24DI+16DO Transistor', memory: '256 KB', scanTime: '0.6 ms', comm: 'CANopen', price: '$520-720' } },
+          { id: 'm241-c40u', name: 'TM241C40U', partNumber: 'TM241C40U', specifications: { io: '24DI+16DO Transistor PNP', memory: '256 KB', scanTime: '0.6 ms', comm: 'CANopen', price: '$530-730' } },
+
+          // TM241CE Series - With Ethernet
+          { id: 'm241-ce24r', name: 'TM241CE24R', partNumber: 'TM241CE24R', specifications: { io: '14DI+10DO Relay', memory: '256 KB', scanTime: '0.6 ms', comm: 'Ethernet+CANopen', price: '$550-750' } },
+          { id: 'm241-ce24t', name: 'TM241CE24T', partNumber: 'TM241CE24T', specifications: { io: '14DI+10DO Transistor', memory: '256 KB', scanTime: '0.6 ms', comm: 'Ethernet+CANopen', price: '$570-770' } },
+          { id: 'm241-ce24u', name: 'TM241CE24U', partNumber: 'TM241CE24U', specifications: { io: '14DI+10DO Transistor PNP', memory: '256 KB', scanTime: '0.6 ms', comm: 'Ethernet+CANopen', price: '$580-780' } },
+          { id: 'm241-ce40r', name: 'TM241CE40R', partNumber: 'TM241CE40R', specifications: { io: '24DI+16DO Relay', memory: '256 KB', scanTime: '0.6 ms', comm: 'Ethernet+CANopen', price: '$650-850' } },
+          { id: 'm241-ce40t', name: 'TM241CE40T', partNumber: 'TM241CE40T', specifications: { io: '24DI+16DO Transistor', memory: '256 KB', scanTime: '0.6 ms', comm: 'Ethernet+CANopen', price: '$670-870' } },
+          { id: 'm241-ce40u', name: 'TM241CE40U', partNumber: 'TM241CE40U', specifications: { io: '24DI+16DO Transistor PNP', memory: '256 KB', scanTime: '0.6 ms', comm: 'Ethernet+CANopen', price: '$680-880' } },
+
+          // TM241CEC Series - With 2x Ethernet ports
+          { id: 'm241-cec24t', name: 'TM241CEC24T', partNumber: 'TM241CEC24T', specifications: { io: '14DI+10DO Transistor', memory: '256 KB', scanTime: '0.6 ms', comm: '2x Ethernet+CANopen', price: '$620-820' } },
+          { id: 'm241-cec24u', name: 'TM241CEC24U', partNumber: 'TM241CEC24U', specifications: { io: '14DI+10DO Transistor PNP', memory: '256 KB', scanTime: '0.6 ms', comm: '2x Ethernet+CANopen', price: '$630-830' } },
         ],
       },
       {
