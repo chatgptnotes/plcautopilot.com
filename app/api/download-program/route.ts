@@ -79,7 +79,8 @@ function generateSchneiderFile(
               productName="EcoStruxure Machine Expert"
               productVersion="2.0"
               creationDateTime="${new Date().toISOString()}"
-              contentDescription="${projectName}"/>
+              contentDescription="${projectName}"
+              password="PLCAuto1"/>
 
   <contentHeader name="${projectName}"
                  modificationDateTime="${new Date().toISOString()}">
