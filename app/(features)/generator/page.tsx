@@ -85,7 +85,7 @@ export default function GeneratorPage() {
           programCode: generatedFile.content,
           platform: selectedPLC.manufacturer.name,
           plcModel: selectedPLC.model.name,
-          series: selectedPLC.series?.name || '',
+          language: 'LD',
           projectName: 'PLCAutoProgram',
         }),
       });
