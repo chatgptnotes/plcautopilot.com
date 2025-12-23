@@ -129,8 +129,8 @@ function generateSchneiderFile(
 
   return {
     content: xmlContent,
-    filename: `${projectName}_${plcModel}_${timestamp}.xml`,
-    mimeType: 'application/xml',
+    filename: `${projectName}_${plcModel}_${timestamp}.smbp`,
+    mimeType: 'application/octet-stream',
   };
 }
 

@@ -586,10 +586,11 @@ export function convertToLegacyFormat(
 }
 
 function getFileExtension(manufacturer: string, series: string): string {
-  if (manufacturer.includes('Schneider')) return '.xef';
-  if (manufacturer.includes('Siemens')) return '.zap15';
-  if (manufacturer.includes('Rockwell') || manufacturer.includes('Allen-Bradley')) return '.acd';
+  if (manufacturer.includes('Schneider')) return '.smbp';
+  if (manufacturer.includes('Siemens')) return '.xml';
+  if (manufacturer.includes('Rockwell') || manufacturer.includes('Allen-Bradley')) return '.L5X';
   if (manufacturer.includes('Mitsubishi')) return '.gxw';
+  if (manufacturer.includes('CODESYS')) return '.export';
   return '.plc';
 }
 
