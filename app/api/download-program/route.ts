@@ -79,8 +79,7 @@ function generateSchneiderFile(
               productName="EcoStruxure Machine Expert"
               productVersion="2.0"
               creationDateTime="${new Date().toISOString()}"
-              contentDescription="${projectName}"
-              password="PLCAuto1"/>
+              contentDescription="${projectName}"/>
 
   <contentHeader name="${projectName}"
                  modificationDateTime="${new Date().toISOString()}">
@@ -89,6 +88,9 @@ function generateSchneiderFile(
       <ld><scaling x="1" y="1"/></ld>
       <sfc><scaling x="1" y="1"/></sfc>
     </coordinateInfo>
+    <addData>
+      <data name="protectionEnabled" handleUnknown="implementation">false</data>
+    </addData>
   </contentHeader>
 
   <types>
