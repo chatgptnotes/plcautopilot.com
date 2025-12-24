@@ -156,7 +156,7 @@ export default function AICopilotPage() {
         const analysisMessage = `I've analyzed your P&ID/ladder logic diagram:
 
 **Detected Elements:**
-${analysis.summary || 'Image uploaded successfully. Please describe what you'd like me to do with this diagram.'}
+${analysis.summary || 'Image uploaded successfully. Please describe what you would like me to do with this diagram.'}
 
 What would you like me to do with this diagram? I can:
 - Generate PLC code from this logic
@@ -173,7 +173,7 @@ What would you like me to do with this diagram? I can:
       console.error('Image analysis error:', error);
       setChatHistory([...chatHistory, {
         role: 'assistant',
-        content: 'I received your diagram. Please describe what you\'d like me to do with it.'
+        content: 'I received your diagram. Please describe what you would like me to do with it.'
       }]);
     } finally {
       setIsAnalyzingImage(false);
