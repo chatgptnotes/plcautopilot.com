@@ -202,51 +202,6 @@ export default function AICopilotPage() {
     setStartTime(Date.now());
 
     try {
-<<<<<<< HEAD
-      // Convert images to base64 for API
-      const imageData = await Promise.all(
-        uploadedImages.map(async (img) => {
-          const reader = new FileReader();
-          return new Promise<{ base64: string; mimeType: string; type: string }>((resolve) => {
-            reader.onloadend = () => {
-              const base64 = (reader.result as string).split(',')[1];
-              resolve({
-                base64,
-                mimeType: img.file.type,
-                type: img.type
-              });
-            };
-            reader.readAsDataURL(img.file);
-          });
-        })
-      );
-
-      // Call real Claude API
-      const response = await fetch('/api/ai-copilot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt,
-          mode: activeTab,
-          images: imageData.length > 0 ? imageData : undefined
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setChatHistory(prev => [...prev, { role: 'assistant', content: data.response }]);
-        if (activeTab === 'generate') {
-          setGeneratedCode(data.response);
-        }
-      } else {
-        // Fallback to mock response if API fails
-        const mockResponse = generateMockResponse(prompt, activeTab, uploadedImages);
-        setChatHistory(prev => [...prev, { role: 'assistant', content: mockResponse }]);
-        if (activeTab === 'generate') {
-          setGeneratedCode(mockResponse);
-        }
-=======
       // Prepare images for API if present
       const imagesToSend = await Promise.all(uploadedImages.map(async (img) => {
         const base64 = await fileToBase64(img.file);
@@ -281,147 +236,11 @@ export default function AICopilotPage() {
       setChatHistory(prev => [...prev, { role: 'assistant', content: assistantResponse }]);
       if (activeTab === 'generate') {
         setGeneratedCode(assistantResponse);
->>>>>>> f360b0f (Remove all mock AI and implement real Claude API integration)
       }
-    } catch (error) {
-      console.error('AI request failed:', error);
-      // Fallback to mock response
-      const mockResponse = generateMockResponse(prompt, activeTab, uploadedImages);
-      setChatHistory(prev => [...prev, { role: 'assistant', content: mockResponse }]);
-      if (activeTab === 'generate') {
-        setGeneratedCode(mockResponse);
-      }
-    } finally {
       setIsLoading(false);
       setPrompt('');
       setUploadedImages([]);
       setStartTime(null);
-<<<<<<< HEAD
-    }
-  };
-
-  const generateMockResponse = (userPrompt: string, tab: string, images: UploadedImage[] = []) => {
-    const hasImages = images.length > 0;
-    const imageContext = hasImages
-      ? `\n\n## Image Analysis Results\n${images.map((img, idx) =>
-          `**Image ${idx + 1}** (${img.type} diagram): Detected ${
-            img.type === 'pid' ? 'P&ID elements: pumps, valves, sensors, control loops' :
-            img.type === 'logic' ? 'ladder logic: contacts, coils, timers, counters' :
-            'control system components'
-          }`
-        ).join('\n')}\n\nBased on the uploaded diagrams, I've generated the following implementation:\n`
-      : '';
-
-    if (tab === 'generate') {
-      return `${imageContext}(* Generated PLC Program *)
-(* Based on your requirements *)
-
-PROGRAM WaterPumpStation
-VAR
-    WellLevel: REAL;           (* Current well level in feet *)
-    WellLevelPercent: REAL;    (* Well level as percentage *)
-    Pump1_Run: BOOL := FALSE;  (* Pump 1 running status *)
-    Pump2_Run: BOOL := FALSE;  (* Pump 2 running status *)
-    HighLevelAlarm: BOOL := FALSE; (* High level alarm *)
-    WellDepth: REAL := 15.0;   (* Total well depth in feet *)
-END_VAR
-
-(* Calculate well level percentage *)
-WellLevelPercent := (WellLevel / WellDepth) * 100.0;
-
-(* Pump 1 Control Logic *)
-IF WellLevelPercent > 50.0 THEN
-    Pump1_Run := TRUE;
-ELSIF WellLevelPercent < 20.0 THEN
-    Pump1_Run := FALSE;
-END_IF;
-
-(* Pump 2 Control Logic *)
-IF WellLevelPercent > 80.0 THEN
-    Pump2_Run := TRUE;
-ELSIF WellLevelPercent < 20.0 THEN
-    Pump2_Run := FALSE;
-END_IF;
-
-(* High Level Alarm *)
-IF WellLevelPercent > 90.0 THEN
-    HighLevelAlarm := TRUE;
-ELSE
-    HighLevelAlarm := FALSE;
-END_IF;
-
-END_PROGRAM`;
-    } else if (tab === 'explain') {
-      return `## Code Explanation
-
-### Flow Diagram
-\`\`\`
-Start → Read Well Level → Calculate Percentage → Control Pumps → Check Alarm → End
-\`\`\`
-
-### Variable Declarations (Lines 1-9)
-- **WellLevel**: Stores the current water level measurement
-- **WellLevelPercent**: Calculated percentage of well capacity
-- **Pump1_Run, Pump2_Run**: Control outputs for pump operations
-- **HighLevelAlarm**: Safety alarm trigger
-- **WellDepth**: Constant defining maximum well capacity
-
-### Main Logic
-
-**Percentage Calculation (Line 11)**
-Converts raw level reading to percentage for easier threshold comparisons.
-
-**Pump 1 Control (Lines 13-17)**
-- Activates when level exceeds 50%
-- Deactivates when level drops below 20%
-- Uses hysteresis to prevent rapid cycling
-
-**Pump 2 Control (Lines 19-23)**
-- Provides additional pumping at 80% capacity
-- Same shutdown logic as Pump 1
-
-**Alarm Logic (Lines 25-29)**
-- Triggers at 90% to warn of approaching overflow
-- Clears automatically when level drops`;
-    } else {
-      return `## Generated Test Cases
-
-### Test Case 1: Normal Operation - Low Level
-**Scenario**: Well level at 10%
-- Expected: Both pumps OFF
-- Expected: Alarm OFF
-- Status: ✓ PASS
-
-### Test Case 2: Pump 1 Activation
-**Scenario**: Well level rises to 55%
-- Expected: Pump 1 ON, Pump 2 OFF
-- Expected: Alarm OFF
-- Status: ✓ PASS
-
-### Test Case 3: Pump 2 Activation
-**Scenario**: Well level rises to 85%
-- Expected: Pump 1 ON, Pump 2 ON
-- Expected: Alarm OFF
-- Status: ✓ PASS
-
-### Test Case 4: High Level Alarm
-**Scenario**: Well level rises to 92%
-- Expected: Pump 1 ON, Pump 2 ON
-- Expected: Alarm ON
-- Status: ✓ PASS
-
-### Test Case 5: Pump Shutdown
-**Scenario**: Well level drops to 18%
-- Expected: Both pumps OFF
-- Expected: Alarm OFF
-- Status: ✓ PASS
-
-### Troubleshooting Recommendations
-- Verify sensor calibration for accurate level readings
-- Check pump contactor wiring
-- Test alarm notification system
-- Validate hysteresis thresholds`;
-=======
     } catch (error) {
       console.error('AI generation error:', error);
       setChatHistory(prev => [...prev, {
@@ -430,7 +249,6 @@ Converts raw level reading to percentage for easier threshold comparisons.
       }]);
       setIsLoading(false);
       setStartTime(null);
->>>>>>> f360b0f (Remove all mock AI and implement real Claude API integration)
     }
   };
 
