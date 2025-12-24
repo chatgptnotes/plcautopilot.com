@@ -59,9 +59,9 @@ def parse_file(args):
 def analyze_sketch(args):
     """Analyze a hand-drawn ladder logic sketch."""
 
-    if not os.getenv('GEMINI_API_KEY'):
-        print("Error: GEMINI_API_KEY environment variable not set")
-        print("Set it with: export GEMINI_API_KEY=your_key_here")
+    if not os.getenv('ANTHROPIC_API_KEY'):
+        print("Error: ANTHROPIC_API_KEY environment variable not set")
+        print("Set it with: export ANTHROPIC_API_KEY=your_key_here")
         sys.exit(1)
 
     try:

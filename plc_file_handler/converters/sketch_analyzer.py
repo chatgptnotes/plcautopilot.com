@@ -1,6 +1,6 @@
 """
 Sketch to Ladder Logic Analyzer
-Uses Google Gemini AI vision to analyze hand-drawn ladder logic sketches.
+Uses Anthropic Claude AI vision to analyze hand-drawn ladder logic sketches.
 """
 
 import os
@@ -10,11 +10,11 @@ from typing import Dict, List, Optional
 import base64
 
 try:
-    import google.generativeai as genai
-    GEMINI_AVAILABLE = True
+    import anthropic
+    CLAUDE_AVAILABLE = True
 except ImportError:
-    GEMINI_AVAILABLE = False
-    print("Warning: google-generativeai not installed. Run: pip install google-generativeai")
+    CLAUDE_AVAILABLE = False
+    print("Warning: anthropic not installed. Run: pip install anthropic")
 
 try:
     from PIL import Image
@@ -30,29 +30,28 @@ class SketchAnalyzer:
     Converts sketches to structured ladder logic data.
     """
 
-    def __init__(self, api_key: Optional[str] = None, model: str = "gemini-2.0-flash-exp"):
+    def __init__(self, api_key: Optional[str] = None, model: str = "claude-3-5-sonnet-20241022"):
         """
         Initialize sketch analyzer.
 
         Args:
-            api_key: Google Gemini API key (if not provided, reads from env)
-            model: Gemini model to use
+            api_key: Anthropic Claude API key (if not provided, reads from env)
+            model: Claude model to use
         """
-        self.api_key = api_key or os.getenv('GEMINI_API_KEY')
+        self.api_key = api_key or os.getenv('ANTHROPIC_API_KEY')
         self.model_name = model
 
         if not self.api_key:
-            raise ValueError("GEMINI_API_KEY not found in environment or parameters")
+            raise ValueError("ANTHROPIC_API_KEY not found in environment or parameters")
 
-        if not GEMINI_AVAILABLE:
-            raise ImportError("google-generativeai package required. Install: pip install google-generativeai")
+        if not CLAUDE_AVAILABLE:
+            raise ImportError("anthropic package required. Install: pip install anthropic")
 
         if not PIL_AVAILABLE:
             raise ImportError("PIL package required. Install: pip install pillow")
 
-        # Configure Gemini
-        genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel(self.model_name)
+        # Initialize Claude client
+        self.client = anthropic.Anthropic(api_key=self.api_key)
 
     def analyze_sketch(self, image_path: str, platform: str = "schneider") -> Dict:
         """
@@ -70,18 +69,52 @@ class SketchAnalyzer:
         if not img_path.exists():
             raise FileNotFoundError(f"Image not found: {image_path}")
 
-        # Load image
-        img = Image.open(img_path)
+        # Load image and convert to base64
+        with open(img_path, 'rb') as f:
+            image_data = base64.standard_b64encode(f.read()).decode('utf-8')
+
+        # Determine media type
+        ext = img_path.suffix.lower()
+        media_types = {
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.png': 'image/png',
+            '.gif': 'image/gif',
+            '.webp': 'image/webp'
+        }
+        media_type = media_types.get(ext, 'image/jpeg')
 
         # Create platform-specific prompt
         prompt = self._create_analysis_prompt(platform)
 
-        # Send to Gemini
-        print("Analyzing sketch with Gemini AI...")
-        response = self.model.generate_content([prompt, img])
+        # Send to Claude
+        print("Analyzing sketch with Claude AI...")
+        response = self.client.messages.create(
+            model=self.model_name,
+            max_tokens=4096,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": media_type,
+                                "data": image_data,
+                            },
+                        },
+                        {
+                            "type": "text",
+                            "text": prompt
+                        }
+                    ],
+                }
+            ],
+        )
 
         # Parse response
-        analysis = self._parse_gemini_response(response.text)
+        analysis = self._parse_claude_response(response.content[0].text)
 
         # Add metadata
         analysis['source_image'] = str(img_path)
@@ -91,7 +124,7 @@ class SketchAnalyzer:
         return analysis
 
     def _create_analysis_prompt(self, platform: str) -> str:
-        """Create detailed analysis prompt for Gemini."""
+        """Create detailed analysis prompt for Claude."""
 
         base_prompt = """
 Analyze this hand-drawn ladder logic diagram and extract ALL details with precision.
@@ -243,8 +276,8 @@ If the sketch quality is poor, still provide best-effort analysis and list all a
 
         return full_prompt
 
-    def _parse_gemini_response(self, response_text: str) -> Dict:
-        """Parse Gemini's JSON response."""
+    def _parse_claude_response(self, response_text: str) -> Dict:
+        """Parse Claude's JSON response."""
 
         # Remove markdown code blocks if present
         cleaned = response_text.strip()
@@ -266,7 +299,7 @@ If the sketch quality is poor, still provide best-effort analysis and list all a
 
             # Return error structure
             return {
-                "error": "Failed to parse Gemini response",
+                "error": "Failed to parse Claude response",
                 "raw_response": response_text,
                 "parse_error": str(e)
             }
@@ -388,8 +421,8 @@ Tags Detected: {len(tags)}
 # Example usage
 if __name__ == "__main__":
     # Test if environment is configured
-    if os.getenv('GEMINI_API_KEY'):
-        print("Gemini API key found. SketchAnalyzer ready.")
+    if os.getenv('ANTHROPIC_API_KEY'):
+        print("Claude API key found. SketchAnalyzer ready.")
 
         # Example usage (requires actual image file)
         # analyzer = SketchAnalyzer()
@@ -397,5 +430,5 @@ if __name__ == "__main__":
         # print(analyzer.get_summary(analysis))
         # analyzer.export_analysis(analysis, "analysis_result.json")
     else:
-        print("Set GEMINI_API_KEY environment variable to use SketchAnalyzer")
-        print("Example: export GEMINI_API_KEY=your_key_here")
+        print("Set ANTHROPIC_API_KEY environment variable to use SketchAnalyzer")
+        print("Example: export ANTHROPIC_API_KEY=your_key_here")
