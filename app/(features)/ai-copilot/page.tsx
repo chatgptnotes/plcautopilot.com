@@ -16,6 +16,11 @@ export default function AICopilotPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
 
+  // Image upload state
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
+
   // Progress tracking state
   const [progressStages, setProgressStages] = useState<ProgressStage[]>([]);
   const [currentStage, setCurrentStage] = useState(0);
@@ -119,11 +124,72 @@ export default function AICopilotPage() {
     return () => clearInterval(interval);
   }, [isLoading, progressStages.length]);
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadedImage(file);
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    // Analyze image with PLC File Handler skill
+    setIsAnalyzingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('platform', 'schneider'); // Default platform
+
+      const response = await fetch('/api/analyze-sketch', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const analysis = await response.json();
+
+        // Add analysis to chat
+        const analysisMessage = `I've analyzed your P&ID/ladder logic diagram:
+
+**Detected Elements:**
+${analysis.summary || 'Image uploaded successfully. Please describe what you'd like me to do with this diagram.'}
+
+What would you like me to do with this diagram? I can:
+- Generate PLC code from this logic
+- Explain the control sequence
+- Create test scenarios
+- Convert to a different PLC platform`;
+
+        setChatHistory([...chatHistory, {
+          role: 'assistant',
+          content: analysisMessage
+        }]);
+      }
+    } catch (error) {
+      console.error('Image analysis error:', error);
+      setChatHistory([...chatHistory, {
+        role: 'assistant',
+        content: 'I received your diagram. Please describe what you\'d like me to do with it.'
+      }]);
+    } finally {
+      setIsAnalyzingImage(false);
+    }
+  };
+
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() && !uploadedImage) return;
 
     setIsLoading(true);
-    setChatHistory([...chatHistory, { role: 'user', content: prompt }]);
+
+    const userMessage = uploadedImage
+      ? `${prompt}\n[Attached: ${uploadedImage.name}]`
+      : prompt;
+
+    setChatHistory([...chatHistory, { role: 'user', content: userMessage }]);
 
     // Initialize progress tracking
     const stages = getStagesForTab(activeTab);
@@ -602,16 +668,70 @@ Converts raw level reading to percentage for easier threshold comparisons.
           {/* Right Panel - Code/Output Display */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="border-b border-gray-200 dark:border-gray-700 p-4 flex justify-between items-center">
-              <h3 className="font-semibold text-gray-900 dark:text-white">Generated Output</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-white">
+                {imagePreview ? 'Uploaded Diagram' : 'Generated Output'}
+              </h3>
               <div className="flex gap-2">
-                <button className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="diagram-upload"
+                />
+                <label
+                  htmlFor="diagram-upload"
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer flex items-center gap-2"
+                  title="Upload P&ID or ladder logic diagram"
+                >
                   <Upload size={16} />
-                </button>
+                  <span className="text-sm hidden sm:inline">Upload Diagram</span>
+                </label>
+                {imagePreview && (
+                  <button
+                    onClick={() => {
+                      setImagePreview('');
+                      setUploadedImage(null);
+                    }}
+                    className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
             </div>
 
             <div className="h-[calc(100%-4rem)] overflow-y-auto p-4">
-              {generatedCode || chatHistory.filter(m => m.role === 'assistant').slice(-1)[0]?.content ? (
+              {imagePreview ? (
+                <div className="space-y-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200 mb-2">
+                      <Upload size={16} />
+                      <span className="font-semibold">P&ID / Ladder Logic Diagram Uploaded</span>
+                    </div>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                      {uploadedImage?.name} ({(uploadedImage?.size || 0 / 1024).toFixed(1)} KB)
+                    </p>
+                    {isAnalyzingImage && (
+                      <div className="mt-2 flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
+                        <Loader2 className="animate-spin" size={14} />
+                        Analyzing diagram with AI...
+                      </div>
+                    )}
+                  </div>
+                  <img
+                    src={imagePreview}
+                    alt="Uploaded diagram"
+                    className="max-w-full h-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-md"
+                  />
+                  <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      💡 <strong>Tip:</strong> Describe what you'd like me to do with this diagram in the chat below.
+                      I can generate code, explain the logic, create tests, or convert to different PLC platforms.
+                    </p>
+                  </div>
+                </div>
+              ) : generatedCode || chatHistory.filter(m => m.role === 'assistant').slice(-1)[0]?.content ? (
                 <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
                   <code className="text-sm text-gray-800 dark:text-gray-200 font-mono">
                     {generatedCode || chatHistory.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
@@ -623,9 +743,13 @@ Converts raw level reading to percentage for easier threshold comparisons.
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                     No output yet
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                     Start a conversation to see generated code and results
                   </p>
+                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <Upload size={16} />
+                    <span>Or upload a P&ID/ladder logic diagram to get started</span>
+                  </div>
                 </div>
               )}
             </div>
