@@ -195,16 +195,14 @@ export default function AICopilotPage() {
       ];
     }
 
-    const totalTime = stages.reduce((sum, stage) => sum + stage.duration, 0);
-
     setProgressStages(stages.map(s => ({ ...s, status: 'pending' })));
     setCurrentStage(0);
     setProgress(0);
     setElapsedTime(0);
-    setEstimatedTime(totalTime);
     setStartTime(Date.now());
 
     try {
+<<<<<<< HEAD
       // Convert images to base64 for API
       const imageData = await Promise.all(
         uploadedImages.map(async (img) => {
@@ -248,6 +246,42 @@ export default function AICopilotPage() {
         if (activeTab === 'generate') {
           setGeneratedCode(mockResponse);
         }
+=======
+      // Prepare images for API if present
+      const imagesToSend = await Promise.all(uploadedImages.map(async (img) => {
+        const base64 = await fileToBase64(img.file);
+        return {
+          data: base64.split(',')[1], // Remove data:image/jpeg;base64, prefix
+          mediaType: img.file.type,
+          type: img.type
+        };
+      }));
+
+      // Call real Claude API
+      const response = await fetch('/api/ai-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...chatHistory, userMessage].map(m => ({
+            sender: m.role,
+            content: m.content
+          })),
+          mode: activeTab,
+          uploadedImages: imagesToSend
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('AI request failed');
+      }
+
+      const data = await response.json();
+      const assistantResponse = data.message;
+
+      setChatHistory(prev => [...prev, { role: 'assistant', content: assistantResponse }]);
+      if (activeTab === 'generate') {
+        setGeneratedCode(assistantResponse);
+>>>>>>> f360b0f (Remove all mock AI and implement real Claude API integration)
       }
     } catch (error) {
       console.error('AI request failed:', error);
@@ -262,6 +296,7 @@ export default function AICopilotPage() {
       setPrompt('');
       setUploadedImages([]);
       setStartTime(null);
+<<<<<<< HEAD
     }
   };
 
@@ -386,8 +421,28 @@ Converts raw level reading to percentage for easier threshold comparisons.
 - Check pump contactor wiring
 - Test alarm notification system
 - Validate hysteresis thresholds`;
+=======
+    } catch (error) {
+      console.error('AI generation error:', error);
+      setChatHistory(prev => [...prev, {
+        role: 'assistant',
+        content: 'Sorry, I encountered an error processing your request. Please try again or contact support if the issue persists.'
+      }]);
+      setIsLoading(false);
+      setStartTime(null);
+>>>>>>> f360b0f (Remove all mock AI and implement real Claude API integration)
     }
   };
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
 
   // Format time helper
   const formatTime = (ms: number) => {
