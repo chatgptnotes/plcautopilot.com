@@ -689,16 +689,38 @@ After each file operation:
 
 ## M221 Knowledge Base Integration
 
-**CRITICAL REFERENCES**:
-- `m221-knowledge-base.md` - Complete M221 programming patterns and templates
-- `create_sequential_lights_smbp.py` - Full working example with 6 rungs
-- `create_sequential_lights_simple.py` - Template modification approach
-- `motor_startstop_tm221ce40t.py` - API-based generation example
+**CRITICAL MANDATORY REFERENCES - USE THESE FOR ALL M221 TASKS**:
+
+### Primary Templates (ALWAYS USE ONE OF THESE):
+1. `/Users/murali/1backup/plcautopilot.com/create_sequential_4lights_IL.py` ⭐
+   - Instruction List programming
+   - 4 lights, 5 rungs, 3 timers
+   - Template modification approach
+
+2. `/Users/murali/1backup/plcautopilot.com/create_sequential_4lights_LD.py` ⭐
+   - Ladder Diagram with dual representation
+   - Visual ladder + IL code
+   - 10-column grid layout
+
+3. `/Users/murali/1backup/plcautopilot.com/create_sequential_lights_IL.py` ⭐
+   - Simpler 3-light version
+   - 4 rungs, 2 timers
+   - Easier to adapt
+
+### Knowledge Base:
+- `m221-knowledge-base.md` - Complete patterns and XML structures
+
+### Additional Examples:
+- `create_sequential_lights_smbp.py` - Full XML from scratch (6 rungs)
+- `create_sequential_lights_simple.py` - Minimal template modification
+- `motor_startstop_tm221ce40t.py` - Motor control via API
+
+**AGENT ACTIVATION**: When task mentions M221, TM221, Schneider, .smbp, sequential lights, or ladder logic → IMMEDIATELY read one of the three primary templates above.
 
 **Before creating ANY M221 .smbp file**:
-1. Review m221-knowledge-base.md for the specific pattern needed
-2. Copy the appropriate template
-3. Adapt addresses, symbols, and logic as required
+1. Read one of the three primary Python scripts above
+2. Copy the exact code structure and patterns
+3. Adapt only I/O addresses, symbols, and logic
 4. Validate grid layout and dual representation
 5. Test all timer configurations
 6. Verify system bits/words inclusion
@@ -706,9 +728,10 @@ After each file operation:
 ---
 
 **Status**: Production Ready
-**Version**: 1.1
+**Version**: 1.2
 **Last Updated**: 2025-12-24
 **Maintainer**: PLCAutoPilot AI Team
 **Changelog**:
+- v1.2: Added MANDATORY M221 Python script references (3 primary templates), agent activation rules
 - v1.1: Added complete M221 programming guide, rung generation patterns, knowledge base integration
 - v1.0: Initial release with multi-platform support

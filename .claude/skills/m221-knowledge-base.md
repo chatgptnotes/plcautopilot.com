@@ -1,6 +1,13 @@
 # M221 PLC Programming Knowledge Base
 ## Complete Reference for Schneider Electric M221 Controller Programming
 
+**MANDATORY**: For ANY M221 task, read one of these three primary Python scripts first:
+1. `/Users/murali/1backup/plcautopilot.com/create_sequential_4lights_IL.py` - IL version, 4 lights
+2. `/Users/murali/1backup/plcautopilot.com/create_sequential_4lights_LD.py` - Ladder version, 4 lights
+3. `/Users/murali/1backup/plcautopilot.com/create_sequential_lights_IL.py` - IL version, 3 lights
+
+These scripts contain working, tested code that you MUST use as templates.
+
 ---
 
 ## Table of Contents

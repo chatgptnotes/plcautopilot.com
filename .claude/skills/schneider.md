@@ -1060,26 +1060,32 @@ For latest information, consult:
 - Programming Guide (M241): http://www.filkab.com/files/category_files/file_3079_bg.pdf
 - GitHub Examples: https://github.com/ss56/somachine-basic-programs
 
-## Working Examples Reference
+## MANDATORY M221 Python Script References
 
-Always refer to these tested, production-ready Python scripts:
+**CRITICAL**: For ANY M221 Schneider task, you MUST use these three Python scripts as primary templates:
 
-1. **create_sequential_lights_smbp.py**: Complete M221 sequential control
-   - 6 rungs with seal-in, timers, and cascaded outputs
-   - Full XML generation with proper grid layout
-   - Timer configuration examples
-   - System bits/words setup
+### 1. create_sequential_4lights_IL.py ⭐ PRIMARY TEMPLATE
+**Location**: `/Users/murali/1backup/plcautopilot.com/create_sequential_4lights_IL.py`
+**Use**: Instruction List (IL) programming, template modification approach
+**Outputs**: 4 sequential lights (0s, 3s, 6s, 9s delays), 5 rungs, 3 timers
 
-2. **create_sequential_lights_simple.py**: Template modification approach
-   - Uses existing .smbp as template
-   - Modifies only necessary sections
-   - Simpler for quick adaptations
+### 2. create_sequential_4lights_LD.py ⭐ PRIMARY TEMPLATE
+**Location**: `/Users/murali/1backup/plcautopilot.com/create_sequential_4lights_LD.py`
+**Use**: Ladder Diagram with dual representation (Ladder + IL)
+**Outputs**: Same as IL but with visual ladder elements, 10-column grid
 
-3. **motor_startstop_tm221ce40t.py**: API-based approach
-   - EcoStruxure API usage patterns
-   - Motor control with seal-in
-   - Overload protection
-   - Safety features
+### 3. create_sequential_lights_IL.py ⭐ PRIMARY TEMPLATE
+**Location**: `/Users/murali/1backup/plcautopilot.com/create_sequential_lights_IL.py`
+**Use**: Simpler 3-light version, easier to understand
+**Outputs**: 3 sequential lights (0s, 3s, 6s delays), 4 rungs, 2 timers
+
+**AGENT ACTIVATION RULE**: When user mentions M221, TM221, Schneider, sequential lights, ladder logic, or .smbp, IMMEDIATELY read and reference one of these three scripts.
+
+### Additional References:
+
+4. **create_sequential_lights_smbp.py**: Full XML from scratch (no template)
+5. **create_sequential_lights_simple.py**: Minimal template modification
+6. **motor_startstop_tm221ce40t.py**: Motor control with API approach
 
 ## M221 Programming Checklist
 
@@ -1099,9 +1105,10 @@ Before generating any M221 .smbp file:
 
 ## Version History
 
+- **v1.2** (2025-12-24): Added MANDATORY M221 Python script references (3 primary templates), agent activation rules
 - **v1.1** (2025-12-24): Added M221 knowledge base integration, working examples reference, critical M221-specific programming patterns
 - **v1.0** (2025-12-24): Initial skill creation with comprehensive .smbp manipulation, templates, and automation capabilities
 
 ---
 
-**PLCAutoPilot Schneider Skill v1.1 | Last Updated: 2025-12-24 | github.com/chatgptnotes/plcautopilot.com**
+**PLCAutoPilot Schneider Skill v1.2 | Last Updated: 2025-12-24 | github.com/chatgptnotes/plcautopilot.com**
