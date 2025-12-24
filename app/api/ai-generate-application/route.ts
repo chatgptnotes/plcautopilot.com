@@ -174,10 +174,19 @@ Output the complete application as a JSON object following the specified format.
 
   } catch (error: any) {
     console.error('Application generation error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      cause: error.cause
+    });
     return NextResponse.json(
       {
         error: error.message || 'Application generation failed',
         details: error.toString(),
+        errorType: error.name,
+        apiKeyConfigured: !!process.env.ANTHROPIC_API_KEY,
+        modelConfigured: !!process.env.CLAUDE_MODEL
       },
       { status: 500 }
     );

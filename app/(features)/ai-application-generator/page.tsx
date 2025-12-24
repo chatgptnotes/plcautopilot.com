@@ -84,15 +84,35 @@ export default function AIApplicationGeneratorPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate application');
+        console.error('API Error Response:', errorData);
+        const errorMsg = errorData.error || 'Failed to generate application';
+        const details = errorData.details ? `\n\nDetails: ${errorData.details}` : '';
+        const debugInfo = errorData.apiKeyConfigured !== undefined
+          ? `\n\nDebug: API Key=${errorData.apiKeyConfigured}, Model=${errorData.modelConfigured}`
+          : '';
+        throw new Error(errorMsg + details + debugInfo);
       }
 
       const data = await response.json();
+      console.log('API Response:', data);
+
+      // Check if we got a valid response
+      if (!data.success || !data.application) {
+        throw new Error('Invalid response from API: Missing application data');
+      }
 
       // Parse the generated application
       let appData: GeneratedApplication;
       if (typeof data.application === 'string') {
-        appData = JSON.parse(data.application);
+        try {
+          appData = JSON.parse(data.application);
+        } catch (parseErr) {
+          console.error('Failed to parse application string:', data.application);
+          throw new Error('Failed to parse application data from API response');
+        }
+      } else if (data.application.raw_response) {
+        // Handle case where Claude didn't return valid JSON
+        throw new Error('AI returned invalid format. Raw response available in console.');
       } else {
         appData = data.application;
       }
