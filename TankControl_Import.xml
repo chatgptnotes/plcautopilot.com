@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="PLCAutoPilot" productName="Tank Level Control" productVersion="1.0" creationDateTime="2025-12-25T12:00:00"/>
+  <contentHeader name="TankLevelControl" modificationDateTime="2025-12-25T12:00:00">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1"/>
+      </fbd>
+      <ld>
+        <scaling x="1" y="1"/>
+      </ld>
+      <sfc>
+        <scaling x="1" y="1"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+
+  <types>
+    <dataTypes/>
+    <pous>
+      <!-- Main Control Program -->
+      <pou name="Tank_Control" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="System_Running">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">System running flag</xhtml></documentation>
+            </variable>
+            <variable name="Pump1_Cmd">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 run command</xhtml></documentation>
+            </variable>
+            <variable name="Pump2_Cmd">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 run command</xhtml></documentation>
+            </variable>
+            <variable name="Fault_Flag">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Fault active flag</xhtml></documentation>
+            </variable>
+            <variable name="Pump1_Timer">
+              <type><derived name="TON"/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 delay timer</xhtml></documentation>
+            </variable>
+            <variable name="Pump2_Timer">
+              <type><derived name="TON"/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 delay timer</xhtml></documentation>
+            </variable>
+          </localVars>
+          <inputVars>
+            <variable name="LS_Tank1">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Tank 1 Level Switch (0=Low, 1=High)</xhtml></documentation>
+            </variable>
+            <variable name="LS_RO_Tank">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">RO Tank Level Switch (0=Low, 1=High)</xhtml></documentation>
+            </variable>
+            <variable name="PB_Start">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Start Push Button (NO)</xhtml></documentation>
+            </variable>
+            <variable name="PB_Stop">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Stop Push Button (NC - TRUE when not pressed)</xhtml></documentation>
+            </variable>
+            <variable name="PB_EStop">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Emergency Stop (NC - TRUE when not pressed)</xhtml></documentation>
+            </variable>
+            <variable name="OL_Pump1">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 Overload (NC - TRUE when OK)</xhtml></documentation>
+            </variable>
+            <variable name="OL_Pump2">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 Overload (NC - TRUE when OK)</xhtml></documentation>
+            </variable>
+          </inputVars>
+          <outputVars>
+            <variable name="Pump1_Out">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 Output</xhtml></documentation>
+            </variable>
+            <variable name="Pump2_Out">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 Output</xhtml></documentation>
+            </variable>
+            <variable name="Running_Light">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">System Running Indicator</xhtml></documentation>
+            </variable>
+            <variable name="Tank1_Low_Alarm">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Tank 1 Low Level Alarm</xhtml></documentation>
+            </variable>
+            <variable name="RO_Low_Alarm">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">RO Tank Low Level Alarm</xhtml></documentation>
+            </variable>
+            <variable name="Fault_Light">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Fault Indicator</xhtml></documentation>
+            </variable>
+          </outputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">
+(* ================================================ *)
+(* TANK LEVEL CONTROL PROGRAM                       *)
+(* Dual Tank System with Pump Control               *)
+(* Generated by PLCAutoPilot                        *)
+(* ================================================ *)
+
+(* ----- SYSTEM START/STOP LOGIC ----- *)
+(* Start system when Start button pressed and safety OK *)
+IF PB_Start AND PB_Stop AND PB_EStop AND NOT Fault_Flag THEN
+    System_Running := TRUE;
+END_IF;
+
+(* Stop system when Stop button or E-Stop pressed *)
+IF NOT PB_Stop OR NOT PB_EStop THEN
+    System_Running := FALSE;
+END_IF;
+
+(* ----- FAULT DETECTION ----- *)
+(* Set fault if any overload trips *)
+IF NOT OL_Pump1 OR NOT OL_Pump2 THEN
+    Fault_Flag := TRUE;
+END_IF;
+
+(* Reset fault when Start pressed and overloads OK *)
+IF PB_Start AND OL_Pump1 AND OL_Pump2 THEN
+    Fault_Flag := FALSE;
+END_IF;
+
+(* ----- PUMP 1 CONTROL (Fill Tank 1) ----- *)
+(* Run Pump 1 when system running, Tank 1 is LOW, no fault *)
+Pump1_Cmd := System_Running AND NOT LS_Tank1 AND OL_Pump1 AND NOT Fault_Flag;
+
+(* Timer for Pump 1 start delay *)
+Pump1_Timer(IN := Pump1_Cmd, PT := T#2S);
+
+(* Pump 1 output with delay *)
+Pump1_Out := Pump1_Timer.Q;
+
+(* ----- PUMP 2 CONTROL (Fill RO Tank) ----- *)
+(* Run Pump 2 when system running, RO Tank is LOW, Tank 1 is HIGH, no fault *)
+Pump2_Cmd := System_Running AND NOT LS_RO_Tank AND LS_Tank1 AND OL_Pump2 AND NOT Fault_Flag;
+
+(* Timer for Pump 2 start delay *)
+Pump2_Timer(IN := Pump2_Cmd, PT := T#2S);
+
+(* Pump 2 output with delay *)
+Pump2_Out := Pump2_Timer.Q;
+
+(* ----- INDICATOR OUTPUTS ----- *)
+Running_Light := System_Running;
+Tank1_Low_Alarm := System_Running AND NOT LS_Tank1;
+RO_Low_Alarm := System_Running AND NOT LS_RO_Tank;
+Fault_Light := Fault_Flag;
+            </xhtml>
+          </ST>
+        </body>
+        <documentation>
+          <xhtml xmlns="http://www.w3.org/1999/xhtml">
+            Dual Tank Level Control Program
+            - Controls two pumps for tank filling
+            - Pump 1: Fills Tank 1 from source
+            - Pump 2: Transfers from Tank 1 to RO Tank
+            - Includes start/stop, fault detection, and alarms
+          </xhtml>
+        </documentation>
+      </pou>
+
+      <!-- Global Variable List -->
+      <pou name="GVL_IO" pouType="functionBlock">
+        <interface>
+          <localVars>
+            <variable name="DI_Tank1_Level" address="%IX0.0">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Tank 1 Level Switch Input</xhtml></documentation>
+            </variable>
+            <variable name="DI_RO_Tank_Level" address="%IX0.1">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">RO Tank Level Switch Input</xhtml></documentation>
+            </variable>
+            <variable name="DI_Start" address="%IX0.2">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Start Button Input</xhtml></documentation>
+            </variable>
+            <variable name="DI_Stop" address="%IX0.3">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Stop Button Input</xhtml></documentation>
+            </variable>
+            <variable name="DI_EStop" address="%IX0.4">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Emergency Stop Input</xhtml></documentation>
+            </variable>
+            <variable name="DI_OL_Pump1" address="%IX0.5">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 Overload Input</xhtml></documentation>
+            </variable>
+            <variable name="DI_OL_Pump2" address="%IX0.6">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 Overload Input</xhtml></documentation>
+            </variable>
+            <variable name="DO_Pump1" address="%QX0.0">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 Output</xhtml></documentation>
+            </variable>
+            <variable name="DO_Pump2" address="%QX0.1">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 Output</xhtml></documentation>
+            </variable>
+            <variable name="DO_Running" address="%QX0.2">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Running Light Output</xhtml></documentation>
+            </variable>
+            <variable name="DO_Tank1_Alarm" address="%QX0.3">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Tank 1 Low Alarm Output</xhtml></documentation>
+            </variable>
+            <variable name="DO_RO_Alarm" address="%QX0.4">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">RO Tank Low Alarm Output</xhtml></documentation>
+            </variable>
+            <variable name="DO_Fault" address="%QX0.5">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Fault Light Output</xhtml></documentation>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">
+(* I/O Mapping - This GVL maps physical I/O to symbolic names *)
+            </xhtml>
+          </ST>
+        </body>
+      </pou>
+    </pous>
+  </types>
+
+  <instances>
+    <configurations>
+      <configuration name="TankControl_Config">
+        <resource name="TankControl_Resource">
+          <task name="MAST" priority="1" interval="T#10ms">
+            <pouInstance name="Tank_Control_Instance" typeName="Tank_Control"/>
+          </task>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>

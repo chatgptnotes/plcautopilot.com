@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="PLCAutoPilot" productName="Tank Level Control" productVersion="1.0" creationDateTime="2025-12-25T12:00:00"/>
+  <contentHeader name="TankLevelControl_LD" modificationDateTime="2025-12-25T12:00:00">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1"/>
+      </fbd>
+      <ld>
+        <scaling x="1" y="1"/>
+      </ld>
+      <sfc>
+        <scaling x="1" y="1"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+
+  <types>
+    <dataTypes/>
+    <pous>
+      <!-- Main Control Program in Ladder Diagram -->
+      <pou name="Tank_Control_LD" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="System_Running">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">System running flag</xhtml></documentation>
+            </variable>
+            <variable name="Pump1_Cmd">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+            </variable>
+            <variable name="Pump2_Cmd">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+            </variable>
+            <variable name="Fault_Flag">
+              <type><BOOL/></type>
+              <initialValue><simpleValue value="FALSE"/></initialValue>
+            </variable>
+            <variable name="Pump1_Timer">
+              <type><derived name="TON"/></type>
+            </variable>
+            <variable name="Pump2_Timer">
+              <type><derived name="TON"/></type>
+            </variable>
+          </localVars>
+          <inputVars>
+            <variable name="LS_Tank1">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Tank 1 Level Switch (0=Low, 1=High)</xhtml></documentation>
+            </variable>
+            <variable name="LS_RO_Tank">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">RO Tank Level Switch (0=Low, 1=High)</xhtml></documentation>
+            </variable>
+            <variable name="PB_Start">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Start Push Button (NO)</xhtml></documentation>
+            </variable>
+            <variable name="PB_Stop">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Stop Push Button (NC)</xhtml></documentation>
+            </variable>
+            <variable name="PB_EStop">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Emergency Stop (NC)</xhtml></documentation>
+            </variable>
+            <variable name="OL_Pump1">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 1 Overload (NC)</xhtml></documentation>
+            </variable>
+            <variable name="OL_Pump2">
+              <type><BOOL/></type>
+              <documentation><xhtml xmlns="http://www.w3.org/1999/xhtml">Pump 2 Overload (NC)</xhtml></documentation>
+            </variable>
+          </inputVars>
+          <outputVars>
+            <variable name="Pump1_Out">
+              <type><BOOL/></type>
+            </variable>
+            <variable name="Pump2_Out">
+              <type><BOOL/></type>
+            </variable>
+            <variable name="Running_Light">
+              <type><BOOL/></type>
+            </variable>
+            <variable name="Tank1_Low_Alarm">
+              <type><BOOL/></type>
+            </variable>
+            <variable name="RO_Low_Alarm">
+              <type><BOOL/></type>
+            </variable>
+            <variable name="Fault_Light">
+              <type><BOOL/></type>
+            </variable>
+          </outputVars>
+        </interface>
+        <body>
+          <LD>
+            <!-- ============================================ -->
+            <!-- RUNG 0: System Start - Latch ON             -->
+            <!-- PB_Start AND PB_Stop AND PB_EStop -> SET System_Running -->
+            <!-- ============================================ -->
+            <comment localId="100" height="40" width="400">
+              <position x="0" y="0"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 0: System Start - Latch ON with safety interlocks</xhtml></content>
+            </comment>
+            <leftPowerRail localId="1">
+              <position x="0" y="60"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="2" negated="false" edge="none">
+              <position x="80" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="1"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>PB_Start</variable>
+            </contact>
+            <contact localId="3" negated="false" edge="none">
+              <position x="160" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="2"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>PB_Stop</variable>
+            </contact>
+            <contact localId="4" negated="false" edge="none">
+              <position x="240" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="3"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>PB_EStop</variable>
+            </contact>
+            <contact localId="5" negated="true" edge="none">
+              <position x="320" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="4"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </contact>
+            <coil localId="6" negated="false" edge="none" storage="set">
+              <position x="400" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="5"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </coil>
+            <rightPowerRail localId="7">
+              <position x="480" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="6"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 1: System Stop - Reset                  -->
+            <!-- NOT PB_Stop -> RESET System_Running          -->
+            <!-- ============================================ -->
+            <comment localId="110" height="40" width="400">
+              <position x="0" y="120"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 1: System Stop (NC contact opens)</xhtml></content>
+            </comment>
+            <leftPowerRail localId="11">
+              <position x="0" y="180"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="12" negated="true" edge="none">
+              <position x="80" y="180"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="11"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>PB_Stop</variable>
+            </contact>
+            <coil localId="13" negated="false" edge="none" storage="reset">
+              <position x="400" y="180"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="12"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </coil>
+            <rightPowerRail localId="14">
+              <position x="480" y="180"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="13"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 2: Emergency Stop - Reset               -->
+            <!-- NOT PB_EStop -> RESET System_Running         -->
+            <!-- ============================================ -->
+            <comment localId="120" height="40" width="400">
+              <position x="0" y="240"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 2: Emergency Stop (NC contact opens)</xhtml></content>
+            </comment>
+            <leftPowerRail localId="21">
+              <position x="0" y="300"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="22" negated="true" edge="none">
+              <position x="80" y="300"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="21"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>PB_EStop</variable>
+            </contact>
+            <coil localId="23" negated="false" edge="none" storage="reset">
+              <position x="400" y="300"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="22"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </coil>
+            <rightPowerRail localId="24">
+              <position x="480" y="300"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="23"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 3: Pump 1 Control Command               -->
+            <!-- System_Running AND NOT LS_Tank1 AND OL_Pump1 AND NOT Fault -> Pump1_Cmd -->
+            <!-- ============================================ -->
+            <comment localId="130" height="40" width="400">
+              <position x="0" y="360"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 3: Pump 1 Control - Fill Tank 1 when LOW</xhtml></content>
+            </comment>
+            <leftPowerRail localId="31">
+              <position x="0" y="420"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="32" negated="false" edge="none">
+              <position x="80" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="31"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </contact>
+            <contact localId="33" negated="true" edge="none">
+              <position x="160" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="32"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>LS_Tank1</variable>
+            </contact>
+            <contact localId="34" negated="false" edge="none">
+              <position x="240" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="33"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>OL_Pump1</variable>
+            </contact>
+            <contact localId="35" negated="true" edge="none">
+              <position x="320" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="34"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </contact>
+            <coil localId="36" negated="false" edge="none" storage="none">
+              <position x="400" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="35"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Pump1_Cmd</variable>
+            </coil>
+            <rightPowerRail localId="37">
+              <position x="480" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="36"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 4: Pump 1 Output (Direct - no timer for simplicity) -->
+            <!-- ============================================ -->
+            <comment localId="140" height="40" width="400">
+              <position x="0" y="480"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 4: Pump 1 Output</xhtml></content>
+            </comment>
+            <leftPowerRail localId="41">
+              <position x="0" y="540"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="42" negated="false" edge="none">
+              <position x="80" y="540"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="41"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Pump1_Cmd</variable>
+            </contact>
+            <coil localId="43" negated="false" edge="none" storage="none">
+              <position x="400" y="540"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="42"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Pump1_Out</variable>
+            </coil>
+            <rightPowerRail localId="44">
+              <position x="480" y="540"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="43"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 5: Pump 2 Control Command               -->
+            <!-- System_Running AND NOT LS_RO_Tank AND LS_Tank1 AND OL_Pump2 AND NOT Fault -> Pump2_Cmd -->
+            <!-- ============================================ -->
+            <comment localId="150" height="40" width="400">
+              <position x="0" y="600"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 5: Pump 2 Control - Fill RO when Tank1 HIGH</xhtml></content>
+            </comment>
+            <leftPowerRail localId="51">
+              <position x="0" y="660"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="52" negated="false" edge="none">
+              <position x="80" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="51"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </contact>
+            <contact localId="53" negated="true" edge="none">
+              <position x="160" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="52"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>LS_RO_Tank</variable>
+            </contact>
+            <contact localId="54" negated="false" edge="none">
+              <position x="240" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="53"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>LS_Tank1</variable>
+            </contact>
+            <contact localId="55" negated="false" edge="none">
+              <position x="320" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="54"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>OL_Pump2</variable>
+            </contact>
+            <contact localId="56" negated="true" edge="none">
+              <position x="400" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="55"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </contact>
+            <coil localId="57" negated="false" edge="none" storage="none">
+              <position x="480" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="56"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Pump2_Cmd</variable>
+            </coil>
+            <rightPowerRail localId="58">
+              <position x="560" y="660"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="57"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 6: Pump 2 Output                        -->
+            <!-- ============================================ -->
+            <comment localId="160" height="40" width="400">
+              <position x="0" y="720"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 6: Pump 2 Output</xhtml></content>
+            </comment>
+            <leftPowerRail localId="61">
+              <position x="0" y="780"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="62" negated="false" edge="none">
+              <position x="80" y="780"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="61"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Pump2_Cmd</variable>
+            </contact>
+            <coil localId="63" negated="false" edge="none" storage="none">
+              <position x="400" y="780"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="62"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Pump2_Out</variable>
+            </coil>
+            <rightPowerRail localId="64">
+              <position x="480" y="780"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="63"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 7: Running Light Output                 -->
+            <!-- ============================================ -->
+            <comment localId="170" height="40" width="400">
+              <position x="0" y="840"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 7: System Running Indicator</xhtml></content>
+            </comment>
+            <leftPowerRail localId="71">
+              <position x="0" y="900"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="72" negated="false" edge="none">
+              <position x="80" y="900"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="71"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </contact>
+            <coil localId="73" negated="false" edge="none" storage="none">
+              <position x="400" y="900"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="72"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Running_Light</variable>
+            </coil>
+            <rightPowerRail localId="74">
+              <position x="480" y="900"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="73"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 8: Tank 1 Low Level Alarm               -->
+            <!-- ============================================ -->
+            <comment localId="180" height="40" width="400">
+              <position x="0" y="960"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 8: Tank 1 Low Level Alarm</xhtml></content>
+            </comment>
+            <leftPowerRail localId="81">
+              <position x="0" y="1020"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="82" negated="false" edge="none">
+              <position x="80" y="1020"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="81"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </contact>
+            <contact localId="83" negated="true" edge="none">
+              <position x="160" y="1020"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="82"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>LS_Tank1</variable>
+            </contact>
+            <coil localId="84" negated="false" edge="none" storage="none">
+              <position x="400" y="1020"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="83"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Tank1_Low_Alarm</variable>
+            </coil>
+            <rightPowerRail localId="85">
+              <position x="480" y="1020"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="84"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 9: RO Tank Low Level Alarm              -->
+            <!-- ============================================ -->
+            <comment localId="190" height="40" width="400">
+              <position x="0" y="1080"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 9: RO Tank Low Level Alarm</xhtml></content>
+            </comment>
+            <leftPowerRail localId="91">
+              <position x="0" y="1140"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="92" negated="false" edge="none">
+              <position x="80" y="1140"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="91"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>System_Running</variable>
+            </contact>
+            <contact localId="93" negated="true" edge="none">
+              <position x="160" y="1140"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="92"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>LS_RO_Tank</variable>
+            </contact>
+            <coil localId="94" negated="false" edge="none" storage="none">
+              <position x="400" y="1140"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="93"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>RO_Low_Alarm</variable>
+            </coil>
+            <rightPowerRail localId="95">
+              <position x="480" y="1140"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="94"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 10: Fault Detection - OL1               -->
+            <!-- ============================================ -->
+            <comment localId="200" height="40" width="400">
+              <position x="0" y="1200"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 10: Fault Detection - Pump 1 Overload</xhtml></content>
+            </comment>
+            <leftPowerRail localId="101">
+              <position x="0" y="1260"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="102" negated="true" edge="none">
+              <position x="80" y="1260"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="101"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>OL_Pump1</variable>
+            </contact>
+            <coil localId="103" negated="false" edge="none" storage="set">
+              <position x="400" y="1260"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="102"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </coil>
+            <rightPowerRail localId="104">
+              <position x="480" y="1260"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="103"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 11: Fault Detection - OL2               -->
+            <!-- ============================================ -->
+            <comment localId="210" height="40" width="400">
+              <position x="0" y="1320"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 11: Fault Detection - Pump 2 Overload</xhtml></content>
+            </comment>
+            <leftPowerRail localId="111">
+              <position x="0" y="1380"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="112" negated="true" edge="none">
+              <position x="80" y="1380"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="111"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>OL_Pump2</variable>
+            </contact>
+            <coil localId="113" negated="false" edge="none" storage="set">
+              <position x="400" y="1380"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="112"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </coil>
+            <rightPowerRail localId="114">
+              <position x="480" y="1380"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="113"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 12: Fault Light Output                  -->
+            <!-- ============================================ -->
+            <comment localId="220" height="40" width="400">
+              <position x="0" y="1440"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 12: Fault Indicator Light</xhtml></content>
+            </comment>
+            <leftPowerRail localId="121">
+              <position x="0" y="1500"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="122" negated="false" edge="none">
+              <position x="80" y="1500"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="121"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </contact>
+            <coil localId="123" negated="false" edge="none" storage="none">
+              <position x="400" y="1500"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="122"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Light</variable>
+            </coil>
+            <rightPowerRail localId="124">
+              <position x="480" y="1500"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="123"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+            <!-- ============================================ -->
+            <!-- RUNG 13: Fault Reset                         -->
+            <!-- ============================================ -->
+            <comment localId="230" height="40" width="400">
+              <position x="0" y="1560"/>
+              <content><xhtml xmlns="http://www.w3.org/1999/xhtml">RUNG 13: Fault Reset (Press Start when OLs OK)</xhtml></content>
+            </comment>
+            <leftPowerRail localId="131">
+              <position x="0" y="1620"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="0" y="0"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <contact localId="132" negated="false" edge="none">
+              <position x="80" y="1620"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="131"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>PB_Start</variable>
+            </contact>
+            <contact localId="133" negated="false" edge="none">
+              <position x="160" y="1620"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="132"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>OL_Pump1</variable>
+            </contact>
+            <contact localId="134" negated="false" edge="none">
+              <position x="240" y="1620"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="133"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>OL_Pump2</variable>
+            </contact>
+            <coil localId="135" negated="false" edge="none" storage="reset">
+              <position x="400" y="1620"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="134"/>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="40" y="0"/>
+              </connectionPointOut>
+              <variable>Fault_Flag</variable>
+            </coil>
+            <rightPowerRail localId="136">
+              <position x="480" y="1620"/>
+              <connectionPointIn>
+                <relPosition x="0" y="0"/>
+                <connection refLocalId="135"/>
+              </connectionPointIn>
+            </rightPowerRail>
+
+          </LD>
+        </body>
+        <documentation>
+          <xhtml xmlns="http://www.w3.org/1999/xhtml">
+            Dual Tank Level Control Program - LADDER DIAGRAM VERSION
+
+            RUNGS:
+            0  - System Start (Latch)
+            1  - System Stop
+            2  - Emergency Stop
+            3  - Pump 1 Command
+            4  - Pump 1 Output
+            5  - Pump 2 Command
+            6  - Pump 2 Output
+            7  - Running Light
+            8  - Tank 1 Low Alarm
+            9  - RO Tank Low Alarm
+            10 - Fault Detection OL1
+            11 - Fault Detection OL2
+            12 - Fault Light
+            13 - Fault Reset
+          </xhtml>
+        </documentation>
+      </pou>
+    </pous>
+  </types>
+
+  <instances>
+    <configurations>
+      <configuration name="TankControl_Config">
+        <resource name="TankControl_Resource">
+          <task name="MAST" priority="1" interval="T#10ms">
+            <pouInstance name="Tank_Control_LD_Instance" typeName="Tank_Control_LD"/>
+          </task>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>
