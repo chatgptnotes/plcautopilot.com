@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Send, Code, FileText, TestTube, Upload, Sparkles, Zap, CheckCircle, Clock, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Code, FileText, TestTube, Upload, Sparkles, Zap, CheckCircle, Clock, Loader2, Image as ImageIcon, X, FileImage } from 'lucide-react';
 
 interface ProgressStage {
   name: string;
@@ -9,12 +9,28 @@ interface ProgressStage {
   status: 'pending' | 'in-progress' | 'completed';
 }
 
+interface UploadedImage {
+  file: File;
+  preview: string;
+  type: 'logic' | 'pid' | 'general';
+}
+
 export default function AICopilotPage() {
   const [activeTab, setActiveTab] = useState<'generate' | 'explain' | 'test'>('generate');
   const [prompt, setPrompt] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
+  const [chatHistory, setChatHistory] = useState<Array<{role: 'user' | 'assistant', content: string, images?: UploadedImage[]}>>([]);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [showImageQuestions, setShowImageQuestions] = useState(false);
+  const [imageQuestions, setImageQuestions] = useState({
+    projectType: '',
+    plcBrand: 'schneider',
+    controllerModel: '',
+    purpose: '',
+    specialRequirements: ''
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Progress tracking state
   const [progressStages, setProgressStages] = useState<ProgressStage[]>([]);
@@ -119,14 +135,66 @@ export default function AICopilotPage() {
     return () => clearInterval(interval);
   }, [isLoading, progressStages.length]);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const newImages: UploadedImage[] = [];
+
+    Array.from(files).forEach(file => {
+      if (file.type.startsWith('image/')) {
+        const preview = URL.createObjectURL(file);
+        // Auto-detect image type based on filename or prompt user
+        const type = file.name.toLowerCase().includes('pid') ? 'pid' :
+                     file.name.toLowerCase().includes('logic') || file.name.toLowerCase().includes('ladder') ? 'logic' :
+                     'general';
+
+        newImages.push({ file, preview, type });
+      }
+    });
+
+    setUploadedImages(prev => [...prev, ...newImages]);
+
+    // Show questions modal when images are uploaded
+    if (newImages.length > 0) {
+      setShowImageQuestions(true);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setUploadedImages(prev => {
+      URL.revokeObjectURL(prev[index].preview);
+      return prev.filter((_, i) => i !== index);
+    });
+  };
+
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() && uploadedImages.length === 0) return;
 
     setIsLoading(true);
-    setChatHistory([...chatHistory, { role: 'user', content: prompt }]);
 
-    // Initialize progress tracking
-    const stages = getStagesForTab(activeTab);
+    // Create enhanced chat history with images
+    const userMessage = {
+      role: 'user' as const,
+      content: uploadedImages.length > 0
+        ? `${prompt}\n\n[Uploaded ${uploadedImages.length} image(s): ${uploadedImages.map(img => `${img.type} diagram`).join(', ')}]`
+        : prompt,
+      images: uploadedImages.length > 0 ? [...uploadedImages] : undefined
+    };
+
+    setChatHistory([...chatHistory, userMessage]);
+
+    // Initialize progress tracking - add image analysis stage if images present
+    let stages = getStagesForTab(activeTab);
+
+    if (uploadedImages.length > 0) {
+      stages = [
+        { name: 'Analyzing Images', duration: 2500, status: 'pending' as const },
+        { name: 'Extracting Diagram Info', duration: 2000, status: 'pending' as const },
+        ...stages
+      ];
+    }
+
     const totalTime = stages.reduce((sum, stage) => sum + stage.duration, 0);
 
     setProgressStages(stages.map(s => ({ ...s, status: 'pending' })));
@@ -138,20 +206,32 @@ export default function AICopilotPage() {
 
     // Simulate AI response with stages
     setTimeout(() => {
-      const response = generateMockResponse(prompt, activeTab);
+      const response = generateMockResponse(prompt, activeTab, uploadedImages);
       setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
       if (activeTab === 'generate') {
         setGeneratedCode(response);
       }
       setIsLoading(false);
       setPrompt('');
+      setUploadedImages([]);
       setStartTime(null);
     }, totalTime);
   };
 
-  const generateMockResponse = (userPrompt: string, tab: string) => {
+  const generateMockResponse = (userPrompt: string, tab: string, images: UploadedImage[] = []) => {
+    const hasImages = images.length > 0;
+    const imageContext = hasImages
+      ? `\n\n## Image Analysis Results\n${images.map((img, idx) =>
+          `**Image ${idx + 1}** (${img.type} diagram): Detected ${
+            img.type === 'pid' ? 'P&ID elements: pumps, valves, sensors, control loops' :
+            img.type === 'logic' ? 'ladder logic: contacts, coils, timers, counters' :
+            'control system components'
+          }`
+        ).join('\n')}\n\nBased on the uploaded diagrams, I've generated the following implementation:\n`
+      : '';
+
     if (tab === 'generate') {
-      return `(* Generated PLC Program *)
+      return `${imageContext}(* Generated PLC Program *)
 (* Based on your requirements *)
 
 PROGRAM WaterPumpStation
@@ -272,6 +352,170 @@ Converts raw level reading to percentage for easier threshold comparisons.
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Image Questions Modal */}
+      {showImageQuestions && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <Sparkles className="text-blue-600" />
+                    Understanding Your Requirements
+                  </h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Help the AI better understand your uploaded diagrams
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowImageQuestions(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Project Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  What type of project is this?
+                </label>
+                <select
+                  value={imageQuestions.projectType}
+                  onChange={(e) => setImageQuestions({...imageQuestions, projectType: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="">Select project type...</option>
+                  <option value="motor-control">Motor Control System</option>
+                  <option value="process-control">Process Control</option>
+                  <option value="conveyor">Conveyor System</option>
+                  <option value="pump-station">Pump Station</option>
+                  <option value="hvac">HVAC Control</option>
+                  <option value="packaging">Packaging Machine</option>
+                  <option value="custom">Custom Application</option>
+                </select>
+              </div>
+
+              {/* PLC Brand */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  Target PLC Brand
+                </label>
+                <select
+                  value={imageQuestions.plcBrand}
+                  onChange={(e) => setImageQuestions({...imageQuestions, plcBrand: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="schneider">Schneider Electric (M221, M241, M251, M258)</option>
+                  <option value="siemens">Siemens (S7-1200, S7-1500)</option>
+                  <option value="rockwell">Rockwell/Allen-Bradley</option>
+                  <option value="mitsubishi">Mitsubishi</option>
+                  <option value="codesys">CODESYS (500+ brands)</option>
+                </select>
+              </div>
+
+              {/* Controller Model */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  Specific Controller Model (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={imageQuestions.controllerModel}
+                  onChange={(e) => setImageQuestions({...imageQuestions, controllerModel: e.target.value})}
+                  placeholder="e.g., TM221CE24R, S7-1200, ControlLogix"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+
+              {/* Purpose */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  What do you want the AI to do?
+                </label>
+                <select
+                  value={imageQuestions.purpose}
+                  onChange={(e) => setImageQuestions({...imageQuestions, purpose: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="">Select purpose...</option>
+                  <option value="generate-from-pid">Generate PLC code from P&ID</option>
+                  <option value="convert-logic">Convert/migrate existing ladder logic</option>
+                  <option value="analyze-diagram">Analyze and explain diagram</option>
+                  <option value="optimize">Optimize existing code</option>
+                  <option value="add-features">Add new features to existing project</option>
+                  <option value="documentation">Generate documentation</option>
+                </select>
+              </div>
+
+              {/* Special Requirements */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  Special Requirements or Notes
+                </label>
+                <textarea
+                  value={imageQuestions.specialRequirements}
+                  onChange={(e) => setImageQuestions({...imageQuestions, specialRequirements: e.target.value})}
+                  placeholder="Any specific requirements, safety considerations, or notes about the diagrams..."
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+
+              {/* Uploaded Images Preview */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  Uploaded Images ({uploadedImages.length})
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {uploadedImages.map((img, idx) => (
+                    <div key={idx} className="relative">
+                      <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-blue-500">
+                        <img src={img.preview} alt={`Upload ${idx + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 py-0.5 text-center">
+                        {img.type}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowImageQuestions(false);
+                  setUploadedImages([]);
+                }}
+                className="px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowImageQuestions(false);
+                  // Auto-populate prompt with question answers
+                  const autoPrompt = `Project: ${imageQuestions.projectType || 'Custom'}
+PLC: ${imageQuestions.plcBrand}${imageQuestions.controllerModel ? ` (${imageQuestions.controllerModel})` : ''}
+Task: ${imageQuestions.purpose || 'Generate code'}
+${imageQuestions.specialRequirements ? `\nRequirements: ${imageQuestions.specialRequirements}` : ''}
+
+Please analyze the uploaded ${uploadedImages.length} diagram(s) and help me with this project.`;
+                  setPrompt(autoPrompt);
+                }}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              >
+                <Sparkles size={16} />
+                Continue with AI Analysis
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Transparent Status Bar Overlay */}
       {isLoading && (
         <div className="fixed top-0 left-0 right-0 z-50 bg-blue-600/95 backdrop-blur-sm shadow-lg">
@@ -479,6 +723,25 @@ Converts raw level reading to percentage for easier threshold comparisons.
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
                     }`}
                   >
+                    {/* Display uploaded images for user messages */}
+                    {message.role === 'user' && message.images && message.images.length > 0 && (
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        {message.images.map((img, imgIdx) => (
+                          <div key={imgIdx} className="relative">
+                            <div className="w-16 h-16 rounded border-2 border-blue-300 overflow-hidden">
+                              <img
+                                src={img.preview}
+                                alt={`Uploaded ${imgIdx + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 py-0.5 text-center">
+                              {img.type}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <pre className="whitespace-pre-wrap font-mono text-sm">{message.content}</pre>
                   </div>
                 </div>
@@ -572,7 +835,53 @@ Converts raw level reading to percentage for easier threshold comparisons.
 
             {/* Input Area */}
             <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+              {/* Image Previews */}
+              {uploadedImages.length > 0 && (
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {uploadedImages.map((img, idx) => (
+                    <div key={idx} className="relative group">
+                      <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-blue-500 dark:border-blue-400">
+                        <img
+                          src={img.preview}
+                          alt={`Upload ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <button
+                        onClick={() => removeImage(idx)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={12} />
+                      </button>
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 py-0.5 text-center">
+                        {img.type}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="flex gap-2">
+                {/* Hidden file input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+
+                {/* Image upload button */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isLoading}
+                  className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 dark:border-gray-600"
+                  title="Upload P&ID or Logic Diagrams"
+                >
+                  <ImageIcon size={20} />
+                </button>
+
                 <input
                   type="text"
                   value={prompt}
@@ -589,13 +898,21 @@ Converts raw level reading to percentage for easier threshold comparisons.
                 />
                 <button
                   onClick={handleGenerate}
-                  disabled={isLoading || !prompt.trim()}
+                  disabled={isLoading || (!prompt.trim() && uploadedImages.length === 0)}
                   className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
                   <Send size={16} />
                   Send
                 </button>
               </div>
+
+              {/* Helper text */}
+              {uploadedImages.length === 0 && (
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                  <FileImage size={12} />
+                  <span>Upload P&ID diagrams or ladder logic images to help AI understand your requirements</span>
+                </div>
+              )}
             </div>
           </div>
 
