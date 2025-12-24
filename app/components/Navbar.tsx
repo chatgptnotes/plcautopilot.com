@@ -41,6 +41,10 @@ export default function Navbar() {
               </svg>
               AI Co-Pilot
             </Link>
+            <Link href="/hmi-generator" className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all">
+              <span className="material-icons text-sm">devices</span>
+              HMI Generator
+            </Link>
             <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium transition-colors dark:text-gray-300 dark:hover:text-blue-400">
               Features
             </Link>
@@ -82,6 +86,10 @@ export default function Navbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 AI Co-Pilot
+              </Link>
+              <Link href="/hmi-generator" className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg font-semibold text-center">
+                <span className="material-icons text-sm">devices</span>
+                HMI Generator
               </Link>
               <Link href="#features" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Features</Link>
               <Link href="#platforms" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Platforms</Link>

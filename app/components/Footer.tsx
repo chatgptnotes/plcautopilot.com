@@ -15,7 +15,7 @@ export default function Footer() {
               <span className="text-base sm:text-lg md:text-xl font-bold">PLCAutoPilot</span>
             </Link>
             <p className="text-gray-400">
-              AI-powered PLC programming assistant for industrial automation engineers.
+              Universal AI-powered PLC programming for all major platforms: Siemens, Rockwell, Mitsubishi, Schneider, and 500+ brands.
             </p>
           </div>
 
@@ -53,9 +53,9 @@ export default function Footer() {
         <div className="pt-8 border-t border-gray-800 text-center text-gray-400 text-sm space-y-2">
           <p>&copy; 2025 PLCAutoPilot. All rights reserved.</p>
           <p>Founded by Dr. Murali BK | Powered by Dr.M Hope Softwares | A Bettroi Product</p>
-          <p>Not affiliated with Schneider Electric. EcoStruxure and Modicon are registered trademarks.</p>
+          <p>Universal Multi-Platform Support: Siemens, Rockwell, Mitsubishi, Schneider, ABB, and 500+ PLC Brands</p>
           <p className="text-xs text-gray-500 mt-4">
-            PLCAutoPilot v1.3 | Last Updated: December 23, 2025 | AI-Powered Features Now Available |
+            PLCAutoPilot v1.3 | Last Updated: 2025-12-23 | Multi-Platform AI Support Now Available |
             <a href="https://github.com/chatgptnotes/plcautopilot.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 ml-1">
               github.com/chatgptnotes/plcautopilot.com
             </a>

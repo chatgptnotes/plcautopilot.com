@@ -3,45 +3,45 @@ export default function Services() {
     {
       icon: 'handshake',
       title: 'Dealing',
-      description: 'Hardware & Software Sales, Strategic Partnerships',
+      description: 'Hardware & Software Sales, Multi-Platform Partnerships',
       features: [
-        'Authorized distributor partnerships',
-        'Volume discounts on PLC hardware',
-        'Software licensing solutions',
-        'Technical pre-sales support'
+        'All major PLC brands (Siemens, Rockwell, Mitsubishi)',
+        'Volume discounts across 500+ brands',
+        'Multi-platform software licensing',
+        'Technical pre-sales for all platforms'
       ]
     },
     {
       icon: 'code',
       title: 'Development',
-      description: 'Custom PLC Programming, System Integration',
+      description: 'Custom Programming Across All Major PLC Platforms',
       features: [
-        'End-to-end PLC programming',
-        'SCADA/HMI development',
-        'System integration services',
-        'Migration from legacy systems'
+        'Multi-brand PLC programming (any platform)',
+        'Universal SCADA/HMI development',
+        'Cross-platform system integration',
+        'Legacy system migration (any brand to any brand)'
       ]
     },
     {
       icon: 'psychology',
       title: 'Consulting',
-      description: 'All Automation Industry Solutions',
+      description: 'Platform-Agnostic Automation Solutions',
       features: [
-        'Automation strategy planning',
-        'Process optimization audits',
-        'Technology selection guidance',
-        'Regulatory compliance support'
+        'Multi-vendor automation strategy',
+        'Platform selection and comparison',
+        'Cross-brand technology guidance',
+        'Universal compliance support (IEC 61131-3, IEC 61508)'
       ]
     },
     {
       icon: 'construction',
       title: 'Custom Solutions',
-      description: 'Tailored to Specific Customer Needs',
+      description: 'Tailored Multi-Platform Integration',
       features: [
-        'Bespoke automation systems',
-        'Industry-specific applications',
-        'Proof-of-concept development',
-        'Long-term support contracts'
+        'Hybrid systems (multiple PLC brands)',
+        'Industry-specific multi-vendor solutions',
+        'Universal proof-of-concept development',
+        'Ongoing support for all platforms'
       ]
     }
   ];
@@ -86,10 +86,10 @@ export default function Services() {
 
         <div className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-12 text-center text-white">
           <h3 className="text-3xl font-bold mb-4">
-            Need a Custom Solution?
+            Need a Multi-Platform Solution?
           </h3>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Every industrial automation project is unique. Let us design a solution tailored to your specific requirements, timeline, and budget.
+            Every industrial automation project is unique. Whether you work with Siemens, Rockwell, Mitsubishi, or any of 500+ brands, let us design a solution tailored to your multi-vendor environment, timeline, and budget.
           </p>
           <button className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
             Schedule a Consultation

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getModelById } from '../../data/plc-models';
+import { getModelWithContext, convertToLegacyFormat } from '@/lib/plc-models-database';
 import { generateSchneiderProgram } from './generators/schneider';
 import { generateSiemensProgram } from './generators/siemens';
 import { generateRockwellProgram } from './generators/rockwell';
@@ -19,13 +19,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const plcModel = getModelById(modelId);
-    if (!plcModel) {
+    const modelContext = getModelWithContext(modelId);
+    if (!modelContext) {
       return NextResponse.json(
         { error: 'Invalid PLC model' },
         { status: 400 }
       );
     }
+
+    // Convert to legacy format for generator compatibility
+    const plcModel = convertToLegacyFormat(
+      modelContext.manufacturer,
+      modelContext.series,
+      modelContext.model
+    );
 
     // Process image if provided (for future vision integration)
     let imageAnalysis = null;

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PLCCascadingSelector from '@/app/components/PLCCascadingSelector';
+import type { PLCManufacturer, PLCSeries, PLCModel } from '@/lib/plc-models-database';
 
 interface ProjectRequirements {
   applicationName: string;
@@ -40,6 +42,7 @@ interface RecommendedPLC {
 }
 
 export default function PLCSelector() {
+  const [mode, setMode] = useState<'browse' | 'wizard'>('browse');
   const [step, setStep] = useState(1);
   const [requirements, setRequirements] = useState<ProjectRequirements>({
     applicationName: '',
@@ -60,6 +63,15 @@ export default function PLCSelector() {
   });
   const [recommendations, setRecommendations] = useState<RecommendedPLC[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedPLC, setSelectedPLC] = useState<{
+    manufacturer: PLCManufacturer | null;
+    series: PLCSeries | null;
+    model: PLCModel | null;
+  }>({
+    manufacturer: null,
+    series: null,
+    model: null,
+  });
 
   const applicationTypes = [
     'Manufacturing/Assembly Line',
@@ -148,40 +160,114 @@ export default function PLCSelector() {
           </p>
         </div>
 
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            {[1, 2, 3, 4].map(s => (
-              <div key={s} className="flex items-center flex-1">
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                    step >= s
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-300 text-gray-600'
-                  }`}
-                >
-                  {s}
-                </div>
-                {s < 4 && (
-                  <div
-                    className={`flex-1 h-1 mx-2 ${
-                      step > s ? 'bg-green-600' : 'bg-gray-300'
-                    }`}
-                  />
-                )}
+        {/* Mode Selector */}
+        <div className="mb-8 bg-white rounded-lg shadow-md p-6">
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              onClick={() => setMode('browse')}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                mode === 'browse'
+                  ? 'border-green-600 bg-green-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex flex-col items-center">
+                <svg className="w-12 h-12 mb-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Browse All Models</h3>
+                <p className="text-sm text-gray-600 text-center">
+                  Select from all available PLC manufacturers, series, and models
+                </p>
               </div>
-            ))}
-          </div>
-          <div className="flex justify-between mt-2 text-sm text-gray-600">
-            <span>Application</span>
-            <span>I/O Requirements</span>
-            <span>Specifications</span>
-            <span>Recommendations</span>
+            </button>
+
+            <button
+              onClick={() => setMode('wizard')}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                mode === 'wizard'
+                  ? 'border-green-600 bg-green-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex flex-col items-center">
+                <svg className="w-12 h-12 mb-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Recommendation Wizard</h3>
+                <p className="text-sm text-gray-600 text-center">
+                  Answer questions to get AI-powered PLC recommendations
+                </p>
+              </div>
+            </button>
           </div>
         </div>
 
-        {/* Step 1: Application Details */}
-        {step === 1 && (
+        {/* Browse Mode */}
+        {mode === 'browse' && (
+          <div className="bg-white rounded-lg shadow-md p-8">
+            <h2 className="text-2xl font-bold mb-6">Browse PLC Models</h2>
+
+            <PLCCascadingSelector
+              onSelectionChange={setSelectedPLC}
+            />
+
+            {selectedPLC.model && (
+              <div className="mt-8 flex gap-3">
+                <Link
+                  href={`/generator?manufacturer=${selectedPLC.manufacturer?.id}&series=${selectedPLC.series?.id}&model=${selectedPLC.model.id}`}
+                  className="flex-1 px-6 py-3 bg-green-600 text-white text-center rounded-lg hover:bg-green-700 font-medium"
+                >
+                  Generate Program for {selectedPLC.model.name}
+                </Link>
+                <Link
+                  href={`/platforms/${selectedPLC.manufacturer?.id}`}
+                  className="px-6 py-3 border-2 border-green-600 text-green-600 rounded-lg hover:bg-green-50 font-medium"
+                >
+                  Platform Details
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Wizard Mode */}
+        {mode === 'wizard' && (
+          <>
+            {/* Progress Bar */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between">
+                {[1, 2, 3, 4].map(s => (
+                  <div key={s} className="flex items-center flex-1">
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                        step >= s
+                          ? 'bg-green-600 text-white'
+                          : 'bg-gray-300 text-gray-600'
+                      }`}
+                    >
+                      {s}
+                    </div>
+                    {s < 4 && (
+                      <div
+                        className={`flex-1 h-1 mx-2 ${
+                          step > s ? 'bg-green-600' : 'bg-gray-300'
+                        }`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between mt-2 text-sm text-gray-600">
+                <span>Application</span>
+                <span>I/O Requirements</span>
+                <span>Specifications</span>
+                <span>Recommendations</span>
+              </div>
+            </div>
+
+            {/* Step 1: Application Details */}
+            {step === 1 && (
           <div className="bg-white rounded-lg shadow-md p-8">
             <h2 className="text-2xl font-bold mb-6">Step 1: Application Details</h2>
 
@@ -668,6 +754,8 @@ export default function PLCSelector() {
               </button>
             </div>
           </div>
+        )}
+          </>
         )}
       </div>
     </div>
