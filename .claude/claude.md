@@ -282,6 +282,36 @@ Examples:
 
 ---
 
+## Mandatory Skill Activation Rules
+
+### M221 Program Generation (CRITICAL)
+
+**RULE**: When creating ANY M221 Schneider Electric PLC program, you MUST:
+
+1. **Read the skill file first**: `.claude/skills/schneider.md`
+2. **Follow the skill instructions**: Use the templates and patterns defined in the skill
+3. **Reference the template**: Use `create_sequential_4lights_LD.py` as the base template
+4. **Consult knowledge base**: Reference `m221-knowledge-base.md` for patterns
+
+**Trigger Keywords** (activate skill when user mentions):
+- M221, TM221, TM221CE16T, TM221CE24T, TM221CE40T
+- Schneider Electric, Schneider PLC
+- .smbp file, SoMachine Basic, Machine Expert Basic
+- Modicon M221
+
+**Activation Sequence**:
+```
+1. Read .claude/skills/schneider.md
+2. Read .claude/skills/m221-knowledge-base.md (if exists)
+3. Identify template: create_sequential_4lights_LD.py
+4. Generate program following skill patterns
+5. Output .smbp file
+```
+
+**NEVER** create M221 programs without first reading the schneider.md skill file.
+
+---
+
 ## Subagent: Auto-Confirm
 
 ### Purpose
@@ -415,6 +445,23 @@ Provide complete package:
 3. Add Rockwell Studio 5000 support
 4. Create CODESYS universal adapter
 5. Expand documentation for all platforms
+
+---
+
+## Skills Directory
+
+Additional domain knowledge and templates are stored in `.claude/skills/`:
+
+| Skill File | Purpose |
+|------------|---------|
+| `schneider.md` | Schneider Electric PLC programming (M221, M241, M251, M258) |
+| `m221-knowledge-base.md` | M221 specific knowledge and patterns |
+| `M221-AGENT-ACTIVATION.md` | M221 agent activation procedures |
+| `plc-file-handler.md` | PLC file format handling |
+
+**Key Template Reference:**
+- For M221 programs (.smbp): Use `create_sequential_4lights_LD.py` as base template
+- For M241+ programs: Use PLCopen XML format for import
 
 ---
 
