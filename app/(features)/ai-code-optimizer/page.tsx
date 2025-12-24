@@ -11,11 +11,28 @@ interface OptimizationResult {
   color: string;
 }
 
+interface AnalysisData {
+  analysis_summary?: {
+    overall_quality?: string;
+    scan_time_estimate?: string;
+    complexity_score?: number;
+    maintainability_score?: number;
+    safety_score?: number;
+  };
+  issues_found?: any[];
+  optimizations?: any[];
+  refactored_code?: string;
+  summary?: string;
+}
+
 export default function AICodeOptimizerPage() {
   const [originalCode, setOriginalCode] = useState('');
   const [optimizedCode, setOptimizedCode] = useState('');
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
+  const [platform, setPlatform] = useState('schneider');
+  const [error, setError] = useState<string | null>(null);
 
   const exampleCode = `PROGRAM OldPumpControl
 VAR
@@ -84,21 +101,47 @@ Pump2 := (Level2 > PUMP2_START_LEVEL) OR
 
 END_PROGRAM`;
 
-  const optimizationResults: OptimizationResult[] = [
-    { category: 'Lines of Code', before: 45, after: 23, improvement: 49, color: 'blue' },
-    { category: 'IF Statements', before: 12, after: 0, improvement: 100, color: 'green' },
-    { category: 'Scan Time (ms)', before: 2.4, after: 0.8, improvement: 67, color: 'purple' },
-    { category: 'Memory Usage (KB)', before: 5.2, after: 2.1, improvement: 60, color: 'yellow' },
-    { category: 'Cyclomatic Complexity', before: 8, after: 2, improvement: 75, color: 'red' },
-  ];
-
-  const handleOptimize = () => {
+  const handleOptimize = async () => {
     setIsOptimizing(true);
-    setTimeout(() => {
-      setOptimizedCode(optimizedCodeExample);
-      setIsOptimizing(false);
+    setError(null);
+    setShowResults(false);
+
+    try {
+      const response = await fetch('/api/ai-optimize-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: originalCode,
+          platform,
+          optimizationGoals: ['performance', 'safety', 'maintainability'],
+          currentIssues: ''
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to optimize code');
+      }
+
+      const data = await response.json();
+
+      // Parse analysis data
+      let analysis: AnalysisData;
+      if (typeof data.analysis === 'string') {
+        analysis = JSON.parse(data.analysis);
+      } else {
+        analysis = data.analysis;
+      }
+
+      setAnalysisData(analysis);
+      setOptimizedCode(analysis.refactored_code || 'No refactored code available');
       setShowResults(true);
-    }, 3000);
+    } catch (err: any) {
+      console.error('Code optimization error:', err);
+      setError(err.message || 'Failed to optimize code. Please try again.');
+    } finally {
+      setIsOptimizing(false);
+    }
   };
 
   const handleUseExample = () => {
@@ -181,17 +224,37 @@ END_PROGRAM`;
                 >
                   Use Example
                 </button>
-                <button className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                  <Upload size={16} />
-                </button>
               </div>
             </div>
             <div className="p-4">
+              {error && (
+                <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="text-red-600 mt-0.5" size={16} />
+                    <p className="text-sm text-red-800 dark:text-red-200">{error}</p>
+                  </div>
+                </div>
+              )}
+              <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Platform
+                </label>
+                <select
+                  value={platform}
+                  onChange={(e) => setPlatform(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
+                >
+                  <option value="schneider">Schneider Electric</option>
+                  <option value="siemens">Siemens</option>
+                  <option value="rockwell">Rockwell/Allen-Bradley</option>
+                  <option value="mitsubishi">Mitsubishi</option>
+                </select>
+              </div>
               <textarea
                 value={originalCode}
                 onChange={(e) => setOriginalCode(e.target.value)}
                 placeholder="Paste your legacy PLC code here..."
-                className="w-full h-96 p-4 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg font-mono text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white resize-none"
+                className="w-full h-80 p-4 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg font-mono text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white resize-none"
               />
             </div>
             <div className="border-t border-gray-200 dark:border-gray-700 p-4">
@@ -203,7 +266,7 @@ END_PROGRAM`;
                 {isOptimizing ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    Optimizing Code...
+                    Optimizing Code with Claude AI...
                   </>
                 ) : (
                   <>
@@ -245,109 +308,125 @@ END_PROGRAM`;
         </div>
 
         {/* Results Section */}
-        {showResults && (
-          <div className="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-              <BarChart className="text-orange-600" size={24} />
-              Optimization Results
-            </h2>
+        {showResults && analysisData && (
+          <div className="mt-8 space-y-6">
+            {/* Analysis Summary */}
+            {analysisData.analysis_summary && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                  <BarChart className="text-orange-600" size={24} />
+                  Code Analysis Summary
+                </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              {optimizationResults.map((result, idx) => (
-                <div key={idx} className="text-center">
-                  <div className="mb-3">
-                    <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
-                      {result.category}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                      {analysisData.analysis_summary.overall_quality || 'N/A'}
                     </div>
-                    <div className="flex justify-center items-baseline gap-2">
-                      <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {result.improvement}%
-                      </span>
-                      <TrendingUp className="text-green-600" size={20} />
-                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Overall Quality</div>
                   </div>
-                  <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-gray-500 dark:text-gray-400">Before</span>
-                      <span className="font-medium text-gray-700 dark:text-gray-300">{result.before}</span>
+                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                      {analysisData.analysis_summary.complexity_score?.toFixed(1) || 'N/A'}
                     </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-500 dark:text-gray-400">After</span>
-                      <span className="font-medium text-green-600 dark:text-green-400">{result.after}</span>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Complexity Score</div>
+                  </div>
+                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                      {analysisData.analysis_summary.safety_score?.toFixed(1) || 'N/A'}
                     </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Safety Score</div>
+                  </div>
+                  <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                      {analysisData.analysis_summary.scan_time_estimate || 'N/A'}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Scan Time</div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Improvements List */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Code Improvements</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="text-green-600 mt-0.5 flex-shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Eliminated Nested IF Statements</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Replaced 12 nested IF statements with efficient boolean logic
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="text-green-600 mt-0.5 flex-shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Removed Unnecessary Loops</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Eliminated redundant FOR loop that added no functionality
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="text-green-600 mt-0.5 flex-shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Added Configuration Constants</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Improved maintainability with named constants
-                      </p>
-                    </div>
-                  </li>
-                </ul>
               </div>
+            )}
 
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Best Practices Applied</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="text-blue-600 mt-0.5 flex-shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Variable Documentation</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Added descriptive comments for all variables
-                      </p>
+            {/* Issues Found */}
+            {analysisData.issues_found && analysisData.issues_found.length > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <AlertTriangle className="text-yellow-600" size={20} />
+                  Issues Found ({analysisData.issues_found.length})
+                </h3>
+                <div className="space-y-3">
+                  {analysisData.issues_found.slice(0, 5).map((issue: any, idx: number) => (
+                    <div key={idx} className="border-l-4 border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-r-lg">
+                      <div className="flex items-start gap-3">
+                        <span className={`px-2 py-1 text-xs font-medium rounded ${
+                          issue.severity === 'Critical' || issue.severity === 'High'
+                            ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                            : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                        }`}>
+                          {issue.severity}
+                        </span>
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900 dark:text-white">{issue.issue}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{issue.recommendation}</p>
+                          {issue.location && (
+                            <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Location: {issue.location}</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="text-blue-600 mt-0.5 flex-shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Hysteresis Logic</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Implemented proper hysteresis to prevent pump cycling
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="text-blue-600 mt-0.5 flex-shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">IEC 61131-3 Compliance</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Ensured code follows international standards
-                      </p>
-                    </div>
-                  </li>
-                </ul>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Optimizations Applied */}
+            {analysisData.optimizations && analysisData.optimizations.length > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <CheckCircle className="text-green-600" size={20} />
+                  Optimizations Applied ({analysisData.optimizations.length})
+                </h3>
+                <div className="space-y-4">
+                  {analysisData.optimizations.slice(0, 5).map((opt: any, idx: number) => (
+                    <div key={idx} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">{opt.description}</p>
+                          <p className="text-sm text-green-600 dark:text-green-400 mt-1">{opt.benefit}</p>
+                        </div>
+                        <span className="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded">
+                          {opt.type}
+                        </span>
+                      </div>
+                      {opt.before_code && opt.after_code && (
+                        <div className="grid grid-cols-2 gap-4 mt-3">
+                          <div>
+                            <p className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Before:</p>
+                            <pre className="text-xs bg-red-50 dark:bg-red-900/20 p-2 rounded overflow-x-auto">
+                              <code className="text-gray-800 dark:text-gray-200">{opt.before_code}</code>
+                            </pre>
+                          </div>
+                          <div>
+                            <p className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">After:</p>
+                            <pre className="text-xs bg-green-50 dark:bg-green-900/20 p-2 rounded overflow-x-auto">
+                              <code className="text-gray-800 dark:text-gray-200">{opt.after_code}</code>
+                            </pre>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Summary */}
+            {analysisData.summary && (
+              <div className="bg-gradient-to-r from-orange-600 to-purple-600 rounded-lg shadow-lg p-6 text-white">
+                <h3 className="text-lg font-semibold mb-3">Optimization Summary</h3>
+                <p className="text-sm opacity-90">{analysisData.summary}</p>
+              </div>
+            )}
           </div>
         )}
 

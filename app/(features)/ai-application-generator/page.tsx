@@ -9,6 +9,19 @@ interface Artifact {
   name: string;
   type: 'spec' | 'io' | 'pnid' | 'narrative';
   uploaded: boolean;
+  file?: File;
+}
+
+interface GeneratedApplication {
+  application_name: string;
+  platform: string;
+  controller: string;
+  program_code: string;
+  io_assignments: any[];
+  variables: any[];
+  function_blocks: any[];
+  safety_features: any[];
+  testing_procedure: any[];
 }
 
 export default function AIApplicationGeneratorPage() {
@@ -21,6 +34,12 @@ export default function AIApplicationGeneratorPage() {
   ]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [generatedApp, setGeneratedApp] = useState<GeneratedApplication | null>(null);
+  const [requirements, setRequirements] = useState('');
+  const [platform, setPlatform] = useState('schneider');
+  const [controller, setController] = useState('TM221CE24R');
+  const [safetyLevel, setSafetyLevel] = useState('standard');
+  const [error, setError] = useState<string | null>(null);
 
   const steps = [
     { id: 'upload', label: 'Upload Artifacts', icon: Upload },
@@ -32,19 +51,61 @@ export default function AIApplicationGeneratorPage() {
     { id: 'document', label: 'Documentation', icon: FileText },
   ];
 
-  const handleFileUpload = (artifactName: string) => {
-    setArtifacts(artifacts.map(a =>
-      a.name === artifactName ? { ...a, uploaded: true } : a
-    ));
+  const handleFileUpload = (artifactName: string, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setArtifacts(artifacts.map(a =>
+        a.name === artifactName ? { ...a, uploaded: true, file } : a
+      ));
+    }
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     setIsAnalyzing(true);
-    setTimeout(() => {
-      setIsAnalyzing(false);
+    setError(null);
+
+    try {
+      // Build requirements from uploaded artifacts
+      let combinedRequirements = requirements || 'Generate a PLC application based on the uploaded specifications.';
+
+      // Call Claude API to generate application
+      const response = await fetch('/api/ai-generate-application', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requirements: combinedRequirements,
+          applicationType: 'Industrial Control',
+          platform,
+          controller,
+          ioCount: '24 I/O',
+          safetyLevel
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate application');
+      }
+
+      const data = await response.json();
+
+      // Parse the generated application
+      let appData: GeneratedApplication;
+      if (typeof data.application === 'string') {
+        appData = JSON.parse(data.application);
+      } else {
+        appData = data.application;
+      }
+
+      setGeneratedApp(appData);
       setAnalysisComplete(true);
       setCurrentStep('analyze');
-    }, 3000);
+    } catch (err: any) {
+      console.error('Application generation error:', err);
+      setError(err.message || 'Failed to generate application. Please try again.');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const allArtifactsUploaded = artifacts.every(a => a.uploaded);
@@ -121,64 +182,93 @@ export default function AIApplicationGeneratorPage() {
             {/* Upload Section */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                Upload Project Artifacts
+                Application Requirements
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-                Upload your project documentation for AI analysis. The co-pilot will automatically extract requirements and generate the automation solution.
+                Describe your automation requirements and configuration. The AI will generate a complete PLC application.
               </p>
 
-              <div className="space-y-4">
-                {artifacts.map((artifact) => (
-                  <div
-                    key={artifact.name}
-                    className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
-                      artifact.uploaded
-                        ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-purple-500 dark:hover:border-purple-400'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <FileText
-                          className={artifact.uploaded ? 'text-green-600' : 'text-gray-400'}
-                          size={24}
-                        />
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            {artifact.name}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {artifact.type.toUpperCase()} Document
-                          </p>
-                        </div>
-                      </div>
-                      {artifact.uploaded ? (
-                        <CheckCircle className="text-green-600" size={24} />
-                      ) : (
-                        <button
-                          onClick={() => handleFileUpload(artifact.name)}
-                          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
-                        >
-                          Upload
-                        </button>
-                      )}
-                    </div>
+              {error && (
+                <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="text-red-600 mt-0.5" size={16} />
+                    <p className="text-sm text-red-800 dark:text-red-200">{error}</p>
                   </div>
-                ))}
+                </div>
+              )}
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Application Requirements *
+                  </label>
+                  <textarea
+                    value={requirements}
+                    onChange={(e) => setRequirements(e.target.value)}
+                    placeholder="Describe your PLC application requirements (e.g., 'Control two water pumps with alternating duty based on tank level sensors...')"
+                    className="w-full h-32 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Platform
+                    </label>
+                    <select
+                      value={platform}
+                      onChange={(e) => setPlatform(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
+                    >
+                      <option value="schneider">Schneider Electric</option>
+                      <option value="siemens">Siemens</option>
+                      <option value="rockwell">Rockwell/Allen-Bradley</option>
+                      <option value="mitsubishi">Mitsubishi</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Controller Model
+                    </label>
+                    <input
+                      type="text"
+                      value={controller}
+                      onChange={(e) => setController(e.target.value)}
+                      placeholder="e.g., TM221CE24R"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Safety Level
+                  </label>
+                  <select
+                    value={safetyLevel}
+                    onChange={(e) => setSafetyLevel(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="standard">Standard</option>
+                    <option value="enhanced">Enhanced</option>
+                    <option value="SIL2">SIL2 (Safety Integrity Level 2)</option>
+                  </select>
+                </div>
               </div>
 
               <button
                 onClick={handleAnalyze}
-                disabled={!allArtifactsUploaded || isAnalyzing}
+                disabled={!requirements.trim() || isAnalyzing}
                 className="w-full mt-6 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
               >
                 {isAnalyzing ? (
                   <span className="flex items-center justify-center gap-2">
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    Analyzing Artifacts...
+                    Generating PLC Application with Claude AI...
                   </span>
                 ) : (
-                  'Analyze & Generate Solution'
+                  'Generate Application with AI'
                 )}
               </button>
             </div>
@@ -254,67 +344,121 @@ export default function AIApplicationGeneratorPage() {
           </div>
         )}
 
-        {currentStep === 'analyze' && analysisComplete && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-              Analysis Results
-            </h2>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white mb-3">
-                  Proposed Solution Structure
-                </h3>
-                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg space-y-2">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="text-green-600" size={16} />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">Milk Reception System</span>
-                  </div>
-                  <div className="ml-6 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <ChevronRight className="text-gray-400" size={14} />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">3x Valves (V101, V102, V103)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ChevronRight className="text-gray-400" size={14} />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">2x Pumps (P101, P102)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ChevronRight className="text-gray-400" size={14} />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">4x Sensors (LT101, FT101, TT101, PS103)</span>
-                    </div>
-                  </div>
+        {currentStep === 'analyze' && analysisComplete && generatedApp && (
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Generated Application: {generatedApp.application_name}
+                </h2>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Platform: {generatedApp.platform} | Controller: {generatedApp.controller}
                 </div>
               </div>
 
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white mb-3">
-                  Detected Issues
-                </h3>
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
-                  <div className="flex items-start gap-2">
-                    <AlertCircle className="text-yellow-600 mt-0.5" size={16} />
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">Tag Mismatch</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        P&ID shows "PS13" but specification uses "PS103". Recommended: PS103
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                    <Code className="text-purple-600" size={20} />
+                    Program Code
+                  </h3>
+                  <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-auto max-h-96">
+                    <pre className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-mono">
+                      {generatedApp.program_code}
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                    <Settings className="text-blue-600" size={20} />
+                    I/O Assignments ({generatedApp.io_assignments?.length || 0})
+                  </h3>
+                  <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-auto max-h-96 space-y-2">
+                    {generatedApp.io_assignments?.slice(0, 10).map((io: any, idx: number) => (
+                      <div key={idx} className="text-xs border-b border-gray-200 dark:border-gray-700 pb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-purple-600">{io.address}</span>
+                          <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded">
+                            {io.type}
+                          </span>
+                        </div>
+                        <div className="text-gray-700 dark:text-gray-300 mt-1">{io.device}</div>
+                        <div className="text-gray-500 dark:text-gray-400">{io.wiring}</div>
+                      </div>
+                    ))}
+                    {generatedApp.io_assignments && generatedApp.io_assignments.length > 10 && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+                        ... and {generatedApp.io_assignments.length - 10} more
                       </p>
-                      <button className="mt-2 text-xs text-purple-600 dark:text-purple-400 hover:underline">
-                        Apply Correction
-                      </button>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="mt-6 flex justify-end gap-4">
-              <button
-                onClick={() => setCurrentStep('instantiate')}
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Proceed to Asset Instantiation
-              </button>
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                    <CheckCircle className="text-green-600" size={16} />
+                    Safety Features
+                  </h4>
+                  <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                    {generatedApp.safety_features?.slice(0, 5).map((feature: any, idx: number) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <span className="text-green-600">•</span>
+                        <span>{typeof feature === 'string' ? feature : feature.description || JSON.stringify(feature)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                    <FileText className="text-blue-600" size={16} />
+                    Variables
+                  </h4>
+                  <div className="text-xs text-gray-700 dark:text-gray-300">
+                    {generatedApp.variables?.length || 0} variables declared
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                    <TestTube className="text-yellow-600" size={16} />
+                    Testing Procedure
+                  </h4>
+                  <div className="text-xs text-gray-700 dark:text-gray-300">
+                    {generatedApp.testing_procedure?.length || 0} test cases generated
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-4">
+                <button
+                  onClick={() => {
+                    const blob = new Blob([generatedApp.program_code], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${generatedApp.application_name.replace(/\s+/g, '_')}.st`;
+                    a.click();
+                  }}
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Download Program
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentStep('upload');
+                    setAnalysisComplete(false);
+                    setGeneratedApp(null);
+                    setRequirements('');
+                  }}
+                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  Generate Another Application
+                </button>
+              </div>
             </div>
           </div>
         )}

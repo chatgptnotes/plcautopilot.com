@@ -36,6 +36,7 @@ export default function EngineerChat() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentEngineer, setCurrentEngineer] = useState<Engineer | null>(null);
   const [isTyping, setIsTyping] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const availableEngineers: Engineer[] = [
@@ -115,56 +116,79 @@ export default function EngineerChat() {
     setMessages(prev => [...prev, userMsg]);
     setInputMessage('');
     setIsTyping(true);
+    setError(null);
 
-    // Simulate engineer response
-    setTimeout(() => {
-      const response = generateEngineerResponse(inputMessage);
+    try {
+      // Determine engineer type based on current engineer
+      let engineerType = 'general-expert';
+      if (currentEngineer?.id === 'eng-001') {
+        engineerType = 'schneider-specialist';
+      } else if (currentEngineer?.id === 'eng-002') {
+        engineerType = 'rockwell-specialist';
+      } else if (currentEngineer?.id === 'eng-003') {
+        engineerType = 'scada-expert';
+      }
+
+      // Build message history for API (only user and engineer messages)
+      const conversationHistory = messages
+        .filter(m => m.sender === 'user' || m.sender === 'engineer')
+        .map(m => ({
+          sender: m.sender,
+          content: m.content
+        }));
+
+      // Add current user message
+      conversationHistory.push({
+        sender: 'user',
+        content: inputMessage
+      });
+
+      // Call Claude API
+      const response = await fetch('/api/ai-engineer-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: conversationHistory,
+          engineerType,
+          conversationContext: {
+            projectType: 'PLC Programming',
+            plcPlatform: currentEngineer?.specialty.split(',')[0] || 'General'
+          }
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get engineer response');
+      }
+
+      const data = await response.json();
+
       const engineerMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'engineer',
-        content: response,
+        content: data.message,
         timestamp: new Date(),
         engineerName: currentEngineer?.name,
         engineerRole: currentEngineer?.role,
       };
+
       setMessages(prev => [...prev, engineerMsg]);
+    } catch (err: any) {
+      console.error('Engineer chat error:', err);
+      setError(err.message || 'Failed to get response from engineer. Please try again.');
+
+      // Add error message to chat
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        sender: 'system',
+        content: `Error: ${err.message || 'Failed to get response. Please try again.'}`,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMsg]);
+    } finally {
       setIsTyping(false);
-    }, 2000 + Math.random() * 2000);
-  };
-
-  const generateEngineerResponse = (userMessage: string): string => {
-    const lowerMsg = userMessage.toLowerCase();
-
-    if (lowerMsg.includes('error') || lowerMsg.includes('fail') || lowerMsg.includes('not work')) {
-      return `I understand you're encountering an error. Could you please:\n\n1. Share a screenshot of the error message\n2. Tell me which PLC model you're using\n3. Describe what you were trying to do when the error occurred\n\nThis will help me diagnose the issue quickly. You can also use our Error Rectification tool at /generator to upload error screenshots for automated analysis.`;
     }
-
-    if (lowerMsg.includes('recommend') || lowerMsg.includes('which plc') || lowerMsg.includes('choose')) {
-      return `I can help you select the right PLC! To give you the best recommendation, I need to know:\n\n1. Your application type (e.g., conveyor, packaging, HVAC)\n2. Number of I/O points needed\n3. Your budget range\n4. Any specific safety or communication requirements\n\nAlternatively, you can use our automated PLC Selector tool at /plc-selector which will guide you through the selection process step by step.`;
-    }
-
-    if (lowerMsg.includes('program') || lowerMsg.includes('code') || lowerMsg.includes('generate')) {
-      return `For program generation, PLCAutoPilot can create ladder logic, structured text, and other IEC 61131-3 programs. Here's how to get the best results:\n\n1. Provide a clear description of your control logic\n2. Upload a sketch or diagram if available\n3. Specify your exact PLC model\n4. Mention any timing or sequencing requirements\n\nThe generator at /generator will create a downloadable program file in the correct format for your PLC. Would you like me to walk you through the process?`;
-    }
-
-    if (lowerMsg.includes('timer') || lowerMsg.includes('timing')) {
-      return `Timer programming can be tricky! Different PLCs have different formats:\n\n• Schneider EcoStruxure: Use T#100ms or T#5s format\n• Siemens TIA Portal: Use T#100ms or TIME#5s\n• Rockwell Studio 5000: Use milliseconds directly in timer presets\n\nWhat specific timer issue are you facing? Are you getting compilation errors or unexpected behavior?`;
-    }
-
-    if (lowerMsg.includes('scada') || lowerMsg.includes('hmi')) {
-      return `For SCADA and HMI integration, PLCAutoPilot supports various communication protocols. Here are the key considerations:\n\n1. **Protocol Selection**: Modbus TCP, OPC UA, Ethernet/IP\n2. **Data Mapping**: Ensure tag names match between PLC and SCADA\n3. **Security**: Use VPNs and secure authentication\n4. **Performance**: Monitor scan times and network latency\n\nWhat SCADA/HMI system are you using? I can provide specific integration guidance.`;
-    }
-
-    if (lowerMsg.includes('safety') || lowerMsg.includes('sil')) {
-      return `Safety-rated control is critical. Here's what you need to know:\n\n**Safety Levels**:\n• Category 1-4 (EN ISO 13849-1)\n• SIL 1-3 (IEC 61508)\n• PLa-PLe ratings\n\n**Key Requirements**:\n1. Use safety-rated PLCs (e.g., Siemens S7-1500F, Rockwell GuardLogix)\n2. Implement dual-channel architectures\n3. Regular safety function testing\n4. Proper documentation and validation\n\nWhat safety level do you need to achieve? I can recommend appropriate hardware and programming practices.`;
-    }
-
-    if (lowerMsg.includes('automation') || lowerMsg.includes('mass production')) {
-      return `For mass production automation, we focus on automating the automation! Here are best practices:\n\n**Key Considerations**:\n1. **Scalability**: Design for future expansion\n2. **Reliability**: Redundant systems for critical processes\n3. **OEE Optimization**: Minimize downtime and waste\n4. **Data Collection**: Real-time production monitoring\n5. **Standardization**: Reusable code modules\n\nPLCAutoPilot excels at rapid program generation for mass production scenarios. What's your production environment? I can suggest optimal automation strategies.`;
-    }
-
-    // Default response
-    return `I'm here to help! Could you provide more details about your specific situation? Some areas I can assist with:\n\n• PLC program generation and troubleshooting\n• Hardware selection and sizing\n• Error diagnosis and resolution\n• Communication protocols and networking\n• Safety systems and compliance\n• SCADA/HMI integration\n• Motion control applications\n\nWhat would you like to focus on?`;
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

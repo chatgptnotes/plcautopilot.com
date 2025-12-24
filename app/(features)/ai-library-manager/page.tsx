@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BookOpen, Package, Star, Download, Upload, Search, Filter, Tag, Code, Zap } from 'lucide-react';
+import { BookOpen, Package, Star, Download, Upload, Search, Filter, Tag, Code, Zap, AlertTriangle } from 'lucide-react';
 
 interface LibraryItem {
   id: string;
@@ -13,12 +13,27 @@ interface LibraryItem {
   downloads: number;
   rating: number;
   lastUpdated: string;
+  inputs?: any[];
+  outputs?: any[];
+  usage_example?: string;
+  compatibility?: string[];
+}
+
+interface SearchResults {
+  search_results?: LibraryItem[];
+  recommendations?: any[];
+  integration_guide?: string;
+  custom_blocks?: any[];
 }
 
 export default function AILibraryManagerPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedPlatform, setSelectedPlatform] = useState('all');
+  const [selectedPlatform, setSelectedPlatform] = useState('schneider');
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchResults | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [showAISearch, setShowAISearch] = useState(false);
 
   const libraries: LibraryItem[] = [
     {
@@ -91,6 +106,50 @@ export default function AILibraryManagerPage() {
 
   const categories = ['all', 'Process Control', 'Motor Control', 'Material Handling', 'Safety Systems'];
   const platforms = ['all', 'Schneider M580', 'Schneider M340', 'Schneider M221', 'Siemens S7', 'Rockwell ControlLogix', 'CODESYS'];
+
+  const handleAISearch = async () => {
+    if (!searchTerm.trim()) return;
+
+    setIsSearching(true);
+    setError(null);
+    setShowAISearch(true);
+
+    try {
+      const response = await fetch('/api/ai-library-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: searchTerm,
+          platform: selectedPlatform,
+          applicationType: selectedCategory !== 'all' ? selectedCategory : undefined,
+          requirements: [],
+          generateCustom: true
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to search libraries');
+      }
+
+      const data = await response.json();
+
+      // Parse libraries data
+      let results: SearchResults;
+      if (typeof data.libraries === 'string') {
+        results = JSON.parse(data.libraries);
+      } else {
+        results = data.libraries;
+      }
+
+      setSearchResults(results);
+    } catch (err: any) {
+      console.error('Library search error:', err);
+      setError(err.message || 'Failed to search libraries. Please try again.');
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
   const filteredLibraries = libraries.filter(lib => {
     const matchesSearch = lib.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -170,31 +229,25 @@ export default function AILibraryManagerPage() {
 
         {/* Search and Filters */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="relative">
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="text-red-600 mt-0.5" size={16} />
+                <p className="text-sm text-red-800 dark:text-red-200">{error}</p>
+              </div>
+            </div>
+          )}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="relative md:col-span-2">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               <input
                 type="text"
-                placeholder="Search libraries..."
+                placeholder="Describe what you need (e.g., 'motor control with safety interlocks')..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleAISearch()}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               />
-            </div>
-
-            <div className="relative">
-              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white appearance-none"
-              >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>
-                    {cat === 'all' ? 'All Categories' : cat}
-                  </option>
-                ))}
-              </select>
             </div>
 
             <div className="relative">
@@ -204,15 +257,114 @@ export default function AILibraryManagerPage() {
                 onChange={(e) => setSelectedPlatform(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white appearance-none"
               >
-                {platforms.map(plat => (
-                  <option key={plat} value={plat}>
-                    {plat === 'all' ? 'All Platforms' : plat}
-                  </option>
-                ))}
+                <option value="schneider">Schneider Electric</option>
+                <option value="siemens">Siemens</option>
+                <option value="rockwell">Rockwell/Allen-Bradley</option>
+                <option value="mitsubishi">Mitsubishi</option>
+                <option value="codesys">CODESYS</option>
               </select>
             </div>
+
+            <button
+              onClick={handleAISearch}
+              disabled={!searchTerm.trim() || isSearching}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+            >
+              {isSearching ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                  Searching...
+                </>
+              ) : (
+                <>
+                  <Zap size={20} />
+                  AI Search
+                </>
+              )}
+            </button>
           </div>
         </div>
+
+        {/* AI Search Results */}
+        {showAISearch && searchResults && (
+          <div className="space-y-6 mb-6">
+            {/* Search Results */}
+            {searchResults.search_results && searchResults.search_results.length > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Code className="text-blue-600" size={20} />
+                  AI Search Results ({searchResults.search_results.length})
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {searchResults.search_results.map((lib: any, idx: number) => (
+                    <div key={idx} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="font-semibold text-gray-900 dark:text-white">{lib.name}</h3>
+                        <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded">
+                          {lib.category}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">{lib.description}</p>
+                      {lib.usage_example && (
+                        <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg mb-3">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Usage Example:</p>
+                          <pre className="text-xs text-gray-700 dark:text-gray-300 overflow-x-auto">
+                            {lib.usage_example}
+                          </pre>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                        <Tag size={14} />
+                        <span>{lib.platform || 'Universal'}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Recommendations */}
+            {searchResults.recommendations && searchResults.recommendations.length > 0 && (
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg p-6 text-white">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Star className="text-yellow-400" size={20} />
+                  AI Recommendations
+                </h3>
+                <div className="space-y-3">
+                  {searchResults.recommendations.map((rec: any, idx: number) => (
+                    <div key={idx} className="bg-white/10 backdrop-blur rounded-lg p-4">
+                      <p className="font-medium mb-2">{rec.library_name}</p>
+                      <p className="text-sm opacity-90 mb-2">{rec.reason}</p>
+                      {rec.benefits && (
+                        <ul className="text-xs space-y-1">
+                          {rec.benefits.slice(0, 3).map((benefit: string, bidx: number) => (
+                            <li key={bidx} className="flex items-start gap-2">
+                              <span>•</span>
+                              <span>{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Integration Guide */}
+            {searchResults.integration_guide && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                  <BookOpen className="text-green-600" size={20} />
+                  Integration Guide
+                </h3>
+                <div className="prose dark:prose-invert max-w-none text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                  {searchResults.integration_guide}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Library Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
