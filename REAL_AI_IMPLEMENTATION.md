@@ -300,9 +300,25 @@ CLAUDE_MODEL=claude-3-5-sonnet-20241022
 
 ### Vercel Deployment
 
-Set in Vercel dashboard → Environment Variables:
-- `ANTHROPIC_API_KEY`
-- `CLAUDE_MODEL`
+**Via Vercel CLI** (Recommended):
+```bash
+# Add environment variables to production
+echo "your-api-key-here" | vercel env add ANTHROPIC_API_KEY production
+echo "claude-3-5-sonnet-20241022" | vercel env add CLAUDE_MODEL production
+
+# Verify variables are set
+vercel env ls
+
+# Redeploy to activate
+vercel --prod
+```
+
+**Via Vercel Dashboard** (Alternative):
+1. Go to Vercel dashboard → Your Project → Settings → Environment Variables
+2. Add `ANTHROPIC_API_KEY` with your API key value
+3. Add `CLAUDE_MODEL` with value `claude-3-5-sonnet-20241022`
+4. Select "Production" environment
+5. Redeploy from dashboard or CLI
 
 ---
 
