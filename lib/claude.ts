@@ -235,6 +235,9 @@ PLC Model ${plcModel} specifications:
 Use proper IEC addressing. Include safety logic.`;
 
   try {
+    console.log('Calling Claude API with model:', CLAUDE_MODEL);
+    console.log('API Key configured:', !!process.env.ANTHROPIC_API_KEY);
+
     const message = await anthropic.messages.create({
       model: CLAUDE_MODEL,
       max_tokens: 4096,
@@ -247,18 +250,29 @@ Use proper IEC addressing. Include safety logic.`;
       ]
     });
 
+    console.log('Claude API response received');
     const text = message.content[0].type === 'text' ? message.content[0].text : '';
 
     // Extract JSON from response
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
+      console.log('Successfully extracted JSON from Claude response');
       return jsonMatch[0];
     }
 
+    console.log('No JSON found in response, returning raw text');
     return text;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Claude M221 Generation Error:', error);
-    throw error;
+    console.error('Error details:', {
+      message: error.message,
+      status: error.status,
+      type: error.type,
+      error: error.error,
+      apiKeySet: !!process.env.ANTHROPIC_API_KEY,
+      modelUsed: CLAUDE_MODEL
+    });
+    throw new Error(`Claude API Error: ${error.message || error.type || 'Unknown error'}`);
   }
 }
 

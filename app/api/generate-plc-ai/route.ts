@@ -88,10 +88,25 @@ export async function POST(request: NextRequest) {
       aiGenerated: true
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('AI Generation Error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      cause: error.cause,
+      apiKeyConfigured: !!process.env.ANTHROPIC_API_KEY,
+      modelConfigured: !!process.env.CLAUDE_MODEL
+    });
     return NextResponse.json(
-      { error: 'Failed to generate program with AI', details: String(error) },
+      {
+        error: 'Failed to generate program with AI',
+        details: error.message || String(error),
+        errorType: error.name,
+        apiKeyConfigured: !!process.env.ANTHROPIC_API_KEY,
+        modelConfigured: !!process.env.CLAUDE_MODEL,
+        stack: error.stack
+      },
       { status: 500 }
     );
   }
