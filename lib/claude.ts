@@ -6,7 +6,7 @@ const anthropic = new Anthropic({
 });
 
 // Claude model to use
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-4-20250514';
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
 
 // PLC Program Generation System Prompt
 const PLC_SYSTEM_PROMPT = `You are an expert PLC programmer specializing in industrial automation.
