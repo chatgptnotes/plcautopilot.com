@@ -494,6 +494,32 @@ curl -X POST http://localhost:3000/api/ai-optimize-code \
 
 ## Troubleshooting
 
+### Error: "Your credit balance is too low to access the Anthropic API" ⚠️ CURRENT ISSUE
+
+**Status**: BLOCKING - All AI features require credits
+
+**Error Message**:
+```json
+{
+  "error": "Failed to generate program with AI",
+  "message": "Claude API Error: 400 {\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"}"
+}
+```
+
+**Solution**:
+1. Visit https://console.anthropic.com/settings/plans
+2. Add credits (recommended: $10 minimum for testing, $50 for development)
+3. Or upgrade to a paid plan for automatic billing
+
+**Cost Estimates for Testing**:
+- $10 credit: ~200-300 requests
+- $50 credit: ~1,000-1,500 requests
+- $100 credit: ~2,000-3,000 requests
+
+See CLAUDE_API_CREDITS_ISSUE.md for detailed information.
+
+---
+
 ### Error: "ANTHROPIC_API_KEY not configured"
 ```bash
 # Check if .env.local exists
