@@ -1,8 +1,8 @@
 # PLCAutoPilot Deployment Status
 
 ## Current Version: 1.3
-**Last Updated**: 2025-12-25
-**Status**: 🟡 Deployed - Blocked by API Credits
+**Last Updated**: 2025-12-25 (API Key Updated)
+**Status**: 🟡 Deployed - Blocked by API Credits (New API Key Active)
 
 ---
 
@@ -209,9 +209,16 @@ During troubleshooting, we ruled out:
 
 ### Environment Variables (Production)
 ```bash
-ANTHROPIC_API_KEY=sk-ant-api03-*** (configured ✅)
+ANTHROPIC_API_KEY=sk-ant-api03-ZdgkuQyaJgtW...5I1aHwAA (configured ✅ - UPDATED 2025-12-25)
 CLAUDE_MODEL=claude-3-5-sonnet-20241022 (configured ✅)
 ```
+
+**API Key Update Log**:
+- Previous: `sk-ant-api03-cDLwwgCnPSOT...` (removed)
+- Current: `sk-ant-api03-ZdgkuQyaJgtW...` (active)
+- Updated: 2025-12-25
+- Deployed: ✅ Production redeployed
+- Status: Working (verified via API test)
 
 ### Repository
 - **GitHub**: https://github.com/chatgptnotes/plcautopilot.com
