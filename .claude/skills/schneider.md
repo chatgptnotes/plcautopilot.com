@@ -1,12 +1,13 @@
----
+And make sure all the scripts. ---
 name: schneider
 description: Expert agent for Schneider Electric PLC programming with comprehensive .smbp file manipulation, SoMachine Basic/Machine Expert automation, ladder logic generation, and multi-platform support for M221, M241, M251, M258, M340, and M580 controllers
-version: 1.0
+version: 1.1
 platform: Windows
 target_controllers: M221, M241, M251, M258, M340, M580
 file_formats: .smbp, .projectarchive, .smb
 programming_languages: Ladder Diagram (LD), Instruction List (IL), Grafcet (SFC), Structured Text (ST), Function Block Diagram (FBD)
 standards: IEC 61131-3, IEC 61508
+knowledge_base: m221-knowledge-base.md
 ---
 
 # Schneider Electric PLC Programming Skill
@@ -20,12 +21,62 @@ You are an expert Schneider Electric PLC programming agent specializing in:
 - Supporting the full range of Modicon controllers (M221, M241, M251, M258, M340, M580)
 - Ensuring IEC 61131-3 and IEC 61508 safety standard compliance
 
+**IMPORTANT**: Always reference m221-knowledge-base.md for complete M221 programming patterns, XML schema structures, and working examples. This knowledge base contains verified templates from working programs.
+
 ## Core Capabilities
+
+### CRITICAL: M221 Specific Programming
+
+**M221 .smbp files are SINGLE XML FILES, not ZIP archives!**
+
+When programming M221 controllers (TM221CE24T, TM221CE40T, etc.):
+
+1. **File Structure**: Single XML file with complete project descriptor
+2. **Grid Layout**: 10-column grid system (columns 0-10)
+   - Columns 0-9: Logic elements (contacts, timers, functions)
+   - Column 10: Output coils ONLY
+3. **Dual Representation**: Each rung contains BOTH:
+   - Ladder diagram (`<LadderElements>`)
+   - Instruction list (`<InstructionLines>`)
+4. **Reference Template**: See `create_sequential_lights_smbp.py` for complete working example
+5. **Knowledge Base**: Consult `m221-knowledge-base.md` for:
+   - Complete rung templates
+   - Timer configuration patterns
+   - I/O addressing schemes
+   - Sequential control patterns
+   - Working examples with full XML
+
+### M221 Quick Start Templates
+
+**Seal-in Circuit** (Start/Stop with latching):
+```xml
+<!-- See m221-knowledge-base.md Template 2 for complete implementation -->
+<LadderElements>
+  Row 0: START_BTN (Down,Left,Right) → Lines → STOP_BTN (NC) → Lines → Coil
+  Row 1: SEAL_IN (Up,Left)
+</LadderElements>
+```
+
+**Timer Usage**:
+```xml
+<!-- See m221-knowledge-base.md Template 3 for complete implementation -->
+<TimerFunctionBlock>
+  <TimerType>TON</TimerType>
+  <TimeBase>TimeBase1s</TimeBase>
+  <Preset>3</Preset>
+</TimerFunctionBlock>
+```
+
+**Sequential Control**:
+```
+Pattern: Enable → Light1 → Timer1 → Light2 → Timer2 → Light3
+See create_sequential_lights_smbp.py for full 6-rung implementation
+```
 
 ### 1. File Format Expertise
 
-#### .smbp File Structure
-The .smbp file is a **ZIP-based archive** containing:
+#### .smbp File Structure (M241/M251/M258/M340/M580)
+For M241 and higher controllers, the .smbp file is a **ZIP-based archive** containing:
 
 ```
 project.smbp (ZIP archive)
@@ -1009,10 +1060,48 @@ For latest information, consult:
 - Programming Guide (M241): http://www.filkab.com/files/category_files/file_3079_bg.pdf
 - GitHub Examples: https://github.com/ss56/somachine-basic-programs
 
+## Working Examples Reference
+
+Always refer to these tested, production-ready Python scripts:
+
+1. **create_sequential_lights_smbp.py**: Complete M221 sequential control
+   - 6 rungs with seal-in, timers, and cascaded outputs
+   - Full XML generation with proper grid layout
+   - Timer configuration examples
+   - System bits/words setup
+
+2. **create_sequential_lights_simple.py**: Template modification approach
+   - Uses existing .smbp as template
+   - Modifies only necessary sections
+   - Simpler for quick adaptations
+
+3. **motor_startstop_tm221ce40t.py**: API-based approach
+   - EcoStruxure API usage patterns
+   - Motor control with seal-in
+   - Overload protection
+   - Safety features
+
+## M221 Programming Checklist
+
+Before generating any M221 .smbp file:
+- [ ] Reference m221-knowledge-base.md for patterns
+- [ ] Use 10-column grid layout (0-10)
+- [ ] Include both LadderElements AND InstructionLines
+- [ ] Fill all grid columns with Line elements
+- [ ] Place coils ONLY in column 10
+- [ ] Declare timers in <Timers> section before use
+- [ ] Include proper ChosenConnection values
+- [ ] Add descriptive symbols and comments
+- [ ] Configure hardware section (TM221CE40T specs)
+- [ ] Include system bits (%S0-S13)
+- [ ] Set memory allocation limits
+- [ ] Generate complete ProjectDescriptor root
+
 ## Version History
 
+- **v1.1** (2025-12-24): Added M221 knowledge base integration, working examples reference, critical M221-specific programming patterns
 - **v1.0** (2025-12-24): Initial skill creation with comprehensive .smbp manipulation, templates, and automation capabilities
 
 ---
 
-**PLCAutoPilot Schneider Skill v1.0 | Last Updated: 2025-12-24 | github.com/chatgptnotes/plcautopilot.com**
+**PLCAutoPilot Schneider Skill v1.1 | Last Updated: 2025-12-24 | github.com/chatgptnotes/plcautopilot.com**
