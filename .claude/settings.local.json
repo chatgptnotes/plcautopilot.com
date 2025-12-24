@@ -21,7 +21,8 @@
       "WebFetch(domain:helpme-codesys.com)",
       "WebFetch(domain:exchange.se.com)",
       "WebFetch(domain:github.com)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git remote add:*)"
     ]
   }
 }

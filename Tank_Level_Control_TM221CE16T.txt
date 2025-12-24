@@ -1,0 +1,294 @@
+================================================================================
+          TANK LEVEL CONTROL SYSTEM - TM221CE16T PLC PROGRAM
+================================================================================
+Project: Dual Tank Level Control System
+Controller: Schneider TM221CE16T (9 DI, 7 DO)
+Date: 2025-12-24
+================================================================================
+
+SYSTEM DESCRIPTION:
+-------------------
+- Inlet water source feeds Tank 1 via Pump 1
+- Tank 1 feeds R.O. Tank via Pump 2
+- Level switches in both tanks for level monitoring
+- Goal: Maintain water levels in both tanks automatically
+
+================================================================================
+                           I/O ASSIGNMENT TABLE
+================================================================================
+
+DIGITAL INPUTS:
+---------------
+Address     Description                 Sensor Type         Active State
+--------    --------------------------  ------------------  ------------
+%I0.0       Tank 1 Level Switch (LS1)   Float Switch        0=Low, 1=High
+%I0.1       R.O. Tank Level Switch      Float Switch        0=Low, 1=High
+            (LS2)
+%I0.2       System Start Push Button    NO Push Button      1=Pressed
+%I0.3       System Stop Push Button     NC Push Button      0=Pressed
+%I0.4       Emergency Stop              NC Push Button      0=Pressed
+%I0.5       Pump 1 Overload (OL1)       NC Contact          0=Tripped
+%I0.6       Pump 2 Overload (OL2)       NC Contact          0=Tripped
+
+DIGITAL OUTPUTS:
+----------------
+Address     Description                 Load Type
+--------    --------------------------  ------------------
+%Q0.0       Pump 1 Contactor (P1)       Relay Output
+%Q0.1       Pump 2 Contactor (P2)       Relay Output
+%Q0.2       System Running Indicator    Pilot Light
+%Q0.3       Tank 1 Low Level Alarm      Pilot Light
+%Q0.4       R.O. Tank Low Level Alarm   Pilot Light
+%Q0.5       Fault Indicator             Pilot Light
+
+INTERNAL MEMORY:
+----------------
+%M0         System Running Flag
+%M1         Pump 1 Run Command
+%M2         Pump 2 Run Command
+%M10        Fault Flag
+
+================================================================================
+                         LADDER LOGIC PROGRAM
+================================================================================
+For EcoStruxure Machine Expert - Basic (SoMachine Basic)
+
+RUNG 0: SYSTEM START/STOP CONTROL
+---------------------------------
+Purpose: Latch system ON with Start button, OFF with Stop or Emergency
+
+     %I0.2      %I0.3      %I0.4      %M0
+  ----| |--------| |--------| |-------(S)----
+       Start     Stop       E-Stop    System
+       PB        NC         NC        Running
+
+     %I0.3      %I0.4      %M0
+  ----|\|--------|\|-------(R)----
+       Stop      E-Stop    System
+       NC        NC        Running
+       (Open)    (Open)
+
+
+RUNG 1: PUMP 1 CONTROL (Fill Tank 1)
+------------------------------------
+Purpose: Run Pump 1 when Tank 1 level is LOW and system is running
+
+Logic: Pump 1 ON when:
+  - System is running (%M0 = 1)
+  - Tank 1 level is LOW (%I0.0 = 0)
+  - Pump 1 not in overload (%I0.5 = 1)
+  - No fault active (%M10 = 0)
+
+     %M0        %I0.0      %I0.5      %M10       %M1
+  ----| |--------|\|--------| |--------|\|-------(  )----
+       System    Tank1      OL1       No         Pump1
+       Running   LOW        OK        Fault      Cmd
+
+
+RUNG 2: PUMP 2 CONTROL (Fill R.O. Tank)
+---------------------------------------
+Purpose: Run Pump 2 when R.O. Tank level is LOW, Tank 1 has water
+
+Logic: Pump 2 ON when:
+  - System is running (%M0 = 1)
+  - R.O. Tank level is LOW (%I0.1 = 0)
+  - Tank 1 level is HIGH (%I0.0 = 1) - ensures water available
+  - Pump 2 not in overload (%I0.6 = 1)
+  - No fault active (%M10 = 0)
+
+     %M0        %I0.1      %I0.0      %I0.6      %M10       %M2
+  ----| |--------|\|--------| |--------| |--------|\|-------(  )----
+       System    RO Tank    Tank1      OL2       No         Pump2
+       Running   LOW        HIGH       OK        Fault      Cmd
+
+
+RUNG 3: PUMP 1 OUTPUT
+---------------------
+     %M1        %Q0.0
+  ----| |-------(  )----
+       Pump1    Pump 1
+       Cmd      Output
+
+
+RUNG 4: PUMP 2 OUTPUT
+---------------------
+     %M2        %Q0.1
+  ----| |-------(  )----
+       Pump2    Pump 2
+       Cmd      Output
+
+
+RUNG 5: SYSTEM RUNNING INDICATOR
+--------------------------------
+     %M0        %Q0.2
+  ----| |-------(  )----
+       System   Running
+       Running  Light
+
+
+RUNG 6: TANK 1 LOW LEVEL ALARM
+------------------------------
+Purpose: Indicate when Tank 1 is low (visual warning)
+
+     %M0        %I0.0      %Q0.3
+  ----| |--------|\|-------(  )----
+       System    Tank1     Tank1
+       Running   LOW       Alarm
+
+
+RUNG 7: R.O. TANK LOW LEVEL ALARM
+---------------------------------
+     %M0        %I0.1      %Q0.4
+  ----| |--------|\|-------(  )----
+       System    RO Tank   RO Tank
+       Running   LOW       Alarm
+
+
+RUNG 8: FAULT DETECTION
+-----------------------
+Purpose: Set fault flag on any overload trip
+
+     %I0.5      %M10
+  ----|\|-------(S)----
+       OL1      Fault
+       Trip     Flag
+
+     %I0.6      %M10
+  ----|\|-------(S)----
+       OL2      Fault
+       Trip     Flag
+
+
+RUNG 9: FAULT INDICATOR
+-----------------------
+     %M10       %Q0.5
+  ----| |-------(  )----
+       Fault    Fault
+       Flag     Light
+
+
+RUNG 10: FAULT RESET (Reset fault when Start pressed and OLs clear)
+-------------------------------------------------------------------
+     %I0.2      %I0.5      %I0.6      %M10
+  ----| |--------| |--------| |-------(R)----
+       Start     OL1       OL2       Fault
+       PB        Clear     Clear     Reset
+
+================================================================================
+                    STRUCTURED TEXT (IL) VERSION
+================================================================================
+For reference or alternative programming:
+
+(* System Control *)
+IF %I0.2 AND %I0.3 AND %I0.4 THEN
+    %M0 := TRUE;
+END_IF;
+
+IF NOT %I0.3 OR NOT %I0.4 THEN
+    %M0 := FALSE;
+END_IF;
+
+(* Pump 1 Control - Fill Tank 1 when LOW *)
+%M1 := %M0 AND (NOT %I0.0) AND %I0.5 AND (NOT %M10);
+
+(* Pump 2 Control - Fill RO Tank when LOW and Tank 1 has water *)
+%M2 := %M0 AND (NOT %I0.1) AND %I0.0 AND %I0.6 AND (NOT %M10);
+
+(* Outputs *)
+%Q0.0 := %M1;
+%Q0.1 := %M2;
+%Q0.2 := %M0;
+%Q0.3 := %M0 AND (NOT %I0.0);
+%Q0.4 := %M0 AND (NOT %I0.1);
+
+(* Fault Logic *)
+IF NOT %I0.5 OR NOT %I0.6 THEN
+    %M10 := TRUE;
+END_IF;
+
+%Q0.5 := %M10;
+
+IF %I0.2 AND %I0.5 AND %I0.6 THEN
+    %M10 := FALSE;
+END_IF;
+
+================================================================================
+                         OPERATION SEQUENCE
+================================================================================
+
+STARTUP:
+1. Ensure both tanks have adequate water level
+2. Reset any faults (press Start with OLs clear)
+3. Press START button to enable system
+4. System will automatically maintain levels
+
+NORMAL OPERATION:
+- Tank 1 LOW  -> Pump 1 runs until Tank 1 HIGH
+- R.O. Tank LOW + Tank 1 HIGH -> Pump 2 runs until R.O. Tank HIGH
+- Both tanks HIGH -> Both pumps OFF (level maintained)
+
+SHUTDOWN:
+1. Press STOP button
+2. All pumps stop immediately
+3. Press START to resume
+
+EMERGENCY:
+1. Press E-STOP
+2. All outputs de-energize immediately
+3. Release E-STOP and press START to resume
+
+================================================================================
+                           WIRING DIAGRAM
+================================================================================
+
+INPUTS (24VDC):
+--------------
++24V ---+--- Tank 1 Level Switch ------- %I0.0
+        |
+        +--- R.O. Level Switch --------- %I0.1
+        |
+        +--- Start PB (NO) ------------- %I0.2
+        |
+        +--- Stop PB (NC) -------------- %I0.3
+        |
+        +--- E-Stop (NC) --------------- %I0.4
+        |
+        +--- Pump 1 OL (NC) ------------ %I0.5
+        |
+        +--- Pump 2 OL (NC) ------------ %I0.6
+
+OUTPUTS:
+--------
+%Q0.0 --- Pump 1 Contactor Coil
+%Q0.1 --- Pump 2 Contactor Coil
+%Q0.2 --- Running Light (Green)
+%Q0.3 --- Tank 1 Low Alarm (Yellow)
+%Q0.4 --- R.O. Tank Low Alarm (Yellow)
+%Q0.5 --- Fault Light (Red)
+
+================================================================================
+                              NOTES
+================================================================================
+
+1. Level Switch Configuration:
+   - Assuming float switches: LOW level = contact OPEN (0)
+   - HIGH level = contact CLOSED (1)
+   - Adjust logic if switches are configured differently
+
+2. Pump Interlock:
+   - Pump 2 will NOT run if Tank 1 is low (dry run protection)
+   - This prevents damage to Pump 2
+
+3. Hysteresis (Optional Enhancement):
+   - For better control, consider adding high/low level switches
+   - Or use analog level sensors with setpoints
+
+4. SoMachine Basic Project Setup:
+   - Create new project for TM221CE16T
+   - Configure I/O as per assignment table
+   - Enter ladder logic in Programming section
+   - Download and test
+
+================================================================================
+                          END OF PROGRAM
+================================================================================
