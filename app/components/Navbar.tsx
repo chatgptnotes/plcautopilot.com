@@ -61,8 +61,8 @@ export default function Navbar() {
               Login
             </Link>
             <ThemeToggle />
-            <Link href="/generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all">
-              Try Generator
+            <Link href="/ai-generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all animate-pulse">
+              AI Generator
             </Link>
           </div>
 
@@ -96,8 +96,8 @@ export default function Navbar() {
               <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Blog</Link>
               <Link href="#pricing" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Pricing</Link>
               <Link href="/login" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">Login</Link>
-              <Link href="/generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-semibold text-center">
-                Try Generator
+              <Link href="/ai-generator" className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg font-semibold text-center">
+                AI Generator
               </Link>
             </div>
           </div>
