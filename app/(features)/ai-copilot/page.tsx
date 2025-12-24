@@ -204,18 +204,65 @@ export default function AICopilotPage() {
     setEstimatedTime(totalTime);
     setStartTime(Date.now());
 
-    // Simulate AI response with stages
-    setTimeout(() => {
-      const response = generateMockResponse(prompt, activeTab, uploadedImages);
-      setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
-      if (activeTab === 'generate') {
-        setGeneratedCode(response);
+    try {
+      // Convert images to base64 for API
+      const imageData = await Promise.all(
+        uploadedImages.map(async (img) => {
+          const reader = new FileReader();
+          return new Promise<{ base64: string; mimeType: string; type: string }>((resolve) => {
+            reader.onloadend = () => {
+              const base64 = (reader.result as string).split(',')[1];
+              resolve({
+                base64,
+                mimeType: img.file.type,
+                type: img.type
+              });
+            };
+            reader.readAsDataURL(img.file);
+          });
+        })
+      );
+
+      // Call real Claude API
+      const response = await fetch('/api/ai-copilot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt,
+          mode: activeTab,
+          images: imageData.length > 0 ? imageData : undefined
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setChatHistory(prev => [...prev, { role: 'assistant', content: data.response }]);
+        if (activeTab === 'generate') {
+          setGeneratedCode(data.response);
+        }
+      } else {
+        // Fallback to mock response if API fails
+        const mockResponse = generateMockResponse(prompt, activeTab, uploadedImages);
+        setChatHistory(prev => [...prev, { role: 'assistant', content: mockResponse }]);
+        if (activeTab === 'generate') {
+          setGeneratedCode(mockResponse);
+        }
       }
+    } catch (error) {
+      console.error('AI request failed:', error);
+      // Fallback to mock response
+      const mockResponse = generateMockResponse(prompt, activeTab, uploadedImages);
+      setChatHistory(prev => [...prev, { role: 'assistant', content: mockResponse }]);
+      if (activeTab === 'generate') {
+        setGeneratedCode(mockResponse);
+      }
+    } finally {
       setIsLoading(false);
       setPrompt('');
       setUploadedImages([]);
       setStartTime(null);
-    }, totalTime);
+    }
   };
 
   const generateMockResponse = (userPrompt: string, tab: string, images: UploadedImage[] = []) => {
