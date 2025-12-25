@@ -583,15 +583,38 @@ Include seal-in circuit for latching.`}
             </div>
 
             {/* Instructions */}
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <h3 className="font-medium text-blue-900 mb-2">Next Steps</h3>
-              <ol className="text-sm text-blue-800 list-decimal list-inside space-y-1">
-                <li>Download the .smbp file using the button above</li>
-                <li>Open EcoStruxure Machine Expert - Basic</li>
-                <li>File - Open - Select the downloaded .smbp file</li>
-                <li>Review and modify the program as needed</li>
-                <li>Connect to your {selectedModel} PLC and download</li>
-              </ol>
+            <div className="mt-4 space-y-3">
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="font-medium text-blue-900 mb-2 flex items-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Recommended: Use IL Code Tab
+                </h3>
+                <p className="text-sm text-blue-800 mb-2">
+                  For best compatibility with EcoStruxure Machine Expert:
+                </p>
+                <ol className="text-sm text-blue-800 list-decimal list-inside space-y-1 ml-2">
+                  <li>Click the <strong>"IL Code"</strong> tab above</li>
+                  <li>Copy the Instruction List code</li>
+                  <li>Create a new project in EcoStruxure Machine Expert - Basic</li>
+                  <li>Paste the IL code into your program</li>
+                  <li>The software will automatically convert to ladder logic</li>
+                </ol>
+              </div>
+
+              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <h3 className="font-medium text-gray-900 mb-2">Alternative: Direct .smbp Import</h3>
+                <ol className="text-sm text-gray-600 list-decimal list-inside space-y-1">
+                  <li>Download the .smbp file using the button above</li>
+                  <li>Open EcoStruxure Machine Expert - Basic</li>
+                  <li>File → Open → Select the downloaded file</li>
+                  <li>If file error occurs, use the IL Code method instead</li>
+                </ol>
+                <p className="text-xs text-gray-500 mt-2 italic">
+                  Note: Due to Schneider's proprietary format, some files may require the IL Code import method.
+                </p>
+              </div>
             </div>
           </div>
         )}
