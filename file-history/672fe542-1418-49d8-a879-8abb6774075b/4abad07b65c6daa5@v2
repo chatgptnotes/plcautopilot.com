@@ -1,0 +1,364 @@
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import {
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  FileText,
+  Lock,
+  Eye,
+  EyeOff,
+  Save,
+  X,
+  ArrowLeft
+} from 'lucide-react';
+import DatabaseService from '../../services/databaseService';
+import { useAuth } from '../../contexts/AuthContext';
+import { generatePatientUID } from '../../utils/patientUidGenerator';
+
+const AddPatientForm = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm();
+
+  const clinicId = user?.clinic_id || user?.clinicId;
+
+  const onSubmit = async (data) => {
+    try {
+      setIsSubmitting(true);
+
+      if (!clinicId) {
+        toast.error('Clinic information not found');
+        return;
+      }
+
+      // Create Supabase auth account for patient
+      let authCreated = false;
+      try {
+        await DatabaseService.createPatientAuth({
+          email: data.email,
+          password: data.password,
+          metadata: {
+            full_name: data.name,
+            role: 'patient'
+          }
+        });
+        authCreated = true;
+      } catch (authError) {
+        console.error('Auth creation error:', authError);
+
+        // Check if it's a duplicate user error
+        if (authError.message?.includes('already registered') ||
+            authError.message?.includes('User already exists')) {
+          toast.error('This email is already registered. Please use a different email.');
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      // Generate patient UID in format CLINICCODE-YYYYMM-XXXX
+      const patientUID = await generatePatientUID(clinicId);
+
+      // Map fields to match database schema
+      const patientData = {
+        org_id: clinicId,
+        external_id: patientUID,
+        full_name: data.name,
+        gender: data.gender?.toLowerCase(),
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        medical_history: data.notes ? { notes: data.notes } : {},
+        date_of_birth: data.dateOfBirth || null,
+        created_at: new Date().toISOString()
+      };
+
+      await DatabaseService.add('patients', patientData);
+
+      // Show success message
+      if (authCreated) {
+        toast.success(
+          `Patient created successfully!\n\nPatient UID: ${patientUID}\n\nLogin Credentials:\nEmail: ${data.email}\nPassword: ${data.password}\n\nPlease share these credentials with the patient.`,
+          { duration: 10000 }
+        );
+      } else {
+        toast.success(`Patient record created with UID: ${patientUID}`);
+      }
+
+      // Reset form
+      reset();
+
+      // Navigate to patient management after short delay
+      setTimeout(() => {
+        navigate('/clinic/patients');
+      }, 2000);
+
+    } catch (error) {
+      console.error('Error adding patient:', error);
+      toast.error('Failed to add patient: ' + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-6">
+          <button
+            onClick={() => navigate('/clinic/patients')}
+            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-4 transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Back to Patient Management
+          </button>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Add New Patient</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Fill in the patient's information to create a new record</p>
+        </div>
+
+        {/* Form Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+            {/* Personal Information Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                <User className="h-5 w-5 mr-2 text-primary-600" />
+                Personal Information
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Full Name */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    {...register('name', { required: 'Full name is required' })}
+                    type="text"
+                    placeholder="Enter patient's full name"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                  />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+                  )}
+                </div>
+
+                {/* Date of Birth */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Date of Birth
+                  </label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      {...register('dateOfBirth')}
+                      type="date"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Gender */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Gender
+                  </label>
+                  <select
+                    {...register('gender')}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Information Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                <Mail className="h-5 w-5 mr-2 text-primary-600" />
+                Contact Information
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      {...register('email', {
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: 'Invalid email address'
+                        }
+                      })}
+                      type="email"
+                      placeholder="patient@example.com"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                  )}
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Phone Number
+                  </label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      {...register('phone')}
+                      type="tel"
+                      placeholder="+91 1234567890"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Address
+                  </label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                    <textarea
+                      {...register('address')}
+                      rows={3}
+                      placeholder="Enter complete address"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Login Credentials Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                <Lock className="h-5 w-5 mr-2 text-primary-600" />
+                Login Credentials
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Password */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Password <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      {...register('password', {
+                        required: 'Password is required',
+                        minLength: {
+                          value: 8,
+                          message: 'Password must be at least 8 characters'
+                        }
+                      })}
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Create a secure password"
+                      className="w-full pl-10 pr-12 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  </div>
+                  {errors.password && (
+                    <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+                  )}
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    Password will be used for patient login. Please share it securely.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Medical Notes Section */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                <FileText className="h-5 w-5 mr-2 text-primary-600" />
+                Medical Notes (Optional)
+              </h2>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Additional Notes
+                </label>
+                <textarea
+                  {...register('notes')}
+                  rows={4}
+                  placeholder="Any relevant medical history or notes..."
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+            </div>
+
+            {/* Form Actions */}
+            <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <button
+                type="button"
+                onClick={() => navigate('/clinic/patients')}
+                disabled={isSubmitting}
+                className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+              >
+                <X className="h-5 w-5 inline mr-2" />
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 flex items-center"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
+                    Creating Patient...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-5 w-5 mr-2" />
+                    Create Patient
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Information Note */}
+        <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            <strong>Note:</strong> A unique Patient UID will be automatically generated in the format <code className="px-2 py-1 bg-blue-100 dark:bg-blue-900/40 rounded">CLINICCODE-YYYYMM-XXXX</code>.
+            The patient will receive login credentials that you specify here.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddPatientForm;

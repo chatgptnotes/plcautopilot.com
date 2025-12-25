@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+    
+  DeviceCompatibility
+     0: Both serial and tcp
+     1: Serial only
+     2: Ethernet only
+  -->
+<!-- Generic device -->
+<Device>
+    <DeviceCompatibility>2</DeviceCompatibility>
+    <DeviceTypeName>Generic device</DeviceTypeName>
+    <DeviceTypeId>23</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+</Device>

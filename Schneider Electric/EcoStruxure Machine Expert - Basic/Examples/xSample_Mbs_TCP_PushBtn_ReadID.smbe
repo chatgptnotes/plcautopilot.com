@@ -1,0 +1,837 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectVersion>1.7.0.0</ProjectVersion>
+  <ManagementLevel>FunctLevelMan1_0</ManagementLevel>
+  <Name>xSample_Mbs_TCP_PushBtn_ReadID</Name>
+  <FullName>xSample_Mbs_TCP_PushBtn_ReadID.smbe</FullName>
+  <SoftwareConfiguration>
+    <Pous>
+      <ProgramOrganizationUnits>
+        <Name>Modbus_Read</Name>
+        <SectionNumber>1</SectionNumber>
+        <Rungs>
+          <RungEntity>
+            <LadderElements />
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %M17</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>MPS</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ %MW550 := 16#0106 ]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ %MW551 := 16#0300 ]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ %MW552 := 16#0103 ]</InstructionLine>
+                <Comment>Slave + 03</Comment>
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ %MW553 := 6400 ]</InstructionLine>
+                <Comment>zbrn address to read from</Comment>
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ %MW554 := 60 ]</InstructionLine>
+                <Comment>Nb of Words to read</Comment>
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>MPP</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>AND %MSG1.D</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ EXCH1 %MW550:67 ]</InstructionLine>
+                <Comment> Put received words there</Comment>
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[ %MW60 := 0 ]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>R     %M17</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Read_MacID</Name>
+            <MainComment>Allows to request all of the Trasmitters ID MAc addresses from ZBRN Module</MainComment>
+            <Label />
+            <IsLadderSelected>false</IsLadderSelected>
+          </RungEntity>
+        </Rungs>
+      </ProgramOrganizationUnits>
+    </Pous>
+    <Subroutines />
+    <WatchLists>
+      <WatchListEntity>
+        <Name>t-WatchList_0</Name>
+        <WatchListItemEntities>
+          <WatchListItemEntity>
+            <Address>%M17</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW553</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW554</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW555</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW556</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW557</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW558</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW559</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW560</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW561</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW562</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+        </WatchListItemEntities>
+      </WatchListEntity>
+    </WatchLists>
+    <CustomSymbols />
+    <ConstantWordsMemoryAllocation />
+    <MemoryBitsMemoryAllocation />
+    <MemoryWordsMemoryAllocation />
+    <TimersMemoryAllocation />
+    <CountersMemoryAllocation />
+    <RegistersMemoryAllocation />
+    <DrumsMemoryAllocation />
+    <SbrsMemoryAllocation />
+    <ScsMemoryAllocation />
+    <FcsMemoryAllocation />
+    <SchsMemoryAllocation />
+    <HscsMemoryAllocation />
+    <PtosMemoryAllocation />
+    <MemoryBits />
+    <SystemBits />
+    <SystemWords />
+    <GrafcetSteps />
+    <MemoryWords>
+      <MemoryWord>
+        <Address>%MW549</Address>
+        <Index>549</Index>
+        <Symbol>ZBRN_RD_ADDRESS</Symbol>
+        <Comment>zbrn address to read from</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW550</Address>
+        <Index>550</Index>
+        <Symbol>CTRL_TABLE1</Symbol>
+        <Comment>01 06</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW551</Address>
+        <Index>551</Index>
+        <Symbol>CTRL_TABLE2</Symbol>
+        <Comment>03 00</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW552</Address>
+        <Index>552</Index>
+        <Symbol>TRANSMIT_TABLE1</Symbol>
+        <Comment>Slave + 03 </Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW553</Address>
+        <Index>553</Index>
+        <Symbol>TRANSMIT_TABLE2</Symbol>
+        <Comment>Address of the 1st Words to read</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW554</Address>
+        <Index>554</Index>
+        <Symbol>TRANSMIT_TABLE3</Symbol>
+        <Comment>Nb of words to read</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW555</Address>
+        <Index>555</Index>
+        <Symbol>RX_TABLE1</Symbol>
+        <Comment>Slave + 03</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW556</Address>
+        <Index>556</Index>
+        <Symbol>RX_TABLE2</Symbol>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW557</Address>
+        <Index>557</Index>
+        <Symbol>RX_TABLE3</Symbol>
+        <Comment>1st Word Read</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW558</Address>
+        <Index>558</Index>
+        <Symbol>RX_TABLE4</Symbol>
+        <Comment>2nd Word Read</Comment>
+      </MemoryWord>
+    </MemoryWords>
+    <MemoryDoubleWords />
+    <MemoryFloats />
+    <ConstantWords />
+    <ConstantDoubleWords />
+    <ConstantMemoryFloats />
+    <Timers />
+    <Counters />
+    <FastCounters />
+    <Registers />
+    <Drums />
+    <ShiftBitRegisters />
+    <StepCounters />
+    <ScheduleBlocks />
+    <Pids>
+      <Pid>
+        <Address>PID 0</Address>
+        <Index>0</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 1</Address>
+        <Index>1</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 2</Address>
+        <Index>2</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 3</Address>
+        <Index>3</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 4</Address>
+        <Index>4</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 5</Address>
+        <Index>5</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 6</Address>
+        <Index>6</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 7</Address>
+        <Index>7</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 8</Address>
+        <Index>8</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 9</Address>
+        <Index>9</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 10</Address>
+        <Index>10</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 11</Address>
+        <Index>11</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 12</Address>
+        <Index>12</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 13</Address>
+        <Index>13</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+    </Pids>
+    <MessageBlocks>
+      <MessageBlock>
+        <Address>%MSG1</Address>
+        <Index>0</Index>
+        <OutputPort>Serial1</OutputPort>
+      </MessageBlock>
+      <MessageBlock>
+        <Address>%MSG3</Address>
+        <Index>2</Index>
+        <OutputPort>Ethernet</OutputPort>
+      </MessageBlock>
+    </MessageBlocks>
+    <FunctionBlocks />
+    <MotionTaskTables />
+    <FastTask>
+      <Period>255</Period>
+    </FastTask>
+    <MastTask>
+      <UsePeriodScanMode>false</UsePeriodScanMode>
+      <PeriodScan>100</PeriodScan>
+    </MastTask>
+    <CpuBehavior>
+      <StartingMode>StartAsPreviousState</StartingMode>
+      <RunStopAddress />
+      <AutoSaveRamOnEeprom>true</AutoSaveRamOnEeprom>
+      <WatchdogPeriod>250</WatchdogPeriod>
+    </CpuBehavior>
+    <TraceTimeBase>Time5Sec</TraceTimeBase>
+  </SoftwareConfiguration>
+  <HardwareConfiguration>
+    <Plc>
+      <Cpu>
+        <Index>0</Index>
+        <InputNb>0</InputNb>
+        <OutputNb>0</OutputNb>
+        <Kind>0</Kind>
+        <Reference>TM221ME16T/G</Reference>
+        <Name />
+        <Consumption5V>520</Consumption5V>
+        <Consumption24V>492</Consumption24V>
+        <TechnicalConfiguration>
+          <PtoConfiguration>
+            <McPowerPtoMax>0</McPowerPtoMax>
+            <McMoveVelPtoMax>0</McMoveVelPtoMax>
+            <McMoveRelPtoMax>0</McMoveRelPtoMax>
+            <McMoveAbsPtoMax>0</McMoveAbsPtoMax>
+            <McHomePtoMax>0</McHomePtoMax>
+            <McSetPosPtoMax>0</McSetPosPtoMax>
+            <McStopPtoMax>0</McStopPtoMax>
+            <McHaltPtoMax>0</McHaltPtoMax>
+            <McReadActVelPtoMax>0</McReadActVelPtoMax>
+            <McReadActPosPtoMax>0</McReadActPosPtoMax>
+            <McReadStsPtoMax>0</McReadStsPtoMax>
+            <McReadMotionStatePtoMax>0</McReadMotionStatePtoMax>
+            <McReadAxisErrorPtoMax>0</McReadAxisErrorPtoMax>
+            <McResetPtoMax>0</McResetPtoMax>
+            <McTouchProbePtoMax>0</McTouchProbePtoMax>
+            <McAbortTriggerPtoMax>0</McAbortTriggerPtoMax>
+            <McReadParPtoMax>0</McReadParPtoMax>
+            <McWriteParPtoMax>0</McWriteParPtoMax>
+            <McMotionTaskPtoMax>0</McMotionTaskPtoMax>
+          </PtoConfiguration>
+          <ComConfiguration>
+            <ReadVarBasicMax>0</ReadVarBasicMax>
+            <WriteVarBasicMax>0</WriteVarBasicMax>
+            <WriteReadVarBasicMax>0</WriteReadVarBasicMax>
+            <SendRecvMsgBasicMax>0</SendRecvMsgBasicMax>
+            <SendRecvSmsMax>0</SendRecvSmsMax>
+          </ComConfiguration>
+          <Compatibility>0</Compatibility>
+          <FastCounterMax>4</FastCounterMax>
+          <FourInputsEventTask>84148994</FourInputsEventTask>
+          <GrafcetBitsMax>96</GrafcetBitsMax>
+          <InternalRamStart>0</InternalRamStart>
+          <LabelsMax>64</LabelsMax>
+          <LfRegistersMax>4</LfRegistersMax>
+          <MemoryConstantWordsMax>512</MemoryConstantWordsMax>
+          <MemoryWordsMax>8000</MemoryWordsMax>
+          <NumRelays>0</NumRelays>
+          <NumRelaysMax>102</NumRelaysMax>
+          <NumTransistors>8</NumTransistors>
+          <NumTransistorsMax>9999</NumTransistorsMax>
+          <PidAmountMax>14</PidAmountMax>
+          <PlcNumberSysBits>160</PlcNumberSysBits>
+          <PlcNumberSysWords>234</PlcNumberSysWords>
+          <PlcStartAddrSysBits>16</PlcStartAddrSysBits>
+          <PlcType>0</PlcType>
+          <TimersMax>255</TimersMax>
+          <AnalogInputPrecision>0</AnalogInputPrecision>
+          <AnalogOutputPrecision>0</AnalogOutputPrecision>
+          <StepCountersMax>8</StepCountersMax>
+          <CountersMax>255</CountersMax>
+          <DrumsMax>8</DrumsMax>
+          <ExternalRamSize>229376</ExternalRamSize>
+          <ExternalRamSizeWithDisplay>0</ExternalRamSizeWithDisplay>
+          <ExternalRamStart>117473280</ExternalRamStart>
+          <InternalRamAppStart>512</InternalRamAppStart>
+          <InternalRamSize>130560</InternalRamSize>
+          <InternalBitsMax>512</InternalBitsMax>
+          <InternalEepromSize>32</InternalEepromSize>
+          <ScheduleBlocksMax>16</ScheduleBlocksMax>
+          <ShiftBitRegistersMax>8</ShiftBitRegistersMax>
+          <SubroutinesMax>0</SubroutinesMax>
+          <SupportDoubleWord>false</SupportDoubleWord>
+          <SupportEvents>true</SupportEvents>
+          <SupportFloatingPoint>true</SupportFloatingPoint>
+          <NumberOf1MsTimerBase>6</NumberOf1MsTimerBase>
+        </TechnicalConfiguration>
+        <DigitalInputs>
+          <DiscretInput>
+            <Address>%I0.0</Address>
+            <Index>0</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.1</Address>
+            <Index>1</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.2</Address>
+            <Index>2</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.3</Address>
+            <Index>3</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.4</Address>
+            <Index>4</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.5</Address>
+            <Index>5</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.6</Address>
+            <Index>6</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.7</Address>
+            <Index>7</Index>
+          </DiscretInput>
+        </DigitalInputs>
+        <DigitalOutputs>
+          <DiscretOutput>
+            <Address>%Q0.0</Address>
+            <Index>0</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.1</Address>
+            <Index>1</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.2</Address>
+            <Index>2</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.3</Address>
+            <Index>3</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.4</Address>
+            <Index>4</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.5</Address>
+            <Index>5</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.6</Address>
+            <Index>6</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.7</Address>
+            <Index>7</Index>
+          </DiscretOutput>
+        </DigitalOutputs>
+        <AnalogInputs>
+          <AnalogIO>
+            <Address>%IW0.0</Address>
+            <Index>0</Index>
+            <Type>
+              <Value>0</Value>
+              <Name>Type_0_10V</Name>
+            </Type>
+            <Scope>
+              <Value>0</Value>
+              <Name>Scope_Normal</Name>
+            </Scope>
+            <Minimum>0</Minimum>
+            <Maximum>1000</Maximum>
+            <IsInput>true</IsInput>
+            <R>1</R>
+            <B>1</B>
+            <T>1</T>
+            <Activation>3100</Activation>
+            <Reactivation>1500</Reactivation>
+            <InputFilter>0</InputFilter>
+          </AnalogIO>
+          <AnalogIO>
+            <Address>%IW0.1</Address>
+            <Index>1</Index>
+            <Type>
+              <Value>0</Value>
+              <Name>Type_0_10V</Name>
+            </Type>
+            <Scope>
+              <Value>0</Value>
+              <Name>Scope_Normal</Name>
+            </Scope>
+            <Minimum>0</Minimum>
+            <Maximum>1000</Maximum>
+            <IsInput>true</IsInput>
+            <R>1</R>
+            <B>1</B>
+            <T>1</T>
+            <Activation>3100</Activation>
+            <Reactivation>1500</Reactivation>
+            <InputFilter>0</InputFilter>
+          </AnalogIO>
+        </AnalogInputs>
+        <AnalogInputsStatus />
+        <AnalogOutputs />
+        <AnalogOutputsStatus />
+        <HighSpeedCounters>
+          <HighSpeedCounter>
+            <Address>%HSC0</Address>
+            <Index>0</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC1</Address>
+            <Index>1</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+        </HighSpeedCounters>
+        <PulseTrainOutputs>
+          <PulseTrainOutput>
+            <Address>%PLS0/%PWM0</Address>
+            <Index>0</Index>
+            <PtoObject>
+              <RefInput>NotUsed</RefInput>
+              <ZPhaseInput>NotUsed</ZPhaseInput>
+              <ProbeInput>NotUsed</ProbeInput>
+            </PtoObject>
+            <GlobalIndex>0</GlobalIndex>
+            <Preset>0</Preset>
+          </PulseTrainOutput>
+          <PulseTrainOutput>
+            <Address>%PLS1/%PWM1</Address>
+            <Index>1</Index>
+            <PtoObject>
+              <RefInput>NotUsed</RefInput>
+              <ZPhaseInput>NotUsed</ZPhaseInput>
+              <ProbeInput>NotUsed</ProbeInput>
+            </PtoObject>
+            <GlobalIndex>1</GlobalIndex>
+            <Preset>0</Preset>
+          </PulseTrainOutput>
+        </PulseTrainOutputs>
+        <HardwareId>1923</HardwareId>
+        <IsExpander>false</IsExpander>
+        <EthernetConfiguration>
+          <NetworkName>M221</NetworkName>
+          <IpAllocationMode>FixedAddress</IpAllocationMode>
+          <IpAddress>0.0.0.0</IpAddress>
+          <SubnetMask>0.0.0.0</SubnetMask>
+          <GatewayAddress>0.0.0.0</GatewayAddress>
+          <TransfertRate>TransfertRateAuto</TransfertRate>
+          <EthernetProtocol>ProtocolEthernet2</EthernetProtocol>
+          <ModbusTcpSlave>
+            <IpMasterAddress>0.0.0.0</IpMasterAddress>
+            <UseTimeout>true</UseTimeout>
+            <Timeout>2</Timeout>
+            <SlavePort>502</SlavePort>
+            <UnitId xsi:nil="true" />
+            <HoldingRegister>0</HoldingRegister>
+            <InputRegister>0</InputRegister>
+            <RemoteServers />
+            <ModbusServerEnabled>false</ModbusServerEnabled>
+          </ModbusTcpSlave>
+          <EthernetIpEntity>
+            <EthernetIpEnabled>false</EthernetIpEnabled>
+            <OutputAssemblyInstance>0</OutputAssemblyInstance>
+            <OutputAssemblySize>0</OutputAssemblySize>
+            <InputAssemblySize>0</InputAssemblySize>
+            <InputAssemblyInstance>0</InputAssemblyInstance>
+          </EthernetIpEntity>
+          <ProgrammingProtocolEnabled>true</ProgrammingProtocolEnabled>
+          <EthernetIpAdapterEnabled>true</EthernetIpAdapterEnabled>
+          <ModbusServerEnabled>true</ModbusServerEnabled>
+          <AutoDiscoveryProtocolEnabled>true</AutoDiscoveryProtocolEnabled>
+        </EthernetConfiguration>
+        <MaxCartridge>0</MaxCartridge>
+        <C1TranslationX>0</C1TranslationX>
+        <C1TranslationY>0</C1TranslationY>
+        <C2TranslationX>0</C2TranslationX>
+        <C2TranslationY>0</C2TranslationY>
+        <C1SizeX>0</C1SizeX>
+        <C1SizeY>0</C1SizeY>
+        <C2SizeX>0</C2SizeX>
+        <C2SizeY>0</C2SizeY>
+        <InputAssemblys />
+        <OutputAssemblys />
+        <InputRegisters />
+        <HoldingRegisters />
+      </Cpu>
+      <Extensions />
+      <SerialLineConfiguration>
+        <Baud>Baud38400</Baud>
+        <ModemReference>No Modem</ModemReference>
+        <Parity>ParityEven</Parity>
+        <DataBits>DataBits8</DataBits>
+        <StopBits>StopBits1</StopBits>
+        <TimeBetweenFrames>10</TimeBetweenFrames>
+        <ResponseTime>10</ResponseTime>
+        <StartCharacterEnabled>false</StartCharacterEnabled>
+        <FirstEndCharacterEnabled>true</FirstEndCharacterEnabled>
+        <SecondEndCharacterEnabled>false</SecondEndCharacterEnabled>
+        <FrameLengthReceivedAvailable>false</FrameLengthReceivedAvailable>
+        <FrameReceivedTimeoutAvailable>false</FrameReceivedTimeoutAvailable>
+        <InitCommand />
+        <SendFrameCharacter>false</SendFrameCharacter>
+        <StartCharacter>0</StartCharacter>
+        <FirstEndCharacter>10</FirstEndCharacter>
+        <FrameLengthReceived>0</FrameLengthReceived>
+        <FrameReceivedTimeout>10</FrameReceivedTimeout>
+        <SecondEndCharacter>0</SecondEndCharacter>
+        <PhysicalMedium>PhysicalMediumRs485</PhysicalMedium>
+        <TransmissionMode>TransmissionModeModbusRtu</TransmissionMode>
+        <SlaveId>1</SlaveId>
+        <MinTimeBetweenFrames>2</MinTimeBetweenFrames>
+        <Addressing>SlaveAddressing</Addressing>
+        <Polarization>
+          <Value>0</Value>
+          <Name>No</Name>
+        </Polarization>
+      </SerialLineConfiguration>
+      <Power5VCapacities>520</Power5VCapacities>
+      <Power24VCapacities>492</Power24VCapacities>
+      <Power5VTotalConsumption>0</Power5VTotalConsumption>
+      <Power24VTotalConsumption>0</Power24VTotalConsumption>
+      <ExpanderPower5VCapacities>0</ExpanderPower5VCapacities>
+      <ExpanderPower24VCapacities>0</ExpanderPower24VCapacities>
+      <ExpanderPower5VTotalConsumption>0</ExpanderPower5VTotalConsumption>
+      <ExpanderPower24VTotalConsumption>0</ExpanderPower24VTotalConsumption>
+    </Plc>
+  </HardwareConfiguration>
+  <DisplayUserLabelsConfiguration>
+    <Languages>
+      <UserLabelLanguage>
+        <Code>English</Code>
+        <Name>English</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>French</Code>
+        <Name>French</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>German</Code>
+        <Name>German</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Portuguese</Code>
+        <Name>Portuguese</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Spanish</Code>
+        <Name>Spanish</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Italian</Code>
+        <Name>Italian</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Chinese</Code>
+        <Name>Chinese</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Turkish</Code>
+        <Name>Turkish</Name>
+      </UserLabelLanguage>
+    </Languages>
+    <Translations />
+  </DisplayUserLabelsConfiguration>
+  <GlobalProperties>
+    <UserInformations>
+      <ZipCode>0</ZipCode>
+    </UserInformations>
+    <CompanyInformations>
+      <ZipCode>0</ZipCode>
+    </CompanyInformations>
+    <ProjectInformations>
+      <Name>xSample_Mbs_TCP_PushBtn_ReadID</Name>
+      <Description>********Disclaimer Of Warranty********
+THE INFORMATION CONTAINED HEREIN IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ALL IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OR OTHER VIOLATION OF RIGHTS. SCHNEIDER ELECTRIC DOES NOT WARRANT OR MAKE ANY REPRESENTATIONS REGARDING THE USE, VALIDITY, ACCURACY, OR RELIABILITY OF, OR THE RESULTS OF THE USE OF, OR OTHERWISE, RESPECTING THE MATERIALS, SPECIFICATIONS, CHARACTERISTICS OR OTHER INFORMATION SPECIFIED HEREIN. FURTHERMORE, ALL WARRANTIES, CONDITIONS, REPRESENTATIONS, INDEMNITIES AND GUARANTEES WITH RESPECT TO THE ACCURACY, OPERATION, CAPACITY, SPEED, FUNCTIONALITY, QUALIFICATIONS, OR CAPABILITIES OF THE SOFTWARE, SYSTEMS AND SERVICES COMPRISING OR UTILIZED IN THE COURSE OF APPLYING THIS INFORMATION, SPECIFICATIONS, OR MATERIALS, WHETHER EXPRESS OR IMPLIED, ARISING BY LAW, CUSTOM, PRIOR ORAL OR WRITTEN STATEMENTS BY SCHNEIDER ELECTRIC, OR OTHERWISE (INCLUDING, BUT NOT LIMITED TO ANY WARRANTY OF SATISFACTORY QUALITY, MERCHANTABILITY, FITNESS FOR PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT) ARE HEREBY EXPRESSLY EXCLUDED AND DISCLAIMED:
+********Disclaimer Of Liability*********
+UNDER NO CIRCUMSTANCES (INCLUDING NEGLIGENCE OR FORESEEABLE MISUSE) WILL SCHNEIDER ELECTRIC BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE OR CONSEQUENTIAL DAMAGES (INCLUDING WITHOUT LIMITATION, BUSINESS INTERRUPTION, DELAYS, LOSS OF DATA OR PROFIT) ARISING OUT OF THE APPLICATION OF THE INFORMATION, SPECIFICATIONS, CHARACTERISTICS OR MATERIALS CONTAINED HEREIN EVEN IF SCHNEIDER ELECTRIC HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+************************************
+The information, program and configuration contained herein are provided as general training on the products concerned, in part, by way of theoretical and/or hypothetical examples.  Only you, the user, can be aware of all the conditions and factors present during setup, operation, and maintenance of your machine and its application; therefore, only you, the user, can determine the automation equipment and the related safeties and interlocks which can be properly used.  When selecting automation and control equipment and related software for a particular application, you must refer to the applicable local and national standards and regulations.
+************************************
+Copyright © 2014 Schneider Electric. All rights reserved.</Description>
+    </ProjectInformations>
+    <ProjectProtection>
+      <Active>false</Active>
+      <CanView>true</CanView>
+    </ProjectProtection>
+    <ApplicationProtection>
+      <Active>false</Active>
+    </ApplicationProtection>
+    <RemoteIpAddresses>
+      <IpAddresses />
+    </RemoteIpAddresses>
+    <ModemConfigurations>
+      <ModemConfigurationEntities />
+    </ModemConfigurations>
+    <KeepModbusParameters>false</KeepModbusParameters>
+    <UnitId>1</UnitId>
+    <DownloadSettings>
+      <ResetMemories>true</ResetMemories>
+    </DownloadSettings>
+  </GlobalProperties>
+  <ReportConfiguration>
+    <PageSetup>
+      <PaperKind>A4</PaperKind>
+      <IsLandscape>false</IsLandscape>
+      <ReportUnit>HundredthsOfAnInch</ReportUnit>
+      <Top>100</Top>
+      <Bottom>100</Bottom>
+      <Left>100</Left>
+      <Right>100</Right>
+    </PageSetup>
+    <SubReportConfigurations />
+  </ReportConfiguration>
+</ProjectDescriptor>

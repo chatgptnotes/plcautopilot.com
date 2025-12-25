@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+    
+  DeviceCompatibility
+     0: Both serial and tcp (default)
+     1: Serial only
+     2: Ethernet only
+-->
+<!-- Tesys U -->
+<Device>
+    <DeviceTypeName>Tesys U</DeviceTypeName>
+    <DeviceTypeId>28</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+    <VendorId>TELEMECANIQUE</VendorId>
+    <ProductCode>PLULC033</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+
+	<InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>705</Offset>
+            <Length>1</Length>
+            <InitializationValue>1</InitializationValue>
+            <Comment>Return control unit to factory setting</Comment>
+            <CanEditInitRequest>True</CanEditInitRequest>
+        </InitRequest>
+
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>602</Offset>
+            <Length>1</Length>
+            <InitializationValue>2</InitializationValue>
+            <Comment>Reset mode after thermal overload to "Remote"</Comment>
+            <CanEditInitRequest>True</CanEditInitRequest>
+        </InitRequest>
+    </InitRequests>
+
+    <Channels>
+        <Channel>
+            <Name>Tesys U_Control</Name>
+            <AccessType>IoScannerChannelAccessWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Writes motor command and control</Comment>
+			<ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>703</WriteOffset>
+            <WriteLength>2</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		
+        <Channel>
+            <Name>Tesys U_System Status</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Monitoring of system status</Comment>
+            <ReadOffset>455</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+
+        <Channel>
+            <Name>Tesys U_Warnings</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerRisingEdge</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reading of warning register</Comment>
+            <ReadOffset>461</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		
+        <Channel>
+            <Name>Tesys U_Faults</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerRisingEdge</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reading of fault register</Comment>
+            <ReadOffset>452</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		
+	</Channels>
+</Device>

@@ -1,0 +1,981 @@
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import DatabaseService from './databaseService';
+import { generatePatientUID } from '../utils/patientUidGenerator';
+
+// Import shared Supabase service to avoid multiple client instances
+import SupabaseService from './supabaseService';
+
+// Get reference to the shared Supabase client
+const supabase = SupabaseService.supabase;
+
+// Base API URL - replace with your actual API endpoint
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Create axios instance
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Add auth token to requests
+api.interceptors.request.use((config) => {
+  const token = Cookies.get('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Handle token expiration
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      Cookies.remove('authToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export const authService = {
+  // Email/Password Authentication
+  async loginWithEmail({ email, password }) {
+    console.log('AUTH: Attempting login with:', { email, password: password ? 'provided' : 'missing' });
+
+    // Input validation
+    if (!email) {
+      throw new Error('Email is required');
+    }
+    if (!password) {
+      throw new Error('Password is required');
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // SUCCESS: CHECK STATIC CREDENTIALS FIRST (before Supabase)
+    // STATIC SUPER ADMIN CREDENTIALS
+    if (normalizedEmail === 'superadmin@neuro360.com' && password === 'admin123') {
+      console.log('SUCCESS: Static super admin login successful');
+      return {
+        success: true,
+        token: `local_token_${Date.now()}`,
+        user: {
+          id: 'static-super-admin-001',
+          email: 'superadmin@neuro360.com',
+          name: 'Super Admin',
+          role: 'super_admin',
+          avatar: null,
+          isActivated: true
+        }
+      };
+    }
+
+    // Test credentials
+    if (normalizedEmail === 'admin@test.com' && password === 'admin123') {
+      console.log('SUCCESS: Test super admin login successful');
+      return {
+        success: true,
+        token: `local_token_${Date.now()}`,
+        user: {
+          id: 'test-admin-001',
+          email: 'admin@test.com',
+          name: 'Test Super Admin',
+          role: 'super_admin',
+          avatar: null,
+          isActivated: true
+        }
+      };
+    }
+
+    if (normalizedEmail === 'clinic@test.com' && password === 'clinic123') {
+      console.log('SUCCESS: Test clinic login successful');
+      return {
+        success: true,
+        token: `local_token_${Date.now()}`,
+        user: {
+          id: 'test-clinic-001',
+          email: 'clinic@test.com',
+          name: 'Test Clinic',
+          role: 'clinic_admin',
+          avatar: null,
+          isActivated: true
+        }
+      };
+    }
+
+    try {
+      // SUCCESS: PRIORITY 1: Check local database FIRST (clinics and super admins)
+      console.log('REFRESH: Checking local database authentication first...');
+
+      // Check super admins first
+      const superAdmins = await DatabaseService.get('superAdmins') || [];
+      const superAdmin = superAdmins.find(admin => admin.email === normalizedEmail && admin.password === password);
+
+      if (superAdmin) {
+        console.log('SUCCESS: Super admin found in local database');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: superAdmin.id,
+            email: superAdmin.email,
+            name: superAdmin.name,
+            role: 'super_admin',
+            avatar: superAdmin.avatar,
+            isActivated: true
+          }
+        };
+      }
+
+      // Check clinics table with password
+      const clinics = await DatabaseService.get('clinics') || [];
+      console.log('DEBUG: Searching for clinic with email:', normalizedEmail);
+      console.log('DEBUG: Total clinics found:', clinics.length);
+
+      const clinic = clinics.find(c => {
+        console.log('DEBUG: Checking clinic:', { email: c.email, hasPassword: !!c.password });
+        return c.email === normalizedEmail && c.password === password;
+      });
+
+      if (clinic) {
+        console.log('SUCCESS: Clinic found in local database with matching password');
+
+        // Check if clinic is activated (check both isActivated and is_active)
+        const isActive = clinic.isActivated || clinic.is_active;
+        const subscriptionStatus = clinic.subscriptionStatus || clinic.subscription_status;
+
+        if (!isActive) {
+          throw new Error('Your clinic account is pending activation by super admin. Please wait for approval.');
+        }
+
+        if (subscriptionStatus === 'pending_approval') {
+          throw new Error('Your clinic registration is pending approval. You will be notified once approved.');
+        }
+
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: clinic.id,
+            email: clinic.email,
+            name: clinic.contact_person || clinic.name,
+            clinicName: clinic.clinic_name || clinic.name,
+            phone: clinic.phone,
+            address: clinic.address,
+            password: clinic.password,
+            role: 'clinic_admin',
+            avatar: clinic.logo_url || clinic.avatar,
+            clinicId: clinic.id,
+            isActivated: isActive
+          }
+        };
+      }
+
+      console.log('WARNING: No matching credentials in local database');
+
+      // PRIORITY 2: Try Supabase Auth (fallback for legacy users)
+      if (!supabase || !SupabaseService.isAvailable()) {
+        throw new Error('Invalid email or password');
+      }
+
+      console.log('REFRESH: Trying Supabase Auth as fallback...');
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: normalizedEmail,
+        password: password
+      });
+
+      if (error) {
+        throw new Error('Invalid email or password');
+      }
+
+      if (!data.user) {
+        throw new Error('Login failed - no user returned');
+      }
+
+      // Get user profile from database
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', data.user.id)
+        .single();
+
+      // If user is clinic_admin, check clinic activation status
+      if (profile?.role === 'clinic_admin') {
+        const { data: clinicData } = await supabase
+          .from('clinics')
+          .select('*')
+          .eq('id', data.user.id)
+          .single();
+
+        // Check if clinic is activated
+        if (clinicData && !clinicData.is_active) {
+          throw new Error('Your clinic account is pending activation by super admin. Please wait for approval.');
+        }
+
+        // Check subscription status
+        if (clinicData && clinicData.subscription_status === 'pending_approval') {
+          throw new Error('Your clinic registration is pending approval. You will be notified once approved.');
+        }
+      }
+
+      const user = {
+        id: data.user.id,
+        email: data.user.email,
+        name: profile?.full_name || data.user.user_metadata?.full_name || 'User',
+        role: profile?.role || data.user.user_metadata?.role || 'patient',
+        avatar: profile?.avatar_url,
+        isActivated: true
+      };
+
+      console.log('SUCCESS: Login successful via Supabase:', user.email);
+
+      return {
+        success: true,
+        token: data.session.access_token,
+        user: user
+      };
+
+    } catch (error) {
+      console.error('ALERT: Login error:', error.message);
+      throw error;
+    }
+  },
+
+  // TEMPORARY: Local authentication only (bypass Supabase)
+  async localAuthenticationOnly(email, password) {
+    try {
+      console.log('KEY: ========== LOCAL AUTHENTICATION DEBUG ==========');
+      console.log('KEY: Login attempt with email:', email);
+      console.log('KEY: Password provided:', password ? `[${password.length} characters]` : 'NO PASSWORD');
+
+      // TEMPORARY BYPASS: Allow any login ending with @gmail.com and password Pass@123
+      if (email.endsWith('@gmail.com') && password === 'Pass@123') {
+        console.log('SUCCESS: BYPASS: Gmail login with Pass@123 successful');
+        const clinicName = email.split('@')[0].toUpperCase();
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: `bypass-${Date.now()}`,
+            email: email,
+            name: clinicName,
+            role: 'clinic_admin',
+            avatar: null,
+            isActivated: true
+          }
+        };
+      }
+
+      // HARDCODED TEST CREDENTIALS for immediate testing
+      if (email === 'admin@test.com' && password === 'admin123') {
+        console.log('SUCCESS: Test super admin login successful');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: 'test-admin-001',
+            email: 'admin@test.com',
+            name: 'Test Super Admin',
+            role: 'super_admin',
+            avatar: null,
+            isActivated: true
+          }
+        };
+      }
+
+      if (email === 'clinic@test.com' && password === 'clinic123') {
+        console.log('SUCCESS: Test clinic login successful');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: 'test-clinic-001',
+            email: 'clinic@test.com',
+            name: 'Test Clinic',
+            role: 'clinic_admin',
+            avatar: null,
+            isActivated: true
+          }
+        };
+      }
+
+      // STATIC SUPER ADMIN CREDENTIALS
+      if (email === 'superadmin@neuro360.com' && password === 'admin123') {
+        console.log('SUCCESS: Static super admin login successful');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: 'static-super-admin-001',
+            email: 'superadmin@neuro360.com',
+            name: 'Super Admin',
+            role: 'super_admin',
+            avatar: null,
+            isActivated: true
+          }
+        };
+      }
+
+      // TEMPORARY: Add the clinics we know exist from the dashboard
+      if (email === 'abc@gmail.com' && password === 'Pass@123') {
+        console.log('SUCCESS: ABC clinic hardcoded login successful');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: 'abc-clinic-001',
+            email: 'abc@gmail.com',
+            name: 'ABC',
+            role: 'clinic_admin',
+            avatar: null,
+            isActivated: true
+          }
+        };
+      }
+
+      if (email === 'bcd@gmail.com' && password === 'Pass@123') {
+        console.log('SUCCESS: BCD clinic hardcoded login successful');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: 'bcd-clinic-001',
+            email: 'bcd@gmail.com',
+            name: 'bcd',
+            role: 'clinic_admin',
+            avatar: null,
+            isActivated: true
+          }
+        };
+      }
+
+      // Check super admins from database
+      const superAdmins = await DatabaseService.get('superAdmins') || [];
+      console.log('DEBUG: Debug: Super admins found:', superAdmins.length);
+      console.log('DEBUG: Debug: Super admin emails:', superAdmins.map(a => a.email));
+
+      const superAdmin = superAdmins.find(admin => admin.email === email && admin.password === password);
+
+      if (superAdmin) {
+        console.log('SUCCESS: Super admin found in local database');
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: superAdmin.id,
+            email: superAdmin.email,
+            name: superAdmin.name,
+            role: 'super_admin',
+            avatar: superAdmin.avatar,
+            isActivated: true
+          }
+        };
+      }
+
+      // Check clinics
+      console.log('DEBUG: Starting clinic data retrieval...');
+      let clinics = [];
+
+      try {
+        clinics = await DatabaseService.get('clinics') || [];
+        console.log('DEBUG: Debug: Clinics found in database:', clinics.length);
+        console.log('DEBUG: Debug: Raw clinic data type:', typeof clinics);
+        console.log('DEBUG: Debug: Is array?', Array.isArray(clinics));
+      } catch (clinicFetchError) {
+        console.error('ALERT: Error fetching clinics:', clinicFetchError);
+        clinics = [];
+      }
+
+      if (clinics.length > 0) {
+        console.log('DEBUG: ========== CLINIC DATABASE DEBUG ==========');
+        console.log('DEBUG: Total clinics found:', clinics.length);
+
+        clinics.forEach((c, index) => {
+          console.log(`DEBUG: Clinic ${index + 1}:`, {
+            id: c.id,
+            name: c.name,
+            email: c.email,
+            hasPassword: !!c.password,
+            passwordLength: c.password ? c.password.length : 0,
+            actualPassword: c.password || 'NONE',
+            isActive: c.is_active || c.isActive,
+            subscriptionStatus: c.subscription_status || c.subscriptionStatus,
+            allFields: Object.keys(c)
+          });
+        });
+      } else {
+        console.log('DEBUG: ========== NO CLINICS FOUND ==========');
+      }
+
+      console.log('DEBUG: Debug: Looking for clinic with email:', email);
+      console.log('DEBUG: Debug: Trying to match password length:', password ? password.length : 0);
+
+      // Find clinic matching email and password
+      const clinic = clinics.find(c =>
+        c.email === email &&
+        c.password === password
+      );
+
+      if (clinic) {
+        console.log('SUCCESS: Clinic found in local database');
+
+        // Check if clinic is activated
+        const isActive = clinic.isActivated || clinic.is_active;
+        const subscriptionStatus = clinic.subscriptionStatus || clinic.subscription_status;
+
+        if (!isActive) {
+          throw new Error('Your clinic account is pending activation by super admin. Please wait for approval.');
+        }
+
+        if (subscriptionStatus === 'pending_approval') {
+          throw new Error('Your clinic registration is pending approval. You will be notified once approved.');
+        }
+
+        return {
+          success: true,
+          token: `local_token_${Date.now()}`,
+          user: {
+            id: clinic.id,
+            email: clinic.email,
+            name: clinic.name,
+            role: 'clinic_admin',
+            avatar: clinic.avatar || clinic.logoUrl,
+            isActivated: isActive
+          }
+        };
+      }
+
+      throw new Error('Invalid email or password');
+    } catch (error) {
+      console.error('ALERT: Local authentication failed:', error.message);
+      throw new Error('Invalid email or password');
+    }
+  },
+
+  async registerWithEmail({ name, email, password, confirmPassword, userType = 'patient', dateOfBirth, gender, phone, countryCode, address, clinicName }) {
+    try {
+      console.log('AUTH: Attempting registration with:', { name, email, userType, phone, countryCode, address, clinicName });
+
+      // Input validation
+      if (!name || name.trim().length < 2) {
+        throw new Error('Name must be at least 2 characters long');
+      }
+      if (!email || !email.includes('@')) {
+        throw new Error('Please enter a valid email address');
+      }
+      if (!password || password.length < 6) {
+        throw new Error('Password must be at least 6 characters long');
+      }
+      if (password !== confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+      if (!['patient', 'clinic', 'super_admin'].includes(userType)) {
+        throw new Error('Invalid user type selected');
+      }
+
+      // For patients, validate clinic exists if clinic name is provided
+      let registeredClinic = null;
+      if (userType === 'patient' && clinicName && clinicName.trim()) {
+        console.log('AUTH: Validating clinic name:', clinicName);
+
+        // Search in organizations table (primary) and fallback to clinics table (legacy)
+        let clinics = await DatabaseService.findBy('organizations', 'name', clinicName.trim());
+
+        // Fallback: try legacy clinics table if not found in organizations
+        if (!clinics || clinics.length === 0) {
+          clinics = await DatabaseService.findBy('clinics', 'name', clinicName.trim());
+        }
+
+        if (!clinics || clinics.length === 0) {
+          throw new Error('This clinic is not available in NeuroSense. Please check the clinic name or contact support.');
+        }
+
+        // Store clinic reference for later use
+        registeredClinic = clinics[0];
+        console.log('SUCCESS: Clinic found:', registeredClinic.name);
+      }
+
+      const normalizedEmail = email.trim().toLowerCase();
+
+      // Use Supabase Auth for registration only if available
+      if (!supabase || !SupabaseService.isAvailable()) {
+        throw new Error('Supabase not configured - registration requires Supabase');
+      }
+
+      console.log('EMAIL: Calling Supabase auth.signUp...');
+      const { data, error } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password: password,
+        options: {
+          data: {
+            full_name: name.trim(),
+            role: userType === 'clinic' ? 'clinic_admin' : userType,
+            user_type: userType
+          }
+        }
+      });
+
+      console.log(' Supabase auth.signUp response:', {
+        hasData: !!data,
+        hasUser: !!data?.user,
+        userId: data?.user?.id,
+        userEmail: data?.user?.email,
+        needsConfirmation: !!data?.user?.confirmation_sent_at,
+        error: error?.message
+      });
+
+      if (error) {
+        console.error('ERROR: Supabase auth.signUp error:', error);
+
+        // Provide specific error messages
+        if (error.message.includes('User already registered')) {
+          throw new Error('An account with this email already exists. Please try logging in instead.');
+        }
+
+        if (error.message.includes('Invalid email') || error.message.includes('is invalid')) {
+          throw new Error(`Email validation failed. This could be due to:\n1. Supabase email confirmation not configured\n2. Email provider blocking\n\nPlease contact support or try a different email address.\n\nTechnical details: ${error.message}`);
+        }
+
+        if (error.message.includes('Password should be')) {
+          throw new Error('Password must be at least 6 characters long.');
+        }
+
+        if (error.message.includes('Email rate limit exceeded')) {
+          throw new Error('Too many signup attempts. Please try again in a few minutes.');
+        }
+
+        throw new Error(error.message);
+      }
+
+      if (!data.user) {
+        console.error('ERROR: No user returned from Supabase auth.signUp');
+        throw new Error('Registration failed - no user returned from authentication service');
+      }
+
+      console.log('SUCCESS: User created in Supabase Auth:', {
+        id: data.user.id,
+        email: data.user.email,
+        created_at: data.user.created_at,
+        email_confirmed_at: data.user.email_confirmed_at
+      });
+
+      // Create profile record
+      const profileData = {
+        id: data.user.id,
+        full_name: name.trim(),
+        first_name: name.trim().split(' ')[0] || '',
+        last_name: name.trim().split(' ').slice(1).join(' ') || '',
+        email: normalizedEmail,
+        phone: phone || null,
+        date_of_birth: dateOfBirth || null,
+        gender: gender || null,
+        role: userType === 'clinic' ? 'clinic_admin' : userType,
+        is_active: true,
+        is_email_verified: false // Will be verified via Supabase email confirmation
+      };
+
+      await supabase.from('profiles').insert(profileData);
+
+      // Handle user type specific data creation
+      if (userType === 'patient') {
+        // For patients registered with a clinic, link to clinic's organization
+        // For individual patients, create a personal organization
+        try {
+          console.log(' Creating patient organization and patient record...');
+
+          let targetOrgId = null;
+          let targetOrgResult = null;
+
+          if (registeredClinic) {
+            // Patient is registering with a clinic - find or create clinic's organization
+            console.log('AUTH: Linking patient to clinic:', registeredClinic.name);
+
+            // First, try to find the clinic's organization
+            const { data: clinicOrgs } = await supabase
+              .from('organizations')
+              .select('*')
+              .eq('type', 'clinic')
+              .ilike('name', registeredClinic.name)
+              .limit(1);
+
+            if (clinicOrgs && clinicOrgs.length > 0) {
+              targetOrgResult = clinicOrgs[0];
+              targetOrgId = targetOrgResult.id;
+              console.log('SUCCESS: Found existing clinic organization:', targetOrgResult.name);
+            } else {
+              // Create organization for the clinic if it doesn't exist
+              const clinicOrgData = {
+                name: registeredClinic.name,
+                type: 'clinic',
+                subscription_tier: registeredClinic.subscription_tier || 'free',
+                credits_remaining: registeredClinic.reports_allowed || 10,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+              };
+
+              const { data: newClinicOrg } = await supabase.from('organizations').insert(clinicOrgData).select().single();
+              targetOrgResult = newClinicOrg;
+              targetOrgId = newClinicOrg.id;
+              console.log('SUCCESS: Created clinic organization:', newClinicOrg.name);
+            }
+
+            // Create organization membership for the patient (as member, not owner)
+            await supabase.from('org_memberships').insert({
+              org_id: targetOrgId,
+              user_id: data.user.id,
+              role: 'member',
+              created_at: new Date().toISOString()
+            });
+            console.log('SUCCESS: Patient added to clinic organization');
+
+          } else {
+            // Individual patient - create personal organization
+            const personalOrgData = {
+              name: `${name.trim()} - Personal Account`,
+              type: 'personal',
+              subscription_tier: 'free',
+              credits_remaining: 5, // Personal trial credits
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            };
+
+            const { data: personalOrgResult } = await supabase.from('organizations').insert(personalOrgData).select().single();
+            targetOrgResult = personalOrgResult;
+            targetOrgId = personalOrgResult.id;
+
+            // Create organization membership for the patient
+            await supabase.from('org_memberships').insert({
+              org_id: targetOrgId,
+              user_id: data.user.id,
+              role: 'owner',
+              created_at: new Date().toISOString()
+            });
+          }
+
+          if (targetOrgId) {
+            // Generate patient UID in format CLINICCODE-YYYYMM-XXXX
+            const patientUID = await generatePatientUID(targetOrgId);
+
+            // Create patient record in patients table
+            const patientData = {
+              org_id: targetOrgId,
+              owner_user: data.user.id,
+              external_id: patientUID, // Use new UID format: CLINICCODE-YYYYMM-XXXX
+              full_name: name.trim(),
+              date_of_birth: dateOfBirth || '1990-01-01', // Use form data or default
+              gender: gender || 'other', // Use form data or default
+              phone: phone || null,
+              email: normalizedEmail,
+              address: null,
+              medical_history: null,
+              improvement_focus: ['cognitive_enhancement'], // Default focus
+              brain_fitness_score: null,
+              clinic_id: registeredClinic ? registeredClinic.id : null, // Store clinic reference
+              clinic_name: registeredClinic ? registeredClinic.name : null, // Store clinic name for easy filtering
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            };
+
+            await supabase.from('patients').insert(patientData);
+            console.log('SUCCESS: Patient record created in patients table', {
+              orgId: targetOrgId,
+              clinicId: registeredClinic?.id,
+              clinicName: registeredClinic?.name
+            });
+          }
+        } catch (patientError) {
+          console.warn('WARNING: Failed to create patient record:', patientError);
+          // Don't fail registration if patient record creation fails
+        }
+      }
+
+      // If clinic registration, create organization AND local clinic entry
+      if (userType === 'clinic') {
+        const orgData = {
+          name: name.trim(),
+          type: 'clinic',
+          subscription_tier: 'free',
+          credits_remaining: 10, // Trial credits
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        const { data: orgResult } = await supabase.from('organizations').insert(orgData).select().single();
+
+        if (orgResult) {
+          // Create organization membership
+          await supabase.from('org_memberships').insert({
+            org_id: orgResult.id,
+            user_id: data.user.id,
+            role: 'owner',
+            created_at: new Date().toISOString()
+          });
+        }
+
+        // Add clinic request to database for super admin approval
+        try {
+          const clinicRequestData = {
+            id: data.user.id, // Use Supabase user ID as clinic ID
+            name: name.trim(),
+            email: normalizedEmail,
+            contact_person: name.trim(),
+            country_code: countryCode || '+91', // ✅ Save country code separately
+            phone: phone || '', // ✅ Save phone number separately
+            address: address || '', // ✅ Use actual address from form
+            password: password, // Store password for clinic login
+            logo_url: null,
+            is_active: false, // Pending approval by super admin
+            reports_used: 0,
+            reports_allowed: 0, // No credits until approved
+            subscription_status: 'pending_approval',
+            subscription_tier: 'free',
+            trial_start_date: null, // Will be set when approved
+            trial_end_date: null, // Will be set when approved
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          };
+
+          const savedClinic = await DatabaseService.add('clinics', clinicRequestData);
+          console.log('INFO: Clinic registration request sent to super admin for approval');
+          console.log('SUCCESS: Saved clinic data:', savedClinic);
+          console.log('DEBUG: Clinic ID for verification:', savedClinic?.id);
+        } catch (localDbError) {
+          console.warn('WARNING: Failed to create clinic request:', localDbError);
+          // Don't fail registration if local DB fails
+        }
+      }
+
+      // If super admin registration, create super_admin_profiles record
+      if (userType === 'super_admin') {
+        try {
+          console.log('SUPERADMIN: Creating super admin profile...');
+
+          // Create super admin profile record
+          const superAdminData = {
+            user_id: data.user.id,
+            employee_id: `SA_${Date.now()}`, // Generate unique employee ID
+            department: 'System Administration',
+            designation: 'System Administrator',
+            work_email: normalizedEmail,
+            access_level: 'standard', // Default access level
+            modules_access: [
+              'user_management',
+              'clinic_management',
+              'billing',
+              'reports',
+              'system_settings'
+            ],
+            requires_2fa: true,
+            hire_date: new Date().toISOString().split('T')[0], // Current date
+            is_active: true
+          };
+
+          await supabase.from('super_admin_profiles').insert(superAdminData);
+          console.log('SUCCESS: Super admin profile created successfully');
+
+          // Also store in local database for compatibility with existing code
+          try {
+            const localSuperAdminData = {
+              id: data.user.id,
+              full_name: name.trim(), // Use full_name for profiles table
+              name: name.trim(),
+              email: normalizedEmail,
+              password: password, // Store for local authentication fallback
+              avatar: null,
+              avatar_url: null,
+              phone: phone || null,
+              role: 'super_admin',
+              isActivated: true, // Super admins are auto-activated
+              createdAt: new Date().toISOString(),
+              supabaseUserId: data.user.id
+            };
+
+            await DatabaseService.add('superAdmins', localSuperAdminData);
+            console.log('SUCCESS: Super admin added to local database');
+          } catch (localDbError) {
+            console.warn('WARNING: Failed to add super admin to local database:', localDbError);
+            // Don't fail registration if local DB fails
+          }
+
+        } catch (superAdminError) {
+          console.error('ERROR: Failed to create super admin profile:', superAdminError);
+          throw new Error('Super admin registration failed: ' + superAdminError.message);
+        }
+      }
+
+      console.log('SUCCESS: Registration successful:', data.user.email);
+
+      // For clinic registrations, require super admin activation
+      if (userType === 'clinic') {
+        return {
+          success: true,
+          needsActivation: true,
+          message: 'Clinic registration submitted successfully! Your account is pending activation by our administrator. You will receive an email notification once your account is approved.',
+          user: {
+            id: data.user.id,
+            email: data.user.email,
+            name: name.trim(),
+            role: userType
+          }
+        };
+      }
+
+      // For other user types (patient, super_admin), proceed normally
+      return {
+        success: true,
+        message: 'Registration successful! Please check your email to confirm your account.',
+        user: {
+          id: data.user.id,
+          email: data.user.email,
+          name: name.trim(),
+          role: userType
+        }
+      };
+
+    } catch (error) {
+      console.error('ERROR: Registration error:', error.message);
+      throw new Error(error.message || 'Registration failed');
+    }
+  },
+
+  // Google OAuth
+  async loginWithGoogle() {
+    try {
+      const response = await this.simulateOAuthLogin('google');
+      return response;
+    } catch (error) {
+      throw new Error('Google login failed');
+    }
+  },
+
+  async registerWithGoogle() {
+    try {
+      const response = await this.simulateOAuthLogin('google');
+      return response;
+    } catch (error) {
+      throw new Error('Google registration failed');
+    }
+  },
+
+  // GitHub OAuth
+  async loginWithGitHub() {
+    try {
+      const response = await this.simulateOAuthLogin('github');
+      return response;
+    } catch (error) {
+      throw new Error('GitHub login failed');
+    }
+  },
+
+  async registerWithGitHub() {
+    try {
+      const response = await this.simulateOAuthLogin('github');
+      return response;
+    } catch (error) {
+      throw new Error('GitHub registration failed');
+    }
+  },
+
+  // Facebook OAuth
+  async loginWithFacebook() {
+    try {
+      const response = await this.simulateOAuthLogin('facebook');
+      return response;
+    } catch (error) {
+      throw new Error('Facebook login failed');
+    }
+  },
+
+  async registerWithFacebook() {
+    try {
+      const response = await this.simulateOAuthLogin('facebook');
+      return response;
+    } catch (error) {
+      throw new Error('Facebook registration failed');
+    }
+  },
+
+  // OAuth login simulation (placeholder for real implementation)
+  async simulateOAuthLogin(provider) {
+    throw new Error(`${provider} OAuth not implemented yet`);
+  },
+
+  // Get current user
+  async getCurrentUser() {
+    try {
+      // First try to get from localStorage
+      const user = localStorage.getItem('user');
+      if (user) {
+        return JSON.parse(user);
+      }
+      
+      // Fallback to API call
+      const response = await api.get('/auth/me');
+      return response.data.user;
+    } catch (error) {
+      throw new Error('Failed to get user data');
+    }
+  },
+
+  // Logout
+  async logout() {
+    try {
+      // Clear localStorage first
+      localStorage.removeItem('user');
+      localStorage.removeItem('authToken');
+      
+      // Try API call
+      await api.post('/auth/logout');
+    } catch (error) {
+      // Even if API call fails, local storage is already cleared
+      console.error('Logout API call failed:', error);
+    }
+  },
+
+  // Forgot Password
+  async forgotPassword(email) {
+    try {
+      const response = await api.post('/auth/forgot-password', { email });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to send reset email');
+    }
+  },
+
+  // Reset Password
+  async resetPassword(token, newPassword) {
+    try {
+      const response = await api.post('/auth/reset-password', { token, password: newPassword });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Password reset failed');
+    }
+  },
+
+  // Change Password
+  async changePassword(currentPassword, newPassword) {
+    try {
+      const response = await api.post('/auth/change-password', { 
+        currentPassword, 
+        newPassword 
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Password change failed');
+    }
+  },
+
+  // Update Profile
+  async updateProfile(userData) {
+    try {
+      const response = await api.put('/auth/profile', userData);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Profile update failed');
+    }
+  },
+};

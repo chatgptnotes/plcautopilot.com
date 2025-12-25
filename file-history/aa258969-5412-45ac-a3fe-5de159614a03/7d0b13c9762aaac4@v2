@@ -1,0 +1,175 @@
+/**
+ * Create NeuroSense Reports Bucket in Supabase
+ *
+ * This script creates the 'neurosense-reports' bucket in your Supabase storage
+ * and sets up the necessary policies for public access.
+ *
+ * Usage:
+ *   node server/scripts/createNeuroSenseBucket.js
+ */
+
+require('dotenv').config();
+const { createClient } = require('@supabase/supabase-js');
+
+// Initialize Supabase client with service role key (admin access)
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ Error: Supabase credentials not found!');
+  console.error('\n📝 Please add these to your .env file:');
+  console.error('   SUPABASE_URL=https://your-project.supabase.co');
+  console.error('   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key');
+  console.error('\n💡 Get these from: Supabase Dashboard → Project Settings → API');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+async function createNeuroSenseBucket() {
+  console.log('\n🚀 ===== Creating NeuroSense Reports Bucket =====\n');
+
+  const bucketName = 'neurosense-reports';
+
+  try {
+    // Step 1: Check if bucket already exists
+    console.log('🔍 Checking if bucket already exists...');
+    const { data: existingBuckets, error: listError } = await supabase
+      .storage
+      .listBuckets();
+
+    if (listError) {
+      throw new Error(`Failed to list buckets: ${listError.message}`);
+    }
+
+    const bucketExists = existingBuckets.some(b => b.name === bucketName);
+
+    if (bucketExists) {
+      console.log('✅ Bucket already exists!');
+      console.log(`   Bucket name: ${bucketName}`);
+      console.log('\n✨ No action needed - bucket is ready to use!\n');
+      return;
+    }
+
+    // Step 2: Create the bucket
+    console.log('📦 Creating bucket...');
+    const { data: bucket, error: createError } = await supabase
+      .storage
+      .createBucket(bucketName, {
+        public: true,  // Make bucket public for PDF downloads
+        fileSizeLimit: 52428800,  // 50 MB
+        allowedMimeTypes: ['application/pdf']
+      });
+
+    if (createError) {
+      throw new Error(`Failed to create bucket: ${createError.message}`);
+    }
+
+    console.log('✅ Bucket created successfully!');
+    console.log(`   Bucket name: ${bucketName}`);
+    console.log(`   Public: Yes`);
+    console.log(`   File size limit: 50 MB`);
+    console.log(`   Allowed types: PDF only`);
+
+    // Step 3: Set up RLS policies using SQL
+    console.log('\n🔒 Setting up security policies...');
+
+    // Policy 1: Allow authenticated users to INSERT (upload)
+    const insertPolicy = `
+      CREATE POLICY "Allow authenticated users to upload PDFs"
+      ON storage.objects FOR INSERT
+      TO authenticated
+      WITH CHECK (
+        bucket_id = '${bucketName}' AND
+        (storage.extension(name) = 'pdf')
+      );
+    `;
+
+    // Policy 2: Allow public SELECT (read/download)
+    const selectPolicy = `
+      CREATE POLICY "Allow public read access to PDFs"
+      ON storage.objects FOR SELECT
+      TO public
+      USING (bucket_id = '${bucketName}');
+    `;
+
+    // Policy 3: Allow authenticated users to UPDATE
+    const updatePolicy = `
+      CREATE POLICY "Allow authenticated users to update PDFs"
+      ON storage.objects FOR UPDATE
+      TO authenticated
+      USING (bucket_id = '${bucketName}')
+      WITH CHECK (bucket_id = '${bucketName}');
+    `;
+
+    // Policy 4: Allow authenticated users to DELETE
+    const deletePolicy = `
+      CREATE POLICY "Allow authenticated users to delete PDFs"
+      ON storage.objects FOR DELETE
+      TO authenticated
+      USING (bucket_id = '${bucketName}');
+    `;
+
+    // Execute policies
+    try {
+      await supabase.rpc('exec_sql', { sql: insertPolicy });
+      console.log('   ✅ INSERT policy created');
+    } catch (policyError) {
+      console.log('   ⚠️  INSERT policy may already exist or need manual setup');
+    }
+
+    try {
+      await supabase.rpc('exec_sql', { sql: selectPolicy });
+      console.log('   ✅ SELECT policy created');
+    } catch (policyError) {
+      console.log('   ⚠️  SELECT policy may already exist or need manual setup');
+    }
+
+    try {
+      await supabase.rpc('exec_sql', { sql: updatePolicy });
+      console.log('   ✅ UPDATE policy created');
+    } catch (policyError) {
+      console.log('   ⚠️  UPDATE policy may already exist or need manual setup');
+    }
+
+    try {
+      await supabase.rpc('exec_sql', { sql: deletePolicy });
+      console.log('   ✅ DELETE policy created');
+    } catch (policyError) {
+      console.log('   ⚠️  DELETE policy may already exist or need manual setup');
+    }
+
+    console.log('\n📝 NOTE: If policies failed to create automatically, you can set them up manually:');
+    console.log('   1. Go to Supabase Dashboard → Storage → neurosense-reports');
+    console.log('   2. Click "Policies" tab');
+    console.log('   3. Add the following policies:');
+    console.log('      - INSERT: authenticated users can upload');
+    console.log('      - SELECT: public can read/download');
+    console.log('      - UPDATE: authenticated users can update');
+    console.log('      - DELETE: authenticated users can delete');
+
+    console.log('\n✅ ===== Bucket Setup Complete! =====\n');
+    console.log('🎉 Your NeuroSense reports will now be stored in the cloud!\n');
+    console.log('📂 Bucket structure:');
+    console.log('   neurosense-reports/');
+    console.log('     └── reports/');
+    console.log('         ├── neurosense-report-patient1-timestamp.pdf');
+    console.log('         ├── neurosense-report-patient2-timestamp.pdf');
+    console.log('         └── ...\n');
+    console.log('🔗 PDF URLs will be:');
+    console.log(`   ${supabaseUrl}/storage/v1/object/public/${bucketName}/reports/[filename].pdf\n`);
+
+  } catch (error) {
+    console.error('\n❌ Error:', error.message);
+    console.error('\n💡 Troubleshooting:');
+    console.error('   1. Verify your Supabase credentials are correct');
+    console.error('   2. Check you have admin/service_role permissions');
+    console.error('   3. Try creating the bucket manually in Supabase Dashboard');
+    console.error('   4. Go to: https://supabase.com/dashboard → Storage → New Bucket');
+    console.error('\n');
+    process.exit(1);
+  }
+}
+
+// Run the script
+createNeuroSenseBucket();

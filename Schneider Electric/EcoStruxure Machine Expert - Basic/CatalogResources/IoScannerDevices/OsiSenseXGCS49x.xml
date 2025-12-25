@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- OsiSenseXGCS49LB201 -->
+<Device>
+    <DeviceTypeName>XGCS49 RFID</DeviceTypeName>
+    <DeviceTypeId>12</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+    <VendorId>Telemecanique*</VendorId>
+    <ProductCode>Ositrack XGC-S</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+    <Channels>
+        <Channel>
+            <Name>Tag_Presence</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Reads Tag Present, Tag Counter, Tag UID</Comment>
+            <ReadOffset>32768</ReadOffset>
+            <ReadLength>10</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>Configure_LEDs</Name>
+            <AccessType>IoScannerChannelAccessWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Configures the color of the LEDs</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>33255</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>True</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

@@ -1,0 +1,31 @@
+# Neuro360 Environment Configuration
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://omyltmcesgbhnqmhrrvq.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWx0bWNlc2diaG5xbWhycnZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNzY2NTAsImV4cCI6MjA3Mzc1MjY1MH0.d4VqaDBlrEJ1xYPt4kt60y90RRbtndRRaF9WzpWxWcU
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWx0bWNlc2diaG5xbWhycnZxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODE3NjY1MCwiZXhwIjoyMDczNzUyNjUwfQ.UZT7MbCkfi-AuMaZ7tcV78bjyOT6PKOJHiP0x1LlFhM
+
+
+# Vite/React App Config (for apps/web)
+VITE_SUPABASE_URL=https://omyltmcesgbhnqmhrrvq.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teWx0bWNlc2diaG5xbWhycnZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNzY2NTAsImV4cCI6MjA3Mzc1MjY1MH0.d4VqaDBlrEJ1xYPt4kt60y90RRbtndRRaF9WzpWxWcU
+
+# Supabase Storage Configuration
+VITE_SUPABASE_STORAGE_BUCKET=patient-reports
+
+# API Configuration
+VITE_API_URL=http://localhost:3001/api
+
+# OpenAI Configuration (Backend Only - No VITE_ prefix)
+OPENAI_API_KEY=your-openai-api-key-here
+
+# App Environment
+NODE_ENV=development
+PORT=3000
+
+# Payment Integration (LIVE CREDENTIALS - KEEP SECURE!)
+VITE_RAZORPAY_KEY_ID=rzp_live_RbfFXYnAzSNWYh
+VITE_RAZORPAY_SECRET=FaV0K9r7IEgA8PcJxLUOa95A
+# Development Settings
+VITE_APP_ENV=development
+VITE_DEBUG=true

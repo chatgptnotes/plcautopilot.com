@@ -1,0 +1,769 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <BitfieldType basetype="std:WORD" name="INPUTS_TM3XTYS4">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH1Ready.Symbol">CH1_Ready</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Ready.Description">This input is active if the selector of TeSys U or Motor circuit breaker is in the ON position</Description>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH1Run.Symbol">CH1_Run</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Run.Description">This input denotes the closed status of the power poles</Description>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH1Trip.Symbol">CH1_Trip</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Trip.Description">This input is active if the selector is in the TRIP position</Description>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH2Ready.Symbol">CH2_Ready</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Ready.Description">This input is active if the selector of TeSys U or Motor circuit breaker is in the ON position</Description>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH2Run.Symbol">CH2_Run</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Run.Description">This input denotes the closed status of the power poles</Description>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH2Trip.Symbol">CH2_Trip</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Trip.Description">This input is active if the selector is in the TRIP position</Description>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH3Ready.Symbol">CH3_Ready</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Ready.Description">This input is active if the selector of TeSys U or Motor circuit breaker is in the ON position</Description>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH3Run.Symbol">CH3_Run</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Run.Description">This input denotes the closed status of the power poles</Description>
+      </Component>
+      <Component identifier="Bit8" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH3Trip.Symbol">CH3_Trip</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Trip.Description">This input is active if the selector is in the TRIP position</Description>
+      </Component>
+      <Component identifier="Bit9" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH4Ready.Symbol">CH4_Ready</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Ready.Description">This input is active if the selector of TeSys U or Motor circuit breaker is in the ON position</Description>
+      </Component>
+      <Component identifier="Bit10" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH4Run.Symbol">CH4_Run</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Run.Description">This input denotes the closed status of the power poles</Description>
+      </Component>
+      <Component identifier="Bit11" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.CH4Trip.Symbol">CH4_Trip</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Trip.Description">This input is active if the selector is in the TRIP position</Description>
+      </Component>
+      <Component identifier="BitError" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Input.Error.Symbol">Error</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Input.Error.Description">Over current error flag of protect source outputs (0: Error, 1: normal)</Description>
+      </Component>
+    </BitfieldType>
+    <BitfieldType basetype="std:BYTE" name="OUTPUTS_TM3XTYS4">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir1Control.Symbol">CH1_Dir1Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir1Control.Description">This 24 V output drives the direct (forward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir2Control.Symbol">CH1_Dir2Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir2Control.Description">This 24 V output drives the reverse (backward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir1Control.Symbol">CH2_Dir1Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir1Control.Description">This 24 V output drives the direct (forward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir2Control.Symbol">CH2_Dir2Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir2Control.Description">This 24 V output drives the reverse (backward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir1Control.Symbol">CH3_Dir1Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir1Control.Description">This 24 V output drives the direct (forward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir2Control.Symbol">CH3_Dir2Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir2Control.Description">This 24 V output drives the reverse (backward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir1Control.Symbol">CH4_Dir1Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir1Control.Description">This 24 V output drives the direct (forward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="localStrings:TM3XTYS4.Output.Dir2Control.Symbol">CH4_Dir2Control</VisibleName>
+        <Description name="localStrings:TM3XTYS4.Output.Dir2Control.Description">This 24 V output drives the reverse (backward) command of the motor. Power of this output comes from 24V_outputs</Description>
+      </Component>
+    </BitfieldType>
+    <!--typedef struct{
+        RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+        RTS_UI8 IdCode1;
+        RTS_UI8 IdCode2;            // if NbIdCode = 2
+        RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+        RTS_UI8 ImplicitPageIndex;  // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+        RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                    // For digital module it must be the just upper entire number of bytes 
+                                    // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                    // For special module, inputs (for example %IW) may be located in this buffer
+                                    // in this case the offset to find them must be filled (see ImplicitInOffset)
+        RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                    // => address of the page to implicitely read in the module
+                                    // Note : a full duplex exchange will be performed if 
+                                    // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+        RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                    // -1 if no inputs linked to codesys
+                                    // The offset where the inputs are located in the implicit read buffer otherwise
+        RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                    // For digital module it must be the just upper entire number of bytes 
+                                    // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                    // For special module, outputs (for example %QW) may be located in this buffer
+                                    // in this case the offset to find them must be filled (see ImplicitOutOffset)
+        RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                    // => address of the page to implicitely write in the module
+                                    // Note : a full duplex exchange will be performed if 
+                                    // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+        RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                    // -1 if no outputs linked to codesys
+                                    // The offset where the outputs are located in the implicit write buffer otherwise
+        RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+        RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+        RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+                                    // if 1 the status are included in the ImplicitRead
+                                    // if 0 an explicit read is done on user demand (see StatusAddr)
+        RTS_UI8 StatusPageIndex;    // 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+                                    //index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+        RTS_UI8 StatusSize;         // 0-127. Meaningful only for special module
+                                    // Size in bytes of the status
+        RTS_UI8 StatusAddr;         // 0-127. Meaningful only for special module
+                                    // if StatusInImplicit == 1 : offset of the status in the implicit read buffer 
+                                    // if StatusInImplicit == 0 : offset of the status in the module read memory mapping 
+        RTS_UI8 ConfPageIndex;      // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+        RTS_UI8 ConfForSpecialModuleSize;
+        RTS_UI8 ConfForSpecialModuleAddr;
+        RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                    // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+    <EnumType basetype="std:BYTE" name="TM3XTYS4.TypeEnum">
+      <Enum identifier="Type_DOL">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM3XTYS4.DOL">DOL Starters</VisibleName>
+      </Enum>
+      <Enum identifier="Type_FWDREV">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TM3XTYS4.FR">Forward and Reverse starters</VisibleName>
+      </Enum>
+    </EnumType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+4 Tesys motor starters expansion module.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">This input is active if the selector of TeSys U or Motor circuit breaker is in the ON position</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">This input denotes the closed status of the power poles</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">This input is active if the selector is in the TRIP position</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Over current error flag of protect source outputs (0: Error, 1: normal)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">This 24 V output drives the direct (forward) command of the motor. Power of this output comes from 24V_outputs</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">This 24 V output drives the reverse (backward) command of the motor. Power of this output comes from 24V_outputs</String>
+      <String identifier="TM3XTYS4.DOL">DOL Starters</String>
+      <String identifier="TM3XTYS4.FR">Forward and Reverse starters</String>
+      <String identifier="TM3XTYS4.Module.TesysType">TesysU device model connected to the TM3 module</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x motor starters</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+Module d&apos;extension de 4 démarreurs de moteur Tesys.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Entrées</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">Cette entrée est active si le sélecteur du disjoncteur du TeSys U ou du moteur est en position ON.</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Cette entrée indique l&apos;état fermé des pôles d&apos;alimentation.</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Cette entrée est active si le sélecteur est en position TRIP.</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Indicateur d&apos;erreur de surintensité pour les sorties à logique positive protégées (0 : erreur, 1 : normal)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Sorties</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Cette sortie 24 V pilote la commande directe (en avant) du moteur. L&apos;alimentation de cette sortie provient des sorties 24 V.</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Cette sortie 24 V pilote la commande inverse (en arrière) du moteur. L&apos;alimentation de cette sortie provient des sorties 24 V.</String>
+      <String identifier="TM3XTYS4.DOL">Démarreurs DOL</String>
+      <String identifier="TM3XTYS4.FR">Démarreurs avant et arrière</String>
+      <String identifier="TM3XTYS4.Module.TesysType">Modèle d&apos;équipement TesysU connecté au module TM3</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 démarreurs de moteur</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+4 Tesys Motorstarter-Erweiterungsmodul.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Eingänge</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">Dieser Eingang ist aktiv, wenn der Selektor des TeSys U oder Motor-Leistungsschalters in der ON-Position ist.</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Dieser Eingang bezeichnet den geschlossenen Status der Spannungspole</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Dieser Eingang ist aktiv, wenn der Selektor in der TRIP-Position ist</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Flag für Überstromfehler geschützter, Strom abgebender Ausgänge (0: Fehler, 1: normal)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Ausgänge</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Dieser 24-V-Ausgang steuert den direkten (vorwärts gerichteten) Befehl des Motors. Die Spannung dieses Ausgangs stammt aus 24-V-Ausgängen</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Dieser 24-V-Ausgang steuert den umgekehrten (rückwärtigs gerichteten) Befehl des Motors. Die Spannung dieses Ausgangs stammt aus 24-V-Ausgängen</String>
+      <String identifier="TM3XTYS4.DOL">DOL-Starter</String>
+      <String identifier="TM3XTYS4.FR">Vorwärts- und Rückwärts-Starter</String>
+      <String identifier="TM3XTYS4.Module.TesysType">Mit dem TM3-Modul verbundenes TesysU-Gerätemodell</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x Motorstarter</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+Módulo de ampliación con 4 arrancadores de motor Tesys.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Entradas</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">Esta entrada está activa si el selector de TeSys U o del disyuntor del motor se encuentra en la posición ON (activado)</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Esta entrada indica que los polos de arranque están cerrados</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Esta entrada está activa si el selector está en la posición TRIP</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Indicador de error de sobrecorriente de salidas de común positivo protegidas (0: Error, 1: Normal)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Salidas</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Esta salida de 24 V transmite el comando directo (avance) del motor. La alimentación de esta salida proviene de salidas de 24 V</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Esta salida de 24 V transmite el comando inverso (retroceso) del motor. La alimentación de esta salida proviene de salidas de 24 V</String>
+      <String identifier="TM3XTYS4.DOL">Arrancadores DOL</String>
+      <String identifier="TM3XTYS4.FR">Arrancadores de avance y retroceso</String>
+      <String identifier="TM3XTYS4.Module.TesysType">Modelo de dispositivo TesysU conectado al módulo TM3</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 arrancadores del motor</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+Modulo di espansione 4 starter motore Tesys.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Ingressi</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">Questo ingresso è attivo se il selettore di TeSys U o il circuito sezionatore motore è in posizione ON.</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Questo ingresso denota lo stato chiuso dei poli di alimentazione</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Questo ingresso è attivo se il selettore è in posizione TRIP</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Flag di errore di sovracorrente o uscite source protette (0: errore, 1: normale)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Uscite</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Questa uscita a 24 V aziona il comando diretto (in avanti) del motore. L&apos;alimentazione di questa uscita proviene dalle uscite 24V</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Questa uscita a 24 V aziona il comando inverso (indietro) del motore. L&apos;alimentazione di questa uscita proviene dalle uscite 24V</String>
+      <String identifier="TM3XTYS4.DOL">Starter DOL</String>
+      <String identifier="TM3XTYS4.FR">Starter avanti e indietro</String>
+      <String identifier="TM3XTYS4.Module.TesysType">Modello dispositivo TesysU collegato al modulo TM3</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x starter motore</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+4 Tesys 电机启动器扩展模块。</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">输入</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">如果 TeSys U 的选择器或电机断路器处于“ON”位置，则此输入处于活动状态</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">此输入表示电杆的关闭状态</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">如果选择器处于“TRIP”位置，则此输入处于活动状态</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">保护源极输出的过电流错误标记（0：错误，1：正常）</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">输出</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">此 24 V 输出驱动电机的正向（向前）命令。此输出的电源来自 24V 输出</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">此 24 V 输出驱动电机的反向（向后）命令。此输出的电源来自 24V 输出</String>
+      <String identifier="TM3XTYS4.DOL">DOL 启动器</String>
+      <String identifier="TM3XTYS4.FR">正向和反向启动器</String>
+      <String identifier="TM3XTYS4.Module.TesysType">连接到 TM3 模块的 TesysU 设备型号</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x 电机启动器</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+Módulo de expansão iniciador do motor Tesys 4.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Entradas</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">Esta entrada permanece ativa se o seletor do TeSys U ou interruptor do circuito motor estiver na posição LIGADO</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Esta entrada denota o status fechado dos pólos de energia</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Esta entrada permanece ativa se o seletor estiver na posição TRIP</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Sobre o sinalizador de erro atual de proteção das saídas de fonte (0: Erro, 1: normal)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Saídas</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Esta saída de 24 V direciona o comando (encaminhar) direto do motor. Energia desta saída vem de 24V_outputs</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Esta saída de 24 V direciona o comando (retroceder) reverso do motor. Energia desta saída vem de 24V_outputs</String>
+      <String identifier="TM3XTYS4.DOL">Iniciadores DOL</String>
+      <String identifier="TM3XTYS4.FR">Iniciadores Avanço ou Retrocesso</String>
+      <String identifier="TM3XTYS4.Module.TesysType">Modelo de dispositivo TesysU conectado ao módulo TM3</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x iniciadores do motor</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+4 Tesys motor starterleri genişletme modülü.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Girişler</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">TeSys U veya Motor devre kesicisi seçicisi ON konumundaysa bu giriş etkindir</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Bu giriş güç kutuplarının kapalı durumunu gösterir</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Seçici TRIP konumundaysa bu giriş etkindir</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Kaynak çıkışlarını korumak için aşırı akım hata bayrağı (0: Hata, 1: normal)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Çıkışlar</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Bu 24 V çıkış motorun düz (ileri) komutunu yürütür. Bu çıkış gücünü 24V_outputs çıkışından alır</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Bu 24 V çıkış motorun ters (geri) komutunu yürütür. Bu çıkış gücünü 24V_outputs çıkışından alır</String>
+      <String identifier="TM3XTYS4.DOL">DOL Starterleri</String>
+      <String identifier="TM3XTYS4.FR">İleri ve Geri starterleri</String>
+      <String identifier="TM3XTYS4.Module.TesysType">TM3 modülüne bağlı TesysU aygıt modeli</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x motor starterleri</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM3XTYS4.DeviceDescription">TM3XTYS4
+Rozšiřující modul se 4 Tesys motorovými startéry.</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameInputs">Vstupy</String>
+      <String identifier="TM3XTYS4.Input.Ready.Description">Tento vstup je aktivní, jeli přepínač TeSys U nebo Motorového jističe na pozici ON</String>
+      <String identifier="TM3XTYS4.Input.Run.Description">Tento vstup označuje uzavřený stav napájecích pólů</String>
+      <String identifier="TM3XTYS4.Input.Trip.Description">Tento vstup je aktivní, je-li přepínač na pozici TRIP</String>
+      <String identifier="TM3XTYS4.Input.Error.Description">Signalizace překročení maximálního proudu ochrany source výstupů (0: Chyba, 1: Normální)</String>
+      <String identifier="TM3XTYS4.ParameterSectionNameOutputs">Výstupy</String>
+      <String identifier="TM3XTYS4.Output.Dir1Control.Description">Tento 24 V výstup ovládá přímý (dopředu) příkaz motoru. Napájení tohoto výstupu přichází z 24V_výstupů</String>
+      <String identifier="TM3XTYS4.Output.Dir2Control.Description">Tento 24 V výstup ovládá zpětný (dozadu) příkaz motoru. Napájení tohoto výstupu přichází z 24V_výstupů</String>
+      <String identifier="TM3XTYS4.DOL">DOL Startéry</String>
+      <String identifier="TM3XTYS4.FR">Dopředné a zpětné startéry</String>
+      <String identifier="TM3XTYS4.Module.TesysType">TesysU model zařízení připojen k TM3 modulu</String>
+      <String identifier="ModuleTypeKey">Tesys</String>
+      <String identifier="FeaturesKey">4 x motorové startéry</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM3XTYS4.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM3XTYS4.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsOutputsIcon">
+        <LocalFile>./Icons/TM3XTYS4.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM3XTYS4">
+        <LocalFile>./Images/TM3XTYS4.png</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51429</Type>
+      <Id>101a 0453</Id>
+      <Version>1.0.1.8</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM3XTYS4</Name>
+      <Description name="localStrings:TM3XTYS4.DeviceDescription">TM3XTYS4
+4 Tesys motor starters expansion module.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM3XTYS4</OrderNumber>
+      <Image name="localFiles:TM3XTYS4" />
+      <Icon name="localFiles:InputsOutputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1330</Family>
+      <Category>1</Category>
+      <AdditionalFiles />
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Expert">
+              <SubCategory name="TM3" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4" moduleType="51429" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <ParameterSection>
+          <Name name="localStrings:TM3XTYS4.ParameterSectionNameInputs">Inputs</Name>
+          <Parameter ParameterId="36641" type="localTypes:INPUTS_TM3XTYS4">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+        </ParameterSection>
+        <ParameterSection>
+          <Name name="localStrings:TM3XTYS4.ParameterSectionNameOutputs">Outputs</Name>
+          <Parameter ParameterId="36642" type="localTypes:OUTPUTS_TM3XTYS4">
+            <Attributes channel="output" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">QB0</Name>
+          </Parameter>
+        </ParameterSection>
+        <Parameter ParameterId="2168717317" type="std:DWORD">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>36641</Default>
+          <Name name="local:dummy">IW</Name>
+          <Custom>
+            <POINTER_TO_IOCONFIGADDRESS />
+          </Custom>
+        </Parameter>
+        <!--Outputs Identification-->
+        <Parameter ParameterId="2172911618" type="std:DWORD">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>36642</Default>
+          <Name name="local:dummy">QB</Name>
+          <Custom>
+            <POINTER_TO_IOCONFIGADDRESS />
+          </Custom>
+        </Parameter>
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">136</Element>
+            <Element name="IdCode2">
+            </Element>
+            <Element name="TM2AnalogModuleType">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">2</Element>
+            <!-- 2 bytes because 16 inputs  -->
+            <Element name="ImplicitReadAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitInOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitWriteSize">1</Element>
+            <!-- 1 byte because 8 inputs  -->
+            <Element name="ImplicitWriteAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitOutOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">0</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">0</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="InterByteDelayDC2">-1</Element>
+            <!-- not used for digital module  -->
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>37</Default>
+          <Name name="local:dummy">TM3 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM3 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>17</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:PowerConsumption voltage="5V">37</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">17</se:PowerConsumption>
+        <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{E33362E7-80F9-41f0-83A9-64EE6160A87F}" />
+      </Custom>
+      <DriverInfo needsBusCycle="false">
+        <RequiredLib identifier="TM3TesysU" libname="TM3TesysU" vendor="Schneider Electric" version="1.0.0.5">
+          <FBInstance basename="$(DeviceName)_FB" fbname="Diag_TesysU">
+            <Initialize methodName="Initialize" />
+          </FBInstance>
+        </RequiredLib>
+      </DriverInfo>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <!-- Define 4 Channels -->
+    <Connector connectorId="2" explicit="false" hostpath="1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel1" moduleType="51429" role="parent">
+      <InterfaceName name="local:dummy" />
+      <Var max="1" />
+    </Connector>
+    <Connector connectorId="3" explicit="false" hostpath="1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel2" moduleType="51429" role="parent">
+      <InterfaceName name="local:dummy" />
+      <Var max="1" />
+    </Connector>
+    <Connector connectorId="4" explicit="false" hostpath="1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel3" moduleType="51429" role="parent">
+      <InterfaceName name="local:dummy" />
+      <Var max="1" />
+    </Connector>
+    <Connector connectorId="5" explicit="false" hostpath="1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel4" moduleType="51429" role="parent">
+      <InterfaceName name="local:dummy" />
+      <Var max="1" />
+    </Connector>
+    <Custom>
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <se:ModuleType>0x0088</se:ModuleType>
+        <se:GenericReference>TM3XTYS4</se:GenericReference>
+        <se:ModuleKind>0</se:ModuleKind>
+        <se:NumRelays>0</se:NumRelays>
+        <se:NumTransistors>8</se:NumTransistors>
+        <se:ModuleExtendedKind>0</se:ModuleExtendedKind>
+        <se:Compatibility>0</se:Compatibility>
+      </se:Configuration>
+      <se:ModuleTypeKey>ModuleTypeKey</se:ModuleTypeKey>
+      <se:FeaturesKey>FeaturesKey</se:FeaturesKey>
+      <se:IoPrenamingEnabled>true</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix>TY_</se:PrenamingSymbolPrefix>
+
+      <se:DigitalInputXPosition>23</se:DigitalInputXPosition>
+      <se:DigitalInputYPosition>19</se:DigitalInputYPosition>
+      <se:DigitalInputXSize>60</se:DigitalInputXSize>
+      <se:DigitalInputYSize>255</se:DigitalInputYSize>
+    </Custom>
+  </Device>
+  <Modules>
+    <Module>
+      <ModuleId>TesysChannel1</ModuleId>
+      <DeviceInfo>
+        <Name name="local:dummy">Tesys Channel 1</Name>
+        <Description name="local:dummy" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+      </DeviceInfo>
+      <Connector connectorId="1" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel1" moduleType="51429" role="child" alwaysmapping="true">
+        <InterfaceName name="local:dummy" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <Parameter ParameterId="5" type="std:INT">
+            <Attributes channel="none" download="true" offlineaccess="none" onlineaccess="none" />
+            <Default>1</Default>
+            <Name name="local:dummy">ChannelId</Name>
+          </Parameter>
+          <Parameter ParameterId="1" type="localTypes:TM3XTYS4.TypeEnum">
+            <Attributes channel="none" offlineaccess="readwrite" onlineaccess="read" download="true" />
+            <Default>0</Default>
+            <Name name="local:dummy">TesysType</Name>
+            <Description name="localStrings:TM3XTYS4.Module.TesysType">TesysU device model connected to the TM3 module</Description>
+          </Parameter>
+        </HostParameterSet>
+        <DriverInfo needsBusCycle="false">
+          <RequiredLib identifier="TM3TesysU" libname="TM3TesysU" vendor="Schneider Electric" version="1.0.0.5">
+            <FBInstance basename="$(DeviceName)_FB" fbname="FB_TesysU">
+              <Initialize methodName="Initialize" />
+            </FBInstance>
+          </RequiredLib>
+        </DriverInfo>
+        <Custom>
+          <se:SchneiderEditor editorVersion="2.0.0.0">
+            <se:Appearance>
+              <se:TreeTableViewMainPanel ShowVariableModifiableByProgLegend="false" />
+            </se:Appearance>
+          </se:SchneiderEditor>
+        </Custom>
+        <Appearance>
+          <ShowEditor>IOMappingEditor</ShowEditor>
+          <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        </Appearance>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>TesysChannel2</ModuleId>
+      <DeviceInfo>
+        <Name name="local:dummy">Tesys Channel 2</Name>
+        <Description name="local:dummy" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+      </DeviceInfo>
+      <Connector connectorId="1" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel2" moduleType="51429" role="child" alwaysmapping="true">
+        <InterfaceName name="local:dummy" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <Parameter ParameterId="5" type="std:INT">
+            <Attributes channel="none" download="true" offlineaccess="none" onlineaccess="none" />
+            <Default>2</Default>
+            <Name name="local:dummy">ChannelId</Name>
+          </Parameter>
+          <Parameter ParameterId="1" type="localTypes:TM3XTYS4.TypeEnum">
+            <Attributes channel="none" offlineaccess="readwrite" onlineaccess="read" download="true" />
+            <Default>0</Default>
+            <Name name="local:dummy">TesysType</Name>
+            <Description name="localStrings:TM3XTYS4.Module.TesysType">TesysU device model connected to the TM3 module</Description>
+          </Parameter>
+        </HostParameterSet>
+        <DriverInfo needsBusCycle="false">
+          <RequiredLib identifier="TM3TesysU" libname="TM3TesysU" vendor="Schneider Electric" version="1.0.0.5">
+            <FBInstance basename="$(DeviceName)_FB" fbname="FB_TesysU">
+              <Initialize methodName="Initialize" />
+            </FBInstance>
+          </RequiredLib>
+        </DriverInfo>
+        <Custom>
+          <se:SchneiderEditor editorVersion="2.0.0.0">
+            <se:Appearance>
+              <se:TreeTableViewMainPanel ShowVariableModifiableByProgLegend="false" />
+            </se:Appearance>
+          </se:SchneiderEditor>
+        </Custom>
+        <Appearance>
+          <ShowEditor>IOMappingEditor</ShowEditor>
+          <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        </Appearance>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>TesysChannel3</ModuleId>
+      <DeviceInfo>
+        <Name name="local:dummy">Tesys Channel 3</Name>
+        <Description name="local:dummy" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+      </DeviceInfo>
+      <Connector connectorId="4" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel3" moduleType="51429" role="child" alwaysmapping="true">
+        <InterfaceName name="local:dummy" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <Parameter ParameterId="5" type="std:INT">
+            <Attributes channel="none" download="true" offlineaccess="none" onlineaccess="none" />
+            <Default>3</Default>
+            <Name name="local:dummy">ChannelId</Name>
+          </Parameter>
+          <Parameter ParameterId="1" type="localTypes:TM3XTYS4.TypeEnum">
+            <Attributes channel="none" offlineaccess="readwrite" onlineaccess="read" download="true" />
+            <Default>0</Default>
+            <Name name="local:dummy">TesysType</Name>
+            <Description name="localStrings:TM3XTYS4.Module.TesysType">TesysU device model connected to the TM3 module</Description>
+          </Parameter>
+        </HostParameterSet>
+        <DriverInfo needsBusCycle="false">
+          <RequiredLib identifier="TM3TesysU" libname="TM3TesysU" vendor="Schneider Electric" version="1.0.0.5">
+            <FBInstance basename="$(DeviceName)_FB" fbname="FB_TesysU">
+              <Initialize methodName="Initialize" />
+            </FBInstance>
+          </RequiredLib>
+        </DriverInfo>
+        <Custom>
+          <se:SchneiderEditor editorVersion="2.0.0.0">
+            <se:Appearance>
+              <se:TreeTableViewMainPanel ShowVariableModifiableByProgLegend="false" />
+            </se:Appearance>
+          </se:SchneiderEditor>
+        </Custom>
+        <Appearance>
+          <ShowEditor>IOMappingEditor</ShowEditor>
+          <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        </Appearance>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>TesysChannel4</ModuleId>
+      <DeviceInfo>
+        <Name name="local:dummy">Tesys Channel 4</Name>
+        <Description name="local:dummy" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+      </DeviceInfo>
+      <Connector connectorId="5" explicit="false" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTYS4_channel4" moduleType="51429" role="child" alwaysmapping="true">
+        <InterfaceName name="local:dummy" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <Parameter ParameterId="5" type="std:INT">
+            <Attributes channel="none" download="true" offlineaccess="none" onlineaccess="none" />
+            <Default>4</Default>
+            <Name name="local:dummy">ChannelId</Name>
+          </Parameter>
+          <Parameter ParameterId="1" type="localTypes:TM3XTYS4.TypeEnum">
+            <Attributes channel="none" offlineaccess="readwrite" onlineaccess="read" download="true" />
+            <Default>0</Default>
+            <Name name="local:dummy">TesysType</Name>
+            <Description name="localStrings:TM3XTYS4.Module.TesysType">TesysU device model connected to the TM3 module</Description>
+          </Parameter>
+        </HostParameterSet>
+        <DriverInfo needsBusCycle="false">
+          <RequiredLib identifier="TM3TesysU" libname="TM3TesysU" vendor="Schneider Electric" version="1.0.0.5">
+            <FBInstance basename="$(DeviceName)_FB" fbname="FB_TesysU">
+              <Initialize methodName="Initialize" />
+            </FBInstance>
+          </RequiredLib>
+        </DriverInfo>
+        <Custom>
+          <se:SchneiderEditor editorVersion="2.0.0.0">
+            <se:Appearance>
+              <se:TreeTableViewMainPanel ShowVariableModifiableByProgLegend="false" />
+            </se:Appearance>
+          </se:SchneiderEditor>
+        </Custom>
+        <Appearance>
+          <ShowEditor>IOMappingEditor</ShowEditor>
+          <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        </Appearance>
+      </Connector>
+    </Module>
+  </Modules>
+</DeviceDescription>

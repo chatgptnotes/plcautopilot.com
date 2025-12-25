@@ -1,0 +1,308 @@
+/**
+ * Brain Type Page Generator
+ * Displays the classified brain type and personalized recommendations
+ */
+
+const { COLORS, FONTS, LAYOUT, startNewSection, addPageFooter, drawRoundedRect } = require('./pdfStyles');
+
+/**
+ * Generate the brain type and recommendations page
+ */
+function generateBrainTypePage(doc, brainType) {
+  let yPos = startNewSection(doc, 'Brain Type Classification');
+
+  // Teal header section (matching reference PDF)
+  const headerHeight = 60;
+  doc.rect(LAYOUT.margin.left, yPos, LAYOUT.contentWidth, headerHeight)
+     .fillColor(COLORS.teal)
+     .fill();
+
+  doc.fontSize(FONTS.heading1)
+     .fillColor(COLORS.white)
+     .font(FONTS.bold)
+     .text('Your Brain Type Classification', LAYOUT.margin.left + 20, yPos + 18);
+
+  yPos += headerHeight + 30;
+
+  // Brain type badge
+  yPos = drawBrainTypeBadge(doc, brainType, LAYOUT.margin.left, yPos);
+
+  yPos += 30;
+
+  // Description in light blue info box
+  const descHeight = 70;
+  drawRoundedRect(doc, LAYOUT.margin.left, yPos, LAYOUT.contentWidth, descHeight, 8, COLORS.lightBlue);
+
+  doc.fontSize(FONTS.body)
+     .fillColor(COLORS.darkGray)
+     .font(FONTS.regular)
+     .text(brainType.description, LAYOUT.margin.left + 15, yPos + 15, {
+       width: LAYOUT.contentWidth - 30,
+       align: 'justify',
+       lineGap: 4
+     });
+
+  yPos += descHeight + 25;
+
+  // Key Characteristics in light blue container
+  const charStartY = yPos;
+
+  // Mini teal header for characteristics
+  const miniHeaderHeight = 35;
+  doc.rect(LAYOUT.margin.left, yPos, LAYOUT.contentWidth, miniHeaderHeight)
+     .fillColor(COLORS.teal)
+     .fill();
+
+  doc.fontSize(FONTS.heading3)
+     .fillColor(COLORS.white)
+     .font(FONTS.bold)
+     .text('Key Characteristics', LAYOUT.margin.left + 15, yPos + 10);
+
+  yPos += miniHeaderHeight;
+
+  // Characteristics list
+  const charListStartY = yPos;
+  yPos += 12;
+
+  brainType.characteristics.forEach(characteristic => {
+    doc.fontSize(FONTS.body)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text('•  ' + characteristic, LAYOUT.margin.left + 25, yPos, {
+         width: LAYOUT.contentWidth - 40,
+         lineGap: 3
+       });
+    yPos += 22;
+  });
+
+  yPos += 12;
+
+  // Light blue background for characteristics
+  const charBoxHeight = yPos - charListStartY;
+  doc.save();
+  doc.rect(LAYOUT.margin.left, charListStartY, LAYOUT.contentWidth, charBoxHeight)
+     .fillColor(COLORS.lightBlue)
+     .fill();
+  doc.restore();
+
+  // Re-draw characteristics on top
+  yPos = charListStartY + 12;
+  brainType.characteristics.forEach(characteristic => {
+    doc.fontSize(FONTS.body)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text('•  ' + characteristic, LAYOUT.margin.left + 25, yPos, {
+         width: LAYOUT.contentWidth - 40,
+         lineGap: 3
+       });
+    yPos += 22;
+  });
+
+  yPos += 25;
+
+  // Recommendations - with teal header and light blue box
+  const recStartY = yPos;
+
+  // Mini teal header for recommendations
+  const recHeaderHeight = 35;
+  doc.rect(LAYOUT.margin.left, yPos, LAYOUT.contentWidth, recHeaderHeight)
+     .fillColor(COLORS.teal)
+     .fill();
+
+  doc.fontSize(FONTS.heading2)
+     .fillColor(COLORS.white)
+     .font(FONTS.bold)
+     .text('Personalized Recommendations', LAYOUT.margin.left + 15, yPos + 8);
+
+  yPos += recHeaderHeight;
+
+  const recListStartY = yPos;
+  yPos += 15;
+
+  // Compact recommendations (top 3 from each category)
+  const recommendations = [
+    { title: 'Nootropics', items: brainType.recommendations.nootropics.slice(0, 3), icon: '🧪' },
+    { title: 'Supplements', items: brainType.recommendations.supplements.slice(0, 3), icon: '💊' },
+    { title: 'Practices', items: [...brainType.recommendations.breathing.slice(0, 2), ...brainType.recommendations.meditation.slice(0, 1)], icon: '🧘' }
+  ];
+
+  recommendations.forEach(section => {
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.primary)
+       .font(FONTS.bold)
+       .text(`${section.icon} ${section.title}:`, LAYOUT.margin.left + 20, yPos);
+
+    yPos += 18;
+
+    const itemText = section.items.join(', ');
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text(itemText, LAYOUT.margin.left + 35, yPos, {
+         width: LAYOUT.contentWidth - 50,
+         lineGap: 2
+       });
+
+    yPos += 28;
+  });
+
+  yPos += 10;
+
+  // Light blue background for recommendations
+  const recBoxHeight = yPos - recListStartY;
+  doc.save();
+  doc.rect(LAYOUT.margin.left, recListStartY, LAYOUT.contentWidth, recBoxHeight)
+     .fillColor(COLORS.lightBlue)
+     .fill();
+  doc.restore();
+
+  // Re-draw recommendations on top
+  yPos = recListStartY + 15;
+  recommendations.forEach(section => {
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.primary)
+       .font(FONTS.bold)
+       .text(`${section.icon} ${section.title}:`, LAYOUT.margin.left + 20, yPos);
+
+    yPos += 18;
+
+    const itemText = section.items.join(', ');
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text(itemText, LAYOUT.margin.left + 35, yPos, {
+         width: LAYOUT.contentWidth - 50,
+         lineGap: 2
+       });
+
+    yPos += 28;
+  });
+
+  // Disclaimer in subtle box
+  yPos += 20;
+
+  const disclaimerHeight = 45;
+  drawRoundedRect(doc, LAYOUT.margin.left, yPos, LAYOUT.contentWidth, disclaimerHeight, 8, COLORS.veryLightGray);
+
+  const disclaimer = 'These recommendations are for informational purposes only. Please consult qualified healthcare professionals before starting any new regimen.';
+
+  doc.fontSize(FONTS.tiny)
+     .fillColor(COLORS.gray)
+     .font(FONTS.italic)
+     .text(disclaimer, LAYOUT.margin.left + 15, yPos + 12, {
+       width: LAYOUT.contentWidth - 30,
+       align: 'justify',
+       lineGap: 2
+     });
+
+  // Footer
+  addPageFooter(doc);
+}
+
+/**
+ * Draw brain type badge
+ */
+function drawBrainTypeBadge(doc, brainType, x, yPos) {
+  const badgeWidth = LAYOUT.contentWidth;
+  const badgeHeight = 100;
+
+  // Background
+  const gradient = doc.linearGradient(x, yPos, x, yPos + badgeHeight);
+  gradient.stop(0, COLORS.primaryLight, 0.1);
+  gradient.stop(1, COLORS.white, 0.1);
+
+  drawRoundedRect(doc, x, yPos, badgeWidth, badgeHeight, 10, COLORS.primary, COLORS.primary);
+
+  doc.save();
+  doc.rect(x, yPos, badgeWidth, badgeHeight)
+     .fill(gradient);
+  doc.restore();
+
+  // Border
+  doc.save();
+  doc.roundedRect(x, yPos, badgeWidth, badgeHeight, 10)
+     .strokeColor(COLORS.primary)
+     .lineWidth(3)
+     .stroke();
+  doc.restore();
+
+  // Type number
+  const typeX = x + 30;
+  const typeY = yPos + 25;
+
+  doc.fontSize(48)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text(`Type ${brainType.type}`, typeX, typeY);
+
+  // Type name
+  const nameX = typeX + 120;
+  const nameY = typeY + 10;
+
+  doc.fontSize(FONTS.heading2)
+     .fillColor(COLORS.primaryDark)
+     .font(FONTS.bold)
+     .text(brainType.name, nameX, nameY, {
+       width: badgeWidth - 180
+     });
+
+  // Score
+  const scoreX = x + badgeWidth - 120;
+  const scoreY = yPos + 30;
+
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.gray)
+     .text('Overall Score', scoreX, scoreY, { align: 'center', width: 100 });
+
+  doc.fontSize(28)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text(`${brainType.overallScore}/${brainType.maxScore}`, scoreX, scoreY + 20, { align: 'center', width: 100 });
+
+  return yPos + badgeHeight;
+}
+
+/**
+ * Draw a recommendation section
+ */
+function drawRecommendationSection(doc, title, items, yPos, icon = '') {
+  // Section title
+  doc.fontSize(FONTS.heading3)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text(`${icon} ${title}`, LAYOUT.margin.left, yPos);
+
+  yPos += 25;
+
+  // Items as pills/tags
+  const itemsPerRow = 2;
+  const itemWidth = (LAYOUT.contentWidth - 20) / itemsPerRow;
+  const itemHeight = 35;
+  let currentX = LAYOUT.margin.left;
+  let currentY = yPos;
+
+  items.forEach((item, index) => {
+    if (index > 0 && index % itemsPerRow === 0) {
+      currentY += itemHeight + 10;
+      currentX = LAYOUT.margin.left;
+    }
+
+    // Draw pill background
+    drawRoundedRect(doc, currentX, currentY, itemWidth - 10, itemHeight, 5, COLORS.veryLightGray, COLORS.primary);
+
+    // Item text
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text(item, currentX + 15, currentY + 10, {
+         width: itemWidth - 30,
+         ellipsis: true
+       });
+
+    currentX += itemWidth;
+  });
+
+  return currentY + itemHeight + 10;
+}
+
+module.exports = { generateBrainTypePage };

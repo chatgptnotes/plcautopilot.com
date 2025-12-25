@@ -1,0 +1,77 @@
+[
+  {
+    "content": "Create ReportDetailView component - unified report viewing with responses",
+    "status": "completed",
+    "activeForm": "Creating ReportDetailView component"
+  },
+  {
+    "content": "Create report_comments database table migration",
+    "status": "completed",
+    "activeForm": "Creating report_comments table migration"
+  },
+  {
+    "content": "Update PatientDashboard to show reports with ReportDetailView",
+    "status": "completed",
+    "activeForm": "Updating PatientDashboard with report viewing"
+  },
+  {
+    "content": "Update ClinicDashboard/ReportViewer to show responses",
+    "status": "in_progress",
+    "activeForm": "Updating clinic report viewer with responses"
+  },
+  {
+    "content": "Create PatientReportUpload component",
+    "status": "completed",
+    "activeForm": "Creating PatientReportUpload component"
+  },
+  {
+    "content": "Integrate upload in PatientDashboard",
+    "status": "completed",
+    "activeForm": "Integrating upload in PatientDashboard"
+  },
+  {
+    "content": "Add report upload to clinic PatientManagement",
+    "status": "pending",
+    "activeForm": "Adding report upload to clinic PatientManagement"
+  },
+  {
+    "content": "Create ClinicReports tab component",
+    "status": "pending",
+    "activeForm": "Creating ClinicReports tab component"
+  },
+  {
+    "content": "Add text-based comment system to PatientReports",
+    "status": "pending",
+    "activeForm": "Adding comment system to PatientReports"
+  },
+  {
+    "content": "Create notifications database table migration",
+    "status": "completed",
+    "activeForm": "Creating notifications table migration"
+  },
+  {
+    "content": "Create notificationService for managing notifications",
+    "status": "completed",
+    "activeForm": "Creating notificationService"
+  },
+  {
+    "content": "Add notification triggers for report events",
+    "status": "pending",
+    "activeForm": "Adding notification triggers"
+  },
+  {
+    "content": "Update notification bell UI in DashboardLayout",
+    "status": "pending",
+    "activeForm": "Updating notification bell UI"
+  },
+  {
+    "content": "Add RLS policies for report viewing permissions",
+    "status": "pending",
+    "activeForm": "Adding RLS policies for reports"
+  },
+  {
+    "content": "Test complete workflow end-to-end",
+    "status": "pending",
+    "activeForm": "Testing complete workflow"
+  }
+]

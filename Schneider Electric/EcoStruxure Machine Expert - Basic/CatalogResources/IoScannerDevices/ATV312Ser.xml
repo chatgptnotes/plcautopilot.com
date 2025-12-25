@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- ATV320 -->
+<Device>
+    <DeviceTypeName>ATV312</DeviceTypeName>
+    <DeviceTypeId>37</DeviceTypeId>
+    <IoScannerType>IoScannerDrive</IoScannerType>
+    <VendorId>TELEMECANIQUE</VendorId>
+    <ProductCode>ATV31H*</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+
+    <InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>8501</Offset>
+            <Length>1</Length>
+            <InitializationValue>0</InitializationValue>
+            <Comment>Switch ATV in NST State</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+    
+    </InitRequests>
+
+    <Channels>
+        <Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Read of ETAD and RFRD register</Comment>
+            <ReadOffset>8603</ReadOffset>
+            <ReadLength>2</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Read of ETI register</Comment>
+            <ReadOffset>3206</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>
+		<Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Read of LFt register</Comment>
+            <ReadOffset>7121</ReadOffset>
+            <ReadLength>1</ReadLength>
+			<WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>       
+		<Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessWriteSingleRegister</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Write of CMD register</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>8501</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>       
+		<Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessWriteSingleRegister</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Write of LFRD register</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>8602</WriteOffset>
+            <WriteLength>1</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

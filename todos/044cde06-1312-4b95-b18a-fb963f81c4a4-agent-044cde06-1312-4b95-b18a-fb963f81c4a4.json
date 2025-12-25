@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Fix port 5000 conflict issue",
+    "status": "completed",
+    "activeForm": "Fixing port"
+  },
+  {
+    "content": "Remove PDF generation from qeegRoutes",
+    "status": "completed",
+    "activeForm": "Removing PDF generation"
+  },
+  {
+    "content": "Remove all static/default values from parser",
+    "status": "completed",
+    "activeForm": "Removing static data"
+  },
+  {
+    "content": "Test extraction with uploaded PDFs",
+    "status": "in_progress",
+    "activeForm": "Testing extraction"
+  },
+  {
+    "content": "Fix extraction patterns based on debug output",
+    "status": "pending",
+    "activeForm": "Fixing patterns"
+  },
+  {
+    "content": "Display calculation results in UI",
+    "status": "pending",
+    "activeForm": "Showing in UI"
+  }
+]

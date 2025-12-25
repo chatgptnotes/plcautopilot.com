@@ -1,0 +1,249 @@
+/**
+ * PDF Styles and Constants
+ * Shared styling configuration for the NeuroSense report
+ */
+
+const COLORS = {
+  // Primary brand colors (from reference PDF)
+  primary: '#4A90E2',      // NeuroSense Blue
+  primaryDark: '#2E5C8A',  // Dark Blue
+  primaryLight: '#5BA3F5', // Light Blue (gradient end)
+
+  // Secondary/Accent colors (from reference PDF)
+  teal: '#7DD3C0',         // Turquoise/Teal accent
+  tealLight: '#A8E6CF',    // Light teal
+  tealDark: '#4DB6AC',     // Darker teal for contrast
+
+  // Info box backgrounds
+  lightBlue: '#E3F2FD',    // Light blue for info boxes
+  veryLightBlue: '#F0F7FF', // Very light blue background
+
+  // Branding colors
+  navy: '#1A5490',         // Navy blue
+  turquoise: '#26C6DA',    // Bright turquoise
+
+  // Status/classification colors
+  orange: '#FF9800',
+  green: '#4CAF50',
+  red: '#F44336',
+  purple: '#9C27B0',
+
+  // Classification colors for scores
+  low: '#FF9800',      // Orange - Low
+  medium: '#4A90E2',   // Blue - Medium
+  high: '#4CAF50',     // Green - High
+
+  // Grayscale
+  black: '#000000',
+  darkGray: '#333333',
+  gray: '#666666',
+  mediumGray: '#999999',
+  lightGray: '#CCCCCC',
+  veryLightGray: '#F5F5F5',
+  white: '#FFFFFF',
+
+  // Brain wave gradient (for topography maps)
+  gradient: {
+    low: '#0000FF',     // Blue
+    mid: '#00FF00',     // Green
+    high: '#FF0000'     // Red
+  }
+};
+
+const FONTS = {
+  // Font sizes
+  title: 24,
+  heading1: 20,
+  heading2: 16,
+  heading3: 14,
+  body: 11,
+  small: 9,
+  tiny: 8,
+
+  // Font families (PDFKit built-in)
+  regular: 'Helvetica',
+  bold: 'Helvetica-Bold',
+  italic: 'Helvetica-Oblique',
+  boldItalic: 'Helvetica-BoldOblique'
+};
+
+const LAYOUT = {
+  // Page dimensions (A4)
+  pageWidth: 595.28,
+  pageHeight: 841.89,
+
+  // Margins
+  margin: {
+    top: 50,
+    bottom: 50,
+    left: 50,
+    right: 50
+  },
+
+  // Content area
+  contentWidth: 495.28, // pageWidth - left - right margins
+  contentHeight: 741.89, // pageHeight - top - bottom margins
+
+  // Spacing
+  lineHeight: 1.5,
+  paragraphSpacing: 12,
+  sectionSpacing: 24
+};
+
+// Brain wave frequency bands
+const BRAIN_WAVES = {
+  delta: {
+    name: 'Delta',
+    range: '1-3 Hz',
+    description: 'Deep sleep, restoration, healing',
+    color: COLORS.purple
+  },
+  theta: {
+    name: 'Theta',
+    range: '4-8 Hz',
+    description: 'Relaxation, creativity, meditation',
+    color: COLORS.primary
+  },
+  alpha: {
+    name: 'Alpha',
+    range: '8-12 Hz',
+    description: 'Calm, focused state, relaxed awareness',
+    color: COLORS.teal
+  },
+  smr: {
+    name: 'SMR',
+    range: '12-15 Hz',
+    description: 'Sensorimotor rhythm, focused relaxation',
+    color: COLORS.lightGreen
+  },
+  beta: {
+    name: 'Beta',
+    range: '15-30 Hz',
+    description: 'Active thinking, alertness, concentration',
+    color: COLORS.orange
+  },
+  hiBeta: {
+    name: 'High Beta',
+    range: '25-30 Hz',
+    description: 'High alertness, anxiety, stress',
+    color: COLORS.danger
+  }
+};
+
+// Symptom checklist (from sample PDF)
+const SYMPTOMS_CHECKLIST = [
+  'ADHD',
+  'Depression',
+  'Anxiety',
+  'OCD',
+  'Autism',
+  'Schizophrenia',
+  'Memory Issues',
+  'Insomnia',
+  'Epilepsy',
+  'Substance Use Disorder',
+  'Traumatic Brain Injury',
+  'Tinnitus',
+  'Dyslexia'
+];
+
+/**
+ * Helper function to draw a rounded rectangle
+ */
+function drawRoundedRect(doc, x, y, width, height, radius, fillColor, strokeColor = null) {
+  doc.save();
+
+  if (fillColor) {
+    doc.fillColor(fillColor);
+  }
+
+  if (strokeColor) {
+    doc.strokeColor(strokeColor);
+  }
+
+  doc.roundedRect(x, y, width, height, radius);
+
+  if (fillColor && strokeColor) {
+    doc.fillAndStroke();
+  } else if (fillColor) {
+    doc.fill();
+  } else if (strokeColor) {
+    doc.stroke();
+  }
+
+  doc.restore();
+}
+
+/**
+ * Helper function to draw a progress bar
+ */
+function drawProgressBar(doc, x, y, width, height, percentage, color) {
+  // Background
+  drawRoundedRect(doc, x, y, width, height, 3, COLORS.veryLightGray);
+
+  // Fill
+  const fillWidth = width * (percentage / 100);
+  if (fillWidth > 0) {
+    drawRoundedRect(doc, x, y, fillWidth, height, 3, color);
+  }
+}
+
+/**
+ * Helper function to add a page header
+ */
+function addPageHeader(doc, title) {
+  const currentPage = doc.bufferedPageRange();
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.gray)
+     .text('NeuroSense™ QEEG Intelligence Report', LAYOUT.margin.left, LAYOUT.margin.top - 30, {
+       width: LAYOUT.contentWidth,
+       align: 'left'
+     })
+     .text(`Page ${currentPage.start + 1}`, LAYOUT.margin.left, LAYOUT.margin.top - 30, {
+       width: LAYOUT.contentWidth,
+       align: 'right'
+     });
+}
+
+/**
+ * Helper function to add a page footer
+ */
+function addPageFooter(doc, text = '') {
+  doc.fontSize(FONTS.tiny)
+     .fillColor(COLORS.lightGray)
+     .text(
+       text || '© 2024 NeuroSense Intelligence. This report is for informational purposes only.',
+       LAYOUT.margin.left,
+       LAYOUT.pageHeight - LAYOUT.margin.bottom + 20,
+       {
+         width: LAYOUT.contentWidth,
+         align: 'center'
+       }
+     );
+}
+
+/**
+ * Helper function to start a new section
+ */
+function startNewSection(doc, title, addHeader = true) {
+  doc.addPage();
+
+  if (addHeader) {
+    addPageHeader(doc, title);
+  }
+
+  return LAYOUT.margin.top;
+}
+
+module.exports = {
+  COLORS,
+  FONTS,
+  LAYOUT,
+  BRAIN_WAVES,
+  SYMPTOMS_CHECKLIST,
+  drawRoundedRect,
+  drawProgressBar,
+  addPageHeader,
+  addPageFooter,
+  startNewSection
+};

@@ -1,0 +1,269 @@
+/**
+ * Brain Type Page Generator
+ * Displays the classified brain type and personalized recommendations
+ */
+
+const { COLORS, FONTS, LAYOUT, startNewSection, addPageFooter, drawRoundedRect } = require('./pdfStyles');
+
+/**
+ * Generate the brain type and recommendations page
+ */
+function generateBrainTypePage(doc, brainType) {
+  let yPos = startNewSection(doc, 'Brain Type Classification');
+
+  // Page title
+  doc.fontSize(FONTS.heading1)
+     .fillColor(COLORS.primaryDark)
+     .font(FONTS.bold)
+     .text('Your Brain Type', LAYOUT.margin.left, yPos);
+
+  yPos += 50;
+
+  // Brain type badge
+  yPos = drawBrainTypeBadge(doc, brainType, LAYOUT.margin.left, yPos);
+
+  yPos += 40;
+
+  // Description
+  doc.fontSize(FONTS.body)
+     .fillColor(COLORS.darkGray)
+     .font(FONTS.regular)
+     .text(brainType.description, LAYOUT.margin.left, yPos, {
+       width: LAYOUT.contentWidth,
+       align: 'justify',
+       lineGap: 4
+     });
+
+  yPos += 80;
+
+  // Key Characteristics
+  doc.fontSize(FONTS.heading3)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text('Key Characteristics', LAYOUT.margin.left, yPos);
+
+  yPos += 25;
+
+  brainType.characteristics.forEach(characteristic => {
+    doc.fontSize(FONTS.body)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text('•  ' + characteristic, LAYOUT.margin.left + 10, yPos, {
+         width: LAYOUT.contentWidth - 10,
+         lineGap: 3
+       });
+    yPos += 22;
+  });
+
+  yPos += 20;
+
+  // Strengths
+  doc.fontSize(FONTS.heading3)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text('Your Strengths', LAYOUT.margin.left, yPos);
+
+  yPos += 25;
+
+  brainType.strengths.forEach(strength => {
+    doc.fontSize(FONTS.body)
+       .fillColor(COLORS.success)
+       .font(FONTS.regular)
+       .text('✓  ' + strength, LAYOUT.margin.left + 10, yPos, {
+         width: LAYOUT.contentWidth - 10,
+         lineGap: 3
+       });
+    yPos += 22;
+  });
+
+  // Recommendations (new page)
+  yPos = startNewSection(doc, 'Personalized Recommendations');
+
+  doc.fontSize(FONTS.heading1)
+     .fillColor(COLORS.primaryDark)
+     .font(FONTS.bold)
+     .text('Personalized Recommendations', LAYOUT.margin.left, yPos);
+
+  yPos += 40;
+
+  const intro = 'Based on your brain type assessment, here are personalized recommendations to optimize your brain health and cognitive function. These suggestions are designed to support your unique brain patterns and promote overall wellness.';
+
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.darkGray)
+     .font(FONTS.regular)
+     .text(intro, LAYOUT.margin.left, yPos, {
+       width: LAYOUT.contentWidth,
+       align: 'justify',
+       lineGap: 3
+     });
+
+  yPos += 70;
+
+  // Nootropics
+  yPos = drawRecommendationSection(doc, 'Nootropic Suggestions', brainType.recommendations.nootropics, yPos, '🧪');
+
+  yPos += 30;
+
+  // Supplements
+  if (yPos > LAYOUT.pageHeight - 200) {
+    yPos = startNewSection(doc, 'Recommendations');
+  }
+
+  yPos = drawRecommendationSection(doc, 'Supplement Support', brainType.recommendations.supplements, yPos, '💊');
+
+  yPos += 30;
+
+  // Breathing exercises
+  if (yPos > LAYOUT.pageHeight - 200) {
+    yPos = startNewSection(doc, 'Recommendations');
+  }
+
+  yPos = drawRecommendationSection(doc, 'Breathing Exercises', brainType.recommendations.breathing, yPos, '🌬️');
+
+  yPos += 30;
+
+  // Meditation
+  if (yPos > LAYOUT.pageHeight - 200) {
+    yPos = startNewSection(doc, 'Recommendations');
+  }
+
+  yPos = drawRecommendationSection(doc, 'Meditation Practices', brainType.recommendations.meditation, yPos, '🧘');
+
+  yPos += 30;
+
+  // Physical exercises
+  if (yPos > LAYOUT.pageHeight - 200) {
+    yPos = startNewSection(doc, 'Recommendations');
+  }
+
+  yPos = drawRecommendationSection(doc, 'Physical Exercises', brainType.recommendations.exercises, yPos, '🏃');
+
+  // Disclaimer
+  yPos += 40;
+
+  if (yPos > LAYOUT.pageHeight - 150) {
+    yPos = startNewSection(doc, 'Recommendations');
+  }
+
+  const disclaimer = 'Important: These recommendations are for informational purposes only. Please consult with qualified healthcare professionals before starting any new supplement, nootropic, or exercise regimen. Individual responses may vary.';
+
+  doc.fontSize(FONTS.tiny)
+     .fillColor(COLORS.gray)
+     .font(FONTS.italic)
+     .text(disclaimer, LAYOUT.margin.left, yPos, {
+       width: LAYOUT.contentWidth,
+       align: 'justify',
+       lineGap: 3
+     });
+
+  // Footer
+  addPageFooter(doc);
+}
+
+/**
+ * Draw brain type badge
+ */
+function drawBrainTypeBadge(doc, brainType, x, yPos) {
+  const badgeWidth = LAYOUT.contentWidth;
+  const badgeHeight = 100;
+
+  // Background
+  const gradient = doc.linearGradient(x, yPos, x, yPos + badgeHeight);
+  gradient.stop(0, COLORS.primaryLight, 0.1);
+  gradient.stop(1, COLORS.white, 0.1);
+
+  drawRoundedRect(doc, x, yPos, badgeWidth, badgeHeight, 10, COLORS.primary, COLORS.primary);
+
+  doc.save();
+  doc.rect(x, yPos, badgeWidth, badgeHeight)
+     .fill(gradient);
+  doc.restore();
+
+  // Border
+  doc.save();
+  doc.roundedRect(x, yPos, badgeWidth, badgeHeight, 10)
+     .strokeColor(COLORS.primary)
+     .lineWidth(3)
+     .stroke();
+  doc.restore();
+
+  // Type number
+  const typeX = x + 30;
+  const typeY = yPos + 25;
+
+  doc.fontSize(48)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text(`Type ${brainType.type}`, typeX, typeY);
+
+  // Type name
+  const nameX = typeX + 120;
+  const nameY = typeY + 10;
+
+  doc.fontSize(FONTS.heading2)
+     .fillColor(COLORS.primaryDark)
+     .font(FONTS.bold)
+     .text(brainType.name, nameX, nameY, {
+       width: badgeWidth - 180
+     });
+
+  // Score
+  const scoreX = x + badgeWidth - 120;
+  const scoreY = yPos + 30;
+
+  doc.fontSize(FONTS.small)
+     .fillColor(COLORS.gray)
+     .text('Overall Score', scoreX, scoreY, { align: 'center', width: 100 });
+
+  doc.fontSize(28)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text(`${brainType.overallScore}/${brainType.maxScore}`, scoreX, scoreY + 20, { align: 'center', width: 100 });
+
+  return yPos + badgeHeight;
+}
+
+/**
+ * Draw a recommendation section
+ */
+function drawRecommendationSection(doc, title, items, yPos, icon = '') {
+  // Section title
+  doc.fontSize(FONTS.heading3)
+     .fillColor(COLORS.primary)
+     .font(FONTS.bold)
+     .text(`${icon} ${title}`, LAYOUT.margin.left, yPos);
+
+  yPos += 25;
+
+  // Items as pills/tags
+  const itemsPerRow = 2;
+  const itemWidth = (LAYOUT.contentWidth - 20) / itemsPerRow;
+  const itemHeight = 35;
+  let currentX = LAYOUT.margin.left;
+  let currentY = yPos;
+
+  items.forEach((item, index) => {
+    if (index > 0 && index % itemsPerRow === 0) {
+      currentY += itemHeight + 10;
+      currentX = LAYOUT.margin.left;
+    }
+
+    // Draw pill background
+    drawRoundedRect(doc, currentX, currentY, itemWidth - 10, itemHeight, 5, COLORS.veryLightGray, COLORS.primary);
+
+    // Item text
+    doc.fontSize(FONTS.small)
+       .fillColor(COLORS.darkGray)
+       .font(FONTS.regular)
+       .text(item, currentX + 15, currentY + 10, {
+         width: itemWidth - 30,
+         ellipsis: true
+       });
+
+    currentX += itemWidth;
+  });
+
+  return currentY + itemHeight + 10;
+}
+
+module.exports = { generateBrainTypePage };

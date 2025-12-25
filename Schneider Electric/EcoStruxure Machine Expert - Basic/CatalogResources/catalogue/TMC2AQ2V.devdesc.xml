@@ -1,0 +1,609 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TMC2AQ2V_OutputFailSafeEnum">
+      <Enum identifier="Type_Zero">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0</VisibleName>
+      </Enum>
+      <Enum identifier="Type_One">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">1</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TMC2AQ2V_OutputMainFallbackEnum">
+      <Enum identifier="Type_Maintain">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TMC2AQ2V.Maintain"></VisibleName>
+      </Enum>
+      <Enum identifier="Type_Fallback">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TMC2AQ2V.Fallback"></VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TMC2AQ2V_Fallback_Output_Conf">
+      <Component identifier="Output_mode_enum" type="localTypes:TMC2AQ2V_OutputMainFallbackEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Mode</VisibleName>
+        <Description name="localStrings:TMC2AQ2V.Output_Conf.Mode_description"></Description>
+      </Component>
+      <Component identifier="Output_value_enum" type="localTypes:TMC2AQ2V_OutputFailSafeEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">ForceValue</VisibleName>
+        <Description name="localStrings:TMC2AQ2V.Output_Conf.Force_description"></Description>
+        <Custom>
+          <se:ParameterEngine>
+            <se:IsEnabled>==||this.Output_mode_enum||Fallback Value</se:IsEnabled>
+          </se:ParameterEngine>
+        </Custom>
+      </Component>
+    </StructType>
+    <EnumType basetype="std:BYTE" name="TMC2AQ2V_TypeEnum">
+      <Enum identifier="Type_0_10V">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TMC2AQ2V.0_10v"></VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TMC2AQ2V_ScopeEnum">
+      <Enum identifier="Scope_Customized">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TMC2AQ2V.Customized">Cutomized</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TMC2AQ2V_Output_Conf">
+      <Component identifier="type_enum" type="localTypes:TMC2AQ2V_TypeEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TMC2AQ2V.Type_description"></Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TMC2AQ2V_ScopeEnum">
+        <Default>1</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TMC2AQ2V.Scope_description"></Description>
+      </Component>
+      <Component identifier="minValue" type="std:INT">
+        <Default>-32768</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TMC2AQ2V.Minimum_description"></Description>
+      </Component>
+      <Component identifier="maxValue" type="std:INT">
+        <Default>32767</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TMC2AQ2V.Maximum_description"></Description>
+      </Component>
+    </StructType>
+    <!--typedef struct{
+	RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+	RTS_UI8 IdCode1;
+	RTS_UI8 IdCode2;            // if NbIdCode = 2
+	RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+	RTS_UI8 ImplicitPageIndex;	 // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)									
+	RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+	RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+	RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+	RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+	RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+								// if 1 the status are included in the ImplicitRead
+								// if 0 an explicit read is done on user demand (see StatusAddr)
+	RTS_UI8 StatusPageIndex;	// 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+								//index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0	
+	RTS_UI8 StatusSize;	        // 0-127. Meaningful only for special module
+								// Size in bytes of the status 			
+	RTS_UI8 StatusAddr;	        // 0-127. Meaningful only for special module
+								// if StatusInImplicit == 1 : offset of the status in the implicit read buffer 		
+								// if StatusInImplicit == 0 : offset of the status in the module read memory mapping 	
+	RTS_UI8 ConfPageIndex;	     // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)	
+	RTS_UI8 ConfForSpecialModuleSize;
+	RTS_UI8 ConfForSpecialModuleAddr;
+	RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2 cartridge with 2 analog voltage outputs (0 - 10V), 12 bits.</String>
+      <String identifier="TMC2AQ2V.Maintain">Maintain</String>
+      <String identifier="TMC2AQ2V.Fallback">Fallback Value</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Fallback mode</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Force value</String>
+      <String identifier="TMC2AQ2V.Outputs">Outputs</String>
+      <String identifier="TMC2AQ2V.NotUsed">Not used</String>
+      <String identifier="TMC2AQ2V.0_10v">0 - 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Range mode</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unit</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Minimum value</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Maximum value</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="ModuleTypeKey">Analog</String>
+      <String identifier="FeaturesKey">2 voltage outputs</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+Cartouche TMC2 avec 2 sorties analogiques de tension (0 à 10 V), 12 bits.</String>
+      <String identifier="TMC2AQ2V.Maintain"></String>
+      <String identifier="TMC2AQ2V.Fallback"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Outputs">Sorties</String>
+      <String identifier="TMC2AQ2V.NotUsed">Inutilisé</String>
+      <String identifier="TMC2AQ2V.0_10v">0 à 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Mode de plage</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unité</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Valeur minimale</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Valeur maximale</String>
+      <String identifier="TerminalBlockKey">Vis/Ressort</String>
+      <String identifier="ModuleTypeKey">Analogique</String>
+      <String identifier="FeaturesKey">2 sorties de tension</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2-Steckmodul mit 2 analogen Spannungsausgängen (0 - 10 V), 12 Bits.</String>
+      <String identifier="TMC2AQ2V.Maintain"></String>
+      <String identifier="TMC2AQ2V.Fallback"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Outputs">Ausgänge</String>
+      <String identifier="TMC2AQ2V.NotUsed">Nicht verwendet</String>
+      <String identifier="TMC2AQ2V.0_10v">0-10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Bereichsmodus</String>
+      <String identifier="TMC2AQ2V.Scope_description">Einheit</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Minimalwert</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Maximalwert</String>
+      <String identifier="TerminalBlockKey"></String>
+      <String identifier="ModuleTypeKey">Analog</String>
+      <String identifier="FeaturesKey">2 Spannungsausgänge</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+Cartucho TMC2 con 2 salidas de tensión analógica (de 0 a 10 V), 12 bits.</String>
+      <String identifier="TMC2AQ2V.Maintain"></String>
+      <String identifier="TMC2AQ2V.Fallback"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Outputs">Salidas</String>
+      <String identifier="TMC2AQ2V.NotUsed">No utilizado</String>
+      <String identifier="TMC2AQ2V.0_10v">De 0 a 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Modalidad de rango</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unidad</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Valor mínimo</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Valor máximo</String>
+      <String identifier="TerminalBlockKey"></String>
+      <String identifier="ModuleTypeKey">Analógica</String>
+      <String identifier="FeaturesKey">2 salidas de tensión</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+Cartuccia TMC2 con 2 uscite analogiche di tensione (0 - 10V), 12 bit.</String>
+      <String identifier="TMC2AQ2V.Maintain"></String>
+      <String identifier="TMC2AQ2V.Fallback"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Outputs">Uscite</String>
+      <String identifier="TMC2AQ2V.NotUsed">Non usato</String>
+      <String identifier="TMC2AQ2V.0_10v">da 0 a 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normale</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Modalità intervallo</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unità</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Valore minimo</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Valore massimo</String>
+      <String identifier="TerminalBlockKey"></String>
+      <String identifier="ModuleTypeKey">Analogica</String>
+      <String identifier="FeaturesKey">2 uscite di tensione</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2 扩展板，带 2 路模拟量电压输出 (0 - 10V），12 位。</String>
+      <String identifier="TMC2AQ2V.Maintain"></String>
+      <String identifier="TMC2AQ2V.Fallback"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description"></String>
+      <String identifier="TMC2AQ2V.Outputs">输出</String>
+      <String identifier="TMC2AQ2V.NotUsed">未使用</String>
+      <String identifier="TMC2AQ2V.0_10v">0..10 V</String>
+      <String identifier="TMC2AQ2V.Normal">正常</String>
+      <String identifier="TMC2AQ2V.Customized">正常</String>
+      <String identifier="TMC2AQ2V.Type_description">范围模式</String>
+      <String identifier="TMC2AQ2V.Scope_description">单位</String>
+      <String identifier="TMC2AQ2V.Minimum_description">最小值</String>
+      <String identifier="TMC2AQ2V.Maximum_description">最大值</String>
+      <String identifier="TerminalBlockKey"></String>
+      <String identifier="ModuleTypeKey">模拟量</String>
+      <String identifier="FeaturesKey">2 路电压输出</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2 kartuş, 2 analog gerilim çıkışı (0 - 10 V), 12 bit.</String>
+      <String identifier="TMC2AQ2V.Maintain">Maintain</String>
+      <String identifier="TMC2AQ2V.Fallback">Fallback Value</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Fallback mode</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Force value</String>
+      <String identifier="TMC2AQ2V.Outputs">Outputs</String>
+      <String identifier="TMC2AQ2V.NotUsed">Not used</String>
+      <String identifier="TMC2AQ2V.0_10v">0 - 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Range mode</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unit</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Minimum value</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Maximum value</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="ModuleTypeKey">Analog</String>
+      <String identifier="FeaturesKey">2 gerilim çıkışı</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+Cartucho TMC2 com 2 saídas analógicas de tensão (0 - 10 V), 12 bits.</String>
+      <String identifier="TMC2AQ2V.Maintain">Maintain</String>
+      <String identifier="TMC2AQ2V.Fallback">Fallback Value</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Fallback mode</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Force value</String>
+      <String identifier="TMC2AQ2V.Outputs">Outputs</String>
+      <String identifier="TMC2AQ2V.NotUsed">Not used</String>
+      <String identifier="TMC2AQ2V.0_10v">0 - 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Range mode</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unit</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Minimum value</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Maximum value</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="ModuleTypeKey">Analógica</String>
+      <String identifier="FeaturesKey">2 saídas de tensão</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TMC2AQ2V.DeviceDescription">TMC2AQ2V
+TMC2 Rozšiřující karta se 2 analogovými napětí výstupy (0 - 10V), 12 bitů.</String>
+      <String identifier="TMC2AQ2V.Maintain">Maintain</String>
+      <String identifier="TMC2AQ2V.Fallback">Fallback Value</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Fallback mode</String>
+      <String identifier="TMC2AQ2V.Output_Conf.Type_description">Force value</String>
+      <String identifier="TMC2AQ2V.Outputs">Outputs</String>
+      <String identifier="TMC2AQ2V.NotUsed">Not used</String>
+      <String identifier="TMC2AQ2V.0_10v">0 - 10 V</String>
+      <String identifier="TMC2AQ2V.Normal">Normal</String>
+      <String identifier="TMC2AQ2V.Customized">Normal</String>
+      <String identifier="TMC2AQ2V.Type_description">Range mode</String>
+      <String identifier="TMC2AQ2V.Scope_description">Unit</String>
+      <String identifier="TMC2AQ2V.Minimum_description">Minimum value</String>
+      <String identifier="TMC2AQ2V.Maximum_description">Maximum value</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="ModuleTypeKey">Analog</String>
+      <String identifier="FeaturesKey">2 napětí výstupy</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TMC2AQ2V.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TMC2AQ2V.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="OutputsIcon">
+        <LocalFile>Icons/TMC2AQ2V.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TMC2AQ2V">
+        <LocalFile>Images/TMC2AQ2V.jpg</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>4096</Type>
+      <!--Schneider Id:"101a" - M2xx Id:"07xx"-->
+      <Id>101a 01</Id>
+      <Version>2.0.40.6</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TMC2AQ2V</Name>
+      <Description name="localStrings:TMC2AQ2V.DeviceDescription">TMC2AQ2V TMC2 cartridge with 2 analog voltage outputs (0 - 10V), 12 bits.
+      </Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TMC2AQ2V</OrderNumber>
+      <Image name="localFiles:TMC2AQ2V" />
+      <Icon name="localFiles:OutputsIcon" />
+      <DefaultInstanceName name="local:dummy">TMC2AQ2V</DefaultInstanceName>
+      <Family>4122:1400</Family>
+      <Category />
+      <AdditionalFiles />
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TMC2AQ2V" moduleType="51416" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">132</Element>
+            <Element name="IdCode2"></Element>
+            <Element name="TM2AnalogModuleType">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">1</Element>
+            <!-- 1 byte because 8 inputs  -->
+            <Element name="ImplicitReadAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitInOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitWriteSize">0</Element>
+            <!-- 0 byte because 0 outputs  -->
+            <Element name="ImplicitWriteAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitOutOffset">-1</Element>
+            <!-- not used for digital module  -->
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">0</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">0</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <!-- not used for digital module  -->
+            <Element name="InterByteDelayDC2">-1</Element>
+            <!-- not used for digital module  -->
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>60</Default>
+          <Name name="local:dummy">TM3 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM3 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>0</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:PowerConsumption voltage="5V">60</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+      <Fixed>
+        <Module basename="AO">
+          <LocalModuleId>ANA_OUT</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="AO2">
+          <LocalModuleId>ANA_OUT</LocalModuleId>
+        </Module>
+      </Fixed>
+    </Connector>
+    <Custom>
+      <se:Configuration>
+        <se:Compatibility>0</se:Compatibility>
+      </se:Configuration>
+      <se:FormatKey>FormatKey</se:FormatKey>
+      <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+      <se:ModuleTypeKey>ModuleTypeKey</se:ModuleTypeKey>
+      <se:FeaturesKey>FeaturesKey</se:FeaturesKey>
+
+      <se:AnlogOutputXPosition>15</se:AnlogOutputXPosition>
+      <se:AnlogOutputYPosition>110</se:AnlogOutputYPosition>
+      <se:AnlogOutputXSize>115</se:AnlogOutputXSize>
+      <se:AnlogOutputYSize>55</se:AnlogOutputYSize>
+    </Custom>
+  </Device>
+  <Modules>
+    <Module>
+      <ModuleId>ANA_OUT</ModuleId>
+      <DeviceInfo>
+        <Name name="local:ANA_OUT.DeviceInfo.Name">Analog Output</Name>
+        <Description name="local:ANA_OUT.DeviceInfo.Description"></Description>
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:ANA_OUT" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="51216" role="child" alwaysmapping="true">
+        <InterfaceName name="localStrings:TMC2AQ2V-.Expansion" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <ParameterSection>
+            <Name name="localStrings:TMC2AQ2V.Outputs">Outputs</Name>
+            <!--OutputS-->
+            <Parameter ParameterId="36864" type="std:INT">
+              <Attributes channel="output" alwaysmapping="true" />
+              <Default />
+              <Name name="local:dummy">QW0</Name>
+            </Parameter>
+            <Parameter ParameterId="36865" type="std:INT">
+              <Attributes channel="output" alwaysmapping="true" />
+              <Default />
+              <Name name="local:dummy">QW1</Name>
+            </Parameter>
+            <!--PARAMETERS-->
+            <Parameter ParameterId="36928" type="localTypes:TMC2AQ2V_Output_Conf">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="local:dummy">QW0</Name>
+            </Parameter>
+            <Parameter ParameterId="36929" type="localTypes:TMC2AQ2V_Output_Conf">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="local:dummy">QW1</Name>
+            </Parameter>
+          </ParameterSection>
+        </HostParameterSet>
+        <Custom>
+          <se:PowerConsumption voltage="5V">50</se:PowerConsumption>
+          <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+          <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{C604A274-B47C-4dff-9F26-7D593C883498}" />
+          <se:ConfigurationMapping>
+            <se:Module name="" default="true">
+              <se:Type name="Type_0_10V" default="true">
+                <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="0" initMax="10000" changeable="true" />
+              </se:Type>
+            </se:Module>
+          </se:ConfigurationMapping>
+          <se:ConfForSpecialModule>
+            <se:OperationModeSetting length="10" default="0" inputIndex="0" outputIndex="8" param1="Type_NotUsed" />
+            <se:DA0CH length="4" default="0" />
+            <se:InputLimit index="16" />
+            <se:OutputLimit index="48" />
+          </se:ConfForSpecialModule>
+        </Custom>
+        <Appearance>
+          <ShowEditor>IOMappingEditor</ShowEditor>
+          <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+          <ShowEditor>DeviceInformation</ShowEditor>
+        </Appearance>
+      </Connector>
+      <Custom>
+        <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+        <se:Configuration>
+          <!--<se:DigitalInputsMax>8</se:DigitalInputsMax>-->
+          <!--<se:DigitalOutputsMax>0</se:DigitalOutputsMax>-->
+          <!--<se:AnalogInputsMax>0</se:AnalogInputsMax>-->
+          <!--<se:AnalogOutputsMax>0</se:AnalogOutputsMax>-->
+          <se:ModuleType>0xF005</se:ModuleType>
+          <se:ModuleKind>1</se:ModuleKind>
+          <se:NewPartNumber></se:NewPartNumber>
+          <se:NumRelays>0</se:NumRelays>
+          <se:IsConfigurable>true</se:IsConfigurable>
+          <se:AnalogInputTypeMask>0</se:AnalogInputTypeMask>
+          <se:AnalogOutputTypeMask>0</se:AnalogOutputTypeMask>
+          <se:AnalogInputRangeMask></se:AnalogInputRangeMask>
+          <se:AnalogOutputRangeMask>0x3</se:AnalogOutputRangeMask>
+          <se:NumTransistors>0</se:NumTransistors>
+          <se:ModuleExtendedKind>2</se:ModuleExtendedKind>
+          <se:AnalogInputKindMask>0x0082</se:AnalogInputKindMask>
+          <se:HasCombo>true</se:HasCombo>
+          <se:HasUsedCol>true</se:HasUsedCol>
+          <se:MinMaxOfset>0</se:MinMaxOfset>
+          <se:Compatibility>3</se:Compatibility>
+          <!--<se:ModeEnumType>TMC2AQ2V_ModeEnum</se:ModeEnumType>-->
+        </se:Configuration>
+        <se:FormatKey>FormatKey</se:FormatKey>
+        <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+        <se:ModuleTypeKey>ModuleTypeKey</se:ModuleTypeKey>
+        <se:FeaturesKey>FeaturesKey</se:FeaturesKey>
+        <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+        <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+      </Custom>
+    </Module>
+  </Modules>
+</DeviceDescription>

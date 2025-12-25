@@ -1,0 +1,657 @@
+/**
+ * Wellness Algorithm Service
+ * Implements brain wellness scoring based on EEG frequency band analysis
+ * Based on the Wellness Algorithm Formula document
+ */
+
+/**
+ * Calculate Cognition Score
+ * Measures overall cognitive function using multiple EEG metrics
+ * @param {Object} eegData - EEG frequency band data with electrode locations
+ * @returns {Object} - Cognition score with sub-parameters
+ */
+export const calculateCognitionScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Focus Score (Theta/Beta Ratio) - Eyes Open, Absolute Power at Fz, Cz
+  const focusScore = calculateThetaBetaRatio(eyesOpen, ['Fz', 'Cz']);
+  const focusStatus = focusScore < 1.5 ? 'normal' : 'abnormal';
+
+  // 2. Alpha Peak - Eyes Closed, at Pz or below
+  const alphaPeak = findAlphaPeak(eyesClosed, ['Pz']);
+  const alphaPeakStatus = alphaPeak > 9 ? 'normal' : 'abnormal';
+
+  // 3. Alpha:Theta Balance - Eyes Closed, Absolute Power at Fz, Cz, Pz
+  const alphaTheta Balance = calculateAlphaThetaBalance(eyesClosed, ['Fz', 'Cz', 'Pz']);
+  const alphaThetat Status = alphaT
+
+hetaBalance.order === 'FZ>CZ>PZ' ? 'normal' : 'abnormal';
+
+  const overallScore = [focusStatus, alphaPeakStatus, alphaThetaStatus].filter(s => s === 'normal').length / 3 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 66 ? 'normal' : overallScore >= 33 ? 'borderline' : 'abnormal',
+    subParameters: {
+      focusScore: { value: focusScore, status: focusStatus, normal: '< 1.5' },
+      alphaPeak: { value: alphaPeak, status: alphaPeakStatus, normal: '> 9 Hz' },
+      alphaThetaBalance: { value: alphaThetaBalance, status: alphaThetaStatus, normal: 'FZ>CZ>PZ' }
+    }
+  };
+};
+
+/**
+ * Calculate Stress Score
+ * Measures stress levels and relaxation capacity
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Stress score with sub-parameters
+ */
+export const calculateStressScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Arousal Score (HighBeta/Beta Ratio) - Eyes Open at Fz, Cz
+  const arousalScore = calculateArousalScore(eyesOpen, ['Fz', 'Cz']);
+  const arousalStatus = arousalScore < 1 ? 'normal' : 'abnormal';
+
+  // 2. Relaxation Score (Alpha/Beta) - Eyes Closed at Pz
+  const relaxationScore = calculateRelaxationScore(eyesClosed, ['Pz']);
+  const relaxationStatus = relaxationScore > 10 ? 'healthy' : 'abnormal';
+
+  // 3. Regeneration & Repair (Alpha Modulation)
+  const regeneration = calculateAlphaModulation(eyesOpen, eyesClosed, ['Pz']);
+  const regenerationStatus = regeneration > 30 ? 'healthy' : 'abnormal';
+
+  const overallScore = [arousalStatus, relaxationStatus, regenerationStatus]
+    .filter(s => s === 'normal' || s === 'healthy').length / 3 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 66 ? 'normal' : overallScore >= 33 ? 'borderline' : 'abnormal',
+    subParameters: {
+      arousalScore: { value: arousalScore, status: arousalStatus, normal: '< 1' },
+      relaxationScore: { value: relaxationScore, status: relaxationStatus, normal: '> 10' },
+      regeneration: { value: regeneration, status: regenerationStatus, normal: '> 30%' }
+    }
+  };
+};
+
+/**
+ * Calculate Focus + Attention Score
+ * Measures attention and concentration ability
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Focus/Attention score
+ */
+export const calculateFocusAttentionScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Focus Score Theta - Eyes Open, Relative Power at Fz, Cz
+  const focusTheta = calculateThetaRelativePower(eyesOpen, ['Fz', 'Cz']);
+  const focusThetaStatus = focusTheta < 20 ? 'normal' : 'abnormal';
+
+  // 2. Alpha:Theta Balance - Eyes Closed
+  const alphaThetaBalance = calculateAlphaThetaBalance(eyesClosed, ['Fz', 'Cz', 'Pz']);
+  const alphaThetaStatus = alphaThetaBalance.order === 'FZ>CZ>PZ' ? 'normal' : 'abnormal';
+
+  const overallScore = [focusThetaStatus, alphaThetaStatus].filter(s => s === 'normal').length / 2 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 50 ? 'normal' : 'abnormal',
+    subParameters: {
+      focusTheta: { value: focusTheta, status: focusThetaStatus, normal: '< 20%' },
+      alphaThetaBalance: { value: alphaThetaBalance, status: alphaThetaStatus, normal: 'FZ>CZ>PZ' }
+    }
+  };
+};
+
+/**
+ * Calculate Focus Stimulus Control Score
+ * Measures ability to control attention and filter stimuli
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Stimulus control score
+ */
+export const calculateFocusStimulusControlScore = (eegData) => {
+  const { eyesOpen } = eegData;
+
+  // Theta Beta Ratio - Eyes Open, Absolute Power at Fz, Cz
+  const thetaBetaRatio = calculateThetaBetaRatio(eyesOpen, ['Fz', 'Cz']);
+  const status = thetaBetaRatio < 1.5 ? 'normal' : 'abnormal';
+
+  return {
+    score: status === 'normal' ? 100 : 0,
+    status,
+    subParameters: {
+      thetaBetaRatio: { value: thetaBetaRatio, status, normal: '< 1.5' }
+    }
+  };
+};
+
+/**
+ * Calculate Burnout & Fatigue Score
+ * Identifies mental exhaustion and fatigue patterns
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Burnout score
+ */
+export const calculateBurnoutFatigueScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Arousal Score - Eyes Open
+  const arousalScore = calculateArousalScore(eyesOpen, ['Fz', 'Cz']);
+  const arousalStatus = arousalScore < 1 ? 'normal' : 'abnormal';
+
+  // 2. Relaxation Score - Eyes Closed at Pz
+  const relaxationScore = calculateRelaxationScore(eyesClosed, ['Pz']);
+  const relaxationStatus = relaxationScore > 10 ? 'healthy' : 'abnormal';
+
+  // 3. Excessive Delta - Eyes Open, Relative Power at multiple locations
+  const excessiveDelta = calculateExcessiveDelta(eyesOpen, ['Fz', 'C3', 'Cz', 'C4', 'P3', 'Pz', 'P4']);
+  const deltaStatus = excessiveDelta < 70 ? 'normal' : 'abnormal';
+
+  const overallScore = [arousalStatus, relaxationStatus, deltaStatus]
+    .filter(s => s === 'normal' || s === 'healthy').length / 3 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 66 ? 'normal' : overallScore >= 33 ? 'borderline' : 'abnormal',
+    subParameters: {
+      arousalScore: { value: arousalScore, status: arousalStatus, normal: '< 1' },
+      relaxationScore: { value: relaxationScore, status: relaxationStatus, normal: '> 10' },
+      excessiveDelta: { value: excessiveDelta, status: deltaStatus, normal: '< 70%' }
+    }
+  };
+};
+
+/**
+ * Calculate Emotional Regulation Score
+ * Assesses emotional stability and regulation capacity
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Emotional regulation score
+ */
+export const calculateEmotionalRegulationScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Alpha Asymmetry Frontal - Eyes Closed
+  const alphaAsymmetry = calculateAlphaAsymmetry(eyesClosed, ['F3', 'F4']);
+  const asymmetryStatus = alphaAsymmetry < 1 ? 'normal' : 'abnormal';
+
+  // 2. Arousal Score - Eyes Open
+  const arousalScore = calculateArousalScore(eyesOpen, ['Fz', 'Cz']);
+  const arousalStatus = arousalScore < 1 ? 'normal' : 'abnormal';
+
+  // 3. Regeneration (Alpha Modulation)
+  const regeneration = calculateAlphaModulation(eyesOpen, eyesClosed, ['Pz']);
+  const regenerationStatus = regeneration > 30 ? 'healthy' : 'abnormal';
+
+  const overallScore = [asymmetryStatus, arousalStatus, regenerationStatus]
+    .filter(s => s === 'normal' || s === 'healthy').length / 3 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 66 ? 'normal' : overallScore >= 33 ? 'borderline' : 'abnormal',
+    subParameters: {
+      alphaAsymmetry: { value: alphaAsymmetry, status: asymmetryStatus, normal: '< 1' },
+      arousalScore: { value: arousalScore, status: arousalStatus, normal: '< 1' },
+      regeneration: { value: regeneration, status: regenerationStatus, normal: '> 30%' }
+    }
+  };
+};
+
+/**
+ * Calculate Learning Score (for patients under 18)
+ * Assesses learning capacity and cognitive development
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Learning score
+ */
+export const calculateLearningScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Peak Alpha - Eyes Closed
+  const alphaPeak = findAlphaPeak(eyesClosed, ['Pz']);
+  const alphaPeakStatus = alphaPeak > 9 ? 'normal' : 'abnormal';
+
+  // 2. Focus Theta:Beta Ratio - Eyes Open, Relative Power
+  const thetaBetaRatio = calculateThetaBetaRatio(eyesOpen, ['Fz', 'Cz'], true); // relative power
+  const ratioStatus = thetaBetaRatio < 1.5 ? 'normal' : 'abnormal';
+
+  // 3. Arousal Score - Eyes Open
+  const arousalScore = calculateArousalScore(eyesOpen, ['Fz', 'Cz']);
+  const arousalStatus = arousalScore < 1 ? 'normal' : 'abnormal';
+
+  const overallScore = [alphaPeakStatus, ratioStatus, arousalStatus].filter(s => s === 'normal').length / 3 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 66 ? 'normal' : overallScore >= 33 ? 'borderline' : 'abnormal',
+    subParameters: {
+      alphaPeak: { value: alphaPeak, status: alphaPeakStatus, normal: '> 9 Hz' },
+      thetaBetaRatio: { value: thetaBetaRatio, status: ratioStatus, normal: '< 1.5' },
+      arousalScore: { value: arousalScore, status: arousalStatus, normal: '< 1' }
+    }
+  };
+};
+
+/**
+ * Calculate Creativity Score
+ * Measures creative thinking and divergent thought capacity
+ * @param {Object} eegData - EEG frequency band data
+ * @returns {Object} - Creativity score
+ */
+export const calculateCreativityScore = (eegData) => {
+  const { eyesOpen, eyesClosed } = eegData;
+
+  // 1. Relaxation Score - Eyes Closed at Pz
+  const relaxationScore = calculateRelaxationScore(eyesClosed, ['Pz']);
+  const relaxationStatus = relaxationScore > 10 ? 'healthy' : 'abnormal';
+
+  // 2. Focus Theta Beta - Eyes Open, Relative Power
+  const thetaBetaRatio = calculateThetaBetaRatio(eyesOpen, ['Fz', 'Cz'], true); // relative power
+  const ratioStatus = thetaBetaRatio < 1.5 ? 'normal' : 'abnormal';
+
+  // 3. Peak Alpha - Eyes Closed
+  const alphaPeak = findAlphaPeak(eyesClosed, ['Pz']);
+  const alphaPeakStatus = alphaPeak > 9 ? 'normal' : 'abnormal';
+
+  const overallScore = [relaxationStatus, ratioStatus, alphaPeakStatus]
+    .filter(s => s === 'normal' || s === 'healthy').length / 3 * 100;
+
+  return {
+    score: Math.round(overallScore),
+    status: overallScore >= 66 ? 'normal' : overallScore >= 33 ? 'borderline' : 'abnormal',
+    subParameters: {
+      relaxationScore: { value: relaxationScore, status: relaxationStatus, normal: '> 10' },
+      thetaBetaRatio: { value: thetaBetaRatio, status: ratioStatus, normal: '< 1.5' },
+      alphaPeak: { value: alphaPeak, status: alphaPeakStatus, normal: '> 9 Hz' }
+    }
+  };
+};
+
+// ============ Helper Functions ============
+
+/**
+ * Calculate Theta/Beta Ratio
+ * @param {Object} eegData - EEG data for specific condition
+ * @param {Array} electrodes - Electrode locations to average
+ * @param {Boolean} relativePower - Use relative power instead of absolute
+ * @returns {Number} - Theta/Beta ratio
+ */
+const calculateThetaBetaRatio = (eegData, electrodes, relativePower = false) => {
+  const ratios = electrodes.map(electrode => {
+    const theta = relativePower ?
+      eegData[electrode]?.relativePower?.theta || 0 :
+      eegData[electrode]?.absolutePower?.theta || 0;
+    const beta = relativePower ?
+      eegData[electrode]?.relativePower?.beta || 0 :
+      eegData[electrode]?.absolutePower?.beta || 0;
+
+    return beta > 0 ? theta / beta : 0;
+  });
+
+  return ratios.reduce((sum, ratio) => sum + ratio, 0) / ratios.length;
+};
+
+/**
+ * Calculate Arousal Score (HighBeta/Beta Ratio)
+ * @param {Object} eegData - EEG data for Eyes Open condition
+ * @param {Array} electrodes - Electrode locations to average
+ * @returns {Number} - Arousal score
+ */
+const calculateArousalScore = (eegData, electrodes) => {
+  const ratios = electrodes.map(electrode => {
+    const highBeta = eegData[electrode]?.absolutePower?.highBeta || 0;
+    const beta = eegData[electrode]?.absolutePower?.beta || 0;
+
+    return beta > 0 ? highBeta / beta : 0;
+  });
+
+  return ratios.reduce((sum, ratio) => sum + ratio, 0) / ratios.length;
+};
+
+/**
+ * Calculate Relaxation Score (Alpha/Beta at Pz)
+ * @param {Object} eegData - EEG data for Eyes Closed condition
+ * @param {Array} electrodes - Electrode locations
+ * @returns {Number} - Relaxation score
+ */
+const calculateRelaxationScore = (eegData, electrodes) => {
+  const scores = electrodes.map(electrode => {
+    const alpha = eegData[electrode]?.absolutePower?.alpha || 0;
+    const beta = eegData[electrode]?.absolutePower?.beta || 0;
+
+    return beta > 0 ? alpha / beta : 0;
+  });
+
+  return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+};
+
+/**
+ * Calculate Alpha Modulation (Regeneration)
+ * Formula: ((EC-EO)/EC)*100
+ * @param {Object} eyesOpen - Eyes Open EEG data
+ * @param {Object} eyesClosed - Eyes Closed EEG data
+ * @param {Array} electrodes - Electrode locations
+ * @returns {Number} - Alpha modulation percentage
+ */
+const calculateAlphaModulation = (eyesOpen, eyesClosed, electrodes) => {
+  const modulations = electrodes.map(electrode => {
+    const alphaEC = eyesClosed[electrode]?.relativePower?.alpha || 0;
+    const alphaEO = eyesOpen[electrode]?.relativePower?.alpha || 0;
+
+    return alphaEC > 0 ? ((alphaEC - alphaEO) / alphaEC) * 100 : 0;
+  });
+
+  return modulations.reduce((sum, mod) => sum + mod, 0) / modulations.length;
+};
+
+/**
+ * Find Alpha Peak Frequency
+ * @param {Object} eegData - EEG data for Eyes Closed condition
+ * @param {Array} electrodes - Electrode locations
+ * @returns {Number} - Alpha peak frequency in Hz
+ */
+const findAlphaPeak = (eegData, electrodes) => {
+  const peaks = electrodes.map(electrode => {
+    return eegData[electrode]?.alphaPeak || 0;
+  });
+
+  return Math.max(...peaks);
+};
+
+/**
+ * Calculate Alpha:Theta Balance
+ * Checks if order is Fz > Cz > Pz
+ * @param {Object} eegData - EEG data
+ * @param {Array} electrodes - Electrode locations [Fz, Cz, Pz]
+ * @returns {Object} - Balance values and order
+ */
+const calculateAlphaThetaBalance = (eegData, electrodes) => {
+  const ratios = {};
+
+  electrodes.forEach(electrode => {
+    const alpha = eegData[electrode]?.absolutePower?.alpha || 0;
+    const theta = eegData[electrode]?.absolutePower?.theta || 0;
+    ratios[electrode] = theta > 0 ? alpha / theta : 0;
+  });
+
+  // Determine order
+  const sorted = Object.entries(ratios).sort((a, b) => b[1] - a[1]);
+  const order = sorted.map(([electrode]) => electrode).join('>');
+
+  return {
+    ratios,
+    order,
+    highest: sorted[0][0]
+  };
+};
+
+/**
+ * Calculate Theta Relative Power
+ * @param {Object} eegData - EEG data
+ * @param {Array} electrodes - Electrode locations
+ * @returns {Number} - Average theta relative power percentage
+ */
+const calculateThetaRelativePower = (eegData, electrodes) => {
+  const powers = electrodes.map(electrode => {
+    return eegData[electrode]?.relativePower?.theta || 0;
+  });
+
+  return powers.reduce((sum, power) => sum + power, 0) / powers.length;
+};
+
+/**
+ * Calculate Excessive Delta
+ * @param {Object} eegData - EEG data for Eyes Open
+ * @param {Array} electrodes - Multiple electrode locations
+ * @returns {Number} - Average delta relative power percentage
+ */
+const calculateExcessiveDelta = (eegData, electrodes) => {
+  const deltas = electrodes.map(electrode => {
+    return eegData[electrode]?.relativePower?.delta || 0;
+  });
+
+  return deltas.reduce((sum, delta) => sum + delta, 0) / deltas.length;
+};
+
+/**
+ * Calculate Alpha Asymmetry (Frontal)
+ * Formula: (AlphaF4 + AlphaF3) / (AlphaF4 - AlphaF3)
+ * Eyes Closed, Absolute Power
+ * @param {Object} eegData - EEG data for Eyes Closed
+ * @param {Array} electrodes - F3 and F4 electrodes
+ * @returns {Number} - Alpha asymmetry value (< 1 is normal)
+ */
+const calculateAlphaAsymmetry = (eegData, electrodes) => {
+  const alphaF3 = eegData['F3']?.absolutePower?.alpha || 0;
+  const alphaF4 = eegData['F4']?.absolutePower?.alpha || 0;
+
+  // Calculate denominator (AlphaF4 - AlphaF3)
+  const denominator = alphaF4 - alphaF3;
+
+  // Prevent division by zero
+  if (denominator === 0) return 0;
+
+  // Formula: (AlphaF4 + AlphaF3) / (AlphaF4 - AlphaF3)
+  return (alphaF4 + alphaF3) / denominator;
+};
+
+/**
+ * Calculate Overall Wellness Score
+ * Combines all parameter scores with appropriate weights
+ * @param {Object} eegData - Complete EEG data
+ * @param {Number} patientAge - Patient age (for learning score inclusion)
+ * @returns {Object} - Complete wellness assessment
+ */
+export const calculateOverallWellnessScore = (eegData, patientAge = null) => {
+  const cognition = calculateCognitionScore(eegData);
+  const stress = calculateStressScore(eegData);
+  const focusAttention = calculateFocusAttentionScore(eegData);
+  const focusStimulusControl = calculateFocusStimulusControlScore(eegData);
+  const burnoutFatigue = calculateBurnoutFatigueScore(eegData);
+  const emotionalRegulation = calculateEmotionalRegulationScore(eegData);
+  const creativity = calculateCreativityScore(eegData);
+
+  const scores = {
+    cognition,
+    stress,
+    focusAttention,
+    focusStimulusControl,
+    burnoutFatigue,
+    emotionalRegulation,
+    creativity
+  };
+
+  // Include learning score if patient is under 18
+  if (patientAge && patientAge < 18) {
+    scores.learning = calculateLearningScore(eegData);
+  }
+
+  // Calculate weighted overall score
+  const scoreValues = Object.values(scores).map(s => s.score);
+  const overallScore = scoreValues.reduce((sum, score) => sum + score, 0) / scoreValues.length;
+
+  return {
+    overallScore: Math.round(overallScore),
+    overallStatus: overallScore >= 70 ? 'excellent' : overallScore >= 50 ? 'good' : overallScore >= 30 ? 'fair' : 'poor',
+    scores,
+    timestamp: new Date().toISOString(),
+    summary: generateWellnessSummary(scores, overallScore)
+  };
+};
+
+/**
+ * Generate Wellness Summary
+ * Creates a text summary of wellness assessment results
+ * @param {Object} scores - All parameter scores
+ * @param {Number} overallScore - Overall wellness score
+ * @returns {String} - Text summary
+ */
+const generateWellnessSummary = (scores, overallScore) => {
+  const abnormalAreas = [];
+
+  Object.entries(scores).forEach(([parameter, data]) => {
+    if (data.status === 'abnormal' || data.status === 'poor') {
+      abnormalAreas.push(parameter);
+    }
+  });
+
+  if (abnormalAreas.length === 0) {
+    return 'Overall brain wellness is within normal parameters. All measured metrics show healthy patterns.';
+  }
+
+  return `Areas requiring attention: ${abnormalAreas.join(', ')}. Consider targeted interventions for these parameters.`;
+};
+
+/**
+ * Process EEG Data for Wellness Assessment
+ * Main entry point - integrates with existing EEG analysis pipeline
+ * @param {Object} eegAnalysisResult - Result from aiAnalysisService
+ * @param {Object} patientInfo - Patient information including age
+ * @returns {Object} - Complete wellness assessment
+ */
+export const processEEGForWellness = async (eegAnalysisResult, patientInfo = {}) => {
+  try {
+    // Transform EEG analysis result into format expected by wellness algorithm
+    const eegData = transformEEGData(eegAnalysisResult);
+
+    // Calculate wellness scores
+    const wellnessResults = calculateOverallWellnessScore(eegData, patientInfo.age);
+
+    return {
+      success: true,
+      wellnessResults,
+      patientInfo,
+      recommendations: generateRecommendations(wellnessResults)
+    };
+  } catch (error) {
+    console.error('Error processing EEG for wellness:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+/**
+ * Transform EEG Analysis Data
+ * Converts aiAnalysisService output to wellness algorithm input format
+ * @param {Object} analysisResult - Raw EEG analysis result
+ * @returns {Object} - Transformed data
+ */
+const transformEEGData = (analysisResult) => {
+  // Extract Eyes Open and Eyes Closed data
+  const eyesOpen = analysisResult.eyesOpen || {};
+  const eyesClosed = analysisResult.eyesClosed || {};
+
+  return {
+    eyesOpen,
+    eyesClosed
+  };
+};
+
+/**
+ * Generate Personalized Recommendations
+ * Based on wellness assessment results
+ * @param {Object} wellnessResults - Complete wellness assessment
+ * @returns {Array} - List of recommendations
+ */
+const generateRecommendations = (wellnessResults) => {
+  const recommendations = [];
+  const { scores } = wellnessResults;
+
+  // Cognition recommendations
+  if (scores.cognition.status !== 'normal') {
+    recommendations.push({
+      category: 'Cognition',
+      priority: 'high',
+      recommendations: [
+        'Consider cognitive training exercises',
+        'Implement regular breaks during mental work',
+        'Evaluate sleep quality and duration'
+      ]
+    });
+  }
+
+  // Stress recommendations
+  if (scores.stress.status !== 'normal') {
+    recommendations.push({
+      category: 'Stress Management',
+      priority: 'high',
+      recommendations: [
+        'Practice daily relaxation techniques',
+        'Consider mindfulness meditation',
+        'Implement stress-reduction strategies',
+        'Evaluate work-life balance'
+      ]
+    });
+  }
+
+  // Focus recommendations
+  if (scores.focusAttention.status !== 'normal' || scores.focusStimulusControl.status !== 'normal') {
+    recommendations.push({
+      category: 'Focus & Attention',
+      priority: 'medium',
+      recommendations: [
+        'Reduce environmental distractions',
+        'Practice focused attention exercises',
+        'Consider neurofeedback training',
+        'Optimize work environment'
+      ]
+    });
+  }
+
+  // Burnout recommendations
+  if (scores.burnoutFatigue.status === 'abnormal') {
+    recommendations.push({
+      category: 'Burnout & Fatigue',
+      priority: 'high',
+      recommendations: [
+        'Prioritize adequate rest and recovery',
+        'Evaluate workload and responsibilities',
+        'Consider professional counseling',
+        'Implement energy management strategies'
+      ]
+    });
+  }
+
+  // Emotional regulation recommendations
+  if (scores.emotionalRegulation.status !== 'normal') {
+    recommendations.push({
+      category: 'Emotional Regulation',
+      priority: 'medium',
+      recommendations: [
+        'Practice emotional awareness exercises',
+        'Consider cognitive behavioral techniques',
+        'Develop healthy coping strategies',
+        'Maintain regular social connections'
+      ]
+    });
+  }
+
+  // Creativity recommendations
+  if (scores.creativity.status !== 'normal') {
+    recommendations.push({
+      category: 'Creativity',
+      priority: 'low',
+      recommendations: [
+        'Engage in creative activities',
+        'Allow time for daydreaming and reflection',
+        'Reduce overstimulation',
+        'Practice divergent thinking exercises'
+      ]
+    });
+  }
+
+  return recommendations;
+};
+
+export default {
+  calculateCognitionScore,
+  calculateStressScore,
+  calculateFocusAttentionScore,
+  calculateFocusStimulusControlScore,
+  calculateBurnoutFatigueScore,
+  calculateEmotionalRegulationScore,
+  calculateLearningScore,
+  calculateCreativityScore,
+  calculateOverallWellnessScore,
+  processEEGForWellness
+};

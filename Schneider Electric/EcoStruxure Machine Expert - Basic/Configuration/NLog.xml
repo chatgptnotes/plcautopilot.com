@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nlog 
+  xmlns="http://www.nlog-project.org/schemas/NLog.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   autoReload="true"
+   throwExceptions="true"
+  >
+  <extensions>
+    <add assemblyFile="SchneiderElectric.SoMachineBasic.CommonHelper.dll" />
+  </extensions>
+  <variable name="logDirectoryAll" value="${specialfolder:CommonApplicationData}/Schneider Electric/EcoStruxure Machine Expert - Basic/logs/${shortdate}"/>
+  <variable name="logDirectoryError" value="${specialfolder:CommonApplicationData}/Schneider Electric/EcoStruxure Machine Expert - Basic/logs"/>
+  
+  <targets  async ="false">
+    <target name="f" 
+            xsi:type="File" 
+            fileName="${logDirectoryAll}/log_${processname}.txt"
+            layout="${longdate} [${processid}] [${slogger}]::[${callsiteext}] ${level} ${message}"
+            archiveEvery="Day"
+            archiveNumbering="Rolling"
+            maxArchiveFiles="7"
+            concurrentWrites="true"
+            keepFileOpen="true"
+            encoding="utf-8"
+            />
+    <target name="fe" 
+            xsi:type="File" 
+            fileName="${logDirectoryError}/logErrors${shortdate}_${processname}.txt"
+            layout="${longdate} [${processid}] [${slogger}]::[${callsiteext}] ${level} ${message}"
+            archiveEvery="Day"
+            archiveNumbering="Rolling"
+            maxArchiveFiles="100"
+            concurrentWrites="true"
+            keepFileOpen="false"
+            encoding="utf-8"            
+            />
+    <target name="fdll"
+    xsi:type="File"
+    fileName="${logDirectoryAll}/log_dll${shortdate}_${processname}.txt"
+    layout="${longdate} [${processid}] [${slogger}]::[${callsiteext}] ${level} ${message}"
+    archiveEvery="Day"
+    archiveNumbering="Rolling"
+    maxArchiveFiles="7"
+    concurrentWrites="true"
+    keepFileOpen="true"
+    encoding="utf-8"
+          />
+    <target name="fileBuffer"
+            xsi:type="BufferingWrapper"
+            slidingTimeout="true"
+            bufferSize="20"
+            flushTimeout="2000"
+            >
+      <target name="f2"
+            xsi:type="File"
+            fileName="${logDirectoryAll}/log_${processname}.txt"
+            layout="${longdate} [${processid}] [${slogger}]::[${callsiteext}] ${level} ${message}"
+            archiveEvery="Day"
+            archiveNumbering="Rolling"
+            maxArchiveFiles="7"
+            concurrentWrites="true"
+            keepFileOpen="true"
+            encoding="utf-8"
+            />
+    </target>
+    
+  </targets>
+
+  <targets>
+    <target name="c" xsi:type="ColoredConsole" layout="${longdate} [${processid}] [${slogger}]::[${callsiteext}] ${level} ${message}" />
+    <!--<target name="c" xsi:type="Console"  layout="${longdate} ${callsite} ${level} ${message}"/>-->
+    <target name="ds" xsi:type="OutputDebugString"/>
+  </targets>
+  <rules >
+    <logger name="SchneiderElectric.*" minlevel="Info" writeTo="c,ds,f" />
+    <logger name="SchneiderElectric.*" minlevel="Error" writeTo="fe" />
+
+    <logger name ="Application" minlevel ="Info" writeTo="f" />
+    <logger name ="Gateway" minlevel ="Info" writeTo="fileBuffer" />
+    <logger name ="DllChecker" minlevel ="Info" writeTo="fdll" />
+    
+  </rules>
+</nlog>

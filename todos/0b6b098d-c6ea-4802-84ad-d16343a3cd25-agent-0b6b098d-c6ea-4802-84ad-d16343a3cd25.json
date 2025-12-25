@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Add fileToGenerativePart helper function for Base64 conversion",
+    "status": "completed",
+    "activeForm": "Adding fileToGenerativePart helper function for Base64 conversion"
+  },
+  {
+    "content": "Refactor parsePDF to send raw PDF to Gemini (no text extraction)",
+    "status": "completed",
+    "activeForm": "Refactoring parsePDF to send raw PDF to Gemini"
+  },
+  {
+    "content": "Remove pdfjs-dist imports and legacy code",
+    "status": "completed",
+    "activeForm": "Removing pdfjs-dist imports and legacy code"
+  },
+  {
+    "content": "Test with actual qEEGPro PDFs",
+    "status": "pending",
+    "activeForm": "Testing with actual qEEGPro PDFs"
+  }
+]

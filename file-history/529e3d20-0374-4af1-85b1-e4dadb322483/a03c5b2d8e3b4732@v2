@@ -1,0 +1,125 @@
+-- ================================================
+-- UPDATE CLINICAL_REPORTS TABLE SCHEMA
+-- ================================================
+-- This script adds missing columns to store all Clinical Report Form data
+
+-- Drop the table and recreate with all needed columns
+DROP TABLE IF EXISTS clinical_reports CASCADE;
+
+CREATE TABLE clinical_reports (
+  -- Primary identifiers
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  patient_uid TEXT,
+  org_id UUID,
+  clinic_name TEXT,
+
+  -- Patient Information
+  full_name TEXT NOT NULL,
+  date_of_birth DATE,
+  gender TEXT CHECK (gender IN ('male', 'female', 'other')),
+  handedness TEXT,
+  occupation TEXT,
+  date_of_test DATE,
+  referring_physician TEXT,
+  referral_reason TEXT,
+
+  -- Clinical & Medical History (as JSONB for checkbox data)
+  presenting_complaints JSONB, -- {headaches: true, seizures: false, ...}
+  symptom_duration JSONB, -- {sudden: false, gradual: true, ...}
+  past_medical_history JSONB, -- {neurological: true, ...}
+
+  -- Medication History (as JSONB)
+  medications JSONB, -- {antidepressants: true, anxiolytics: false, ...}
+
+  -- Family History (as JSONB)
+  family_history JSONB, -- {epilepsy: false, dementia: true, ...}
+
+  -- Lifestyle Factors (as JSONB)
+  lifestyle JSONB, -- {sleepQuality: '6 hours', chronicStress: true, ...}
+
+  -- Uploaded Documents (as JSONB array)
+  uploaded_documents JSONB, -- [{fileName, fileUrl, fileType, uploadedAt}, ...]
+
+  -- Mental Status Examination (for future use)
+  appearance_behavior TEXT,
+  mood_affect TEXT,
+  thought_process_content TEXT,
+  cognitive_assessment TEXT,
+  insight_judgment TEXT,
+
+  -- EEG Findings (for future use)
+  eeg_frequency_bands JSONB,
+  eeg_connectivity JSONB,
+  eeg_asymmetry_patterns JSONB,
+  eeg_artifact_quality TEXT,
+
+  -- Neurosense Brain Health Parameters (for future use)
+  brain_parameters JSONB,
+
+  -- Clinical Interpretation (for future use)
+  primary_findings TEXT,
+  correlations_clinical_eeg TEXT,
+  differential_considerations TEXT,
+
+  -- Recommendations (for future use)
+  lifestyle_modifications TEXT,
+  cognitive_behavioral_strategies TEXT,
+  neurofeedback_protocol TEXT,
+  pharmacological_considerations TEXT,
+  referrals_followup TEXT,
+
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes
+CREATE INDEX idx_clinical_reports_patient_id ON clinical_reports(patient_id);
+CREATE INDEX idx_clinical_reports_org_id ON clinical_reports(org_id);
+CREATE INDEX idx_clinical_reports_patient_uid ON clinical_reports(patient_uid);
+CREATE INDEX idx_clinical_reports_created_at ON clinical_reports(created_at);
+
+-- Enable RLS
+ALTER TABLE clinical_reports ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+CREATE POLICY "Authenticated users can view clinical reports"
+  ON clinical_reports FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can insert clinical reports"
+  ON clinical_reports FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update clinical reports"
+  ON clinical_reports FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can delete clinical reports"
+  ON clinical_reports FOR DELETE
+  USING (auth.role() = 'authenticated');
+
+-- Create trigger function
+CREATE OR REPLACE FUNCTION update_clinical_reports_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create trigger
+CREATE TRIGGER clinical_reports_updated_at
+  BEFORE UPDATE ON clinical_reports
+  FOR EACH ROW
+  EXECUTE FUNCTION update_clinical_reports_updated_at();
+
+-- Add comment
+COMMENT ON TABLE clinical_reports IS 'Stores comprehensive clinical assessment reports with flexible JSONB fields for checkboxes and complex data';
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE 'clinical_reports table updated successfully with all required fields for Clinical Report Form!';
+END $$;

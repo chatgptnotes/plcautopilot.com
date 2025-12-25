@@ -1,0 +1,634 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TM2AMM3HT_OutputFailSafeEnum">
+      <Enum identifier="Type_Zero">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0</VisibleName>
+      </Enum>
+      <Enum identifier="Type_One">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">1</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM2AMM3HT_OutputMainFallbackEnum">
+      <Enum identifier="Type_Maintain">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM2AMM3HT.Maintain">Maintain</VisibleName>
+      </Enum>
+      <Enum identifier="Type_Fallback">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TM2AMM3HT.Fallback">Fallback Value</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TM2AMM3HT_Fallback_Output_Conf">
+      <Component identifier="Output_mode_enum" type="localTypes:TM2AMM3HT_OutputMainFallbackEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Mode</VisibleName>
+        <Description name="localStrings:TM2AMM3HT.Output_Conf.Mode_description">Fallback mode</Description>
+      </Component>
+      <Component identifier="Output_value_enum" type="localTypes:TM2AMM3HT_OutputFailSafeEnum">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">ForceValue</VisibleName>
+        <Description name="localStrings:TM2AMM3HT.Output_Conf.Force_description">Force value</Description>
+      </Component>
+    </StructType>
+    <EnumType basetype="std:BYTE" name="TM2AMM3HT_TypeEnum">
+      <Enum identifier="Type_NotUsed">
+        <Value>15</Value>
+        <VisibleName name="localStrings:TM2AMM3HT.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_10V">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0 - 10 V</VisibleName>
+      </Enum>
+      <Enum identifier="Type_4_20mA">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">4 - 20 mA</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM2AMM3HT_ScopeEnum">
+      <Enum identifier="Scope_Normal">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM2AMM3HT.Normal">Normal</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_Customized">
+        <Value>16</Value>
+        <VisibleName name="localStrings:TM2AMM3HT.Customized">Customized</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_NotUsed">
+        <Value>240</Value>
+        <VisibleName name="localStrings:TM2AMM3HT.NotUsed">Not used</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TM2AMM3HT_Input_Conf">
+      <Component identifier="type_enum" type="localTypes:TM2AMM3HT_TypeEnum">
+        <Default>15</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TM2AMM3HT.Type_description">Range mode</Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TM2AMM3HT_ScopeEnum">
+        <Default>240</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TM2AMM3HT.Scope_description">Unit  /Range</Description>
+      </Component>
+      <Component identifier="minValue" type="std:INT">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TM2AMM3HT.Minimum_description">Minimum value</Description>
+      </Component>
+      <Component identifier="maxValue" type="std:INT">
+        <Default>4095</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TM2AMM3HT.Maximum_description">Maximum value</Description>
+      </Component>
+    </StructType>
+    <!--typedef struct{
+	RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+	RTS_UI8 IdCode1;
+	RTS_UI8 IdCode2;            // if NbIdCode = 2
+	RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+	RTS_UI8 ImplicitPageIndex;	 // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+	RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+	RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitInOffset;    // Meaningful only for special module, 
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+	RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes 
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+	RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module 
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if 
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitOutOffset;   // Meaningful only for special module, 
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+	RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+								// if 1 the status are included in the ImplicitRead
+								// if 0 an explicit read is done on user demand (see StatusAddr)
+	RTS_UI8 StatusPageIndex;	// 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+								//index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+	RTS_UI8 StatusSize;	        // 0-127. Meaningful only for special module
+								// Size in bytes of the status 
+	RTS_UI8 StatusAddr;	        // 0-127. Meaningful only for special module
+								// if StatusInImplicit == 1 : offset of the status in the implicit read buffer 
+								// if StatusInImplicit == 0 : offset of the status in the module read memory mapping 
+	RTS_UI8 ConfPageIndex;	     // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+	RTS_UI8 ConfForSpecialModuleSize;
+	RTS_UI8 ConfForSpecialModuleAddr;
+	RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Expansion module with 2 analog inputs and 1 output (0 - 10V, 4 - 20mA), 12 bits, removable screw terminal.</String>
+      <String identifier="TM2AMM3HT.Maintain">Maintain</String>
+      <String identifier="TM2AMM3HT.Fallback">Fallback Value</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Fallback mode</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Force value</String>
+      <String identifier="TM2AMM3HT.Inputs">Inputs</String>
+      <String identifier="TM2AMM3HT.Outputs">Outputs</String>
+      <String identifier="TM2AMM3HT.NotUsed">Not used</String>
+      <String identifier="TM2AMM3HT.Normal">Normal</String>
+      <String identifier="TM2AMM3HT.Customized">Customized</String>
+      <String identifier="TM2AMM3HT.Type_description">Range mode</String>
+      <String identifier="TM2AMM3HT.Scope_description">Unit / Range</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Minimum value</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Maximum value</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V or 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V or 4..20 mA</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Module d&apos;extension avec 2 entrées analogiques et 1 sortie (0 à 10 V, 4 à 20 mA), 12 bits, bornier à vis débrochable.</String>
+      <String identifier="TM2AMM3HT.Maintain">Conserver</String>
+      <String identifier="TM2AMM3HT.Fallback">Valeur de repli</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Mode de repli</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Forcer la valeur</String>
+      <String identifier="TM2AMM3HT.Inputs">Entrées</String>
+      <String identifier="TM2AMM3HT.Outputs">Sorties</String>
+      <String identifier="TM2AMM3HT.NotUsed">Non utilisé</String>
+      <String identifier="TM2AMM3HT.Normal">Normal</String>
+      <String identifier="TM2AMM3HT.Customized">Personnalisé</String>
+      <String identifier="TM2AMM3HT.Type_description">Mode de plage</String>
+      <String identifier="TM2AMM3HT.Scope_description">Unité</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Valeur minimum</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Valeur maximum</String>
+      <String identifier="TerminalBlockKey">Vis/Ressort</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V ou 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V ou 4..20 mA</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Erweiterungsmodul mit 2 Analogeingängen und 1 Ausgang, (0-10 V, 4-20 mA), 12 Bit, abnehmbare Schraubklemmenleiste.</String>
+      <String identifier="TM2AMM3HT.Maintain">Beibehalten</String>
+      <String identifier="TM2AMM3HT.Fallback">Fehlerausweichwert</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Fehlerausweichmodus</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Wert forcieren</String>
+      <String identifier="TM2AMM3HT.Inputs">Eingänge</String>
+      <String identifier="TM2AMM3HT.Outputs">Ausgänge</String>
+      <String identifier="TM2AMM3HT.NotUsed">Nicht verwendet</String>
+      <String identifier="TM2AMM3HT.Normal">Standard</String>
+      <String identifier="TM2AMM3HT.Customized">Benutzerdefiniert</String>
+      <String identifier="TM2AMM3HT.Type_description">Bereichsmodus</String>
+      <String identifier="TM2AMM3HT.Scope_description">Einheit</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Minimalwert</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Maximalwert</String>
+      <String identifier="TerminalBlockKey">Schraub/Federzug</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V oder 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V oder 4..20 mA</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Módulo de ampliación de 2 entradas analógicas y 1 salida (0 - 10 V, 4 - 20 mA), 12 bits y terminal de tornillo extraíble.</String>
+      <String identifier="TM2AMM3HT.Maintain">Mantener</String>
+      <String identifier="TM2AMM3HT.Fallback">Valor de retorno</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Modalidad de retorno</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Valor de forzado</String>
+      <String identifier="TM2AMM3HT.Inputs">Entradas</String>
+      <String identifier="TM2AMM3HT.Outputs">Salidas</String>
+      <String identifier="TM2AMM3HT.NotUsed">No se utiliza</String>
+      <String identifier="TM2AMM3HT.Normal">Normal</String>
+      <String identifier="TM2AMM3HT.Customized">Personalizado</String>
+      <String identifier="TM2AMM3HT.Type_description">Modalidad de rango</String>
+      <String identifier="TM2AMM3HT.Scope_description">Unidad</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Valor mínimo</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Valor máximo</String>
+      <String identifier="TerminalBlockKey">Tornillo/resorte</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V o 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V o 4..20 mA</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Modulo di espansione con 2 ingressi analogici e 1 uscita (0 - 10V, 4 - 20mA), 12 bit, morsettiera a vite rimovibile.</String>
+      <String identifier="TM2AMM3HT.Maintain">Mantieni</String>
+      <String identifier="TM2AMM3HT.Fallback">Valore di fallback</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Modalità di fallback</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Forza valore</String>
+      <String identifier="TM2AMM3HT.Inputs">Ingressi</String>
+      <String identifier="TM2AMM3HT.Outputs">Uscite</String>
+      <String identifier="TM2AMM3HT.NotUsed">Non usato</String>
+      <String identifier="TM2AMM3HT.Normal">Normale</String>
+      <String identifier="TM2AMM3HT.Customized">Personalizzato</String>
+      <String identifier="TM2AMM3HT.Type_description">Modalità intervallo</String>
+      <String identifier="TM2AMM3HT.Scope_description">Unità</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Valore minimo</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Valore massimo</String>
+      <String identifier="TerminalBlockKey">Vite/Molla</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0-10 V o 4-20 mA</String>
+      <String identifier="OutputKey">1 x 0-10 V o 4-20 mA</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+扩展模块，2 路模拟量输入和 1 路输出（0 - 10V，4 - 20mA），12 位，可插拔螺钉端子。</String>
+      <String identifier="TM2AMM3HT.Maintain">维护</String>
+      <String identifier="TM2AMM3HT.Fallback">故障预置值</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">故障预置模式</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">强制值</String>
+      <String identifier="TM2AMM3HT.Inputs">输入</String>
+      <String identifier="TM2AMM3HT.Outputs">输出</String>
+      <String identifier="TM2AMM3HT.NotUsed">未使用</String>
+      <String identifier="TM2AMM3HT.Normal">正常</String>
+      <String identifier="TM2AMM3HT.Customized">自定义</String>
+      <String identifier="TM2AMM3HT.Type_description">范围模式</String>
+      <String identifier="TM2AMM3HT.Scope_description">单位</String>
+      <String identifier="TM2AMM3HT.Minimum_description">最小值</String>
+      <String identifier="TM2AMM3HT.Maximum_description">最大值</String>
+      <String identifier="TerminalBlockKey">螺钉/弹簧</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V 或 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V 或 4..20 mA</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Módulo de expansão com 2 entradas analógicas e 1 saída (0 - 10 V, 4 - 20 mA), 12 bits, terminal de parafuso removível.</String>
+      <String identifier="TM2AMM3HT.Maintain">Manter</String>
+      <String identifier="TM2AMM3HT.Fallback">Valor de reversão</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Modo de reversão</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Valor de força</String>
+      <String identifier="TM2AMM3HT.Inputs">Entradas</String>
+      <String identifier="TM2AMM3HT.Outputs">Saídas</String>
+      <String identifier="TM2AMM3HT.NotUsed">Não usado</String>
+      <String identifier="TM2AMM3HT.Normal">Normal</String>
+      <String identifier="TM2AMM3HT.Customized">Personalizado</String>
+      <String identifier="TM2AMM3HT.Type_description">Modo de intervalo</String>
+      <String identifier="TM2AMM3HT.Scope_description">Unidade</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Valor mínimo</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Valor máximo</String>
+      <String identifier="TerminalBlockKey">Parafuso/Mola</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V ou 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V ou 4..20 mA</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Genişletme modülü - 2 analog giriş ve 1 çıkış (0 - 10 V, 4 - 20 mA), 12 bit, çıkarılabilir vidalı terminal.</String>
+      <String identifier="TM2AMM3HT.Maintain">Koru</String>
+      <String identifier="TM2AMM3HT.Fallback">Geri Dönme Değeri</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Geri Dönme Modu</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Değeri zorla</String>
+      <String identifier="TM2AMM3HT.Inputs">Girişler</String>
+      <String identifier="TM2AMM3HT.Outputs">Çıkışlar</String>
+      <String identifier="TM2AMM3HT.NotUsed">Kullanılmıyor</String>
+      <String identifier="TM2AMM3HT.Normal">Normal</String>
+      <String identifier="TM2AMM3HT.Customized">Özelleştirildi</String>
+      <String identifier="TM2AMM3HT.Type_description">Aralık modu</String>
+      <String identifier="TM2AMM3HT.Scope_description">Birim</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Minimum değer</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Maksimum değer</String>
+      <String identifier="TerminalBlockKey">Vida/Yay</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10 V veya 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10 V veya 4..20 mA</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Rozšiřující modul se 2 analogovými vstupy a 1 výstupem (0 - 10V, 0 - 20mA), 12 bitů, odnímatelná šroubková svorkovnice.</String>
+      <String identifier="TM2AMM3HT.Maintain">Udržovat</String>
+      <String identifier="TM2AMM3HT.Fallback">Nouzový mód</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Mode_description">Nouzový mód</String>
+      <String identifier="TM2AMM3HT.Output_Conf.Force_description">Hodnota síly</String>
+      <String identifier="TM2AMM3HT.Inputs">Vstupy</String>
+      <String identifier="TM2AMM3HT.Outputs">Výstupy</String>
+      <String identifier="TM2AMM3HT.NotUsed">Nepoužíváno</String>
+      <String identifier="TM2AMM3HT.Normal">Normální</String>
+      <String identifier="TM2AMM3HT.Customized">Přizpůsobené</String>
+      <String identifier="TM2AMM3HT.Type_description">Režim rozsahu</String>
+      <String identifier="TM2AMM3HT.Scope_description">Jednotka / Rozsah</String>
+      <String identifier="TM2AMM3HT.Minimum_description">Minimální hodnota</String>
+      <String identifier="TM2AMM3HT.Maximum_description">Maximální hodnota</String>
+      <String identifier="TerminalBlockKey">Šroubek/pružina</String>
+      <String identifier="FormatKey"></String>
+      <String identifier="InputKey">2 x 0..10V nebo 4..20 mA</String>
+      <String identifier="OutputKey">1 x 0..10V nebo 4..20 mA</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM2AMM3HT.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM2AMM3HT.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsOutputsIcon">
+        <LocalFile>./Icons/TM2AMM3HT.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM2AMM3HT">
+        <LocalFile>./Images/TM2AMM3HT.png</LocalFile>
+      </File>
+      <File fileref="local" identifier="DeviceConvertRules">
+        <LocalFile>./ConvertRules_TM2AMM3HT.dcrx</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51220</Type>
+      <Id>101a 0170</Id>
+      <Version>3.1.2.14</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM2AMM3HT</Name>
+      <Description name="localStrings:TM2AMM3HT.DeviceDescription">TM2AMM3HT
+Expansion module with 2 analog inputs and 1 output (0 - 10V, 4 - 20mA), 12 bits, removable screw terminal.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM2AMM3HT</OrderNumber>
+      <Image name="localFiles:TM2AMM3HT" />
+      <Icon name="localFiles:InputsOutputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1023</Family>
+      <Category>1</Category>
+      <AdditionalFiles>
+        <File key="Common.File.DeviceConvertRules" name="localFiles:DeviceConvertRules">ConvertRules_TM2AMM3HT.dcrx</File>
+      </AdditionalFiles>
+      <Custom>
+        <Catalog name="Modules">
+          <Section name="IO Modules">
+            <Category name="Mixed IO">
+              <SubCategory name="TM2" />
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM2AMM3HT" moduleType="51220" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <ParameterSection>
+          <Name name="localStrings:TM2AMM3HT.Inputs">Inputs</Name>
+          <!--INPUTS-->
+          <Parameter ParameterId="37376" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="37377" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+          <!--PARAMETERS-->
+          <Parameter ParameterId="37440" type="localTypes:TM2AMM3HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="37441" type="localTypes:TM2AMM3HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+        </ParameterSection>
+        <ParameterSection>
+          <Name name="localStrings:TM2AMM3HT.Outputs">Outputs</Name>
+          <!--OUTPUTS-->
+          <Parameter ParameterId="37408" type="std:INT">
+            <Attributes channel="output" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">QW0</Name>
+          </Parameter>
+          <!--PARAMETERS-->
+          <Parameter ParameterId="37442" type="localTypes:TM2AMM3HT_Input_Conf">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">QW0</Name>
+          </Parameter>
+          <Parameter ParameterId="37443" type="localTypes:TM2AMM3HT_Fallback_Output_Conf">
+            <Attributes channel="none" download="false" />
+            <Default />
+            <Name name="local:dummy">QW0</Name>
+            <Custom>
+              <se:ParameterFilter value="FallBack" />
+            </Custom>
+          </Parameter>
+        </ParameterSection>
+        <!--InterByteDelay Parameter-->
+        <Parameter ParameterId="37631" type="std:BYTE">
+          <Attributes channel="none" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">Delay</Name>
+        </Parameter>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">96</Element>
+            <Element name="IdCode2"></Element>
+            <Element name="TM2AnalogModuleType">1</Element>
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">7</Element>
+            <!-- including status because StatusInImplicit is 1  -->
+            <Element name="ImplicitReadAddr">0</Element>
+            <!-- including status because StatusInImplicit is 1  -->
+            <Element name="ImplicitInOffset">3</Element>
+            <Element name="ImplicitWriteSize">7</Element>
+            <!-- LLA: only 2 needed but put 7 to do a full duplex => cycle time becomes 1ms instead of 1,5 ms -->
+            <Element name="ImplicitWriteAddr">0</Element>
+            <Element name="ImplicitOutOffset">3</Element>
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">1</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">3</Element>
+            <Element name="StatusAddr">0</Element>
+            <Element name="ConfPageIndex">0</Element>
+            <Element name="ConfForSpecialModuleSize">17</Element>
+            <Element name="ConfForSpecialModuleAddr">0</Element>
+            <Element name="InterByteDelayDC2">55</Element>
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+        </Parameter>
+        <Parameter ParameterId="200000" type="std:ARRAY[0..16] OF BYTE">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>[255, 255, 255, 0, 0, 0, 0, 255, 15, 0, 0, 255, 15, 0, 0, 255, 15]</Default>
+          <Name name="local:dummy">KPI Configuration</Name>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">TM2 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM2 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>0</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:SchneiderEditor editorVersion="1.0.0.0" ModelGUID="{16E24B25-30F9-44ff-AFDB-167679C7246D}" />
+        <se:PowerConsumption voltage="5V">50</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+        <se:Mechanical size="width">23.5</se:Mechanical>
+        <se:ConfigurationMapping>
+          <se:Module name="" default="true">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_0_10V">
+              <se:Scope name="Scope_Normal" default="true" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+            </se:Type>
+            <se:Type name="Type_4_20mA">
+              <se:Scope name="Scope_Normal" default="true" minimum="0" maximum="4095" changeable="false" />
+              <se:Scope name="Scope_Customized" minimum="-32768" maximum="32767" changeable="true" />
+            </se:Type>
+          </se:Module>
+        </se:ConfigurationMapping>
+        <se:ConfForSpecialModule>
+          <se:OperationModeSetting length="3" default="255" inputIndex="0" outputIndex="2" param1="Type_NotUsed" />
+          <se:DA0CH length="2" default="0" />
+          <se:InputLimit index="5" />
+          <se:OutputLimit index="13" />
+        </se:ConfForSpecialModule>
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <Custom>
+      <se:BusManager InputChannelsCount="2" OutputChannelsCount="1" RelaysCount="0" />
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <!--<se:DigitalInputsMax>8</se:DigitalInputsMax>-->
+        <!--<se:DigitalOutputsMax>0</se:DigitalOutputsMax>-->
+        <!--<se:AnalogInputsMax>0</se:AnalogInputsMax>-->
+        <!--<se:AnalogOutputsMax>0</se:AnalogOutputsMax>-->
+        <se:ModuleType>0x0160</se:ModuleType>
+        <se:GenericReference>TM2AMM3HT</se:GenericReference>
+        <se:ModuleKind>1</se:ModuleKind>
+        <se:NewPartNumber></se:NewPartNumber>
+        <se:NumRelays>0</se:NumRelays>
+        <se:IsConfigurable>true</se:IsConfigurable>
+        <se:AnalogInputTypeMask>0x0007</se:AnalogInputTypeMask>
+        <se:AnalogOutputTypeMask>0x0007</se:AnalogOutputTypeMask>
+        <se:AnalogInputRangeMask>0x0003</se:AnalogInputRangeMask>
+        <se:AnalogOutputRangeMask>0x0003</se:AnalogOutputRangeMask>
+        <se:NumTransistors>0</se:NumTransistors>
+        <se:ModuleExtendedKind>0</se:ModuleExtendedKind>
+        <se:AnalogInputKindMask>0x0000</se:AnalogInputKindMask>
+        <se:HasCombo>false</se:HasCombo>
+        <se:HasUsedCol>false</se:HasUsedCol>
+        <se:MinMaxOfset>0</se:MinMaxOfset>
+        <se:Compatibility>0</se:Compatibility>
+      </se:Configuration>
+      <se:FormatKey>FormatKey</se:FormatKey>
+      <se:TerminalBlockKey>TerminalBlockKey</se:TerminalBlockKey>
+      <se:InputKey>InputKey</se:InputKey>
+      <se:OutputKey>OutputKey</se:OutputKey>
+      <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+
+      <se:AnlogInputXPosition>10</se:AnlogInputXPosition>
+      <se:AnlogInputYPosition>285</se:AnlogInputYPosition>
+      <se:AnlogInputXSize>55</se:AnlogInputXSize>
+      <se:AnlogInputYSize>100</se:AnlogInputYSize>
+
+      <se:AnlogOutputXPosition>10</se:AnlogOutputXPosition>
+      <se:AnlogOutputYPosition>195</se:AnlogOutputYPosition>
+      <se:AnlogOutputXSize>55</se:AnlogOutputXSize>
+      <se:AnlogOutputYSize>90</se:AnlogOutputYSize>
+    </Custom>
+  </Device>
+</DeviceDescription>

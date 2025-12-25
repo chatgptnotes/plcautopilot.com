@@ -1,0 +1,1804 @@
+[DEBUG] Using bash path: "C:\Program Files\Git\bin\bash.exe"
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] Total LSP servers loaded: 0
+[DEBUG] LSP manager initialized with 0 servers
+[DEBUG] LSP server manager initialized successfully
+[DEBUG] Loading skills from directories: managed=C:\ProgramData\ClaudeCode\.claude\skills, user=C:\Users\Hp\.claude\skills, project=D:\Neuro360\.claude\skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] Creating shell snapshot for bash (C:\Program Files\Git\bin\bash.exe)
+[DEBUG] Looking for shell config file: C:\Users\Hp\.bashrc
+[DEBUG] Shell config file not found: C:\Users\Hp\.bashrc, creating snapshot with Claude Code defaults only
+[DEBUG] Snapshots directory: C:\Users\Hp\.claude\shell-snapshots
+[DEBUG] Creating snapshot at: C:\Users\Hp\.claude\shell-snapshots\snapshot-bash-1762323724028-sxggf0.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762323724070
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762323724070 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Ripgrep first use test: PASSED (mode=builtin, path=C:\Users\Hp\AppData\Roaming\npm\node_modules\@anthropic-ai\claude-code\vendor\ripgrep\x64-win32\rg.exe)
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323724576
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323724576 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323724649
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323724649 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323724666
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323724666 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323724682
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323724682 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Shell snapshot created successfully (339 bytes)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323724897
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323724897 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323725641
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323725641 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for SessionStart with query: startup
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "startup" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323725791
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38524 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323725791 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323725806
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38524 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323725806 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323725824
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38524 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323725824 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] performStartupChecks called
+[DEBUG] Starting background plugin installations
+[DEBUG] performBackgroundPluginInstallations called
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323725916
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323725916 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Setting installation status: 0 marketplaces, 0 installable plugins, 0 uninstallable plugins
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323727196
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38629 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323727196 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Added snapshot for de0539f4-68d9-4a85-be01-7b0bf010c7b3, tracking 0 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Task
+[DEBUG] Getting matching hook commands for PreToolUse with query: Task
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Task" (0 before deduplication)
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Applying permission update: Setting mode to 'acceptEdits'
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] rg error (signal=null, code=2, stderr: rg: D:\Neuro360\nul: Incorrect function. (os error 1)
+), 145 results
+[DEBUG] rg error (signal=null, code=2, stderr: rg: D:\Neuro360\nul: Incorrect function. (os error 1)
+), 94 results
+[DEBUG] rg error (signal=null, code=2, stderr: rg: D:\Neuro360\nul: Incorrect function. (os error 1)
+), 75 results
+[DEBUG] rg error (signal=null, code=2, stderr: rg: D:\Neuro360\nul: Incorrect function. (os error 1)
+), 27 results
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Task
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Task" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323964845
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323964845 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762323964911
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762323964911 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 7fdf6a00-3938-4130-a7e0-2ec29030cf8c
+[DEBUG] FileHistory: Added snapshot for 7fdf6a00-3938-4130-a7e0-2ec29030cf8c, tracking 0 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/Pictures/Saved Pictures/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326328066
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 628 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326328066 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\src\components\clinic\UploadReportModal.jsx
+[DEBUG] Writing to temp file: D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326335895
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 19698 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326335895 to D:\Neuro360\src\components\clinic\UploadReportModal.jsx
+[DEBUG] File D:\Neuro360\src\components\clinic\UploadReportModal.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326341573
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 630 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326341573 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326348853
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 19705 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326348853 to D:\Neuro360\src\components\clinic\UploadReportModal.jsx
+[DEBUG] File D:\Neuro360\src\components\clinic\UploadReportModal.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326353827
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 632 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326353827 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326361734
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 19660 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326361734 to D:\Neuro360\src\components\clinic\UploadReportModal.jsx
+[DEBUG] File D:\Neuro360\src\components\clinic\UploadReportModal.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326368048
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 634 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326368048 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326380475
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 20179 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326380475 to D:\Neuro360\src\components\clinic\UploadReportModal.jsx
+[DEBUG] File D:\Neuro360\src\components\clinic\UploadReportModal.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326411661
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 17784 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\components\clinic\UploadReportModal.jsx.tmp.20072.1762326411661 to D:\Neuro360\src\components\clinic\UploadReportModal.jsx
+[DEBUG] File D:\Neuro360\src\components\clinic\UploadReportModal.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326423741
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 802 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326423741 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\src\services\storageService.js
+[DEBUG] Writing to temp file: D:\Neuro360\src\services\storageService.js.tmp.20072.1762326457181
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 9089 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\services\storageService.js.tmp.20072.1762326457181 to D:\Neuro360\src\services\storageService.js
+[DEBUG] File D:\Neuro360\src\services\storageService.js written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326475413
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326475413 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762326497300
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762326497300 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762326497347
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762326497347 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message e40ad713-4d80-45e2-b22b-247d3ce84e77
+[DEBUG] FileHistory: Added snapshot for e40ad713-4d80-45e2-b22b-247d3ce84e77, tracking 2 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326571320
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 456 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326571320 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: WebSearch
+[DEBUG] Getting matching hook commands for PreToolUse with query: WebSearch
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "WebSearch" (0 before deduplication)
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for PostToolUse with query: WebSearch
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "WebSearch" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326622027
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 460 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326622027 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\docs\SAMPLE_EEG_FILES_GUIDE.md
+[DEBUG] rg error (signal=undefined, code=ABORT_ERR, stderr: rg: D:\Neuro360\nul: Incorrect function. (os error 1)
+), 279 results
+[ERROR] AbortError: AbortError: The operation was aborted
+    at abortChildProcess (node:child_process:759:27)
+    at AbortSignal.onAbortListener (node:child_process:829:7)
+    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:845:20)
+    at AbortSignal.dispatchEvent (node:internal/event_target:778:26)
+    at runAbort (node:internal/abort_controller:488:10)
+    at abortSignal (node:internal/abort_controller:459:3)
+    at AbortController.abort (node:internal/abort_controller:507:5)
+    at Timeout._onTimeout (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3629:2042)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+[DEBUG] Writing to temp file: D:\Neuro360\docs\SAMPLE_EEG_FILES_GUIDE.md.tmp.20072.1762326677285
+[DEBUG] Temp file written successfully, size: 9030 bytes
+[DEBUG] Renaming D:\Neuro360\docs\SAMPLE_EEG_FILES_GUIDE.md.tmp.20072.1762326677285 to D:\Neuro360\docs\SAMPLE_EEG_FILES_GUIDE.md
+[DEBUG] File D:\Neuro360\docs\SAMPLE_EEG_FILES_GUIDE.md written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\download-sample-eeg-files.bat
+[DEBUG] Writing to temp file: D:\Neuro360\download-sample-eeg-files.bat.tmp.20072.1762326695130
+[DEBUG] Temp file written successfully, size: 2988 bytes
+[DEBUG] Renaming D:\Neuro360\download-sample-eeg-files.bat.tmp.20072.1762326695130 to D:\Neuro360\download-sample-eeg-files.bat
+[DEBUG] File D:\Neuro360\download-sample-eeg-files.bat written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\download-sample-eeg-files.sh
+[DEBUG] Writing to temp file: D:\Neuro360\download-sample-eeg-files.sh.tmp.20072.1762326709664
+[DEBUG] Temp file written successfully, size: 3396 bytes
+[DEBUG] Renaming D:\Neuro360\download-sample-eeg-files.sh.tmp.20072.1762326709664 to D:\Neuro360\download-sample-eeg-files.sh
+[DEBUG] File D:\Neuro360\download-sample-eeg-files.sh written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326716335
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762326716335 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: batch
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762326737598
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762326737598 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762326737645
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762326737645 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 1dbe8062-ac38-4300-b7e4-2ea87177e7f9
+[DEBUG] FileHistory: Added snapshot for 1dbe8062-ac38-4300-b7e4-2ea87177e7f9, tracking 5 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/Pictures/Saved Pictures/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328316631
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 297 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328316631 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\src\utils\uploadErrorChecker.js
+[DEBUG] Writing to temp file: D:\Neuro360\src\utils\uploadErrorChecker.js.tmp.20072.1762328327512
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 2362 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\utils\uploadErrorChecker.js.tmp.20072.1762328327512 to D:\Neuro360\src\utils\uploadErrorChecker.js
+[DEBUG] File D:\Neuro360\src\utils\uploadErrorChecker.js written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\utils\uploadErrorChecker.js.tmp.20072.1762328340332
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 2695 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\utils\uploadErrorChecker.js.tmp.20072.1762328340332 to D:\Neuro360\src\utils\uploadErrorChecker.js
+[DEBUG] File D:\Neuro360\src\utils\uploadErrorChecker.js written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328349115
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 466 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328349115 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\services\storageService.js.tmp.20072.1762328376446
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 9369 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\services\storageService.js.tmp.20072.1762328376446 to D:\Neuro360\src\services\storageService.js
+[DEBUG] File D:\Neuro360\src\services\storageService.js written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328383725
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 630 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328383725 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\docs\EEG_UPLOAD_ERROR_FIX.md
+[DEBUG] Writing to temp file: D:\Neuro360\docs\EEG_UPLOAD_ERROR_FIX.md.tmp.20072.1762328433057
+[DEBUG] Temp file written successfully, size: 7302 bytes
+[DEBUG] Renaming D:\Neuro360\docs\EEG_UPLOAD_ERROR_FIX.md.tmp.20072.1762328433057 to D:\Neuro360\docs\EEG_UPLOAD_ERROR_FIX.md
+[DEBUG] File D:\Neuro360\docs\EEG_UPLOAD_ERROR_FIX.md written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\test-eeg-upload-fix.bat
+[DEBUG] Writing to temp file: D:\Neuro360\test-eeg-upload-fix.bat.tmp.20072.1762328449503
+[DEBUG] Temp file written successfully, size: 3037 bytes
+[DEBUG] Renaming D:\Neuro360\test-eeg-upload-fix.bat.tmp.20072.1762328449503 to D:\Neuro360\test-eeg-upload-fix.bat
+[DEBUG] File D:\Neuro360\test-eeg-upload-fix.bat written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328456086
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762328456086 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762328474519
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762328474519 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762328474574
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762328474574 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] npm view failed with code 1
+[DEBUG] npm stderr: (empty)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 90284c8c-327b-40d3-b661-f352044e24a2
+[DEBUG] FileHistory: Added snapshot for 90284c8c-327b-40d3-b661-f352044e24a2, tracking 8 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[ERROR] Error streaming, falling back to non-streaming mode: Request timed out.
+[ERROR] Error streaming, falling back to non-streaming mode: Request timed out.
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762331986425
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 473 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762331986425 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\supabase\migrations\011_create_workflows_table.sql
+[DEBUG] Writing to temp file: D:\Neuro360\supabase\migrations\011_create_workflows_table.sql.tmp.20072.1762332076815
+[DEBUG] Temp file written successfully, size: 4659 bytes
+[DEBUG] Renaming D:\Neuro360\supabase\migrations\011_create_workflows_table.sql.tmp.20072.1762332076815 to D:\Neuro360\supabase\migrations\011_create_workflows_table.sql
+[DEBUG] File D:\Neuro360\supabase\migrations\011_create_workflows_table.sql written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\supabase\migrations\012_create_uploaded_files_table.sql
+[DEBUG] Writing to temp file: D:\Neuro360\supabase\migrations\012_create_uploaded_files_table.sql.tmp.20072.1762332107707
+[DEBUG] Temp file written successfully, size: 4669 bytes
+[DEBUG] Renaming D:\Neuro360\supabase\migrations\012_create_uploaded_files_table.sql.tmp.20072.1762332107707 to D:\Neuro360\supabase\migrations\012_create_uploaded_files_table.sql
+[DEBUG] File D:\Neuro360\supabase\migrations\012_create_uploaded_files_table.sql written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\src\services\reportWorkflowService.js
+[DEBUG] Writing to temp file: D:\Neuro360\src\services\reportWorkflowService.js.tmp.20072.1762332133135
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 18016 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\services\reportWorkflowService.js.tmp.20072.1762332133135 to D:\Neuro360\src\services\reportWorkflowService.js
+[DEBUG] File D:\Neuro360\src\services\reportWorkflowService.js written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Writing to temp file: D:\Neuro360\src\services\reportWorkflowService.js.tmp.20072.1762332178740
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 18302 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Neuro360\src\services\reportWorkflowService.js.tmp.20072.1762332178740 to D:\Neuro360\src\services\reportWorkflowService.js
+[DEBUG] File D:\Neuro360\src\services\reportWorkflowService.js written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762332200435
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 620 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762332200435 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\apply-workflow-migrations.bat
+[DEBUG] Writing to temp file: D:\Neuro360\apply-workflow-migrations.bat.tmp.20072.1762332239685
+[DEBUG] Temp file written successfully, size: 4347 bytes
+[DEBUG] Renaming D:\Neuro360\apply-workflow-migrations.bat.tmp.20072.1762332239685 to D:\Neuro360\apply-workflow-migrations.bat
+[DEBUG] File D:\Neuro360\apply-workflow-migrations.bat written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Getting matching hook commands for PreToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] FileHistory: Tracked file modification for D:\Neuro360\docs\WORKFLOW_TABLE_ERROR_FIX.md
+[DEBUG] Writing to temp file: D:\Neuro360\docs\WORKFLOW_TABLE_ERROR_FIX.md.tmp.20072.1762332307796
+[DEBUG] Temp file written successfully, size: 10480 bytes
+[DEBUG] Renaming D:\Neuro360\docs\WORKFLOW_TABLE_ERROR_FIX.md.tmp.20072.1762332307796 to D:\Neuro360\docs\WORKFLOW_TABLE_ERROR_FIX.md
+[DEBUG] File D:\Neuro360\docs\WORKFLOW_TABLE_ERROR_FIX.md written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Write
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Write" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Getting matching hook commands for PreToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762332328387
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json.tmp.20072.1762332328387 to C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json
+[DEBUG] File C:\Users\Hp\.claude\todos\95e23651-45c7-47dd-92a2-774820129318-agent-95e23651-45c7-47dd-92a2-774820129318.json written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: TodoWrite
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "TodoWrite" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762332371904
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762332371904 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762332371968
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 38656 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762332371968 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 8d89e06a-dd3d-4a0b-8383-055531c730f9
+[DEBUG] FileHistory: Added snapshot for 8d89e06a-dd3d-4a0b-8383-055531c730f9, tracking 13 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Getting matching hook commands for SessionEnd with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Cleaned up session snapshot: C:\Users\Hp\.claude\shell-snapshots\snapshot-bash-1762323724028-sxggf0.sh
+[DEBUG] LSP server manager shut down successfully
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.20072.1762332954244
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 39121 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.20072.1762332954244 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically

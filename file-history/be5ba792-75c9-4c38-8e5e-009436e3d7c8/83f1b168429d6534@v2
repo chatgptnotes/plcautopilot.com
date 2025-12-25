@@ -1,0 +1,212 @@
+-- =====================================================
+-- DEBUG LOGIN ISSUE
+-- =====================================================
+-- Run these queries to diagnose why login is failing
+-- =====================================================
+
+-- =====================================================
+-- STEP 1: Check if clinic exists in clinics table
+-- =====================================================
+SELECT
+  id,
+  name,
+  email,
+  password IS NOT NULL as has_password,
+  password as password_value,  -- See actual password
+  is_active,
+  subscription_status,
+  created_at
+FROM clinics
+ORDER BY created_at DESC
+LIMIT 10;
+
+-- Expected: Should see your newly created clinic with email and password
+
+-- =====================================================
+-- STEP 2: Check if auth user exists
+-- =====================================================
+SELECT
+  id,
+  email,
+  encrypted_password IS NOT NULL as has_encrypted_password,
+  email_confirmed_at IS NOT NULL as email_confirmed,
+  created_at
+FROM auth.users
+WHERE email IN (
+  SELECT email FROM clinics WHERE email IS NOT NULL
+)
+ORDER BY created_at DESC;
+
+-- Expected: May be empty - this is OK for clinic-only login
+
+-- =====================================================
+-- STEP 3: Check specific clinic by email
+-- =====================================================
+-- Replace 'clinic@example.com' with actual email you're trying to login with
+
+SELECT
+  id,
+  name,
+  email,
+  password,
+  is_active,
+  subscription_status,
+  created_at
+FROM clinics
+WHERE email = 'limitlessbrainlab@gmail.com';  -- 👈 CHANGE THIS to your email
+
+-- =====================================================
+-- STEP 4: Check if password matches
+-- =====================================================
+-- This checks if the password you're entering matches database
+
+SELECT
+  email,
+  password as stored_password,
+  CASE
+    WHEN password = 'YourPasswordHere' THEN '✅ PASSWORD MATCHES'  -- 👈 CHANGE THIS
+    ELSE '❌ PASSWORD DOES NOT MATCH'
+  END as password_check,
+  is_active
+FROM clinics
+WHERE email = 'limitlessbrainlab@gmail.com';  -- 👈 CHANGE THIS
+
+-- =====================================================
+-- STEP 5: Count clinics with and without passwords
+-- =====================================================
+SELECT
+  'Total Clinics' as category,
+  COUNT(*) as count
+FROM clinics
+
+UNION ALL
+
+SELECT
+  'Clinics with Password',
+  COUNT(*)
+FROM clinics
+WHERE password IS NOT NULL AND password != ''
+
+UNION ALL
+
+SELECT
+  'Clinics with Email',
+  COUNT(*)
+FROM clinics
+WHERE email IS NOT NULL AND email != ''
+
+UNION ALL
+
+SELECT
+  'Active Clinics',
+  COUNT(*)
+FROM clinics
+WHERE is_active = true;
+
+-- =====================================================
+-- STEP 6: List all clinics with auth status
+-- =====================================================
+SELECT
+  c.name,
+  c.email,
+  c.password IS NOT NULL as has_password,
+  c.is_active,
+  c.subscription_status,
+  u.id IS NOT NULL as has_auth_user,
+  c.created_at
+FROM clinics c
+LEFT JOIN auth.users u ON u.email = c.email
+ORDER BY c.created_at DESC;
+
+-- =====================================================
+-- DIAGNOSIS GUIDE
+-- =====================================================
+
+/*
+CASE 1: Clinic exists but password is NULL
+Solution: Update password
+UPDATE clinics SET password = 'YourPassword123' WHERE email = 'your@email.com';
+
+CASE 2: Clinic exists but is_active = false
+Solution: Activate clinic
+UPDATE clinics SET is_active = true WHERE email = 'your@email.com';
+
+CASE 3: Clinic doesn't exist at all
+Solution: Clinic creation failed. Check browser console for errors during creation.
+
+CASE 4: Password doesn't match
+Solution: Either:
+- You're entering wrong password
+- Or reset password: UPDATE clinics SET password = 'NewPassword123' WHERE email = 'your@email.com';
+
+CASE 5: Email mismatch (case sensitive)
+Solution: Check exact email format in database
+*/
+
+-- =====================================================
+-- COMMON FIXES
+-- =====================================================
+
+-- FIX 1: Set password for clinic (if missing)
+/*
+UPDATE clinics
+SET password = 'Password123'  -- 👈 Set your desired password
+WHERE email = 'limitlessbrainlab@gmail.com';  -- 👈 Your clinic email
+*/
+
+-- FIX 2: Activate clinic (if inactive)
+/*
+UPDATE clinics
+SET is_active = true,
+    subscription_status = 'trial'
+WHERE email = 'limitlessbrainlab@gmail.com';
+*/
+
+-- FIX 3: Create auth user for clinic (optional - for Supabase auth)
+/*
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+INSERT INTO auth.users (
+  id,
+  instance_id,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  created_at,
+  updated_at,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  role,
+  aud
+)
+SELECT
+  c.id,
+  '00000000-0000-0000-0000-000000000000'::uuid,
+  c.email,
+  crypt(c.password, gen_salt('bf')),  -- Encrypt password
+  NOW(),
+  NOW(),
+  NOW(),
+  '{"provider":"email","providers":["email"]}'::jsonb,
+  jsonb_build_object('full_name', c.name),
+  'authenticated',
+  'authenticated'
+FROM clinics c
+WHERE c.email = 'limitlessbrainlab@gmail.com'  -- 👈 Your clinic email
+AND NOT EXISTS (SELECT 1 FROM auth.users WHERE email = c.email);
+
+-- Create profile
+INSERT INTO profiles (id, role, full_name, email, created_at, updated_at)
+SELECT
+  c.id,
+  'admin'::user_role,
+  c.name,
+  c.email,
+  NOW(),
+  NOW()
+FROM clinics c
+WHERE c.email = 'limitlessbrainlab@gmail.com'
+ON CONFLICT (id) DO UPDATE SET
+  role = 'admin'::user_role,
+  updated_at = NOW();
+*/

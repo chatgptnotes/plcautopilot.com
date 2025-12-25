@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- ATV340 -->
+<Device>
+    <DeviceCompatibility>2</DeviceCompatibility>
+    <IsEthernet>true</IsEthernet>
+    <NeedSoMove>true</NeedSoMove>
+    <DeviceTypeName>ATV340_ETH_DIRECT</DeviceTypeName>
+    <DeviceTypeId>27</DeviceTypeId>
+    <IoScannerType>IoScannerDrive</IoScannerType>
+    <VendorId>Schneider Electric</VendorId>
+    <ProductCode>ATV340*</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+
+    <InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>8501</Offset>
+            <Length>1</Length>
+            <InitializationValue>0</InitializationValue>
+            <Comment>Switch ATV in NST State</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+    </InitRequests>
+
+    <Channels>
+        <Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessReadWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Main IoScanner ATV channel</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>4</ReadLength>
+            <WriteOffset>0</WriteOffset>
+            <WriteLength>2</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

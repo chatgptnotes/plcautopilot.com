@@ -1,0 +1,2044 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.InputEnumType">
+      <Enum identifier="Type_NotUsed">
+        <Value>31</Value>
+        <VisibleName name="localStrings:TM3AM6_G.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_10V">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0 - 10 V</VisibleName>
+      </Enum>
+      <Enum identifier="Type_M_10_10V">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">-10 - +10 V</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_20mA">
+        <Value>2</Value>
+        <VisibleName name="local:dummy">0 - 20 mA</VisibleName>
+      </Enum>
+      <Enum identifier="Type_4_20mA">
+        <Value>3</Value>
+        <VisibleName name="local:dummy">4 - 20 mA</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.OutputEnumType">
+      <Enum identifier="Type_NotUsed">
+        <Value>15</Value>
+        <VisibleName name="localStrings:TM3AM6_G.NotUsed">Not used</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_10V">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0 - 10 V</VisibleName>
+      </Enum>
+      <Enum identifier="Type_M_10_10V">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">-10 - +10 V</VisibleName>
+      </Enum>
+      <Enum identifier="Type_0_20mA">
+        <Value>2</Value>
+        <VisibleName name="local:dummy">0 - 20 mA</VisibleName>
+      </Enum>
+      <Enum identifier="Type_4_20mA">
+        <Value>3</Value>
+        <VisibleName name="local:dummy">4 - 20 mA</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.InputEnumScope">
+      <Enum identifier="Scope_Customized">
+        <Value>32</Value>
+        <VisibleName name="localStrings:TM3AM6_G.ScopeCustomized">Normal</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_NotUsed">
+        <Value>128</Value>
+        <VisibleName name="localStrings:TM3AM6_G.NotUsed">Not used</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.OutputEnumScope">
+      <Enum identifier="Scope_Customized">
+        <Value>16</Value>
+        <VisibleName name="localStrings:TM3AM6_G.ScopeCustomized">Customized</VisibleName>
+      </Enum>
+      <Enum identifier="Scope_NotUsed">
+        <Value>32</Value>
+        <VisibleName name="localStrings:TM3AM6_G.NotUsed">Not used</VisibleName>
+      </Enum>
+    </EnumType>
+    <RangeType basetype="std:INT" name="TM3AM6_G.CustomValue">
+      <Min>-32768</Min>
+      <Max>32767</Max>
+      <Default>0</Default>
+    </RangeType>
+    <RangeType basetype="std:INT" name="TM3AM6_G.InputFilterRange">
+      <Min>0</Min>
+      <Max>1000</Max>
+      <Default>0</Default>
+    </RangeType>
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.EnumYesNo">
+      <Enum identifier="No">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM3AM6_G.EnumYesNo.No">No</VisibleName>
+      </Enum>
+      <Enum identifier="Yes">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TM3AM6_G.EnumYesNo.Yes">Yes</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.EnumSamplingSelection">
+      <Enum identifier="Sampling_1_ms">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">1</VisibleName>
+      </Enum>
+      <Enum identifier="Sampling_10_ms">
+        <Value>1</Value>
+        <VisibleName name="local:dummy">10</VisibleName>
+      </Enum>
+    </EnumType>
+    <!-- /!\ Please let this enum type : it allows SoMachineBasic to customized the description (linked with <se:SamplingEnumType> in Custom Section)-->
+    <EnumType basetype="std:BYTE" name="TM3AM6_G.SamplingEnum_Input">
+      <Enum identifier="Sampling_0_1ms">
+        <Value>0</Value>
+        <VisibleName name="localStrings:TM3AM6_G.Sampling_1_ms"></VisibleName>
+      </Enum>
+      <Enum identifier="Sampling_1_10ms">
+        <Value>1</Value>
+        <VisibleName name="localStrings:TM3AM6_G.Sampling_10_ms"></VisibleName>
+      </Enum>
+    </EnumType>
+    <!-- /!\ -->
+    <StructType name="TM3AM6_G.InputParameter">
+      <Component identifier="type_enum" type="localTypes:TM3AM6_G.InputEnumType">
+        <Default>31</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TM3AM6_G.TypeDescription">Range mode</Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TM3AM6_G.InputEnumScope">
+        <Default>128</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TM3AM6_G.ScopeDescription">Unit</Description>
+      </Component>
+      <Component identifier="minValue" type="localTypes:TM3AM6_G.CustomValue">
+        <Default>-32768</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TM3AM6_G.MinimumDescription">Minimum value</Description>
+      </Component>
+      <Component identifier="maxValue" type="localTypes:TM3AM6_G.CustomValue">
+        <Default>32767</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TM3AM6_G.MaximumDescription">Maximum value</Description>
+      </Component>
+      <Component identifier="inputFilter" type="localTypes:TM3AM6_G.InputFilterRange">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">InputFilter</VisibleName>
+        <Unit name="local:dummy">x 10 ms</Unit>
+        <Description name="localStrings:TM3AM6_G.InputFilterDescription">Input Filter</Description>
+      </Component>
+      <Component identifier="samplingSelection" type="localTypes:TM3AM6_G.EnumSamplingSelection">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Sampling</VisibleName>
+        <Unit name="localString:TM3AM6_G.SamplingUnit">ms/Channel</Unit>
+        <Description name="localStrings:TM3AM6_G.SamplingSelectionDescription">Input sampling selection</Description>
+      </Component>
+    </StructType>
+    <StructType name="TM3AM6_G.OutputParameter">
+      <Component identifier="type_enum" type="localTypes:TM3AM6_G.OutputEnumType">
+        <Default>15</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TM3AM6_G.TypeDescription">Range mode</Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TM3AM6_G.OutputEnumScope">
+        <Default>32</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TM3AM6_G.ScopeDescription">Unit</Description>
+      </Component>
+      <Component identifier="minValue" type="localTypes:TM3AM6_G.CustomValue">
+        <Default>-32768</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TM3AM6_G.MinimumDescription">Minimum value</Description>
+      </Component>
+      <Component identifier="maxValue" type="localTypes:TM3AM6_G.CustomValue">
+        <Default>32767</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TM3AM6_G.MaximumDescription">Maximum value</Description>
+      </Component>
+    </StructType>
+    <ArrayType basetype="std:BYTE" name="TM3AM6_G.KPIConfiguration">
+      <FirstDimension>
+        <LowerBorder>0</LowerBorder>
+        <UpperBorder>41</UpperBorder>
+      </FirstDimension>
+    </ArrayType>
+    <!--typedef struct{
+	RTS_UI8 NbIdCode;           // Number of ID codes in the module : 1, most of the cases or 2, for TM2 digital with 2 ASIC inside (32 outputs for example)
+	RTS_UI8 IdCode1;
+	RTS_UI8 IdCode2;            // if NbIdCode = 2
+	RTS_UI8 TM2AnalogModuleType;// For TM2 analog modules, the module type is not stored into the IdCode
+                                    // but in the read table of the module at offset 7
+	RTS_UI8 ImplicitPageIndex;	 // 0-31 or 0-63 (new TM3 ? TBC) : index of the implicit page (0 for most of the cases)
+	RTS_UI8 ImplicitReadSize;   // 0-127. Size in bytes of the implicit read to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes
+                                // corresponding to the number of inputs (ex 4 inputs => ImplicitReadSize = 1)
+                                // For special module, inputs (for example %IW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitInOffset)
+	RTS_UI8 ImplicitReadAddr;   // 0-127. Meaningful only for special module
+                                // => address of the page to implicitely read in the module
+                                // Note : a full duplex exchange will be performed if
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitInOffset;    // Meaningful only for special module,
+                                // -1 if no inputs linked to codesys
+                                // The offset where the inputs are located in the implicit read buffer otherwise
+	RTS_UI8 ImplicitWriteSize;  // 0-127. Size in bytes of the implicit write to be performed for the module
+                                // For digital module it must be the just upper entire number of bytes
+                                // corresponding to the number of outputs (ex 12 outputs => ImplicitWriteSize = 2)
+                                // For special module, outputs (for example %QW) may be located in this buffer
+                                // in this case the offset to find them must be filled (see ImplicitOutOffset)
+	RTS_UI8 ImplicitWriteAddr;  // 0-127. Meaningful only for special module
+                                // => address of the page to implicitely write in the module
+                                // Note : a full duplex exchange will be performed if
+                                // (ImplicitReadSize == ImplicitWriteSize) AND (ImplicitReadAddr == ImplicitWriteAddr)
+	RTS_I8 ImplicitOutOffset;   // Meaningful only for special module,
+                                // -1 if no outputs linked to codesys
+                                // The offset where the outputs are located in the implicit write buffer otherwise
+	RTS_UI8 ImplicitReadSize2;  // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 ImplicitWriteSize2; // if NbIdCode = 2, only for TM2 digital modules with 2 ASIC
+	RTS_UI8 StatusInImplicit;   // 0 or 1. Meaningful only for special module
+								// if 1 the status are included in the ImplicitRead
+								// if 0 an explicit read is done on user demand (see StatusAddr)
+	RTS_UI8 StatusPageIndex;	// 0-31 or 0-63 (new TM3 ? TBC). Meaningful only for special module
+								//index of the status page (0 for most of the cases) => meaningful only if StatusInImplicit == 0
+	RTS_UI8 StatusSize;	        // 0-127. Meaningful only for special module
+								// Size in bytes of the status
+	RTS_UI8 StatusAddr;	        // 0-127. Meaningful only for special module
+								// if StatusInImplicit == 1 : offset of the status in the implicit read buffer
+								// if StatusInImplicit == 0 : offset of the status in the module read memory mapping
+	RTS_UI8 ConfPageIndex;	     // 0-31 or 0-63 (new TM3 ? TBC) : index of the configuration page (0 for most of the cases)
+	RTS_UI8 ConfForSpecialModuleSize;
+	RTS_UI8 ConfForSpecialModuleAddr;
+	RTS_I8 InterByteDelayDC2;   // Meaningful only for TM2 special modules
+                                // TM3 does not use this value (fixed reduced delays) => MUST put -1 for those modules !
+    }KPI_DEVDESC_DEFINITION;-->
+    <StructType name="KPI_DEVDESC_DEFINITION">
+      <Component identifier="NbIdCode" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.NbIdCode_description">NbIdCode</Description>
+      </Component>
+      <Component identifier="IdCode1" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.IdCode1_description">IdCode1</Description>
+      </Component>
+      <Component identifier="IdCode2" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.IdCode2_description">IdCode2</Description>
+      </Component>
+      <Component identifier="TM2AnalogModuleType" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.TM2AnalogModuleType_description">TM2AnalogModuleType</Description>
+      </Component>
+      <Component identifier="ImplicitPageIndex" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitPageIndex_description">ImplicitPageIndex</Description>
+      </Component>
+      <Component identifier="ImplicitReadSize" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitReadSize_description">ImplicitReadSize</Description>
+      </Component>
+      <Component identifier="ImplicitReadAddr" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitReadAddr_description">ImplicitReadAddr</Description>
+      </Component>
+      <Component identifier="ImplicitInOffset" type="std:SINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitInOffset_description">ImplicitInOffset</Description>
+      </Component>
+      <Component identifier="ImplicitWriteSize" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitWriteSize_description">ImplicitWriteSize</Description>
+      </Component>
+      <Component identifier="ImplicitWriteAddr" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitWriteAddr_description">ImplicitWriteAddr</Description>
+      </Component>
+      <Component identifier="ImplicitOutOffset" type="std:SINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitOutOffset_description">ImplicitOutOffset</Description>
+      </Component>
+      <Component identifier="ImplicitReadSize2" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitReadSize2_description">ImplicitReadSize2</Description>
+      </Component>
+      <Component identifier="ImplicitWriteSize2" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ImplicitWriteSize2_description">ImplicitWriteSize2</Description>
+      </Component>
+      <Component identifier="StatusInImplicit" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.StatusInImplicit_description">StatusInImplicit</Description>
+      </Component>
+      <Component identifier="StatusPageIndex" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.StatusPageIndex_description">StatusPageIndex</Description>
+      </Component>
+      <Component identifier="StatusSize" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.StatusSize_description">StatusSize</Description>
+      </Component>
+      <Component identifier="StatusAddr" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.StatusAddr_description">StatusAddr</Description>
+      </Component>
+      <Component identifier="ConfPageIndex" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ConfPageIndex_description">ConfPageIndex</Description>
+      </Component>
+      <Component identifier="ConfForSpecialModuleSize" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ConfForSpecialModuleSize_description">ConfForSpecialModuleSize</Description>
+      </Component>
+      <Component identifier="ConfForSpecialModuleAddr" type="std:USINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.ConfForSpecialModuleAddr_description">ConfForSpecialModuleAddr</Description>
+      </Component>
+      <Component identifier="InterByteDelayDC2" type="std:SINT">
+        <Default>0</Default>
+        <Description name="localStrings:TM3AM6_G.InterByteDelayDC2_description">InterByteDelayDC2</Description>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (screw), TM3AM6G (spring)
+Expansion module with 4 analog inputs (+- 10 V, 0-10V, 0-20 mA, 4-20mA) and 2 analog outputs (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, removable terminal blocks.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM3AM6_G.NotUsed">Not used</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normal</String>
+      <String identifier="TM3AM6_G.TypeDescription">Range mode</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Unit</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Minimum value</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Maximum value</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">No</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Yes</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnostic</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/Channel</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Channel</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Channel</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Input filter</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Input sampling selection</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM3AM6_G.StatusParameter">Status Enabled</String>
+      <String identifier="TerminalBlockKey">Screw/Spring</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x voltage or current</String>
+      <String identifier="OutputKey">2 x voltage or current</String>
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (vis), TM3AM6G (ressort)
+Module d&apos;extension avec 4 entrées analogiques (+-10 V, 0 à 10 V, 0 à 20 mA, 4 à 20 mA) et 2 sorties analogiques (+-10 V, 0 à 10 V, 0 à 20 mA, 4 à 20 mA), 12 bits et borniers débrochables.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Entrées</String>
+      <String identifier="TM3AM6_G.NotUsed">Non utilisé</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normal</String>
+      <String identifier="TM3AM6_G.TypeDescription">Type de plage</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Unité</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Valeur minimum</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Valeur maximum</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">Non</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Oui</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnostic</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/voie</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/voie</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/voie</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Filtre d&apos;entrée</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Sélection de la période d&apos;échantillonnage des entrées</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Sorties</String>
+      <String identifier="TM3AM6_G.StatusParameter">Etat activé</String>
+      <String identifier="TerminalBlockKey">Vis/ressort</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x tension ou courant</String>
+      <String identifier="OutputKey">2 x tension ou courant</String>
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (Schraub), TM3AM6G (Federzug)
+Erweiterungsmodul mit 4 Analogeingängen (+- 10 V, 0-10 V, 0-20 mA, 4-20 mA) und 2 Analogeingänge (+- 10 V, 0-10 V, 0-20 mA, 4-20 mA), 12 Bit, abnehmbare Klemmenleisten.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Eingänge</String>
+      <String identifier="TM3AM6_G.NotUsed">Nicht verwendet</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Standard</String>
+      <String identifier="TM3AM6_G.TypeDescription">Bereichsmodus</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Einheit</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Minimalwert</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Maximalwert</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">Nein</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Ja</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnose</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/Kanal</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Kanal</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Kanal</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Eingangsfilter</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Auswahl Eingangsabtastung</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Ausgänge</String>
+      <String identifier="TM3AM6_G.StatusParameter">Status aktiviert</String>
+      <String identifier="TerminalBlockKey">Schraub/Federzug</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x Spannung oder Strom</String>
+      <String identifier="OutputKey">2 x Spannung oder Strom</String>
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (tornillo), TM3AM6G (resorte)
+Módulo de ampliación con 4 entradas analógicas (+- 10 V, de 0 a 10 V, de 0 a 20 mA, de 4 a 20 mA) y 2 salidas analógicas (+- 10 V, de 0 a 10 V, de 0 a 20 mA, de 4 a 20 mA), 12 bits, bloques de terminales extraíbles.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Entradas</String>
+      <String identifier="TM3AM6_G.NotUsed">No se utiliza</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normal</String>
+      <String identifier="TM3AM6_G.TypeDescription">Modalidad de rango</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Unidad</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Valor mínimo</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Valor máximo</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">No</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Sí</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnóstico</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/canal</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/canal</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/canal</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Filtro de entrada</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Selección de muestreo de entrada</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Salidas</String>
+      <String identifier="TM3AM6_G.StatusParameter">Estado habilitado</String>
+      <String identifier="TerminalBlockKey">Tornillo/resorte</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x tensión o corriente</String>
+      <String identifier="OutputKey">2 x tensión o corriente</String>
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (vite), TM3AM6G (molla)
+Modulo di espansione con 4 ingressi analogici (+- 10 V, 0-10V, 0-20 mA, 4-20mA) e 2 uscite analogiche (+- 10 V, 0-10V, 0-20 mA, 4-20mA) 12 bit, morsettiere rimovibili.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Ingressi</String>
+      <String identifier="TM3AM6_G.NotUsed">Non usato</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normale</String>
+      <String identifier="TM3AM6_G.TypeDescription">Modalità intervallo</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Unità</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Valore minimo</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Valore massimo</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">No</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Sì</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnostica</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/canale</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/canale</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/canale</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Filtro d&apos;ingresso</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Selezione campioni di ingresso</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Uscite</String>
+      <String identifier="TM3AM6_G.StatusParameter">Stato attivato</String>
+      <String identifier="TerminalBlockKey">Vite/Molla</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x tensione o corrente</String>
+      <String identifier="OutputKey">2 x tensione o corrente</String>
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6（螺钉），TM3AM6G（弹簧）
+扩展模块，4 路模拟量输入（+- 10 V，0-10V，0-20 mA，4-20mA）和 2 路模拟量输出（+- 10 V，0-10V，0-20 mA，4-20mA），12 位，可插拔端子块。</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">输入</String>
+      <String identifier="TM3AM6_G.NotUsed">未使用</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">正常</String>
+      <String identifier="TM3AM6_G.TypeDescription">范围模式</String>
+      <String identifier="TM3AM6_G.ScopeDescription">单位</String>
+      <String identifier="TM3AM6_G.MinimumDescription">最小值</String>
+      <String identifier="TM3AM6_G.MaximumDescription">最大值</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">否</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">是</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">诊断</String>
+      <String identifier="TM3AM6_G.SamplingUnit">毫秒/通道</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 毫秒/通道</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 毫秒/通道</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">输入滤波器</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">输入采样选择</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">输出</String>
+      <String identifier="TM3AM6_G.StatusParameter">状态已启用</String>
+      <String identifier="TerminalBlockKey">螺钉/弹簧</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x 电压或电流</String>
+      <String identifier="OutputKey">2 x 电压或电流</String>
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (parafuso), TM3AM6G (mola)
+Módulo de expansão com 4 entradas analógicas (+- 10 V, 0-10 V, 0-20 mA, 4-20 mA) e 2 saídas analógicas (+- 10 V, 0-10 V, 0-20 mA, 4-20 mA), 12 bits, blocos terminais removíveis.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Entradas</String>
+      <String identifier="TM3AM6_G.NotUsed">Não usado</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normal</String>
+      <String identifier="TM3AM6_G.TypeDescription">Modo de intervalo</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Unidade</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Valor mínimo</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Valor máximo</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">Não</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Sim</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnóstico</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/Canal</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Canal</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Canal</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Filtro de entrada</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Seleção de amostragem de entrada</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Saídas</String>
+      <String identifier="TM3AM6_G.StatusParameter">Estado habilitado</String>
+      <String identifier="TerminalBlockKey">Parafuso/Mola</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x tensão ou corrente</String>
+      <String identifier="OutputKey">2 x tensão ou corrente</String>
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (vida), TM3AM6G (yay)
+4 analog girişli (+- 10 V, 0-10 V, 0-20 mA, 4-20 mA) ve 2 analog çıkışlı (+- 10 V, 0-10 V, 0-20 mA, 4-20 mA) genişletme modülü, 12 bit, çıkarılabilir terminal blokları.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Girişler</String>
+      <String identifier="TM3AM6_G.NotUsed">Kullanılmıyor</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normal</String>
+      <String identifier="TM3AM6_G.TypeDescription">Aralık modu</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Birim</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Minimum değer</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Maksimum değer</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">Hayır</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Evet</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Tanılama</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/Kanal</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Kanal</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Kanal</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Giriş filtresi</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Giriş örnekleme seçimi</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Çıkışlar</String>
+      <String identifier="TM3AM6_G.StatusParameter">Durum Etkin</String>
+      <String identifier="TerminalBlockKey">Vida/Yay</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x gerilim veya akım</String>
+      <String identifier="OutputKey">2 x gerilim veya akım</String>
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM3AM6_G.DeviceDescription">TM3AM6 (šroubkový), TM3AM6G (pružinový)
+Rozšiřující modul se 4 analogovými vstupy (+- 10 V, 0-10V, 0-20 mA, 4-20mA) a 2 analogovými výstupy (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bitů, odnímatelné svorkovnice.</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameInputs">Vstupy</String>
+      <String identifier="TM3AM6_G.NotUsed">Nepoužíváno</String>
+      <String identifier="TM3AM6_G.ScopeCustomized">Normální</String>
+      <String identifier="TM3AM6_G.TypeDescription">Režim rozsahu</String>
+      <String identifier="TM3AM6_G.ScopeDescription">Jednotka</String>
+      <String identifier="TM3AM6_G.MinimumDescription">Minimální hodnota</String>
+      <String identifier="TM3AM6_G.MaximumDescription">Maximální hodnota</String>
+      <String identifier="TM3AM6_G.EnumYesNo.No">Ne</String>
+      <String identifier="TM3AM6_G.EnumYesNo.Yes">Ano</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameDiagnostic">Diagnostika</String>
+      <String identifier="TM3AM6_G.SamplingUnit">ms/Kanál</String>
+      <String identifier="TM3AM6_G.Sampling_1_ms">1 ms/Kanál</String>
+      <String identifier="TM3AM6_G.Sampling_10_ms">10 ms/Kanál</String>
+      <String identifier="TM3AM6_G.InputFilterDescription">Filtr vstupů</String>
+      <String identifier="TM3AM6_G.SamplingSelectionDescription">Výběr vzorkování vstupů</String>
+      <String identifier="TM3AM6_G.ParameterSectionNameOutputs">Výstupy</String>
+      <String identifier="TM3AM6_G.StatusParameter">Status Povolený</String>
+      <String identifier="TerminalBlockKey">Šroubek/pružina</String>
+      <String identifier="FormatKey" />
+      <String identifier="InputKey">4 x napětí nebo proud</String>
+      <String identifier="OutputKey">2 x napětí nebo proud</String>
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM3AM6_G.devdesc.xml" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM3AM6_G.devdesc.xml" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en">
+      <File fileref="local" identifier="InputsIcon">
+        <LocalFile>./Icons/TM3AM6_G.ico</LocalFile>
+      </File>
+      <File fileref="local" identifier="TM3AM6_G">
+        <LocalFile>./Images/TM3AM6_G.png</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>51422</Type>
+      <Id>101a 0435</Id>
+      <Version>1.0.0.14</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM3AM6/G</Name>
+      <Description name="localStrings:TM3AM6_G.DeviceDescription">TM3AM6 (screw), TM3AM6G (spring)
+Expansion module with 4 analog inputs (+- 10 V, 0-10V, 0-20 mA, 4-20mA) and 2 analog outputs (+- 10 V, 0-10V, 0-20 mA, 4-20mA), 12 bits, removable terminal blocks.</Description>
+      <Vendor name="local:dummy">Schneider Electric</Vendor>
+      <OrderNumber>TM3AM6/G</OrderNumber>
+      <Image name="localFiles:TM3AM6_G" />
+      <Icon name="localFiles:InputsIcon" />
+      <DefaultInstanceName name="local:dummy">Module_</DefaultInstanceName>
+      <Family>4122:1323</Family>
+      <Category>1</Category>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3AM6_G" moduleType="51422" role="child" alwaysmapping="true">
+      <InterfaceName name="local:dummy" />
+      <Slot allowEmpty="true" count="1" />
+      <HostParameterSet>
+        <ParameterSection>
+          <Name name="localStrings:TM3AM6_G.ParameterSectionNameInputs">Inputs</Name>
+          <!--INPUTS-->
+          <Parameter ParameterId="4096" type="std:INT">
+            <!-- TM3 analog inputs channels have the parameter id 0x1000 with last 5 bits indicating the channel index  -->
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+          </Parameter>
+          <Parameter ParameterId="4097" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+          </Parameter>
+          <Parameter ParameterId="4098" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW2</Name>
+          </Parameter>
+          <Parameter ParameterId="4099" type="std:INT">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IW3</Name>
+          </Parameter>
+          <!--PARAMETERS-->
+          <!--PARAMETER IW0-->
+          <Parameter ParameterId="1000" type="localTypes:TM3AM6_G.InputParameter">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW0</Name>
+            <Custom>
+              <se:ParameterConstraints>
+                <se:EnableConstraint SubElementId="minValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="maxValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="inputFilter" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="samplingSelection" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="samplingSelection" Value="0">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="128">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="32">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="scope_enum" Type="List" Values="{32}">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:AllowedValuesConstraint>
+                <!--Filter ValueConstraint-->
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:ValueConstraint>
+                <se:VisibleConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:VisibleConstraint>
+                <!-- Not used-->
+                <se:ValueConstraint SubElementId="minValue" Value="-32768" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="32767" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type -10 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="-10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 4 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="4000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+              </se:ParameterConstraints>
+            </Custom>
+          </Parameter>
+          <!--PARAMETER IW1 -->
+          <Parameter ParameterId="1001" type="localTypes:TM3AM6_G.InputParameter">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW1</Name>
+            <Custom>
+              <se:ParameterConstraints>
+                <se:EnableConstraint SubElementId="minValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="maxValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="inputFilter" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="samplingSelection" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="samplingSelection" Value="0">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="128">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="32">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="scope_enum" Type="List" Values="{32}">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:AllowedValuesConstraint>
+                <!--Filter ValueConstraint-->
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:ValueConstraint>
+                <se:VisibleConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:VisibleConstraint>
+                <!-- Not used-->
+                <se:ValueConstraint SubElementId="minValue" Value="-32768" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="32767" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type -10 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="-10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 4 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="4000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+              </se:ParameterConstraints>
+            </Custom>
+          </Parameter>
+          <!--PARAMETER IW2-->
+          <Parameter ParameterId="1002" type="localTypes:TM3AM6_G.InputParameter">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW2</Name>
+            <Custom>
+              <se:ParameterConstraints>
+                <se:EnableConstraint SubElementId="minValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="maxValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="inputFilter" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="samplingSelection" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="samplingSelection" Value="0">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="128">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="32">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="scope_enum" Type="List" Values="{32}">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:AllowedValuesConstraint>
+                <!--Filter ValueConstraint-->
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:ValueConstraint>
+                <se:VisibleConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:VisibleConstraint>
+                <!-- Not used-->
+                <se:ValueConstraint SubElementId="minValue" Value="-32768" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="32767" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1002.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1002.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1002.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1002.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type -10 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="-10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1002.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1002.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1002.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1002.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 4 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="4000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1002.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1002.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+              </se:ParameterConstraints>
+            </Custom>
+          </Parameter>
+          <!--PARAMETER IW3-->
+          <Parameter ParameterId="1003" type="localTypes:TM3AM6_G.InputParameter">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">IW3</Name>
+            <Custom>
+              <se:ParameterConstraints>
+                <se:EnableConstraint SubElementId="minValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="maxValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Value="32" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="inputFilter" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="samplingSelection" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:EnableConstraint>
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="samplingSelection" Value="0">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="128">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="32">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="scope_enum" Type="List" Values="{32}">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" LogicalNegation="true" />
+                </se:AllowedValuesConstraint>
+                <!--Filter ValueConstraint-->
+                <se:ValueConstraint SubElementId="inputFilter" Value="0">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:ValueConstraint>
+                <se:VisibleConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                </se:VisibleConstraint>
+                <!-- Not used-->
+                <se:ValueConstraint SubElementId="minValue" Value="-32768" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="32767" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1003.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1003.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="31" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1003.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1003.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type -10 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="-10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1003.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1003.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1003.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1003.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 4 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="4000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#1003.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#1003.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+              </se:ParameterConstraints>
+            </Custom>
+          </Parameter>
+        </ParameterSection>
+        <ParameterSection>
+          <!--DIAGNOSTIC-->
+          <Name name="localStrings:TM3AM6_G.ParameterSectionNameDiagnostic">Diagnostic</Name>
+          <Parameter ParameterId="12288" type="std:BYTE">
+            <!-- TM3 analog status channels have the parameter id 0x3000 with last 5 bits indicating the channel index  -->
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IBStatusIW0</Name>
+          </Parameter>
+          <Parameter ParameterId="12289" type="std:BYTE">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IBStatusIW1</Name>
+          </Parameter>
+          <Parameter ParameterId="12290" type="std:BYTE">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IBStatusIW2</Name>
+          </Parameter>
+          <Parameter ParameterId="12291" type="std:BYTE">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IBStatusIW3</Name>
+          </Parameter>
+          <Parameter ParameterId="12292" type="std:BYTE">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IBStatusQW0</Name>
+          </Parameter>
+          <Parameter ParameterId="12293" type="std:BYTE">
+            <Attributes channel="input" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">IBStatusQW1</Name>
+          </Parameter>
+          <Parameter ParameterId="3000" type="localTypes:TM3AM6_G.EnumYesNo">
+            <Attributes channel="none" onlineaccess="read" download="false" />
+            <Default>1</Default>
+            <Name name="localStrings:TM3AM6_G.StatusParameter">Status Enabled</Name>
+          </Parameter>
+        </ParameterSection>
+        <ParameterSection>
+          <Name name="localStrings:TM3AM6_G.ParameterSectionNameOutputs">Outputs</Name>
+          <!--OUTPUTS-->
+          <Parameter ParameterId="8192" type="std:INT">
+            <!-- TM3 analog output channels have the parameter id 0x2000 with last 5 bits indicating the channel index  -->
+            <Attributes channel="output" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">QW0</Name>
+          </Parameter>
+          <Parameter ParameterId="8193" type="std:INT">
+            <Attributes channel="output" alwaysmapping="true" />
+            <Default />
+            <Name name="local:dummy">QW1</Name>
+          </Parameter>
+          <!--PARAMETER QW0-->
+          <Parameter ParameterId="2000" type="localTypes:TM3AM6_G.OutputParameter">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">QW0</Name>
+            <Custom>
+              <se:ParameterConstraints>
+                <se:EnableConstraint SubElementId="minValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Value="16" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="maxValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Value="16" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" />
+                </se:EnableConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="32">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="16">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" LogicalNegation="true" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="scope_enum" Type="List" Values="{16}">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" LogicalNegation="true" />
+                </se:AllowedValuesConstraint>
+                <se:VisibleConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                </se:VisibleConstraint>
+                <!-- Type Not Used-->
+                <se:ValueConstraint SubElementId="minValue" Value="-32768" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="32767" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="15" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type -10 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="-10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 4 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="4000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2000.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2000.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+              </se:ParameterConstraints>
+            </Custom>
+          </Parameter>
+          <!--PARAMETER IW1 -->
+          <Parameter ParameterId="2001" type="localTypes:TM3AM6_G.OutputParameter">
+            <Attributes channel="none" onlineaccess="read" />
+            <Default />
+            <Name name="local:dummy">QW1</Name>
+            <Custom>
+              <se:ParameterConstraints>
+                <se:EnableConstraint SubElementId="minValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Value="16" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="maxValue" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Value="16" LogicalNegation="true" />
+                </se:EnableConstraint>
+                <se:EnableConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" />
+                </se:EnableConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="32">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="scope_enum" Value="16">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" LogicalNegation="true" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="scope_enum" Type="List" Values="{16}">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" LogicalNegation="true" />
+                </se:AllowedValuesConstraint>
+                <se:VisibleConstraint SubElementId="scope_enum" Enable="false">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                </se:VisibleConstraint>
+                <!-- Type Not Used-->
+                <se:ValueConstraint SubElementId="minValue" Value="-32768" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="32767" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="15" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="0" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="0" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type -10 - 10V-->
+                <se:ValueConstraint SubElementId="minValue" Value="-10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="10000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="1" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="1" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 0 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="0" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="2" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="2" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <!-- Type 4 - 20A-->
+                <se:ValueConstraint SubElementId="minValue" Value="4000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:ValueConstraint SubElementId="maxValue" Value="20000" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="3" />
+                </se:ValueConstraint>
+                <se:AllowedValuesConstraint SubElementId="minValue" Type="Range" Values="[-32768;SCRIPT(#2001.maxValue#-1)]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+                <se:AllowedValuesConstraint SubElementId="maxValue" Type="Range" Values="[SCRIPT(#2001.minValue#+1);32767]" Operator="And">
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Value="3" />
+                  <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                </se:AllowedValuesConstraint>
+              </se:ParameterConstraints>
+            </Custom>
+          </Parameter>
+        </ParameterSection>
+        <!--Module Identification-->
+        <Parameter ParameterId="100000" type="localTypes:KPI_DEVDESC_DEFINITION">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <Default>
+            <Element name="NbIdCode">1</Element>
+            <Element name="IdCode1">197</Element>
+            <Element name="IdCode2"></Element>
+            <Element name="TM2AnalogModuleType"></Element>
+            <Element name="ImplicitPageIndex">0</Element>
+            <Element name="ImplicitReadSize">14</Element>
+            <Element name="ImplicitReadAddr">0</Element>
+            <Element name="ImplicitInOffset">0</Element>
+            <Element name="ImplicitWriteSize">14</Element>
+            <Element name="ImplicitWriteAddr">0</Element>
+            <Element name="ImplicitOutOffset">0</Element>
+            <Element name="ImplicitReadSize2">0</Element>
+            <Element name="ImplicitWriteSize2">0</Element>
+            <Element name="StatusInImplicit">1</Element>
+            <Element name="StatusPageIndex">0</Element>
+            <Element name="StatusSize">6</Element>
+            <Element name="StatusAddr">8</Element>
+            <Element name="ConfPageIndex">1</Element>
+            <Element name="ConfForSpecialModuleSize">42</Element>
+            <Element name="ConfForSpecialModuleAddr">2</Element>
+            <Element name="InterByteDelayDC2">-1</Element>
+          </Default>
+          <Name name="local:dummy">KPI Definition</Name>
+          <Custom>
+            <se:ParameterConstraints>
+              <se:ValueConstraint SubElementId="ImplicitReadSize" Value="14">
+                <se:ParameterValueStatement ParameterId="3000" Value="1" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="ImplicitWriteSize" Value="14">
+                <se:ParameterValueStatement ParameterId="3000" Value="1" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="StatusSize" Value="0">
+                <se:ParameterValueStatement ParameterId="3000" Value="1" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="ImplicitReadSize" Value="8">
+                <se:ParameterValueStatement ParameterId="3000" Value="0" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="ImplicitWriteSize" Value="8">
+                <se:ParameterValueStatement ParameterId="3000" Value="0" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="StatusSize" Value="6">
+                <se:ParameterValueStatement ParameterId="3000" Value="0" />
+              </se:ValueConstraint>
+            </se:ParameterConstraints>
+          </Custom>
+        </Parameter>
+        <Parameter ParameterId="200000" type="localTypes:TM3AM6_G.KPIConfiguration">
+          <Attributes channel="none" offlineaccess="write" onlineaccess="none" download="true" />
+          <!-- I0 Input operation Setting -->
+          <Default>128</Default>
+          <!-- I1 Input operation Setting -->
+          <Default>128</Default>
+          <!-- I2 Input operation Setting -->
+          <Default>128</Default>
+          <!-- I3 Input operation Setting -->
+          <Default>128</Default>
+          <!-- I0 Input Lower limit value -->
+          <Default>0</Default>
+          <!-- Lower 8 bit -->
+          <Default>128</Default>
+          <!-- Upper 8 bit -->
+          <!-- I1 Input Lower limit value -->
+          <Default>0</Default>
+          <!-- Lower 8 bit -->
+          <Default>128</Default>
+          <!-- Upper 8 bit -->
+          <!-- I2 Input Lower limit value -->
+          <Default>0</Default>
+          <!-- Lower 8 bit -->
+          <Default>128</Default>
+          <!-- Upper 8 bit -->
+          <!-- I3 Input Lower limit value -->
+          <Default>0</Default>
+          <!-- Lower 8 bit -->
+          <Default>128</Default>
+          <!-- Upper 8 bit -->
+          <!-- I0 Input Upper limit value -->
+          <Default>255</Default>
+          <!-- Lower 8 bit -->
+          <Default>127</Default>
+          <!-- Upper 8 bit -->
+          <!-- I1 Input Upper limit value -->
+          <Default>255</Default>
+          <!-- Lower 8 bit -->
+          <Default>127</Default>
+          <!-- Upper 8 bit -->
+          <!-- I2 Input Upper limit value -->
+          <Default>255</Default>
+          <!-- Lower 8 bit -->
+          <Default>127</Default>
+          <!-- Upper 8 bit -->
+          <!-- I3 Input Upper limit value -->
+          <Default>255</Default>
+          <!-- Lower 8 bit -->
+          <Default>127</Default>
+          <!-- Upper 8 bit -->
+          <!-- I0 Constant number setting -->
+          <Default>0</Default>
+          <Default>0</Default>
+          <!-- I1 Constant number setting -->
+          <Default>0</Default>
+          <Default>0</Default>
+          <!-- I2 Constant number setting -->
+          <Default>0</Default>
+          <Default>0</Default>
+          <!-- I3 Constant number setting -->
+          <Default>0</Default>
+          <Default>0</Default>
+          <!-- I0 Input sampling selection -->
+          <Default>0</Default>
+          <!-- I1 Input sampling selection -->
+          <Default>0</Default>
+          <!-- I2 Input sampling selection -->
+          <Default>0</Default>
+          <!-- I3 Input sampling selection -->
+          <Default>0</Default>
+          <!-- Q0 Input operation Setting -->
+          <Default>32</Default>
+          <!-- Q1 Input operation Setting -->
+          <Default>32</Default>
+          <!-- Q0 Output Lower limit value -->
+          <Default>0</Default>
+          <!-- Lower 8 bit -->
+          <Default>128</Default>
+          <!-- Upper 8 bit -->
+          <!-- Q1 Output Lower limit value -->
+          <Default>0</Default>
+          <!-- Lower 8 bit -->
+          <Default>128</Default>
+          <!-- Upper 8 bit -->
+          <!-- Q0 Output Upper limit value -->
+          <Default>255</Default>
+          <!-- Lower 8 bit -->
+          <Default>127</Default>
+          <!-- Upper 8 bit -->
+          <!-- Q1 Output Upper limit value -->
+          <Default>255</Default>
+          <!-- Lower 8 bit -->
+          <Default>127</Default>
+          <!-- Upper 8 bit -->
+          <Name name="local:dummy">KPI Configuration</Name>
+          <Custom>
+            <se:ParameterConstraints>
+              <!-- I0 Input operation setting -->
+              <se:ValueConstraint SubElementId="200000_0_0_0" Value="SCRIPT(scope_enum = #1000.scope_enum#
+if scope_enum == 128: 
+    result = scope_enum
+else:
+    result = scope_enum+#1000.type_enum#
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+              </se:ValueConstraint>
+              <!-- I1 Input operation setting -->
+              <se:ValueConstraint SubElementId="200000_1_0_0" Value="SCRIPT(scope_enum = #1001.scope_enum#
+if scope_enum == 128: 
+    result = scope_enum
+else:
+    result = scope_enum+#1001.type_enum#
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+              </se:ValueConstraint>
+              <!-- I2 Input operation setting -->
+              <se:ValueConstraint SubElementId="200000_2_0_0" Value="SCRIPT(scope_enum = #1002.scope_enum#
+if scope_enum == 128: 
+    result = scope_enum
+else:
+    result = scope_enum+#1002.type_enum#
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+              </se:ValueConstraint>
+              <!-- I3 Input operation setting -->
+              <se:ValueConstraint SubElementId="200000_3_0_0" Value="SCRIPT(scope_enum = #1003.scope_enum#
+if scope_enum == 128: 
+    result = scope_enum
+else:
+    result = scope_enum+#1003.type_enum#
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+              </se:ValueConstraint>
+              <!-- I0 Input Lower Limit -->
+              <se:ValueConstraint SubElementId="200000_4_0_0" Value="SCRIPT(minValue = #1000.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_5_0_0" Value="SCRIPT(minValue = #1000.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I1 Input Lower Limit -->
+              <se:ValueConstraint SubElementId="200000_6_0_0" Value="SCRIPT(minValue = #1001.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_7_0_0" Value="SCRIPT(minValue = #1001.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I2 Input Lower Limit -->
+              <se:ValueConstraint SubElementId="200000_8_0_0" Value="SCRIPT(minValue = #1002.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_9_0_0" Value="SCRIPT(minValue = #1002.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I3 Input Lower Limit -->
+              <se:ValueConstraint SubElementId="200000_10_0_0" Value="SCRIPT(minValue = #1003.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_11_0_0" Value="SCRIPT(minValue = #1003.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I0 Input Upper Limit -->
+              <se:ValueConstraint SubElementId="200000_12_0_0" Value="SCRIPT(maxValue = #1000.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_13_0_0" Value="SCRIPT(maxValue = #1000.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I1 Input Upper Limit -->
+              <se:ValueConstraint SubElementId="200000_14_0_0" Value="SCRIPT(maxValue = #1001.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_15_0_0" Value="SCRIPT(maxValue = #1001.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I2 Input Upper Limit -->
+              <se:ValueConstraint SubElementId="200000_16_0_0" Value="SCRIPT(maxValue = #1002.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_17_0_0" Value="SCRIPT(maxValue = #1002.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I3 Input Upper Limit -->
+              <se:ValueConstraint SubElementId="200000_18_0_0" Value="SCRIPT(maxValue = #1003.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_19_0_0" Value="SCRIPT(maxValue = #1003.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="scope_enum" Type="List" Value="{32,128}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- I0 Constant number -->
+              <se:ValueConstraint SubElementId="200000_20_0_0" Value="SCRIPT(inputFilter = #1000.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_21_0_0" Value="SCRIPT(inputFilter = #1000.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <!-- I1 Constant number -->
+              <se:ValueConstraint SubElementId="200000_22_0_0" Value="SCRIPT(inputFilter = #1001.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_23_0_0" Value="SCRIPT(inputFilter = #1001.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <!-- I2 Constant number -->
+              <se:ValueConstraint SubElementId="200000_24_0_0" Value="SCRIPT(inputFilter = #1002.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_25_0_0" Value="SCRIPT(inputFilter = #1002.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <!-- I3 Constant number -->
+              <se:ValueConstraint SubElementId="200000_26_0_0" Value="SCRIPT(inputFilter = #1003.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_27_0_0" Value="SCRIPT(inputFilter = #1003.inputFilter#
+if inputFilter &lt; 0: 
+    result = int(bin(2**16+inputFilter)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(inputFilter)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="inputFilter" Type="Range" Value="[0;1000]" />
+              </se:ValueConstraint>
+              <!-- I0 Input sampling selection -->
+              <se:ValueConstraint SubElementId="200000_28_0_0" Value="#1000.samplingSelection#" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1000" SubElementId="samplingSelection" Type="List" Value="{0,1}" />
+              </se:ValueConstraint>
+              <!-- I1 Input sampling selection -->
+              <se:ValueConstraint SubElementId="200000_29_0_0" Value="#1001.samplingSelection#" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1001" SubElementId="samplingSelection" Type="List" Value="{0,1}" />
+              </se:ValueConstraint>
+              <!-- I2 Input sampling selection -->
+              <se:ValueConstraint SubElementId="200000_30_0_0" Value="#1002.samplingSelection#" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1002" SubElementId="samplingSelection" Type="List" Value="{0,1}" />
+              </se:ValueConstraint>
+              <!-- I3 Input sampling selection -->
+              <se:ValueConstraint SubElementId="200000_31_0_0" Value="#1003.samplingSelection#" Operator="Or">
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="type_enum" Type="List" Value="{0,1,2,3,31}" />
+                <se:ParameterValueStatement ParameterId="1003" SubElementId="samplingSelection" Type="List" Value="{0,1}" />
+              </se:ValueConstraint>
+              <!-- Q0 Output operation setting -->
+              <se:ValueConstraint SubElementId="200000_32_0_0" Value="SCRIPT(scope_enum = #2000.scope_enum#
+if scope_enum == 32: 
+    result = scope_enum
+else:
+    result = scope_enum+#2000.type_enum#
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+              </se:ValueConstraint>
+              <!-- Q1 Output operation setting -->
+              <se:ValueConstraint SubElementId="200000_33_0_0" Value="SCRIPT(scope_enum = #2001.scope_enum#
+if scope_enum == 32: 
+    result = scope_enum
+else:
+    result = scope_enum+#2001.type_enum#
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+              </se:ValueConstraint>
+              <!-- Q0 Output Lower Limit -->
+              <se:ValueConstraint SubElementId="200000_34_0_0" Value="SCRIPT(minValue = #2000.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_35_0_0" Value="SCRIPT(minValue = #2000.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">"
+					<se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                    <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                    <se:ParameterValueStatement ParameterId="2000" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+                    </se:ValueConstraint>
+              <!-- Q1 Input Lower Limit -->
+              <se:ValueConstraint SubElementId="200000_36_0_0" Value="SCRIPT(minValue = #2001.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_37_0_0" Value="SCRIPT(minValue = #2001.minValue#
+if minValue &lt; 0: 
+    result = int(bin(2**16+minValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(minValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                <se:ParameterValueStatement ParameterId="2001" SubElementId="minValue" Type="Range" Value="[-32768;32767]" />
+              </se:ValueConstraint>
+              <!-- Q0 Output Upper Limit -->
+              <se:ValueConstraint SubElementId="200000_38_0_0" Value="SCRIPT(maxValue = #2000.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">"
+					<se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                    <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                    <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                    </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_39_0_0" Value="SCRIPT(maxValue = #2000.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">"
+					<se:ParameterValueStatement ParameterId="2000" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                    <se:ParameterValueStatement ParameterId="2000" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                    <se:ParameterValueStatement ParameterId="2000" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                    </se:ValueConstraint>
+              <!-- Q1 Output Upper Limit -->
+              <se:ValueConstraint SubElementId="200000_40_0_0" Value="SCRIPT(maxValue = #2001.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[8:],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[8:],2)
+result)" Operator="Or">"
+					<se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                    <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                    <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                    </se:ValueConstraint>
+              <se:ValueConstraint SubElementId="200000_41_0_0" Value="SCRIPT(maxValue = #2001.maxValue#
+if maxValue &lt; 0: 
+    result = int(bin(2**16+maxValue)[2:].zfill(16)[:8],2)
+else:
+    result = int(bin(maxValue)[2:].zfill(16)[:8],2)
+result)" Operator="Or">"
+					<se:ParameterValueStatement ParameterId="2001" SubElementId="scope_enum" Type="List" Value="{16,32}" />
+                    <se:ParameterValueStatement ParameterId="2001" SubElementId="type_enum" Type="List" Value="{0,1,2,3,15}" />
+                    <se:ParameterValueStatement ParameterId="2001" SubElementId="maxValue" Type="Range" Value="[-32768;32767]" />
+                    </se:ValueConstraint>
+            </se:ParameterConstraints>
+          </Custom>
+        </Parameter>
+        <Parameter ParameterId="2415919109" type="std:UINT">
+          <!-- 0x90000005 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>50</Default>
+          <Name name="local:dummy">TM3 power bus internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">TM3 power bus internal current</Description>
+        </Parameter>
+        <Parameter ParameterId="2415919110" type="std:UINT">
+          <!-- 0x90000006 -->
+          <Attributes channel="none" download="false" offlineaccess="none" onlineaccess="none" />
+          <Default>0</Default>
+          <Name name="local:dummy">24V I/O segment internal current</Name>
+          <Unit name="local:dummy">mA</Unit>
+          <Description name="local:dummy">24V I/O segment internal current</Description>
+        </Parameter>
+      </HostParameterSet>
+      <Custom>
+        <se:SchneiderEditor editorVersion="2.0.0.0">
+          <se:Appearance>
+            <se:TreeTableViewMainPanel ShowVariableModifiableByProgLegend="true" />
+          </se:Appearance>
+        </se:SchneiderEditor>
+        <se:PowerConsumption voltage="5V">50</se:PowerConsumption>
+        <se:PowerConsumption voltage="24V">0</se:PowerConsumption>
+        <se:ConfigurationMapping>
+          <se:Module name="" default="true" IoType="InputOnly">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" isMinMaxSigned="false" changeable="false" />
+              <se:Sampling name="Sampling_0_1ms" default="true" />
+            </se:Type>
+            <se:Type name="Type_0_10V">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="0" initMax="10000" isMinMaxSigned="true" changeable="true" />
+              <se:Sampling name="Sampling_0_1ms" default="true" />
+              <se:Sampling name="Sampling_1_10ms" />
+              <se:Filtering isEnabled="true" minimum="0" maximum="1000" defaultValue="0" />
+            </se:Type>
+            <se:Type name="Type_M_10_10V">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="-10000" initMax="10000" isMinMaxSigned="true" changeable="true" />
+              <se:Sampling name="Sampling_0_1ms" default="true" />
+              <se:Sampling name="Sampling_1_10ms" />
+              <se:Filtering isEnabled="true" minimum="0" maximum="1000" defaultValue="0" />
+            </se:Type>
+            <se:Type name="Type_0_20mA">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="0" initMax="20000" isMinMaxSigned="true" changeable="true" />
+              <se:Sampling name="Sampling_0_1ms" default="true" />
+              <se:Sampling name="Sampling_1_10ms" />
+              <se:Filtering isEnabled="true" minimum="0" maximum="1000" defaultValue="0" />
+            </se:Type>
+            <se:Type name="Type_4_20mA">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="4000" initMax="20000" isMinMaxSigned="true" changeable="true" />
+              <se:Sampling name="Sampling_0_1ms" default="true" />
+              <se:Sampling name="Sampling_1_10ms" />
+              <se:Filtering isEnabled="true" minimum="0" maximum="1000" defaultValue="0" />
+            </se:Type>
+          </se:Module>
+          <se:Module name="" default="true" IoType="OutputOnly">
+            <se:Type name="Type_NotUsed" default="true">
+              <se:Scope name="Scope_NotUsed" default="true" minimum="0" maximum="0" isMinMaxSigned="false" changeable="false" />
+            </se:Type>
+            <se:Type name="Type_0_10V">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="0" initMax="10000" isMinMaxSigned="true" changeable="true" />
+            </se:Type>
+            <se:Type name="Type_M_10_10V">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="-10000" initMax="10000" isMinMaxSigned="true" changeable="true" />
+            </se:Type>
+            <se:Type name="Type_0_20mA">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="0" initMax="20000" isMinMaxSigned="true" changeable="true" />
+            </se:Type>
+            <se:Type name="Type_4_20mA">
+              <se:Scope name="Scope_Customized" default="true" minimum="-32768" maximum="32767" initMin="4000" initMax="20000" isMinMaxSigned="true" changeable="true" />
+            </se:Type>
+          </se:Module>
+        </se:ConfigurationMapping>
+        <se:ConfForSpecialModule>
+          <se:OperationModeSetting length="4" default="128" inputIndex="0" outputIndex="4" custom="true" param1="Type_NotUsed" param2="Scope_NotUsed" />
+        </se:ConfForSpecialModule>
+      </Custom>
+      <Appearance>
+        <ShowEditor>IOMappingEditor</ShowEditor>
+        <ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <Custom>
+      <se:IOManager DefaultNamingModule="true" AutoIOMapping="true" />
+      <se:Configuration>
+        <!--<se:DigitalInputsMax>8</se:DigitalInputsMax>-->
+        <!--<se:DigitalOutputsMax>0</se:DigitalOutputsMax>-->
+        <!--<se:AnalogInputsMax>0</se:AnalogInputsMax>-->
+        <!--<se:AnalogOutputsMax>0</se:AnalogOutputsMax>-->
+        <se:ModuleType>0x00C5</se:ModuleType>
+        <se:GenericReference>TM3AM6-</se:GenericReference>
+        <se:ModuleKind>1</se:ModuleKind>
+        <se:NewPartNumber></se:NewPartNumber>
+        <se:NumRelays>0</se:NumRelays>
+        <se:IsConfigurable>true</se:IsConfigurable>
+        <se:AnalogInputTypeMask>0x0007</se:AnalogInputTypeMask>
+        <se:AnalogOutputTypeMask>0x0007</se:AnalogOutputTypeMask>
+        <se:AnalogInputRangeMask>0x0003</se:AnalogInputRangeMask>
+        <se:AnalogOutputRangeMask>0x0003</se:AnalogOutputRangeMask>
+        <se:NumTransistors>0</se:NumTransistors>
+        <se:ModuleExtendedKind>0</se:ModuleExtendedKind>
+        <se:AnalogInputKindMask>0x0000</se:AnalogInputKindMask>
+        <se:HasCombo>false</se:HasCombo>
+        <se:HasUsedCol>false</se:HasUsedCol>
+        <se:MinMaxOfset>0</se:MinMaxOfset>
+        <se:Compatibility>0</se:Compatibility>
+        <se:InputFilterUnit>x 10 ms</se:InputFilterUnit>
+        <se:SamplingEnumType>TM3AM6_G.SamplingEnum_Input</se:SamplingEnumType>
+      </se:Configuration>
+      <se:InputKey>InputKey</se:InputKey>
+      <se:OutputKey>OutputKey</se:OutputKey>
+      <se:IoPrenamingEnabled>false</se:IoPrenamingEnabled>
+      <se:PrenamingSymbolPrefix></se:PrenamingSymbolPrefix>
+
+      <se:AnlogInputXPosition>5</se:AnlogInputXPosition>
+      <se:AnlogInputYPosition>195</se:AnlogInputYPosition>
+      <se:AnlogInputXSize>60</se:AnlogInputXSize>
+      <se:AnlogInputYSize>170</se:AnlogInputYSize>
+
+      <se:AnlogOutputXPosition>5</se:AnlogOutputXPosition>
+      <se:AnlogOutputYPosition>20</se:AnlogOutputYPosition>
+      <se:AnlogOutputXSize>60</se:AnlogOutputXSize>
+      <se:AnlogOutputYSize>170</se:AnlogOutputYSize>
+    </Custom>
+  </Device>
+</DeviceDescription>

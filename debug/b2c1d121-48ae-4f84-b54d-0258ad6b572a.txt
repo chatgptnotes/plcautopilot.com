@@ -1,0 +1,479 @@
+[DEBUG] Watching for changes in setting files C:\Users\Hp\.claude\settings.json...
+[DEBUG] Using bash path: "C:\Program Files\Git\bin\bash.exe"
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] Total LSP servers loaded: 0
+[DEBUG] LSP manager initialized with 0 servers
+[DEBUG] LSP server manager initialized successfully
+[DEBUG] Loading skills from directories: managed=C:\ProgramData\ClaudeCode\.claude\skills, user=C:\Users\Hp\.claude\skills, project=D:\Todays\Neuro360\.claude\skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] Creating shell snapshot for bash (C:\Program Files\Git\bin\bash.exe)
+[DEBUG] Looking for shell config file: C:\Users\Hp\.bashrc
+[DEBUG] Shell config file not found: C:\Users\Hp\.bashrc, creating snapshot with Claude Code defaults only
+[DEBUG] Snapshots directory: C:\Users\Hp\.claude\shell-snapshots
+[DEBUG] Creating snapshot at: C:\Users\Hp\.claude\shell-snapshots\snapshot-bash-1763634138713-17try7.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\b2c1d121-48ae-4f84-b54d-0258ad6b572a-agent-b2c1d121-48ae-4f84-b54d-0258ad6b572a.json.tmp.18176.1763634138733
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\b2c1d121-48ae-4f84-b54d-0258ad6b572a-agent-b2c1d121-48ae-4f84-b54d-0258ad6b572a.json.tmp.18176.1763634138733 to C:\Users\Hp\.claude\todos\b2c1d121-48ae-4f84-b54d-0258ad6b572a-agent-b2c1d121-48ae-4f84-b54d-0258ad6b572a.json
+[DEBUG] File C:\Users\Hp\.claude\todos\b2c1d121-48ae-4f84-b54d-0258ad6b572a-agent-b2c1d121-48ae-4f84-b54d-0258ad6b572a.json written atomically
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Ripgrep first use test: PASSED (mode=builtin, path=C:\Users\Hp\AppData\Roaming\npm\node_modules\@anthropic-ai\claude-code\vendor\ripgrep\x64-win32\rg.exe)
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Summarizing last 1 of 670 messages (~0 tokens)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634139212
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634139212 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634139225
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634139225 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634139238
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634139238 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Shell snapshot created successfully (339 bytes)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634139808
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634139808 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Summarizing last 6 of 88 messages (~141434 tokens)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634140734
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634140734 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for SessionStart with query: startup
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "startup" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634140826
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42509 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634140826 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634140840
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42509 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634140840 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] performStartupChecks called
+[DEBUG] Starting background plugin installations
+[DEBUG] performBackgroundPluginInstallations called
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763634140917
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763634140917 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Setting installation status: 0 marketplaces, 0 installable plugins, 0 uninstallable plugins
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Stream started - received first chunk
+[DEBUG] MCP server "ide": Starting connection with timeout of 30000ms
+[DEBUG] MCP server "ide": Successfully connected to ws-ide server in 72ms
+[DEBUG] MCP server "ide": Connection established with capabilities: {"hasTools":true,"hasPrompts":false,"hasResources":false,"serverVersion":{"name":"Claude Code VSCode MCP","version":"2.0.45"}}
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Added snapshot for 6a6a058a-082f-4910-ac5f-f1941d8a6d0d, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 48ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/Downloads/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readSync (node:fs:734:18)
+    at Object.readSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:472)
+    at zK (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3625:105)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:475)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readFileSync (node:fs:435:20)
+    at Object.readFileSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:299)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:490)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+    at r71 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:68:5038)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 133ms
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 35ms
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 1ca03130-ef90-4d97-ba85-23e436e522d2
+[DEBUG] FileHistory: Added snapshot for 1ca03130-ef90-4d97-ba85-23e436e522d2, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 50ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/Downloads/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readSync (node:fs:734:18)
+    at Object.readSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:472)
+    at zK (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3625:105)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:475)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readFileSync (node:fs:435:20)
+    at Object.readFileSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:299)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:490)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+    at r71 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:68:5038)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 240ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 46ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 59ms
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 7872294f-0193-4f06-8d90-4c20b4960a9a
+[DEBUG] FileHistory: Added snapshot for 7872294f-0193-4f06-8d90-4c20b4960a9a, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 87ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 53ms
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 08d1264c-1ef8-4f3d-864b-ff765749f2b1
+[DEBUG] FileHistory: Added snapshot for 08d1264c-1ef8-4f3d-864b-ff765749f2b1, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 92ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Getting matching hook commands for PreToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Glob
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Glob" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 101ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Applying permission update: Setting mode to 'acceptEdits'
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\settings.json.tmp.18176.1763638304291
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 36 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\settings.json.tmp.18176.1763638304291 to C:\Users\Hp\.claude\settings.json
+[DEBUG] File C:\Users\Hp\.claude\settings.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\settings.json.tmp.18176.1763638304827
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 37 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude\settings.json.tmp.18176.1763638304827 to C:\Users\Hp\.claude\settings.json
+[DEBUG] File C:\Users\Hp\.claude\settings.json written atomically
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Detected change to C:\Users\Hp\.claude\settings.json
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763638313352
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763638313352 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Applying permission update: Setting mode to 'plan'
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763638313410
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763638313410 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Applying permission update: Setting mode to 'plan'
+[DEBUG] Applying permission update: Setting mode to 'default'
+[DEBUG] Applying permission update: Setting mode to 'default'
+[DEBUG] Applying permission update: Setting mode to 'acceptEdits'
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 1s
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.18176.1763638315495
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.18176.1763638315495 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Applying permission update: Setting mode to 'plan'
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Grep
+[DEBUG] Getting matching hook commands for PreToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Grep
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Grep" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 318ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 279ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[ERROR] Error: Error: Language not supported while highlighting code, falling back to markdown: 
+    at OD (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4413)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4141
+    at Array.map (<anonymous>)
+    at vF (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1251:4132)
+    at G$Q (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1617:2875)
+    at pw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:72:19414)
+    at Mt (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:42806)
+    at b9 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38347)
+    at Up (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38275)
+    at B$ (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:38129)
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)

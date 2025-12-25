@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+         xmlns:xi="http://www.w3.org/2003/XInclude">
+
+  <Content key="#Prenaming">
+    <String identifier="S0.Comment">Indica o ejecuta un arranque en frío (datos inicializados a los valores predeterminados)</String>
+    <String identifier="S1.Comment">Indica que se ha producido un arranque en caliente con copia de seguridad de los datos</String>
+    <String identifier="S4.Comment">Base de tiempo de 10 ms generada por un reloj interno</String>
+    <String identifier="S5.Comment">Base de tiempo de 100 ms generada por un reloj interno</String>
+    <String identifier="S6.Comment">Base de tiempo de 1 s generada por un reloj interno</String>
+    <String identifier="S7.Comment">Base de tiempo de 1 min generada por un reloj interno</String>
+    <String identifier="S10.Comment">Comunicación de E/S correcta (1), error detectado en comunicación de E/S (0)</String>
+    <String identifier="S11.Comment">El desborde de watchdog hace que el autómata cambie al modo de detención</String>
+    <String identifier="S12.Comment">El controlador se está ejecutando</String>
+    <String identifier="S13.Comment">Indica el primer ciclo del controlador en modalidad RUN</String>
+    <String identifier="S14.Comment">Este bit indica que al menos hay una entrada o salida forzada</String>
+    <String identifier="S15.Comment">Este bit indica que al menos hay una entrada forzada</String>
+    <String identifier="S16.Comment">Este bit indica que al menos hay una salida forzada</String>
+    <String identifier="S17.Comment">Indica el valor del último bit expulsado</String>
+    <String identifier="S18.Comment">Indica un desborde cuando se realiza una operación de 16 bits</String>
+    <String identifier="S19.Comment">Indica que el tiempo de exploración es mayor que el periodo definido por el usuario</String>
+    <String identifier="S20.Comment">Indica un desborde de índice de la dirección de objeto indexado cuando se realiza una operación de 16 bits</String>
+    <String identifier="S21.Comment">En el estado 1, este bit provoca una inicialización GRAFCET. Los pasos activos se desactivan y los pasos iniciales se activan</String>
+    <String identifier="S22.Comment">En el estado 1, este bit provoca la desactivación de los pasos activos de todo el GRAFCET</String>
+    <String identifier="S23.Comment">Cuando es 1, valida el posicionamiento previo del GRAFCET. Si se mantiene este bit en 1, se inmoviliza el GRAFCET (se inmoviliza el gráfico)</String>
+    <String condition="catalogVersion lt v1700" identifier="S33.Comment">Cuando es 1 (si no existe una configuración de Post en uso), este bit permite establecer una nueva configuración de Ethernet por %SW33 a %SW38</String>
+    <String condition="catalogVersion gte v1700" identifier="S33.Comment">Cuando es 1 (si no existe una configuración de Post en uso), este bit permite establecer una nueva configuración de Ethernet por %SW33 a %SW38</String>
+    <String identifier="S34.Comment">Cuando es 1, este bit permite forzar algunas configuraciones específicas de Ethernet establecidas en %S35 y %S36</String>
+    <String identifier="S35.Comment">Este bit indica el modo Ethernet dúplex. Es 0 en caso de semidúplex, y 1 en caso de dúplex completo</String>
+    <String identifier="S36.Comment">Este bit indica la velocidad Ethernet. Se establece en 0 si la velocidad es de 10 Mbps, y en 1 si es de 100 Mbps</String>
+    <String identifier="S38.Comment">Este bit indica si los eventos se colocan en la cola de eventos en cuanto se detectan</String>
+    <String identifier="S39.Comment">Este bit indica si hay una saturación de la cola de eventos</String>
+    <String identifier="S49.Comment">Cuando es 1, se habilita el restablecimiento automático de salidas tras un cortocircuito</String>
+    <String identifier="S50.Comment">Cuando es 1, este bit permite actualizar la fecha y la hora</String>
+    <String identifier="S51.Comment">Cuando es 1, el usuario debe inicializar la fecha y la hora</String>
+    <String identifier="S52.Comment">Cuando el estado es 1, la fecha y la hora deben inicializarse</String>
+    <String identifier="S59.Comment">Cuando es 1, la fecha y la hora aumentan o disminuyen en función de los flancos ascendentes en los bits de control establecidos en %SW59</String>
+    <String condition="catalogVersion gte v2300" identifier="S66.Comment">Desactiva el indicador LED de batería cuando está establecido en 1</String>
+    <String identifier="S75.Comment">Cuando es 1, la alimentación de la batería externa es baja o no se detecta la batería</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="S91.Comment">El usuario establece este bit en 1 para borrar todas las variables %MW de la memoria Flash</String>
+    <String condition="catalogVersion lt v1800" identifier="S93.Comment">El usuario establece este bit en 1 para almacenar la variable %MW en la memoria Flash (hasta 1000)</String>
+    <String identifier="S96.Comment">Cuando es 1, el programa de copia de seguridad es válido</String>
+    <String conditionEnd="catalogVersion lt v2800" identifier="S101.Comment">Cuando es 1, puede cambiarse la dirección modificando los valores de %SW101 (puerto 1) o %SW102 (puerto 2)</String>
+    <String identifier="S103.Comment">Cuando es 1, este bit permite configurar el protocolo ASCII en la línea serie 1</String>
+    <String identifier="S104.Comment">Cuando es 1, este bit permite configurar el protocolo ASCII en la línea serie 2</String>
+    <String identifier="S119.Comment">Este bit se establece en 0 cuando se detecta una interrupción de comunicación de E/S en el controlador base</String>
+    <String identifier="SW0.Comment">Modifica el periodo de ciclo del autómata definido en la configuración mediante el programa de aplicación en el Editor de tablas de animación</String>
+    <String condition="catalogVersion lt v1300" identifier="SW1.Comment">Modifica el tiempo de ciclo de la tarea periódica</String>
+    <String condition="catalogVersion gte v1300" conditionEnd="catalogVersion lt v1800" identifier="SW1.Comment">Modifica el tiempo de ciclo de la tarea periódica</String>
+    <String identifier="SW6.Comment">Estado del controlador: NO HAY APLICACION (0), STOP (2), RUN (3), HALT (4), POWERLESS MODE (5)</String>
+    <String identifier="SW11.Comment">Contiene el valor máximo del watchdog</String>
+    <String identifier="SW13.Comment">Contiene la versión de arranque del controlador</String>
+    <String identifier="SW14.Comment">Contiene la versión comercial del controlador</String>
+    <String identifier="SW15.Comment">Contiene la versión de firmware del controlador (primera palabra)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW16.Comment">Contiene la versión de firmware del controlador (segunda palabra)</String>
+    <String identifier="SW18.Comment">Contiene el contador del temporizador absoluto (primera palabra)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW19.Comment">Contiene el contador del temporizador absoluto (segunda palabra)</String>
+    <String identifier="SW30.Comment">Muestra el tiempo de ejecución del último ciclo de exploración del controlador (en ms). Si el tiempo de exploración es 2.250 ms, %SW30 = 2 y %SW70 = 250</String>
+    <String identifier="SW31.Comment">Muestra el tiempo de ejecución del ciclo de exploración más largo del controlador (en ms) desde el último inicio en frío. Si el tiempo de exploración es 2.250 ms, %SW31 = 2 y %SW71 = 250</String>
+    <String identifier="SW32.Comment">Muestra el tiempo de ejecución del ciclo de exploración más corto del controlador (en ms) desde el último arranque en frío. Si el tiempo de exploración es 2.250 ms, %SW32 = 2 y %SW72 = 250</String>
+    <String identifier="SW39.Comment">Muestra el tiempo medio de ejecución de la tarea periódica en µs (últimas 5 veces)</String>
+    <String identifier="SW48.Comment">Muestra el número de eventos que se han ejecutado desde el último arranque en frío</String>
+    <String identifier="SW49.Comment">Función del RTC: contiene en BCD xN día de la semana (N=1 para Lunes)</String>
+    <String identifier="SW50.Comment">Función del RTC: contiene en BCD 00SS segundos</String>
+    <String identifier="SW51.Comment">Función del RTC: contiene en BCD HHMM: hora y minutos</String>
+    <String identifier="SW52.Comment">Función del RTC: contiene en BCD MMDD: mes y día</String>
+    <String identifier="SW53.Comment">Función del RTC: contiene en BCD CCYY: siglo y año</String>
+    <String identifier="SW54.Comment">Hora del último fallo de alimentación o detención del controlador (en BCD): SS segundos</String>
+    <String identifier="SW55.Comment">Hora del último fallo de alimentación o detención del controlador (en BCD): HHMM hora y minutos</String>
+    <String identifier="SW56.Comment">Hora del último fallo de alimentación o detención del controlador (en BCD): MMDD mes y día</String>
+    <String identifier="SW57.Comment">Hora del último fallo de alimentación o detención del controlador (en BCD):CCYY siglo y año</String>
+    <String identifier="SW58.Comment">Muestra el código que indica la causa de la última detención: Flanco de la entrada Run/Stop, Detención cuando se detecta un fallo de software, Comando de detención, Corte de corriente, Detención cuando se detecta un fallo de hardware</String>
+    <String identifier="SW59.Comment">Contiene dos grupos de 8 bits para ajustar la fecha actual. La operación siempre se realiza en el flanco ascendente del bit. Esta palabra se activa mediante el bit %S59</String>
+    <String identifier="SW61.Comment">Muestra el ID de hardware del controlador Ethernet</String>
+    <String identifier="SW63.Comment">Contiene el código de error EXCH1; consulte la ayuda online para obtener más información</String>
+    <String identifier="SW64.Comment">Contiene el código de error EXCH2; consulte la ayuda online para obtener más información</String>
+    <String identifier="SW67.Comment">Contiene el ID de código del controlador lógico. Para obtener más información, consulte la tabla de ID de código del M221 Logic Controller</String>
+    <String identifier="SW70.Comment">Muestra los microsegundos del tiempo de ejecución del último ciclo de exploración del controlador. Si el tiempo de exploración es 2.250 ms, %SW30 será 2 y %SW70 = 250</String>
+    <String identifier="SW71.Comment">Muestra los microsegundos del tiempo de ejecución del ciclo de exploración más largo del controlador desde el último arranque en frío. Si el tiempo de exploración es 2.250 ms, %SW31 será 2 y %SW71 = 250</String>
+    <String identifier="SW72.Comment">Muestra los microsegundos del tiempo de ejecución del ciclo de exploración más corto del controlador desde el último arranque en frío. Si el tiempo de exploración es 2.250 ms, %SW32 será 2 y %SW72 = 250</String>
+    <String identifier="SW75.Comment">Muestra el porcentaje de carga de procesamiento</String>
+    <String identifier="SW76.Comment">Contador regresivo 1, disminuido individualmente cada milisegundo por el sistema</String>
+    <String identifier="SW77.Comment">Contador regresivo 2, disminuido individualmente cada milisegundo por el sistema</String>
+    <String identifier="SW78.Comment">Contador regresivo 3, disminuido individualmente cada milisegundo por el sistema</String>
+    <String identifier="SW79.Comment">Contador regresivo 4, disminuido individualmente cada milisegundo por el sistema</String>
+    <String identifier="SW80.Comment">Cada bit indica el estado de las entradas analógicas incrustadas</String>
+    <String identifier="SW94.Comment">Contiene la firma, cambia en caso de un cambio de aplicación en lo que se refiere a configuración o datos de programación</String>
+    <String identifier="SW95.Comment">Contiene la firma, cambia en caso de un cambio de aplicación en lo que se refiere a configuración o datos de programación</String>
+    <String identifier="SW98.Comment">Estado de configuración de Post de la línea serie 1. Los bits se establecen en 1 al aplicar la configuración de Post para el parámetro</String>
+    <String identifier="SW99.Comment">Estado de configuración de Post de la línea serie 2. Los bits se establecen en 1 al aplicar la configuración de Post para el parámetro</String>
+    <String identifier="SW101.Comment">Dirección del puerto 1; cuando el bit %S101 es 1, puede modificar la dirección Modbus</String>
+    <String identifier="SW102.Comment">Dirección del puerto 2; cuando el bit %S101 es 1, puede modificar la dirección Modbus</String>
+    <String identifier="SW114.Comment">Habilita o bloquea el funcionamiento de los fechadores mediante el programa de aplicación o el monitor de operación</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="SW119.Comment">Indica los módulos de expansión configurados como opcionales (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW130.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.2 en µs</String>
+    <String identifier="SW131.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.3 en µs</String>
+    <String identifier="SW132.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.4 en µs</String>
+    <String identifier="SW133.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.5 en µs</String>
+    <String identifier="SW134.Comment">Muestra el último tiempo de ejecución del umbral 0 del evento de HSC0 en µs</String>
+    <String identifier="SW135.Comment">Muestra el último tiempo de ejecución del umbral 1 del evento de HSC0 en µs</String>
+    <String identifier="SW136.Comment">Muestra el último tiempo de ejecución del umbral 0 del evento de HSC1 en µs</String>
+    <String identifier="SW137.Comment">Muestra el último tiempo de ejecución del umbral 1 del evento de HSC1 en µs</String>
+    <String identifier="SW138.Comment">Muestra el último tiempo de ejecución de la tarea periódica en µs</String>
+    <String identifier="SW139.Comment">Muestra el estado de error de protección de los bloques de salida</String>
+    <String condition="catalogVersion lt v1800" identifier="SW148.Comment">Número de variables persistentes (máximo 1000)</String>
+    <String identifier="SW149.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.2 en ms</String>
+    <String identifier="SW150.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.3 en ms</String>
+    <String identifier="SW151.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.4 en ms</String>
+    <String identifier="SW152.Comment">Muestra el último tiempo de ejecución de la entrada de evento %I0.5 en ms</String>
+    <String identifier="SW153.Comment">Muestra el último tiempo de ejecución del umbral 0 del evento de HSC0 en ms</String>
+    <String identifier="SW154.Comment">Muestra el último tiempo de ejecución del umbral 1 del evento de HSC0 en ms</String>
+    <String identifier="SW155.Comment">Muestra el último tiempo de ejecución del umbral 0 del evento de HSC1 en ms</String>
+    <String identifier="SW156.Comment">Muestra el último tiempo de ejecución del umbral 1 del evento de HSC1 en ms</String>
+    <String identifier="SW157.Comment">Muestra el último tiempo de ejecución de la tarea periódica en ms</String>
+    <String identifier="SW158.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) de la tarea periódica en ms</String>
+    <String identifier="SW159.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 0 en ms</String>
+    <String identifier="SW160.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 1 en ms</String>
+    <String identifier="SW161.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 2 en ms</String>
+    <String identifier="SW162.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 3 en ms</String>
+    <String identifier="SW163.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 4 en ms</String>
+    <String identifier="SW164.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 5 en ms</String>
+    <String identifier="SW165.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 6 en ms</String>
+    <String identifier="SW166.Comment">Muestra el tiempo medio de ejecución (últimas 5 veces) del evento 7 en ms</String>
+    <String identifier="SW170.Comment">Cuenta el número de tramas transmitidas por la línea serie 1</String>
+    <String identifier="SW171.Comment">Cuenta el número de tramas transmitidas por la línea serie 2</String>
+    <String identifier="SW172.Comment">Cuenta el número de tramas transmitidas por el canal USB</String>
+    <String identifier="SW174.Comment">Cuenta el número de tramas recibidas correctamente por la línea serie 1</String>
+    <String identifier="SW175.Comment">Cuenta el número de tramas recibidas correctamente por la línea serie 2</String>
+    <String identifier="SW176.Comment">Cuenta el número de tramas recibidas correctamente por el canal USB</String>
+    <String identifier="SW178.Comment">Cuenta el número de tramas recibidas con error por la línea serie 1</String>
+    <String identifier="SW179.Comment">Cuenta el número de tramas recibidas con error por la línea serie 2</String>
+    <String identifier="SW180.Comment">Cuenta el número de tramas recibidas con error por el canal USB</String>
+
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_lt_v2000" condition="catalogVersion lt v2000"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_gte_v2000" condition="catalogVersion gte v2000"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_gte_v2800" condition="catalogVersion gte v2800"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_gte_v2900" condition="catalogVersion gte v2900"/>
+  </Content>
+
+  <Content key="#Prenaming_gte_v1800">
+    <String identifier="S9.Comment">Establézcalo en 1 para aplicar retornos en salidas digitales y analógicas</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="S93.Comment">El usuario establece este bit en 1 para almacenar la variable %MW en la memoria Flash (hasta 2000)</String>
+    <String identifier="S106.Comment">El valor predeterminado es 0. Cuando es 1, cambia el comportamiento del bus de E/S gestionando los intercambios de módulo E/S incluso en caso de error permanente</String>
+    <String identifier="S107.Comment">El flanco ascendente de este bit permite reconfigurar y reiniciar el bus de E/S</String>
+    <String identifier="S110.Comment">Se establece en 1 para reiniciar el IOScanner en la línea serie 1</String>
+    <String identifier="S111.Comment">Se establece en 1 para reiniciar el IOScanner en la línea serie 2</String>
+    <String identifier="S113.Comment">Se establece en 1 para suspender el IOScanner en la línea serie 1</String>
+    <String identifier="S114.Comment">Se establece en 1 para suspender el IOScanner en la línea serie 2</String>
+    <String identifier="SW1.Comment">Modifica el tiempo de ciclo de la tarea periódica</String>
+    <String identifier="SW16.Comment">Contiene la versión de firmware del controlador (segunda palabra)</String>
+    <String identifier="SW19.Comment">Contiene el contador del temporizador absoluto (segunda palabra)</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="SW148.Comment">Número de variables persistentes (máximo 2000)</String>
+    <String identifier="SW210.Comment">Contiene el estado de IOScanner de la línea serie 1</String>
+    <String identifier="SW211.Comment">Contiene el estado de IOScanner de la línea serie 2</String>
+  </Content>
+
+  <Content key="#Prenaming_lt_v2000">
+    <String identifier="S92.Comment">Se establece en 1 si hay datos válidos almacenados en la memoria Flash</String>
+    <String identifier="S94.Comment">El usuario establece este bit en 1 para restaurar los datos guardados</String>
+    <String identifier="SW7.Comment">Esta palabra muestra el estado del controlador (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW17.Comment">Estado predeterminado cuando se detecta un error en una operación aritmética flotante (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW40.Comment">Muestra el tiempo medio de ejecución del evento 0 en µs (últimas 5 veces)</String>
+    <String identifier="SW41.Comment">Muestra el tiempo medio de ejecución del evento 1 en µs (últimas 5 veces)</String>
+    <String identifier="SW42.Comment">Muestra el tiempo medio de ejecución del evento 2 en µs (últimas 5 veces)</String>
+    <String identifier="SW43.Comment">Muestra el tiempo medio de ejecución del evento 3 en µs (últimas 5 veces)</String>
+    <String identifier="SW44.Comment">Muestra el tiempo medio de ejecución del evento 4 en µs (últimas 5 veces)</String>
+    <String identifier="SW45.Comment">Muestra el tiempo medio de ejecución del evento 5 en µs (últimas 5 veces)</String>
+    <String identifier="SW46.Comment">Muestra el tiempo medio de ejecución del evento 6 en µs (últimas 5 veces)</String>
+    <String identifier="SW47.Comment">Muestra el tiempo medio de ejecución del evento 7 en µs (últimas 5 veces)</String>
+    <String identifier="SW96.Comment">Contiene el comando o los diagnósticos para la función guardar/restaurar del programa de aplicación (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW103.Comment">Configuración para uso del protocolo ASCII del puerto 1 cuando el bit %S103 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW104.Comment">Configuración para uso del protocolo ASCII del puerto 2 cuando el bit %S104 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW105.Comment">Configuración para uso del protocolo ASCII del puerto 1 cuando el bit %S103 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW106.Comment">Configuración para uso del protocolo ASCII del puerto 2 cuando el bit %S104 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW118.Comment">Muestra el estado del controlador lógico (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW120.Comment">Muestra el estado del módulo de E/S de ampliación (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW121.Comment">Configuración para uso del tamaño de la trama ASCII del puerto 1 cuando el bit %S103 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW122.Comment">Configuración para uso del tamaño de la trama ASCII del puerto 2 cuando el bit %S104 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW128.Comment">Muestra el código de estado para el cartucho 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW129.Comment">Muestra el código de estado para el cartucho 2 (consulte la ayuda online para obtener más información)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2000">
+    <String identifier="S28.Comment">Si se establece en 1, indica que hay un desborde en un objeto de memoria al gestionar las cadenas</String>
+    <String identifier="S90.Comment">Copia de seguridad/restauración de valores de memoria de/a memoria no volátil (0, predeterminado) o de/a tarjeta SD (1)</String>
+    <String identifier="S91.Comment">Establezca este bit en 1 para borrar todos los valores de memoria en la memoria no volátil</String>
+    <String identifier="S92.Comment">Establezca este bit en 1 si hay valores de memoria válidos guardados en la memoria no volátil</String>
+    <String identifier="S93.Comment">Establezca este bit en 1 para hacer una copia de seguridad de los valores de memoria en la memoria no volátil (%S90 = 0) o en la tarjeta SD (%S90 = 1)</String>
+    <String identifier="S94.Comment">Establezca este bit en 1 para restaurar los valores de memoria de la memoria no volátil (%S90 = 0) o la tarjeta SD (%S90 = 1)</String>
+    <String identifier="SW7.Comment">Esta palabra muestra el estado del controlador (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW17.Comment">Estado predeterminado cuando se detecta un error en una operación aritmética flotante (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW40.Comment">Muestra el tiempo medio de ejecución del evento 0 en µs (últimas 5 veces)</String>
+    <String identifier="SW41.Comment">Muestra el tiempo medio de ejecución del evento 1 en µs (últimas 5 veces)</String>
+    <String identifier="SW42.Comment">Muestra el tiempo medio de ejecución del evento 2 en µs (últimas 5 veces)</String>
+    <String identifier="SW43.Comment">Muestra el tiempo medio de ejecución del evento 3 en µs (últimas 5 veces)</String>
+    <String identifier="SW44.Comment">Muestra el tiempo medio de ejecución del evento 4 en µs (últimas 5 veces)</String>
+    <String identifier="SW45.Comment">Muestra el tiempo medio de ejecución del evento 5 en µs (últimas 5 veces)</String>
+    <String identifier="SW46.Comment">Muestra el tiempo medio de ejecución del evento 6 en µs (últimas 5 veces)</String>
+    <String identifier="SW47.Comment">Muestra el tiempo medio de ejecución del evento 7 en µs (últimas 5 veces)</String>
+    <String identifier="SW96.Comment">Contiene el comando o los diagnósticos para la función guardar/restaurar del programa de aplicación (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW103.Comment">Configuración para uso del protocolo ASCII del puerto 1 cuando el bit %S103 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW104.Comment">Configuración para uso del protocolo ASCII del puerto 2 cuando el bit %S104 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW105.Comment">Configuración para uso del protocolo ASCII del puerto 1 cuando el bit %S103 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW106.Comment">Configuración para uso del protocolo ASCII del puerto 2 cuando el bit %S104 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW115.Comment">Número de serie del controlador parte 1 (BCD)</String>
+    <String identifier="SW116.Comment">Número de serie del controlador parte 2 (BCD)</String>
+    <String identifier="SW117.Comment">Número de serie del controlador parte 3 (BCD)</String>
+    <String identifier="SW118.Comment">Muestra el estado del controlador lógico (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW119.Comment">Indica los módulos de expansión configurados como opcionales (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW120.Comment">Muestra el estado del módulo de E/S de ampliación (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW121.Comment">Configuración para uso del tamaño de la trama ASCII del puerto 1 cuando el bit %S103 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW122.Comment">Configuración para uso del tamaño de la trama ASCII del puerto 2 cuando el bit %S104 es 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW128.Comment">Muestra el código de estado para el cartucho 1 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW129.Comment">Muestra el código de estado para el cartucho 2 (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW140.Comment">Último código de error del controlador 1</String>
+    <String identifier="SW141.Comment">Último código de error del controlador 2</String>
+    <String identifier="SW142.Comment">Último código de error del controlador 3</String>
+    <String identifier="SW143.Comment">Número de entradas en PlcLog.csv</String>
+    <String identifier="SW147.Comment">Proporciona el estado de la operación de copia de seguridad/restauración a/de la tarjeta SD</String>
+    <String identifier="SW148.Comment">Número de valores de memoria para hacer copia de seguridad/restaurar de/a la memoria no volátil (%S90 =0) o tarjeta SD (%S90 = 1)</String>
+  </Content>
+
+  <Content key="#Prenaming_Modem">
+    <String condition="catalogVersion gte v1300" identifier="S105.Comment">Cuando es 1, este bit permite inicializar el módem (consulte también %SW167)</String>
+    <String condition="catalogVersion gte v1200" identifier="SW167.Comment">Describe la respuesta del módem al último comando Init</String>
+  </Content>
+
+  <Content key="#Prenaming_Display">
+    <String condition="catalogVersion gte v1600" identifier="SW185.Comment">Contiene la versión del terminal gráfico remoto</String>
+
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_Display_gte_v1200" condition="catalogVersion gte v1200"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_Display_gte_v1400" condition="catalogVersion gte v1400"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1200">
+    <String identifier="SW182.Comment">Estado de conexión del terminal gráfico remoto</String>
+    <String identifier="SW183.Comment">Último error detectado del terminal gráfico remoto</String>
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1400">
+    <String identifier="S122.Comment">La pantalla cambiará automáticamente a la página de alarma</String>
+    <String identifier="S123.Comment">La retroiluminación de la pantalla se encenderá en color rojo mientras haya una alarma activa</String>
+    <String identifier="SW184.Comment">Contiene el índice de páginas de visualización y permite seleccionar otra página</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet">
+    <String identifier="SW62.Comment">Muestra el código de error Ethernet (0 Ningún error, 1 IP duplicada, 2 DHCP en curso, 3 BOOTP en curso, 4 Parámetros no válidos, 5 IP fija en curso, 6 Fallo de Ethernet)</String>
+    <String identifier="SW65.Comment">Contiene el código de error EXCH3 para controladores Ethernet (consulte la ayuda online para obtener más información)</String>
+    <String identifier="SW100.Comment">Estado de configuración de Post del puerto Ethernet. Los bits se establecen en 1 al aplicar la configuración de Post para el parámetro</String>
+    <String identifier="SW168.Comment">Muestra el número de conexiones de servidor para Ethernet Modbus TCP en uso</String>
+    <String identifier="SW173.Comment">Cuenta el número de tramas transmitidas por Modbus TCP en Ethernet</String>
+    <String identifier="SW177.Comment">Cuenta el número de tramas recibidas correctamente por Modbus TCP en Ethernet</String>
+    <String identifier="SW181.Comment">Cuenta el número de tramas recibidas con error por Modbus TCP en Ethernet</String>
+
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_Ethernet_lt_v1800" condition="catalogVersion lt v1800"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_Ethernet_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_Ethernet_gte_v2000" condition="catalogVersion gte v2000"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_lt_v1800">
+    <String identifier="SW33.Comment">Contiene la segunda parte CC.DD de la dirección IP AA.BB.CC.DD</String>
+    <String identifier="SW34.Comment">Contiene la primera parte AA.BB de la dirección IP AA.BB.CC.DD</String>
+    <String identifier="SW35.Comment">Contiene la segunda parte CC.DD de la máscara de subred AA.BB.CC.DD</String>
+    <String identifier="SW36.Comment">Contiene la primera parte AA.BB de la máscara de subred AA.BB.CC.DD</String>
+    <String identifier="SW37.Comment">Contiene la segunda parte CC.DD de la dirección de pasarela AA.BB.CC.DD</String>
+    <String identifier="SW38.Comment">Contiene la primera parte AA.BB de la dirección de pasarela AA.BB.CC.DD</String>
+    <String identifier="SW107.Comment">Contiene la primera parte AA.BB de la dirección MAC AA:BB:CC:DD:EE:FF</String>
+    <String identifier="SW108.Comment">Contiene la segunda parte AA.BB de la dirección MAC AA:BB:CC:DD:EE:FF</String>
+    <String identifier="SW109.Comment">Contiene la tercera parte AA.BB de la dirección MAC AA:BB:CC:DD:EE:FF</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v1800">
+    <String identifier="SW33.Comment">Contiene la segunda parte CC.DD de la dirección IP AA.BB.CC.DD</String>
+    <String identifier="SW34.Comment">Contiene la primera parte AA.BB de la dirección IP AA.BB.CC.DD</String>
+    <String identifier="SW35.Comment">Contiene la segunda parte CC.DD de la máscara de subred AA.BB.CC.DD</String>
+    <String identifier="SW36.Comment">Contiene la primera parte AA.BB de la máscara de subred AA.BB.CC.DD</String>
+    <String identifier="SW37.Comment">Contiene la segunda parte CC.DD de la dirección de pasarela AA.BB.CC.DD</String>
+    <String identifier="SW38.Comment">Contiene la primera parte AA.BB de la dirección de pasarela AA.BB.CC.DD</String>
+    <String identifier="SW107.Comment">Contiene la primera parte AA.BB de la dirección MAC AA:BB:CC:DD:EE:FF</String>
+    <String identifier="SW108.Comment">Contiene la segunda parte AA.BB de la dirección MAC AA:BB:CC:DD:EE:FF</String>
+    <String identifier="SW109.Comment">Contiene la tercera parte AA.BB de la dirección MAC AA:BB:CC:DD:EE:FF</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v2000">
+    <String identifier="S112.Comment">Se establece en 1 para reiniciar el IOScanner en Ethernet</String>
+    <String identifier="S115.Comment">Se establece en 1 para suspender el IOScanner en Ethernet</String>
+    <String identifier="SW212.Comment">Contiene el estado de IOScanner en Ethernet</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping">
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400" condition="catalogVersion gte v1400"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000" condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000"/>
+    <xi:include href="_M221_es-ES.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000" condition="catalogVersion gte v2000"/>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400">
+    <String identifier="SW188.Comment">Cuenta el número de tramas transmitidas por la tabla de asignaciones Modbus</String>
+    <String identifier="SW189.Comment">Cuenta el número de tramas recibidas correctamente por la tabla de asignaciones Modbus</String>
+    <String identifier="SW202.Comment">Lee el número de instancia de ensamblado de entrada</String>
+    <String identifier="SW203.Comment">Lee el tamaño de la instancia de ensamblado de entrada</String>
+    <String identifier="SW204.Comment">Lee el número de instancia de ensamblado de salida</String>
+    <String identifier="SW205.Comment">Lee el tamaño de la instancia de ensamblado de salida</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000">
+    <String identifier="SW190.Comment">Cuenta el número de tramas transmitidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW191.Comment">Cuenta el número de tramas transmitidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW192.Comment">Cuenta el número de tramas recibidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW193.Comment">Cuenta el número de tramas recibidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW194.Comment">Cuenta el número de mensajes recibidos de EtherNet/IP desconectada (primera palabra)</String>
+    <String identifier="SW195.Comment">Cuenta el número de mensajes recibidos de EtherNet/IP desconectada (segunda palabra)</String>
+    <String identifier="SW196.Comment">Cuenta el número de mensajes no válidos recibidos de EtherNet/IP desconectada (primera palabra)</String>
+    <String identifier="SW197.Comment">Cuenta el número de mensajes no válidos recibidos de EtherNet/IP desconectada (segunda palabra)</String>
+    <String identifier="SW198.Comment">Cuenta el número de solicitudes de clase 3 recibidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW199.Comment">Cuenta el número de solicitudes de clase 3 recibidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW200.Comment">Cuenta el número de solicitudes no válidas de clase 3 recibidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW201.Comment">Cuenta el número de solicitudes no válidas de clase 3 recibidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW206.Comment">Cuenta el número de timeouts de la conexión en EtherNet/IP</String>
+    <String identifier="SW207.Comment">Lee el indicador de EtherNet/IP del último paquete de E/S: inactivo (valor=0), en ejecución (valor=1), error (valor=2)</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000">
+    <String identifier="SW190.Comment">Cuenta el número de tramas transmitidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW191.Comment">Cuenta el número de tramas transmitidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW192.Comment">Cuenta el número de tramas recibidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW193.Comment">Cuenta el número de tramas recibidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW194.Comment">Cuenta el número de mensajes recibidos de EtherNet/IP desconectada (primera palabra)</String>
+    <String identifier="SW195.Comment">Cuenta el número de mensajes recibidos de EtherNet/IP desconectada (segunda palabra)</String>
+    <String identifier="SW196.Comment">Cuenta el número de mensajes no válidos recibidos de EtherNet/IP desconectada (primera palabra)</String>
+    <String identifier="SW197.Comment">Cuenta el número de mensajes no válidos recibidos de EtherNet/IP desconectada (segunda palabra)</String>
+    <String identifier="SW198.Comment">Cuenta el número de solicitudes de clase 3 recibidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW199.Comment">Cuenta el número de solicitudes de clase 3 recibidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW200.Comment">Cuenta el número de solicitudes no válidas de clase 3 recibidas en EtherNet/IP (primera palabra)</String>
+    <String identifier="SW201.Comment">Cuenta el número de solicitudes no válidas de clase 3 recibidas en EtherNet/IP (segunda palabra)</String>
+    <String identifier="SW206.Comment">Cuenta el número de timeouts de la conexión en EtherNet/IP</String>
+    <String identifier="SW207.Comment">Lee el indicador de EtherNet/IP del último paquete de E/S: inactivo (valor=0), en ejecución (valor=1), error (valor=2)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2800">
+    <String condition="catalogVersion gte v2800" identifier="S101.Comment">Cuando es 1, puede cambiarse la dirección modificando los valores de %SW101 (puerto 1) o %SW102 (puerto 2) o %SW111 (puerto 5)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2900">
+    <String condition="catalogVersion gte v2900" identifier="S32.Comment">Si se establece en 1, se habilita el restablecimiento del dispositivo mediante el objeto de identidad CIP en el protocolo Ethernet/IP</String>
+  </Content>
+</Content>

@@ -1,0 +1,599 @@
+/**
+ * Enhanced AI-Powered PDF Report Generator
+ * Uses OpenAI to generate content + PDFKit to create beautiful PDFs
+ *
+ * Features:
+ * - Page 1: Blue gradient background with NeuroSense branding
+ * - Page 2: Parameter scores with visual cards
+ * - AI-generated content for insights and recommendations
+ */
+
+const PDFDocument = require('pdfkit');
+const OpenAI = require('openai');
+const fs = require('fs');
+const path = require('path');
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+// Color scheme
+const COLORS = {
+  primary: '#4A90E2',        // Primary Blue
+  primaryLight: '#67A3E9',   // Lighter Blue
+  primaryDark: '#2E5C8A',    // Darker Blue
+  teal: '#7DD3C0',           // Teal/Turquoise
+  white: '#FFFFFF',
+  black: '#000000',
+  darkGray: '#4A4A4A',
+  lightGray: '#F5F5F5',
+  green: '#2ECC71',          // High score
+  orange: '#E67E22',         // Low score
+  blue: '#3498DB'            // Medium score
+};
+
+// Fonts
+const FONTS = {
+  regular: 'Helvetica',
+  bold: 'Helvetica-Bold',
+  italic: 'Helvetica-Oblique',
+  boldItalic: 'Helvetica-BoldOblique'
+};
+
+class EnhancedAIPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+    this.doc = null;
+  }
+
+  /**
+   * Generate complete PDF report with AI insights
+   */
+  async generateReport(outputPath) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log('\n🤖 === Enhanced AI PDF Generation Started ===\n');
+        console.log('👤 Patient:', this.patientData.name);
+        console.log('📊 Parameters:', this.algorithmResults.parameters.length);
+        console.log('🎯 Overall Score:', this.algorithmResults.overallScore);
+
+        // Step 1: Create PDF document
+        this.doc = new PDFDocument({
+          size: 'A4',
+          margins: {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0
+          },
+          bufferPages: true,
+          autoFirstPage: false
+        });
+
+        // Create write stream
+        const stream = fs.createWriteStream(outputPath);
+        this.doc.pipe(stream);
+
+        // Step 2: Generate AI insights (parallel to PDF creation)
+        console.log('🧠 Generating AI insights...');
+        const aiInsights = await this.generateAIInsights();
+        console.log('✅ AI insights generated');
+
+        // Step 3: Generate PDF pages
+        console.log('📄 Creating Page 1: Cover with branding...');
+        this.generateCoverPage();
+
+        console.log('📄 Creating Page 2: Parameter Scores...');
+        this.generateParametersPage();
+
+        console.log('📄 Creating Page 3: AI Insights & Recommendations...');
+        this.generateInsightsPage(aiInsights);
+
+        // Finalize PDF
+        this.doc.end();
+
+        // Handle completion
+        stream.on('finish', () => {
+          console.log('✅ Enhanced AI PDF generated successfully:', outputPath);
+          const stats = fs.statSync(outputPath);
+          console.log('📊 File size:', (stats.size / 1024).toFixed(2), 'KB');
+          resolve(outputPath);
+        });
+
+        stream.on('error', (error) => {
+          console.error('❌ Error writing PDF:', error);
+          reject(error);
+        });
+
+      } catch (error) {
+        console.error('❌ Error generating AI PDF:', error);
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * PAGE 1: Cover Page with Blue Gradient Background
+   */
+  generateCoverPage() {
+    this.doc.addPage();
+
+    const pageWidth = 595.28;   // A4 width
+    const pageHeight = 841.89;  // A4 height
+    const centerX = pageWidth / 2;
+
+    // === BLUE GRADIENT BACKGROUND (Top 70%) ===
+    const blueHeight = pageHeight * 0.70;
+
+    // Draw gradient rectangles from top to middle
+    const gradientSteps = 100;
+    for (let i = 0; i < gradientSteps; i++) {
+      const y = (i / gradientSteps) * blueHeight;
+      const height = blueHeight / gradientSteps;
+
+      // Interpolate between primary and primaryLight
+      const factor = i / gradientSteps;
+      const color = this.interpolateColor(COLORS.primary, COLORS.primaryLight, factor);
+
+      this.doc.rect(0, y, pageWidth, height)
+        .fillColor(color)
+        .fill();
+    }
+
+    // === LOGO AREA (Top Right) ===
+    const logoX = pageWidth - 120;
+    const logoY = 35;
+
+    // Brain icon circle
+    this.doc.save();
+    this.doc.circle(logoX + 20, logoY + 10, 18)
+      .fillColor(COLORS.white, 0.3)
+      .fill()
+      .circle(logoX + 20, logoY + 10, 18)
+      .strokeColor(COLORS.white)
+      .lineWidth(2)
+      .stroke();
+
+    // Logo text
+    this.doc.fontSize(11)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('NEUROSENSE', logoX + 42, logoY, { width: 100 });
+
+    this.doc.fontSize(7)
+      .fillColor(COLORS.white)
+      .font(FONTS.regular)
+      .text('EEG Intelligence™', logoX + 42, logoY + 15, { width: 100 });
+    this.doc.restore();
+
+    // === MAIN TITLE ===
+    let yPos = 180;
+
+    this.doc.fontSize(32)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('NEUROSENSE QUANTITATIVE', 0, yPos, {
+        width: pageWidth,
+        align: 'center'
+      });
+
+    yPos += 42;
+    this.doc.fontSize(32)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('TRANSLATIONAL EEG INTELLIGENCE', 0, yPos, {
+        width: pageWidth,
+        align: 'center'
+      });
+
+    // === BRAIN ILLUSTRATION ===
+    yPos += 100;
+    this.drawBrainIllustration(centerX, yPos, 120, COLORS.white);
+
+    // === TEAL SECTION (Bottom 30%) ===
+    const tealY = blueHeight;
+    const tealHeight = pageHeight - blueHeight;
+
+    this.doc.save();
+    this.doc.rect(0, tealY, pageWidth, tealHeight)
+      .fillColor(COLORS.teal)
+      .fill();
+    this.doc.restore();
+
+    // === PATIENT INFORMATION TABLE ===
+    const tableY = tealY + 40;
+    const tableX = 100;
+    const tableWidth = pageWidth - 200;
+    const rowHeight = 30;
+
+    const fields = [
+      { label: 'Name', value: this.patientData.name || 'N/A' },
+      { label: 'Date of Recording', value: this.patientData.dateOfRecording || new Date().toISOString().split('T')[0] },
+      { label: 'Age', value: this.patientData.age ? `${this.patientData.age} years` : 'N/A' },
+      { label: 'Gender', value: this.patientData.gender || 'N/A' },
+      { label: 'Handedness', value: this.patientData.handedness || 'Right' }
+    ];
+
+    let rowY = tableY;
+    fields.forEach((field, index) => {
+      // Row separator
+      if (index > 0) {
+        this.doc.save();
+        this.doc.moveTo(tableX, rowY)
+          .lineTo(tableX + tableWidth, rowY)
+          .strokeColor(COLORS.darkGray, 0.3)
+          .lineWidth(1)
+          .stroke();
+        this.doc.restore();
+      }
+
+      // Label
+      this.doc.fontSize(10)
+        .fillColor(COLORS.darkGray)
+        .font(FONTS.bold)
+        .text(field.label, tableX + 10, rowY + 10, { width: tableWidth * 0.4 });
+
+      // Value
+      this.doc.fontSize(10)
+        .fillColor(COLORS.black)
+        .font(FONTS.regular)
+        .text(field.value, tableX + tableWidth * 0.45, rowY + 10, { width: tableWidth * 0.5 });
+
+      rowY += rowHeight;
+    });
+
+    // === FOOTER ===
+    const footerY = pageHeight - 35;
+    this.doc.fontSize(7)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.italic)
+      .text(
+        'This AI-generated report is not diagnostic. Please consult your doctor for proper interpretation and clinical correlation.',
+        50,
+        footerY,
+        { width: pageWidth - 100, align: 'left' }
+      );
+
+    this.doc.fontSize(7)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text('www.neurosenseeeg.com', pageWidth - 150, footerY, { width: 100, align: 'right' });
+  }
+
+  /**
+   * PAGE 2: Parameters Page with Score Cards
+   */
+  generateParametersPage() {
+    this.doc.addPage();
+
+    const margin = 50;
+    const pageWidth = 595.28;
+    const contentWidth = pageWidth - (margin * 2);
+    let yPos = margin;
+
+    // === HEADER ===
+    this.doc.fontSize(24)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text('Brain Health Assessment Results', margin, yPos);
+
+    yPos += 40;
+
+    // === OVERALL SCORE BOX ===
+    const scoreBoxHeight = 60;
+    this.doc.roundedRect(margin, yPos, contentWidth, scoreBoxHeight, 8)
+      .fillColor(COLORS.primary)
+      .fill();
+
+    const overallScore = this.algorithmResults.overallScore || 0;
+    const maxScore = (this.algorithmResults.parameters?.length || 7) * 3;
+    const percentage = Math.round((overallScore / maxScore) * 100);
+
+    this.doc.fontSize(20)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text(
+        `Overall Brain Health Score: ${overallScore}/${maxScore} (${percentage}%)`,
+        margin + 20,
+        yPos + 20,
+        { width: contentWidth - 40 }
+      );
+
+    yPos += scoreBoxHeight + 30;
+
+    // === INTRO TEXT ===
+    this.doc.fontSize(11)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text(
+        'Below are your 7 brain health parameters, each scored from 0-3 where higher scores indicate better performance.',
+        margin,
+        yPos,
+        { width: contentWidth, align: 'justify' }
+      );
+
+    yPos += 40;
+
+    // === PARAMETER CARDS ===
+    const parameters = this.algorithmResults.parameters || [];
+    const cardWidth = contentWidth;
+    const cardHeight = 70;
+    const cardSpacing = 10;
+
+    parameters.forEach((param, index) => {
+      // Check if we need a new page
+      if (yPos + cardHeight > 750) {
+        this.doc.addPage();
+        yPos = margin;
+      }
+
+      // Card background
+      const bgColor = index % 2 === 0 ? COLORS.lightGray : COLORS.white;
+      this.doc.roundedRect(margin, yPos, cardWidth, cardHeight, 8)
+        .fillColor(bgColor)
+        .fill();
+
+      // Border for emphasis
+      this.doc.roundedRect(margin, yPos, cardWidth, cardHeight, 8)
+        .strokeColor(COLORS.primary, 0.3)
+        .lineWidth(1)
+        .stroke();
+
+      // Parameter Number & Name
+      this.doc.fontSize(14)
+        .fillColor(COLORS.darkGray)
+        .font(FONTS.bold)
+        .text(`${index + 1}. ${param.name}`, margin + 15, yPos + 12, { width: cardWidth - 30 });
+
+      // Score
+      this.doc.fontSize(11)
+        .fillColor(COLORS.darkGray)
+        .font(FONTS.regular)
+        .text(`Score: ${param.score}/${param.maxScore}`, margin + 15, yPos + 32, { width: cardWidth - 30 });
+
+      // Classification Badge
+      const classColor = this.getClassificationColor(param.classification);
+      const badgeX = margin + cardWidth - 120;
+      const badgeY = yPos + 20;
+
+      this.doc.roundedRect(badgeX, badgeY, 100, 30, 5)
+        .fillColor(classColor)
+        .fill();
+
+      this.doc.fontSize(12)
+        .fillColor(COLORS.white)
+        .font(FONTS.bold)
+        .text(param.classification, badgeX, badgeY + 8, { width: 100, align: 'center' });
+
+      yPos += cardHeight + cardSpacing;
+    });
+
+    // === BRAIN TYPE PATTERN ===
+    yPos += 10;
+    if (yPos > 700) {
+      this.doc.addPage();
+      yPos = margin;
+    }
+
+    const brainTypePattern = parameters.map(p => `${p.name} ${p.classification.charAt(0)}`).join(' · ');
+
+    this.doc.fontSize(12)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text('Brain-Type Pattern:', margin, yPos);
+
+    yPos += 20;
+
+    this.doc.fontSize(10)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text(brainTypePattern, margin, yPos, { width: contentWidth });
+  }
+
+  /**
+   * PAGE 3: AI Insights and Recommendations
+   */
+  generateInsightsPage(aiInsights) {
+    this.doc.addPage();
+
+    const margin = 50;
+    const pageWidth = 595.28;
+    const contentWidth = pageWidth - (margin * 2);
+    let yPos = margin;
+
+    // === HEADER ===
+    this.doc.fontSize(24)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text('AI-Generated Insights & Recommendations', margin, yPos);
+
+    yPos += 50;
+
+    // === AI CONTENT ===
+    this.doc.fontSize(11)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text(aiInsights, margin, yPos, {
+        width: contentWidth,
+        align: 'justify',
+        lineGap: 5
+      });
+  }
+
+  /**
+   * Generate AI insights using OpenAI
+   */
+  async generateAIInsights() {
+    try {
+      // Skip AI if no API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.log('⚠️  No OpenAI API key - using default insights');
+        return this.getDefaultInsights();
+      }
+
+      const parametersText = this.algorithmResults.parameters.map((param, index) => {
+        return `${index + 1}. ${param.name}: ${param.score}/${param.maxScore} (${param.classification})`;
+      }).join('\n');
+
+      const prompt = `As a neuroscience expert, provide a brief, patient-friendly analysis (max 300 words) of these brain health results:
+
+Patient: ${this.patientData.name}, Age ${this.patientData.age}
+Overall Score: ${this.algorithmResults.overallScore}/21
+
+Parameters:
+${parametersText}
+
+Please provide:
+1. A brief summary of the overall brain health profile
+2. Key strengths and areas for improvement
+3. 2-3 practical recommendations for brain health optimization
+
+Keep the language simple, positive, and actionable. Avoid medical jargon.`;
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a compassionate neuroscience expert who explains brain health results in simple, encouraging language.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      });
+
+      return response.choices[0].message.content;
+
+    } catch (error) {
+      console.error('⚠️  AI generation failed, using default insights:', error.message);
+      return this.getDefaultInsights();
+    }
+  }
+
+  /**
+   * Default insights if AI is not available
+   */
+  getDefaultInsights() {
+    const overallScore = this.algorithmResults.overallScore || 0;
+    const maxScore = (this.algorithmResults.parameters?.length || 7) * 3;
+    const percentage = Math.round((overallScore / maxScore) * 100);
+
+    return `Based on your QEEG analysis, your overall brain health score is ${overallScore} out of ${maxScore} (${percentage}%).
+
+Your results show a unique brain profile with specific strengths and areas for optimization. Each person's brain is different, and these results help us understand how your brain is currently functioning.
+
+Key Observations:
+${this.algorithmResults.parameters.map((param, i) => {
+  return `${i + 1}. ${param.name}: Your score is ${param.classification.toLowerCase()}, indicating ${this.getParameterInsight(param)}.`;
+}).join('\n')}
+
+Recommendations:
+- Continue monitoring your brain health through regular assessments
+- Focus on lifestyle factors that support brain function: sleep, exercise, nutrition, and stress management
+- Consider targeted brain training exercises for areas showing room for improvement
+- Consult with your healthcare provider for personalized guidance
+
+Remember, your brain is capable of remarkable change and improvement through neuroplasticity. These results are a starting point for optimizing your cognitive performance and overall brain health.`;
+  }
+
+  /**
+   * Get parameter-specific insight
+   */
+  getParameterInsight(param) {
+    const insights = {
+      'High': 'strong performance in this area',
+      'Medium': 'balanced functioning with room for enhancement',
+      'Low': 'potential for significant improvement through targeted interventions'
+    };
+    return insights[param.classification] || 'normal range';
+  }
+
+  /**
+   * Get color based on classification
+   */
+  getClassificationColor(classification) {
+    const colors = {
+      'High': COLORS.green,
+      'Medium': COLORS.blue,
+      'Low': COLORS.orange
+    };
+    return colors[classification] || COLORS.darkGray;
+  }
+
+  /**
+   * Draw brain illustration (simplified)
+   */
+  drawBrainIllustration(x, y, size, color) {
+    const radius = size / 2;
+
+    // Main circle
+    this.doc.save();
+    this.doc.circle(x, y, radius)
+      .strokeColor(color)
+      .lineWidth(3)
+      .stroke();
+
+    // Brain details (simplified curves)
+    // Left hemisphere
+    this.doc.moveTo(x - radius * 0.7, y - radius * 0.3)
+      .bezierCurveTo(
+        x - radius * 0.5, y - radius * 0.5,
+        x - radius * 0.3, y - radius * 0.7,
+        x - radius * 0.1, y - radius * 0.5
+      )
+      .strokeColor(color)
+      .lineWidth(2)
+      .stroke();
+
+    // Right hemisphere
+    this.doc.moveTo(x + radius * 0.7, y - radius * 0.3)
+      .bezierCurveTo(
+        x + radius * 0.5, y - radius * 0.5,
+        x + radius * 0.3, y - radius * 0.7,
+        x + radius * 0.1, y - radius * 0.5
+      )
+      .strokeColor(color)
+      .lineWidth(2)
+      .stroke();
+
+    // Center line
+    this.doc.moveTo(x, y - radius * 0.6)
+      .lineTo(x, y + radius * 0.6)
+      .strokeColor(color)
+      .lineWidth(2)
+      .stroke();
+
+    this.doc.restore();
+  }
+
+  /**
+   * Interpolate between two hex colors
+   */
+  interpolateColor(color1, color2, factor) {
+    const hex1 = color1.replace('#', '');
+    const hex2 = color2.replace('#', '');
+
+    const r1 = parseInt(hex1.substring(0, 2), 16);
+    const g1 = parseInt(hex1.substring(2, 4), 16);
+    const b1 = parseInt(hex1.substring(4, 6), 16);
+
+    const r2 = parseInt(hex2.substring(0, 2), 16);
+    const g2 = parseInt(hex2.substring(2, 4), 16);
+    const b2 = parseInt(hex2.substring(4, 6), 16);
+
+    const r = Math.round(r1 + (r2 - r1) * factor);
+    const g = Math.round(g1 + (g2 - g1) * factor);
+    const b = Math.round(b1 + (b2 - b1) * factor);
+
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  }
+}
+
+module.exports = EnhancedAIPdfGenerator;

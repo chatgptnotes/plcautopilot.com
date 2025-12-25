@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd " xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd">
+
+<Types namespace="localTypes">
+		<!-- Defines types for To_X parameters -->
+		<EnumType basetype="std:UDINT" name="To_X.BusCycle">
+			<Enum identifier="BusCycle_500us">
+				<Value>500</Value>
+				<VisibleName name="local:dummy">0.5 ms</VisibleName>
+			</Enum>
+			<Enum identifier="BusCycle_1ms">
+				<Value>1000</Value>
+				<VisibleName name="local:dummy">1 ms</VisibleName>
+			</Enum>
+			<Enum identifier="BusCycle_2ms">
+				<Value>2000</Value>
+				<VisibleName name="local:dummy">2 ms</VisibleName>
+			</Enum>
+			<Enum identifier="BusCycle_3ms">
+				<Value>3000</Value>
+				<VisibleName name="local:dummy">3 ms</VisibleName>
+			</Enum>
+			<Enum identifier="BusCycle_4ms">
+				<Value>4000</Value>
+				<VisibleName name="local:dummy">4 ms</VisibleName>
+			</Enum>
+			<Enum identifier="BusCycle_5ms">
+				<Value>5000</Value>
+				<VisibleName name="local:dummy">5 ms</VisibleName>
+			</Enum>
+		</EnumType>
+    <EnumType basetype="std:BOOL" name="ErrorHandlingEnumType">
+      <Enum identifier="KeepLastValue">
+        <Value>true</Value>
+        <VisibleName name="local:KeepLastValue">Keep last value</VisibleName>
+      </Enum>
+      <Enum identifier="SetZero">
+        <Value>false</Value>
+        <VisibleName name="local:SetZero">Set to zero</VisibleName>
+      </Enum>
+    </EnumType>
+    <!-- Version of CHANNEL optimized for the IO Scanner	-->
+    <StructType name="CHANNEL">
+      <Component identifier="ChannelID" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.ChannelID">Channel ID</VisibleName>
+      </Component>
+      <Component identifier="UnitID" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.UnitID">Unit-ID</VisibleName>
+      </Component>
+      <Component identifier="RepetitionRate" type="std:DWORD">
+        <Default/>
+        <VisibleName name="local:CHANNEL.RepetitionRate">Repetition Rate</VisibleName>
+      </Component>
+      <Component identifier="FunctionCode" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.FunctionCode">Function Code</VisibleName>
+      </Component>
+      <Component identifier="ReadOffset" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.ReadOffset">Read Offset</VisibleName>
+      </Component>
+      <Component identifier="ReadLength" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.ReadLength">Read Length</VisibleName>
+      </Component>
+      <Component identifier="ErrorHandling" type="localTypes:ErrorHandlingEnumType">
+        <Default/>
+        <VisibleName name="local:CHANNEL.ErrorHandling">Error Handling</VisibleName>
+      </Component>
+      <Component identifier="WriteOffset" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.WriteOffset">Write Offset</VisibleName>
+      </Component>
+      <Component identifier="WriteLength" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL.WriteLength">Write Length</VisibleName>
+      </Component>
+    </StructType> 
+    <!-- New version of Channel-Init data structure -->
+    <!-- <StructType name="CHANNEL_INIT">
+      <Component identifier="WriteOffset" type="std:UINT">
+        <Default />
+        <VisibleName name="local:CHANNEL.WriteOffset">Write Offset</VisibleName>
+      </Component>
+      <Component identifier="WriteLength" type="std:UINT">
+        <Default />
+        <VisibleName name="local:CHANNEL.WriteLength">Write Length</VisibleName>
+      </Component>
+      <Component identifier="InitValue" type="std:UINT">
+        <Default />
+        <VisibleName name="local:CHANNEL.InitValue">Init Value</VisibleName>
+      </Component>
+    </StructType>
+		-->
+		<!-- Define a Modbus message to write register(s) value -->
+		<StructType name="RegisterInitialization">
+      <Component identifier="RegisterCount" type="std:WORD">
+        <Default/>
+      </Component>
+			<Component identifier="FunctionCode" type="std:BYTE">
+        <Default/>
+      </Component>
+			<Component identifier="Address" type="std:WORD">
+        <Default/>
+      </Component>
+			<Component identifier="AbortIfError" type="std:BOOL">
+				<Default>False</Default>
+			</Component>
+			<Component identifier="JumpToLine" type="std:BOOL">
+				<Default>False</Default>
+			</Component>
+			<Component identifier="Line" type="std:UINT">
+				<Default>0</Default>
+			</Component>
+		</StructType>
+		<!-- Map a channel to its module's parameter -->
+		<StructType name="CHANNEL_MODULE">
+      <Component identifier="Index" type="std:USINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL_MODULE.Index">Index</VisibleName>
+      </Component>
+      <Component identifier="ParameterId" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL_MODULE.ParameterId">ParameterId</VisibleName>
+      </Component>
+      <Component identifier="Address" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:CHANNEL_MODULE.Address">Address</VisibleName>
+      </Component>
+    </StructType>
+		<!-- Flag Bridge -->
+		<StructType name="FlagBridge">
+			<Component identifier="Index" type="std:INT">
+				<Default/>
+				<VisibleName name="local:dummy">Index</VisibleName>
+			</Component>
+			<Component identifier="Address" type="std:UINT">
+        <Default/>
+        <VisibleName name="local:dummy">Address</VisibleName>
+      </Component>
+			<Component identifier="Offset" type="std:UINT">
+				<Default/>
+				<VisibleName name="local:dummy">Offset</VisibleName>
+			</Component>
+			<Component identifier="Length" type="std:UINT">
+				<Default/>
+				<VisibleName name="local:dummy">Length</VisibleName>
+			</Component>
+			<Component identifier="Flag" type="std:UINT">
+				<Default/>
+				<VisibleName name="local:dummy">Flag</VisibleName>
+			</Component>
+			<Component identifier="Value" type="std:USINT">
+				<Default/>
+				<VisibleName name="local:dummy">Value</VisibleName>
+			</Component>
+		</StructType>
+    <EnumType basetype="std:BYTE" name="IPConfigModeType">
+      <Enum identifier="FIXED">
+        <Value>0</Value>
+        <VisibleName name="local:FIXED">FIXED</VisibleName>
+      </Enum>
+      <Enum identifier="BOOTP">
+        <Value>1</Value>
+        <VisibleName name="local:BOOTP">BOOTP</VisibleName>
+      </Enum>
+      <Enum identifier="DHCP">
+        <Value>2</Value>
+        <VisibleName name="local:DHCP">DHCP</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="NetworkStatusType">
+      <Enum identifier="WaitParameters">
+        <Value>0</Value>
+        <VisibleName name="local:WaitParameters">Wait Parameters</VisibleName>
+      </Enum>
+      <Enum identifier="WaitConfiguration">
+        <Value>1</Value>
+        <VisibleName name="local:WaitConfiguration">Wait Configuration</VisibleName>
+      </Enum>
+      <Enum identifier="DataExchanges">
+        <Value>2</Value>
+        <VisibleName name="local:DataExchanges">Data Exchanges</VisibleName>
+      </Enum>
+      <Enum identifier="Error">
+        <Value>3</Value>
+        <VisibleName name="local:Error">Error</VisibleName>
+      </Enum>
+      <Enum identifier="DuplicateIPAddress">
+        <Value>4</Value>
+        <VisibleName name="local:DuplicateIPAddress">Duplicate IP Address</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="ModuleStatusType">
+      <Enum identifier="WaitParameters">
+        <Value>0</Value>
+        <VisibleName name="local:WaitParameters">Wait Parameters</VisibleName>
+      </Enum>
+      <Enum identifier="WaitConfiguration">
+        <Value>1</Value>
+        <VisibleName name="local:WaitConfiguration">Wait Configuration</VisibleName>
+      </Enum>
+      <Enum identifier="Running">
+        <Value>2</Value>
+        <VisibleName name="local:Running">Running</VisibleName>
+      </Enum>
+      <Enum identifier="RecoverableError">
+        <Value>3</Value>
+        <VisibleName name="local:RecoverableError">Recoverable Error</VisibleName>
+      </Enum>
+    </EnumType>
+  
+	</Types>
+
+	<Strings namespace="localStrings">
+		<Language lang="en-EN">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Bus Cycle Time</String>
+			<String identifier="To_X.ComputedCycleTime">Computed Bus Cycle Time</String>
+			<String identifier="To_X.IOprescaler">I/O prescaler (for synchronization only)</String>
+			<String identifier="To_X.SyncInFrameSize">Size of synchronous input frame</String>
+			<String identifier="To_X.SyncOutFrameSize">Size of synchronous output frame</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Size of asynchronous Input and output frames</String>
+			<String identifier="To_X.MaxSlots">Maximum number of physical slots</String>
+			<String identifier="To_X.BuffNb">Input ring buffer depth (number of buffers)</String>
+			<String identifier="To_X.FwRepository">Name of FW repository (for FW update support)</String>
+			<String identifier="To_X.MaxBusLength">Maximum bus length in meters</String>
+
+			<String identifier="Dummy">Dummy Parameter</String>
+			<String identifier="DiagString">Diag String</String>
+			<String identifier="DiagAck">Diag Acknowledge</String>
+			<String identifier="DeviceParameters">Generic Device Parameters</String>
+			<String identifier="IPAddress">IP address of Target</String>
+			<String identifier="MACAddress">MAC address of Target</String>
+			<String identifier="Keying">Keying</String>
+			<String identifier="VendorCode">Vendor Code</String>
+			<String identifier="ProductType">Product Type</String>
+			<String identifier="ProductCode">Product Code</String>
+			<String identifier="MajorRevision">Major Revision</String>
+			<String identifier="MinorRevision">Minor Revision</String>
+			<String identifier="Connections">Device connections</String>
+			<String identifier="NumberOfConnections">Number of Connections</String>
+			<String identifier="ConnectionIdList">Connection Id List</String>
+			<String identifier="ConfigParameters">Configuration Parameters</String>
+			<String identifier="NumberOfParameters">Number of Parameters</String>
+			<String identifier="Profile">Profile</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Index</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">Parameter ID</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">Object ID</String>
+			<String identifier="CHANNEL_MODULE.Offset">Offset</String>
+			<String identifier="CHANNEL_MODULE.Length">Length</String>
+
+			<String identifier="TM3BC.Configuration.Editor.Name">Bus Coupler Configuration</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Monitoring Timeout</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">Timeout before fallback values are applied since last successful cyclic exchange (in milliseconds). Do not specifiy a value lower than the repetition rate.</String>
+		</Language>
+		<Language lang="fr-FR">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Temps de cycle de bus</String>
+			<String identifier="To_X.ComputedCycleTime">Temps de cycle de bus calculé</String>
+			<String identifier="To_X.IOprescaler">Prédiviseur de compteur d'E/S (pour la synchronisation uniquement)</String>
+			<String identifier="To_X.SyncInFrameSize">Taille de trame d'entrée synchrone</String>
+			<String identifier="To_X.SyncOutFrameSize">Taille de trame de sortie synchrone</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Taille des trames d'entrée et de sortie synchrones</String>
+			<String identifier="To_X.MaxSlots">Nombre maximal d'emplacements physiques</String>
+			<String identifier="To_X.BuffNb">Profondeur de tampon d'entrée en anneau (nombre de tampons)</String>
+			<String identifier="To_X.FwRepository">Nom du référentiel FW (pour la prise en charge des mises à jour FW)</String>
+			<String identifier="To_X.MaxBusLength">Longueur maximale de bus en mètres</String>
+
+			<String identifier="Dummy">Paramètre fictif</String>
+			<String identifier="DiagString">Chaîne de diagnostic</String>
+			<String identifier="DiagAck">Confirmation de diagnostic</String>
+			<String identifier="DeviceParameters">Paramètres d'équipements génériques</String>
+			<String identifier="IPAddress">Adresse IP de la cible</String>
+			<String identifier="MACAddress">Adresse MAC de la cible</String>
+			<String identifier="Keying">Clés</String>
+			<String identifier="VendorCode">Code du fabricant</String>
+			<String identifier="ProductType">Type de produit</String>
+			<String identifier="ProductCode">Code produit</String>
+			<String identifier="MajorRevision">Révision majeure</String>
+			<String identifier="MinorRevision">Révision mineure</String>
+			<String identifier="Connections">Connexions d'appareils</String>
+			<String identifier="NumberOfConnections">Nombre de connexions</String>
+			<String identifier="ConnectionIdList">Liste des ID de connexion</String>
+			<String identifier="ConfigParameters">Paramètres de configuration</String>
+			<String identifier="NumberOfParameters">Nombre de paramètres</String>
+			<String identifier="Profile">Profil</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Index</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">ID paramètre</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">ID objet</String>
+			<String identifier="CHANNEL_MODULE.Offset">Décalage</String>
+			<String identifier="CHANNEL_MODULE.Length">Longueur</String>    
+
+			<String identifier="TM3BC.Configuration.Editor.Name">Configuration coupleur de bus</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Délai de validité</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">Délai avant application des valeurs de repli depuis le dernier échange cyclique (en millisecondes) Ne définissez pas une valeur inférieure à la fréquence de répétition.</String>
+		</Language>
+		<Language lang="de-DE">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Buszykluszeit</String>
+			<String identifier="To_X.ComputedCycleTime">Berechnete Buszykluszeit</String>
+			<String identifier="To_X.IOprescaler">E/A-Vorteiler (nur für Synchronisierung)</String>
+			<String identifier="To_X.SyncInFrameSize">Größe des synchronen Eingangs-Frames</String>
+			<String identifier="To_X.SyncOutFrameSize">Größe des synchronen Ausgangs-Frames</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Größe der asynchronen Eingangs- und Ausgangs-Frames</String>
+			<String identifier="To_X.MaxSlots">Maximale Anzahl der physikalischen Steckplätze</String>
+			<String identifier="To_X.BuffNb">Eingangsringpuffertiefe (Anzahl der Puffer)</String>
+			<String identifier="To_X.FwRepository">Name des FW-Repositorys (für die Unterstützung der FW-Aktualisierung)</String>
+			<String identifier="To_X.MaxBusLength">Max. Buslänge in Metern</String>
+
+			<String identifier="Dummy">Dummy-Parameter</String>
+			<String identifier="DiagString">Diagnose-Zeichenfolge</String>
+			<String identifier="DiagAck">Diagnose-Quittierung</String>
+			<String identifier="DeviceParameters">Allgemeine Geräteparameter</String>
+			<String identifier="IPAddress">IP-Adresse des Ziels</String>
+			<String identifier="MACAddress">MAC-Adresse des Ziels</String>
+			<String identifier="Keying">Keying</String>
+			<String identifier="VendorCode">Anbietercode</String>
+			<String identifier="ProductType">Produkttyp</String>
+			<String identifier="ProductCode">Produktcode</String>
+			<String identifier="MajorRevision">Hauptrevision</String>
+			<String identifier="MinorRevision">Nebenrevision</String>
+			<String identifier="Connections">Geräteverbindungen</String>
+			<String identifier="NumberOfConnections">Anzahl Verbindungen</String>
+			<String identifier="ConnectionIdList">Liste der Verbindungs-IDs</String>
+			<String identifier="ConfigParameters">Konfigurationsparameter</String>
+			<String identifier="NumberOfParameters">Anzahl Parameter</String>
+			<String identifier="Profile">Profil</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Index</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">Parameter-ID</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">Objekt-ID</String>
+			<String identifier="CHANNEL_MODULE.Offset">Offset</String>
+			<String identifier="CHANNEL_MODULE.Length">Länge</String>    
+
+			<String identifier="TM3BC.Configuration.Editor.Name">Konfiguration des Buskopplers</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Funktionsfähigkeits-Timeout</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">Timeout vor Anwendung der Fehlerausweichwerte seit letztem erfolgreichen Zyklusaustausch (in Millisekunden). Geben Sie keinen Wert an, der kleiner ist als die Wiederholungsrate.</String>
+		</Language>
+		<Language lang="es-ES">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Tiempo de ciclo del bus</String>
+			<String identifier="To_X.ComputedCycleTime">Tiempo de ciclo del bus calculado</String>
+			<String identifier="To_X.IOprescaler">Preescalado de E/S (sólo para la sincronización)</String>
+			<String identifier="To_X.SyncInFrameSize">Tamaño de la trama de entrada síncrona</String>
+			<String identifier="To_X.SyncOutFrameSize">Tamaño de la trama de salida síncrona</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Tamaño de las tramas de entrada y salida asíncronas</String>
+			<String identifier="To_X.MaxSlots">Número máximo de slots físicos</String>
+			<String identifier="To_X.BuffNb">Profundidad de búfer de anillo de entrada (número de búferes)</String>
+			<String identifier="To_X.FwRepository">Nombre de repositorio de FW (para la compatibilidad con la actualización de FW)</String>
+			<String identifier="To_X.MaxBusLength">Longitud máxima del bus en metros</String>
+			
+			<String identifier="Dummy">Parámetro vacío</String>
+			<String identifier="DiagString">Cadena de diagnóstico</String>
+			<String identifier="DiagAck">Confirmación de diagnóstico</String>
+			<String identifier="DeviceParameters">Parámetros de dispositivo genérico</String>
+			<String identifier="IPAddress">Dirección IP del destino</String>
+			<String identifier="MACAddress">Dirección MAC de destino</String>
+			<String identifier="Keying">Llaves</String>
+			<String identifier="VendorCode">Código de fabricante</String>
+			<String identifier="ProductType">Tipo de producto</String>
+			<String identifier="ProductCode">Código de producto</String>
+			<String identifier="MajorRevision">Revisión principal</String>
+			<String identifier="MinorRevision">Revisión secundaria</String>
+			<String identifier="Connections">Conexiones de dispositivo</String>
+			<String identifier="NumberOfConnections">Número de conexiones</String>
+			<String identifier="ConnectionIdList">Lista de ID de conexiones</String>
+			<String identifier="ConfigParameters">Parámetros de configuración</String>
+			<String identifier="NumberOfParameters">Número de parámetros</String>
+			<String identifier="Profile">Perfil</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Índice...</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">Identificador de parámetro</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">ID de objeto</String>
+			<String identifier="CHANNEL_MODULE.Offset">Offset</String>
+			<String identifier="CHANNEL_MODULE.Length">Longitud</String>    
+
+			<String identifier="TM3BC.Configuration.Editor.Name">Configuración de acoplador de bus</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Tiempo de espera de estado</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">Tiempo de espera antes de que se apliquen los valores de retorno desde el último intercambio cíclico satisfactorio (en milisegundos). No especifique un valor inferior a la frecuencia de repetición.</String>
+		</Language>
+		<Language lang="it-IT">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Tempo di ciclo del bus</String>
+			<String identifier="To_X.ComputedCycleTime">Tempo di ciclo del bus calcolato</String>
+			<String identifier="To_X.IOprescaler">Prescaler I/O (solo per sincronizzazione)</String>
+			<String identifier="To_X.SyncInFrameSize">Dimensioni del frame di ingresso sincrono</String>
+			<String identifier="To_X.SyncOutFrameSize">Dimensioni del frame di uscita sincrono</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Dimensioni dei frame di ingresso e di uscita sincroni</String>
+			<String identifier="To_X.MaxSlots">Numero massimo di slot fisici</String>
+			<String identifier="To_X.BuffNb">Livello del buffer dell&apos;anello d&apos;ingresso (numero di buffer)</String>
+			<String identifier="To_X.FwRepository">Nome del repository FW (per supporto aggiornamento FW)</String>
+			<String identifier="To_X.MaxBusLength">Lunghezza massima del bus in metri</String>
+
+			<String identifier="Dummy">Parametro fittizio</String>
+			<String identifier="DiagString">Stringa di diagnostica</String>
+			<String identifier="DiagAck">Riconoscimento di diagnostica</String>
+			<String identifier="DeviceParameters">Parametri dispositivo generico</String>
+			<String identifier="IPAddress">Indirizzo IP destinazione</String>
+			<String identifier="MACAddress">Indirizzo MAC destinazione</String>
+			<String identifier="Keying">Codifica</String>
+			<String identifier="VendorCode">Codice fornitore</String>
+			<String identifier="ProductType">Tipo prodotto</String>
+			<String identifier="ProductCode">Codice prodotto</String>
+			<String identifier="MajorRevision">Revisione maggiore</String>
+			<String identifier="MinorRevision">Revisione minore</String>
+			<String identifier="Connections">Connessioni dispositivo</String>
+			<String identifier="NumberOfConnections">Numero di connessioni</String>
+			<String identifier="ConnectionIdList">Elenco Id connessione</String>
+			<String identifier="ConfigParameters">Parametri di configurazione</String>
+			<String identifier="NumberOfParameters">Numero di parametri</String>
+			<String identifier="Profile">Profilo</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Indice</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">ID parametro</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">ID oggetto</String>
+			<String identifier="CHANNEL_MODULE.Offset">Offset</String>
+			<String identifier="CHANNEL_MODULE.Length">Lunghezza</String>    
+
+			<String identifier="TM3BC.Configuration.Editor.Name">Configurazione accoppiatore bus</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Timeout stato</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">Timeout prima che i valori di fallback vengano applicati dall'ultimo scambio ciclico riuscito (in millisecondi). Non specificare un valore inferiore alla frequenza di ripetizione.</String>
+		</Language>
+		<Language lang="zh-CHS">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">总线循环时间</String>
+			<String identifier="To_X.ComputedCycleTime">计算的总线循环时间</String>
+			<String identifier="To_X.IOprescaler">I/O 预分频器（仅用于同步）</String>
+			<String identifier="To_X.SyncInFrameSize">同步输入帧的大小</String>
+			<String identifier="To_X.SyncOutFrameSize">同步输出帧的大小</String>
+			<String identifier="To_X.AsyncInOutFrameSize">同步输入和输出帧的大小</String>
+			<String identifier="To_X.MaxSlots">最大物理插槽数</String>
+			<String identifier="To_X.BuffNb">输入环路缓冲区深度（缓冲区数）</String>
+			<String identifier="To_X.FwRepository">FW 存储库的名称（用于支持 FW 更新）</String>
+			<String identifier="To_X.MaxBusLength">最大总线长度（以米为单位）</String>
+
+			<String identifier="Dummy">虚拟参数</String>
+			<String identifier="DiagString">诊断字符串</String>
+			<String identifier="DiagAck">诊断确认</String>
+			<String identifier="DeviceParameters">通用设备参数</String>
+			<String identifier="IPAddress">目标的 IP 地址</String>
+			<String identifier="MACAddress">目标的 MAC 地址</String>
+			<String identifier="Keying">键控</String>
+			<String identifier="VendorCode">供应商代码</String>
+			<String identifier="ProductType">产品类型</String>
+			<String identifier="ProductCode">产品代码</String>
+			<String identifier="MajorRevision">主要修订</String>
+			<String identifier="MinorRevision">次要修订</String>
+			<String identifier="Connections">设备连接</String>
+			<String identifier="NumberOfConnections">连接数</String>
+			<String identifier="ConnectionIdList">连接 Id 列表</String>
+			<String identifier="ConfigParameters">配置参数</String>
+			<String identifier="NumberOfParameters">参数数量</String>
+			<String identifier="Profile">配置文件</String>
+
+			<String identifier="CHANNEL_MODULE.Index">索引...</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">参数 ID</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">对象 ID</String>
+			<String identifier="CHANNEL_MODULE.Offset">偏移量</String>
+			<String identifier="CHANNEL_MODULE.Length">长度</String>    
+
+			<String identifier="TM3BC.Configuration.Editor.Name">总线耦合器配置</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">健康超时</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">从上次成功执行循环交换之后到应用故障预置值之前的超时（毫秒）。指定的值不得小于重复频率值。</String>
+		</Language>
+		<Language lang="pt-BR">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Tempo do ciclo do barramento</String>
+			<String identifier="To_X.ComputedCycleTime">Tempo do ciclo do barramento computado</String>
+			<String identifier="To_X.IOprescaler">Divisor E/S (somente para sincronização)</String>
+			<String identifier="To_X.SyncInFrameSize">Tamanho do quadro de entrada síncrono</String>
+			<String identifier="To_X.SyncOutFrameSize">Tamanho do quadro de saída síncrono</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Tamanho dos quadros de saída e entrada assíncronos</String>
+			<String identifier="To_X.MaxSlots">Número máximo de slots físicos</String>
+			<String identifier="To_X.BuffNb">Profundidade de entrada de anel de buffer (número de buffers)</String>
+			<String identifier="To_X.FwRepository">Nome do repositório FW (para suporte a atualização FW)</String>
+			<String identifier="To_X.MaxBusLength">Comprimento máximo de barramento em metros</String>
+
+			<String identifier="Dummy">Parâmetro fictício</String>
+			<String identifier="DiagString">Cadeia de diagnóstico</String>
+			<String identifier="DiagAck">Reconhecimento de diagnóstico</String>
+			<String identifier="DeviceParameters">Parâmetros de dispositivo genérico</String>
+			<String identifier="IPAddress">Endereço IP do destino</String>
+			<String identifier="MACAddress">Endereço MAC do destino</String>
+			<String identifier="Keying">Codificação</String>
+			<String identifier="VendorCode">Código do fornecedor</String>
+			<String identifier="ProductType">Tipo do produto</String>
+			<String identifier="ProductCode">Código do produto</String>
+			<String identifier="MajorRevision">Revisão principal</String>
+			<String identifier="MinorRevision">Rev. secundária</String>
+			<String identifier="Connections">Conexões do dispositivo</String>
+			<String identifier="NumberOfConnections">Número de conexões</String>
+			<String identifier="ConnectionIdList">Lista de Ids de conexão</String>
+			<String identifier="ConfigParameters">Parâmetros de configuração</String>
+			<String identifier="NumberOfParameters">Número de parâmetros</String>
+			<String identifier="Profile">Perfil</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Índice...</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">ID do parâmetro</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">ID do objeto</String>
+			<String identifier="CHANNEL_MODULE.Offset">Deslocamento</String>
+			<String identifier="CHANNEL_MODULE.Length">Comprimento</String>    
+			
+			<String identifier="TM3BC.Configuration.Editor.Name">Configuração do acoplador de barramento</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Tempo limite de integridade</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">O tempo limite antes dos valores de fallback são aplicados desde a última troca cíclica de sucesso (em milissegundos). Não especificar um valor inferior à taxa de repetição.</String>
+		</Language>
+		<Language lang="tr-TR">
+			<!-- To_X bus strings -->
+			<String identifier="To_X.CycleTime">Veriyolu Döngü Süresi</String>
+			<String identifier="To_X.ComputedCycleTime">Hesaplanan Veriyolu Döngü Süresi</String>
+			<String identifier="To_X.IOprescaler">G/Ç ön ölçeklendirici (sadece eşitleme için)</String>
+			<String identifier="To_X.SyncInFrameSize">Eşzamani giriş çerçevesinin boyutu</String>
+			<String identifier="To_X.SyncOutFrameSize">Eşzamani çikiş çerçevesinin boyutu</String>
+			<String identifier="To_X.AsyncInOutFrameSize">Eşzamanli olmayan Giriş ve Çikiş çerçevelerinin boyutu</String>
+			<String identifier="To_X.MaxSlots">Maksimum fiziksel yuva sayisi</String>
+			<String identifier="To_X.BuffNb">Giriş halka arabelleği derinliği (arabellek sayisi)</String>
+			<String identifier="To_X.FwRepository">FW deposunun adi (FW güncelleme desteği için)</String>
+			<String identifier="To_X.MaxBusLength">Metre olarak maksimum veriyolu uzunluğu</String>
+
+			<String identifier="Dummy">Kukla Parametre</String>
+			<String identifier="DiagString">Tanı Dizesi</String>
+			<String identifier="DiagAck">Tanı Onayı</String>
+			<String identifier="DeviceParameters">Genel Aygıt Parametreleri</String>
+			<String identifier="IPAddress">Hedefin IP adresi</String>
+			<String identifier="MACAddress">Hedefin MAC adresi</String>
+			<String identifier="Keying">Tuşlama</String>
+			<String identifier="VendorCode">Satıcı Kodu</String>
+			<String identifier="ProductType">Ürün Türü</String>
+			<String identifier="ProductCode">Ürün Kodu</String>
+			<String identifier="MajorRevision">Büyük Düzeltme</String>
+			<String identifier="MinorRevision">Küçük Düzeltme</String>
+			<String identifier="Connections">Aygıt bağlantıları</String>
+			<String identifier="NumberOfConnections">Bağlantı Sayısı</String>
+			<String identifier="ConnectionIdList">Bağlantı Kimliği Listesi</String>
+			<String identifier="ConfigParameters">Yapılandırma Parametreleri</String>
+			<String identifier="NumberOfParameters">Parametre Sayısı</String>
+			<String identifier="Profile">Profil</String>
+
+			<String identifier="CHANNEL_MODULE.Index">Dizin</String>
+			<String identifier="CHANNEL_MODULE.ParameterId">Parametre Kimliği</String>
+			<String identifier="CHANNEL_MODULE.ObjectId">Nesne Kimliği</String>
+			<String identifier="CHANNEL_MODULE.Offset">Ofset</String>
+			<String identifier="CHANNEL_MODULE.Length">Uzunluk</String>    
+			
+			<String identifier="TM3BC.Configuration.Editor.Name">Bara Bağlayıcı Yapılandırması</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Name">Sağlık Zaman Aşımı</String>
+			<String identifier="TM3BC.Configuration.HealthTimeout.Description">Son başarılı döngüsel değişimden beri geri dönme değerleri uygulanmadan önceki zaman aşımı (milisaniye cinsinden). Tekrar hızından daha düşük bir değer belirtmeyin.</String>
+		</Language>
+	</Strings>
+
+	<Files namespace="local">
+		<Language lang="en">
+				<File fileref="local" identifier="TM3BCMDBTCPIcon">
+					<LocalFile>./Icons/TM3BCMDBTCP.ico</LocalFile>
+				</File>
+				<File fileref="local" identifier="TM3BCMDBTCPImage">
+					<LocalFile>./Images/TM3BCMDBTCP.png</LocalFile>
+				</File>
+		</Language>
+	</Files>
+
+	<Device hideInCatalogue="false">
+		<DeviceIdentification>
+			<Type>89</Type>
+			<Id>101a 0093</Id>
+			<Version>1.0.0.2</Version>
+		</DeviceIdentification>
+		<DeviceInfo>
+			<Name name="local:dummy">TM3BCEIP</Name>
+			<Description name="local:dummy">Bus coupler for TM2 and TM3 expansion modules. For Modbus TCP fieldbuses.</Description>
+			<Vendor name="local:dummy">Schneider Electric</Vendor>
+			<OrderNumber>TM3BCEIP</OrderNumber>
+			<Image name="local:TM3BCMDBTCPImage"/>
+			<Icon name="local:TM3BCMDBTCPIcon"/>
+			<Family>4122:7180</Family>
+			<DefaultInstanceName name="local:dummy">TM3BC_ModbusTCP</DefaultInstanceName>
+			<Custom>
+				<Catalog name="Devices &amp; Modules">
+					<Section name="I/O Bus Coupler">
+						<Category name="TM3"/>
+					</Section>
+				</Catalog>
+				<DhcpNameRule defaultName="TM3BCEIP" defaultLinkCharacter="_" />
+			</Custom>
+		</DeviceInfo>
+
+		<!-- Connector to parent Modbus scanner -->
+		<Connector connectorId="0" explicit="false" hostpath="-1" interface="Common.ModbusIOScannerDevice" moduleType="89" role="child" alwaysmapping="true" alwaysmappingDisabled="true">
+			<InterfaceName name="local:ModbusIOScanner">Modbus TCP</InterfaceName>
+			<Slot allowEmpty="false" count="1"/>
+				<HostParameterSet showParamsInDevDescOrder="true">
+				<ParameterSection>
+					<Name name="">ModbusTCP Configuration</Name>
+					<Parameter ParameterId="6100" type="std:BOOL">
+							<!-- Disable buttons 'Add Channel...' and 'Edit' in the Modbus TCP Channel Configuration tab page -->
+							<Attributes offlineaccess="read" download="false" functional="false"/>
+							<Default>false</Default>
+							<Name name="local:Parameter.ChannelIdTable">Add/Remove/Edit channels</Name>
+							<Description name="local:Parameter.ChannelIdTable">true, if full functionality of the table should be available</Description>
+					</Parameter>
+					<Parameter ParameterId="7810" type="std:DWORD">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>20</Default>
+						<Name name="local:dummy">RepetitionRate</Name>
+						<Description name="local:dummy">Repetition Rate in ms</Description>
+					</Parameter>
+
+					<Parameter ParameterId="8000" type="std:BOOL">
+						<Attributes offlineaccess="read" download="true" functional="false"/>
+						<Default>true</Default>
+						<Name name="local:Parameter.ModularConfig">ModularConfig</Name>
+						<Description name="local:Parameter.ModularConfig">Set to true if its a modular Configuration</Description>
+					</Parameter>
+					<!-- First Input Register -->
+					<Parameter ParameterId="8001" type="std:UINT">
+						<Attributes offlineaccess="read" download="true" functional="false"/>
+						<Default>3001</Default>
+						<Name name="local:dummy">First Input Register</Name>
+						<Description name="local:dummy">First Input Register</Description>
+					</Parameter>
+					<!-- First Output Register -->
+					<Parameter ParameterId="8002" type="std:UINT">
+						<Attributes offlineaccess="read" download="true" functional="false"/>
+						<Default>3501</Default>
+						<Name name="local:dummy">First Output Register</Name>
+						<Description name="local:dummy">First Output Register</Description>
+					</Parameter>
+					<Parameter ParameterId="9100" type="std:USINT">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>1</Default>
+						<Name name="local:Parameter.SlaveAddr">Unit-ID</Name>
+						<Description name="local:Parameter.SlaveAddr">Unit-ID of the Device</Description>
+					</Parameter>
+					<Parameter ParameterId="9101" type="std:DWORD">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>1000</Default>
+						<Name name="local:Parameter.ResponseTimeout">ResponseTimeout</Name>
+						<Description name="local:Parameter.ResponseTimeout">Maximum time for a Slave to respond in ms</Description>
+					</Parameter>
+					<Parameter ParameterId="9102" type="std:ARRAY[0..3] OF BYTE">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>[0,0,0,0]</Default>
+						<Name name="local:Parameter.IPAddress">IPAddress</Name>
+						<Description name="local:Parameter.IPAddress">Configure IP Address of TCP SLave.</Description>
+					</Parameter>
+					<!-- remove this parameter from description, if fixed port = 502 is required ! -->
+					<Parameter ParameterId="9103" type="std:UINT">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>502</Default>
+						<Name name="local:Parameter.Port">Port</Name>
+						<Description name="local:Parameter.Port">Port where the slave is listening</Description>
+					</Parameter>
+					<Parameter ParameterId="28100" type="std:UINT">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>60</Default>
+						<Name name="local:Parameter.Port">Idle Time</Name>
+						<Description name="local:Parameter.Port">Connection Idle Time</Description>
+					</Parameter>
+					<Parameter ParameterId="28101" type="std:UINT">
+						<Attributes offlineaccess="readwrite" download="true" functional="false"/>
+						<Default>0</Default>
+						<Name name="local:Parameter.Port">Monitoring Time</Name>
+						<Description name="local:Parameter.Port">Value of Monitoring (0, if no monitoring)</Description>
+					</Parameter>
+				</ParameterSection>
+				<!-- Number of user messages -->
+				<Parameter ParameterId="1999" type="std:DWORD">
+						<Attributes download="true" offlineaccess="readwrite" onlineaccess="read"/>
+						<Default>0</Default>
+						<Name>Register initialization count</Name>
+				</Parameter>
+				<!-- Connection/channel for I/O exchange -->
+				<Parameter ParameterId="17825792" type="localTypes:CHANNEL">
+					<Attributes download="true" offlineaccess="readwrite" onlineaccess="read"/>
+					<Default>
+						<Element name="ChannelID">0</Element>
+						<Element name="UnitID">255</Element>
+						<Element name="RepetitionRate">20</Element>
+						<Element name="FunctionCode">23</Element>
+						<Element name="ReadOffset">16#0BB9</Element>
+						<Element name="ReadLength">64</Element>
+						<Element name="ErrorHandling">true</Element>
+						<Element name="WriteOffset">16#0DAD</Element>
+						<Element name="WriteLength">64</Element>
+					</Default>
+					<Name>I/O Channel</Name>
+					<Custom>
+							<!-- Disable edition -->	
+							<ParameterElementVisibility EditUnitID="false" EditRepetitionRate="true" EditRequest="false" EditErrorHandling="false"/>
+					</Custom>
+				</Parameter>
+				<!-- Connection/channel for statuses reading -->
+				<Parameter ParameterId="34603008" type="localTypes:CHANNEL">
+					<Attributes download="true" offlineaccess="readwrite" onlineaccess="read"/>
+					<Default>
+						<Element name="ChannelID">1</Element>
+						<Element name="UnitID">255</Element>
+						<Element name="RepetitionRate">20</Element>
+						<Element name="FunctionCode">3</Element>
+						<Element name="ReadOffset">16#03A2</Element>
+						<Element name="ReadLength">2</Element>
+						<Element name="ErrorHandling">true</Element>
+						<Element name="WriteOffset">0</Element>
+						<Element name="WriteLength">0</Element>
+					</Default>
+					<Name>Statuses Channel</Name>
+					<Custom>
+							<!-- Disable edition -->	
+							<ParameterElementVisibility EditUnitID="false" EditRepetitionRate="true" EditRequest="false" EditErrorHandling="false"/>
+					</Custom>
+				</Parameter>
+
+
+				<Parameter ParameterId="38101" type="std:UINT">
+          <Attributes channel="none" download="true" onlineaccess="read"/>
+          <Default>1000</Default>
+          <Name name="localStrings:TM3BC.Configuration.HealthTimeout.Name"/>
+          <Description name="localStrings:TM3BC.Configuration.HealthTimeout.Description"/>
+        </Parameter>
+
+			</HostParameterSet>
+			<Appearance>
+				<ShowEditor>MSDModbusTCPSlavePage</ShowEditor>
+				<ShowEditor>MxxxIOConfigurationEditor</ShowEditor>
+				<ShowEditor>IOMappingEditor</ShowEditor>
+				<ShowEditor>StatusPage</ShowEditor>
+				<ShowEditor>DeviceInformation</ShowEditor>
+			</Appearance>
+			<Custom>
+					<se:SchneiderEditor editorVersion="2.0.0.0">
+						<se:ParameterModel FirstParameterId="38101" LastParameterId="38101"/>
+						<se:Appearance>
+							<se:PageName name="localStrings:TM3BC.Configuration.Editor.Name">Bus Coupler Configuration</se:PageName>
+						</se:Appearance>
+					</se:SchneiderEditor>
+			</Custom>
+			<DriverInfo needsBusCycle="true" UpdateIosInStop="true">
+        <RequiredLib identifier="Schneider Electric" libname="ModbusTCP Remote Adapter" vendor="Schneider Electric" version="1.0.0.10">
+          <FBInstance basename="$(DeviceName)_RemoteAdapter" fbname="FB_RemoteAdapter">
+            <Initialize methodName="Initialize"/>
+            <CyclicCall methodname="Cyclic" whentocall="AfterReadInputs" task="#buscycletask"/>
+          </FBInstance>
+        </RequiredLib>
+      </DriverInfo>
+		</Connector>
+
+		<!-- Connector for the firsts 7 TM2-3 modules -->
+		<Connector connectorId="1" hostpath="-1" interface="MSD.TM2-3.ExpansionBus" moduleType="40000" role="parent" explicit="false">
+			<InterfaceName name="localStrings:expansionmodules">TM2-3 Bus</InterfaceName>
+			<Var max="7"/>
+			<!--TM2 modules-->
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI8DT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DAI8DT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI16DT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI16DK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDI32DK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO8UT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO8TT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO16TK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO16UK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO32TK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DDO32UK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DMM8DRT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DMM24DRF"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DRA8RT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2DRA16RT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ALM3LT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI2HT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI2LT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI4LT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMI8HT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMM3HT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMM6HT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AMO1HT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8HT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8LRJ"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2ARI8LT"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM2AVO2HT"/>
+			<!--TM3 modules-->
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI8_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI16_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI16K"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI32K"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DM8R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DM24R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8T_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ8U_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16T_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16TK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16U_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ16UK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ32TK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DQ32UK"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3DI8A"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3XTYS4"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI2H_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI4_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AI8_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ2_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AQ4_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3AM6_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TM3_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI4_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI4D_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3TI8T_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3XPID2"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAC5R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAF5R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAFL5R_G"/>
+			<AdditionalInterface interface="MSD.TM2-3.ExpansionBus.TM3SAK6R_G"/>
+			<Custom>
+				<se:Power SupplyBus="600" SupplyIO="600" ConsumptionBus="0" ConsumptionIO="0" CheckBusPerformance="false"/>
+				<se:ParameterFilters FallBack="true" OptionalModule="true"/>
+				<se:AcceptedModule acceptAllOther="true">
+					<!--TM2-->
+					<se:DeviceIdentification deviceType="51200" deviceId="101a 0150" groupId="3"/>
+					<se:DeviceIdentification deviceType="51201" deviceId="101a 0151" groupId="3"/>
+					<se:DeviceIdentification deviceType="51202" deviceId="101a 0152" groupId="3"/>
+					<se:DeviceIdentification deviceType="51203" deviceId="101a 0153" groupId="3"/>
+					<se:DeviceIdentification deviceType="51204" deviceId="101a 0154" groupId="3"/>
+					<se:DeviceIdentification deviceType="51205" deviceId="101a 0155" groupId="3"/>
+					<se:DeviceIdentification deviceType="51206" deviceId="101a 0156" groupId="3"/>
+					<se:DeviceIdentification deviceType="51207" deviceId="101a 0157" groupId="3"/>
+					<se:DeviceIdentification deviceType="51208" deviceId="101a 0158" groupId="3"/>
+					<se:DeviceIdentification deviceType="51209" deviceId="101a 0159" groupId="3"/>
+					<se:DeviceIdentification deviceType="51210" deviceId="101a 0160" groupId="3"/>
+					<se:DeviceIdentification deviceType="51211" deviceId="101a 0161" groupId="3"/>
+					<se:DeviceIdentification deviceType="51212" deviceId="101a 0162" groupId="3"/>
+					<se:DeviceIdentification deviceType="51213" deviceId="101a 0163" groupId="3"/>
+					<se:DeviceIdentification deviceType="51214" deviceId="101a 0164" groupId="3"/>
+					<se:DeviceIdentification deviceType="51215" deviceId="101a 0165" groupId="3"/>
+					<se:DeviceIdentification deviceType="51216" deviceId="101a 0166" groupId="3"/>
+					<se:DeviceIdentification deviceType="51217" deviceId="101a 0167" groupId="3"/>
+					<se:DeviceIdentification deviceType="51218" deviceId="101a 0168" groupId="3"/>
+					<se:DeviceIdentification deviceType="51219" deviceId="101a 0169" groupId="3"/>
+					<se:DeviceIdentification deviceType="51220" deviceId="101a 0170" groupId="3"/>
+					<se:DeviceIdentification deviceType="51221" deviceId="101a 0171" groupId="3"/>
+					<se:DeviceIdentification deviceType="51222" deviceId="101a 0172" groupId="3"/>
+					<se:DeviceIdentification deviceType="51223" deviceId="101a 0173" groupId="3"/>
+					<se:DeviceIdentification deviceType="51224" deviceId="101a 0174" groupId="3"/>
+					<se:DeviceIdentification deviceType="51225" deviceId="101a 0175" groupId="3"/>
+					<se:DeviceIdentification deviceType="51226" deviceId="101a 0176" groupId="3"/>
+				</se:AcceptedModule>
+			</Custom>
+		</Connector>
+
+		<!-- Connector for the TM3 transmitter module (TM3XTRA1) -->
+		<Connector connectorId="2" hostpath="-1" interface="MSD.TM2-3.ExpansionBus.TM3XTRA1" moduleType="45202" role="parent" explicit="false">
+			<InterfaceName name="local:dummy">Expander</InterfaceName>
+			<Var max="1"/>
+			<HostParameterSet/>
+			<Custom>
+				<se:ParameterFilters FallBack="true" OptionalModule="true"/>
+				<se:AcceptedModule>
+					<!--TM3XTRA1-->
+					<se:DeviceIdentification deviceType="51426" deviceId="101a 0450" groupId="4"/>
+				</se:AcceptedModule>
+			</Custom>
+		</Connector>
+		<Custom>
+			<se:BusManager MaxNodeId="16"/>
+			<!-- BusManagerRules -->
+			<se:BuildAnalyserRules>{6F0558A9-E461-452E-AD03-BD3B2812EF5D}</se:BuildAnalyserRules>
+			<!-- PowerConsumptionRules -->
+			<se:BuildAnalyserRules>{72ED5E1F-C73D-4B14-BD0B-F564FB40B23B}</se:BuildAnalyserRules>
+			<!-- BusPerformancesRules -->
+			<se:BuildAnalyserRules>{BBEF9E92-1348-4B17-B1C7-7AE4B9BAC206}</se:BuildAnalyserRules>
+			<!-- OptionalModuleRules -->
+			<se:BuildAnalyserRules>{EC5E45D7-A6A4-44CB-AD2E-0D353B00C7CD}</se:BuildAnalyserRules>
+			<!-- ModbusTCPChannelSizeRule -->
+			<se:BuildAnalyserRules>{49E5FA2D-BFE0-4BD7-BA8C-0B0284F9263E}</se:BuildAnalyserRules>
+			<!-- ModbusTCPTimeOutRule -->
+			<se:BuildAnalyserRules>{C5D4846E-0C7E-4451-A24F-757CB7962BB1}</se:BuildAnalyserRules>
+			<!-- TM3BCNotSupportedRule -->
+			<se:BuildAnalyserRules>{F8D9F4EC-50F9-4076-B7A1-D7D21BE30E44}</se:BuildAnalyserRules>
+			<!-- BusCycleTaskRule -->
+			<se:BuildAnalyserRules>{D7779B49-7A2D-4C17-8991-BD3689B475BB}</se:BuildAnalyserRules>
+			<se:ParameterFilters FallBack="true" OptionalModule="true"/>
+		</Custom>
+		<DriverInfo>
+			<Scan supported="false"/>
+		</DriverInfo>
+		<ExtendedSettings>
+			<ts:TargetSettings xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd">
+				<ts:section name="Fieldbus">
+					<ts:setting name="MaximumRegisterInitializationSize" type="integer" access="visible">
+						<ts:value>128</ts:value>
+					</ts:setting>
+				</ts:section>
+				<ts:section name="Tm3BusCycleTaskPerModule">
+					<ts:setting name="supportedbydevice" type="boolean" access="visible">
+						<ts:value>0</ts:value>
+					</ts:setting>
+				</ts:section>					
+			</ts:TargetSettings>
+		</ExtendedSettings>
+	</Device>
+</DeviceDescription>

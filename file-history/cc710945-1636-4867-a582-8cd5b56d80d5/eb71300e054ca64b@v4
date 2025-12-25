@@ -1,0 +1,436 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  Bell,
+  AlertTriangle,
+  CheckCircle,
+  X,
+  Eye,
+  Calendar,
+  Users,
+  TrendingUp,
+  Filter
+} from 'lucide-react';
+import toast from 'react-hot-toast';
+import AlertService from '../../services/alertService';
+
+const AlertDashboard = () => {
+  const [alerts, setAlerts] = useState([]);
+  const [stats, setStats] = useState({});
+  const [filter, setFilter] = useState('all'); // 'all', 'critical', 'warning'
+  const [loading, setLoading] = useState(true);
+
+  const loadAlerts = useCallback(async () => {
+    try {
+      // Get alerts from AlertService (in-memory alerts)
+      const alertServiceData = await AlertService.getAllActiveAlerts();
+
+      // Sort by creation date (newest first)
+      alertServiceData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      const statsData = await AlertService.getAlertStats();
+
+      setAlerts(alertServiceData);
+      setStats(statsData);
+    } catch (error) {
+      toast.error('Error loading alerts');
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Start the alert service if not already running
+    AlertService.initializeAlertsTable();
+    AlertService.start();
+
+    // Initial load after a short delay to allow alerts to be created
+    setTimeout(() => {
+      loadAlerts();
+    }, 1000);
+
+    // Set up interval to refresh alerts every 5 seconds
+    const refreshInterval = setInterval(() => {
+      loadAlerts();
+    }, 5000);
+
+    return () => {
+      // Clean up interval when component unmounts
+      clearInterval(refreshInterval);
+      // Don't stop the service when component unmounts
+      // as it should run globally
+    };
+  }, [loadAlerts]);
+
+  const handleAcknowledgeAlert = async (alertId) => {
+    try {
+      // Acknowledge alert in memory
+      await AlertService.acknowledgeAlert(alertId);
+
+      toast.success('Alert acknowledged');
+      loadAlerts();
+    } catch (error) {
+      toast.error('Error acknowledging alert');
+      console.error(error);
+    }
+  };
+
+  const handleDismissAlert = async (alertId) => {
+    try {
+      // Dismiss alert in memory
+      await AlertService.dismissAlert(alertId);
+
+      toast.success('Alert dismissed');
+      loadAlerts();
+    } catch (error) {
+      toast.error('Error dismissing alert');
+      console.error(error);
+    }
+  };
+
+  const filteredAlerts = alerts.filter(alert => {
+    if (filter === 'all') return true;
+    return alert.type === filter;
+  });
+
+  const getAlertIcon = (type) => {
+    switch (type) {
+      case 'critical':
+        return <AlertTriangle className="h-5 w-5 text-red-500" />;
+      case 'warning':
+        return <Bell className="h-5 w-5 text-yellow-500" />;
+      case 'profile_change':
+        return <Users className="h-5 w-5 text-[#323956]" />;
+      case 'info':
+        return <Bell className="h-5 w-5 text-[#323956]" />;
+      default:
+        return <Bell className="h-5 w-5 text-[#323956]" />;
+    }
+  };
+
+  const getAlertBgColor = (type) => {
+    switch (type) {
+      case 'critical':
+        return 'bg-red-50 border-red-200';
+      case 'warning':
+        return 'bg-yellow-50 border-yellow-200';
+      case 'profile_change':
+        return 'bg-[#E4EFFF] border-blue-200';
+      case 'info':
+        return 'bg-green-50 border-green-200';
+      default:
+        return 'bg-[#E4EFFF] border-blue-200';
+    }
+  };
+
+  const getClinicName = async (clinicId) => {
+    try {
+      const clinic = await DatabaseService.findById('clinics', clinicId);
+      return clinic?.name || 'Unknown Clinic';
+    } catch {
+      return 'Unknown Clinic';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-orange-100 p-6 space-y-8">
+      {/* Modern Alerts Header */}
+      <div className="relative overflow-hidden bg-white/60 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 via-orange-600/10 to-amber-600/10"></div>
+        <div className="relative p-8">
+          <div className="flex items-center justify-between">
+            <div className="space-y-3">
+              <h1 className="text-4xl font-black bg-gradient-to-r from-red-600 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+                Alerts & Monitoring
+              </h1>
+              <p className="text-xl text-slate-600 font-medium">
+                System alerts and monitoring dashboard ALERT:
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-slate-500 mt-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span>{stats.active || 0} Active Alerts</span>
+                </div>
+                <div className="w-1 h-1 bg-slate-400 rounded-full"></div>
+                <div className="flex items-center space-x-2">
+                  <Bell className="h-4 w-4" />
+                  <span>Real-time Monitoring</span>
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:block relative">
+              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center shadow-2xl animate-pulse">
+                <AlertTriangle className="h-12 w-12 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xs">{stats.active || 0}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modern Alert Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center">
+            <div className="p-2 bg-[#CAE0FF] rounded-lg">
+              <Bell className="h-6 w-6 text-[#323956]" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Total Alerts</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.active || 0}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center">
+            <div className="p-2 bg-red-100 rounded-lg">
+              <AlertTriangle className="h-6 w-6 text-red-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Critical</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.critical || 0}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center">
+            <div className="p-2 bg-yellow-100 rounded-lg">
+              <Bell className="h-6 w-6 text-yellow-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Warnings</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.warning || 0}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center">
+            <div className="p-2 bg-green-100 rounded-lg">
+              <TrendingUp className="h-6 w-6 text-[#323956]" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Usage Alerts</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.byCategory?.usage || 0}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Alert Filters */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900">Active Alerts</h2>
+          <div className="flex items-center space-x-2">
+            <Filter className="h-4 w-4 text-gray-400" />
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+            >
+              <option value="all">All Alerts</option>
+              <option value="critical">Critical Only</option>
+              <option value="warning">Warning Only</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Alerts List */}
+      <div className="space-y-4">
+        {filteredAlerts.length > 0 ? (
+          filteredAlerts.map((alert) => (
+            <div
+              key={alert.id}
+              className={`rounded-lg border p-6 ${getAlertBgColor(alert.type)}`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-start space-x-4">
+                  {getAlertIcon(alert.type)}
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {alert.title}
+                      </h3>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                        alert.type === 'critical' 
+                          ? 'bg-red-100 text-red-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {alert.type}
+                      </span>
+                      {alert.count > 1 && (
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
+                          {alert.count}x
+                        </span>
+                      )}
+                    </div>
+                    
+                    <p className="text-gray-700 mt-1">{alert.message}</p>
+                    
+                    <div className="flex items-center space-x-4 mt-3 text-sm text-gray-600">
+                      <div className="flex items-center space-x-1">
+                        <Users className="h-4 w-4" />
+                        <span>{alert.clinicName || 'Unknown Clinic'}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{new Date(alert.createdAt).toLocaleString()}</span>
+                      </div>
+                      {alert.acknowledged && (
+                        <div className="flex items-center space-x-1 text-[#323956]">
+                          <CheckCircle className="h-4 w-4" />
+                          <span>Acknowledged</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {(alert.data || alert.changes) && (
+                      <div className="mt-3 p-3 bg-white bg-opacity-50 rounded-md">
+                        <h4 className="text-sm font-medium text-gray-900 mb-2">Details:</h4>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          {alert.category === 'usage' && (
+                            <>
+                              <div>Reports Used: {alert.data.reportsUsed}</div>
+                              <div>Reports Allowed: {alert.data.reportsAllowed}</div>
+                              {alert.data.percentage && (
+                                <div>Usage: {alert.data.percentage}%</div>
+                              )}
+                            </>
+                          )}
+                          {alert.category === 'trial' && (
+                            <>
+                              {alert.data.daysLeft !== undefined && (
+                                <div>Days Left: {alert.data.daysLeft}</div>
+                              )}
+                              {alert.data.daysExpired !== undefined && (
+                                <div>Days Expired: {alert.data.daysExpired}</div>
+                              )}
+                              <div>Trial End: {new Date(alert.data.trialEndDate).toLocaleDateString()}</div>
+                            </>
+                          )}
+                          {alert.type === 'profile_change' && alert.changes && (
+                            <>
+                              <div className="font-medium text-gray-900 mb-1">Profile Changes:</div>
+                              {Object.keys(alert.changes).map(field => (
+                                <div key={field} className="pl-3 border-l-2 border-blue-200">
+                                  <div className="font-medium">{field && typeof field === 'string' ? field.charAt(0).toUpperCase() + field.slice(1) : field}:</div>
+                                  <div className="text-red-600">From: "{alert.changes[field].old || 'Empty'}"</div>
+                                  <div className="text-[#323956]">To: "{alert.changes[field].new || 'Empty'}"</div>
+                                </div>
+                              ))}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  {!alert.acknowledged && (
+                    <button
+                      onClick={() => handleAcknowledgeAlert(alert.id)}
+                      className="p-2 text-[#323956] hover:text-green-800 hover:bg-green-100 rounded-lg transition-colors"
+                      title="Acknowledge Alert"
+                    >
+                      <CheckCircle className="h-5 w-5" />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleDismissAlert(alert.id)}
+                    className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                    title="Dismiss Alert"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              {alert.action && (
+                <div className="mt-4 pt-4 border-t border-gray-200 border-opacity-50">
+                  <div className="flex space-x-3">
+                    {alert.action === 'purchase_reports' && (
+                      <button className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                        Contact Clinic
+                      </button>
+                    )}
+                    {alert.action === 'consider_purchase' && (
+                      <button className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                        Notify Clinic
+                      </button>
+                    )}
+                    {alert.action === 'upgrade_subscription' && (
+                      <button className="bg-[#323956] hover:bg-[#232D3C] text-white px-4 py-2 rounded-lg text-sm font-medium">
+                        Contact for Upgrade
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+            <CheckCircle className="h-12 w-12 text-[#323956] mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {filter === 'all' ? 'No Active Alerts' : `No ${filter} alerts`}
+            </h3>
+            <p className="text-gray-600">
+              {filter === 'all' 
+                ? 'All systems are running smoothly' 
+                : `No ${filter} alerts at this time`
+              }
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Alert Management Actions */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Alert Management</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => {
+              AlertService.checkAllClinics();
+              toast.success('Manual alert check completed');
+              loadAlerts();
+            }}
+            className="flex items-center justify-center space-x-2 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <TrendingUp className="h-5 w-5 text-gray-600" />
+            <span>Run Alert Check</span>
+          </button>
+          
+          <button className="flex items-center justify-center space-x-2 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            <Bell className="h-5 w-5 text-gray-600" />
+            <span>Alert Settings</span>
+          </button>
+          
+          <button
+            onClick={loadAlerts}
+            className="flex items-center justify-center space-x-2 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Eye className="h-5 w-5 text-gray-600" />
+            <span>Refresh Alerts</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AlertDashboard;

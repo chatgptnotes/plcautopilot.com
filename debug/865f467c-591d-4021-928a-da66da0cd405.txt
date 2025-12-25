@@ -1,0 +1,245 @@
+[DEBUG] Watching for changes in setting files C:\Users\Hp\.claude\settings.json, C:\Users\Hp\.claude\settings.json, C:\Users\Hp\.claude\settings.local.json...
+[DEBUG] Using bash path: "C:\Program Files\Git\bin\bash.exe"
+[DEBUG] Applying permission update: Adding 2 allow rule(s) to destination 'localSettings': ["Bash(python:*)","Bash(pip install:*)"]
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] Total LSP servers loaded: 0
+[DEBUG] LSP manager initialized with 0 servers
+[DEBUG] LSP server manager initialized successfully
+[DEBUG] Loading skills from directories: managed=C:\ProgramData\ClaudeCode\.claude\skills, user=C:\Users\Hp\.claude\skills, project=C:\Users\Hp\.claude\skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] Creating shell snapshot for bash (C:\Program Files\Git\bin\bash.exe)
+[DEBUG] Looking for shell config file: C:\Users\Hp\.bashrc
+[DEBUG] Shell config file not found: C:\Users\Hp\.bashrc, creating snapshot with Claude Code defaults only
+[DEBUG] Snapshots directory: C:\Users\Hp\.claude\shell-snapshots
+[DEBUG] Creating snapshot at: C:\Users\Hp\.claude\shell-snapshots\snapshot-bash-1766325749037-9r8zzb.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\865f467c-591d-4021-928a-da66da0cd405-agent-865f467c-591d-4021-928a-da66da0cd405.json.tmp.24932.1766325749059
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\865f467c-591d-4021-928a-da66da0cd405-agent-865f467c-591d-4021-928a-da66da0cd405.json.tmp.24932.1766325749059 to C:\Users\Hp\.claude\todos\865f467c-591d-4021-928a-da66da0cd405-agent-865f467c-591d-4021-928a-da66da0cd405.json
+[DEBUG] File C:\Users\Hp\.claude\todos\865f467c-591d-4021-928a-da66da0cd405-agent-865f467c-591d-4021-928a-da66da0cd405.json written atomically
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Summarizing last 13 of 430 messages (~0 tokens)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325749581
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325749581 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325749595
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325749595 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325749611
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325749611 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Shell snapshot created successfully (339 bytes)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325749904
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325749904 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325752366
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325752366 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Skipping SessionStart:startup hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325752449
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42687 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325752449 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325752464
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42687 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325752464 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325752479
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42687 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325752479 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] performStartupChecks called
+[DEBUG] Trust not accepted for current directory - skipping plugin installations
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325752546
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325752546 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] MCP server "ide": Starting connection with timeout of 30000ms
+[DEBUG] MCP server "ide": Successfully connected to ws-ide server in 73ms
+[DEBUG] MCP server "ide": Connection established with capabilities: {"hasTools":true,"hasPrompts":false,"hasResources":false,"serverVersion":{"name":"Claude Code VSCode MCP","version":"2.0.75"}}
+[DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Added snapshot for 98effa3b-565e-48f9-b40e-2f04365800e4, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 48ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Skipping PreToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Session environment not yet supported on Windows
+[DEBUG] Skipping PostToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 28ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325783025
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325783025 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Skipping Stop hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325783076
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325783076 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 27ms
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message 49e16abe-dc22-4bd7-b336-5f1e28c3c316
+[DEBUG] FileHistory: Added snapshot for 49e16abe-dc22-4bd7-b336-5f1e28c3c316, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 42ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 35ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[ERROR] Error streaming, falling back to non-streaming mode: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4.content.0.pdf.source.base64.data: A maximum of 100 PDF pages may be provided."},"request_id":"req_011CWKxZcjaRK2ody3VAm4h3"}
+[ERROR] Error in non-streaming fallback: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4.content.0.pdf.source.base64.data: A maximum of 100 PDF pages may be provided."},"request_id":"req_011CWKxZjMCVQFbodwp2pF3G"}
+[ERROR] Error: Error: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4.content.0.pdf.source.base64.data: A maximum of 100 PDF pages may be provided."},"request_id":"req_011CWKxZjMCVQFbodwp2pF3G"}
+    at L4.generate (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:204:83066)
+    at E_.makeStatusError (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:2117)
+    at E_.makeRequest (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:5341)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async psA.model (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14692)
+    at async psA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1987:39781)
+    at async jn2 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14846)
+    at async file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:8667
+    at async $10 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:1970)
+    at async J8A (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:8637)
+[DEBUG] Skipping Stop hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325878467
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325878467 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 26ms
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message 6efbf47d-7b35-4438-a255-c9319a8b24e7
+[DEBUG] FileHistory: Added snapshot for 6efbf47d-7b35-4438-a255-c9319a8b24e7, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 43ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error streaming, falling back to non-streaming mode: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4.content.0.pdf.source.base64.data: A maximum of 100 PDF pages may be provided."},"request_id":"req_011CWKxgQ9jkxHQzKECs7uaH"}
+[ERROR] Error in non-streaming fallback: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4.content.0.pdf.source.base64.data: A maximum of 100 PDF pages may be provided."},"request_id":"req_011CWKxgWFMDFVNMfzLb6qEu"}
+[ERROR] Error: Error: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4.content.0.pdf.source.base64.data: A maximum of 100 PDF pages may be provided."},"request_id":"req_011CWKxgWFMDFVNMfzLb6qEu"}
+    at L4.generate (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:204:83066)
+    at E_.makeStatusError (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:2117)
+    at E_.makeRequest (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:5341)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async psA.model (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14692)
+    at async psA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1987:39781)
+    at async jn2 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14846)
+    at async file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:8667
+    at async $10 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:1970)
+    at async J8A (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:8637)
+[DEBUG] Skipping Stop hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.24932.1766325970241
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 42792 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.24932.1766325970241 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Detected change to C:\Users\Hp\.claude\settings.local.json
+[DEBUG] Replacing all allow rules for destination 'localSettings' with 3 rule(s): ["Bash(python:*)","Bash(pip install:*)","WebFetch(domain:product-help.schneider-electric.com)"]
+[DEBUG] Detected change to C:\Users\Hp\.claude\settings.local.json
+[DEBUG] Replacing all allow rules for destination 'localSettings' with 4 rule(s): ["Bash(python:*)","Bash(pip install:*)","WebFetch(domain:product-help.schneider-electric.com)","WebFetch(domain:www.se.com)"]
+[DEBUG] Detected change to C:\Users\Hp\.claude\settings.local.json
+[DEBUG] Replacing all allow rules for destination 'localSettings' with 5 rule(s): ["Bash(python:*)","Bash(pip install:*)","WebFetch(domain:product-help.schneider-electric.com)","WebFetch(domain:www.se.com)","WebSearch"]
+[DEBUG] Detected change to C:\Users\Hp\.claude\settings.local.json
+[DEBUG] Replacing all allow rules for destination 'localSettings' with 6 rule(s): ["Bash(python:*)","Bash(pip install:*)","WebFetch(domain:product-help.schneider-electric.com)","WebFetch(domain:www.se.com)","WebSearch","WebFetch(domain:plcprogramming.io)"]
+[DEBUG] Detected change to C:\Users\Hp\.claude\settings.local.json
+[DEBUG] Replacing all allow rules for destination 'localSettings' with 9 rule(s): ["Bash(python:*)","Bash(pip install:*)","WebFetch(domain:product-help.schneider-electric.com)","WebFetch(domain:www.se.com)","WebSearch","WebFetch(domain:plcprogramming.io)","Bash(where \"SoMachine Basic.exe\" 2)","Bash(nul)","Bash(where \"Machine Expert Basic.exe\" 2)"]
+[DEBUG] npm view failed with code 1
+[DEBUG] npm stderr: (empty)

@@ -1,0 +1,685 @@
+const fs = require('fs');
+const pdfParse = require('pdf-parse');
+
+/**
+ * Traditional qEEG-Pro PDF Parser
+ * Extracts data from qEEG-Pro format PDFs using pattern matching
+ * NO AI REQUIRED - Pure text extraction and regex parsing
+ */
+class TraditionalQeegParser {
+
+  /**
+   * Parse qEEG-Pro PDF file
+   * @param {Object} file - Multer file object
+   * @param {string} condition - 'EO' or 'EC'
+   * @param {string} reportType - 'raw' or 'zscore'
+   * @returns {Promise<Object>} Parsed QEEG data
+   */
+  static async parsePDF(file, condition, reportType = 'zscore') {
+    try {
+      console.log(`\n📄 === TRADITIONAL PDF PARSING (${condition}) ===`);
+      console.log(`  File: ${file.originalname}`);
+      console.log(`  Report Type: ${reportType.toUpperCase()}`);
+
+      // Read PDF file
+      const dataBuffer = fs.readFileSync(file.path);
+
+      // Extract text from PDF
+      const pdfData = await pdfParse(dataBuffer, {
+        max: 0 // no page limit
+      });
+
+      const pdfText = pdfData.text;
+      console.log(`  ✅ PDF text extracted: ${pdfText.length} characters`);
+
+      // Extract data based on report type
+      let extractedData;
+
+      if (reportType === 'zscore') {
+        extractedData = this.parseZScoreReport(pdfText, condition);
+      } else if (reportType === 'raw') {
+        extractedData = this.parseRawPowerReport(pdfText, condition);
+      } else {
+        throw new Error(`Unknown report type: ${reportType}`);
+      }
+
+      console.log(`  ✅ Data extraction completed`);
+      console.log(`=== TRADITIONAL PDF PARSING COMPLETED ===\n`);
+
+      return extractedData;
+
+    } catch (error) {
+      console.error(`\n❌ Traditional parsing failed (${condition}):`, error.message);
+      throw new Error(`Traditional PDF parsing failed: ${error.message}`);
+    }
+  }
+
+  /**
+   * Parse Z-score format qEEG report
+   * @param {string} pdfText - Full PDF text content
+   * @param {string} condition - 'EO' or 'EC'
+   * @returns {Object} Extracted QEEG data
+   */
+  static parseZScoreReport(pdfText, condition) {
+    console.log(`\n  🔍 Parsing Z-score report structure...`);
+
+    // Initialize data structure
+    const data = {
+      zscores: {
+        absolute: {},
+        relative: {}
+      },
+      special: {
+        alphaPeak: 10.0,
+        alphaPeakZscore: 0.0
+      }
+    };
+
+    // Required channels
+    const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+
+    // STEP 1: Extract Alpha Peak from Page 13
+    console.log(`  📊 Step 1: Extracting Alpha Peak data from Page 13...`);
+    this.extractAlphaPeak(pdfText, data, requiredChannels);
+
+    // STEP 2: Extract Z-scored Absolute Power from Page 24
+    console.log(`  📊 Step 2: Extracting Z-scored Absolute Power from Page 24...`);
+    this.extractZScoredAbsolutePower(pdfText, data, requiredChannels);
+
+    // STEP 3: Extract Z-scored Relative Power from Page 24
+    console.log(`  📊 Step 3: Extracting Z-scored Relative Power from Page 24...`);
+    this.extractZScoredRelativePower(pdfText, data, requiredChannels);
+
+    // Validate extracted data
+    this.validateZScoreData(data, condition);
+
+    return data;
+  }
+
+  /**
+   * Extract Alpha Peak data from Page 13
+   * @param {string} pdfText - Full PDF text
+   * @param {Object} data - Data object to populate
+   * @param {Array} channels - Channels to extract
+   */
+  static extractAlphaPeak(pdfText, data, channels) {
+    // Find the "Z-scored Alpha Peak" section
+    const alphaPeakSectionRegex = /Z-scored Alpha Peak[\s\S]{1,5000}?Ch\s+APF\s+Z-APF([\s\S]{1,2000})/i;
+    const match = pdfText.match(alphaPeakSectionRegex);
+
+    if (!match) {
+      console.warn(`  ⚠️  Could not find "Z-scored Alpha Peak" section`);
+      return;
+    }
+
+    const tableText = match[1];
+
+    // Extract alpha peak for each channel
+    // Pattern: Channel name followed by two numbers (APF and Z-APF)
+    const channelRegex = /([A-Z][A-Za-z0-9]+)\s+([\d.]+)\s+([-\d.]+)/g;
+
+    let alphaMatches;
+    let extractedCount = 0;
+
+    while ((alphaMatches = channelRegex.exec(tableText)) !== null) {
+      const channel = alphaMatches[1];
+      const apf = parseFloat(alphaMatches[2]);
+      const zApf = parseFloat(alphaMatches[3]);
+
+      // Store APF for special channels
+      if (channel === 'Pz' || channel === 'O1') {
+        data.special.alphaPeak = apf;
+        data.special.alphaPeakZscore = zApf;
+        console.log(`    ✓ ${channel}: APF=${apf} Hz, Z-APF=${zApf}`);
+        extractedCount++;
+      }
+    }
+
+    console.log(`  ✅ Extracted alpha peak data: ${extractedCount} values`);
+  }
+
+  /**
+   * Extract Z-scored Absolute Power from Page 24
+   * @param {string} pdfText - Full PDF text
+   * @param {Object} data - Data object to populate
+   * @param {Array} channels - Channels to extract
+   */
+  static extractZScoredAbsolutePower(pdfText, data, channels) {
+    // Find the "Absolute Power (μV²)" section
+    const absoluteSectionRegex = /Absolute Power \(μV2?\)[\s\S]{1,100}?Ch\s+Delta\s+Z-Delta\s+Theta\s+Z-Theta\s+Alpha\s+Z-Alpha\s+Beta\s+Z-Beta\s+hiBeta\s+Z-hiBeta([\s\S]{1,3000}?)(?:Font|Relative Power)/i;
+    const match = pdfText.match(absoluteSectionRegex);
+
+    if (!match) {
+      console.warn(`  ⚠️  Could not find "Absolute Power" section`);
+      return;
+    }
+
+    const tableText = match[1];
+
+    // Extract data for required channels
+    let extractedCount = 0;
+
+    for (const channel of channels) {
+      // Pattern: Channel followed by 10 values (5 power values + 5 z-scores)
+      // Example: Fz 121.1 1.3 46.2 0.7 60.6 1.4 34.9 1.2 42.0 0.6
+      const channelPattern = new RegExp(
+        channel + '\\s+' +
+        '([\\d.]+)\\s+' +  // Delta power
+        '([-\\d.]+)\\s+' +  // Z-Delta
+        '([\\d.]+)\\s+' +  // Theta power
+        '([-\\d.]+)\\s+' +  // Z-Theta
+        '([\\d.]+)\\s+' +  // Alpha power
+        '([-\\d.]+)\\s+' +  // Z-Alpha
+        '([\\d.]+)\\s+' +  // Beta power
+        '([-\\d.]+)\\s+' +  // Z-Beta
+        '([\\d.]+)\\s+' +  // HiBeta power
+        '([-\\d.]+)',      // Z-HiBeta
+        'i'
+      );
+
+      const channelMatch = tableText.match(channelPattern);
+
+      if (channelMatch) {
+        data.zscores.absolute[channel] = {
+          Delta: parseFloat(channelMatch[2]),   // Z-Delta
+          Theta: parseFloat(channelMatch[4]),   // Z-Theta
+          Alpha: parseFloat(channelMatch[6]),   // Z-Alpha
+          Beta: parseFloat(channelMatch[8]),    // Z-Beta
+          HiBeta: parseFloat(channelMatch[10])  // Z-HiBeta
+        };
+
+        console.log(`    ✓ ${channel}: Δ=${channelMatch[2]}, θ=${channelMatch[4]}, α=${channelMatch[6]}, β=${channelMatch[8]}, ββ=${channelMatch[10]}`);
+        extractedCount++;
+      } else {
+        console.warn(`    ⚠️  ${channel}: Not found in absolute power table`);
+        // Initialize with zeros
+        data.zscores.absolute[channel] = {
+          Delta: 0.0,
+          Theta: 0.0,
+          Alpha: 0.0,
+          Beta: 0.0,
+          HiBeta: 0.0
+        };
+      }
+    }
+
+    console.log(`  ✅ Extracted absolute power z-scores: ${extractedCount}/${channels.length} channels`);
+  }
+
+  /**
+   * Extract Z-scored Relative Power from Page 24
+   * @param {string} pdfText - Full PDF text
+   * @param {Object} data - Data object to populate
+   * @param {Array} channels - Channels to extract
+   */
+  static extractZScoredRelativePower(pdfText, data, channels) {
+    // Find the "Relative Power (%)" section
+    const relativeSectionRegex = /Relative Power \(%\)[\s\S]{1,100}?Ch\s+Delta\s+Z-Delta\s+Theta\s+Z-Theta\s+Alpha\s+Z-Alpha\s+Beta\s+Z-Beta\s+hiBeta\s+Z-hiBeta([\s\S]{1,3000}?)$/i;
+    const match = pdfText.match(relativeSectionRegex);
+
+    if (!match) {
+      console.warn(`  ⚠️  Could not find "Relative Power" section`);
+      return;
+    }
+
+    const tableText = match[1];
+
+    // Extract data for required channels
+    let extractedCount = 0;
+
+    for (const channel of channels) {
+      // Pattern: Channel followed by 10 values (5 power % + 5 z-scores)
+      // Example: Fz 26.0 0.7 9.9 -0.1 13.0 1.0 7.5 0.7 9.0 -0.1
+      const channelPattern = new RegExp(
+        channel + '\\s+' +
+        '([\\d.]+)\\s+' +   // Delta %
+        '([-\\d.]+)\\s+' +  // Z-Delta
+        '([\\d.]+)\\s+' +   // Theta %
+        '([-\\d.]+)\\s+' +  // Z-Theta
+        '([\\d.]+)\\s+' +   // Alpha %
+        '([-\\d.]+)\\s+' +  // Z-Alpha
+        '([\\d.]+)\\s+' +   // Beta %
+        '([-\\d.]+)\\s+' +  // Z-Beta
+        '([\\d.]+)\\s+' +   // HiBeta %
+        '([-\\d.]+)',       // Z-HiBeta
+        'i'
+      );
+
+      const channelMatch = tableText.match(channelPattern);
+
+      if (channelMatch) {
+        data.zscores.relative[channel] = {
+          Delta: parseFloat(channelMatch[2]),   // Z-Delta
+          Theta: parseFloat(channelMatch[4]),   // Z-Theta
+          Alpha: parseFloat(channelMatch[6]),   // Z-Alpha
+          Beta: parseFloat(channelMatch[8]),    // Z-Beta
+          HiBeta: parseFloat(channelMatch[10])  // Z-HiBeta
+        };
+
+        console.log(`    ✓ ${channel}: Δ=${channelMatch[2]}, θ=${channelMatch[4]}, α=${channelMatch[6]}, β=${channelMatch[8]}, ββ=${channelMatch[10]}`);
+        extractedCount++;
+      } else {
+        console.warn(`    ⚠️  ${channel}: Not found in relative power table`);
+        // Initialize with zeros
+        data.zscores.relative[channel] = {
+          Delta: 0.0,
+          Theta: 0.0,
+          Alpha: 0.0,
+          Beta: 0.0,
+          HiBeta: 0.0
+        };
+      }
+    }
+
+    console.log(`  ✅ Extracted relative power z-scores: ${extractedCount}/${channels.length} channels`);
+  }
+
+  /**
+   * Validate extracted Z-score data
+   * @param {Object} data - Extracted data
+   * @param {string} condition - Condition label
+   */
+  static validateZScoreData(data, condition) {
+    console.log(`\n  🔍 Validating extracted data (${condition})...`);
+
+    const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+    const requiredBands = ['Delta', 'Theta', 'Alpha', 'Beta', 'HiBeta'];
+    const missingFields = [];
+
+    // Check absolute z-scores
+    for (const channel of requiredChannels) {
+      if (!data.zscores.absolute[channel]) {
+        missingFields.push(`zscores.absolute.${channel}`);
+        continue;
+      }
+
+      for (const band of requiredBands) {
+        const value = data.zscores.absolute[channel][band];
+        if (value === null || value === undefined || isNaN(value)) {
+          missingFields.push(`zscores.absolute.${channel}.${band}`);
+        }
+      }
+    }
+
+    // Check relative z-scores
+    for (const channel of requiredChannels) {
+      if (!data.zscores.relative[channel]) {
+        missingFields.push(`zscores.relative.${channel}`);
+        continue;
+      }
+
+      for (const band of requiredBands) {
+        const value = data.zscores.relative[channel][band];
+        if (value === null || value === undefined || isNaN(value)) {
+          missingFields.push(`zscores.relative.${channel}.${band}`);
+        }
+      }
+    }
+
+    // Check alpha peak
+    if (!data.special || !data.special.alphaPeak) {
+      missingFields.push('special.alphaPeak');
+    }
+
+    if (missingFields.length > 0) {
+      console.warn(`  ⚠️  Validation warnings: ${missingFields.length} fields missing or invalid`);
+      missingFields.slice(0, 5).forEach(field => {
+        console.warn(`    - ${field}`);
+      });
+      if (missingFields.length > 5) {
+        console.warn(`    ... and ${missingFields.length - 5} more`);
+      }
+    } else {
+      console.log(`  ✅ Validation passed: All required fields present`);
+    }
+
+    // Log sample values for verification
+    console.log(`\n  📋 Sample extracted values (${condition}):`);
+    if (data.zscores.absolute.Fz) {
+      console.log(`    Fz Absolute Z-scores: Δ=${data.zscores.absolute.Fz.Delta}, α=${data.zscores.absolute.Fz.Alpha}`);
+    }
+    if (data.zscores.relative.Pz) {
+      console.log(`    Pz Relative Z-scores: α=${data.zscores.relative.Pz.Alpha}, β=${data.zscores.relative.Pz.Beta}`);
+    }
+    if (data.special.alphaPeak) {
+      console.log(`    Alpha Peak: ${data.special.alphaPeak} Hz (Z=${data.special.alphaPeakZscore})`);
+    }
+  }
+
+  /**
+   * Parse RAW power format qEEG report (Absolute Power in μV²)
+   * @param {string} pdfText - Full PDF text content
+   * @param {string} condition - 'EO' or 'EC'
+   * @returns {Object} Extracted QEEG data
+   */
+  static parseRawPowerReport(pdfText, condition) {
+    console.log(`\n  🔍 Parsing RAW power report structure...`);
+
+    // Initialize data structure for RAW power
+    const data = {
+      absolute: {},
+      relative: {},
+      special: {
+        alphaPeak: 10.0,
+        O1: 10.0
+      }
+    };
+
+    // Required channels
+    const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+
+    // STEP 1: Extract Alpha Peak from Eyes Closed (same as Z-score)
+    console.log(`  📊 Step 1: Extracting Alpha Peak data...`);
+    this.extractAlphaPeakRaw(pdfText, data, requiredChannels);
+
+    // STEP 2: Extract Absolute Power (μV²) from FFT tables
+    console.log(`  📊 Step 2: Extracting Absolute Power (μV²) values...`);
+    this.extractAbsolutePowerRaw(pdfText, data, requiredChannels);
+
+    // STEP 3: Extract Relative Power (%)
+    console.log(`  📊 Step 3: Extracting Relative Power (%) values...`);
+    this.extractRelativePowerRaw(pdfText, data, requiredChannels);
+
+    // Validate extracted data
+    this.validateRawData(data, condition);
+
+    return data;
+  }
+
+  /**
+   * Extract Alpha Peak from RAW power report
+   * @param {string} pdfText - Full PDF text
+   * @param {Object} data - Data object to populate
+   * @param {Array} channels - Channels to extract
+   */
+  static extractAlphaPeakRaw(pdfText, data, channels) {
+    console.log(`\n  🐛 DEBUG: Searching for Alpha Peak section...`);
+
+    // Check for alpha peak keywords
+    const hasAlphaPeak = pdfText.toLowerCase().includes('alpha peak');
+    const hasAPF = pdfText.toLowerCase().includes('apf');
+    console.log(`  🔍 Has "alpha peak": ${hasAlphaPeak}`);
+    console.log(`  🔍 Has "apf": ${hasAPF}`);
+
+    // Show sample around alpha peak
+    const searchIndex = pdfText.toLowerCase().indexOf('alpha peak');
+    if (searchIndex >= 0) {
+      const start = Math.max(0, searchIndex - 300);
+      const end = Math.min(pdfText.length, searchIndex + 1000);
+      const sample = pdfText.substring(start, end);
+      console.log(`\n  📋 Sample text around "Alpha Peak":\n${sample}\n`);
+    }
+
+    // Find "FFT power distribution and Alpha Peak" or similar section
+    const alphaPeakSectionRegex = /(?:FFT power distribution and Alpha Peak|Alpha Peak Frequency)[\s\S]{1,5000}?(?:FP1|Fp1)\s+APF[:\s]+([\d.]+)/i;
+    const match = pdfText.match(alphaPeakSectionRegex);
+
+    if (match) {
+      console.log(`    ✓ Found Alpha Peak section with regex`);
+    }
+
+    // Try to extract individual channel alpha peaks
+    // Pattern: Channel name followed by APF: value
+    const apfPattern = /([A-Z][A-Za-z0-9]+)\s+APF[:\s]+([\d.]+)/gi;
+    let apfMatch;
+    let maxApf = 0;
+    let extractedCount = 0;
+
+    console.log(`  🔍 Searching for APF values in PDF...`);
+    while ((apfMatch = apfPattern.exec(pdfText)) !== null) {
+      const channel = apfMatch[1];
+      const apf = parseFloat(apfMatch[2]);
+      console.log(`    🔎 Found: ${channel} APF=${apf} Hz`);
+
+      // Store highest APF found (typically O1 or Pz)
+      if (channel === 'O1' || channel === 'O2' || channel === 'Pz') {
+        if (apf > maxApf) {
+          maxApf = apf;
+          data.special.alphaPeak = apf;
+          if (channel === 'O1') {
+            data.special.O1 = apf;
+          }
+          console.log(`    ✓ ${channel}: APF=${apf} Hz (SELECTED)`);
+          extractedCount++;
+        }
+      }
+    }
+
+    if (extractedCount === 0) {
+      console.warn(`    ⚠️  No alpha peak values found, using default 10.0 Hz`);
+    } else {
+      console.log(`  ✅ Extracted alpha peak: ${data.special.alphaPeak} Hz`);
+    }
+  }
+
+  /**
+   * Extract Absolute Power (μV²) from RAW report
+   * @param {string} pdfText - Full PDF text
+   * @param {Object} data - Data object to populate
+   * @param {Array} channels - Channels to extract
+   */
+  static extractAbsolutePowerRaw(pdfText, data, channels) {
+    // Find "FFT Absolute Power" or "Absolute Power" section
+    // This table does NOT have Z-scores, just raw μV² values
+
+    console.log(`\n  🐛 DEBUG: Searching for Absolute Power section...`);
+    console.log(`  📄 PDF text length: ${pdfText.length} characters`);
+
+    // Check if keywords exist in PDF
+    const hasAbsolutePower = pdfText.toLowerCase().includes('absolute power');
+    const hasFftAbsolutePower = pdfText.toLowerCase().includes('fft absolute power');
+    console.log(`  🔍 Has "absolute power": ${hasAbsolutePower}`);
+    console.log(`  🔍 Has "fft absolute power": ${hasFftAbsolutePower}`);
+
+    // Show a sample of the PDF text around "absolute power"
+    const searchTerm = 'absolute power';
+    const searchIndex = pdfText.toLowerCase().indexOf(searchTerm);
+    if (searchIndex >= 0) {
+      const start = Math.max(0, searchIndex - 500);
+      const end = Math.min(pdfText.length, searchIndex + 1500);
+      const sample = pdfText.substring(start, end);
+      console.log(`\n  📋 Sample text around "Absolute Power":\n${sample}\n`);
+    }
+
+    const absoluteSectionRegex = /(?:FFT Absolute Power|Absolute Power)[\s\S]{1,100}?(?:Ch|Channel)\s+Delta.*?Theta.*?Alpha.*?Beta.*?(?:hiBeta|HiBeta)([\s\S]{1,3000}?)(?:Relative Power|$)/i;
+    const match = pdfText.match(absoluteSectionRegex);
+
+    if (!match) {
+      console.warn(`  ⚠️  Could not find "Absolute Power" section with regex`);
+      console.warn(`  🔍 Trying alternative extraction methods...`);
+      return;
+    }
+
+    console.log(`  ✅ Found Absolute Power section!`);
+    const tableText = match[1];
+    console.log(`  📊 Table text length: ${tableText.length} characters`);
+    console.log(`  📋 First 500 chars of table:\n${tableText.substring(0, 500)}\n`);
+
+    let extractedCount = 0;
+
+    for (const channel of channels) {
+      // Pattern: Channel followed by 5 values (Delta, Theta, Alpha, Beta, HiBeta in μV²)
+      // Example: Fz 121.1 46.2 60.6 34.9 42.0
+      const channelPattern = new RegExp(
+        channel + '\\s+' +
+        '([\\d.]+)\\s+' +  // Delta μV²
+        '([\\d.]+)\\s+' +  // Theta μV²
+        '([\\d.]+)\\s+' +  // Alpha μV²
+        '([\\d.]+)\\s+' +  // Beta μV²
+        '([\\d.]+)',       // HiBeta μV²
+        'i'
+      );
+
+      const channelMatch = tableText.match(channelPattern);
+
+      if (channelMatch) {
+        data.absolute[channel] = {
+          Delta: parseFloat(channelMatch[1]),
+          Theta: parseFloat(channelMatch[2]),
+          Alpha: parseFloat(channelMatch[3]),
+          Beta: parseFloat(channelMatch[4]),
+          HiBeta: parseFloat(channelMatch[5])
+        };
+
+        console.log(`    ✓ ${channel}: Δ=${channelMatch[1]}, θ=${channelMatch[2]}, α=${channelMatch[3]}, β=${channelMatch[4]}, ββ=${channelMatch[5]} μV²`);
+        extractedCount++;
+      } else {
+        console.warn(`    ⚠️  ${channel}: Not found in absolute power table`);
+        // Initialize with zeros
+        data.absolute[channel] = {
+          Delta: 0.0,
+          Theta: 0.0,
+          Alpha: 0.0,
+          Beta: 0.0,
+          HiBeta: 0.0
+        };
+      }
+    }
+
+    console.log(`  ✅ Extracted absolute power: ${extractedCount}/${channels.length} channels`);
+  }
+
+  /**
+   * Extract Relative Power (%) from RAW report
+   * @param {string} pdfText - Full PDF text
+   * @param {Object} data - Data object to populate
+   * @param {Array} channels - Channels to extract
+   */
+  static extractRelativePowerRaw(pdfText, data, channels) {
+    // Find "Relative Power" section
+    const relativeSectionRegex = /Relative Power[\s\S]{1,100}?(?:Ch|Channel)\s+Delta.*?Theta.*?Alpha.*?Beta.*?(?:hiBeta|HiBeta)([\s\S]{1,3000}?)$/i;
+    const match = pdfText.match(relativeSectionRegex);
+
+    if (!match) {
+      console.warn(`  ⚠️  Could not find "Relative Power" section`);
+      return;
+    }
+
+    const tableText = match[1];
+    let extractedCount = 0;
+
+    for (const channel of channels) {
+      // Pattern: Channel followed by 5 values (Delta %, Theta %, Alpha %, Beta %, HiBeta %)
+      const channelPattern = new RegExp(
+        channel + '\\s+' +
+        '([\\d.]+)\\s+' +  // Delta %
+        '([\\d.]+)\\s+' +  // Theta %
+        '([\\d.]+)\\s+' +  // Alpha %
+        '([\\d.]+)\\s+' +  // Beta %
+        '([\\d.]+)',       // HiBeta %
+        'i'
+      );
+
+      const channelMatch = tableText.match(channelPattern);
+
+      if (channelMatch) {
+        data.relative[channel] = {
+          Delta: parseFloat(channelMatch[1]),
+          Theta: parseFloat(channelMatch[2]),
+          Alpha: parseFloat(channelMatch[3]),
+          Beta: parseFloat(channelMatch[4]),
+          HiBeta: parseFloat(channelMatch[5])
+        };
+
+        console.log(`    ✓ ${channel}: Δ=${channelMatch[1]}%, θ=${channelMatch[2]}%, α=${channelMatch[3]}%, β=${channelMatch[4]}%, ββ=${channelMatch[5]}%`);
+        extractedCount++;
+      } else {
+        console.warn(`    ⚠️  ${channel}: Not found in relative power table`);
+        // Initialize with zeros
+        data.relative[channel] = {
+          Delta: 0.0,
+          Theta: 0.0,
+          Alpha: 0.0,
+          Beta: 0.0,
+          HiBeta: 0.0
+        };
+      }
+    }
+
+    console.log(`  ✅ Extracted relative power: ${extractedCount}/${channels.length} channels`);
+  }
+
+  /**
+   * Validate extracted RAW power data
+   * @param {Object} data - Extracted data
+   * @param {string} condition - Condition label
+   */
+  static validateRawData(data, condition) {
+    console.log(`\n  🔍 Validating extracted RAW data (${condition})...`);
+
+    const requiredChannels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+    const requiredBands = ['Delta', 'Theta', 'Alpha', 'Beta', 'HiBeta'];
+    const missingFields = [];
+
+    // Check absolute power
+    for (const channel of requiredChannels) {
+      if (!data.absolute[channel]) {
+        missingFields.push(`absolute.${channel}`);
+        continue;
+      }
+
+      for (const band of requiredBands) {
+        const value = data.absolute[channel][band];
+        if (value === null || value === undefined || isNaN(value)) {
+          missingFields.push(`absolute.${channel}.${band}`);
+        }
+      }
+    }
+
+    // Check relative power and validate sums
+    for (const channel of requiredChannels) {
+      if (!data.relative[channel]) {
+        missingFields.push(`relative.${channel}`);
+        continue;
+      }
+
+      let sum = 0;
+      for (const band of requiredBands) {
+        const value = data.relative[channel][band];
+        if (value === null || value === undefined || isNaN(value)) {
+          missingFields.push(`relative.${channel}.${band}`);
+        }
+        sum += (value || 0);
+      }
+
+      // Validate that relative power sums to ~100%
+      if (sum < 90 || sum > 110) {
+        console.warn(`    ⚠️  ${channel} relative power sum = ${sum.toFixed(1)}% (expected ~100%)`);
+      }
+    }
+
+    // Check alpha peak
+    if (!data.special || !data.special.alphaPeak) {
+      missingFields.push('special.alphaPeak');
+    }
+
+    if (missingFields.length > 0) {
+      console.warn(`  ⚠️  Validation warnings: ${missingFields.length} fields missing or invalid`);
+      missingFields.slice(0, 5).forEach(field => {
+        console.warn(`    - ${field}`);
+      });
+      if (missingFields.length > 5) {
+        console.warn(`    ... and ${missingFields.length - 5} more`);
+      }
+    } else {
+      console.log(`  ✅ Validation passed: All required fields present`);
+    }
+
+    // Log sample values for verification
+    console.log(`\n  📋 Sample extracted RAW values (${condition}):`);
+    if (data.absolute.Fz) {
+      console.log(`    Fz Absolute Power: θ=${data.absolute.Fz.Theta} μV², β=${data.absolute.Fz.Beta} μV²`);
+    }
+    if (data.absolute.Cz) {
+      console.log(`    Cz Absolute Power: θ=${data.absolute.Cz.Theta} μV², β=${data.absolute.Cz.Beta} μV²`);
+    }
+    if (data.absolute.Pz) {
+      console.log(`    Pz Absolute Power: α=${data.absolute.Pz.Alpha} μV², θ=${data.absolute.Pz.Theta} μV²`);
+    }
+    if (data.special.alphaPeak) {
+      console.log(`    Alpha Peak: ${data.special.alphaPeak} Hz`);
+    }
+  }
+}
+
+module.exports = TraditionalQeegParser;

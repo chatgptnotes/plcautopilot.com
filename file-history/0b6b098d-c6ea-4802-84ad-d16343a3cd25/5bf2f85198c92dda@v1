@@ -1,0 +1,58 @@
+# =====================================================
+# NEURO360 SERVER - ENVIRONMENT VARIABLES TEMPLATE
+# =====================================================
+# Copy this file and rename to .env
+# Then replace all [YOUR_*] values with actual values
+# =====================================================
+
+# =====================================================
+# SERVER PORT
+# =====================================================
+PORT=3001
+
+# =====================================================
+# AI SERVICE - GEMINI ONLY
+# =====================================================
+AI_SERVICE=gemini
+
+# =====================================================
+# GOOGLE GEMINI API CONFIGURATION
+# =====================================================
+# Get from: https://makersuite.google.com/app/apikey
+# or https://aistudio.google.com/apikey
+GEMINI_API_KEY=[YOUR_GEMINI_API_KEY]
+# Example: AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXX
+# ⚠️ KEEP THIS SECRET! Never commit to Git!
+
+# =====================================================
+# SUPABASE CONFIGURATION
+# =====================================================
+# Get these from: Supabase Dashboard > Settings > API
+SUPABASE_URL=[YOUR_SUPABASE_PROJECT_URL]
+# Example: https://abcdefghijklmnop.supabase.co
+
+SUPABASE_SERVICE_ROLE_KEY=[YOUR_SUPABASE_SERVICE_ROLE_KEY]
+# Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+# ⚠️ KEEP THIS SECRET! Never commit to Git!
+
+# =====================================================
+# ENVIRONMENT
+# =====================================================
+NODE_ENV=development
+# For production: NODE_ENV=production
+
+# =====================================================
+# FRONTEND URL (for CORS)
+# =====================================================
+FRONTEND_URL=http://localhost:3000
+# For production: Update to your actual frontend URL
+
+# =====================================================
+# INSTRUCTIONS
+# =====================================================
+# 1. Copy this file as .env
+# 2. Replace all [YOUR_*] placeholders with actual values
+# 3. Never commit .env to Git (it's in .gitignore)
+# 4. Ensure FRONTEND_URL matches your frontend deployment
+# 5. For production, update NODE_ENV and FRONTEND_URL
+# =====================================================

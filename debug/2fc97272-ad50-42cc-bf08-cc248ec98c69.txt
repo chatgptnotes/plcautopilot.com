@@ -1,0 +1,931 @@
+[DEBUG] Watching for changes in setting files C:\Users\Hp\.claude\settings.json...
+[DEBUG] Using bash path: "C:\Program Files\Git\bin\bash.exe"
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] Total LSP servers loaded: 0
+[DEBUG] LSP manager initialized with 0 servers
+[DEBUG] LSP server manager initialized successfully
+[DEBUG] Loading skills from directories: managed=C:\ProgramData\ClaudeCode\.claude\skills, user=C:\Users\Hp\.claude\skills, project=D:\Todays\Neuro360\.claude\skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] Creating shell snapshot for bash (C:\Program Files\Git\bin\bash.exe)
+[DEBUG] Looking for shell config file: C:\Users\Hp\.bashrc
+[DEBUG] Shell config file not found: C:\Users\Hp\.bashrc, creating snapshot with Claude Code defaults only
+[DEBUG] Snapshots directory: C:\Users\Hp\.claude\shell-snapshots
+[DEBUG] Creating snapshot at: C:\Users\Hp\.claude\shell-snapshots\snapshot-bash-1763450806395-54isay.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude\todos\2fc97272-ad50-42cc-bf08-cc248ec98c69-agent-2fc97272-ad50-42cc-bf08-cc248ec98c69.json.tmp.14008.1763450806417
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming C:\Users\Hp\.claude\todos\2fc97272-ad50-42cc-bf08-cc248ec98c69-agent-2fc97272-ad50-42cc-bf08-cc248ec98c69.json.tmp.14008.1763450806417 to C:\Users\Hp\.claude\todos\2fc97272-ad50-42cc-bf08-cc248ec98c69-agent-2fc97272-ad50-42cc-bf08-cc248ec98c69.json
+[DEBUG] File C:\Users\Hp\.claude\todos\2fc97272-ad50-42cc-bf08-cc248ec98c69-agent-2fc97272-ad50-42cc-bf08-cc248ec98c69.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450806450
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450806450 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Ripgrep first use test: PASSED (mode=builtin, path=C:\Users\Hp\AppData\Roaming\npm\node_modules\@anthropic-ai\claude-code\vendor\ripgrep\x64-win32\rg.exe)
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450806866
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450806866 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450806881
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450806881 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450806894
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450806894 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[ERROR] Error streaming, falling back to non-streaming mode: Could not resolve authentication method. Expected either apiKey or authToken to be set. Or for one of the "X-Api-Key" or "Authorization" headers to be explicitly omitted
+[ERROR] Error streaming, falling back to non-streaming mode: Could not resolve authentication method. Expected either apiKey or authToken to be set. Or for one of the "X-Api-Key" or "Authorization" headers to be explicitly omitted
+[ERROR] Error in non-streaming fallback: Could not resolve authentication method. Expected either apiKey or authToken to be set. Or for one of the "X-Api-Key" or "Authorization" headers to be explicitly omitted
+[ERROR] Error: Error: Could not resolve authentication method. Expected either apiKey or authToken to be set. Or for one of the "X-Api-Key" or "Authorization" headers to be explicitly omitted
+    at E_.validateHeaders (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:930)
+    at E_.buildHeaders (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:8423)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async E_.buildRequest (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:7481)
+    at async E_.makeRequest (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:3309)
+    at async psA.model (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14692)
+    at async psA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1987:39781)
+    at async jn2 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14846)
+    at async file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:8667
+    at async $10 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:1970)
+[ERROR] Error in non-streaming fallback: Could not resolve authentication method. Expected either apiKey or authToken to be set. Or for one of the "X-Api-Key" or "Authorization" headers to be explicitly omitted
+[ERROR] Error: Error: Could not resolve authentication method. Expected either apiKey or authToken to be set. Or for one of the "X-Api-Key" or "Authorization" headers to be explicitly omitted
+    at E_.validateHeaders (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:930)
+    at E_.buildHeaders (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:8423)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async E_.buildRequest (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:7481)
+    at async E_.makeRequest (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:689:3309)
+    at async psA.model (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14692)
+    at async psA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1987:39781)
+    at async jn2 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:14846)
+    at async file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:8667
+    at async $10 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3394:1970)
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Shell snapshot created successfully (339 bytes)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450808353
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450808353 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450808372
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450808372 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] BigQuery metrics exporter flush complete
+[DEBUG] Telemetry flushed successfully
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450890279
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450890279 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450890320
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450890320 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450891044
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41849 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450891044 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450891665
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41943 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450891665 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450899325
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41943 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450899325 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450899342
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450899342 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450900519
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450900519 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for SessionStart with query: startup
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "startup" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450900592
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41837 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450900592 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450900604
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41837 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450900604 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] performStartupChecks called
+[DEBUG] Starting background plugin installations
+[DEBUG] performBackgroundPluginInstallations called
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763450900670
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763450900670 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Setting installation status: 0 marketplaces, 0 installable plugins, 0 uninstallable plugins
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] MCP server "ide": Starting connection with timeout of 30000ms
+[DEBUG] MCP server "ide": Successfully connected to ws-ide server in 54ms
+[DEBUG] MCP server "ide": Connection established with capabilities: {"hasTools":true,"hasPrompts":false,"hasResources":false,"serverVersion":{"name":"Claude Code VSCode MCP","version":"2.0.43"}}
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] Metrics opt-out API response: enabled=true
+[DEBUG] BigQuery metrics exported successfully
+[DEBUG] API Response: {
+  "accepted_count": 2,
+  "rejected_count": 0
+}
+[DEBUG] BigQuery metrics exported successfully
+[DEBUG] API Response: {
+  "accepted_count": 1,
+  "rejected_count": 0
+}
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Added snapshot for 3bc34422-115a-4735-8bac-0a096a65249f, tracking 0 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 51ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/OneDrive/Pictures/Saved Pictures/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readSync (node:fs:734:18)
+    at Object.readSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:472)
+    at zK (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3625:105)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:475)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readFileSync (node:fs:435:20)
+    at Object.readFileSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:299)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:490)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+    at r71 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:68:5038)
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 95ms
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 177ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] BigQuery metrics export failed: timeout of 5000ms exceeded
+[ERROR] AxiosError: AxiosError: timeout of 5000ms exceeded
+    at bE.<anonymous> (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:30:10428)
+    at bE.emit (node:events:508:28)
+    at bE.emit (node:domain:489:12)
+    at Timeout.<anonymous> (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:29:3285)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+    at MGA.request (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:32:2129)
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async Fo1.doExport (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2254:51222)
+[ERROR] Error: Error: {"stack":"Error: PeriodicExportingMetricReader: metrics export failed (error AxiosError: timeout of 5000ms exceeded)\n    at zW2._doRun (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2213:136894)\n    at runNextTicks (node:internal/process/task_queues:64:5)\n    at listOnTimeout (node:internal/timers:567:9)\n    at process.processTimers (node:internal/timers:541:7)\n    at async zW2._runOnce (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2213:136131)","message":"PeriodicExportingMetricReader: metrics export failed (error AxiosError: timeout of 5000ms exceeded)","name":"Error"}
+    at Wo1.error (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2254:49442)
+    at nm1.error (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1987:49064)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2213:44258
+    at OW5 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2213:44804)
+    at zW2._runOnce (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2213:136364)
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+[DEBUG] npm view failed with code 1
+[DEBUG] npm stderr: (empty)
+[ERROR] Error streaming, falling back to non-streaming mode: terminated
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 194ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[ERROR] Error streaming, falling back to non-streaming mode: Connection error.
+[ERROR] Error streaming, falling back to non-streaming mode: terminated
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Permission suggestions for Edit: [
+  {
+    "type": "setMode",
+    "mode": "acceptEdits",
+    "destination": "session"
+  }
+]
+[DEBUG] MCP server "ide": Calling MCP tool: openDiff
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 75ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 34ms
+[ERROR] ySQ: ySQ: Diagnostics file path mismatch: expected D:\Todays\Neuro360\src\pages\HowItWorks.jsx, got file://d:\todays\neuro360\src\pages\howitworks.jsx/)
+    at MO.beforeFileEdited (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1703:22068)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.call (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1832:624)
+    at async n85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:27467)
+    at async ZrA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:24531)
+    at async l85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:23383)
+    at async c85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:22866)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:19458)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+[DEBUG] FileHistory: Tracked file modification for D:\Todays\Neuro360\src\pages\HowItWorks.jsx
+[DEBUG] Writing to temp file: D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454298820
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 16478 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454298820 to D:\Todays\Neuro360\src\pages\HowItWorks.jsx
+[DEBUG] File D:\Todays\Neuro360\src\pages\HowItWorks.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'openDiff' completed successfully in 23s
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 127ms
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 84ms
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454309778
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454309778 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454309941
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454309941 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] BigQuery metrics exported successfully
+[DEBUG] API Response: {
+  "accepted_count": 10,
+  "rejected_count": 0
+}
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 81ms
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message f6371545-50a4-4d8b-a6d1-138eb36353f4
+[DEBUG] FileHistory: Added snapshot for f6371545-50a4-4d8b-a6d1-138eb36353f4, tracking 1 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 47ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/OneDrive/Pictures/Saved Pictures/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readSync (node:fs:734:18)
+    at Object.readSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:472)
+    at zK (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3625:105)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:475)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readFileSync (node:fs:435:20)
+    at Object.readFileSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:299)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:490)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+    at r71 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:68:5038)
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 69ms
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 259ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 175ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Permission suggestions for Edit: [
+  {
+    "type": "setMode",
+    "mode": "acceptEdits",
+    "destination": "session"
+  }
+]
+[DEBUG] MCP server "ide": Calling MCP tool: openDiff
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 75ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 29ms
+[ERROR] ySQ: ySQ: Diagnostics file path mismatch: expected D:\Todays\Neuro360\src\pages\HowItWorks.jsx, got file://d:\todays\neuro360\src\pages\howitworks.jsx/)
+    at MO.beforeFileEdited (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1703:22068)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.call (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1832:624)
+    at async n85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:27467)
+    at async ZrA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:24531)
+    at async l85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:23383)
+    at async c85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:22866)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:19458)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+[DEBUG] Writing to temp file: D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454590149
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 16457 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454590149 to D:\Todays\Neuro360\src\pages\HowItWorks.jsx
+[DEBUG] File D:\Todays\Neuro360\src\pages\HowItWorks.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'openDiff' completed successfully in 12s
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 144ms
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 117ms
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Permission suggestions for Edit: [
+  {
+    "type": "setMode",
+    "mode": "acceptEdits",
+    "destination": "session"
+  }
+]
+[DEBUG] MCP server "ide": Calling MCP tool: openDiff
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 68ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 27ms
+[ERROR] ySQ: ySQ: Diagnostics file path mismatch: expected D:\Todays\Neuro360\src\pages\HowItWorks.jsx, got file://d:\todays\neuro360\src\pages\howitworks.jsx/)
+    at MO.beforeFileEdited (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1703:22068)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.call (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1832:624)
+    at async n85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:27467)
+    at async ZrA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:24531)
+    at async l85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:23383)
+    at async c85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:22866)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:19458)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+[DEBUG] Writing to temp file: D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454603460
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 16435 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454603460 to D:\Todays\Neuro360\src\pages\HowItWorks.jsx
+[DEBUG] File D:\Todays\Neuro360\src\pages\HowItWorks.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'openDiff' completed successfully in 3s
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 154ms
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 70ms
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Permission suggestions for Edit: [
+  {
+    "type": "setMode",
+    "mode": "acceptEdits",
+    "destination": "session"
+  }
+]
+[DEBUG] MCP server "ide": Calling MCP tool: openDiff
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 73ms
+[DEBUG] MCP server "ide": Tool 'openDiff' completed successfully in 1s
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 31ms
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[ERROR] ySQ: ySQ: Diagnostics file path mismatch: expected D:\Todays\Neuro360\src\pages\HowItWorks.jsx, got file://d:\todays\neuro360\src\pages\howitworks.jsx/)
+    at MO.beforeFileEdited (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1703:22068)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.call (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1832:624)
+    at async n85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:27467)
+    at async ZrA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:24531)
+    at async l85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:23383)
+    at async c85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:22866)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:19458)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+[DEBUG] Writing to temp file: D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454613267
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 16414 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454613267 to D:\Todays\Neuro360\src\pages\HowItWorks.jsx
+[DEBUG] File D:\Todays\Neuro360\src\pages\HowItWorks.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 308ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 123ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454621377
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454621377 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454621429
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454621429 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 124ms
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 5acbda09-c2f8-4a2f-a107-409f494632b4
+[DEBUG] FileHistory: Added snapshot for 5acbda09-c2f8-4a2f-a107-409f494632b4, tracking 1 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 49ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/OneDrive/Pictures/Saved Pictures/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readSync (node:fs:734:18)
+    at Object.readSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:472)
+    at zK (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3625:105)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:475)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readFileSync (node:fs:435:20)
+    at Object.readFileSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:299)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:490)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+    at r71 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:68:5038)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454742653
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454742653 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454742794
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454742794 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 187ms
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 118ms
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 59e4f9f1-b0f8-41f0-b4bd-1e605f2b9e7d
+[DEBUG] FileHistory: Added snapshot for 59e4f9f1-b0f8-41f0-b4bd-1e605f2b9e7d, tracking 1 files
+[DEBUG] MCP server "ide": Calling MCP tool: closeAllDiffTabs
+[DEBUG] MCP server "ide": Tool 'closeAllDiffTabs' completed successfully in 49ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Getting matching hook commands for PreToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] Permission suggestions for Read: [
+  {
+    "type": "addRules",
+    "rules": [
+      {
+        "toolName": "Read",
+        "ruleContent": "//c/Users/Hp/OneDrive/Pictures/Saved Pictures/**"
+      }
+    ],
+    "behavior": "allow",
+    "destination": "session"
+  }
+]
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readSync (node:fs:734:18)
+    at Object.readSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:472)
+    at zK (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3625:105)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:475)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+[ERROR] Error: Error: EISDIR: illegal operation on a directory, read
+    at Module.readFileSync (node:fs:435:20)
+    at Object.readFileSync (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:9:299)
+    at Bw (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:3627:490)
+    at d55 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7517)
+    at V (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:6729)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2026:7047
+    at _J (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:21528)
+    at NE (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:41111)
+    at file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:74:39302
+    at r71 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:68:5038)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 56ms
+[DEBUG] Getting matching hook commands for PostToolUse with query: Read
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Read" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 219ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Getting matching hook commands for PreToolUse with query: Bash
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Bash" (0 before deduplication)
+[DEBUG] Session environment not yet supported on Windows
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 127ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Getting matching hook commands for PreToolUse with query: Bash
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Bash" (0 before deduplication)
+[DEBUG] Session environment not yet supported on Windows
+[DEBUG] Getting matching hook commands for PostToolUse with query: Bash
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Bash" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 125ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Getting matching hook commands for PreToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] Permission suggestions for Edit: [
+  {
+    "type": "setMode",
+    "mode": "acceptEdits",
+    "destination": "session"
+  }
+]
+[DEBUG] MCP server "ide": Calling MCP tool: openDiff
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] BigQuery metrics exported successfully
+[DEBUG] API Response: {
+  "accepted_count": 10,
+  "rejected_count": 0
+}
+[DEBUG] Metrics opt-out API response: enabled=true
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 101ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 36ms
+[DEBUG] MCP server "ide": Tool 'openDiff' completed successfully in 28s
+[ERROR] ySQ: ySQ: Diagnostics file path mismatch: expected D:\Todays\Neuro360\src\pages\HowItWorks.jsx, got file://d:\todays\neuro360\src\pages\howitworks.jsx/)
+    at MO.beforeFileEdited (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1703:22068)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.call (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1832:624)
+    at async n85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:27467)
+    at async ZrA (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:24531)
+    at async l85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:23383)
+    at async c85 (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:22866)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:19458)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+    at async CS (file:///C:/Users/Hp/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1989:20759)
+[DEBUG] MCP server "ide": Calling MCP tool: close_tab
+[DEBUG] Writing to temp file: D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454820090
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 16521 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming D:\Todays\Neuro360\src\pages\HowItWorks.jsx.tmp.14008.1763454820090 to D:\Todays\Neuro360\src\pages\HowItWorks.jsx
+[DEBUG] File D:\Todays\Neuro360\src\pages\HowItWorks.jsx written atomically
+[DEBUG] Getting matching hook commands for PostToolUse with query: Edit
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "Edit" (0 before deduplication)
+[DEBUG] MCP server "ide": Calling MCP tool: getDiagnostics
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] MCP server "ide": Tool 'close_tab' completed successfully in 526ms
+[DEBUG] MCP server "ide": Tool 'getDiagnostics' completed successfully in 155ms
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454826367
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454826367 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] Getting matching hook commands for Stop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.14008.1763454826420
+[DEBUG] Preserving file permissions: 100666
+[DEBUG] Temp file written successfully, size: 41942 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.14008.1763454826420 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically
+[DEBUG] BigQuery metrics exported successfully
+[DEBUG] API Response: {
+  "accepted_count": 9,
+  "rejected_count": 0
+}

@@ -1,0 +1,204 @@
+-- ================================================
+-- FIX WORKFLOWS TABLE AND CREATE EEG STORAGE
+-- ================================================
+-- This script creates the workflows table and edf-files bucket
+
+-- ================================================
+-- PART 1: CREATE WORKFLOWS TABLE
+-- ================================================
+
+DROP TABLE IF EXISTS workflows CASCADE;
+
+CREATE TABLE workflows (
+  -- Primary identifiers
+  id TEXT PRIMARY KEY,
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  patient_name TEXT,
+  clinic_id UUID,
+
+  -- File information
+  file_name TEXT,
+  file_size BIGINT,
+
+  -- Workflow status
+  status TEXT DEFAULT 'started' CHECK (status IN ('started', 'processing', 'completed', 'failed')),
+
+  -- Workflow steps (as JSONB for flexibility)
+  steps JSONB,
+
+  -- Results from each step (as JSONB)
+  results JSONB,
+
+  -- Report tracking
+  report_id UUID,
+
+  -- Timestamps
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes
+CREATE INDEX idx_workflows_patient_id ON workflows(patient_id);
+CREATE INDEX idx_workflows_clinic_id ON workflows(clinic_id);
+CREATE INDEX idx_workflows_status ON workflows(status);
+CREATE INDEX idx_workflows_created_at ON workflows(created_at);
+
+-- Enable RLS
+ALTER TABLE workflows ENABLE ROW LEVEL SECURITY;
+
+-- Create RLS policies
+CREATE POLICY "Authenticated users can view workflows"
+  ON workflows FOR SELECT
+  TO authenticated
+  USING (true);
+
+CREATE POLICY "Authenticated users can insert workflows"
+  ON workflows FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Authenticated users can update workflows"
+  ON workflows FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Authenticated users can delete workflows"
+  ON workflows FOR DELETE
+  TO authenticated
+  USING (true);
+
+-- Create trigger for updated_at
+CREATE OR REPLACE FUNCTION update_workflows_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER workflows_updated_at
+  BEFORE UPDATE ON workflows
+  FOR EACH ROW
+  EXECUTE FUNCTION update_workflows_updated_at();
+
+COMMENT ON TABLE workflows IS 'Tracks EDF processing workflows including upload, qEEG analysis, and report generation';
+
+-- ================================================
+-- PART 2: CREATE EDF-FILES STORAGE BUCKET
+-- ================================================
+
+-- Create edf-files bucket
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'edf-files',
+  'edf-files',
+  false,
+  52428800, -- 50MB limit
+  ARRAY[
+    'application/octet-stream',
+    'application/x-edf',
+    'application/edf',
+    'application/x-bdf',
+    'application/bdf',
+    'text/plain'
+  ]
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Allow authenticated users to upload edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to view edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to update edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to delete edf" ON storage.objects;
+
+-- Create storage policies for edf-files bucket
+CREATE POLICY "Allow authenticated users to upload edf"
+ON storage.objects
+FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'edf-files');
+
+CREATE POLICY "Allow authenticated users to view edf"
+ON storage.objects
+FOR SELECT
+TO authenticated
+USING (bucket_id = 'edf-files');
+
+CREATE POLICY "Allow authenticated users to update edf"
+ON storage.objects
+FOR UPDATE
+TO authenticated
+USING (bucket_id = 'edf-files')
+WITH CHECK (bucket_id = 'edf-files');
+
+CREATE POLICY "Allow authenticated users to delete edf"
+ON storage.objects
+FOR DELETE
+TO authenticated
+USING (bucket_id = 'edf-files');
+
+-- ================================================
+-- PART 3: CREATE EEG-FILES BUCKET (ALTERNATIVE NAME)
+-- ================================================
+
+-- Also create eeg-files bucket in case code uses this name
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'eeg-files',
+  'eeg-files',
+  false,
+  52428800,
+  ARRAY[
+    'application/octet-stream',
+    'application/x-edf',
+    'application/edf',
+    'application/x-bdf',
+    'application/bdf',
+    'text/plain'
+  ]
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- Create storage policies for eeg-files bucket
+DROP POLICY IF EXISTS "Allow authenticated users to upload eeg" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to view eeg" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to update eeg" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to delete eeg" ON storage.objects;
+
+CREATE POLICY "Allow authenticated users to upload eeg"
+ON storage.objects
+FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'eeg-files');
+
+CREATE POLICY "Allow authenticated users to view eeg"
+ON storage.objects
+FOR SELECT
+TO authenticated
+USING (bucket_id = 'eeg-files');
+
+CREATE POLICY "Allow authenticated users to update eeg"
+ON storage.objects
+FOR UPDATE
+TO authenticated
+USING (bucket_id = 'eeg-files')
+WITH CHECK (bucket_id = 'eeg-files');
+
+CREATE POLICY "Allow authenticated users to delete eeg"
+ON storage.objects
+FOR DELETE
+TO authenticated
+USING (bucket_id = 'eeg-files');
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE '✅ Workflows table created successfully!';
+  RAISE NOTICE '✅ edf-files storage bucket created!';
+  RAISE NOTICE '✅ eeg-files storage bucket created!';
+  RAISE NOTICE '✅ All storage policies configured!';
+  RAISE NOTICE 'You can now upload EDF/EEG files and track workflows!';
+END $$;

@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+         xmlns:xi="http://www.w3.org/2003/XInclude">
+
+  <Content key="#Prenaming">
+    <String identifier="S0.Comment">指示或执行冷启动（数据已初始化至缺省值）</String>
+    <String identifier="S1.Comment">指示发生过包含数据备份的热启动</String>
+    <String identifier="S4.Comment">内部时钟生成的 10 毫秒时基</String>
+    <String identifier="S5.Comment">内部时钟生成的 100 毫秒时基</String>
+    <String identifier="S6.Comment">内部时钟生成的 1 秒时基</String>
+    <String identifier="S7.Comment">内部时钟生成的 1 分钟时基</String>
+    <String identifier="S10.Comment">I/O 通讯运行正常 (1)，检测到 I/O 通讯错误 (0)</String>
+    <String identifier="S11.Comment">警戒时钟溢出将导致控制器进入到HALT状态</String>
+    <String identifier="S12.Comment">控制器正在运行</String>
+    <String identifier="S13.Comment">指示 RUN 模式下的首个控制器循环</String>
+    <String identifier="S14.Comment">该位指示强制了至少一个输入或输出</String>
+    <String identifier="S15.Comment">该位指示强制了至少一个输入</String>
+    <String identifier="S16.Comment">该位指示强制了至少一个输出</String>
+    <String identifier="S17.Comment">它指示最后弹出的位的值</String>
+    <String identifier="S18.Comment">它指示执行 16 位操作时的溢出</String>
+    <String identifier="S19.Comment">它指示比用户定义的周期长的扫描时间</String>
+    <String identifier="S20.Comment">该位指示执行 16 位操作时索引对象地址的索引溢出</String>
+    <String identifier="S21.Comment">在状态 1 下，该位导致 GRAFCET 初始化。禁止活动步并激活初始步</String>
+    <String identifier="S22.Comment">在状态 1 下，该位导致整个 GRAFCET 的活动步被禁止</String>
+    <String identifier="S23.Comment">设置为 1，则该位确认 GRAFCET 的预置。将该位保持在 1 会冻结 GRAFCET（冻结该图形）</String>
+    <String condition="catalogVersion lt v1700" identifier="S33.Comment">设置为 1（如果没有使用后配置），则该位允许通过 %SW33 至 %SW38 设置新以太网配置</String>
+    <String condition="catalogVersion gte v1700" identifier="S33.Comment">设置为 1（如果没有使用后配置），则该位允许通过 %SW33 至 %SW38 设置新以太网配置</String>
+    <String identifier="S34.Comment">设置为 1，则该位允许强制 %S35 和 %S36 中设置的某个特定以太网配置</String>
+    <String identifier="S35.Comment">该位指示以太网双工模式。如为半双工，则设置为 0；如为全双工，则设置为 1</String>
+    <String identifier="S36.Comment">该位指示以太网速度。如为 10 Mbps，则设置为 0；如为 100 Mbps，则设置为 1</String>
+    <String identifier="S38.Comment">该位指示是否一检测到事件就将其置于了事件队列中</String>
+    <String identifier="S39.Comment">该位指示事件队列是否存在饱和情况</String>
+    <String identifier="S49.Comment">设置为 1，则启用短路后自动重置输出</String>
+    <String identifier="S50.Comment">设置为 1，则该位允许更新日期和时间</String>
+    <String identifier="S51.Comment">设置为 1，则用户必须初始化日期和时间</String>
+    <String identifier="S52.Comment">在状态 1 下，必须初始化日期和时间</String>
+    <String identifier="S59.Comment">设置为 1，则日期和时间会根据在 %SW59 中设置的控制位上的上升沿而增加或减少</String>
+    <String condition="catalogVersion gte v2300" identifier="S66.Comment">设置为 1 时，禁用电池 LED</String>
+    <String identifier="S75.Comment">设置为 1，则外部电池电量低，或未检测到外部电池</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="S91.Comment">用户将此位设置为 1 以擦除闪存中的所有 %MW 变量</String>
+    <String condition="catalogVersion lt v1800" identifier="S93.Comment">用户将此位设置为 1 以在闪存中存储 %MW 变量（最多 1000 个）。</String>
+    <String identifier="S96.Comment">设置为 1，则备份程序有效</String>
+    <String conditionEnd="catalogVersion lt v2800" identifier="S101.Comment">设置为 1，则可以通过更改 %SW101（端口 1）或 %SW102（端口 2）的值更改端口地址</String>
+    <String identifier="S103.Comment">设置为 1，则该位允许配置串行线路 1 上的 ASCII 协议</String>
+    <String identifier="S104.Comment">设置为 1，则该位允许配置串行线路 2 上的 ASCII 协议</String>
+    <String identifier="S119.Comment">在基板控制器上检测到 I/O 通讯中断时，该位设置为 0</String>
+    <String identifier="SW0.Comment">通过用户程序在动态数据表编辑器中修改在配置时定义的控制器扫描周期</String>
+    <String condition="catalogVersion lt v1300" identifier="SW1.Comment">修改周期性任务的循环时间</String>
+    <String condition="catalogVersion gte v1300" conditionEnd="catalogVersion lt v1800" identifier="SW1.Comment">修改周期性任务的循环时间</String>
+    <String identifier="SW6.Comment">控制器状态：无应用程序 (0)、STOP (2)、RUN (3)、HALT (4)、POWERLESS MODE (5)</String>
+    <String identifier="SW11.Comment">包含警戒时钟的最大值</String>
+    <String identifier="SW13.Comment">包含控制器的 boot 版本</String>
+    <String identifier="SW14.Comment">包含控制器的商业版本</String>
+    <String identifier="SW15.Comment">包含控制器的固件版本（第 1 个字）</String>
+    <String condition="catalogVersion lt v1800" identifier="SW16.Comment">包含控制器的固件版本（第 2 个字）</String>
+    <String identifier="SW18.Comment">包含绝对定时器计数器（第 1 个字）</String>
+    <String condition="catalogVersion lt v1800" identifier="SW19.Comment">包含绝对定时器计数器（第 2 个字）</String>
+    <String identifier="SW30.Comment">显示上个控制器扫描循环的执行时间（毫秒），如果扫描时间为 2,250 毫秒，则 %SW30 = 2 并且 %SW70 = 250</String>
+    <String identifier="SW31.Comment">显示自上次冷启动以来最长的控制器扫描循环的执行时间（毫秒）。如果扫描时间为 2,250 毫秒，则 %SW31 = 2 并且 %SW71 = 250</String>
+    <String identifier="SW32.Comment">显示自上次冷启动以来最短的控制器扫描循环的执行时间（毫秒）。如果扫描时间为 2,250 毫秒，则 %SW32 = 2 并且 %SW72 = 250</String>
+    <String identifier="SW39.Comment">以微秒为单位显示周期性任务的平均执行时间（最后 5 次）</String>
+    <String identifier="SW48.Comment">显示自上次冷启动以来执行的事件数量</String>
+    <String identifier="SW49.Comment">RTC 功能：在 BCD 中以 xN 格式包含星期几（N=1 表示星期一）</String>
+    <String identifier="SW50.Comment">RTC 功能：在 BCD 中以 00SS 格式包含秒</String>
+    <String identifier="SW51.Comment">RTC 功能：在 BCD 中以 HHMM: 格式包含小时和分钟</String>
+    <String identifier="SW52.Comment">RTC 功能：在 BCD 中以 MMDD: 格式包含月和日</String>
+    <String identifier="SW53.Comment">RTC 功能：在 BCD 中以 CCYY: 格式包含世纪和年份</String>
+    <String identifier="SW54.Comment">上次电源故障或控制器停止的时间（BCD 中）：SS 秒</String>
+    <String identifier="SW55.Comment">上次电源故障或控制器停止的时间（BCD 中）：HHMM 小时和分钟</String>
+    <String identifier="SW56.Comment">上次电源故障或控制器停止的时间（BCD 中）：MMDD 月和日</String>
+    <String identifier="SW57.Comment">上次电源故障或控制器停止的时间（BCD 中）：CCYY 世纪和年份</String>
+    <String identifier="SW58.Comment">显示导致上次停止的原因的代码：运行/停止输入沿、检测到软件故障时停止、停止命令、断电、检测到硬件故障时停止</String>
+    <String identifier="SW59.Comment">包含两个位集，共8个位，用于调整当前时间。始终在位的上升沿执行该操作。该字由位 %S59 启用</String>
+    <String identifier="SW61.Comment">显示以太网控制器硬件 ID</String>
+    <String identifier="SW63.Comment">包含 EXCH1 错误代码，详情见在线帮助</String>
+    <String identifier="SW64.Comment">包含 EXCH2 错误代码，详情见在线帮助</String>
+    <String identifier="SW67.Comment">包含逻辑控制器代码 ID。有关更多信息，请参阅 M221 Logic Controller 代码 ID 表</String>
+    <String identifier="SW70.Comment">以微秒为单位显示上个控制器扫描循环的执行时间。如果扫描时间为 2,250 毫秒，则 %SW30 将为 2 并且 %SW70 将为 250</String>
+    <String identifier="SW71.Comment">以微秒为单位显示自上次冷启动以来最长的控制器扫描循环的执行时间。如果扫描时间为 2,250 毫秒，则 %SW31 将为 2 并且 %SW71 将为 250</String>
+    <String identifier="SW72.Comment">以微秒为单位显示自上次冷启动以来最短的控制器扫描循环的执行时间。如果扫描时间为 2,250 毫秒，则 %SW32 将为 2 并且 %SW72 将为 250</String>
+    <String identifier="SW75.Comment">显示处理负载百分比</String>
+    <String identifier="SW76.Comment">减计数器 1，每毫秒由系统分别递减</String>
+    <String identifier="SW77.Comment">减计数器 2，每毫秒由系统分别递减</String>
+    <String identifier="SW78.Comment">减计数器 3，每毫秒由系统分别递减</String>
+    <String identifier="SW79.Comment">减计数器 4，每毫秒由系统分别递减</String>
+    <String identifier="SW80.Comment">每个位表示内嵌模拟量输入的状态</String>
+    <String identifier="SW94.Comment">包含签名、在应用程序更改情况下配置数据或编程数据方面的变化</String>
+    <String identifier="SW95.Comment">包含签名、在应用程序更改情况下配置数据或编程数据方面的变化</String>
+    <String identifier="SW98.Comment">串行线路 1 的后配置状态。对参数应用后配置后，这些位设置为 1</String>
+    <String identifier="SW99.Comment">串行线路 2 的后配置状态。对参数应用后配置后，这些位设置为 1</String>
+    <String identifier="SW101.Comment">端口 1 的地址，当位 %S101 设置为 1 时，您可以更改 Modbus 地址</String>
+    <String identifier="SW102.Comment">端口 2 的地址，当位 %S101 设置为 1 时，您可以更改 Modbus 地址</String>
+    <String identifier="SW114.Comment">由用户程序或操作显示启用或禁用调度块的操作</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="SW119.Comment">表示配置为可选的扩展模块（详情见在线帮助）</String>
+    <String identifier="SW130.Comment">显示事件输入 %I0.2 的最后一次执行时间（微秒）</String>
+    <String identifier="SW131.Comment">显示事件输入 %I0.3 的最后一次执行时间（微秒）</String>
+    <String identifier="SW132.Comment">显示事件输入 %I0.4 的最后一次执行时间（微秒）</String>
+    <String identifier="SW133.Comment">显示事件输入 %I0.5 的最后一次执行时间（微秒）</String>
+    <String identifier="SW134.Comment">显示 HSC0 事件阈值 0 的最后一次执行时间（微秒）</String>
+    <String identifier="SW135.Comment">显示 HSC0 事件阈值 1 的最后一次执行时间（微秒）</String>
+    <String identifier="SW136.Comment">显示 HSC1 事件阈值 0 的最后一次执行时间（微秒）</String>
+    <String identifier="SW137.Comment">显示 HSC1 事件阈值 1 的最后一次执行时间（微秒）</String>
+    <String identifier="SW138.Comment">显示周期性任务的最后一次执行时间（微秒）</String>
+    <String identifier="SW139.Comment">显示输出块的保护错误状态</String>
+    <String condition="catalogVersion lt v1800" identifier="SW148.Comment">持久性变量的数量（最多 1000 个）</String>
+    <String identifier="SW149.Comment">显示事件输入 %I0.2 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW150.Comment">显示事件输入 %I0.3 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW151.Comment">显示事件输入 %I0.4 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW152.Comment">显示事件输入 %I0.5 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW153.Comment">显示 HSC0 事件阈值 0 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW154.Comment">显示 HSC0 事件阈值 1 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW155.Comment">显示 HSC1 事件阈值 0 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW156.Comment">显示 HSC1 事件阈值 1 的最后一次执行时间（毫秒）</String>
+    <String identifier="SW157.Comment">显示 PERIODIC 任务的最后一次执行时间（毫秒）</String>
+    <String identifier="SW158.Comment">以毫秒为单位显示 PERIODIC 任务的平均执行时间（最后 5 次）</String>
+    <String identifier="SW159.Comment">以毫秒为单位显示事件 0 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW160.Comment">以毫秒为单位显示事件 1 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW161.Comment">以毫秒为单位显示事件 2 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW162.Comment">以毫秒为单位显示事件 3 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW163.Comment">以毫秒为单位显示事件 4 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW164.Comment">以毫秒为单位显示事件 5 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW165.Comment">以毫秒为单位显示事件 6 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW166.Comment">以毫秒为单位显示事件 7 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW170.Comment">统计通过串行线路 1 传输的帧数</String>
+    <String identifier="SW171.Comment">统计通过串行线路 2 传输的帧数</String>
+    <String identifier="SW172.Comment">统计通过 USB 通道传输的帧数</String>
+    <String identifier="SW174.Comment">统计通过串行线路 1 正确接收的帧数</String>
+    <String identifier="SW175.Comment">统计通过串行线路 2 正确接收的帧数</String>
+    <String identifier="SW176.Comment">统计通过 USB 通道正确接收的帧数</String>
+    <String identifier="SW178.Comment">统计通过串行线路 1 错误接收的帧数</String>
+    <String identifier="SW179.Comment">统计通过串行线路 2 错误接收的帧数</String>
+    <String identifier="SW180.Comment">统计通过 USB 通道错误接收的帧数</String>
+
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_lt_v2000" condition="catalogVersion lt v2000"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_gte_v2000" condition="catalogVersion gte v2000"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_gte_v2800" condition="catalogVersion gte v2800"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_gte_v2900" condition="catalogVersion gte v2900"/>
+  </Content>
+
+  <Content key="#Prenaming_gte_v1800">
+    <String identifier="S9.Comment">设置为 1，以对数字量和模拟量输出应用故障预置</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="S93.Comment">用户将此位设置为 1 以在闪存中存储 %MW 变量（最多 2000 个）。</String>
+    <String identifier="S106.Comment">缺省值为 0。设置为 1 时，即使存在永久性错误，也会通过管理 IO 模块交换的方式，来改变 IO 总线行为</String>
+    <String identifier="S107.Comment">该位的上升沿允许重新配置和重新启动 IO 总线</String>
+    <String identifier="S110.Comment">设置为 1 时，复位串行线路 1 上的 IOScanner</String>
+    <String identifier="S111.Comment">设置为 1 时，复位串行线路 2 上的 IOScanner</String>
+    <String identifier="S113.Comment">设置为 1 时，暂停串行线路 1 上的 IOScanner</String>
+    <String identifier="S114.Comment">设置为 1 时，暂停串行线路 2 上的 IOScanner</String>
+    <String identifier="SW1.Comment">修改周期性任务的循环时间</String>
+    <String identifier="SW16.Comment">包含控制器的固件版本（第 2 个字）</String>
+    <String identifier="SW19.Comment">包含绝对定时器计数器（第 2 个字）</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="SW148.Comment">持久性变量的数量（最多 2000 个）</String>
+    <String identifier="SW210.Comment">包含串行线路 1 的 IOScanner 状态</String>
+    <String identifier="SW211.Comment">包含串行线路 2 的 IOScanner 状态</String>
+  </Content>
+
+  <Content key="#Prenaming_lt_v2000">
+    <String identifier="S92.Comment">如果闪存上已保存有效数据，则设置为 1</String>
+    <String identifier="S94.Comment">用户将此位设置为 1 以恢复保存的数据</String>
+    <String identifier="SW7.Comment">该字显示控制器状态（详情见在线帮助）</String>
+    <String identifier="SW17.Comment">浮点算法运算中检测到错误时的缺省状态（详情见在线帮助）</String>
+    <String identifier="SW40.Comment">以微秒为单位显示事件 0 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW41.Comment">以微秒为单位显示事件 1 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW42.Comment">以微秒为单位显示事件 2 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW43.Comment">以微秒为单位显示事件 3 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW44.Comment">以微秒为单位显示事件 4 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW45.Comment">以微秒为单位显示事件 5 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW46.Comment">以微秒为单位显示事件 6 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW47.Comment">以微秒为单位显示事件 7 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW96.Comment">包含用于保存/恢复应用程序的命令和/或诊断数据（详情见在线帮助）</String>
+    <String identifier="SW103.Comment">当位 %S103 设置为 1 时，端口 1 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW104.Comment">当位 %S104 设置为 1 时，端口 2 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW105.Comment">当位 %S103 设置为 1 时，端口 1 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW106.Comment">当位 %S104 设置为 1 时，端口 2 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW118.Comment">指示逻辑控制器的状态（详情见在线帮助）</String>
+    <String identifier="SW120.Comment">显示扩展 I/O 模块状态（详情见在线帮助）</String>
+    <String identifier="SW121.Comment">当位 %S103 设置为 1 时，端口 1 的为使用 ASCII 帧大小而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW122.Comment">当位 %S104 设置为 1 时，端口 2 的为使用 ASCII 帧大小而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW128.Comment">显示扩展板 1 的状态代码（详情见在线帮助）</String>
+    <String identifier="SW129.Comment">显示扩展板 2 的状态代码（详情见在线帮助）</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2000">
+    <String identifier="S28.Comment">设置为 1，表示在管理字符串时存储器对象中存在溢出</String>
+    <String identifier="S90.Comment">备份/恢复非易失性存储器（0，默认）或 SD 卡 (1) 的存储值</String>
+    <String identifier="S91.Comment">将此位设置为 1 以擦除非易失性存储器中的所有存储值</String>
+    <String identifier="S92.Comment">如果非易失性存储器中保存有有效存储值，则设置为 1</String>
+    <String identifier="S93.Comment">将此位设置为 1 以将存储值备份至非易失性存储器 (%S90 = 0) 或 SD 卡 (%S90 = 1)</String>
+    <String identifier="S94.Comment">将此位设置为 1 以从非易失性存储器 (%S90 = 0) 或 SD 卡 (%S90 = 1) 恢复存储值</String>
+    <String identifier="SW7.Comment">该字显示控制器状态（详情见在线帮助）</String>
+    <String identifier="SW17.Comment">浮点算法运算中检测到错误时的缺省状态（详情见在线帮助）</String>
+    <String identifier="SW40.Comment">以微秒为单位显示事件 0 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW41.Comment">以微秒为单位显示事件 1 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW42.Comment">以微秒为单位显示事件 2 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW43.Comment">以微秒为单位显示事件 3 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW44.Comment">以微秒为单位显示事件 4 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW45.Comment">以微秒为单位显示事件 5 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW46.Comment">以微秒为单位显示事件 6 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW47.Comment">以微秒为单位显示事件 7 的平均执行时间（最后 5 次）</String>
+    <String identifier="SW96.Comment">包含用于保存/恢复应用程序的命令和/或诊断数据（详情见在线帮助）</String>
+    <String identifier="SW103.Comment">当位 %S103 设置为 1 时，端口 1 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW104.Comment">当位 %S104 设置为 1 时，端口 2 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW105.Comment">当位 %S103 设置为 1 时，端口 1 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW106.Comment">当位 %S104 设置为 1 时，端口 2 的为使用 ASCII 协议而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW115.Comment">控制器序列号部分 1 (BCD)</String>
+    <String identifier="SW116.Comment">控制器序列号部分 2 (BCD)</String>
+    <String identifier="SW117.Comment">控制器序列号部分 3 (BCD)</String>
+    <String identifier="SW118.Comment">指示逻辑控制器的状态（详情见在线帮助）</String>
+    <String identifier="SW119.Comment">表示配置为可选的扩展模块（详情见在线帮助）</String>
+    <String identifier="SW120.Comment">显示扩展 I/O 模块状态（详情见在线帮助）</String>
+    <String identifier="SW121.Comment">当位 %S103 设置为 1 时，端口 1 的为使用 ASCII 帧大小而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW122.Comment">当位 %S104 设置为 1 时，端口 2 的为使用 ASCII 帧大小而进行的配置（详情见在线帮助）</String>
+    <String identifier="SW128.Comment">显示扩展板 1 的状态代码（详情见在线帮助）</String>
+    <String identifier="SW129.Comment">显示扩展板 2 的状态代码（详情见在线帮助）</String>
+    <String identifier="SW140.Comment">上一个控制器错误代码 1</String>
+    <String identifier="SW141.Comment">上一个控制器错误代码 2</String>
+    <String identifier="SW142.Comment">上一个控制器错误代码 3</String>
+    <String identifier="SW143.Comment">PlcLog.csv 中的条目数</String>
+    <String identifier="SW147.Comment">提供备份/恢复 SD 卡操作的状态</String>
+    <String identifier="SW148.Comment">备份/恢复非易失性存储器 (%S90 = 0) 或 SD 卡 (%S90 = 1) 存储值的个数</String>
+  </Content>
+
+  <Content key="#Prenaming_Modem">
+    <String condition="catalogVersion gte v1300" identifier="S105.Comment">设置为 1，则该位允许初始化调制解调器，另请参见 %SW167</String>
+    <String condition="catalogVersion gte v1200" identifier="SW167.Comment">描述调制解调器对最后一个初始化命令的应答</String>
+  </Content>
+
+  <Content key="#Prenaming_Display">
+    <String condition="catalogVersion gte v1600" identifier="SW185.Comment">包含远程图形显示器的版本</String>
+
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_Display_gte_v1200" condition="catalogVersion gte v1200"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_Display_gte_v1400" condition="catalogVersion gte v1400"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1200">
+    <String identifier="SW182.Comment">远程图形显示器连接状态</String>
+    <String identifier="SW183.Comment">最后一次检测到的远程图形显示器错误</String>
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1400">
+    <String identifier="S122.Comment">显示器将自动切换到报警页面</String>
+    <String identifier="S123.Comment">只要报警处于活动状态，显示器背光便将为红色</String>
+    <String identifier="SW184.Comment">包含显示页面索引，允许选择其他页面</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet">
+    <String identifier="SW62.Comment">显示以太网错误代码（0 无错误，1 IP 重复，2 正在执行 DHCP，3 正在执行 BOOTP，4 参数无效，5 正在使用固定的 IP，6 以太网通讯失败）</String>
+    <String identifier="SW65.Comment">包含以太网控制器的 EXCH3 错误代码，详情见在线帮助</String>
+    <String identifier="SW100.Comment">以太网端口的后配置状态。对参数应用后配置后，这些位设置为 1</String>
+    <String identifier="SW168.Comment">显示正在使用的以太网 Modbus TCP 服务器连接的数量</String>
+    <String identifier="SW173.Comment">显示通过以太网上的 Modbus TCP 传输的帧数</String>
+    <String identifier="SW177.Comment">统计通过以太网上的 Modbus TCP 正确接收的帧数</String>
+    <String identifier="SW181.Comment">统计通过以太网上的 Modbus TCP 错误接收的帧数</String>
+
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_Ethernet_lt_v1800" condition="catalogVersion lt v1800"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_Ethernet_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_Ethernet_gte_v2000" condition="catalogVersion gte v2000"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_lt_v1800">
+    <String identifier="SW33.Comment">包含 IP 地址 AA.BB.CC.DD 的第 2 部分 CC.DD</String>
+    <String identifier="SW34.Comment">包含 IP 地址 AA.BB.CC.DD 的第 1 部分 AA.BB</String>
+    <String identifier="SW35.Comment">包含子网掩码 AA.BB.CC.DD 的第 2 部分 CC.DD</String>
+    <String identifier="SW36.Comment">包含子网掩码 AA.BB.CC.DD 的第 1 部分 AA.BB</String>
+    <String identifier="SW37.Comment">包含网关地址 AA.BB.CC.DD 的第 2 部分 CC.DD</String>
+    <String identifier="SW38.Comment">包含网关地址 AA.BB.CC.DD 的第 1 部分 AA.BB</String>
+    <String identifier="SW107.Comment">包含 MAC 地址 AA:BB:CC:DD:EE:FF 的第 1 部分 AA.BB</String>
+    <String identifier="SW108.Comment">包含 MAC 地址 AA:BB:CC:DD:EE:FF 的第 2 部分 CC.DD</String>
+    <String identifier="SW109.Comment">包含 MAC 地址 AA:BB:CC:DD:EE:FF 的第 3 部分 EE.FF</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v1800">
+    <String identifier="SW33.Comment">包含 IP 地址 AA.BB.CC.DD 的第 2 部分 CC.DD</String>
+    <String identifier="SW34.Comment">包含 IP 地址 AA.BB.CC.DD 的第 1 部分 AA.BB</String>
+    <String identifier="SW35.Comment">包含子网掩码 AA.BB.CC.DD 的第 2 部分 CC.DD</String>
+    <String identifier="SW36.Comment">包含子网掩码 AA.BB.CC.DD 的第 1 部分 AA.BB</String>
+    <String identifier="SW37.Comment">包含网关地址 AA.BB.CC.DD 的第 2 部分 CC.DD</String>
+    <String identifier="SW38.Comment">包含网关地址 AA.BB.CC.DD 的第 1 部分 AA.BB</String>
+    <String identifier="SW107.Comment">包含 MAC 地址 AA:BB:CC:DD:EE:FF 的第 1 部分 AA.BB</String>
+    <String identifier="SW108.Comment">包含 MAC 地址 AA:BB:CC:DD:EE:FF 的第 2 部分 CC.DD</String>
+    <String identifier="SW109.Comment">包含 MAC 地址 AA:BB:CC:DD:EE:FF 的第 3 部分 EE.FF</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v2000">
+    <String identifier="S112.Comment">设置为 1 时，复位以太网上的 IOScanner</String>
+    <String identifier="S115.Comment">设置为 1 时，暂停以太网上的 IOScanner</String>
+    <String identifier="SW212.Comment">包含以太网上的 IOScanner 状态</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping">
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400" condition="catalogVersion gte v1400"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000" condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000"/>
+    <xi:include href="_M221_zh-CHS.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000" condition="catalogVersion gte v2000"/>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400">
+    <String identifier="SW188.Comment">统计通过 Modbus 映射表传输的帧数</String>
+    <String identifier="SW189.Comment">统计通过 Modbus 映射表正确接收的帧数</String>
+    <String identifier="SW202.Comment">读取输入区实例数量</String>
+    <String identifier="SW203.Comment">读取输入区实例大小</String>
+    <String identifier="SW204.Comment">读取输出区实例数量</String>
+    <String identifier="SW205.Comment">读取输出区实例大小</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000">
+    <String identifier="SW190.Comment">统计通过EtherNet/IP 传输的帧数（第 1 个字）</String>
+    <String identifier="SW191.Comment">统计通过EtherNet/IP 传输的帧数（第 2 个字）</String>
+    <String identifier="SW192.Comment">统计通过EtherNet/IP 接收的帧数（第 1 个字）</String>
+    <String identifier="SW193.Comment">统计通过EtherNet/IP 接收的帧数（第 2 个字）</String>
+    <String identifier="SW194.Comment">统计通过EtherNet/IP 接收的未连接消息的数量（第 1 个字）</String>
+    <String identifier="SW195.Comment">统计通过EtherNet/IP 接收的未连接消息的数量（第 2 个字）</String>
+    <String identifier="SW196.Comment">统计通过EtherNet/IP 接收的无效未连接消息的数量（第 1 个字）</String>
+    <String identifier="SW197.Comment">统计通过EtherNet/IP 接收的无效未连接消息的数量（第 2 个字）</String>
+    <String identifier="SW198.Comment">统计通过EtherNet/IP 接收的 3 类请求的数量（第 1 个字）</String>
+    <String identifier="SW199.Comment">统计通过EtherNet/IP 接收的 3 类请求的数量（第 2 个字）</String>
+    <String identifier="SW200.Comment">统计通过EtherNet/IP 接收的无效 3 类请求的数量（第 1 个字）</String>
+    <String identifier="SW201.Comment">统计通过EtherNet/IP 接收的无效 3 类请求的数量（第 2 个字）</String>
+    <String identifier="SW206.Comment">统计EtherNet/IP 上连接超时的次数</String>
+    <String identifier="SW207.Comment">读取上个 I/O 包的EtherNet/IP 标志：闲置（值=0）、运行（值=1）、错误（值=2）</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000">
+    <String identifier="SW190.Comment">统计通过EtherNet/IP 传输的帧数（第 1 个字）</String>
+    <String identifier="SW191.Comment">统计通过EtherNet/IP 传输的帧数（第 2 个字）</String>
+    <String identifier="SW192.Comment">统计通过EtherNet/IP 接收的帧数（第 1 个字）</String>
+    <String identifier="SW193.Comment">统计通过EtherNet/IP 接收的帧数（第 2 个字）</String>
+    <String identifier="SW194.Comment">统计通过EtherNet/IP 接收的未连接消息的数量（第 1 个字）</String>
+    <String identifier="SW195.Comment">统计通过EtherNet/IP 接收的未连接消息的数量（第 2 个字）</String>
+    <String identifier="SW196.Comment">统计通过EtherNet/IP 接收的无效未连接消息的数量（第 1 个字）</String>
+    <String identifier="SW197.Comment">统计通过EtherNet/IP 接收的无效未连接消息的数量（第 2 个字）</String>
+    <String identifier="SW198.Comment">统计通过EtherNet/IP 接收的 3 类请求的数量（第 1 个字）</String>
+    <String identifier="SW199.Comment">统计通过EtherNet/IP 接收的 3 类请求的数量（第 2 个字）</String>
+    <String identifier="SW200.Comment">统计通过EtherNet/IP 接收的无效 3 类请求的数量（第 1 个字）</String>
+    <String identifier="SW201.Comment">统计通过EtherNet/IP 接收的无效 3 类请求的数量（第 2 个字）</String>
+    <String identifier="SW206.Comment">统计EtherNet/IP 上连接超时的次数</String>
+    <String identifier="SW207.Comment">读取上个 I/O 包的EtherNet/IP 标志：闲置（值=0）、运行（值=1）、错误（值=2）</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2800">
+    <String condition="catalogVersion gte v2800" identifier="S101.Comment">设置为 1，则可以通过更改 %SW101（端口 1）或 %SW102（端口 2） 或 %SW111（端口 5) 的值更改端口地址</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2900">
+    <String condition="catalogVersion gte v2900" identifier="S32.Comment">在 Ethernet/IP 协议中，设置为 1 意味着启用使用 CIP 身份对象重置设备</String>
+  </Content>
+</Content>

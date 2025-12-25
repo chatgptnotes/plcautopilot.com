@@ -1,0 +1,6 @@
+[ERROR] Failed to save config with lock: Error: ENOENT: no such file or directory, lstat 'C:\Users\Hp\.claude.json'
+[DEBUG] Writing to temp file: C:\Users\Hp\.claude.json.tmp.10436.1762229803579
+[DEBUG] Setting permissions for new file: 600
+[DEBUG] Temp file written successfully, size: 103 bytes
+[DEBUG] Renaming C:\Users\Hp\.claude.json.tmp.10436.1762229803579 to C:\Users\Hp\.claude.json
+[DEBUG] File C:\Users\Hp\.claude.json written atomically

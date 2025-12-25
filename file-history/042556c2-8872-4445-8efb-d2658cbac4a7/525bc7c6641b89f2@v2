@@ -1,0 +1,151 @@
+/**
+ * Shared Gemini API Rate Limiter
+ * Prevents exceeding Gemini API quotas across all services
+ * Free tier: 20 requests/day, 2 requests/minute
+ */
+class GeminiRateLimiter {
+  constructor() {
+    this.dailyLimit = parseInt(process.env.GEMINI_DAILY_LIMIT) || 20; // Free tier default
+    this.requestsPerMinute = parseInt(process.env.GEMINI_REQUESTS_PER_MINUTE) || 2;
+    this.delayBetweenRequests = parseInt(process.env.GEMINI_REQUEST_DELAY_MS) || 30000; // 30 seconds default
+
+    this.dailyRequestCount = 0;
+    this.minuteRequestCount = 0;
+    this.lastRequestTime = 0;
+    this.minuteWindowStart = Date.now();
+    this.dayWindowStart = Date.now();
+
+    console.log('🛡️  Gemini Rate Limiter initialized:');
+    console.log(`   - Daily limit: ${this.dailyLimit} requests`);
+    console.log(`   - Requests per minute: ${this.requestsPerMinute}`);
+    console.log(`   - Delay between requests: ${this.delayBetweenRequests}ms (${this.delayBetweenRequests/1000}s)`);
+  }
+
+  /**
+   * Reset daily counter if 24 hours have passed
+   */
+  checkAndResetDailyCounter() {
+    const now = Date.now();
+    const dayInMs = 24 * 60 * 60 * 1000;
+
+    if (now - this.dayWindowStart >= dayInMs) {
+      console.log('🔄 Daily quota reset (24 hours elapsed)');
+      this.dailyRequestCount = 0;
+      this.dayWindowStart = now;
+    }
+  }
+
+  /**
+   * Reset minute counter if 60 seconds have passed
+   */
+  checkAndResetMinuteCounter() {
+    const now = Date.now();
+    const minuteInMs = 60 * 1000;
+
+    if (now - this.minuteWindowStart >= minuteInMs) {
+      this.minuteRequestCount = 0;
+      this.minuteWindowStart = now;
+    }
+  }
+
+  /**
+   * Check if we can make a request without exceeding quotas
+   */
+  canMakeRequest() {
+    this.checkAndResetDailyCounter();
+    this.checkAndResetMinuteCounter();
+
+    if (this.dailyRequestCount >= this.dailyLimit) {
+      return { allowed: false, reason: 'daily_limit', remaining: 0 };
+    }
+
+    if (this.minuteRequestCount >= this.requestsPerMinute) {
+      return { allowed: false, reason: 'minute_limit', remainingSeconds: 60 };
+    }
+
+    return {
+      allowed: true,
+      dailyRemaining: this.dailyLimit - this.dailyRequestCount,
+      minuteRemaining: this.requestsPerMinute - this.minuteRequestCount
+    };
+  }
+
+  /**
+   * Wait for rate limit before making request
+   * @returns {Promise<void>}
+   */
+  async waitForRateLimit() {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+
+    // Enforce minimum delay between requests
+    if (timeSinceLastRequest < this.delayBetweenRequests) {
+      const waitTime = this.delayBetweenRequests - timeSinceLastRequest;
+      console.log(`⏳ Rate limiting: Waiting ${(waitTime/1000).toFixed(1)}s before next Gemini API call...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+
+    // Check quotas
+    const quotaCheck = this.canMakeRequest();
+
+    if (!quotaCheck.allowed) {
+      if (quotaCheck.reason === 'daily_limit') {
+        const error = new Error(
+          `⚠️ Gemini API Daily Quota Exceeded!\n\n` +
+          `You've used all ${this.dailyLimit} requests for today.\n\n` +
+          `✅ Solutions:\n` +
+          `1. Wait until tomorrow (quota resets in 24 hours)\n` +
+          `2. Re-upload the SAME files (uses cache, no quota)\n` +
+          `3. Upgrade to paid plan at https://ai.google.dev/pricing\n` +
+          `4. Request quota increase in Google Cloud Console\n\n` +
+          `📊 Free tier: ${this.dailyLimit} requests/day\n` +
+          `💰 Paid tier: 1000+ requests/day with billing enabled`
+        );
+        error.code = 'GEMINI_DAILY_QUOTA_EXCEEDED';
+        throw error;
+      }
+
+      if (quotaCheck.reason === 'minute_limit') {
+        console.log(`⏳ Minute quota reached, waiting 60 seconds...`);
+        await new Promise(resolve => setTimeout(resolve, 60000));
+        return this.waitForRateLimit(); // Recursive retry
+      }
+    }
+
+    console.log(`📊 Quota status: ${quotaCheck.dailyRemaining}/${this.dailyLimit} daily requests remaining`);
+  }
+
+  /**
+   * Record that a request was made
+   */
+  recordRequest() {
+    this.lastRequestTime = Date.now();
+    this.dailyRequestCount++;
+    this.minuteRequestCount++;
+
+    console.log(`📈 API call recorded: ${this.dailyRequestCount}/${this.dailyLimit} today, ${this.minuteRequestCount}/${this.requestsPerMinute} this minute`);
+  }
+
+  /**
+   * Get current quota status
+   */
+  getQuotaStatus() {
+    this.checkAndResetDailyCounter();
+    this.checkAndResetMinuteCounter();
+
+    return {
+      dailyUsed: this.dailyRequestCount,
+      dailyLimit: this.dailyLimit,
+      dailyRemaining: this.dailyLimit - this.dailyRequestCount,
+      dailyPercentUsed: ((this.dailyRequestCount / this.dailyLimit) * 100).toFixed(1),
+      minuteUsed: this.minuteRequestCount,
+      minuteLimit: this.requestsPerMinute,
+      lastRequestTime: this.lastRequestTime > 0 ? new Date(this.lastRequestTime).toISOString() : 'Never',
+      dayWindowStart: new Date(this.dayWindowStart).toISOString(),
+      nextDayReset: new Date(this.dayWindowStart + 24 * 60 * 60 * 1000).toISOString()
+    };
+  }
+}
+
+// Singleton instance - shared across all services
+module.exports = new GeminiRateLimiter();

@@ -1,0 +1,322 @@
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+const GeminiService = require('./geminiService');
+
+/**
+ * Service for generating enhanced infographic visualizations
+ * Prepares for future Gemini image generation while providing
+ * beautiful charts and visualizations using available tools
+ */
+class GeminiInfographicService {
+  constructor() {
+    this.chartJSCanvas = new ChartJSNodeCanvas({ width: 800, height: 800 });
+  }
+
+  /**
+   * Generate enhanced radar chart with better styling
+   * @param {Array} parameters - Brain parameters with scores
+   * @returns {Promise<Buffer>} PNG image buffer
+   */
+  async generateEnhancedRadarChart(parameters) {
+    try {
+      console.log('\n📊 === Generating Enhanced Infographic Radar Chart ===');
+
+      const labels = parameters.map(p => p.name);
+      const scores = parameters.map(p => (p.score / p.maxScore) * 100);
+      const colors = parameters.map(p => this.getParameterColor(p));
+
+      console.log(`   Parameters: ${labels.join(', ')}`);
+      console.log(`   Scores: ${scores.map(s => s.toFixed(0) + '%').join(', ')}`);
+
+      const configuration = {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Performance Score (%)',
+            data: scores,
+            fill: true,
+            backgroundColor: 'rgba(66, 153, 225, 0.3)', // Vibrant blue with transparency
+            borderColor: '#4299E1',
+            pointBackgroundColor: colors, // Color-coded points
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: colors,
+            borderWidth: 3,
+            pointRadius: 8,
+            pointHoverRadius: 10,
+            pointBorderWidth: 2
+          }]
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            title: {
+              display: true,
+              text: '7 Brain Health Parameters - Performance Overview',
+              font: {
+                size: 28,
+                weight: 'bold',
+                family: 'Arial'
+              },
+              color: '#323956',
+              padding: { top: 20, bottom: 30 }
+            },
+            legend: {
+              display: false
+            },
+            subtitle: {
+              display: true,
+              text: 'Comprehensive Brain Performance Analysis',
+              font: {
+                size: 16,
+                weight: 'normal'
+              },
+              color: '#4A5568',
+              padding: { bottom: 20 }
+            }
+          },
+          scales: {
+            r: {
+              angleLines: {
+                display: true,
+                color: '#CBD5E0',
+                lineWidth: 2
+              },
+              grid: {
+                color: '#E2E8F0',
+                lineWidth: 2
+              },
+              pointLabels: {
+                font: {
+                  size: 16,
+                  weight: 'bold',
+                  family: 'Arial'
+                },
+                color: '#323956',
+                padding: 15
+              },
+              ticks: {
+                beginAtZero: true,
+                max: 100,
+                stepSize: 25,
+                callback: function(value) {
+                  return value + '%';
+                },
+                backdropColor: 'rgba(255, 255, 255, 0.9)',
+                backdropPadding: 4,
+                color: '#718096',
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                }
+              },
+              suggestedMin: 0,
+              suggestedMax: 100
+            }
+          },
+          layout: {
+            padding: 30
+          }
+        }
+      };
+
+      const imageBuffer = await this.chartJSCanvas.renderToBuffer(configuration);
+      console.log('✅ Enhanced radar chart generated');
+      console.log(`   Size: ${(imageBuffer.length / 1024).toFixed(2)} KB\n`);
+
+      return imageBuffer;
+    } catch (error) {
+      console.error('❌ Error generating enhanced radar chart:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Generate bar chart showing parameter scores
+   * @param {Array} parameters - Brain parameters
+   * @returns {Promise<Buffer>} PNG image buffer
+   */
+  async generateParameterBarChart(parameters) {
+    try {
+      console.log('\n📊 === Generating Parameter Bar Chart ===');
+
+      const labels = parameters.map(p => p.name);
+      const scores = parameters.map(p => (p.score / p.maxScore) * 100);
+      const colors = parameters.map(p => this.getParameterColor(p));
+
+      const configuration = {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Performance Score (%)',
+            data: scores,
+            backgroundColor: colors,
+            borderColor: colors.map(c => this.darkenColor(c)),
+            borderWidth: 2,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: false,
+          indexAxis: 'y', // Horizontal bars
+          plugins: {
+            title: {
+              display: true,
+              text: 'Brain Performance Scores',
+              font: {
+                size: 24,
+                weight: 'bold'
+              },
+              color: '#323956',
+              padding: 20
+            },
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                },
+                font: {
+                  size: 14
+                }
+              },
+              grid: {
+                color: '#E2E8F0'
+              }
+            },
+            y: {
+              ticks: {
+                font: {
+                  size: 16,
+                  weight: 'bold'
+                },
+                color: '#323956'
+              },
+              grid: {
+                display: false
+              }
+            }
+          },
+          layout: {
+            padding: 20
+          }
+        }
+      };
+
+      const canvas = new ChartJSNodeCanvas({ width: 800, height: 600 });
+      const imageBuffer = await canvas.renderToBuffer(configuration);
+      console.log('✅ Bar chart generated');
+      console.log(`   Size: ${(imageBuffer.length / 1024).toFixed(2)} KB\n`);
+
+      return imageBuffer;
+    } catch (error) {
+      console.error('❌ Error generating bar chart:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Try to generate AI infographic, fall back to enhanced charts
+   * @param {Array} parameters - Brain parameters
+   * @param {Object} patientData - Patient information
+   * @returns {Promise<Buffer>} Image buffer
+   */
+  async generateInfographicSummary(parameters, patientData) {
+    try {
+      // Try Gemini image generation first
+      console.log('🎨 Attempting AI-generated infographic...');
+      const aiImage = await GeminiService.generateFullInfographic(parameters, patientData);
+
+      if (aiImage) {
+        console.log('✅ Using AI-generated infographic');
+        return aiImage;
+      }
+
+      // Fallback to enhanced radar chart
+      console.log('📊 Using enhanced radar chart as fallback');
+      return await this.generateEnhancedRadarChart(parameters);
+
+    } catch (error) {
+      console.error('⚠️ Error generating AI infographic, using chart fallback');
+      return await this.generateEnhancedRadarChart(parameters);
+    }
+  }
+
+  /**
+   * Get color for parameter based on score
+   * @param {Object} param - Parameter object
+   * @returns {string} Hex color
+   */
+  getParameterColor(param) {
+    const percentage = (param.score / param.maxScore) * 100;
+
+    // Special handling for problem parameters (Stress, Burnout)
+    const isProblemParameter = param.name === 'Stress' ||
+                              param.name.includes('Burnout') ||
+                              param.name.includes('Fatigue');
+
+    if (isProblemParameter) {
+      // For problem parameters: Low is good (green), High is bad (red)
+      if (percentage <= 33) return '#38A169';  // Green - Low problem
+      if (percentage <= 66) return '#ED8936';  // Orange - Medium problem
+      return '#E53E3E';                         // Red - High problem
+    } else {
+      // For positive parameters: High is good (green), Low is bad (red)
+      if (percentage <= 40) return '#E53E3E';  // Red - Low performance
+      if (percentage <= 70) return '#ED8936';  // Orange - Medium performance
+      return '#38A169';                         // Green - High performance
+    }
+  }
+
+  /**
+   * Darken a hex color by a percentage
+   * @param {string} color - Hex color
+   * @param {number} percent - Percentage to darken (default 20)
+   * @returns {string} Darkened hex color
+   */
+  darkenColor(color, percent = 20) {
+    const num = parseInt(color.replace('#', ''), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) - amt;
+    const G = (num >> 8 & 0x00FF) - amt;
+    const B = (num & 0x0000FF) - amt;
+    return '#' + (
+      0x1000000 +
+      (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+      (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
+      (B < 255 ? (B < 1 ? 0 : B) : 255)
+    ).toString(16).slice(1);
+  }
+
+  /**
+   * Generate icon placeholder (future: will use Gemini image generation)
+   * @param {Object} param - Parameter data
+   * @returns {Promise<Buffer|null>} Image buffer or null
+   */
+  async generateParameterIcon(param) {
+    try {
+      // Try Gemini image generation
+      const aiIcon = await GeminiService.generateParameterIcon(param);
+
+      if (aiIcon) {
+        return aiIcon;
+      }
+
+      // No fallback icon generation for now
+      return null;
+
+    } catch (error) {
+      console.error(`⚠️ Could not generate icon for ${param.name}`);
+      return null;
+    }
+  }
+}
+
+module.exports = new GeminiInfographicService();

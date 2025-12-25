@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuro360 - Supabase Connection Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-left: 4px solid #2196F3;
+      border-radius: 5px;
+    }
+    .success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+    .error {
+      color: #f44336;
+      font-weight: bold;
+    }
+    .warning {
+      color: #ff9800;
+      font-weight: bold;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin: 10px 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .data-table th, .data-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    .data-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .data-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    pre {
+      background: #263238;
+      color: #aed581;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .status-active {
+      background: #4CAF50;
+      color: white;
+    }
+    .status-trial {
+      background: #ff9800;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Neuro360 - Supabase Connection & Data Verification</h1>
+
+    <div class="test-section">
+      <h2>📋 Configuration</h2>
+      <div id="config"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>🔌 Connection Test</h2>
+      <button onclick="testConnection()">Test Connection</button>
+      <div id="connectionResult"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>🏥 Clinics Data</h2>
+      <button onclick="loadClinics()">Load Clinics</button>
+      <div id="clinicsResult"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>👥 Patients Data</h2>
+      <button onclick="loadPatients()">Load Patients</button>
+      <div id="patientsResult"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>👤 Profiles Data</h2>
+      <button onclick="loadProfiles()">Load Profiles</button>
+      <div id="profilesResult"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>📊 Reports Data</h2>
+      <button onclick="loadReports()">Load Reports</button>
+      <div id="reportsResult"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>🔐 Test Login</h2>
+      <div>
+        <input type="email" id="loginEmail" placeholder="Email" style="padding: 10px; margin: 5px; border: 1px solid #ddd; border-radius: 4px;">
+        <input type="password" id="loginPassword" placeholder="Password" style="padding: 10px; margin: 5px; border: 1px solid #ddd; border-radius: 4px;">
+        <button onclick="testLogin()">Test Login</button>
+      </div>
+      <div id="loginResult"></div>
+    </div>
+  </div>
+
+  <script>
+    // Supabase configuration
+    const SUPABASE_URL = 'https://wqykofpjpaytjuqsessf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeWtvZnBqcGF5dGp1cXNlc3NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODExNjksImV4cCI6MjA4MDc1NzE2OX0.J4jAksh4IPUfSPQyW2U8_OoU3G_tP6g236lPF9e9xo4';
+
+    // Initialize Supabase client
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Display configuration
+    document.getElementById('config').innerHTML = `
+      <p><strong>URL:</strong> ${SUPABASE_URL}</p>
+      <p><strong>Anon Key:</strong> ${SUPABASE_ANON_KEY.substring(0, 30)}...</p>
+    `;
+
+    async function testConnection() {
+      const resultDiv = document.getElementById('connectionResult');
+      resultDiv.innerHTML = '<p>Testing connection...</p>';
+
+      try {
+        const { data, error } = await supabase
+          .from('clinics')
+          .select('id')
+          .limit(1);
+
+        if (error) throw error;
+
+        resultDiv.innerHTML = `<p class="success">✅ Connection successful!</p>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<p class="error">❌ Connection failed: ${error.message}</p>`;
+      }
+    }
+
+    async function loadClinics() {
+      const resultDiv = document.getElementById('clinicsResult');
+      resultDiv.innerHTML = '<p>Loading clinics...</p>';
+
+      try {
+        const { data, error } = await supabase
+          .from('clinics')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        let html = `<p class="success">✅ Found ${data.length} clinics</p>`;
+
+        if (data.length > 0) {
+          html += `
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Reports Used</th>
+                  <th>Has Password</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          data.forEach(clinic => {
+            const statusClass = clinic.subscription_status === 'active' ? 'status-active' : 'status-trial';
+            html += `
+              <tr>
+                <td>${clinic.name}</td>
+                <td>${clinic.email}</td>
+                <td>${clinic.phone || 'N/A'}</td>
+                <td><span class="status-badge ${statusClass}">${clinic.subscription_status}</span></td>
+                <td>${clinic.reports_used} / ${clinic.reports_allowed}</td>
+                <td>${clinic.password ? '✅ Yes' : '❌ No'}</td>
+              </tr>
+            `;
+          });
+
+          html += '</tbody></table>';
+        }
+
+        resultDiv.innerHTML = html;
+      } catch (error) {
+        resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+      }
+    }
+
+    async function loadPatients() {
+      const resultDiv = document.getElementById('patientsResult');
+      resultDiv.innerHTML = '<p>Loading patients...</p>';
+
+      try {
+        const { data, error } = await supabase
+          .from('patients')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        let html = `<p class="success">✅ Found ${data.length} patients</p>`;
+
+        if (data.length > 0) {
+          html += `
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>Full Name</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Date of Birth</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          data.forEach(patient => {
+            html += `
+              <tr>
+                <td>${patient.external_id}</td>
+                <td>${patient.full_name}</td>
+                <td>${patient.gender}</td>
+                <td>${patient.email}</td>
+                <td>${patient.phone}</td>
+                <td>${patient.date_of_birth}</td>
+              </tr>
+            `;
+          });
+
+          html += '</tbody></table>';
+        }
+
+        resultDiv.innerHTML = html;
+      } catch (error) {
+        resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+      }
+    }
+
+    async function loadProfiles() {
+      const resultDiv = document.getElementById('profilesResult');
+      resultDiv.innerHTML = '<p>Loading profiles...</p>';
+
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        let html = `<p class="success">✅ Found ${data.length} profiles</p>`;
+
+        if (data.length > 0) {
+          html += `
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Phone</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          data.forEach(profile => {
+            html += `
+              <tr>
+                <td>${profile.full_name}</td>
+                <td>${profile.email}</td>
+                <td><span class="status-badge status-active">${profile.role}</span></td>
+                <td>${profile.phone || 'N/A'}</td>
+              </tr>
+            `;
+          });
+
+          html += '</tbody></table>';
+        }
+
+        resultDiv.innerHTML = html;
+      } catch (error) {
+        resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+      }
+    }
+
+    async function loadReports() {
+      const resultDiv = document.getElementById('reportsResult');
+      resultDiv.innerHTML = '<p>Loading reports...</p>';
+
+      try {
+        const { data, error } = await supabase
+          .from('reports')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        let html = `<p class="success">✅ Found ${data.length} reports</p>`;
+
+        if (data.length > 0) {
+          html += `
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>File Name</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          data.forEach(report => {
+            html += `
+              <tr>
+                <td>${report.file_name}</td>
+                <td><span class="status-badge ${report.status === 'completed' ? 'status-active' : 'status-trial'}">${report.status}</span></td>
+                <td>${new Date(report.created_at).toLocaleString()}</td>
+              </tr>
+            `;
+          });
+
+          html += '</tbody></table>';
+        }
+
+        resultDiv.innerHTML = html;
+      } catch (error) {
+        resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+      }
+    }
+
+    async function testLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const resultDiv = document.getElementById('loginResult');
+
+      if (!email || !password) {
+        resultDiv.innerHTML = '<p class="error">❌ Please enter email and password</p>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<p>Testing login...</p>';
+
+      try {
+        // First check if user exists in clinics table
+        const { data: clinicData, error: clinicError } = await supabase
+          .from('clinics')
+          .select('*')
+          .eq('email', email.toLowerCase())
+          .single();
+
+        if (clinicError && clinicError.code !== 'PGRST116') throw clinicError;
+
+        if (clinicData) {
+          if (clinicData.password === password) {
+            resultDiv.innerHTML = `
+              <p class="success">✅ Clinic login successful!</p>
+              <pre>${JSON.stringify({
+                name: clinicData.name,
+                email: clinicData.email,
+                role: 'clinic_admin',
+                is_active: clinicData.is_active,
+                subscription_status: clinicData.subscription_status
+              }, null, 2)}</pre>
+            `;
+            return;
+          } else {
+            resultDiv.innerHTML = '<p class="error">❌ Invalid password for clinic</p>';
+            return;
+          }
+        }
+
+        // Check profiles table for super admin
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('email', email.toLowerCase())
+          .eq('role', 'super_admin')
+          .single();
+
+        if (profileError && profileError.code !== 'PGRST116') throw profileError;
+
+        if (profileData) {
+          // Try Supabase auth
+          const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (authError) {
+            resultDiv.innerHTML = `<p class="error">❌ Auth error: ${authError.message}</p>`;
+            return;
+          }
+
+          resultDiv.innerHTML = `
+            <p class="success">✅ Super admin login successful!</p>
+            <pre>${JSON.stringify({
+              name: profileData.full_name,
+              email: profileData.email,
+              role: profileData.role
+            }, null, 2)}</pre>
+          `;
+          return;
+        }
+
+        resultDiv.innerHTML = '<p class="error">❌ User not found</p>';
+      } catch (error) {
+        resultDiv.innerHTML = `<p class="error">❌ Login error: ${error.message}</p>`;
+      }
+    }
+
+    // Auto-run connection test on load
+    window.onload = () => {
+      testConnection();
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+/**
+ * PDF Template Coordinate Mappings
+ * Defines X, Y positions and styling for each data field on template pages
+ *
+ * Coordinate System:
+ * - Origin (0,0) is at BOTTOM-LEFT corner
+ * - X increases going RIGHT
+ * - Y increases going UP
+ * - Standard A4: 595.28 x 841.89 points
+ *
+ * NOTE: These coordinates need to be adjusted based on your actual PDF template layout
+ */
+
+module.exports = {
+  /**
+   * Page 1: Cover Page
+   * Contains: Patient info, clinic name, date, logo area
+   */
+  page1: {
+    // Patient Information Section
+    patientName: {
+      x: 150,
+      y: 650,
+      fontSize: 18,
+      font: 'Helvetica-Bold',
+      color: { r: 0, g: 0, b: 0 } // Black
+    },
+    patientId: {
+      x: 150,
+      y: 620,
+      fontSize: 12,
+      font: 'Helvetica',
+      color: { r: 0.3, g: 0.3, b: 0.3 } // Dark Gray
+    },
+    dateOfRecording: {
+      x: 150,
+      y: 590,
+      fontSize: 12,
+      font: 'Helvetica',
+      color: { r: 0.3, g: 0.3, b: 0.3 }
+    },
+    age: {
+      x: 150,
+      y: 560,
+      fontSize: 12,
+      font: 'Helvetica',
+      color: { r: 0.3, g: 0.3, b: 0.3 }
+    },
+    gender: {
+      x: 300,
+      y: 560,
+      fontSize: 12,
+      font: 'Helvetica',
+      color: { r: 0.3, g: 0.3, b: 0.3 }
+    },
+    clinicName: {
+      x: 150,
+      y: 530,
+      fontSize: 14,
+      font: 'Helvetica-Bold',
+      color: { r: 0.29, g: 0.56, b: 0.89 } // Primary Blue
+    }
+  },
+
+  /**
+   * Page 2: Numbers at a Glance (Summary Results)
+   * Contains: Overall score, 7 brain parameters with scores and classifications
+   */
+  page2: {
+    // Overall Score Section
+    overallScore: {
+      x: 200,
+      y: 720,
+      fontSize: 24,
+      font: 'Helvetica-Bold',
+      color: { r: 0.29, g: 0.56, b: 0.89 }
+    },
+    maxScore: {
+      x: 250,
+      y: 720,
+      fontSize: 16,
+      font: 'Helvetica',
+      color: { r: 0.5, g: 0.5, b: 0.5 }
+    },
+
+    // Brain Parameters (7 items) - Starting positions
+    // Each parameter takes ~80 vertical points
+    parametersStartY: 640,
+    parameterSpacing: 80,
+
+    // Individual parameter fields (will be repeated for each of 7 parameters)
+    parameterName: {
+      x: 100,
+      fontSize: 14,
+      font: 'Helvetica-Bold',
+      color: { r: 0, g: 0, b: 0 }
+    },
+    parameterScore: {
+      x: 350,
+      fontSize: 12,
+      font: 'Helvetica',
+      color: { r: 0, g: 0, b: 0 }
+    },
+    parameterClassification: {
+      x: 450,
+      fontSize: 12,
+      font: 'Helvetica-Bold'
+      // Color will be dynamic based on classification (Low/Medium/High)
+    },
+
+    // Brain-Type Pattern
+    brainTypePattern: {
+      x: 100,
+      y: 100,
+      fontSize: 11,
+      font: 'Helvetica',
+      color: { r: 0.3, g: 0.3, b: 0.3 }
+    }
+  },
+
+  /**
+   * Page 3: Brain Type Classification
+   * Contains: Dominant brain type, characteristics, recommendations
+   */
+  page3: {
+    brainTypeName: {
+      x: 150,
+      y: 700,
+      fontSize: 20,
+      font: 'Helvetica-Bold',
+      color: { r: 0.29, g: 0.56, b: 0.89 }
+    },
+    brainTypeDescription: {
+      x: 100,
+      y: 650,
+      fontSize: 11,
+      font: 'Helvetica',
+      color: { r: 0, g: 0, b: 0 },
+      maxWidth: 400,
+      lineHeight: 16
+    },
+    recommendationsStart: {
+      x: 100,
+      y: 500,
+      fontSize: 11,
+      font: 'Helvetica',
+      color: { r: 0, g: 0, b: 0 },
+      maxWidth: 400,
+      lineHeight: 16
+    }
+  },
+
+  /**
+   * Classification Colors
+   * Used for parameter status indicators
+   */
+  classificationColors: {
+    Low: { r: 0.85, g: 0.35, b: 0.13 },  // Orange/Red
+    Medium: { r: 0.29, g: 0.56, b: 0.89 },  // Blue
+    High: { r: 0.18, g: 0.8, b: 0.44 }    // Green
+  },
+
+  /**
+   * Default Font Settings
+   */
+  defaults: {
+    fontSize: 12,
+    font: 'Helvetica',
+    color: { r: 0, g: 0, b: 0 },
+    lineHeight: 14
+  },
+
+  /**
+   * Helper function to get classification color
+   * @param {string} classification - Low, Medium, or High
+   * @returns {Object} RGB color object
+   */
+  getClassificationColor(classification) {
+    return this.classificationColors[classification] || this.defaults.color;
+  }
+};

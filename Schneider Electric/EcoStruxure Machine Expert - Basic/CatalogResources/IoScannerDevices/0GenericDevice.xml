@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+    
+  DeviceCompatibility
+     0: Both serial and tcp
+     1: Serial only
+     2: Ethernet only
+  -->
+<!-- Generic device -->
+<Device>
+    <DeviceCompatibility>1</DeviceCompatibility>
+    <DeviceTypeName>Generic device</DeviceTypeName>
+    <DeviceTypeId>8</DeviceTypeId>
+    <IoScannerType>IoScannerOther</IoScannerType>
+
+    <InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleCoil</AccessType>
+            <Offset>0</Offset>
+            <Length>1</Length>
+            <InitializationValue>0</InitializationValue>
+            <Comment></Comment>
+        </InitRequest>
+    </InitRequests>
+
+    <Channels>
+        <Channel>
+            <Name>Device_Channel0</Name>
+            <AccessType>IoScannerChannelAccessReadWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Default channel 0</Comment>
+            <ReadOffset>0</ReadOffset>
+            <ReadLength>1</ReadLength>
+            <WriteOffset>0</WriteOffset>
+            <WriteLength>1</WriteLength>
+        </Channel>
+    </Channels>
+</Device>

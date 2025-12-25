@@ -1,0 +1,198 @@
+# 🚀 Backend Server Start Karne Ka Sahi Tarika
+
+## ❌ Wrong Command:
+```bash
+npm start  # ❌ This won't work from root directory
+```
+
+---
+
+## ✅ Correct Ways to Start Backend:
+
+### **Method 1: From Root Directory** (Recommended)
+```bash
+# Project root directory se (D:\Todays\Neuro360)
+npm run dev:backend
+```
+
+### **Method 2: From Server Directory**
+```bash
+# Pehle server folder mein jao
+cd server
+
+# Phir start karo
+npm start
+
+# Ya development mode mein (auto-restart):
+npm run dev
+```
+
+### **Method 3: Both Frontend + Backend Together** (Best!)
+```bash
+# Dono ek saath start honge
+npm run dev:full
+```
+
+---
+
+## 🎯 Step-by-Step Instructions:
+
+### Option A: Start Backend Only
+
+**PowerShell/CMD Terminal mein:**
+```powershell
+# Current directory check karo
+pwd
+# Should show: D:\Todays\Neuro360
+
+# Backend start karo
+npm run dev:backend
+```
+
+**Expected Output:**
+```
+> neuro360-backend@1.0.0 dev
+> nodemon index.js
+
+[nodemon] starting `node index.js`
+🚀 Neuro360 Backend Server running on port 3001
+📊 QEEG Processing API: http://localhost:3001/api/qeeg
+💚 Health Check: http://localhost:3001/api/health
+
+📋 Environment Configuration:
+   PORT: 3001
+   NODE_ENV: development
+   OPENAI_API_KEY: ✓ Set (or ✗ Missing)
+   SUPABASE_URL: ✓ Set
+
+✅ Enhanced AI PDF Generator loaded successfully
+```
+
+---
+
+### Option B: Start Both Frontend + Backend
+
+**PowerShell/CMD Terminal mein:**
+```powershell
+npm run dev:full
+```
+
+**Expected Output:**
+```
+[frontend] VITE v4.5.0  ready in 500 ms
+[frontend] ➜  Local:   http://localhost:5173/
+[backend] 🚀 Neuro360 Backend Server running on port 3001
+```
+
+---
+
+## 🧪 Verify Backend is Running:
+
+### Test 1: Health Check
+Open browser: http://localhost:3001/api/health
+
+**Should show:**
+```json
+{
+  "status": "ok",
+  "message": "Neuro360 Backend Server is running",
+  "timestamp": "2025-12-01T..."
+}
+```
+
+### Test 2: Check Console
+Backend terminal mein ye dikhna chahiye:
+```
+✅ Enhanced AI PDF Generator loaded successfully
+```
+
+---
+
+## 📝 Available Scripts Summary:
+
+| Command | What it does |
+|---------|-------------|
+| `npm run dev` | Start frontend only (Vite) |
+| `npm run dev:backend` | Start backend only |
+| `npm run dev:full` | Start both frontend + backend |
+| `npm run start:backend` | Start backend (production mode) |
+| `npm run build` | Build frontend for production |
+
+---
+
+## 🔧 Troubleshooting:
+
+### Issue: Port 3001 already in use
+```bash
+# Windows mein check karo
+netstat -ano | findstr :3001
+
+# Process ko kill karo
+taskkill /PID <process-id> /F
+
+# Phir phir se start karo
+npm run dev:backend
+```
+
+### Issue: "Cannot find module"
+```bash
+# Server folder mein jao
+cd server
+
+# Dependencies install karo
+npm install
+
+# Wapas root pe aao
+cd ..
+
+# Phir start karo
+npm run dev:backend
+```
+
+### Issue: Backend crash ho raha hai
+```bash
+# Console error dekho aur check karo:
+1. .env file exist karti hai?
+2. server/index.js file sahi hai?
+3. Koi typo ya syntax error toh nahi?
+
+# Clean install try karo
+cd server
+rm -rf node_modules
+npm install
+cd ..
+npm run dev:backend
+```
+
+---
+
+## ✅ Success Checklist:
+
+After starting backend, verify:
+- [ ] Console shows "Backend Server running on port 3001"
+- [ ] No error messages in console
+- [ ] Health check URL works: http://localhost:3001/api/health
+- [ ] "Enhanced AI PDF Generator loaded successfully" message
+
+---
+
+## 🎯 Quick Reference:
+
+**Start Backend:**
+```bash
+npm run dev:backend
+```
+
+**Start Everything:**
+```bash
+npm run dev:full
+```
+
+**Stop Backend:**
+```
+Press: Ctrl + C
+```
+
+---
+
+**That's it! Ab backend properly start hoga! 🚀**

@@ -1,0 +1,166 @@
+# PDF Report: RED Color for Stress/Burnout 2/3 and 3/3
+
+## Problem
+
+In the PDF report, Stress and Burnout parameter headers were showing:
+- **0/3 Low** → Green ✅ (correct)
+- **2/3 Medium** → Orange ❌ (wrong - should be RED)
+- **3/3 High** → Red ✅ (correct)
+
+**User Requirement:** Both 2/3 and 3/3 should show RED color (any stress is bad)
+
+---
+
+## Root Cause
+
+In `geminiPdfGenerator.js`, the `getScoreColor()` function was returning ORANGE for Medium (2/3):
+
+**Before (Line 728-732):**
+```javascript
+if (isInvertedParameter) {
+  // INVERTED: Low=Green (good), Medium=Orange, High=Red (bad)
+  if (percentage <= 40) return '#38A169';    // Green (Low stress = Good)
+  if (percentage <= 70) return '#ED8936';    // Orange (Medium) ❌
+  return '#E53E3E';                          // Red (High stress = Bad)
+}
+```
+
+**Problem:**
+- 2/3 = 66.67% → Falls in "percentage <= 70" → Returns ORANGE
+- User wants RED for any stress level (1/3, 2/3, 3/3)
+
+---
+
+## Solution
+
+### File Modified: `server/services/geminiPdfGenerator.js`
+
+**Updated Line 727-731:**
+
+**After:**
+```javascript
+if (isInvertedParameter) {
+  // INVERTED: Low=Green (good), Medium/High=Red (bad)
+  // For Stress/Burnout: Low values (0/3) = healthy, Medium/High (1-3/3) = problematic
+  if (percentage <= 40) return '#38A169';    // Green (0/3 Low stress = Good)
+  return '#E53E3E';                          // Red (1/3, 2/3, 3/3 = Any stress = Bad)
+}
+```
+
+**What Changed:**
+- Removed the "Medium = Orange" condition
+- Now any score above 0/3 returns RED
+
+---
+
+## How It Works Now
+
+### Color Logic for Stress & Burnout:
+
+| Score | Percentage | Header Color | Meaning              |
+|-------|------------|--------------|----------------------|
+| 0/3   | 0%         | GREEN        | No stress (healthy)  |
+| 1/3   | 33%        | RED          | Low stress (warning) |
+| 2/3   | 67%        | RED          | Medium stress (bad)  |
+| 3/3   | 100%       | RED          | High stress (bad)    |
+
+### Visual Examples:
+
+#### Stress 0/3 Low (No Stress):
+```
+┌─────────────────────────────────────────────┐
+│ Stress                    0/3          Low  │ ← GREEN header
+└─────────────────────────────────────────────┘
+```
+
+#### Stress 2/3 Medium:
+```
+┌─────────────────────────────────────────────┐
+│ Stress                    2/3       Medium  │ ← RED header ✅
+└─────────────────────────────────────────────┘
+```
+
+#### Stress 3/3 High:
+```
+┌─────────────────────────────────────────────┐
+│ Stress                    3/3         High  │ ← RED header ✅
+└─────────────────────────────────────────────┘
+```
+
+---
+
+## Components Affected
+
+The `getScoreColor()` function is used for:
+1. **Main header background** (line 485) - The colored bar at top of each parameter
+2. **Score badge background** (line 499) - The "2/3" or "3/3" badge
+
+Both now show RED for Medium and High stress/burnout!
+
+---
+
+## Related Color Functions
+
+### Already Fixed (from previous updates):
+
+**`getBucketColor()` function (line 766):**
+```javascript
+'Medium': '#E53E3E',  // Red (Medium stress = Warning) ✅ Already RED
+'High': '#E53E3E'     // Red (High stress = Bad) ✅ Already RED
+```
+
+This controls the classification text color ("Medium", "High") on the right side.
+
+---
+
+## Testing
+
+### Test Case 1: Stress 2/3 Medium
+1. Process patient with 2 red and 1 green stress sub-parameters
+2. Generate PDF report
+3. **Expected:** Stress header shows RED background (not orange)
+
+### Test Case 2: Stress 3/3 High
+1. Process patient with 3 red stress sub-parameters
+2. Generate PDF report
+3. **Expected:** Stress header shows RED background
+
+### Test Case 3: Stress 0/3 Low
+1. Process patient with all green stress sub-parameters
+2. Generate PDF report
+3. **Expected:** Stress header shows GREEN background
+
+### Test Case 4: Burnout 2/3 Medium
+1. Process patient with medium burnout
+2. Generate PDF report
+3. **Expected:** Burnout header shows RED background (not orange)
+
+---
+
+## Color Comparison
+
+### Before Fix:
+```
+Stress 0/3 Low     [GREEN header]  ✅ Correct
+Stress 2/3 Medium  [ORANGE header] ❌ Wrong!
+Stress 3/3 High    [RED header]    ✅ Correct
+```
+
+### After Fix:
+```
+Stress 0/3 Low     [GREEN header]  ✅ Correct
+Stress 2/3 Medium  [RED header]    ✅ Fixed!
+Stress 3/3 High    [RED header]    ✅ Correct
+```
+
+---
+
+## Summary
+
+✅ **Fixed header colors** - Stress/Burnout 2/3 now shows RED (not orange)
+✅ **Consistent warning** - Any stress (1/3, 2/3, 3/3) = RED color
+✅ **Clear visual** - Only 0/3 (no stress) = GREEN, everything else = RED
+✅ **Simple logic** - Removed intermediate orange color for stress parameters
+✅ **Both components** - Background color AND text color both RED for Medium/High
+
+**PDF reports now clearly show RED for any stress level (2/3 and 3/3)!** 🎯

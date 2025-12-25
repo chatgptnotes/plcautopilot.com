@@ -1,0 +1,84 @@
+-- Clean setup for algorithm_results table
+-- Drops existing policies and recreates everything
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Super admins have full access to algorithm_results" ON public.algorithm_results;
+DROP POLICY IF EXISTS "Clinic admins can view their clinic algorithm_results" ON public.algorithm_results;
+DROP POLICY IF EXISTS "Doctors can view their clinic algorithm_results" ON public.algorithm_results;
+
+-- Drop existing indexes if they exist
+DROP INDEX IF EXISTS public.idx_algorithm_results_patient_id;
+DROP INDEX IF EXISTS public.idx_algorithm_results_clinic_id;
+DROP INDEX IF EXISTS public.idx_algorithm_results_processed_at;
+
+-- Drop table if exists (comment out if you want to keep existing data)
+-- DROP TABLE IF EXISTS public.algorithm_results CASCADE;
+
+-- Create algorithm_results table
+CREATE TABLE IF NOT EXISTS public.algorithm_results (
+    id TEXT PRIMARY KEY,
+    patient_id UUID NOT NULL REFERENCES public.patients(id) ON DELETE CASCADE,
+    patient_name TEXT NOT NULL,
+    clinic_id UUID NOT NULL REFERENCES public.clinics(id) ON DELETE CASCADE,
+    clinic_name TEXT NOT NULL,
+    results JSONB NOT NULL,
+    eyes_open_file TEXT,
+    eyes_closed_file TEXT,
+    processed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    processed_by TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_patient_id ON public.algorithm_results(patient_id);
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_clinic_id ON public.algorithm_results(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_algorithm_results_processed_at ON public.algorithm_results(processed_at DESC);
+
+-- Enable Row Level Security
+ALTER TABLE public.algorithm_results ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+CREATE POLICY "Super admins have full access to algorithm_results"
+    ON public.algorithm_results
+    FOR ALL
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE profiles.id = auth.uid()
+            AND profiles.role = 'super_admin'
+        )
+    );
+
+CREATE POLICY "Clinic admins can view their clinic algorithm_results"
+    ON public.algorithm_results
+    FOR SELECT
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE profiles.id = auth.uid()
+            AND profiles.role = 'clinic_admin'
+            AND profiles.clinic_id = algorithm_results.clinic_id
+        )
+    );
+
+CREATE POLICY "Doctors can view their clinic algorithm_results"
+    ON public.algorithm_results
+    FOR SELECT
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE profiles.id = auth.uid()
+            AND profiles.role = 'doctor'
+            AND profiles.clinic_id = algorithm_results.clinic_id
+        )
+    );
+
+-- Add comments
+COMMENT ON TABLE public.algorithm_results IS 'Stores QEEG algorithm processing results with 7 brain health parameters';
+COMMENT ON COLUMN public.algorithm_results.id IS 'Unique identifier in format: alg_timestamp_patientId';
+COMMENT ON COLUMN public.algorithm_results.patient_id IS 'UUID reference to patients table';
+COMMENT ON COLUMN public.algorithm_results.clinic_id IS 'UUID reference to clinics table';
+COMMENT ON COLUMN public.algorithm_results.results IS 'JSON array containing 7 parameter scores with sub-metrics';
+COMMENT ON COLUMN public.algorithm_results.eyes_open_file IS 'Filename of uploaded Eyes Open QEEG data';
+COMMENT ON COLUMN public.algorithm_results.eyes_closed_file IS 'Filename of uploaded Eyes Closed QEEG data';
+COMMENT ON COLUMN public.algorithm_results.processed_by IS 'User ID or role who processed the data';

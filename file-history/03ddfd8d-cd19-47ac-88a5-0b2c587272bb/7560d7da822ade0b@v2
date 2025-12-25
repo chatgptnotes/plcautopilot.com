@@ -1,0 +1,28 @@
+@echo off
+echo ========================================
+echo  Restarting NeuroSense Backend Server
+echo ========================================
+echo.
+
+REM Kill any existing process on port 3001
+echo Killing existing backend process...
+for /f "tokens=5" %%a in ('netstat -aon ^| findstr :3001') do (
+    taskkill /F /PID %%a 2>nul
+)
+
+timeout /t 2 /nobreak >nul
+
+echo.
+echo Starting backend server...
+echo.
+
+cd /d "%~dp0server"
+start "NeuroSense Backend" npm start
+
+echo.
+echo ========================================
+echo  Backend is starting...
+echo  Check the new terminal window
+echo ========================================
+echo.
+pause

@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Content xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+         xmlns:ts="http://www.3s-software.com/schemas/TargetSettings-0.1.xsd"
+         xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+         xmlns:xi="http://www.w3.org/2003/XInclude">
+
+  <Content key="#Prenaming">
+    <String identifier="S0.Comment">Indikade nebo provedení studeného startu. (Data inicializována na původní hodnoty)</String>
+    <String identifier="S1.Comment">Indikace teplého startu se zálohou dat.</String>
+    <String identifier="S4.Comment">Časová základna - 10 ms generována interními hodinami.</String>
+    <String identifier="S5.Comment">Časová základna - 100 ms generována interními hodinami.</String>
+    <String identifier="S6.Comment">Časová základna - 1 s generována interními hodinami.</String>
+    <String identifier="S7.Comment">Časová základna - 1 min generována interními hodinami.</String>
+    <String identifier="S10.Comment">I/O komunikace je v pořádku (1), byla detekována chyba komunikace (0)</String>
+    <String identifier="S11.Comment">Přetečení watchdog zapříčinilo, že byl kontroler přepnut do režimu HALT.</String>
+    <String identifier="S12.Comment">Kontroler běží.</String>
+    <String identifier="S13.Comment">Indikace prvího cyklu programu v RUN režimu.</String>
+    <String identifier="S14.Comment">Tento bit indikuje nucenou hodnotu alespoň jednoho vstupu/výstupu.</String>
+    <String identifier="S15.Comment">Tento bit indikuje nucenou hodnotu alespoň jednoho vstupu.</String>
+    <String identifier="S16.Comment">Tento bit indikuje nucenou hodnotu alespoň jednoho výstupu.</String>
+    <String identifier="S17.Comment">Indikuje hodnotu posledního vysunutého bitu.</String>
+    <String identifier="S18.Comment">Indikuje přetečení 16b operace.</String>
+    <String identifier="S19.Comment">Čas skenu je vyšší než perioda definovaná uživatelem.</String>
+    <String identifier="S20.Comment">Tento bit indikuje přetečení indexu objektu při 16b operacích.</String>
+    <String identifier="S21.Comment">Stav 1 tohoto bitu způsobí GRAFCET inicializaci. Aktivní kroky jsou deaktivovány. Jsou aktivovány počáteční kroky.</String>
+    <String identifier="S22.Comment">Při stavu 1 tento bit způsobí deaktivaci aktivních kroků celého GRAFCETu</String>
+    <String identifier="S23.Comment">Nastavte na hodnotu 1, tento bit ověřuje předpolohování GRAFCETu. Udržování tohoto bitu na 1 zapříčiní zamrznutí GRAFCETu (zamrzne graf)</String>
+    <String condition="catalogVersion lt v1700" identifier="S33.Comment">Nastavte na hodnotu 1 ( pokud zde není použita post konfigurace) pokud chcete povolit nastavit novou konfiguraci Ethernet portu pomocí slow %SW33 až %SW38.</String>
+    <String condition="catalogVersion gte v1700" identifier="S33.Comment">Nastavte na hodnotu 1 ( pokud zde není použita post konfigurace) pokud chcete povolit nastavit novou konfiguraci Ethernet portu pomocí slow %SW33 až %SW38.</String>
+    <String identifier="S34.Comment">Nastavením tohoto bitu do 1 umožní zablokovat specifické Ethernetové konfigurace nastavené pomocí %SW35 a %SW36.</String>
+    <String identifier="S35.Comment">Tento bit indikuje duplexní mód na Ethernetu. ( 0 - poloduplexní, 1 - plně duplexní)</String>
+    <String identifier="S36.Comment">Tento bit indikuje rychlost Ethernetu. ( 0 - 10 Mbps, 1 - 100 Mbps)</String>
+    <String identifier="S38.Comment">Tento bit detekuje přítomnost událostí, které byly detekovány, ve frontě.</String>
+    <String identifier="S39.Comment">Tento bit detekuje naplnění fronty událostí.</String>
+    <String identifier="S49.Comment">Nastavením na hodnotu 1 je povoleno automatické znovu-zapnutí výstupů po detekci zkratu.</String>
+    <String identifier="S50.Comment">Nastavte tento bit na 1 pro aktualizaci data a času.</String>
+    <String identifier="S51.Comment">Nastavte na 1, pokud má být čas a datum aktualizováno uživatelem.</String>
+    <String identifier="S52.Comment">Ve stavu 1 musí být datum a čas aktualizován.</String>
+    <String identifier="S59.Comment">Při nastavení na 1 se datum a čas zvyšují nebo snižují podle náběžných hran na řídicích bitech  v %SW59</String>
+    <String condition="catalogVersion gte v2300" identifier="S66.Comment">Deaktivuje LED indikaci baterie, když je nastaven do 1</String>
+    <String identifier="S75.Comment">Pokud je v 1, napětí externí baterie je nízké, nebo není baterie připojena.</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="S91.Comment">Nastavte tento bit na hodnotu 1 pro vymazání všech hodnot paměti nezávislé na napájení.</String>
+    <String condition="catalogVersion lt v1800" identifier="S93.Comment">Uživatel nastaví tento bit na hodnotu 1 pro uložení proměnné %MW ve flash (až 1000)</String>
+    <String identifier="S96.Comment">Nastaven v 1 pokud je záloha programu platná.</String>
+    <String conditionEnd="catalogVersion lt v2800" identifier="S101.Comment">Nastavte na hodnotu 1, adresu lze změnit změnou hodnot %SW101 (port 1) nebo %SW102 (port 2)</String>
+    <String identifier="S103.Comment">Nastavte do 1, pokud chcete povolit konfiguraci ASCII protokolu na sériové lince 1.</String>
+    <String identifier="S104.Comment">Nastavte do 1, pokud chcete povolit konfiguraci ASCII protokolu na sériové lince 2.</String>
+    <String identifier="S119.Comment">Tento bit je nastaven na hodnotu 0, pokud je na hlavním kontroleru zjištěno přerušení komunikace.</String>
+    <String identifier="SW0.Comment">Upravuje skenovací periodu kontroleru definovanou konfigurací Animační tabulkou.</String>
+    <String condition="catalogVersion lt v1300" identifier="SW1.Comment">Modifikuje čas cyklu Periodické úlohy [5..255 ms]</String>
+    <String condition="catalogVersion gte v1300" conditionEnd="catalogVersion lt v1800" identifier="SW1.Comment">Modifikuje čas cyklu Periodické úlohy [2..255 ms]</String>
+    <String identifier="SW6.Comment">Status kontroleru: (0) Není konfigurován, (2) STOP, (3) RUN, (4) HALT, (5) Není připojeno napájecí napětí</String>
+    <String identifier="SW11.Comment">Obsahuje maximální hodnotu čítače Watchdog</String>
+    <String identifier="SW13.Comment">Obsahuje boot verzi kontroleru.</String>
+    <String identifier="SW14.Comment">Obsahuje komerční verzi kontroleru.</String>
+    <String identifier="SW15.Comment">Obsahuje 1. slovo verze FW kontroleru.</String>
+    <String condition="catalogVersion lt v1800" identifier="SW16.Comment">Obsahuje 2. slovo verze FW kontroleru.</String>
+    <String identifier="SW18.Comment">Obsahuje absolutní čítač. (1. slovo)</String>
+    <String condition="catalogVersion lt v1800" identifier="SW19.Comment">Obsahuje absolutní čítač. (2. slovo)</String>
+    <String identifier="SW30.Comment">Zobrazuje dobu provádění posledního cyklu skenování kontroleru (v ms). Pokud je čas skenování 2 250 ms, %SW30 = 2 a %SW70 = 250</String>
+    <String identifier="SW31.Comment">Zobrazuje dobu provádění nejdelšího cyklu skenování kontroleru od posledního studeného startu (v ms). Pokud je čas skenování 2 250 ms, %SW31 = 2 a %SW71 = 250.</String>
+    <String identifier="SW32.Comment">Zobrazuje dobu provádění nejdelšího cyklu skenování kontroleru od posledního studeného startu (v ms). Pokud je čas skenování 2 250 ms, %SW32 = 2 a %SW72 = 250.</String>
+    <String identifier="SW39.Comment">Zobrazuje průměrný čas periodické úlohy v µs za posledních 5 cyklů.</String>
+    <String identifier="SW48.Comment">Zobrazuje počet událostí, které byly vykonány od posledního studeného startu.</String>
+    <String identifier="SW49.Comment">V BCD kódu obsahuje N- tý den v týdnu (N=1 je pondělí)</String>
+    <String identifier="SW50.Comment">V BCD kódu je ve formátu 00ss uložen čas v sekundách</String>
+    <String identifier="SW51.Comment">V BCD kódu je ve formátu HHMM uložen čas.</String>
+    <String identifier="SW52.Comment">V BCD kódu je ve formátu MMDD uloženo datum.</String>
+    <String identifier="SW53.Comment">V BCD kódu je ve formátu SSRR uloženo datum.(S-století, R-rok)</String>
+    <String identifier="SW54.Comment">Čas posledního výpadku napájení nebo zastavení kontroleru (BCD): SS - Sekundy</String>
+    <String identifier="SW55.Comment">Čas posledního výpadku napájení nebo zastavení kontroleru (BCD): HHMM - Hodiny a minuty</String>
+    <String identifier="SW56.Comment">Čas posledního výpadku napájení nebo zastavení kontroleru (BCD): MMDD - Měsíc a den</String>
+    <String identifier="SW57.Comment">Čas posledního výpadku napájení nebo zastavení kontroleru (BCD): CCYY - století a rok</String>
+    <String identifier="SW58.Comment">Zobrazený kód zobrazuje příčinu posledního zastavení: RUN/stop signál, Stop díky softwarové chybe, Příkaz Stop, Výpadek napájení, Stop z důvodu chyby detekované na hardwaru.</String>
+    <String identifier="SW59.Comment">Obsahuje dvě sady 8 bitů, které upravují aktuální datum. Operace se provádí vždy na náběžné hraně bitu. Toto slovo je povoleno bitovým přístupem %S59</String>
+    <String identifier="SW61.Comment">Zobrazí hardwarové ID řadiče Ethernetu</String>
+    <String identifier="SW63.Comment">Obsahuje EXCH1 error kód. Pro detaily je nutné použít online nápovědu.</String>
+    <String identifier="SW64.Comment">Obsahuje EXCH2 error kód. Pro detaily je nutné použít online nápovědu.</String>
+    <String identifier="SW67.Comment">Obsahuje ID kód logického kontroleru. Pro více informací nahládněte do tabulky ID kódů logických kontrolerů M221</String>
+    <String identifier="SW70.Comment">Uchovává dobu vykonávání posledního skenovacího cyklu. V případě, že je čas skenu 2,250 ms, pak obsahuje %SW30 hodnotu 2 a %SW70 pak hodnotu 250.</String>
+    <String identifier="SW71.Comment">Uchovává dobu vykonávání nejdelšího skenovacího cyklu od studeného startu. V případě, že je čas skenu 2,250 ms, pak obsahuje %SW31 hodnotu 2 a %SW71 pak hodnotu 250.</String>
+    <String identifier="SW72.Comment">Uchovává dobu vykonávání nejkratšího skenovacího cyklu od studeného startu. V případě, že je čas skenu 2,250 ms, pak obsahuje %SW32 hodnotu 2 a %SW72 pak hodnotu 250.</String>
+    <String identifier="SW75.Comment">Zobrazuje procentuální hodnotu zátěže procesoru.</String>
+    <String identifier="SW76.Comment">Dekrementální čítač 1, sníží hodnotu individuálně systémem každou ms.</String>
+    <String identifier="SW77.Comment">Dekrementální čítač 2, sníží hodnotu individuálně systémem každou ms.</String>
+    <String identifier="SW78.Comment">Dekrementální čítač 3, sníží hodnotu individuálně systémem každou ms.</String>
+    <String identifier="SW79.Comment">Dekrementální čítač 4, sníží hodnotu individuálně systémem každou ms.</String>
+    <String identifier="SW80.Comment">Každý bit indikuje status vestavěných analogových vstupů</String>
+    <String identifier="SW94.Comment">Obsahuje podpis, změny v případě změny aplikace, pokud jde o konfigurační nebo programovací data</String>
+    <String identifier="SW95.Comment">Obsahuje podpis, změny v případě změny aplikace, pokud jde o konfigurační nebo programovací data</String>
+    <String identifier="SW98.Comment">Stav post-konfigurace sériové linky 1. Bity jsou nastaveny na hodnotu 1, pokud byla pro parametr použita post konfigurace</String>
+    <String identifier="SW99.Comment">Stav post-konfigurace sériové linky 2. Bity jsou nastaveny na hodnotu 1, pokud byla pro parametr použita post konfigurace</String>
+    <String identifier="SW101.Comment">Adresa portu 1, když je byt %S101 nastaven na 1, můžete změnit Modbus adresu.</String>
+    <String identifier="SW102.Comment">Adresa portu 2, když je byt %S101 nastaven na 1, můžete změnit Modbus adresu.</String>
+    <String identifier="SW114.Comment">Aktivuje nebo zakazuje provoz plánovacích pomocí uživatelského programu nebo operátorského displeje</String>
+    <String condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000" identifier="SW119.Comment">Označuje rozšiřující moduly nakonfigurované jako volitelné (podrobnosti naleznete v online nápovědě)</String>
+    <String identifier="SW130.Comment">Zobrazuje čas provádění poslední události vstupu% I0.2 v μs</String>
+    <String identifier="SW131.Comment">Zobrazuje čas provádění poslední události vstupu% I0.3 v μs</String>
+    <String identifier="SW132.Comment">Zobrazuje čas provádění poslední události vstupu% I0.4 v μs</String>
+    <String identifier="SW133.Comment">Zobrazuje čas provádění poslední události vstupu% I0.5 v μs</String>
+    <String identifier="SW134.Comment">Zobrazuje poslední čas spuštění události Threshold 0 HSC0 v μs</String>
+    <String identifier="SW135.Comment">Zobrazuje poslední čas spuštění události Threshold 1 HSC0 v μs</String>
+    <String identifier="SW136.Comment">Zobrazuje poslední čas spuštění události Threshold 0 HSC1 v μs</String>
+    <String identifier="SW137.Comment">Zobrazuje poslední čas spuštění události Threshold 1 HSC1 v μs</String>
+    <String identifier="SW138.Comment">Zobrazuje poslední čas provádění periodické úlohy v μs</String>
+    <String identifier="SW139.Comment">Zobrazuje stav chyby ochrany výstupních bloků</String>
+    <String condition="catalogVersion lt v1800" identifier="SW148.Comment">Počet přetrvávajících proměnných (maximálně 1000)</String>
+    <String identifier="SW149.Comment">Zobrazuje poslední čas provádění události vstupu %I0.2 v ms</String>
+    <String identifier="SW150.Comment">Zobrazuje poslední čas provádění události vstupu %I0.3 v ms</String>
+    <String identifier="SW151.Comment">Zobrazuje poslední čas provádění události vstupu %I0.4 v ms</String>
+    <String identifier="SW152.Comment">Zobrazuje poslední čas provádění události vstupu %I0.5 v ms</String>
+    <String identifier="SW153.Comment">Zobrazuje poslední čas spuštění události Threshold 0 HSC0 v ms</String>
+    <String identifier="SW154.Comment">Zobrazuje poslední čas spuštění události Threshold 1 HSC0 v ms</String>
+    <String identifier="SW155.Comment">Zobrazuje poslední čas spuštění události Threshold 0 HSC1 v ms</String>
+    <String identifier="SW156.Comment">Zobrazuje poslední čas spuštění události Threshold 1 HSC1 v ms</String>
+    <String identifier="SW157.Comment">Zobrazuje poslední čas provádění periodické úlohy v ms</String>
+    <String identifier="SW158.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) úlohy PERIODIC v ms</String>
+    <String identifier="SW159.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 0 v ms</String>
+    <String identifier="SW160.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 1 v ms</String>
+    <String identifier="SW161.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 2 v ms</String>
+    <String identifier="SW162.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 3 v ms</String>
+    <String identifier="SW163.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 4 v ms</String>
+    <String identifier="SW164.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 5 v ms</String>
+    <String identifier="SW165.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 6 v ms</String>
+    <String identifier="SW166.Comment">Zobrazuje průměrnou dobu provádění (posledních 5) události 7 v ms</String>
+    <String identifier="SW170.Comment">Počítá počet rámců přenášených SL1</String>
+    <String identifier="SW171.Comment">Počítá počet rámců přenášených SL2</String>
+    <String identifier="SW172.Comment">Počítá počet rámců vysílaných kanálem USB</String>
+    <String identifier="SW174.Comment">Počítá počet správně přijatých rámců SL1</String>
+    <String identifier="SW175.Comment">Počítá počet správně přijatých rámců SL2</String>
+    <String identifier="SW176.Comment">Počítá počet správně přijatých rámců USB</String>
+    <String identifier="SW178.Comment">Počítá počet nesprávně přijatých rámců SL1</String>
+    <String identifier="SW179.Comment">Počítá počet nesprávně přijatých rámců SL2</String>
+    <String identifier="SW180.Comment">Počítá počet nesprávně přijatých rámců USB</String>
+
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_lt_v2000" condition="catalogVersion lt v2000"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_gte_v2000" condition="catalogVersion gte v2000"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_gte_v2800" condition="catalogVersion gte v2800"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_gte_v2900" condition="catalogVersion gte v2900"/>
+  </Content>
+
+  <Content key="#Prenaming_gte_v1800">
+    <String identifier="S9.Comment">Nastavte na hodnotu 1, zda chcete použít záložní hodnoty na digitálních a analogových výstupech.</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="S93.Comment">Uživatel nastaví tento bit na hodnotu 1 pro uložení proměnné %MW ve flash (až 1000)</String>
+    <String identifier="S106.Comment">Výchozí hodnota je 0. Nastavením na 1 se změní chování sběrnice IO spravováním výměn modulů IO, a to i při trvalé chybě.</String>
+    <String identifier="S107.Comment">Náběžná hrana na tomto bitu umožní překonfigurování a restart IO sběrnice.</String>
+    <String identifier="S110.Comment">Nastavení tohoto bitu do 1 resetuje IOScanner na sériové lince 1</String>
+    <String identifier="S111.Comment">Nastavení tohoto bitu do 1 resetuje IOScanner na sériové lince 2</String>
+    <String identifier="S113.Comment">Nastavení tohoto bitu do 1 pozastaví IOScanner na sériové lince 1</String>
+    <String identifier="S114.Comment">Nastavení tohoto bitu do 1 pozastaví IOScanner na sériové lince 1</String>
+    <String identifier="SW1.Comment">Modifikuje čas cyklu Periodické úlohy</String>
+    <String identifier="SW16.Comment">Obsahuje 2. slovo verze FW kontroleru.</String>
+    <String identifier="SW19.Comment">Obsahuje absolutní čítač. (2. slovo)</String>
+    <String conditionEnd="catalogVersion lt v2000" identifier="SW148.Comment">Počet přetrvávajících proměnných (maximálně 2000)</String>
+    <String identifier="SW210.Comment">Obsahuje status IO Skeneru na Sériové lince 1</String>
+    <String identifier="SW211.Comment">Obsahuje status IO Skeneru na Sériové lince 2</String>
+  </Content>
+
+  <Content key="#Prenaming_lt_v2000">
+    <String identifier="S92.Comment">Nastavte hodnotu 1, pokud existují platné hodnoty paměti uložené v paměti nezávislé na napájení.</String>
+    <String identifier="S94.Comment">Uživatel nastaví tento bit na 1 pro obnovení dat z flash paměti (% S90 = 0) nebo SDcard (% S90 = 1)</String>
+    <String identifier="SW7.Comment">Tento word zobrazuje stav kontroleru. Další informace v manuálu.</String>
+    <String identifier="SW17.Comment">Výchozí status kontroleru, pro případ detekce chyby aritmetické operace ( operace s plovoucí řádovou čárkou). Další informace v manuálu.</String>
+    <String identifier="SW40.Comment">Zobrazuje průměrný čas události 0 µs za posledních 5 cyklů.</String>
+    <String identifier="SW41.Comment">Zobrazuje průměrný čas události 1 µs za posledních 5 cyklů.</String>
+    <String identifier="SW42.Comment">Zobrazuje průměrný čas události 2 µs za posledních 5 cyklů.</String>
+    <String identifier="SW43.Comment">Zobrazuje průměrný čas události 3 µs za posledních 5 cyklů.</String>
+    <String identifier="SW44.Comment">Zobrazuje průměrný čas události 4 µs za posledních 5 cyklů.</String>
+    <String identifier="SW45.Comment">Zobrazuje průměrný čas události 5 µs za posledních 5 cyklů.</String>
+    <String identifier="SW46.Comment">Zobrazuje průměrný čas události 6 µs za posledních 5 cyklů.</String>
+    <String identifier="SW47.Comment">Zobrazuje průměrný čas události 7 µs za posledních 5 cyklů.</String>
+    <String identifier="SW96.Comment">Obsahuje příkaz a / nebo diagnostiku pro funkci ukládání / obnovení aplikačního programu (podrobnosti najdete v online nápovědě)</String>
+    <String identifier="SW103.Comment">Konfigurace pro použití protokolu ASCII portu 1, když je bit% S103 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW104.Comment">Konfigurace pro použití protokolu ASCII portu 2, když je bit% S104 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW105.Comment">Konfigurace pro použití protokolu ASCII portu 1, když je bit% S103 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW106.Comment">Konfigurace pro použití protokolu ASCII portu 2, když je bit% S104 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW118.Comment">Zobrazuje status IO sběrnice. Pro více detailů navštivte online nápovědu.</String>
+    <String identifier="SW120.Comment">Zobrazuje stav modulu rozšíření modulu I / O (podrobnosti naleznete v nápovědě online)</String>
+    <String identifier="SW121.Comment">Konfigurace pro použití velikosti rámce ASCII portu 1, když je bit% S103 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW122.Comment">Konfigurace pro použití velikosti rámce ASCII portu 2, když je bit% S104 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW128.Comment">Zobrazuje stavový kód kazety 1 (podrobnosti najdete v nápovědě online)</String>
+    <String identifier="SW129.Comment">Zobrazuje stavový kód kazety 2 (podrobnosti najdete v nápovědě online)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2000">
+    <String identifier="S28.Comment">Stav 1 tohoto bitu indikuje přetečení v paměti při správě řetězců.</String>
+    <String identifier="S90.Comment">Zálohování / obnovení hodnot do interní paměti (0, výchozí) nebo na SD kartu (1)</String>
+    <String identifier="S91.Comment">Nastavte tento bit na hodnotu 1 pro vymazání všech hodnot paměti nezávislé na napájení.</String>
+    <String identifier="S92.Comment">Nastavte hodnotu 1, pokud existují platné hodnoty paměti uložené v paměti nezávislé na napájení.</String>
+    <String identifier="S93.Comment">Nastavte tento bit na hodnotu 1 pro zálohování hodnot paměti nezávislé na napájení (% S90 = 0) nebo SD karty (% S90 = 1)</String>
+    <String identifier="S94.Comment">Uživatel nastaví tento bit na 1 pro obnovení dat z flash paměti (% S90 = 0) nebo SDcard (% S90 = 1)</String>
+    <String identifier="SW7.Comment">Tento word zobrazuje stav kontroleru. Další informace v manuálu.</String>
+    <String identifier="SW17.Comment">Výchozí status kontroleru, pro případ detekce chyby aritmetické operace ( operace s plovoucí řádovou čárkou). Další informace v manuálu.</String>
+    <String identifier="SW40.Comment">Zobrazuje průměrný čas události 0 µs za posledních 5 cyklů.</String>
+    <String identifier="SW41.Comment">Zobrazuje průměrný čas události 1 µs za posledních 5 cyklů.</String>
+    <String identifier="SW42.Comment">Zobrazuje průměrný čas události 2 µs za posledních 5 cyklů.</String>
+    <String identifier="SW43.Comment">Zobrazuje průměrný čas události 3 µs za posledních 5 cyklů.</String>
+    <String identifier="SW44.Comment">Zobrazuje průměrný čas události 4 µs za posledních 5 cyklů.</String>
+    <String identifier="SW45.Comment">Zobrazuje průměrný čas události 5 µs za posledních 5 cyklů.</String>
+    <String identifier="SW46.Comment">Zobrazuje průměrný čas události 6 µs za posledních 5 cyklů.</String>
+    <String identifier="SW47.Comment">Zobrazuje průměrný čas události 7 µs za posledních 5 cyklů.</String>
+    <String identifier="SW96.Comment">Obsahuje příkaz a / nebo diagnostiku pro funkci ukládání / obnovení aplikačního programu (podrobnosti najdete v online nápovědě)</String>
+    <String identifier="SW103.Comment">Konfigurace pro použití protokolu ASCII portu 1, když je bit% S103 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW104.Comment">Konfigurace pro použití protokolu ASCII portu 2, když je bit% S104 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW105.Comment">Konfigurace pro použití protokolu ASCII portu 1, když je bit% S103 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW106.Comment">Konfigurace pro použití protokolu ASCII portu 2, když je bit% S104 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW115.Comment">Sériové číslo kontroléru - část 1 (BCD)</String>
+    <String identifier="SW116.Comment">Sériové číslo kontroléru - část 2 (BCD)</String>
+    <String identifier="SW117.Comment">Sériové číslo kontroléru - část 3 (BCD)</String>
+    <String identifier="SW118.Comment">Zobrazuje status IO sběrnice. Pro více detailů navštivte online nápovědu.</String>
+    <String identifier="SW119.Comment">Označuje rozšiřující moduly nakonfigurované jako volitelné (podrobnosti naleznete v online nápovědě)</String>
+    <String identifier="SW120.Comment">Zobrazuje stav modulu rozšíření modulu I / O (podrobnosti naleznete v nápovědě online)</String>
+    <String identifier="SW121.Comment">Konfigurace pro použití velikosti rámce ASCII portu 1, když je bit% S103 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW122.Comment">Konfigurace pro použití velikosti rámce ASCII portu 2, když je bit% S104 nastaven na hodnotu 1 (podrobné informace naleznete v nápovědě online)</String>
+    <String identifier="SW128.Comment">Zobrazuje stavový kód kazety 1 (podrobnosti najdete v nápovědě online)</String>
+    <String identifier="SW129.Comment">Zobrazuje stavový kód kazety 2 (podrobnosti najdete v nápovědě online)</String>
+    <String identifier="SW140.Comment">Poslední erorr kód 1 kontroleru</String>
+    <String identifier="SW141.Comment">Poslední erorr kód 2 kontroleru</String>
+    <String identifier="SW142.Comment">Poslední erorr kód 3 kontroleru</String>
+    <String identifier="SW143.Comment">Počet položek v souboru PlcLog.csv</String>
+    <String identifier="SW147.Comment">Poskytuje stav operace zálohování / obnovení na / z karty SD</String>
+    <String identifier="SW148.Comment">Počet hodnot paměti pro zálohování / obnovení do / z trvalé paměti (% S90 = 0) nebo SD karty (% S90 = 1)</String>
+  </Content>
+
+  <Content key="#Prenaming_Modem">
+    <String condition="catalogVersion gte v1300" identifier="S105.Comment">Nastavte na 1, tento bit umožňuje inicializovat modem, viz také %SW167</String>
+    <String condition="catalogVersion gte v1200" identifier="SW167.Comment">Popisuje odpověď modemu na poslední příkaz init</String>
+  </Content>
+
+  <Content key="#Prenaming_Display">
+    <String condition="catalogVersion gte v1600" identifier="SW185.Comment">Obsahuje verzi vzdáleného grafického displeje</String>
+
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_Display_gte_v1200" condition="catalogVersion gte v1200"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_Display_gte_v1400" condition="catalogVersion gte v1400"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1200">
+    <String identifier="SW182.Comment">Stav připojení vzdálené grafické obrazovky</String>
+    <String identifier="SW183.Comment">Na vzdáleném grafickém zařízení byla zjištěno poslední chyba</String>
+  </Content>
+
+  <Content key="#Prenaming_Display_gte_v1400">
+    <String identifier="S122.Comment">Displej se automaticky přepne na stránku s upozorněním</String>
+    <String identifier="S123.Comment">Podsvícení displeje bude červené, pokud je aktivní chybové hlášení</String>
+    <String identifier="SW184.Comment">Obsahuje stránku zobrazení INDEX a umožňuje zvolit jinou stránku</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet">
+    <String identifier="SW62.Comment">Zobrazuje kód chyby Ethernet (0 Bez chyby, 1 Duplicitní IP, 2 Protokol DHCP, 3 Probíhající BOOTP, 4 Neplatné parametry, 5 Pevné IP v chodu, 6 Ethernet comunikace selhala)</String>
+    <String identifier="SW65.Comment">Obsahuje kód chyby EXCH3 pro řadiče Ethernet, podrobnosti naleznete v online nápovědě</String>
+    <String identifier="SW100.Comment">Stav post konfigurace portu Ethernet. Bity jsou nastaveny na hodnotu 1, pokud byla pro parametr použita post konfigurace</String>
+    <String identifier="SW168.Comment">Ukazuje počet používaných ethernetových připojení Modbus TCP serveru</String>
+    <String identifier="SW173.Comment">Počítá počet rámců přenášených Modbus TCP na Ethernetu</String>
+    <String identifier="SW177.Comment">Počítá počet rámců správně přijatých protokolem Modbus TCP na síti Ethernet</String>
+    <String identifier="SW181.Comment">Počítá počet rámců přijatých chybně Modbus TCP na Ethernetu</String>
+
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_Ethernet_lt_v1800" condition="catalogVersion lt v1800"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_Ethernet_gte_v1800" condition="catalogVersion gte v1800"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_Ethernet_gte_v2000" condition="catalogVersion gte v2000"/>
+
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_lt_v1800">
+    <String identifier="SW33.Comment">Obsahuje druhou část CC.DD IP adresy (AA.BB.CC.DD)</String>
+    <String identifier="SW34.Comment">Obsahuje první část AA.BB IP adresy (AA.BB.CC.DD)</String>
+    <String identifier="SW35.Comment">Obsahuje druhou část CC.DD masky podsítě (AA.BB.CC.DD)</String>
+    <String identifier="SW36.Comment">Obsahuje první část AA.BB masky podsítě (AA.BB.CC.DD)</String>
+    <String identifier="SW37.Comment">Obsahuje druhou část CC.DD Brány (AA.BB.CC.DD)</String>
+    <String identifier="SW38.Comment">Obsahuje první část AA.BB Brány (AA.BB.CC.DD)</String>
+    <String identifier="SW107.Comment">Obsahuje první část AA.BB MAC adresy (AA:BB:CC:DD:EE:FF)</String>
+    <String identifier="SW108.Comment">Obsahuje druhou část CC:DD MAC adresy (AA:BB:CC:DD:EE:FF)</String>
+    <String identifier="SW109.Comment">Obsahuje třetí část EE.FF MAC adresy (AA:BB:CC:DD:EE:FF)</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v1800">
+    <String identifier="SW33.Comment">Obsahuje druhou část CC.DD IP adresy (AA.BB.CC.DD)</String>
+    <String identifier="SW34.Comment">Obsahuje první část AA.BB IP adresy (AA.BB.CC.DD)</String>
+    <String identifier="SW35.Comment">Obsahuje druhou část CC.DD masky podsítě (AA.BB.CC.DD)</String>
+    <String identifier="SW36.Comment">Obsahuje první část AA.BB masky podsítě (AA.BB.CC.DD)</String>
+    <String identifier="SW37.Comment">Obsahuje druhou část CC.DD Brány (AA.BB.CC.DD)</String>
+    <String identifier="SW38.Comment">Obsahuje první část AA.BB Brány (AA.BB.CC.DD)</String>
+    <String identifier="SW107.Comment">Obsahuje první část AA.BB MAC adresy (AA:BB:CC:DD:EE:FF)</String>
+    <String identifier="SW108.Comment">Obsahuje druhou část CC:DD MAC adresy (AA:BB:CC:DD:EE:FF)</String>
+    <String identifier="SW109.Comment">Obsahuje třetí část EE.FF MAC adresy (AA:BB:CC:DD:EE:FF)</String>
+  </Content>
+
+  <Content key="#Prenaming_Ethernet_gte_v2000">
+    <String identifier="S112.Comment">Nastavte 1 pro reset IOScanneru na Ethernetu</String>
+    <String identifier="S115.Comment">Nastavte 1 pro vypnutí IOScanneru na Ethernetu</String>
+    <String identifier="SW212.Comment">Obsahuje stav IOScanneru na Ethernetu</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping">
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400" condition="catalogVersion gte v1400"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000" condition="catalogVersion gte v1400" conditionEnd="catalogVersion lt v2000"/>
+    <xi:include href="_M221_cs-CZ.xml" key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000" condition="catalogVersion gte v2000"/>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400">
+    <String identifier="SW188.Comment">Počítá počet rámců přenášených tabulkou mapování Modbus</String>
+    <String identifier="SW189.Comment">Počítá počet rámců správně přijatých tabulkou mapování Modbus</String>
+    <String identifier="SW202.Comment">Přečte vstupní číslo shromáždění vstupu</String>
+    <String identifier="SW203.Comment">Přečte vstupní velikost shromáždění</String>
+    <String identifier="SW204.Comment">Přečte výstupní číslo shromáždění výstupu</String>
+    <String identifier="SW205.Comment">Přečte výstupní velikost shromáždění</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v1400_lt_v2000">
+    <String identifier="SW190.Comment">Počítá počet odeslaných rámců na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW191.Comment">Počítá počet odeslaných rámců na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW192.Comment">Počítá počet přijatých rámců na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW193.Comment">Počítá počet přijatých rámců na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW194.Comment">Počítá počet nespojených zpráv přijatých na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW195.Comment">Počítá počet nespojených zpráv přijatých na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW196.Comment">Počítá počet neplatných zpráv přijatých na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW197.Comment">Počítá počet neplatných zpráv přijatých na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW198.Comment">Počítá počet požadavků třídy 3 přijatých správně na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW199.Comment">Počítá počet požadavků třídy 3 přijatých správně na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW200.Comment">Počítá počet požadavků třídy 3 přijatých nesprávně na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW201.Comment">Počítá počet požadavků třídy 3 přijatých nesprávně na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW206.Comment">Počítá počet překročení časového limitu na EtherNet/IP</String>
+    <String identifier="SW207.Comment">Čte EtherNet/IP značku posledního I/O paketu. Hodnoty 0 - nečinost , 1 - běh , 2 - chyba.</String>
+  </Content>
+
+  <Content key="#Prenaming_EthernetIp_ModbusMapping_gte_v2000">
+    <String identifier="SW190.Comment">Počítá počet odeslaných rámců na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW191.Comment">Počítá počet odeslaných rámců na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW192.Comment">Počítá počet přijatých rámců na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW193.Comment">Počítá počet přijatých rámců na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW194.Comment">Počítá počet nespojených zpráv přijatých na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW195.Comment">Počítá počet nespojených zpráv přijatých na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW196.Comment">Počítá počet neplatných zpráv přijatých na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW197.Comment">Počítá počet neplatných zpráv přijatých na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW198.Comment">Počítá počet požadavků třídy 3 přijatých správně na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW199.Comment">Počítá počet požadavků třídy 3 přijatých správně na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW200.Comment">Počítá počet požadavků třídy 3 přijatých nesprávně na EtherNet / IP (1. slovo)</String>
+    <String identifier="SW201.Comment">Počítá počet požadavků třídy 3 přijatých nesprávně na EtherNet / IP (2. slovo)</String>
+    <String identifier="SW206.Comment">Počítá počet překročení časového limitu na EtherNet/IP</String>
+    <String identifier="SW207.Comment">Čte EtherNet/IP značku posledního I/O paketu. Hodnoty 0 - nečinost , 1 - běh , 2 - chyba.</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2800">
+    <String condition="catalogVersion gte v2800" identifier="S101.Comment">Nastavte na hodnotu 1, adresu lze změnit změnou hodnot %SW101 (port 1) nebo %SW102 (port 2) nebo %SW111 (port 5)</String>
+  </Content>
+
+  <Content key="#Prenaming_gte_v2900">
+    <String condition="catalogVersion gte v2900" identifier="S32.Comment">Auf 1 gesetzt, ermöglicht das Zurücksetzen des Geräts über das CIP-Identitätsobjekt im Ethernet/IP-Protokoll.</String>
+  </Content>
+</Content>

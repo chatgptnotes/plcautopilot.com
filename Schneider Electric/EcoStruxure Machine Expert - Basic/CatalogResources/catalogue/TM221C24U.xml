@@ -1,0 +1,858 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription
+	xmlns="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.3s-software.com/schemas/DeviceDescription-1.0.xsd DeviceDescription-1.0.xsd http://www.schneider-electric.com/schemas/OEMcCustom.xsd OEMcCustom.xsd "
+	xmlns:se="http://www.schneider-electric.com/schemas/OEMcCustom.xsd"
+  xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Types namespace="localTypes">
+    <EnumType basetype="std:BYTE" name="TM221C24U.EnumType">
+      <Enum identifier="Type_0_10V">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">0 - 10 V</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="TM221C24U.EnumScope">
+      <Enum identifier="Scope_Normal">
+        <Value>0</Value>
+        <VisibleName name="local:dummy">Normal</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="TM221C24U.InputParameter">
+      <Component identifier="type_enum" type="localTypes:TM221C24U.EnumType">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Type</VisibleName>
+        <Description name="localStrings:TM221C24U.InputParameter.TypeDescription">Range mode</Description>
+      </Component>
+      <Component identifier="scope_enum" type="localTypes:TM221C24U.EnumScope">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Scope</VisibleName>
+        <Description name="localStrings:TM221C24U.InputParameter.ScopeDescription">Unit</Description>
+      </Component>
+      <Component identifier="minValue" type="std:INT">
+        <Default>0</Default>
+        <VisibleName name="local:dummy">Minimum</VisibleName>
+        <Description name="localStrings:TM221C24U.InputParameter.MinimumDescription">Minimum value</Description>
+      </Component>
+      <Component identifier="maxValue" type="std:INT">
+        <Default>1000</Default>
+        <VisibleName name="local:dummy">Maximum</VisibleName>
+        <Description name="localStrings:TM221C24U.InputParameter.MaximumDescription">Maximum value</Description>
+      </Component>
+    </StructType>
+    <BitfieldType basetype="std:WORD" name="INPUTS_TM221C24U">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I0</VisibleName>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I1</VisibleName>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I2</VisibleName>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I3</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I4</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I5</VisibleName>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I6</VisibleName>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I7</VisibleName>
+      </Component>
+      <Component identifier="Bit8" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I8</VisibleName>
+      </Component>
+      <Component identifier="Bit9" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I9</VisibleName>
+      </Component>
+      <Component identifier="Bit10" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I10</VisibleName>
+      </Component>
+      <Component identifier="Bit11" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I11</VisibleName>
+      </Component>
+      <Component identifier="Bit12" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I12</VisibleName>
+      </Component>
+      <Component identifier="Bit13" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">I13</VisibleName>
+      </Component>
+    </BitfieldType>
+    <BitfieldType basetype="std:BYTE" name="OUTPUTS_TM221C24U">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q0</VisibleName>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q1</VisibleName>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q2</VisibleName>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q3</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q4</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q5</VisibleName>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q6</VisibleName>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q7</VisibleName>
+      </Component>
+      <Component identifier="Bit8" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q8</VisibleName>
+      </Component>
+      <Component identifier="Bit9" type="std:BOOL">
+        <Default />
+        <VisibleName name="local:dummy">Q9</VisibleName>
+      </Component>
+    </BitfieldType>
+    <!-- Ethernet -->
+    <!--EnumType basetype="std:BYTE" name="IPConfigModeType">
+			<Enum identifier="FIXED">
+				<Value>0</Value>
+				<VisibleName name="localStrings:IPConfigModeType.FIXED">FIXED</VisibleName>
+			</Enum>
+			<Enum identifier="BOOTP">
+				<Value>1</Value>
+				<VisibleName name="localStrings:IPConfigModeType.BOOTP">BOOTP</VisibleName>
+			</Enum>
+			<Enum identifier="DHCP">
+				<Value>2</Value>
+				<VisibleName name="localStrings:IPConfigModeType.DHCP">DHCP</VisibleName>
+			</Enum>
+		</EnumType-->
+    <!--EnumType basetype="std:BYTE" name="TransferRateType">
+			<Enum identifier="Auto">
+				<Value>0</Value>
+				<VisibleName name="localStrings:TransferRateType.Auto">Auto</VisibleName>
+			</Enum>
+			<Enum identifier="e10MBit_full">
+				<Value>1</Value>
+				<VisibleName name="localStrings:10MBit_full">10 MBit full</VisibleName>
+			</Enum>
+			<Enum identifier="e10MBit_half">
+				<Value>2</Value>
+				<VisibleName name="localStrings:10MBit_half">10 MBit half</VisibleName>
+			</Enum>
+			<Enum identifier="e100MBit_full">
+				<Value>3</Value>
+				<VisibleName name="localStrings:100MBit_full">100 MBit full</VisibleName>
+			</Enum>
+			<Enum identifier="e100MBit_half">
+				<Value>4</Value>
+				<VisibleName name="localStrings:100MBit_half">100 MBit half</VisibleName>
+			</Enum>
+		</EnumType-->
+    <!--SERIAL BUS-->
+    <EnumType basetype="std:DWORD" name="SerialBus.EnumBauds">
+      <Enum identifier="E_1200">
+        <Value>1200</Value>
+        <VisibleName name="localStrings:Name">1200</VisibleName>
+      </Enum>
+      <Enum identifier="E_2400">
+        <Value>2400</Value>
+        <VisibleName name="localStrings:Name">2400</VisibleName>
+      </Enum>
+      <Enum identifier="E_4800">
+        <Value>4800</Value>
+        <VisibleName name="localStrings:Name">4800</VisibleName>
+      </Enum>
+      <Enum identifier="E_9600">
+        <Value>9600</Value>
+        <VisibleName name="localStrings:Name">9600</VisibleName>
+      </Enum>
+      <Enum identifier="E_19200">
+        <Value>19200</Value>
+        <VisibleName name="localStrings:Name">19200</VisibleName>
+      </Enum>
+      <Enum identifier="E_38400">
+        <Value>38400</Value>
+        <VisibleName name="localStrings:Name">38400</VisibleName>
+      </Enum>
+      <Enum identifier="E_57600">
+        <Value>57600</Value>
+        <VisibleName name="localStrings:Name">57600</VisibleName>
+      </Enum>
+      <Enum identifier="E_115200">
+        <Value>115200</Value>
+        <VisibleName name="localStrings:Name">115200</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="SerialBus.EnumData">
+      <Enum identifier="Data_7">
+        <Value>7</Value>
+        <VisibleName name="localStrings:SerialBus.EnumData.DataSeven">7</VisibleName>
+      </Enum>
+      <Enum identifier="Data_8">
+        <Value>8</Value>
+        <VisibleName name="localStrings:SerialBus.EnumData.DataEight">8</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="SerialBus.EnumParity">
+      <Enum identifier="None">
+        <Value>0</Value>
+        <VisibleName name="localStrings:SerialBus.EnumParity.None">None</VisibleName>
+      </Enum>
+      <Enum identifier="Odd">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.EnumParity.Odd">Odd</VisibleName>
+      </Enum>
+      <Enum identifier="Even">
+        <Value>2</Value>
+        <VisibleName name="localStrings:SerialBus.EnumParity.Even">Even</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="SerialBus.Rs485">
+      <Enum identifier="RS232">
+        <Value>0</Value>
+        <VisibleName name="localStrings:SerialBus.Rs485.rs232">RS232</VisibleName>
+      </Enum>
+      <Enum identifier="RS485">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.Rs485.rs485">RS485</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="SerialBus.ModPol">
+      <Enum identifier="No">
+        <Value>0</Value>
+        <VisibleName name="localStrings:SerialBus.ModPol.no">No</VisibleName>
+      </Enum>
+    </EnumType>
+    <EnumType basetype="std:BYTE" name="SerialBus.EnumStopBit">
+      <Enum identifier="StopBit_1">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.EnumStopBit.StopBit_1">1</VisibleName>
+      </Enum>
+      <Enum identifier="StopBit_2">
+        <Value>2</Value>
+        <VisibleName name="localStrings:SerialBus.EnumStopBit.StopBit_2">2</VisibleName>
+      </Enum>
+    </EnumType>
+    <StructType name="SerialBus">
+      <Component identifier="Bauds" type="localTypes:SerialBus.EnumBauds">
+        <Default>19200</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Baudrate">Baudrate</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Baudrate">Baud rate</Description>
+        <Custom>
+          <se:LateConfiguration>Serial Line Baud Rate in bit/s</se:LateConfiguration>
+        </Custom>
+      </Component>
+      <!--Parity : 0, 1, 2-->
+      <Component identifier="Parity" type="localTypes:SerialBus.EnumParity">
+        <Default>2</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Parity">Parity</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Parity">Parity</Description>
+        <Custom>
+          <se:LateConfiguration>Serial Line Parity (0=None, 1=Odd, 2=Even)</se:LateConfiguration>
+        </Custom>
+      </Component>
+      <!--rs485 : 232, 485-->
+      <Component identifier="RSprotocol" type="localTypes:SerialBus.Rs485">
+        <Default>1</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Rs485">Medium</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Rs485">Physical medium</Description>
+      </Component>
+      <!--ModPol : No, Yes-->
+      <Component identifier="ModPol" type="localTypes:SerialBus.ModPol">
+        <Default>0</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.ModPol">Polarization</VisibleName>
+        <Description name="localStrings:SerialBus.Description.ModPol">Polarization and termination resistors</Description>
+      </Component>
+      <Component identifier="DataFormat" type="localTypes:SerialBus.EnumData">
+        <Default>8</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Data">Data bits</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Data">Data bits</Description>
+        <Custom>
+          <se:LateConfiguration>Serial Line Data bits (7 or 8)</se:LateConfiguration>
+        </Custom>
+      </Component>
+      <!--Stop : 1, 2-->
+      <Component identifier="StopBit" type="localTypes:SerialBus.EnumStopBit">
+        <Default>1</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.StopBit">Stop bits</VisibleName>
+        <Description name="localStrings:SerialBus.Description.StopBit">Stop bits</Description>
+        <Custom>
+          <se:LateConfiguration>Serial Line Stop bits (1 or 2)</se:LateConfiguration>
+        </Custom>
+      </Component>
+    </StructType>
+  </Types>
+  <Strings namespace="localStrings">
+    <Language lang="en-GB">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (screw)
+14 digital inputs, 10 sink transistor outputs (0,5 A), 2 analog inputs, 1 serial line port, 24 Vdc power supply controller with removable terminal blocks.</String>
+      <String identifier="TM221C24U.Expansion">Expansion Bus</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="TerminalBlockKey">screw</String>
+      <String identifier="FormatKey">Brick</String>
+      <String identifier="InputKey">14</String>
+      <String identifier="OutputKey">10 sink transistors</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_en-GB.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_en-GB.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_en-GB.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="fr-FR">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (vis)
+Contrôleur compact 24 VCC à 14 entrées numériques, 10 sorties transistor à logique négative (0,5 A), 2 entrées analogiques, 1 port de ligne série, avec borniers amovibles.</String>
+      <String identifier="TM221C24U.Expansion">Bus d&apos;extension</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="TerminalBlockKey">screw</String>
+      <String identifier="FormatKey">Brick</String>
+      <String identifier="InputKey">14</String>
+      <String identifier="OutputKey">10 transistors log. nég.</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 VCC</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_fr-FR.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_fr-FR.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_fr-FR.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="de-DE">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (Schraub)
+14 Digitaleingänge, 10 Strom aufnehmende Transistorausgänge (0,5 A), 2 Analogeingänge, 1 serieller Port, kompakte Steuerung (24-VDC) mit abnehmbaren Klemmenleisten.</String>
+      <String identifier="TM221C24U.Expansion">Erweiterungsbus</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="OutputKey">10 Transistoren (Senke)</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 VDC</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_de-DE.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_de-DE.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_de-DE.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="es-ES">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (tornillo)
+14 entradas digitales, 10 salidas de transistor de común negativo (0,5 A), 2 entradas analógicas, 1 puerto de línea serie, controlador compacto de 24 V CC con bloques de terminales extraíbles.</String>
+      <String identifier="TM221C24U.Expansion">Bus de expansión</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="OutputKey">10 común negativo de transistor</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 V CC</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_es-ES.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_es-ES.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_es-ES.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="it-IT">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (a vite)
+14 ingressi digitali, 10 uscite transistor sink (0,5 A), 2 ingressi analogici, 1 porta seriale, controller compatto a 24 Vdc con morsettiera rimovibile.</String>
+      <String identifier="TM221C24U.Expansion">Bus espansione</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="OutputKey">10 transistor sink</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_it-IT.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_it-IT.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_it-IT.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="zh-CHS">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U（螺钉）
+14 路数字量输入，10 漏极路晶体管输出 (0.5 A)，2 路模拟量输入，1 个串行线路端口，带有可插拔端子块的 24 Vdc 一体型控制器。</String>
+      <String identifier="TM221C24U.Expansion">扩展总线</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="OutputKey">10 漏极晶体管</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_zh-CHS.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_zh-CHS.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_zh-CHS.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="pt-BR">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (parafuso)
+14 entradas digitais, 10 saídas de transistor coletor (0,5 A), 2 entradas analógicas, 1 porta de linha serial, controle compacto 24 Vdc com blocos de terminal removíveis.</String>
+      <String identifier="TM221C24U.Expansion">Expansion Bus</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="TerminalBlockKey">screw</String>
+      <String identifier="FormatKey">Brick</String>
+      <String identifier="InputKey">14</String>
+      <String identifier="OutputKey">10 transistores de coletor</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_pt-BR.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_pt-BR.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_pt-BR.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="tr-TR">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (vida)
+14 dijital giriş, 10 alıcı transistör çıkışları (0,5 A), 2 analog giriş, 1 seri hat bağlantı noktası, çıkarılabilir terminal blokları olan 24 Vdc kompakt denetleyici.</String>
+      <String identifier="TM221C24U.Expansion">Expansion Bus</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="TerminalBlockKey">screw</String>
+      <String identifier="FormatKey">Brick</String>
+      <String identifier="InputKey">14</String>
+      <String identifier="OutputKey">10 transistör alıcı</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_tr-TR.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_tr-TR.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_tr-TR.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="cs-CZ">
+      <String identifier="TM221C24U.DeviceDescription">TM221C24U (šroubkový)
+Kontrolér se 14 digitálními vstupy, 10 sink tranzistorovými výstupy (0.5A), 2 analogové vstupy, 1 port sériové linky, 24 Vdc napájení, odnímatelné svorkovnice.</String>
+      <String identifier="TM221C24U.Expansion">Rozšižující sběrnice</String>
+      <String identifier="TM221C24U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C24U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C24U.ParameterSectionNamePTO">PTO_FUNC</String>
+      <String identifier="TerminalBlockKey">screw</String>
+      <String identifier="FormatKey">Brick</String>
+      <String identifier="InputKey">14</String>
+      <String identifier="OutputKey">10 sink tranzistorů</String>
+      <String identifier="ModuleTypeKey">Kompaktní 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+      <xi:include build="1" href="_M221_cs-CZ.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_cs-CZ.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_cs-CZ.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="ja-JP">
+      <xi:include build="1" href="_Catalog_ja-JP.xml" key="#TM221C24U.xml" />
+      <xi:include build="1" href="_M221_ja-JP.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_ja-JP.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_ja-JP.xml" key="#Prenaming_Display" />
+    </Language>
+    <Language lang="el-GR">
+      <xi:include build="1" href="_Catalog_el-GR.xml" key="#TM221C24U.xml" />
+      <xi:include build="1" href="_M221_el-GR.xml" key="#Prenaming" />
+      <xi:include build="1" href="_M221_el-GR.xml" key="#Prenaming_Modem" />
+      <xi:include build="1" href="_M221_el-GR.xml" key="#Prenaming_Display" />
+    </Language>
+  </Strings>
+  <Files namespace="localFiles">
+    <Language lang="en-GB">
+      <File fileref="local" identifier="TM221C24U">
+        <LocalFile>Images/TM221C24U.JPG</LocalFile>
+      </File>
+    </Language>
+  </Files>
+  <Device>
+    <DeviceIdentification>
+      <Type>4096</Type>
+      <!--Schneider Id:"101a" - M2xx Id:"07xx"-->
+      <Id>101a 0798</Id>
+      <Version>2.0.40.16</Version>
+    </DeviceIdentification>
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">TM221C24U</Name>
+      <Description name="localStrings:TM221C24U.DeviceDescription">TM221C24U description... bis</Description>
+      <Vendor name="localStrings:DeviceInfo.Vendor">Schneider Electric</Vendor>
+      <OrderNumber>TM221C24U</OrderNumber>
+      <Image name="localFiles:TM221C24U" />
+      <DefaultInstanceName name="localStrings:DeviceInfo.DefaultInstanceName">MyController</DefaultInstanceName>
+      <Family>4122:1007</Family>
+      <Category>4096</Category>
+      <!--AdditionalFiles/-->
+      <Custom>
+        <Catalog name="Controllers">
+          <Section name="Logic Controller">
+            <Category name="M221">
+            </Category>
+          </Section>
+        </Catalog>
+      </Custom>
+    </DeviceInfo>
+    <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45000" role="parent" explicit="false">
+      <Fixed>
+        <Module basename="HSC">
+          <LocalModuleId>HSC_FUNC</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="PTO">
+          <LocalModuleId>PTO_FUNC</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="DI">
+          <LocalModuleId>DIG_IN</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="DQ">
+          <LocalModuleId>DIG_OUT</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="AI">
+          <LocalModuleId>ANA_IN</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="IO_Bus">
+          <LocalModuleId>IO_EXPANSION_BUS</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="Serial_Line_1">
+          <LocalModuleId>SERIAL_LINE</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Fixed>
+        <Module basename="Cartridge_1">
+          <LocalModuleId>CARTRIDGE</LocalModuleId>
+        </Module>
+      </Fixed>
+      <Appearance xmlns="">
+        <!--ShowEditor>CommunicationPage</ShowEditor-->
+        <!--ShowEditor>ApplicationsPage</ShowEditor-->
+        <!--ShowEditor>UpDownloadPage</ShowEditor-->
+        <!--ShowEditor>LoggerPage</ShowEditor-->
+        <!--ShowEditor>PLCOptionsPage</ShowEditor-->
+        <!--ShowEditor>MSDPLCOptionsPage</ShowEditor-->
+        <!--ShowEditor>UserManagementPage</ShowEditor-->
+        <!--ShowEditor>MxxxServiceEditor</ShowEditor-->
+        <!--ShowEditor>IOMappingEditor</ShowEditor-->
+        <!--ShowEditor>ParameterEditor</ShowEditor-->
+        <!--ShowEditor>StatusPage</ShowEditor-->
+        <ShowEditor>DeviceInformation</ShowEditor>
+      </Appearance>
+    </Connector>
+    <Functional>
+      <ChildObject>
+        <!-- PLUG-IN: SoM-One integration -->
+        <ObjectGuid>13A6D404-FABD-49e9-8D16-23C26E3A7DF4</ObjectGuid>
+        <ObjectName>SoMachine Basic Application</ObjectName>
+      </ChildObject>
+      <Attribute name="SoMachine:SoMBasic_Type">TM221C24U</Attribute>
+    </Functional>
+    <ExtendedSettings>
+      <xi:include build="0" href="_M221_Base.xml" key="#Extended_Settings" />
+    </ExtendedSettings>
+    <Custom>
+      <!-- WARNING !!! -->
+      <!-- If the following max value change, check max value in "object and attribut definition" part in sqplcdef.hpp => if needed update value -->
+      <!-- example of object definition in sqplcdef.hpp: #define MAX_S		160				// maximal number of System Bits (%S) objects-->
+      <se:Configuration>
+        <xi:include build="1" href="_M221_Base.xml" key="#Configuration" />
+        <xi:include build="1" href="_M221_Base.xml" key="#Configuration_2_PulseTrainOutput_C24" />
+        <xi:include build="1" href="_M221_Base.xml" key="#PTO_TechnicalConfiguration" />
+        <!--OK-->
+        <se:NumRelays>0</se:NumRelays>
+        <!--OK-->
+        <se:NumTransistors>10</se:NumTransistors>
+        <!--OK-->
+        <se:DeviceType>Brick</se:DeviceType>
+        <xi:include build="1" href="_M221_Base.xml" key="#Configuration_No_EthernetIP" />
+        <xi:include build="1" href="_M221_Base.xml" key="#Configuration_Slot_C-24_IO" />
+      </se:Configuration>
+      <xi:include build="1" href="_M221_Base.xml" key="#Custom" />
+      <!-- Defines between which catalog version, this Cpu can be used -->
+      <Version min="1.6.0.0" />
+    </Custom>
+  </Device>
+  <Modules>
+    <Module>
+      <ModuleId>HSC_FUNC</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:HSC_FUNC.DeviceInfo.Name">High Speed Counter</Name>
+        <Description name="localStrings:HSC_FUNC.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:DIG_HSC" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45001" role="child" explicit="false">
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <ParameterSection>
+            <Name name="localStrings:TM221C24U.ParameterSectionNameHSC">HSC</Name>
+            <Parameter ParameterId="40000" type="localTypes:TM221C24U.HSC">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="localStrings:ParameterName">HSC00</Name>
+            </Parameter>
+            <Parameter ParameterId="40001" type="localTypes:TM221C24U.HSC">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="localStrings:ParameterName">HSC01</Name>
+            </Parameter>
+            <Parameter condition="catalogVersion gte v1200" ParameterId="40002" type="localTypes:TM221C24U.HSC">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="localStrings:ParameterName">HSC02</Name>
+            </Parameter>
+            <Parameter condition="catalogVersion gte v1200" ParameterId="40003" type="localTypes:TM221C24U.HSC">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="localStrings:ParameterName">HSC03</Name>
+            </Parameter>
+          </ParameterSection>
+        </HostParameterSet>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>PTO_FUNC</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:PTO_FUNC.DeviceInfo.Name">Pulse Train Output</Name>
+        <Description name="localStrings:PTO_FUNC.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:DIG_PTO" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45002" role="child" explicit="false">
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <ParameterSection>
+            <Name name="localStrings:TM221C24U.ParameterSectionNamePTO">PTO_FUNC</Name>
+            <Parameter ParameterId="40000" type="localTypes:TM221C24U.PTO">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="localStrings:ParameterName">PTO00</Name>
+            </Parameter>
+            <Parameter ParameterId="40001" type="localTypes:TM221C24U.PTO">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="localStrings:ParameterName">PTO01</Name>
+            </Parameter>
+          </ParameterSection>
+        </HostParameterSet>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>DIG_IN</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:DIG_IN.DeviceInfo.Name">Digital Inputs</Name>
+        <Description name="localStrings:DIG_IN.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:DIG_IN" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45003" role="child" explicit="false">
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <ParameterSection>
+            <Name name="localStrings:TM221C24U.ParameterSectionNameInputs">Inputs</Name>
+            <Parameter ParameterId="34560" type="localTypes:INPUTS_TM221C24U">
+              <Attributes channel="input" alwaysmapping="true" />
+              <Default />
+              <Name name="localStrings:ParameterName">IW0</Name>
+            </Parameter>
+          </ParameterSection>
+        </HostParameterSet>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>DIG_OUT</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:DIG_OUT.DeviceInfo.Name">Digital Outputs</Name>
+        <Description name="localStrings:DIG_OUT.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:DIG_OUT" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45004" role="child" explicit="false">
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <ParameterSection>
+            <Name name="localStrings:TM221C24U.ParameterSectionNameOutputs">Outputs</Name>
+            <Parameter ParameterId="34592" type="localTypes:OUTPUTS_TM221C24U">
+              <Attributes channel="output" alwaysmapping="true" />
+              <Default />
+              <Name name="localStrings:ParameterName">QB0</Name>
+            </Parameter>
+          </ParameterSection>
+        </HostParameterSet>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>ANA_IN</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:ANA_IN.DeviceInfo.Name">Analog input</Name>
+        <Description name="localStrings:ANA_IN.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:ANA_IN" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="51216" role="child" alwaysmapping="true">
+        <InterfaceName name="localStrings:TM2AMI2HT.Expansion" />
+        <Slot allowEmpty="true" count="1" />
+        <HostParameterSet>
+          <ParameterSection>
+            <Name name="localStrings:TM221C24U.ParameterSectionNameInputs">Inputs</Name>
+            <!--INPUTS-->
+            <Parameter ParameterId="36864" type="std:INT">
+              <Attributes channel="input" alwaysmapping="true" />
+              <Default />
+              <Name name="local:dummy">IW0</Name>
+            </Parameter>
+            <Parameter ParameterId="36865" type="std:INT">
+              <Attributes channel="input" alwaysmapping="true" />
+              <Default />
+              <Name name="local:dummy">IW1</Name>
+            </Parameter>
+            <!--PARAMETERS-->
+            <Parameter ParameterId="36928" type="localTypes:TM221C24U.InputParameter">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="local:dummy">IW0</Name>
+            </Parameter>
+            <Parameter ParameterId="36929" type="localTypes:TM221C24U.InputParameter">
+              <Attributes channel="none" onlineaccess="read" />
+              <Default />
+              <Name name="local:dummy">IW1</Name>
+            </Parameter>
+          </ParameterSection>
+        </HostParameterSet>
+        <Custom>
+          <se:ConfigurationMapping>
+            <se:Module name="" default="true">
+              <se:Type name="Type_0_10V" default="true">
+                <se:Scope name="Scope_Normal" default="true" minimum="0" maximum="1000" changeable="false" />
+              </se:Type>
+            </se:Module>
+          </se:ConfigurationMapping>
+          <se:ConfForSpecialModule>
+            <se:OperationModeSetting param1="Type_NotUsed" />
+          </se:ConfForSpecialModule>
+        </Custom>
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>IO_EXPANSION_BUS</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:CANOpen.DeviceInfo.Name">IO bus - TM3</Name>
+        <Description name="localStrings:CANOpen.DeviceInfo.Description">...</Description>
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:IO_EXPANSION_BUS" />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45005" role="child" explicit="false">
+        <InterfaceName name="local:dummy" />
+        <Slot allowEmpty="true" count="1" />
+        <Custom>
+          <se:PowerCapacity voltage="5V">520</se:PowerCapacity>
+          <se:PowerCapacity voltage="24V">200</se:PowerCapacity>
+        </Custom>
+        <DriverInfo needsBusCycle="true" />
+      </Connector>
+      <Connector connectorId="2" hostpath="-1" interface="MSD.TM2-3.ExpansionBus" moduleType="40000" role="parent" explicit="false">
+        <InterfaceName name="localStrings:TM221C24U.Expansion" />
+        <Var max="7" />
+        <HostParameterSet />
+        <xi:include build="1" href="_M221_Base.xml" key="#Modules" />
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>SERIAL_LINE</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:CANOpen.DeviceInfo.Name">Serial line</Name>
+        <Description name="localStrings:CANOpen.DeviceInfo.Description">...</Description>
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon />
+      </DeviceInfo>
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45008" role="child" explicit="false">
+        <Slot allowEmpty="true" count="1" />
+      </Connector>
+      <Connector connectorId="2" hostpath="-1" interface="Schneider.Mxxx.Serial1" moduleType="40101" role="parent" explicit="false">
+        <InterfaceName name="localStrings:SerialBus.Serial">Serial Line</InterfaceName>
+        <Var max="1" />
+        <HostParameterSet>
+          <!--PROTOCOL-->
+          <Parameter ParameterId="10000" type="localTypes:SerialBus">
+            <Attributes channel="none" />
+            <Default>
+              <Element name="Bauds">115200</Element>
+              <Element name="Parity">None</Element>
+            </Default>
+            <Name name="localStrings:SerialBus.ParameterName">Serial Line Configuration</Name>
+          </Parameter>
+        </HostParameterSet>
+        <Custom>
+          <!-- SoMachine - Network manager -->
+          <se:DefaultSerialManager deviceType="41102" deviceId="101a 0005" version="2.0.1.9" />
+        </Custom>
+        <AdditionalInterface interface="Schneider.Serial.IOScanner" />
+      </Connector>
+    </Module>
+    <Module>
+      <ModuleId>CARTRIDGE</ModuleId>
+      <DeviceInfo>
+        <Name name="local:dummy">Cartridge</Name>
+        <Description name="local:dummy" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+        <OrderNumber>-</OrderNumber>
+        <Image />
+        <Icon name="localFiles:dummy" />
+      </DeviceInfo>
+      <Connector connectorId="2" hostpath="-1" interface="MSD.TM2-3.ExpansionBus" moduleType="40000" role="parent" explicit="false">
+        <InterfaceName name="local:dummy" />
+        <Var max="1" />
+        <HostParameterSet />
+        <xi:include build="1" href="_M221_Base.xml" key="#Cartridges" />
+      </Connector>
+    </Module>
+  </Modules>
+</DeviceDescription>

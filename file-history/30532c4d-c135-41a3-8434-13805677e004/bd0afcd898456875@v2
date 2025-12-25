@@ -1,0 +1,261 @@
+/**
+ * Brain Type Classifier
+ * Classifies brain type (1-6) based on the 7 parameter scores
+ * Based on the NeuroSense report brain type patterns
+ */
+
+const BRAIN_TYPES = {
+  1: {
+    type: 1,
+    name: 'Relaxed and Balanced Brain',
+    description: 'Your brain shows healthy alpha activity and balanced regulation. You likely experience good mood stability, calm focus, and effective stress management.',
+    characteristics: [
+      'High alpha peak frequency (> 10 Hz)',
+      'Good alpha/beta ratio (relaxation capability)',
+      'Low arousal score (< 1)',
+      'Balanced frontal asymmetry',
+      'Good theta/beta ratio (< 1.5)'
+    ],
+    strengths: [
+      'Excellent stress management',
+      'Calm and focused mental state',
+      'Good emotional regulation',
+      'Healthy sleep patterns'
+    ],
+    recommendations: {
+      nootropics: ['Rhodiola Rosea', 'L-Theanine', 'Ashwagandha'],
+      supplements: ['Omega-3 Fatty Acids', 'Vitamin B Complex', 'Magnesium'],
+      breathing: ['Diaphragmatic Breathing', 'Box Breathing'],
+      meditation: ['Mindfulness Meditation', 'Body Scan'],
+      exercises: ['Yoga', 'Walking', 'Swimming']
+    }
+  },
+  2: {
+    type: 2,
+    name: 'Anxious and Overstimulated Brain',
+    description: 'Your brain shows elevated high beta activity indicating heightened arousal and potential anxiety. Focus on calming practices and stress reduction.',
+    characteristics: [
+      'Elevated high beta/beta ratio (> 1)',
+      'Low relaxation score',
+      'Possible frontal alpha asymmetry',
+      'Reduced alpha modulation',
+      'Heightened arousal'
+    ],
+    strengths: [
+      'High alertness',
+      'Quick response time',
+      'Detail-oriented thinking'
+    ],
+    recommendations: {
+      nootropics: ['Ashwagandha', 'L-Theanine', 'GABA'],
+      supplements: ['Magnesium Glycinate', 'Omega-3', 'B-Complex', 'Vitamin D'],
+      breathing: ['4-7-8 Breathing', 'Alternate Nasal Breathing', 'Cyclic Sighing'],
+      meditation: ['Progressive Muscle Relaxation', 'Guided Imagery', 'Loving-Kindness Meditation'],
+      exercises: ['Gentle Yoga', 'Tai Chi', 'Walking in Nature']
+    }
+  },
+  3: {
+    type: 3,
+    name: 'Underactive Brain (Lethargic/Depressed)',
+    description: 'Your brain shows patterns associated with low arousal and possible depressive tendencies. Focus on activation and energy-boosting practices.',
+    characteristics: [
+      'Excessive delta or theta activity',
+      'Low beta activity',
+      'Slowed alpha peak',
+      'Low arousal score',
+      'Frontal alpha asymmetry (right > left)'
+    ],
+    strengths: [
+      'Deep relaxation capability',
+      'Creativity and intuition',
+      'Reflective thinking'
+    ],
+    recommendations: {
+      nootropics: ['Rhodiola Rosea', 'Ginkgo Biloba', 'Caffeine + L-Theanine'],
+      supplements: ['Vitamin B12', 'Vitamin D', 'Iron', 'CoQ10'],
+      breathing: ['Bhastrika (Breath of Fire)', 'Wim Hof Method', 'Rapid Cycling'],
+      meditation: ['Walking Meditation', 'Dynamic Meditation'],
+      exercises: ['High-Intensity Interval Training', 'Running', 'Dance']
+    }
+  },
+  4: {
+    type: 4,
+    name: 'Attention Regulation Challenges',
+    description: 'Your brain shows elevated theta/beta ratio suggesting attention regulation challenges. Focus on improving concentration and reducing distractibility.',
+    characteristics: [
+      'Elevated theta/beta ratio (> 2.0)',
+      'Excessive frontal theta',
+      'Variable beta activity',
+      'Possible alpha/theta imbalance'
+    ],
+    strengths: [
+      'Creative thinking',
+      'Out-of-the-box problem solving',
+      'Imaginative capacity'
+    ],
+    recommendations: {
+      nootropics: ['L-Tyrosine', 'Caffeine', 'Rhodiola Rosea', 'Bacopa Monnieri'],
+      supplements: ['Omega-3 (high EPA)', 'Zinc', 'Iron', 'Vitamin B6'],
+      breathing: ['Box Breathing', 'Alternate Nasal Breathing'],
+      meditation: ['Focused Attention Meditation', 'Candle Gazing'],
+      exercises: ['Martial Arts', 'Rock Climbing', 'Dance']
+    }
+  },
+  5: {
+    type: 5,
+    name: 'High Performer/Focused Brain',
+    description: 'Your brain shows strong beta activity and good attention regulation. You likely excel at focused tasks and analytical thinking.',
+    characteristics: [
+      'Optimal theta/beta ratio (< 1.5)',
+      'Good beta activity',
+      'High alpha peak',
+      'Good cognitive scores',
+      'Balanced arousal'
+    ],
+    strengths: [
+      'Excellent focus and concentration',
+      'Strong analytical abilities',
+      'Good task completion',
+      'Efficient problem-solving'
+    ],
+    recommendations: {
+      nootropics: ['Lion\'s Mane', 'Bacopa Monnieri', 'Ginkgo Biloba'],
+      supplements: ['Omega-3', 'B-Complex', 'Vitamin D', 'Magnesium'],
+      breathing: ['Diaphragmatic Breathing', 'Box Breathing'],
+      meditation: ['Mindfulness Meditation', 'Transcendental Meditation'],
+      exercises: ['Yoga', 'Running', 'Swimming', 'Team Sports']
+    }
+  },
+  6: {
+    type: 6,
+    name: 'Disorganized or Chaotic Brain',
+    description: 'Your brain shows variable patterns suggesting regulation challenges. Focus on establishing routine and improving coherence.',
+    characteristics: [
+      'Variable brain wave patterns',
+      'Low coherence',
+      'Inconsistent alpha activity',
+      'Poor alpha modulation',
+      'Mixed arousal levels'
+    ],
+    strengths: [
+      'Adaptable thinking',
+      'Multifaceted perspective',
+      'Resilience'
+    ],
+    recommendations: {
+      nootropics: ['Ashwagandha', 'Rhodiola', 'L-Theanine'],
+      supplements: ['Omega-3', 'B-Complex', 'Magnesium', 'Probiotics'],
+      breathing: ['Diaphragmatic Breathing', 'Alternate Nasal Breathing', '4-7-8 Breathing'],
+      meditation: ['Body Scan', 'Mindfulness Meditation', 'Guided Meditation'],
+      exercises: ['Yoga', 'Tai Chi', 'Walking', 'Swimming']
+    }
+  }
+};
+
+class BrainTypeClassifier {
+  constructor(algorithmResults) {
+    this.results = algorithmResults;
+    this.parameters = algorithmResults.parameters;
+  }
+
+  /**
+   * Classify brain type based on the 7 parameter scores
+   */
+  classify() {
+    const scores = this.extractScores();
+    const patterns = this.analyzePatterns(scores);
+
+    // Decision tree for brain type classification
+    let brainType = 1; // Default
+
+    // Helper function to safely get score
+    const getScore = (key) => scores[key]?.score || 0;
+
+    // Check for anxiety/overstimulation (Type 2)
+    if (getScore('stress') >= 2 && getScore('burnoutfatigue') <= 1) {
+      brainType = 2;
+    }
+    // Check for underactivity/depression (Type 3)
+    else if (getScore('stress') === 0 && getScore('emotionalregulation') <= 1 && getScore('burnoutfatigue') >= 2) {
+      brainType = 3;
+    }
+    // Check for attention challenges (Type 4)
+    else if (getScore('focusattention') <= 1 && getScore('cognition') <= 1) {
+      brainType = 4;
+    }
+    // Check for high performer (Type 5)
+    else if (getScore('cognition') === 3 && getScore('focusattention') === 3 && getScore('learning') === 3) {
+      brainType = 5;
+    }
+    // Check for disorganized/chaotic (Type 6)
+    else if (this.isVariablePattern(scores)) {
+      brainType = 6;
+    }
+    // Default to balanced (Type 1) if most scores are good
+    else if (this.results.overallScore >= 14) {
+      brainType = 1;
+    }
+
+    return {
+      ...BRAIN_TYPES[brainType],
+      scores: scores,
+      overallScore: this.results.overallScore,
+      maxScore: this.parameters.length * 3
+    };
+  }
+
+  /**
+   * Extract scores from parameters
+   */
+  extractScores() {
+    const scoreMap = {};
+
+    this.parameters.forEach(param => {
+      const key = param.name.toLowerCase().replace(/ & /g, '').replace(/ /g, '');
+      scoreMap[key] = {
+        name: param.name,
+        score: param.score,
+        classification: param.classification,
+        metrics: param.metrics
+      };
+    });
+
+    return scoreMap;
+  }
+
+  /**
+   * Analyze patterns in the scores
+   */
+  analyzePatterns(scores) {
+    const patterns = {
+      highScores: [],
+      lowScores: [],
+      mediumScores: []
+    };
+
+    Object.entries(scores).forEach(([key, data]) => {
+      if (data.classification === 'High') {
+        patterns.highScores.push(key);
+      } else if (data.classification === 'Low') {
+        patterns.lowScores.push(key);
+      } else {
+        patterns.mediumScores.push(key);
+      }
+    });
+
+    return patterns;
+  }
+
+  /**
+   * Check if pattern is variable/chaotic
+   */
+  isVariablePattern(scores) {
+    const classifications = Object.values(scores).map(s => s.classification);
+    const uniqueClassifications = new Set(classifications);
+
+    // If we have all three classifications (Low, Medium, High), it's variable
+    return uniqueClassifications.size === 3;
+  }
+}
+
+module.exports = { BrainTypeClassifier, BRAIN_TYPES };

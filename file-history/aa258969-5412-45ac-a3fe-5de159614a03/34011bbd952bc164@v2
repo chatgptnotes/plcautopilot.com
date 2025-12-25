@@ -1,0 +1,65 @@
+===============================================
+PDF NAHI BAN RAHI? YE KARO (1 MINUTE)
+===============================================
+
+PROBLEM: Frontend wrong port pe backend ko call kar raha hai
+
+SOLUTION (Copy-Paste):
+
+1. .env file kholo (root folder mein)
+
+2. Ye line add karo ya update karo:
+
+   VITE_API_URL=http://localhost:5000/api
+
+3. Frontend restart karo:
+   - Terminal mein Ctrl+C
+   - Phir: npm run dev
+
+4. Browser hard refresh:
+   - Ctrl + Shift + R
+
+5. Try again:
+   - Files upload karo
+   - Execute karo
+   - Save & Download click karo
+
+===============================================
+BACKEND CHECK:
+===============================================
+
+Backend terminal mein ye dikha raha hai:
+🚀 Neuro360 Backend Server running on port 5000
+
+Matlab port 5000 hai!
+
+Lekin frontend 3001 pe dhundh raha tha.
+
+Ab .env mein 5000 set karne ke baad sahi hoga!
+
+===============================================
+GEMINI API KEY BHI ZAROORI HAI:
+===============================================
+
+.env file mein ye bhi hona chahiye:
+
+GEMINI_API_KEY=your-actual-gemini-key
+
+Get from: https://aistudio.google.com/apikey
+
+===============================================
+COMPLETE .env FILE SAMPLE:
+===============================================
+
+# Root folder mein .env file
+
+VITE_API_URL=http://localhost:5000/api
+GEMINI_API_KEY=AIza...your-key-here
+
+# Supabase (optional)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+
+===============================================

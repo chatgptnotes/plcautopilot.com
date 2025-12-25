@@ -1,0 +1,67 @@
+# How to Create Storage Bucket Manually in Supabase
+
+If the SQL script doesn't create the storage bucket automatically, follow these steps:
+
+## Step 1: Open Supabase Dashboard
+1. Go to https://supabase.com/dashboard
+2. Select your project: **neurosensproject**
+
+## Step 2: Go to Storage
+1. Click on **Storage** in the left sidebar
+2. Click on **Create a new bucket** button
+
+## Step 3: Create the Bucket
+Fill in the details:
+
+- **Name:** `patients_documents`
+- **Public bucket:** **OFF** (uncheck this - we want it private)
+- **File size limit:** `50 MB` (or `52428800` bytes)
+- **Allowed MIME types:** Add these one by one:
+  - `application/pdf`
+  - `image/jpeg`
+  - `image/jpg`
+  - `image/png`
+  - `application/msword`
+  - `application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+  - `text/plain`
+
+Click **Create bucket**
+
+## Step 4: Set Storage Policies
+1. After creating the bucket, click on it
+2. Go to **Policies** tab
+3. Click **New policy**
+4. Create 4 policies:
+
+### Policy 1: Allow Upload
+- **Policy name:** Allow authenticated users to upload
+- **Target roles:** authenticated
+- **Operation:** INSERT
+- **SQL check:** `bucket_id = 'patients_documents'`
+
+### Policy 2: Allow View/Download
+- **Policy name:** Allow authenticated users to view
+- **Target roles:** authenticated
+- **Operation:** SELECT
+- **SQL check:** `bucket_id = 'patients_documents'`
+
+### Policy 3: Allow Update
+- **Policy name:** Allow authenticated users to update
+- **Target roles:** authenticated
+- **Operation:** UPDATE
+- **SQL check:** `bucket_id = 'patients_documents'`
+
+### Policy 4: Allow Delete
+- **Policy name:** Allow authenticated users to delete
+- **Target roles:** authenticated
+- **Operation:** DELETE
+- **SQL check:** `bucket_id = 'patients_documents'`
+
+## Step 5: Test
+1. Go back to your app
+2. Try uploading a file in the Clinical Report Form
+3. It should work now!
+
+---
+
+**Note:** If you prefer, you can also run the `fix_rls_and_storage.sql` script in the SQL Editor, which will create everything automatically.

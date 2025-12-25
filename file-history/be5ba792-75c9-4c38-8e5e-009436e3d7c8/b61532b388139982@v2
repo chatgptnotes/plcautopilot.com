@@ -1,0 +1,478 @@
+# 🔧 SQL Migration Common Errors & Fixes
+
+## ✅ Error 1: "syntax error at or near NOT" (FIXED)
+
+### Error Message:
+```
+ERROR: 42601: syntax error at or near "NOT"
+LINE 18: CREATE TYPE IF NOT EXISTS user_role AS ENUM ...
+```
+
+### Problem:
+PostgreSQL doesn't support `IF NOT EXISTS` clause for ENUM types.
+
+### Solution:
+✅ **ALREADY FIXED** in `COMPLETE_SUPABASE_MIGRATION.sql`
+
+Updated script ab `DO $$ BEGIN ... EXCEPTION ... END $$;` blocks use karta hai.
+
+### If Error Still Persists:
+1. Refresh your browser
+2. Copy the **updated** `COMPLETE_SUPABASE_MIGRATION.sql` file
+3. Paste in SQL Editor
+4. Run again
+
+---
+
+## 🔄 Error 2: "type already exists"
+
+### Error Message:
+```
+ERROR: type "user_role" already exists
+```
+
+### Problem:
+Aapne script pehle bhi run kiya tha, types already create ho chuke hain.
+
+### Solution:
+
+**Option A: Continue Migration (Recommended)**
+
+Existing types ko use karein, tables create karne se pehle types ko skip karein:
+
+```sql
+-- Skip STEP 2 (Custom Types)
+-- Directly run from STEP 3 onwards
+```
+
+**Option B: Drop and Recreate**
+
+⚠️ **WARNING:** Existing data delete ho jayega!
+
+```sql
+-- Drop existing types (only if fresh start needed)
+DROP TYPE IF EXISTS user_role CASCADE;
+DROP TYPE IF EXISTS org_role CASCADE;
+DROP TYPE IF EXISTS gender_type CASCADE;
+DROP TYPE IF EXISTS org_type CASCADE;
+DROP TYPE IF EXISTS subscription_tier CASCADE;
+DROP TYPE IF EXISTS session_type CASCADE;
+DROP TYPE IF EXISTS document_kind CASCADE;
+DROP TYPE IF EXISTS assessment_type CASCADE;
+DROP TYPE IF EXISTS subscription_status CASCADE;
+
+-- Then run the full migration script again
+```
+
+---
+
+## 📦 Error 3: "relation already exists"
+
+### Error Message:
+```
+ERROR: relation "clinics" already exists
+```
+
+### Problem:
+Tables pehle se hi create ho chuke hain.
+
+### Solution:
+
+**Option A: Skip Existing Tables**
+
+Script already `CREATE TABLE IF NOT EXISTS` use karta hai, so ye error nahi aana chahiye. But agar aa raha hai:
+
+```sql
+-- Check which tables already exist
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+```
+
+**Option B: Fresh Start (Dangerous!)**
+
+⚠️ **WARNING:** ALL DATA DELETE HO JAYEGA!
+
+```sql
+-- Drop all tables (USE CAREFULLY!)
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+
+-- Then run migration script
+```
+
+---
+
+## 🔑 Error 4: "permission denied for schema"
+
+### Error Message:
+```
+ERROR: permission denied for schema public
+```
+
+### Problem:
+User ko schema modify karne ki permission nahi hai.
+
+### Solution:
+
+```sql
+-- Grant permissions (run as admin)
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO authenticated;
+GRANT ALL ON SCHEMA public TO service_role;
+```
+
+---
+
+## 🗄️ Error 5: "storage.buckets: permission denied"
+
+### Error Message:
+```
+ERROR: permission denied for table buckets
+```
+
+### Problem:
+Storage buckets SQL se create nahi ho sakte directly.
+
+### Solution:
+
+**Supabase Dashboard se manually create karein:**
+
+1. Left sidebar → **Storage**
+2. **New bucket** button click karein
+3. Create these 4 buckets:
+
+```
+Name: patient-reports
+Public: NO
+File size limit: 50 MB
+
+Name: eeg-files
+Public: NO
+File size limit: 50 MB
+
+Name: reports
+Public: NO
+File size limit: 50 MB
+
+Name: clinic-logos
+Public: YES
+File size limit: 5 MB
+```
+
+**OR Script se ye lines comment out karein:**
+
+```sql
+-- Comment out lines that create storage buckets in SQL
+-- INSERT INTO storage.buckets ... (line ~650)
+```
+
+---
+
+## 🔐 Error 6: "policy already exists"
+
+### Error Message:
+```
+ERROR: policy "Allow all operations on clinics" already exists
+```
+
+### Problem:
+RLS policies pehle se create ho chuke hain.
+
+### Solution:
+
+```sql
+-- Drop existing policies
+DROP POLICY IF EXISTS "Allow all operations on clinics" ON clinics;
+DROP POLICY IF EXISTS "Allow all operations on patients" ON patients;
+-- ... (drop other policies as needed)
+
+-- Then run migration script again
+```
+
+**OR**
+
+Use `CREATE POLICY IF NOT EXISTS` (but not supported in all PostgreSQL versions):
+
+```sql
+-- Check existing policies
+SELECT schemaname, tablename, policyname
+FROM pg_policies
+WHERE schemaname = 'public';
+
+-- If policies exist, skip STEP 7 in migration script
+```
+
+---
+
+## 🔄 Error 7: "trigger already exists"
+
+### Error Message:
+```
+ERROR: trigger "update_clinics_updated_at" already exists
+```
+
+### Problem:
+Triggers pehle se create ho chuke hain.
+
+### Solution:
+
+```sql
+-- Drop existing trigger
+DROP TRIGGER IF EXISTS update_clinics_updated_at ON clinics;
+
+-- Then recreate
+CREATE TRIGGER update_clinics_updated_at
+  BEFORE UPDATE ON clinics
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+```
+
+---
+
+## 🚫 Error 8: "function does not exist"
+
+### Error Message:
+```
+ERROR: function update_updated_at_column() does not exist
+```
+
+### Problem:
+Trigger function create nahi hua.
+
+### Solution:
+
+```sql
+-- Create the function first
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Then create triggers
+```
+
+---
+
+## 🔍 Error 9: "foreign key violation"
+
+### Error Message:
+```
+ERROR: insert or update on table violates foreign key constraint
+```
+
+### Problem:
+Referenced table/record doesn't exist.
+
+### Solution:
+
+**Check foreign key dependencies:**
+
+```sql
+-- Find foreign key constraints
+SELECT
+  tc.table_name,
+  kcu.column_name,
+  ccu.table_name AS foreign_table_name,
+  ccu.column_name AS foreign_column_name
+FROM information_schema.table_constraints AS tc
+JOIN information_schema.key_column_usage AS kcu
+  ON tc.constraint_name = kcu.constraint_name
+JOIN information_schema.constraint_column_usage AS ccu
+  ON ccu.constraint_name = tc.constraint_name
+WHERE tc.constraint_type = 'FOREIGN KEY';
+```
+
+**Create tables in correct order:**
+1. Independent tables first (profiles, organizations)
+2. Dependent tables next (patients, sessions)
+3. Nested dependencies last (reports, documents)
+
+---
+
+## 📊 Error 10: "column does not exist"
+
+### Error Message:
+```
+ERROR: column "clinic_code" of relation "organizations" does not exist
+```
+
+### Problem:
+Column add nahi hua properly.
+
+### Solution:
+
+```sql
+-- Add missing column
+ALTER TABLE organizations
+ADD COLUMN IF NOT EXISTS clinic_code VARCHAR(50);
+
+-- Add constraints
+ALTER TABLE organizations
+ADD CONSTRAINT organizations_clinic_code_key UNIQUE (clinic_code);
+
+-- Create index
+CREATE INDEX IF NOT EXISTS idx_organizations_clinic_code
+ON organizations(clinic_code);
+```
+
+---
+
+## 🧪 Complete Fresh Start Script
+
+Agar sabhi tables, types, aur policies ko delete karke fresh start karna ho:
+
+⚠️ **EXTREME WARNING:** Ye script **EVERYTHING DELETE** kar dega!
+
+```sql
+-- =====================================================
+-- NUCLEAR OPTION - FRESH START
+-- =====================================================
+-- USE ONLY IF YOU WANT TO START FROM SCRATCH
+-- ALL DATA WILL BE LOST!
+-- =====================================================
+
+-- Drop all policies
+DO $$ DECLARE
+  r RECORD;
+BEGIN
+  FOR r IN (SELECT schemaname, tablename, policyname
+            FROM pg_policies
+            WHERE schemaname = 'public') LOOP
+    EXECUTE 'DROP POLICY IF EXISTS ' || quote_ident(r.policyname) ||
+            ' ON ' || quote_ident(r.schemaname) || '.' || quote_ident(r.tablename);
+  END LOOP;
+END $$;
+
+-- Drop all tables
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+-- Grant permissions
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+
+-- Now run COMPLETE_SUPABASE_MIGRATION.sql
+```
+
+---
+
+## ✅ Verification Checklist
+
+Migration successful hai ya nahi check karne ke liye:
+
+```sql
+-- 1. Check types
+SELECT typname FROM pg_type
+WHERE typname IN (
+  'user_role', 'org_role', 'gender_type', 'org_type',
+  'subscription_tier', 'session_type', 'document_kind',
+  'assessment_type', 'subscription_status'
+);
+-- Expected: 9 types
+
+-- 2. Check tables
+SELECT COUNT(*) FROM information_schema.tables
+WHERE table_schema = 'public';
+-- Expected: 35+ tables
+
+-- 3. Check triggers
+SELECT COUNT(*) FROM information_schema.triggers
+WHERE trigger_schema = 'public';
+-- Expected: 10+ triggers
+
+-- 4. Check policies
+SELECT COUNT(*) FROM pg_policies
+WHERE schemaname = 'public';
+-- Expected: 30+ policies
+
+-- 5. Check storage buckets
+SELECT * FROM storage.buckets;
+-- Expected: 4 buckets (if manually created)
+```
+
+---
+
+## 🎯 Quick Debug Commands
+
+### Check what already exists:
+
+```sql
+-- All types
+SELECT typname FROM pg_type WHERE typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public');
+
+-- All tables
+\dt
+
+-- All functions
+\df
+
+-- All triggers
+SELECT trigger_name, event_object_table FROM information_schema.triggers WHERE trigger_schema = 'public';
+
+-- All policies
+SELECT tablename, policyname FROM pg_policies WHERE schemaname = 'public';
+
+-- All indexes
+SELECT indexname, tablename FROM pg_indexes WHERE schemaname = 'public';
+```
+
+---
+
+## 📞 Still Having Issues?
+
+### Step 1: Identify Exact Error
+- Copy complete error message
+- Note the line number
+- Check what SQL command failed
+
+### Step 2: Check Dependencies
+- Does the table/type/function exist?
+- Are foreign keys satisfied?
+- Do you have permissions?
+
+### Step 3: Run Verification Queries
+```sql
+-- Check if object exists
+SELECT EXISTS (
+  SELECT 1 FROM pg_type WHERE typname = 'user_role'
+);
+
+SELECT EXISTS (
+  SELECT 1 FROM information_schema.tables
+  WHERE table_name = 'clinics'
+);
+```
+
+### Step 4: Incremental Approach
+Instead of running full script, run section by section:
+1. Extensions only
+2. Types only
+3. Core tables only
+4. Then remaining tables
+5. Then triggers
+6. Then policies
+
+---
+
+## 🚀 Success!
+
+Agar saare verification queries pass ho gaye, toh:
+
+**🎉 Migration Complete! Database ready hai!**
+
+Next steps:
+1. Update `.env` files
+2. Test application
+3. Create first user
+4. Upload test file
+
+---
+
+**Need more help? Check:** `NAYE_SUPABASE_DATABASE_KO_SETUP_KAISE_KARE.md`

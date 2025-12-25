@@ -1,0 +1,496 @@
+import { supabase } from '../lib/supabaseClient';
+
+class StorageService {
+  constructor() {
+    this.reportsBucket = 'patient-reports';
+    this.avatarsBucket = 'profile_image'; // Changed to match your Supabase bucket name
+    this.initialized = false;
+    this.checkBucketAvailability();
+  }
+
+  async checkBucketAvailability() {
+    try {
+      const { data, error } = await supabase.storage.listBuckets();
+      if (error) {
+        console.warn('Could not verify storage buckets:', error.message);
+        this.initialized = false;
+        return;
+      }
+
+      const bucketExists = data?.some(bucket => bucket.name === this.reportsBucket);
+      if (!bucketExists) {
+        console.warn(`Bucket '${this.reportsBucket}' does not exist. Please create it in Supabase Dashboard.`);
+        this.initialized = false;
+        return;
+      }
+
+      this.initialized = true;
+      console.log(`Storage service initialized with bucket: ${this.reportsBucket}`);
+    } catch (error) {
+      console.error('Error checking bucket availability:', error);
+      this.initialized = false;
+    }
+  }
+
+  /**
+   * Upload file to Supabase Storage
+   * Files are organized by: bucket/{clinicId}/{patientId}/{fileName}
+   * @param {File} file - File to upload
+   * @param {string} fileName - Name of the file
+   * @param {Object} metadata - Additional metadata (clinicId, patientId, bucketName, etc.)
+   * @returns {Promise<Object>} Upload result with path, URL, etc.
+   */
+  async uploadFile(file, fileName, metadata = {}) {
+    try {
+      // Determine which bucket to use (default: patient-reports)
+      const bucketName = metadata.bucketName || metadata.bucket_name || this.reportsBucket;
+      console.log(`Uploading file to Supabase Storage (${bucketName}):`, fileName);
+
+      if (!file) {
+        throw new Error('No file provided');
+      }
+
+      // Validate file
+      this.validateFile(file);
+
+      // Extract clinic and patient info from metadata
+      const clinicId = metadata.clinicId || metadata.clinic_id || 'unknown-clinic';
+      const patientId = metadata.patientId || metadata.patient_id || 'unknown-patient';
+
+      // Create unique file path organized by clinic and patient
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const uniqueFileName = `${timestamp}_${fileName}`;
+      const filePath = `${clinicId}/${patientId}/${uniqueFileName}`;
+
+      // Determine content type for EEG/qEEG files
+      let contentType = file.type;
+      if (!contentType || contentType === '') {
+        // EDF/EEG/BDF files often don't have a MIME type, use generic binary
+        contentType = 'application/octet-stream';
+      }
+
+      // Upload to Supabase Storage (with dynamic bucket)
+      const { data, error } = await supabase.storage
+        .from(bucketName)
+        .upload(filePath, file, {
+          contentType: contentType,
+          upsert: false,
+          metadata: {
+            originalName: fileName,
+            uploadedAt: new Date().toISOString(),
+            clinicId: clinicId,
+            patientId: patientId,
+            ...metadata
+          }
+        });
+
+      if (error) {
+        throw new Error(`Upload failed: ${error.message}`);
+      }
+
+      console.log(`File uploaded successfully to ${bucketName}:`, data.path);
+
+      // Get public URL (or signed URL for private buckets)
+      const url = await this.getSignedUrl(data.path, 3600, bucketName);
+
+      return {
+        success: true,
+        fileName: uniqueFileName,
+        key: data.path,
+        path: data.path,
+        bucket: bucketName, // Return actual bucket used
+        clinicId: clinicId,
+        patientId: patientId,
+        uploadedAt: new Date().toISOString(),
+        size: file.size,
+        type: file.type,
+        url: url
+      };
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw new Error(`Failed to upload file: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get signed URL for secure file access
+   * @param {string} path - File path in storage
+   * @param {number} expiresIn - URL expiry time in seconds (default: 3600)
+   * @param {string} bucketName - Optional bucket name (default: auto-detect)
+   */
+  async getSignedUrl(path, expiresIn = 3600, bucketName = null) {
+    try {
+      // Auto-detect bucket from path pattern
+      let bucket = bucketName || this.reportsBucket;
+
+      // If path follows pattern: clinicId/patientId/file → it's in edf-files bucket
+      if (!bucketName && path && path.match(/^[\w-]+\/[\w-]+\//)) {
+        bucket = 'edf-files';
+        console.log(`Auto-detected edf-files bucket from path: ${path}`);
+      }
+
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .createSignedUrl(path, expiresIn);
+
+      if (error) {
+        // If failed, try alternate bucket
+        if (bucket === 'edf-files') {
+          console.log('Retrying with reports bucket...');
+          const retry = await supabase.storage
+            .from(this.reportsBucket)
+            .createSignedUrl(path, expiresIn);
+          if (!retry.error && retry.data?.signedUrl) {
+            return retry.data.signedUrl;
+          }
+        }
+        throw new Error(`Failed to generate signed URL: ${error.message}`);
+      }
+
+      console.log(`Generated signed URL from ${bucket} bucket:`, path);
+      return data.signedUrl;
+    } catch (error) {
+      console.error('Error generating signed URL:', error);
+      throw new Error(`Failed to generate signed URL: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get public URL (for public buckets)
+   */
+  getPublicUrl(path) {
+    const { data } = supabase.storage
+      .from(this.reportsBucket)
+      .getPublicUrl(path);
+
+    return data.publicUrl;
+  }
+
+  /**
+   * Delete file from storage
+   */
+  async deleteFile(path) {
+    try {
+      const { error } = await supabase.storage
+        .from(this.reportsBucket)
+        .remove([path]);
+
+      if (error) {
+        throw new Error(`Failed to delete file: ${error.message}`);
+      }
+
+      console.log('File deleted successfully:', path);
+      return { success: true, message: 'File deleted successfully' };
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      throw new Error(`Failed to delete file: ${error.message}`);
+    }
+  }
+
+  /**
+   * Download file from storage
+   */
+  async downloadFile(path) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(this.reportsBucket)
+        .download(path);
+
+      if (error) {
+        throw new Error(`Failed to download file: ${error.message}`);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      throw new Error(`Failed to download file: ${error.message}`);
+    }
+  }
+
+  /**
+   * List files in a folder
+   */
+  async listFiles(folder = '', options = {}) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(this.reportsBucket)
+        .list(folder, {
+          limit: options.limit || 100,
+          offset: options.offset || 0,
+          sortBy: { column: options.sortBy || 'created_at', order: options.order || 'desc' }
+        });
+
+      if (error) {
+        throw new Error(`Failed to list files: ${error.message}`);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error listing files:', error);
+      throw new Error(`Failed to list files: ${error.message}`);
+    }
+  }
+
+  /**
+   * List files for a specific clinic
+   */
+  async listClinicFiles(clinicId, options = {}) {
+    try {
+      return await this.listFiles(clinicId, options);
+    } catch (error) {
+      console.error(`Error listing files for clinic ${clinicId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * List files for a specific patient
+   */
+  async listPatientFiles(clinicId, patientId, options = {}) {
+    try {
+      const folder = `${clinicId}/${patientId}`;
+      return await this.listFiles(folder, options);
+    } catch (error) {
+      console.error(`Error listing files for patient ${patientId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Validate file before upload
+   */
+  validateFile(file) {
+    const maxSize = 50 * 1024 * 1024; // 50MB for EEG/qEEG files
+    const allowedTypes = [
+      'application/edf',
+      'application/octet-stream', // EDF/EEG/BDF files often have this MIME type
+      'application/x-edf',
+      'application/x-eeg'
+    ];
+
+    if (!file) {
+      throw new Error('No file provided');
+    }
+
+    if (file.size > maxSize) {
+      throw new Error(`File size exceeds 50MB limit. Your file: ${(file.size / (1024 * 1024)).toFixed(2)}MB`);
+    }
+
+    // Validation: Check file extension for medical report formats
+    const fileName = file.name.toLowerCase();
+    const validExtensions = [
+      '.edf', '.eeg', '.bdf',          // EEG/qEEG formats
+      '.pdf',                           // PDF documents
+      '.jpg', '.jpeg', '.png',          // Images
+      '.doc', '.docx',                  // Word documents
+      '.csv', '.txt',                   // Data files
+      '.xml', '.json',                  // Structured data
+      '.xlsx', '.xls',                  // Excel files
+      '.dcm'                            // DICOM medical imaging
+    ];
+    const hasValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
+
+    if (!hasValidExtension) {
+      const fileExt = fileName.substring(fileName.lastIndexOf('.'));
+      throw new Error(`Invalid file format! Allowed formats: PDF, EDF, EEG, BDF, JPEG, PNG, DOC, DOCX, CSV, TXT, XML, JSON, XLSX, DICOM. You uploaded: ${fileExt}`);
+    }
+
+    return true;
+  }
+
+  /**
+   * Get file info
+   */
+  async getFileInfo(path) {
+    try {
+      // Supabase doesn't have a direct getFileInfo, but we can get it from list
+      const fileName = path.split('/').pop();
+      const folder = path.substring(0, path.lastIndexOf('/'));
+
+      const { data, error } = await supabase.storage
+        .from(this.reportsBucket)
+        .list(folder);
+
+      if (error) throw error;
+
+      const fileInfo = data.find(file => file.name === fileName);
+      return fileInfo;
+    } catch (error) {
+      console.error('Error getting file info:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Health check for storage service
+   */
+  async healthCheck() {
+    try {
+      const { data, error } = await supabase.storage.listBuckets();
+
+      if (error) {
+        return {
+          status: 'unhealthy',
+          service: 'supabase-storage',
+          error: error.message
+        };
+      }
+
+      const bucketExists = data?.some(bucket => bucket.name === this.reportsBucket);
+
+      if (!bucketExists) {
+        return {
+          status: 'unhealthy',
+          service: 'supabase-storage',
+          error: `Bucket '${this.reportsBucket}' not found`
+        };
+      }
+
+      return {
+        status: 'healthy',
+        service: 'supabase-storage',
+        message: 'Supabase Storage service is operational',
+        bucket: this.reportsBucket
+      };
+    } catch (error) {
+      console.error('Storage health check failed:', error);
+      return {
+        status: 'unhealthy',
+        service: 'supabase-storage',
+        error: error.message
+      };
+    }
+  }
+
+  /**
+   * Move file to different path
+   */
+  async moveFile(fromPath, toPath) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(this.reportsBucket)
+        .move(fromPath, toPath);
+
+      if (error) throw error;
+
+      console.log('File moved successfully:', fromPath, '->', toPath);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Error moving file:', error);
+      throw new Error(`Failed to move file: ${error.message}`);
+    }
+  }
+
+  /**
+   * Copy file to different path
+   */
+  async copyFile(fromPath, toPath) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(this.reportsBucket)
+        .copy(fromPath, toPath);
+
+      if (error) throw error;
+
+      console.log('File copied successfully:', fromPath, '->', toPath);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Error copying file:', error);
+      throw new Error(`Failed to copy file: ${error.message}`);
+    }
+  }
+
+  /**
+   * Upload profile avatar to Supabase Storage
+   * @param {File} file - Image file to upload
+   * @param {string} userId - User ID for organizing files
+   * @param {string} userRole - User role (super_admin, clinic_admin, etc.)
+   * @returns {Promise<Object>} - Upload result with public URL
+   */
+  async uploadAvatar(file, userId, userRole = 'user') {
+    try {
+      console.log('STORAGE: Uploading avatar to Supabase Storage:', { userId, userRole, fileName: file.name });
+
+      if (!file) {
+        throw new Error('No file provided');
+      }
+
+      // Validate file is an image
+      if (!file.type.startsWith('image/')) {
+        throw new Error('File must be an image');
+      }
+
+      // Check file size (max 5MB for avatars)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        throw new Error(`Image size must be less than 5MB. Current size: ${(file.size / (1024 * 1024)).toFixed(2)}MB`);
+      }
+
+      // Create unique file path: profile_image/{userRole}/{userId}/avatar.{ext}
+      const fileExt = file.name.split('.').pop();
+      const timestamp = Date.now();
+      const filePath = `${userRole}/${userId}/avatar_${timestamp}.${fileExt}`;
+
+      console.log('STORAGE: Upload path:', filePath);
+
+      // Upload to Supabase Storage (profile_image bucket)
+      const { data, error } = await supabase.storage
+        .from(this.avatarsBucket)
+        .upload(filePath, file, {
+          contentType: file.type,
+          upsert: true, // Replace existing avatar
+          cacheControl: '3600' // Cache for 1 hour
+        });
+
+      if (error) {
+        console.error('STORAGE: Upload error:', error);
+        throw new Error(`Upload failed: ${error.message}`);
+      }
+
+      console.log('STORAGE: File uploaded successfully:', data.path);
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from(this.avatarsBucket)
+        .getPublicUrl(data.path);
+
+      console.log('STORAGE: Public URL generated:', urlData.publicUrl);
+
+      return {
+        success: true,
+        path: data.path,
+        url: urlData.publicUrl,
+        bucket: this.avatarsBucket,
+        uploadedAt: new Date().toISOString()
+      };
+    } catch (error) {
+      console.error('STORAGE: Error uploading avatar:', error);
+      throw new Error(`Failed to upload avatar: ${error.message}`);
+    }
+  }
+
+  /**
+   * Delete avatar from Supabase Storage (profile_image bucket)
+   * @param {string} path - File path in storage
+   * @returns {Promise<Object>} - Deletion result
+   */
+  async deleteAvatar(path) {
+    try {
+      const { error } = await supabase.storage
+        .from(this.avatarsBucket)
+        .remove([path]);
+
+      if (error) {
+        throw new Error(`Failed to delete avatar: ${error.message}`);
+      }
+
+      console.log('STORAGE: Avatar deleted successfully from profile_image bucket:', path);
+      return { success: true, message: 'Avatar deleted successfully' };
+    } catch (error) {
+      console.error('STORAGE: Error deleting avatar:', error);
+      throw new Error(`Failed to delete avatar: ${error.message}`);
+    }
+  }
+}
+
+export default new StorageService();

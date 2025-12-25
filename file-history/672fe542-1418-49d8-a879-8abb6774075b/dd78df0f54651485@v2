@@ -1,0 +1,244 @@
+import React, { useState, useEffect } from 'react';
+import { MapPin, Search, Phone, Mail, Navigation, ExternalLink, AlertCircle } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
+import toast from 'react-hot-toast';
+
+const ClinicLocator = ({ onNoClinicFound }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [clinics, setClinics] = useState([]);
+  const [filteredClinics, setFilteredClinics] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedClinic, setSelectedClinic] = useState(null);
+
+  useEffect(() => {
+    fetchClinics();
+  }, []);
+
+  const fetchClinics = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch all active clinics from organizations table
+      const { data, error } = await supabase
+        .from('organizations')
+        .select('*')
+        .eq('is_active', true)
+        .order('name', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching clinics:', error);
+        toast.error('Failed to load clinics');
+        return;
+      }
+
+      console.log('Fetched clinics:', data);
+      setClinics(data || []);
+      setFilteredClinics(data || []);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to load clinics');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+
+    if (!query.trim()) {
+      setFilteredClinics(clinics);
+      return;
+    }
+
+    const lowerQuery = query.toLowerCase();
+    const filtered = clinics.filter(clinic => {
+      const name = (clinic.name || '').toLowerCase();
+      const address = (clinic.address || '').toLowerCase();
+      const city = (clinic.city || '').toLowerCase();
+      const region = (clinic.region || clinic.state || '').toLowerCase();
+
+      return (
+        name.includes(lowerQuery) ||
+        address.includes(lowerQuery) ||
+        city.includes(lowerQuery) ||
+        region.includes(lowerQuery)
+      );
+    });
+
+    setFilteredClinics(filtered);
+
+    // If no clinics found, notify parent
+    if (filtered.length === 0 && query.trim()) {
+      onNoClinicFound?.(query);
+    }
+  };
+
+  const getClinicAddress = (clinic) => {
+    return clinic.address || 'Address not available';
+  };
+
+  const getClinicCity = (clinic) => {
+    return clinic.city || clinic.region || clinic.state || 'Location not specified';
+  };
+
+  return (
+    <div className="w-full bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 py-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
+            <MapPin className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Find a Clinic Near You
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Discover authorized NeuroSense clinics in your city or region
+          </p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+              placeholder="Search by city, region, or clinic name..."
+              className="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all shadow-lg"
+            />
+          </div>
+        </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">Loading clinics...</p>
+          </div>
+        )}
+
+        {/* No Results */}
+        {!loading && filteredClinics.length === 0 && searchQuery && (
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+            <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              No Clinics Found
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              We couldn't find any clinics matching "{searchQuery}"
+            </p>
+            <button
+              onClick={() => onNoClinicFound?.(searchQuery)}
+              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
+              <Mail className="w-5 h-5 mr-2" />
+              Request Clinic in Your Area
+            </button>
+          </div>
+        )}
+
+        {/* Clinics Grid */}
+        {!loading && filteredClinics.length > 0 && (
+          <div>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">
+              Found {filteredClinics.length} clinic{filteredClinics.length !== 1 ? 's' : ''}
+              {searchQuery && ` matching "${searchQuery}"`}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredClinics.map((clinic) => (
+                <div
+                  key={clinic.id}
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"
+                >
+                  {/* Clinic Header */}
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
+                    <h3 className="text-xl font-bold mb-2 group-hover:scale-105 transition-transform">
+                      {clinic.name}
+                    </h3>
+                    <div className="flex items-center text-blue-100">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      <span className="text-sm">{getClinicCity(clinic)}</span>
+                    </div>
+                  </div>
+
+                  {/* Clinic Details */}
+                  <div className="p-6 space-y-4">
+                    {/* Address */}
+                    <div className="flex items-start">
+                      <Navigation className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        {getClinicAddress(clinic)}
+                      </p>
+                    </div>
+
+                    {/* Phone */}
+                    {clinic.phone && (
+                      <div className="flex items-center">
+                        <Phone className="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" />
+                        <a
+                          href={`tel:${clinic.phone}`}
+                          className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                        >
+                          {clinic.phone}
+                        </a>
+                      </div>
+                    )}
+
+                    {/* Email */}
+                    {clinic.email && (
+                      <div className="flex items-center">
+                        <Mail className="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" />
+                        <a
+                          href={`mailto:${clinic.email}`}
+                          className="text-sm text-blue-600 dark:text-blue-400 hover:underline truncate"
+                        >
+                          {clinic.email}
+                        </a>
+                      </div>
+                    )}
+
+                    {/* Contact Button */}
+                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <a
+                        href={`mailto:${clinic.email || 'info@neurosense.com'}`}
+                        className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors group"
+                      >
+                        Contact Clinic
+                        <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* No clinics at all */}
+        {!loading && clinics.length === 0 && !searchQuery && (
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+            <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              No Clinics Available Yet
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              We're expanding our network. Be the first to know when we launch in your area!
+            </p>
+            <button
+              onClick={() => onNoClinicFound?.('')}
+              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
+              <Mail className="w-5 h-5 mr-2" />
+              Notify Me
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ClinicLocator;

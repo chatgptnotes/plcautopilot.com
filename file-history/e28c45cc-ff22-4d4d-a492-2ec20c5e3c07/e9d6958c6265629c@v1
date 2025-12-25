@@ -1,0 +1,390 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Brain, Activity, Zap, Target, TrendingUp, Heart, Clock, ChevronRight } from 'lucide-react';
+import QEEGUpload from '../components/QEEGUpload';
+
+const LBWQEEG = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('upload'); // upload, analysis, protocols
+
+  const handleUploadComplete = (file) => {
+    console.log('File upload complete:', file);
+    // Handle the completed upload
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      {/* Header with Navigation */}
+      <nav className="bg-white shadow-sm border-b border-gray-100">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate('/lbw')}
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                ← Back
+              </button>
+              <div className="flex items-center gap-2">
+                <Activity className="h-6 w-6 text-[#323956]" />
+                <span className="text-xl font-bold text-gray-900">qEEG Brain Mapping</span>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate('/lbw/dashboard')}
+              className="px-4 py-2 bg-[#323956] text-white rounded-lg hover:bg-[#232D3C] transition-colors"
+            >
+              Dashboard
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Page Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">qEEG Brain Mapping</h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Upload and analyze your quantitative EEG brain maps to get personalized insights
+              and neurofeedback training recommendations.
+            </p>
+          </div>
+
+          {/* What is qEEG Section */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">What is qEEG Brain Mapping?</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <p className="text-gray-600 mb-6">
+                  Quantitative EEG (qEEG) is a sophisticated analysis of your brain's electrical activity.
+                  It provides a detailed "brain map" that shows how different areas of your brain are functioning.
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <span className="text-[#323956] text-xl">•</span>
+                    <span className="text-gray-700">Identifies areas of over/under activity</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-[#323956] text-xl">•</span>
+                    <span className="text-gray-700">Reveals connectivity patterns between brain regions</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-[#323956] text-xl">•</span>
+                    <span className="text-gray-700">Guides personalized neurofeedback protocols</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-[#323956] text-xl">•</span>
+                    <span className="text-gray-700">Tracks progress over time</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl p-8 text-center">
+                <Brain className="h-24 w-24 text-[#323956] mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Your Brain Map</h3>
+                <p className="text-gray-700">
+                  Get a detailed analysis of your brain's unique patterns and receive
+                  personalized recommendations for optimization.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="flex space-x-2 mb-8">
+            <button
+              onClick={() => setActiveTab('upload')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                activeTab === 'upload'
+                  ? 'bg-[#323956] text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Upload & Analyze
+            </button>
+            <button
+              onClick={() => setActiveTab('analysis')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                activeTab === 'analysis'
+                  ? 'bg-[#323956] text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Brain Analysis
+            </button>
+            <button
+              onClick={() => setActiveTab('protocols')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                activeTab === 'protocols'
+                  ? 'bg-[#323956] text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Protocols
+            </button>
+          </div>
+
+          {/* Tab Content */}
+          {activeTab === 'upload' && (
+            <>
+              {/* Upload Component */}
+              <QEEGUpload onUploadComplete={handleUploadComplete} />
+
+              {/* Getting Started */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Getting Started</h2>
+                <div className="grid md:grid-cols-4 gap-4">
+                  <div className="text-center p-4 border-2 border-dashed border-indigo-200 rounded-lg">
+                    <div className="text-2xl mb-2">1️⃣</div>
+                    <div className="font-medium text-gray-900 mb-1">Get qEEG</div>
+                    <p className="text-xs text-gray-600">Schedule with a certified provider</p>
+                  </div>
+
+                  <div className="text-center p-4 border-2 border-dashed border-indigo-200 rounded-lg">
+                    <div className="text-2xl mb-2">2️⃣</div>
+                    <div className="font-medium text-gray-900 mb-1">Upload Files</div>
+                    <p className="text-xs text-gray-600">Upload your .edf brain map files</p>
+                  </div>
+
+                  <div className="text-center p-4 border-2 border-dashed border-indigo-200 rounded-lg">
+                    <div className="text-2xl mb-2">3️⃣</div>
+                    <div className="font-medium text-gray-900 mb-1">AI Analysis</div>
+                    <p className="text-xs text-gray-600">Our system analyzes your brain patterns</p>
+                  </div>
+
+                  <div className="text-center p-4 border-2 border-dashed border-indigo-200 rounded-lg">
+                    <div className="text-2xl mb-2">4️⃣</div>
+                    <div className="font-medium text-gray-900 mb-1">Get Protocol</div>
+                    <p className="text-xs text-gray-600">Receive personalized recommendations</p>
+                  </div>
+                </div>
+
+                <div className="mt-8 text-center">
+                  <p className="text-gray-600 mb-4">
+                    Don't have a qEEG yet? Our certified partners can help you get one.
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    <button className="px-6 py-3 bg-[#323956] text-white rounded-lg hover:bg-[#232D3C] transition-colors font-medium">
+                      Find qEEG Provider
+                    </button>
+                    <button className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                      Learn More
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'analysis' && (
+            <>
+              {/* Brain Wave Analysis */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Brain Wave Analysis</h2>
+                <div className="space-y-4">
+                  {[
+                    { name: 'Delta', range: '0.5-4 Hz', level: 15, status: 'normal', desc: 'Deep sleep, healing', color: 'blue' },
+                    { name: 'Theta', range: '4-8 Hz', level: 25, status: 'normal', desc: 'Meditation, creativity', color: 'purple' },
+                    { name: 'Alpha', range: '8-13 Hz', level: 35, status: 'optimal', desc: 'Relaxation, calm focus', color: 'green' },
+                    { name: 'Beta', range: '13-30 Hz', level: 45, status: 'elevated', desc: 'Active thinking, problem solving', color: 'yellow' },
+                    { name: 'Gamma', range: '30-100 Hz', level: 20, status: 'normal', desc: 'High-level cognition', color: 'red' }
+                  ].map((wave, index) => (
+                    <div key={index}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                          <Zap className="h-5 w-5 text-[#323956]" />
+                          <div>
+                            <span className="font-medium text-gray-900">{wave.name}</span>
+                            <span className="text-sm text-gray-500 ml-2">({wave.range})</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-gray-600">{wave.desc}</span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            wave.status === 'optimal' ? 'bg-green-100 text-green-700' :
+                            wave.status === 'elevated' ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
+                            {wave.status}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div
+                          className={`h-3 rounded-full transition-all duration-500 ${
+                            wave.status === 'optimal' ? 'bg-[#323956]' :
+                            wave.status === 'elevated' ? 'bg-yellow-500' :
+                            'bg-[#323956]'
+                          }`}
+                          style={{ width: `${wave.level}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Brain Regions */}
+              <div className="grid lg:grid-cols-2 gap-8">
+                <div className="bg-white rounded-2xl shadow-lg p-8">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Brain Activity Map</h3>
+                  <div className="relative">
+                    <div className="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center">
+                      <Brain className="h-32 w-32 text-[#323956]" />
+                    </div>
+                    <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-[#323956] rounded-full opacity-60 animate-pulse"></div>
+                    <div className="absolute top-1/3 right-1/3 w-6 h-6 bg-yellow-500 rounded-full opacity-60 animate-pulse"></div>
+                    <div className="absolute bottom-1/4 left-1/3 w-7 h-7 bg-[#323956] rounded-full opacity-60 animate-pulse"></div>
+                    <div className="absolute bottom-1/3 right-1/4 w-5 h-5 bg-purple-500 rounded-full opacity-60 animate-pulse"></div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl shadow-lg p-8">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Regional Analysis</h3>
+                  <div className="space-y-4">
+                    {[
+                      { name: 'Frontal Lobe', activity: 'Normal', score: 85, desc: 'Executive function, planning' },
+                      { name: 'Parietal Lobe', activity: 'Optimal', score: 92, desc: 'Sensory processing, spatial' },
+                      { name: 'Temporal Lobe', activity: 'Normal', score: 78, desc: 'Memory, language' },
+                      { name: 'Occipital Lobe', activity: 'Normal', score: 80, desc: 'Visual processing' }
+                    ].map((region, index) => (
+                      <div key={index} className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-medium text-gray-900">{region.name}</h4>
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                            region.activity === 'Optimal' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                          }`}>
+                            {region.activity}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">{region.desc}</p>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full"
+                              style={{ width: `${region.score}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm font-medium text-gray-700">{region.score}%</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'protocols' && (
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Neurofeedback Protocols</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {[
+                  {
+                    name: 'Focus Enhancement Protocol',
+                    duration: '20 sessions',
+                    target: 'Beta/SMR training',
+                    recommended: true,
+                    desc: 'Improve concentration and reduce distractibility'
+                  },
+                  {
+                    name: 'Stress Reduction Protocol',
+                    duration: '15 sessions',
+                    target: 'Alpha enhancement',
+                    recommended: false,
+                    desc: 'Increase relaxation and reduce anxiety'
+                  },
+                  {
+                    name: 'Peak Performance Protocol',
+                    duration: '30 sessions',
+                    target: 'Multi-band optimization',
+                    recommended: true,
+                    desc: 'Optimize overall brain function for peak performance'
+                  },
+                  {
+                    name: 'Sleep Improvement Protocol',
+                    duration: '12 sessions',
+                    target: 'Delta/Theta training',
+                    recommended: false,
+                    desc: 'Improve sleep quality and restoration'
+                  }
+                ].map((protocol, index) => (
+                  <div
+                    key={index}
+                    className={`p-6 rounded-xl border-2 ${
+                      protocol.recommended
+                        ? 'border-indigo-300 bg-indigo-50'
+                        : 'border-gray-200 bg-white'
+                    }`}
+                  >
+                    {protocol.recommended && (
+                      <div className="inline-block px-3 py-1 bg-[#323956] text-white text-xs font-medium rounded-full mb-3">
+                        Recommended
+                      </div>
+                    )}
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{protocol.name}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{protocol.desc}</p>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500">Duration:</span>
+                        <span className="font-medium text-gray-900">{protocol.duration}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500">Target:</span>
+                        <span className="font-medium text-gray-900">{protocol.target}</span>
+                      </div>
+                    </div>
+                    <button className="w-full px-4 py-2 bg-white hover:bg-gray-50 text-[#323956] border border-indigo-600 rounded-lg font-medium transition-colors">
+                      Start Protocol
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Benefits Section */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Benefits of qEEG Analysis</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-[#323956]" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">Precision Targeting</h3>
+                <p className="text-gray-600 text-sm">
+                  Identify specific brain areas that need attention for ADHD, anxiety,
+                  depression, or cognitive enhancement.
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-[#323956]" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">Track Progress</h3>
+                <p className="text-gray-600 text-sm">
+                  Monitor changes in brain function over time and see how your
+                  training protocols are working.
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">Personalized Protocols</h3>
+                <p className="text-gray-600 text-sm">
+                  Receive customized neurofeedback and brain training protocols
+                  based on your unique brain patterns.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LBWQEEG;

@@ -1,0 +1,254 @@
+import React from 'react';
+import { Brain, Activity, Zap, Moon, Eye, Focus } from 'lucide-react';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+
+const GuideToBrainwaves = () => {
+  const brainwaves = [
+    {
+      name: 'Delta Waves',
+      range: '0.5-4 Hz',
+      icon: <Moon className="w-12 h-12" />,
+      color: 'from-purple-600 to-purple-800',
+      bgColor: 'bg-purple-50',
+      textColor: 'text-purple-600',
+      description: 'The slowest brain waves, associated with deep, dreamless sleep and healing.',
+      characteristics: [
+        'Deep sleep and restoration',
+        'Physical healing and regeneration',
+        'Immune system function',
+        'Unconscious bodily functions'
+      ],
+      benefits: 'Essential for physical recovery, immune system strengthening, and deep restorative sleep.'
+    },
+    {
+      name: 'Theta Waves',
+      range: '4-8 Hz',
+      icon: <Eye className="w-12 h-12" />,
+      color: 'from-blue-600 to-blue-800',
+      bgColor: 'bg-blue-50',
+      textColor: 'text-blue-600',
+      description: 'Associated with deep meditation, creativity, and the subconscious mind.',
+      characteristics: [
+        'Deep meditation and relaxation',
+        'Enhanced creativity and intuition',
+        'Memory consolidation',
+        'Emotional processing'
+      ],
+      benefits: 'Promotes creativity, learning, memory formation, and deep relaxation states.'
+    },
+    {
+      name: 'Alpha Waves',
+      range: '8-12 Hz',
+      icon: <Activity className="w-12 h-12" />,
+      color: 'from-green-600 to-green-800',
+      bgColor: 'bg-green-50',
+      textColor: 'text-green-600',
+      description: 'Present during wakeful relaxation and light meditation.',
+      characteristics: [
+        'Relaxed but alert state',
+        'Light meditation and mindfulness',
+        'Reduced stress and anxiety',
+        'Mental coordination'
+      ],
+      benefits: 'Reduces stress, improves mental coordination, and enhances learning ability.'
+    },
+    {
+      name: 'Beta Waves',
+      range: '12-30 Hz',
+      icon: <Focus className="w-12 h-12" />,
+      color: 'from-yellow-600 to-orange-600',
+      bgColor: 'bg-yellow-50',
+      textColor: 'text-yellow-700',
+      description: 'Dominant during active thinking, focus, and problem-solving.',
+      characteristics: [
+        'Active thinking and focus',
+        'Problem-solving abilities',
+        'Logical reasoning',
+        'Conscious thought processes'
+      ],
+      benefits: 'Enhances concentration, decision-making, and active engagement with tasks.'
+    },
+    {
+      name: 'Gamma Waves',
+      range: '30-100 Hz',
+      icon: <Zap className="w-12 h-12" />,
+      color: 'from-red-600 to-pink-600',
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-600',
+      description: 'The fastest brain waves, associated with peak cognitive functioning.',
+      characteristics: [
+        'Peak cognitive performance',
+        'Information processing',
+        'Learning and memory',
+        'Heightened perception'
+      ],
+      benefits: 'Associated with high-level information processing, learning, and peak mental performance.'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#E4EFFF] via-white to-gray-50">
+      <NavBar />
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-[#323956] rounded-2xl mb-6">
+            <Brain className="w-12 h-12 text-white" />
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            Guide to Brainwaves
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Understanding brain waves is key to optimizing your cognitive performance.
+            NeuroSense uses advanced qEEG technology to measure and analyze your unique brainwave patterns.
+          </p>
+        </div>
+      </section>
+
+      {/* What Are Brainwaves Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-gradient-to-br from-[#323956] to-[#232D3C] rounded-3xl p-8 md:p-12 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">What Are Brainwaves?</h2>
+            <p className="text-lg text-white/90 leading-relaxed mb-6">
+              Brainwaves are electrical impulses produced by billions of neurons communicating with each other.
+              These patterns of neural oscillations reflect different states of consciousness, from deep sleep to intense focus.
+            </p>
+            <p className="text-lg text-white/90 leading-relaxed">
+              NeuroSense measures these brainwave frequencies using quantitative EEG (qEEG) technology,
+              providing detailed insights into your brain's activity patterns and helping optimize your cognitive performance.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Brainwave Types */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              The Five Types of Brainwaves
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Each brainwave frequency serves a unique purpose in your cognitive function
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {brainwaves.map((wave, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+              >
+                <div className="grid md:grid-cols-[300px_1fr] gap-0">
+                  {/* Left Side - Wave Info */}
+                  <div className={`${wave.bgColor} p-8 flex flex-col items-center justify-center text-center`}>
+                    <div className={`w-24 h-24 bg-white rounded-2xl flex items-center justify-center mb-6 ${wave.textColor}`}>
+                      {wave.icon}
+                    </div>
+                    <h3 className="text-3xl font-bold text-gray-900 mb-2">{wave.name}</h3>
+                    <p className={`text-2xl font-semibold ${wave.textColor}`}>{wave.range}</p>
+                  </div>
+
+                  {/* Right Side - Details */}
+                  <div className="p-8">
+                    <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                      {wave.description}
+                    </p>
+
+                    <div className="mb-6">
+                      <h4 className="text-xl font-semibold text-gray-900 mb-4">Characteristics:</h4>
+                      <ul className="grid md:grid-cols-2 gap-3">
+                        {wave.characteristics.map((char, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <div className={`w-2 h-2 rounded-full ${wave.textColor.replace('text-', 'bg-')} mt-2`}></div>
+                            <span className="text-gray-700">{char}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className={`${wave.bgColor} rounded-xl p-4`}>
+                      <h4 className={`text-lg font-semibold ${wave.textColor} mb-2`}>Benefits:</h4>
+                      <p className="text-gray-700">{wave.benefits}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How NeuroSense Uses This */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              How NeuroSense Uses Brainwave Analysis
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Advanced qEEG technology for personalized brain optimization
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-[#E4EFFF] to-white rounded-2xl p-8">
+              <div className="w-16 h-16 bg-[#323956] rounded-xl flex items-center justify-center mb-6">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Measure</h3>
+              <p className="text-gray-700 leading-relaxed">
+                NeuroSense captures your unique brainwave patterns using clinical-grade qEEG technology,
+                measuring all five frequency bands in real-time.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-[#E4EFFF] to-white rounded-2xl p-8">
+              <div className="w-16 h-16 bg-[#323956] rounded-xl flex items-center justify-center mb-6">
+                <Activity className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Analyze</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Our AI-powered system compares your brainwave patterns against normative databases,
+                identifying imbalances and optimization opportunities.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-[#E4EFFF] to-white rounded-2xl p-8">
+              <div className="w-16 h-16 bg-[#323956] rounded-xl flex items-center justify-center mb-6">
+                <Zap className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Optimize</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Receive personalized MOVERS protocols designed to balance your brainwaves
+                and enhance cognitive performance naturally.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-[#323956]">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Discover Your Brainwave Patterns
+          </h2>
+          <p className="text-xl text-white/90 mb-8 leading-relaxed">
+            Start your journey to optimal brain health with NeuroSense's comprehensive qEEG analysis
+          </p>
+          <button className="px-8 py-4 bg-white text-[#323956] rounded-full text-lg font-semibold hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+            Get Started Today
+          </button>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default GuideToBrainwaves;

@@ -1,0 +1,39 @@
+// Quick test to verify OpenAI is working
+require('dotenv').config();
+
+console.log('\n🧪 Testing OpenAI Configuration...\n');
+
+console.log('Environment Variables:');
+console.log('  OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? `Present (${process.env.OPENAI_API_KEY.substring(0, 20)}...)` : 'MISSING!');
+console.log('  AI_SERVICE:', process.env.AI_SERVICE || 'Not set');
+console.log('  GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'Present' : 'Not set');
+
+console.log('\n📦 Testing OpenAI Import...');
+try {
+  const OpenAI = require('openai');
+  console.log('✅ OpenAI package imported successfully');
+
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+  });
+  console.log('✅ OpenAI client initialized');
+
+  // Test API call
+  console.log('\n🔌 Testing OpenAI API connection...');
+  openai.chat.completions.create({
+    model: 'gpt-4o',
+    messages: [{ role: 'user', content: 'Say "OK" if you can read this.' }],
+    max_tokens: 10
+  }).then(response => {
+    console.log('✅ OpenAI API test successful!');
+    console.log('   Response:', response.choices[0].message.content);
+    console.log('\n✅ ALL TESTS PASSED! OpenAI is ready to use.\n');
+  }).catch(error => {
+    console.error('❌ OpenAI API test failed:', error.message);
+    console.error('\n⚠️ Please check your OPENAI_API_KEY\n');
+  });
+
+} catch (error) {
+  console.error('❌ Error:', error.message);
+  console.error('\n⚠️ OpenAI setup has issues!\n');
+}

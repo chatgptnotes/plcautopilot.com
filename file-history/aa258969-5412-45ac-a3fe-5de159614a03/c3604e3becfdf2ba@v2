@@ -1,0 +1,375 @@
+# 🔴 PDF Timeout Error - Complete Fix Guide
+
+## 📊 Error You're Seeing:
+
+```
+PDF generation failed: PDF generation timed out after 30 seconds.
+Server might be slow or not responding.
+```
+
+---
+
+## 🔍 What This Means:
+
+Frontend ne backend ko PDF generate karne ko kaha, lekin:
+- **Backend 30 seconds mein respond nahi kiya**
+- **Request timeout ho gayi**
+- **Results save ho gaye but PDF nahi bani**
+
+---
+
+## ✅ Fix Checklist (Do in Order):
+
+### ☑️ Step 1: Backend Server Running Hai?
+
+**Check karo backend terminal:**
+
+```
+🚀 Neuro360 Backend Server running on port 5000
+✅ Gemini API key present: true
+```
+
+**Agar ye nahi dikha raha to:**
+
+```bash
+# Backend start karo
+npm run dev:backend
+```
+
+**Expected output:**
+```
+🚀 Neuro360 Backend Server running on port 5000
+📊 QEEG Processing API: http://localhost:5000/api/qeeg
+💚 Health Check: http://localhost:5000/api/health
+✅ Gemini API key present: true
+✅ Supabase credentials found
+```
+
+---
+
+### ☑️ Step 2: .env File Check Karo
+
+**Root folder mein `.env` file must have:**
+
+```env
+# Frontend API URL (MUST MATCH backend port)
+VITE_API_URL=http://localhost:5000/api
+
+# Gemini AI (REQUIRED for PDF generation)
+GEMINI_API_KEY=your-actual-gemini-api-key
+
+# Supabase (optional for cloud storage)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+**Get Gemini API key:**
+1. Go to: https://aistudio.google.com/apikey
+2. Click "Create API Key"
+3. Copy the key
+4. Paste in `.env` file
+
+---
+
+### ☑️ Step 3: Frontend Restart Karo
+
+After updating `.env`:
+
+```bash
+# Terminal mein Ctrl+C se band karo
+# Phir:
+npm run dev
+```
+
+**Or browser hard refresh:**
+```
+Ctrl + Shift + R
+```
+
+---
+
+### ☑️ Step 4: Test Backend Directly
+
+Browser mein ye URL kholo to check backend:
+
+```
+http://localhost:5000/api/health
+```
+
+**Expected response:**
+```json
+{
+  "status": "OK",
+  "message": "Server is running",
+  "timestamp": "2025-12-11T10:00:00.000Z"
+}
+```
+
+**Agar error aaye:**
+- Backend nahi chal raha → Start karo
+- Port 5000 already in use → Terminal close karke phir se try
+
+---
+
+## 🐛 Specific Error Solutions:
+
+### Error 1: "Failed to fetch"
+
+**Matlab:** Backend nahi chal raha
+
+**Fix:**
+```bash
+npm run dev:backend
+```
+
+---
+
+### Error 2: "404 Not Found"
+
+**Matlab:** Port mismatch hai
+
+**Check:**
+1. Backend kis port pe chal raha? (terminal dekho)
+2. `.env` mein same port hai?
+
+**Fix `.env`:**
+```env
+# If backend on port 5000:
+VITE_API_URL=http://localhost:5000/api
+
+# If backend on port 3001:
+VITE_API_URL=http://localhost:3001/api
+```
+
+---
+
+### Error 3: "Timeout after 30/60 seconds"
+
+**Possible Reasons:**
+
+#### 3a. Gemini API Key Missing
+
+**Check backend logs:**
+```
+❌ GEMINI_API_KEY not found
+```
+
+**Fix:** Add to `.env`:
+```env
+GEMINI_API_KEY=your-key-here
+```
+
+#### 3b. Gemini API Slow/Quota Exceeded
+
+**Check backend logs:**
+```
+⚠️ Gemini API quota exceeded
+OR
+⚠️ Gemini API slow response
+```
+
+**Fix:**
+1. Wait a few minutes and retry
+2. Check quota: https://aistudio.google.com/quota
+3. Consider upgrading plan if needed
+
+#### 3c. Internet Connection Issues
+
+**Test:**
+```bash
+ping google.com
+```
+
+**If fails:** Check your internet connection
+
+---
+
+## 🔧 Advanced Debugging:
+
+### Check Backend Logs in Real-Time:
+
+**When you click "Save & Download", backend should show:**
+
+```
+📄 === PDF Report Generation Started ===
+👤 Patient: John A
+📊 Parameters: 7
+🤖 Using Gemini AI PDF Generator
+📝 Generating AI-powered PDF to: neurosense-report-john_a-1234567890.pdf
+```
+
+**If this doesn't appear:**
+- Backend not receiving request
+- Port mismatch issue
+- CORS issue
+
+**If it hangs at "Generating AI-powered PDF":**
+- Gemini API slow
+- API key invalid
+- Quota exceeded
+
+**If it shows error:**
+- Check the specific error message
+- Most common: API key issue
+
+---
+
+### Enable Verbose Logging:
+
+Add to backend `server/index.js`:
+
+```javascript
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+```
+
+This will log every request.
+
+---
+
+## 🎯 Complete Fix Flow:
+
+```bash
+# 1. Stop everything
+# Press Ctrl+C in all terminals
+
+# 2. Check .env file exists
+ls .env
+# If not: cp .env.template .env
+# Then edit .env with correct values
+
+# 3. Start backend
+npm run dev:backend
+# Wait for: "Server running on port 5000"
+
+# 4. Start frontend (in new terminal)
+npm run dev
+# Wait for: "Local: http://localhost:3000"
+
+# 5. Test backend health
+# Open: http://localhost:5000/api/health
+# Should show: {"status":"OK"}
+
+# 6. Try PDF generation again
+```
+
+---
+
+## 📊 Expected Complete Flow:
+
+### When Everything Works:
+
+**1. User clicks "Save & Download"**
+
+**2. Frontend console:**
+```
+🔧 Preparing patient data...
+👤 Patient Data: { name: 'John A', ... }
+🌐 Calling backend API: http://localhost:5000/api/qeeg/generate-pdf
+```
+
+**3. Backend console:**
+```
+📄 === PDF Report Generation Started ===
+👤 Patient: John A
+📊 Parameters: 7
+🤖 Using Gemini AI PDF Generator
+📝 Generating AI-powered PDF to: neurosense-report-john_a-1734529327984.pdf
+✅ PDF Report Generated Successfully!
+📄 File: neurosense-report-john_a-1734529327984.pdf
+📊 Size: 45.32 KB
+☁️  Uploading PDF to Supabase storage...
+✅ PDF uploaded to Supabase successfully
+🏁 === PDF Generation Completed ===
+```
+
+**4. Frontend console:**
+```
+📡 Backend response status: 200
+✅ PDF generated successfully!
+💾 Saving to database...
+✅ Results saved successfully!
+📥 Auto-downloading PDF...
+```
+
+**5. User sees:**
+- ✅ Toast: "Generating NeuroSense PDF Report..."
+- ✅ Toast: "PDF Report generated!"
+- ✅ Toast: "Results saved successfully!"
+- ✅ PDF downloads automatically
+- ✅ Button shows "Saved ✓"
+
+---
+
+## 🚨 If Still Not Working:
+
+### Collect Debug Info:
+
+1. **Backend terminal output** (full error message)
+2. **Browser console** (Network tab + Console tab)
+3. **`.env` file contents** (hide API keys before sharing)
+4. **Backend port number** (from terminal)
+5. **Any firewall/antivirus warnings**
+
+### Common Windows-Specific Issues:
+
+#### Port Already in Use:
+
+```bash
+# Find process on port 5000
+netstat -ano | findstr :5000
+
+# Kill the process
+taskkill /PID <PID_NUMBER> /F
+```
+
+#### Firewall Blocking:
+
+- Check Windows Firewall
+- Allow Node.js through firewall
+- Temporarily disable antivirus to test
+
+---
+
+## ✨ Success Indicators:
+
+When everything is fixed:
+
+1. ✅ Backend shows: "Server running on port 5000"
+2. ✅ Backend shows: "Gemini API key present: true"
+3. ✅ Frontend connects without 404 errors
+4. ✅ PDF generates within 30-60 seconds
+5. ✅ PDF auto-downloads
+6. ✅ Processing History shows "PDF Available"
+
+---
+
+## 📝 Quick Checklist:
+
+- [ ] Backend running (`npm run dev:backend`)
+- [ ] Backend on port 5000
+- [ ] `.env` has `VITE_API_URL=http://localhost:5000/api`
+- [ ] `.env` has valid `GEMINI_API_KEY`
+- [ ] Frontend restarted after `.env` change
+- [ ] Browser hard refreshed (Ctrl+Shift+R)
+- [ ] No 404 errors in Network tab
+- [ ] Backend logs show PDF generation starting
+- [ ] Internet connection stable
+
+---
+
+## 🎉 Final Notes:
+
+**Timeout increased:** 30s → 60s (updated in code)
+**Better error messages:** Now shows specific issue
+
+**Most common fix (90% cases):**
+```env
+# Just add these to .env:
+VITE_API_URL=http://localhost:5000/api
+GEMINI_API_KEY=your-actual-key
+```
+
+Then restart frontend and try again! 🚀

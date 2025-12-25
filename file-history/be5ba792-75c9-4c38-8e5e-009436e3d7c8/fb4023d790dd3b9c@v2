@@ -1,0 +1,305 @@
+# ✅ Neuro360 Supabase Migration Checklist
+
+## 📋 Quick Setup Checklist (15 minutes)
+
+### ☑️ Phase 1: Supabase Project Setup (5 min)
+
+- [ ] **New Supabase account/project create kiya**
+  - URL: https://supabase.com
+  - Project name: Neuro360
+  - Region select kiya (Mumbai recommended)
+  - Database password set kiya aur save kiya
+
+- [ ] **API Keys copy kiye**
+  - Settings > API section open kiya
+  - Project URL copy kiya
+  - `anon public` key copy kiya
+  - `service_role` key copy kiya
+  - Notepad mein save kar liya
+
+---
+
+### ☑️ Phase 2: Database Migration (5 min)
+
+- [ ] **SQL Editor mein migration script run kiya**
+  - SQL Editor open kiya (Supabase Dashboard)
+  - `COMPLETE_SUPABASE_MIGRATION.sql` file open kiya
+  - Complete content copy-paste kiya
+  - Run button click kiya
+  - Success message confirm kiya
+
+- [ ] **Tables verify kiye**
+  ```sql
+  SELECT table_name FROM information_schema.tables
+  WHERE table_schema = 'public' ORDER BY table_name;
+  ```
+  - ✅ 35+ tables dikhe
+
+- [ ] **Storage buckets verify kiye**
+  - Storage tab open kiya
+  - 4 buckets confirm kiye:
+    - patient-reports ✅
+    - eeg-files ✅
+    - reports ✅
+    - clinic-logos ✅
+
+---
+
+### ☑️ Phase 3: Environment Configuration (3 min)
+
+- [ ] **Root .env file update kiya**
+  - File path: `D:\Todays\Neuro360\.env`
+  - NEXT_PUBLIC_SUPABASE_URL update kiya
+  - NEXT_PUBLIC_SUPABASE_ANON_KEY update kiya
+  - SUPABASE_SERVICE_ROLE_KEY update kiya
+  - VITE_SUPABASE_URL update kiya
+  - VITE_SUPABASE_ANON_KEY update kiya
+  - File save kiya
+
+- [ ] **Server .env file update kiya**
+  - File path: `D:\Todays\Neuro360\server\.env`
+  - SUPABASE_URL update kiya
+  - SUPABASE_SERVICE_ROLE_KEY update kiya
+  - File save kiya
+
+---
+
+### ☑️ Phase 4: Testing (2 min)
+
+- [ ] **Application start kiya**
+  ```bash
+  # Terminal 1 (Frontend)
+  cd D:\Todays\Neuro360
+  npm run dev
+
+  # Terminal 2 (Backend)
+  cd D:\Todays\Neuro360\server
+  npm start
+  ```
+
+- [ ] **Browser test kiya**
+  - http://localhost:3000 open kiya
+  - Signup page dikha
+  - Test registration kiya
+  - Login successful hua
+
+- [ ] **Database verify kiya**
+  - Supabase Dashboard > Table Editor > clinics
+  - Naya clinic entry dikhi
+
+---
+
+## 🎯 Verification Queries
+
+### Check Tables
+```sql
+-- All tables
+SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+
+-- Count: Should be 35+
+SELECT COUNT(*) FROM information_schema.tables
+WHERE table_schema = 'public';
+```
+
+### Check Storage Buckets
+```sql
+SELECT id, name, public FROM storage.buckets;
+```
+
+### Check RLS Policies
+```sql
+SELECT schemaname, tablename, policyname
+FROM pg_policies
+WHERE schemaname = 'public'
+ORDER BY tablename;
+```
+
+### Check Triggers
+```sql
+SELECT trigger_name, event_object_table
+FROM information_schema.triggers
+WHERE trigger_schema = 'public'
+ORDER BY event_object_table;
+```
+
+---
+
+## 📁 Created Files Summary
+
+| File | Purpose |
+|------|---------|
+| `COMPLETE_SUPABASE_MIGRATION.sql` | Complete database migration script |
+| `NAYE_SUPABASE_DATABASE_KO_SETUP_KAISE_KARE.md` | Detailed step-by-step guide (Hindi) |
+| `.env.template` | Frontend environment variables template |
+| `server/.env.template` | Backend environment variables template |
+| `MIGRATION_CHECKLIST.md` | This quick checklist |
+
+---
+
+## 🔑 Environment Variables Quick Reference
+
+### Frontend (.env)
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT_ID].supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+VITE_SUPABASE_URL=https://[PROJECT_ID].supabase.co
+VITE_SUPABASE_ANON_KEY=eyJ...
+```
+
+### Backend (server/.env)
+```bash
+SUPABASE_URL=https://[PROJECT_ID].supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+```
+
+---
+
+## 🚨 Common Issues & Quick Fixes
+
+### Issue: "relation does not exist"
+**Fix:** Migration script run nahi hua properly
+```sql
+-- Re-run migration script
+-- Check tables: SELECT * FROM information_schema.tables WHERE table_schema = 'public';
+```
+
+### Issue: "Bucket not found"
+**Fix:** Storage buckets create nahi hue
+```sql
+-- Check: SELECT * FROM storage.buckets;
+-- Create manually in Storage tab
+```
+
+### Issue: "Invalid API key"
+**Fix:** .env file mein wrong keys
+- Double check API keys
+- Restart dev servers
+- Clear browser cache
+
+### Issue: Connection timeout
+**Fix:** Wrong SUPABASE_URL
+- Verify URL format: `https://xxx.supabase.co`
+- No trailing slash
+- Check project ID correct hai
+
+---
+
+## 📊 Database Schema Overview
+
+### Core Tables (15)
+- profiles
+- organizations
+- org_memberships
+- clinics
+- patients
+- sessions
+- eeg_reports
+- documents
+- reports
+- assessments
+- daily_progress
+- subscriptions
+- payment_history
+- payments
+- usage
+
+### Feature Tables (13)
+- alerts
+- uploaded_files
+- workflows
+- algorithm_results
+- clinical_reports
+- backup_history
+- clinic_enquiries
+- wellness_scores
+- coaching_sessions
+- daily_content
+- audit_logs
+- consent_records
+- settings
+
+### Lookup Tables (2)
+- statement_catalog
+- role_permissions
+
+**Total:** 30+ tables
+
+---
+
+## 🗄️ Storage Buckets
+
+| Bucket | Type | Max Size | Purpose |
+|--------|------|----------|---------|
+| patient-reports | Private | 50 MB | Patient EEG files (.edf, .eeg, .bdf) |
+| eeg-files | Private | 50 MB | Raw EEG data storage |
+| reports | Private | 50 MB | Generated PDF/CSV reports |
+| clinic-logos | Public | 5 MB | Clinic branding images |
+
+---
+
+## 🎓 Post-Migration Steps
+
+### Security
+- [ ] RLS policies review aur tighten karein
+- [ ] Service role key ko secure storage mein rakhein
+- [ ] .gitignore mein .env files add karein
+
+### Optimization
+- [ ] Indexes check karein performance ke liye
+- [ ] Query performance test karein
+- [ ] Storage bucket policies optimize karein
+
+### Monitoring
+- [ ] Supabase Dashboard logs check karein
+- [ ] Error tracking setup karein
+- [ ] Performance metrics monitor karein
+
+### Backup
+- [ ] Automatic backup schedule set karein
+- [ ] Manual backup test karein
+- [ ] Recovery procedure document karein
+
+---
+
+## ✅ Success Criteria
+
+Migration successful hai agar:
+
+✅ All tables created (35+)
+✅ All storage buckets exist (4)
+✅ RLS policies enabled
+✅ Triggers working
+✅ Frontend running
+✅ Backend running
+✅ Registration working
+✅ Login working
+✅ File upload working
+
+---
+
+## 🎉 Migration Complete!
+
+Agar ye checklist complete ho gaya hai, toh:
+
+**🎊 Congratulations! Migration successful! 🎊**
+
+Ab aap:
+- ✅ Naye Supabase database use kar sakte hain
+- ✅ Production deployment kar sakte hain
+- ✅ Users ko onboard kar sakte hain
+- ✅ Features develop kar sakte hain
+
+---
+
+## 📞 Need Help?
+
+1. **Detailed Guide:** `NAYE_SUPABASE_DATABASE_KO_SETUP_KAISE_KARE.md`
+2. **SQL Script:** `COMPLETE_SUPABASE_MIGRATION.sql`
+3. **Supabase Docs:** https://supabase.com/docs
+4. **Project Dashboard:** https://app.supabase.com
+
+---
+
+**Happy Coding! 🚀**

@@ -1,0 +1,12 @@
+require('dotenv').config();
+
+console.log('========================================');
+console.log('ENVIRONMENT CONFIGURATION CHECK');
+console.log('========================================');
+console.log('OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
+console.log('Key length:', process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.length : 0);
+console.log('Key preview:', process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.substring(0, 20) + '...' : 'N/A');
+console.log('PORT:', process.env.PORT);
+console.log('AI_SERVICE:', process.env.AI_SERVICE);
+console.log('SUPABASE_URL exists:', !!process.env.SUPABASE_URL);
+console.log('========================================');

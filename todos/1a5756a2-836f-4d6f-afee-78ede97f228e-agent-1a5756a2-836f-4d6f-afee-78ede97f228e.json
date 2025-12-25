@@ -1,0 +1,52 @@
+[
+  {
+    "content": "Create backend folder structure and setup Python environment",
+    "status": "in_progress",
+    "activeForm": "Creating backend folder structure"
+  },
+  {
+    "content": "Create requirements.txt with FastAPI dependencies",
+    "status": "pending",
+    "activeForm": "Creating requirements.txt"
+  },
+  {
+    "content": "Create main.py FastAPI entry point with CORS",
+    "status": "pending",
+    "activeForm": "Creating FastAPI main.py"
+  },
+  {
+    "content": "Create backend config and environment setup",
+    "status": "pending",
+    "activeForm": "Creating backend configuration"
+  },
+  {
+    "content": "Create EEG processor service in Python",
+    "status": "pending",
+    "activeForm": "Creating EEG processor"
+  },
+  {
+    "content": "Create wellness calculator service in Python",
+    "status": "pending",
+    "activeForm": "Creating wellness calculator"
+  },
+  {
+    "content": "Create API routes for EEG and wellness",
+    "status": "pending",
+    "activeForm": "Creating API routes"
+  },
+  {
+    "content": "Create backendApiService.js for frontend integration",
+    "status": "pending",
+    "activeForm": "Creating backend API service"
+  },
+  {
+    "content": "Update existing services to use FastAPI backend",
+    "status": "pending",
+    "activeForm": "Updating existing services"
+  },
+  {
+    "content": "Test backend integration and deployment",
+    "status": "pending",
+    "activeForm": "Testing backend"
+  }
+]

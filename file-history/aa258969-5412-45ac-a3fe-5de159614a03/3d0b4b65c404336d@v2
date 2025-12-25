@@ -1,0 +1,398 @@
+# 🔴 Upload Timeout Error - FIXED!
+
+## 📊 Error You Were Seeing:
+
+```
+Error processing QEEG files: Error: Upload timed out.
+The file may be too large or the server is busy. Please try again.
+```
+
+---
+
+## ✅ What I Fixed:
+
+### Fix 1: Wrong Default Port (CRITICAL!)
+**Before:**
+```javascript
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+```
+
+**After:**
+```javascript
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+```
+
+**Why this matters:** Backend runs on port **5000**, but code was trying port **3001** as fallback!
+
+### Fix 2: Increased Upload Timeout
+**Before:** 2 minutes (120000ms)
+**After:** 5 minutes (300000ms)
+
+**Why:** Large PDF files take time to upload and process with Gemini AI.
+
+### Fix 3: Better Error Messages
+Now shows specific steps to fix the issue.
+
+---
+
+## 🚀 What You Need To Do Now:
+
+### Step 1: Create/Update .env File
+
+**Root folder mein `.env` file:**
+
+```env
+# Backend API URL (CRITICAL!)
+VITE_API_URL=http://localhost:5000/api
+
+# Gemini AI Key (REQUIRED)
+GEMINI_API_KEY=your-gemini-api-key-here
+
+# Supabase (optional)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+**Get Gemini API key:**
+https://aistudio.google.com/apikey
+
+---
+
+### Step 2: Start Backend Server
+
+```bash
+# New terminal
+npm run dev:backend
+```
+
+**Wait for:**
+```
+🚀 Neuro360 Backend Server running on port 5000
+✅ Gemini API key present: true
+✅ Supabase credentials found
+```
+
+---
+
+### Step 3: Restart Frontend
+
+```bash
+# Frontend terminal
+Ctrl+C  (stop)
+npm run dev  (restart)
+```
+
+**Or browser hard refresh:**
+```
+Ctrl + Shift + R
+```
+
+---
+
+### Step 4: Check File Sizes
+
+**Maximum file size:** 50MB per file
+
+**Check your files:**
+```bash
+# Windows (in file explorer)
+Right-click file → Properties → Size
+```
+
+**If files > 50MB:**
+1. Compress the PDF
+2. Or use online PDF compressor: https://www.ilovepdf.com/compress_pdf
+3. Or split into smaller files
+
+---
+
+## 🎯 Expected Flow (When Working):
+
+### 1. User Uploads Files & Clicks "Execute"
+
+**Console shows:**
+```
+🚀 Starting QEEG analysis...
+📤 Uploading files to server...
+```
+
+### 2. Backend Processing (30 seconds - 5 minutes)
+
+**Backend console shows:**
+```
+🔬 === QEEG Processing Started ===
+📂 Received files:
+   - Eyes Open: file1.pdf (2.5 MB)
+   - Eyes Closed: file2.pdf (3.1 MB)
+👤 Patient: John A
+
+📄 Processing Eyes Open PDF...
+🤖 Using Gemini 2.0 Flash (Multimodal)
+🔧 Initializing Gemini AI...
+✅ Model initialized: gemini-2.0-flash
+📄 File converted to Base64: 3.5 MB
+🔍 Sending to Gemini for extraction...
+✅ Gemini extraction successful!
+
+📄 Processing Eyes Closed PDF...
+[... same process ...]
+
+🧮 Calculating 7 brain health parameters...
+✅ Cognition: 1/3
+✅ Stress: 3/3
+✅ Focus & Attention: 1/3
+[... etc ...]
+
+✅ QEEG Processing Complete!
+```
+
+### 3. Results Display
+
+**Frontend shows:**
+```
+✅ Analysis complete!
+📈 Overall Score: X/21
+```
+
+**Right panel:** Shows all 7 parameters with scores
+
+---
+
+## 🔍 Troubleshooting:
+
+### Issue 1: "Failed to fetch"
+
+**Symptom:** Upload immediately fails
+
+**Cause:** Backend not running
+
+**Fix:**
+```bash
+npm run dev:backend
+```
+
+---
+
+### Issue 2: "Upload timed out after 5 minutes"
+
+**Possible causes:**
+
+#### A. Files Too Large (>50MB)
+
+**Check:**
+```bash
+# File size in MB
+ls -lh your-file.pdf  (Linux/Mac)
+# Or right-click → Properties (Windows)
+```
+
+**Fix:** Compress PDFs:
+1. Online: https://www.ilovepdf.com/compress_pdf
+2. Or use Adobe Acrobat
+3. Or reduce PDF quality/resolution
+
+#### B. Backend Processing Slow
+
+**Check backend logs for:**
+- Gemini API errors
+- Quota exceeded
+- Network timeouts
+
+**Fix:**
+- Wait and retry
+- Check Gemini API quota
+- Check internet connection
+
+#### C. Gemini API Key Missing/Invalid
+
+**Backend shows:**
+```
+❌ GEMINI_API_KEY not found
+```
+
+**Fix:** Add to `.env`:
+```env
+GEMINI_API_KEY=your-actual-key
+```
+
+---
+
+### Issue 3: Backend Shows Errors
+
+#### Error: "Model not found"
+
+**Already fixed!** We updated to `gemini-2.0-flash`
+
+#### Error: "Quota exceeded"
+
+**Gemini free tier:** 20 requests/day
+
+**Fix:**
+- Wait until quota resets
+- Or upgrade Gemini API plan
+- Or use same files (cached)
+
+#### Error: "Cannot extract data from PDF"
+
+**Cause:** PDF format not compatible
+
+**Fix:**
+- Ensure PDFs have text (not scanned images)
+- Check pages 13 & 24 exist
+- Verify PDF has frequency band tables
+
+---
+
+## 📊 File Size Recommendations:
+
+| File Type | Recommended Size | Maximum Size |
+|-----------|-----------------|--------------|
+| QEEG PDF | 1-10 MB | 50 MB |
+| Compressed PDF | 500 KB - 5 MB | Best |
+
+**Typical QEEG PDF:** 2-5 MB (should upload in 10-30 seconds)
+
+---
+
+## ⏱️ Expected Processing Times:
+
+| Step | Time | Notes |
+|------|------|-------|
+| Upload | 5-30 sec | Depends on file size |
+| Gemini extraction | 30-120 sec | AI processing time |
+| Algorithm calculation | 5-10 sec | Local processing |
+| **Total** | **1-3 minutes** | For typical files |
+
+**If takes >5 minutes:** Something is wrong, check logs
+
+---
+
+## 🎉 Success Indicators:
+
+### Frontend Console:
+```
+🚀 Starting QEEG analysis...
+📤 Uploading files to server...
+📊 Parsing QEEG data tables...
+🧮 Calculating 7 brain health parameters...
+  ✓ Cognition parameter calculated
+  ✓ Stress parameter calculated
+  [... etc ...]
+✅ Analysis complete!
+📈 Overall Score: 12/21
+```
+
+### Backend Console:
+```
+🔬 === QEEG Processing Started ===
+✅ Eyes Open PDF processed successfully
+✅ Eyes Closed PDF processed successfully
+🧮 === Algorithm Calculation Started ===
+✅ === Processing Complete ===
+```
+
+### UI:
+- ✅ "Processing Complete!" (green box)
+- ✅ All 7 parameters show in right panel
+- ✅ "Save & Download" button enabled
+- ✅ No errors in console
+
+---
+
+## 📝 Quick Checklist:
+
+**Before uploading:**
+- [ ] Backend running (`npm run dev:backend`)
+- [ ] Backend shows port 5000
+- [ ] `.env` has `VITE_API_URL=http://localhost:5000/api`
+- [ ] `.env` has valid `GEMINI_API_KEY`
+- [ ] Files are <50MB each
+- [ ] Files are actual PDFs (not images)
+- [ ] Frontend restarted after `.env` changes
+
+**During upload:**
+- [ ] Console shows "Uploading files to server..."
+- [ ] Backend logs show file processing
+- [ ] No 404 or network errors
+- [ ] Wait patiently (1-3 minutes is normal)
+
+**After processing:**
+- [ ] Results appear in right panel
+- [ ] All 7 parameters visible
+- [ ] No errors in console
+- [ ] "Save & Download" button works
+
+---
+
+## 🔧 Advanced Tips:
+
+### Optimize PDF Files:
+
+```bash
+# If you have ImageMagick:
+convert input.pdf -density 150 -quality 85 output.pdf
+
+# If you have Ghostscript:
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+```
+
+### Monitor Upload Progress:
+
+Open browser Network tab (F12 → Network):
+- See upload progress
+- Check response time
+- View backend response
+
+### Test Backend Health:
+
+```bash
+# Test if backend is responding
+curl http://localhost:5000/api/health
+
+# Expected:
+{"status":"OK","message":"Server is running"}
+```
+
+---
+
+## 🆘 Still Having Issues?
+
+### Collect This Info:
+
+1. **File sizes:**
+   - Eyes Open PDF: ___ MB
+   - Eyes Closed PDF: ___ MB
+
+2. **Backend console output** (last 50 lines)
+
+3. **Browser console errors** (full error message)
+
+4. **`.env` file contents** (hide API keys)
+
+5. **Backend port** (from terminal: "running on port ___")
+
+6. **Internet speed** (if slow, may cause timeouts)
+
+---
+
+## ✨ Summary of Fixes:
+
+1. ✅ **Default port fixed:** 3001 → 5000
+2. ✅ **Timeout increased:** 2 min → 5 min
+3. ✅ **Better error messages:** Shows specific steps
+4. ✅ **Port in error message:** Updated to 5000
+
+**Now upload should work smoothly!** 🚀
+
+---
+
+## 📞 Next Steps:
+
+1. **Save all changes** (already done)
+2. **Refresh browser** (Ctrl+Shift+R)
+3. **Ensure backend running** on port 5000
+4. **Try upload again** with your PDF files
+5. **Wait patiently** (1-3 minutes is normal)
+6. **Check backend logs** for progress
+
+**Agar phir bhi issue ho, backend console ka full output share karo!** 🙏

@@ -1,0 +1,363 @@
+/**
+ * Template-Based PDF Report Generator for NeuroSense
+ * Uses existing PDF template and overlays dynamic content
+ */
+
+const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+const fs = require('fs');
+const path = require('path');
+const templateManager = require('./pdf/templateManager');
+const coordinates = require('../config/pdfCoordinates');
+
+class TemplateBasedPDFGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+    this.pdfDoc = null;
+    this.fonts = {};
+  }
+
+  /**
+   * Main method to generate the PDF report
+   * @param {string} outputPath - Path where PDF will be saved
+   * @returns {Promise<string>} Path to generated PDF
+   */
+  async generateReport(outputPath) {
+    try {
+      console.log('\n📄 === Starting Template-Based PDF Generation ===');
+      console.log('Patient:', this.patientData.name);
+      console.log('Output:', outputPath);
+
+      // Step 1: Load the PDF template
+      console.log('\n📥 Loading PDF template...');
+      this.pdfDoc = await templateManager.loadTemplate();
+
+      // Step 2: Embed fonts
+      console.log('🔤 Embedding fonts...');
+      await this.embedFonts();
+
+      // Step 3: Get pages from template
+      const pages = this.pdfDoc.getPages();
+      console.log(`📄 Template has ${pages.length} pages`);
+
+      // Step 4: Fill in dynamic content on each page
+      console.log('\n✏️  Filling dynamic content...');
+
+      // Page 1: Cover Page
+      if (pages.length >= 1) {
+        console.log('   - Page 1: Cover Page');
+        await this.fillCoverPage(pages[0]);
+      }
+
+      // Page 2: Numbers at a Glance
+      if (pages.length >= 2) {
+        console.log('   - Page 2: Numbers at a Glance');
+        await this.fillNumbersAtGlance(pages[1]);
+      }
+
+      // Page 3: Brain Type Classification (if template has this page)
+      if (pages.length >= 3 && this.algorithmResults.brainType) {
+        console.log('   - Page 3: Brain Type Classification');
+        await this.fillBrainTypePage(pages[2]);
+      }
+
+      // Step 5: Save the PDF
+      console.log('\n💾 Saving PDF...');
+      const pdfBytes = await this.pdfDoc.save();
+      fs.writeFileSync(outputPath, pdfBytes);
+
+      const fileSizeKB = (pdfBytes.length / 1024).toFixed(2);
+      console.log(`✅ PDF generated successfully! (${fileSizeKB} KB)`);
+      console.log('📁 Saved to:', outputPath);
+      console.log('=== PDF Generation Complete ===\n');
+
+      return outputPath;
+    } catch (error) {
+      console.error('\n❌ Error generating template-based PDF:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Embed fonts in the PDF document
+   */
+  async embedFonts() {
+    this.fonts.helvetica = await this.pdfDoc.embedFont(StandardFonts.Helvetica);
+    this.fonts.helveticaBold = await this.pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    this.fonts.helveticaOblique = await this.pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+  }
+
+  /**
+   * Fill Cover Page (Page 1) with patient information
+   * @param {PDFPage} page - The PDF page object
+   */
+  async fillCoverPage(page) {
+    const coord = coordinates.page1;
+
+    // Patient Name
+    if (this.patientData.name) {
+      page.drawText(this.patientData.name, {
+        x: coord.patientName.x,
+        y: coord.patientName.y,
+        size: coord.patientName.fontSize,
+        font: this.fonts.helveticaBold,
+        color: rgb(
+          coord.patientName.color.r,
+          coord.patientName.color.g,
+          coord.patientName.color.b
+        )
+      });
+    }
+
+    // Patient ID
+    if (this.patientData.patientId) {
+      page.drawText(`Patient ID: ${this.patientData.patientId}`, {
+        x: coord.patientId.x,
+        y: coord.patientId.y,
+        size: coord.patientId.fontSize,
+        font: this.fonts.helvetica,
+        color: rgb(coord.patientId.color.r, coord.patientId.color.g, coord.patientId.color.b)
+      });
+    }
+
+    // Date of Recording
+    if (this.patientData.dateOfRecording) {
+      page.drawText(`Date: ${this.patientData.dateOfRecording}`, {
+        x: coord.dateOfRecording.x,
+        y: coord.dateOfRecording.y,
+        size: coord.dateOfRecording.fontSize,
+        font: this.fonts.helvetica,
+        color: rgb(
+          coord.dateOfRecording.color.r,
+          coord.dateOfRecording.color.g,
+          coord.dateOfRecording.color.b
+        )
+      });
+    }
+
+    // Age
+    if (this.patientData.age) {
+      page.drawText(`Age: ${this.patientData.age}`, {
+        x: coord.age.x,
+        y: coord.age.y,
+        size: coord.age.fontSize,
+        font: this.fonts.helvetica,
+        color: rgb(coord.age.color.r, coord.age.color.g, coord.age.color.b)
+      });
+    }
+
+    // Gender
+    if (this.patientData.gender) {
+      page.drawText(`Gender: ${this.patientData.gender}`, {
+        x: coord.gender.x,
+        y: coord.gender.y,
+        size: coord.gender.fontSize,
+        font: this.fonts.helvetica,
+        color: rgb(coord.gender.color.r, coord.gender.color.g, coord.gender.color.b)
+      });
+    }
+
+    // Clinic Name
+    if (this.patientData.clinicName) {
+      page.drawText(this.patientData.clinicName, {
+        x: coord.clinicName.x,
+        y: coord.clinicName.y,
+        size: coord.clinicName.fontSize,
+        font: this.fonts.helveticaBold,
+        color: rgb(
+          coord.clinicName.color.r,
+          coord.clinicName.color.g,
+          coord.clinicName.color.b
+        )
+      });
+    }
+  }
+
+  /**
+   * Fill Numbers at a Glance Page (Page 2) with scores and parameters
+   * @param {PDFPage} page - The PDF page object
+   */
+  async fillNumbersAtGlance(page) {
+    const coord = coordinates.page2;
+
+    // Overall Score
+    if (this.algorithmResults.overallScore) {
+      const scoreText = `${this.algorithmResults.overallScore}`;
+      page.drawText(scoreText, {
+        x: coord.overallScore.x,
+        y: coord.overallScore.y,
+        size: coord.overallScore.fontSize,
+        font: this.fonts.helveticaBold,
+        color: rgb(
+          coord.overallScore.color.r,
+          coord.overallScore.color.g,
+          coord.overallScore.color.b
+        )
+      });
+
+      // Max Score (e.g., "/21")
+      const maxScoreText = `/${this.algorithmResults.parameters.length * 3}`;
+      page.drawText(maxScoreText, {
+        x: coord.maxScore.x,
+        y: coord.maxScore.y,
+        size: coord.maxScore.fontSize,
+        font: this.fonts.helvetica,
+        color: rgb(coord.maxScore.color.r, coord.maxScore.color.g, coord.maxScore.color.b)
+      });
+    }
+
+    // Brain Parameters (7 items)
+    if (this.algorithmResults.parameters && this.algorithmResults.parameters.length > 0) {
+      this.algorithmResults.parameters.forEach((param, index) => {
+        const yPosition = coord.parametersStartY - (index * coord.parameterSpacing);
+
+        // Parameter Name
+        page.drawText(param.name, {
+          x: coord.parameterName.x,
+          y: yPosition + 30,
+          size: coord.parameterName.fontSize,
+          font: this.fonts.helveticaBold,
+          color: rgb(
+            coord.parameterName.color.r,
+            coord.parameterName.color.g,
+            coord.parameterName.color.b
+          )
+        });
+
+        // Score (e.g., "2/3")
+        page.drawText(`${param.score}/${param.maxScore}`, {
+          x: coord.parameterScore.x,
+          y: yPosition + 15,
+          size: coord.parameterScore.fontSize,
+          font: this.fonts.helvetica,
+          color: rgb(
+            coord.parameterScore.color.r,
+            coord.parameterScore.color.g,
+            coord.parameterScore.color.b
+          )
+        });
+
+        // Classification (Low/Medium/High) with color
+        const classColor = coordinates.getClassificationColor(param.classification);
+        page.drawText(param.classification, {
+          x: coord.parameterClassification.x,
+          y: yPosition,
+          size: coord.parameterClassification.fontSize,
+          font: this.fonts.helveticaBold,
+          color: rgb(classColor.r, classColor.g, classColor.b)
+        });
+      });
+    }
+
+    // Brain-Type Pattern (e.g., "Cognition M · Stress L · Focus H...")
+    const brainTypePattern = this.algorithmResults.parameters
+      .map(p => `${p.name} ${p.classification.charAt(0)}`)
+      .join(' · ');
+
+    page.drawText(brainTypePattern, {
+      x: coord.brainTypePattern.x,
+      y: coord.brainTypePattern.y,
+      size: coord.brainTypePattern.fontSize,
+      font: this.fonts.helvetica,
+      color: rgb(
+        coord.brainTypePattern.color.r,
+        coord.brainTypePattern.color.g,
+        coord.brainTypePattern.color.b
+      )
+    });
+  }
+
+  /**
+   * Fill Brain Type Page (Page 3) with classification and recommendations
+   * @param {PDFPage} page - The PDF page object
+   */
+  async fillBrainTypePage(page) {
+    const coord = coordinates.page3;
+
+    // Brain Type Name
+    if (this.algorithmResults.brainType) {
+      page.drawText(this.algorithmResults.brainType, {
+        x: coord.brainTypeName.x,
+        y: coord.brainTypeName.y,
+        size: coord.brainTypeName.fontSize,
+        font: this.fonts.helveticaBold,
+        color: rgb(
+          coord.brainTypeName.color.r,
+          coord.brainTypeName.color.g,
+          coord.brainTypeName.color.b
+        )
+      });
+    }
+
+    // Brain Type Description (if available)
+    if (this.algorithmResults.brainTypeDescription) {
+      this.drawMultilineText(
+        page,
+        this.algorithmResults.brainTypeDescription,
+        coord.brainTypeDescription.x,
+        coord.brainTypeDescription.y,
+        coord.brainTypeDescription.maxWidth,
+        coord.brainTypeDescription.lineHeight,
+        coord.brainTypeDescription.fontSize,
+        this.fonts.helvetica,
+        rgb(
+          coord.brainTypeDescription.color.r,
+          coord.brainTypeDescription.color.g,
+          coord.brainTypeDescription.color.b
+        )
+      );
+    }
+  }
+
+  /**
+   * Helper method to draw multi-line text
+   * @param {PDFPage} page - PDF page
+   * @param {string} text - Text to draw
+   * @param {number} x - X coordinate
+   * @param {number} y - Y coordinate (top of text block)
+   * @param {number} maxWidth - Maximum width for text wrapping
+   * @param {number} lineHeight - Spacing between lines
+   * @param {number} fontSize - Font size
+   * @param {Object} font - Font object
+   * @param {Object} color - RGB color object
+   */
+  drawMultilineText(page, text, x, y, maxWidth, lineHeight, fontSize, font, color) {
+    const words = text.split(' ');
+    let currentLine = '';
+    let currentY = y;
+
+    words.forEach(word => {
+      const testLine = currentLine + word + ' ';
+      const testWidth = font.widthOfTextAtSize(testLine, fontSize);
+
+      if (testWidth > maxWidth && currentLine.length > 0) {
+        // Draw current line
+        page.drawText(currentLine.trim(), {
+          x: x,
+          y: currentY,
+          size: fontSize,
+          font: font,
+          color: color
+        });
+        currentLine = word + ' ';
+        currentY -= lineHeight;
+      } else {
+        currentLine = testLine;
+      }
+    });
+
+    // Draw remaining text
+    if (currentLine.length > 0) {
+      page.drawText(currentLine.trim(), {
+        x: x,
+        y: currentY,
+        size: fontSize,
+        font: font,
+        color: color
+      });
+    }
+  }
+}
+
+module.exports = TemplateBasedPDFGenerator;

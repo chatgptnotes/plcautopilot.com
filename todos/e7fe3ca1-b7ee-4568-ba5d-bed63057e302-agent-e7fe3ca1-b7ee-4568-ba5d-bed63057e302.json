@@ -1,0 +1,102 @@
+[
+  {
+    "content": "Install PDF generation libraries (react-pdf/renderer, chartjs)",
+    "status": "completed",
+    "activeForm": "Installing PDF generation libraries"
+  },
+  {
+    "content": "Create PDF generator service architecture in /server/services",
+    "status": "completed",
+    "activeForm": "Creating PDF generator service architecture"
+  },
+  {
+    "content": "Build cover page template with patient info and brain illustration",
+    "status": "completed",
+    "activeForm": "Building cover page template"
+  },
+  {
+    "content": "Create introduction template with symptom checklist",
+    "status": "completed",
+    "activeForm": "Creating introduction template"
+  },
+  {
+    "content": "Build brain waves profile explanation section",
+    "status": "completed",
+    "activeForm": "Building brain waves profile section"
+  },
+  {
+    "content": "Create 'Numbers at a Glance' metrics table template",
+    "status": "completed",
+    "activeForm": "Creating metrics table template"
+  },
+  {
+    "content": "Build 8 individual metric pages with visualizations",
+    "status": "completed",
+    "activeForm": "Building individual metric pages"
+  },
+  {
+    "content": "Implement brain topology heat map generator for EEG data",
+    "status": "completed",
+    "activeForm": "Implementing brain topology heat map generator"
+  },
+  {
+    "content": "Create brain type classification algorithm (classify 1-6 based on scores)",
+    "status": "completed",
+    "activeForm": "Creating brain type classification algorithm"
+  },
+  {
+    "content": "Build recommendation engine with personalized suggestions per brain type",
+    "status": "completed",
+    "activeForm": "Building recommendation engine"
+  },
+  {
+    "content": "Create brain type page template with recommendations",
+    "status": "completed",
+    "activeForm": "Creating brain type page template"
+  },
+  {
+    "content": "Build appendix with 9 breathing technique guides",
+    "status": "completed",
+    "activeForm": "Building breathing techniques appendix"
+  },
+  {
+    "content": "Create POST /api/reports/generate-pdf endpoint",
+    "status": "completed",
+    "activeForm": "Creating PDF generation API endpoint"
+  },
+  {
+    "content": "Integrate PDF generation with Supabase Storage upload",
+    "status": "pending",
+    "activeForm": "Integrating with Supabase Storage"
+  },
+  {
+    "content": "Add 'Generate Report' button in AlgorithmDataProcessor component",
+    "status": "pending",
+    "activeForm": "Adding Generate Report button"
+  },
+  {
+    "content": "Implement PDF generation progress indicator in UI",
+    "status": "pending",
+    "activeForm": "Implementing progress indicator"
+  },
+  {
+    "content": "Add PDF preview and download functionality",
+    "status": "pending",
+    "activeForm": "Adding PDF preview/download"
+  },
+  {
+    "content": "Update ReportViewer to display generated PDF reports",
+    "status": "pending",
+    "activeForm": "Updating ReportViewer component"
+  },
+  {
+    "content": "Test PDF generation with sample patient data",
+    "status": "in_progress",
+    "activeForm": "Testing with sample data"
+  },
+  {
+    "content": "Verify PDF matches sample report format and optimize",
+    "status": "pending",
+    "activeForm": "Verifying and optimizing PDF output"
+  }
+]

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IoScannerType can be:
+    IoScannerDrive
+    IoScannerOther
+    
+  Init request AccessType can be:
+    IoScannerInitRequestAccessWriteSingleCoil
+    IoScannerInitRequestAccessWriteSingleRegister
+    IoScannerInitRequestAccessWriteMultipleCoils
+    IoScannerInitRequestAccessWriteMultipleRegisters
+    
+  Channel AccessType can be:
+    IoScannerChannelAccessReadCoils
+    IoScannerChannelAccessReadDiscreteInputs
+    IoScannerChannelAccessReadHoldingRegisters
+    IoScannerChannelAccessReadInputRegisters
+    IoScannerChannelAccessWriteSingleCoil
+    IoScannerChannelAccessWriteSingleRegister
+    IoScannerChannelAccessWriteMultipleCoils
+    IoScannerChannelAccessWriteMultipleRegisters
+    IoScannerChannelAccessReadWriteMultipleRegisters
+    
+  Channel Trigger can be:
+    IoScannerChannelTriggerCyclic
+    IoScannerChannelTriggerRisingEdge
+  -->
+<!-- ATV600 -->
+<Device>
+    <DeviceTypeName>ATV630</DeviceTypeName>
+    <DeviceTypeId>4</DeviceTypeId>
+    <IoScannerType>IoScannerDrive</IoScannerType>
+    <VendorId>Schneider Electric</VendorId>
+    <ProductCode>ATV630*</ProductCode>
+    <MajorMinorRevision></MajorMinorRevision>
+
+    <InitRequests>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>8501</Offset>
+            <Length>1</Length>
+            <InitializationValue>0</InitializationValue>
+            <Comment>Switch ATV in NST State</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>12701</Offset>
+            <Length>1</Length>
+            <InitializationValue>3201</InitializationValue>
+            <Comment>Configuration of ETA register</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>12702</Offset>
+            <Length>1</Length>
+            <InitializationValue>8604</InitializationValue>
+            <Comment>Configuration of RFRD register (RPM)</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>12703</Offset>
+            <Length>1</Length>
+            <InitializationValue>3206</InitializationValue>
+            <Comment>Configuration of ETI register</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>12704</Offset>
+            <Length>1</Length>
+            <InitializationValue>7200</InitializationValue>
+            <Comment>Configuration of DP0 register</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>12721</Offset>
+            <Length>1</Length>
+            <InitializationValue>8501</InitializationValue>
+            <Comment>Configuration of CMD register</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+        <InitRequest>
+            <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+            <Offset>12722</Offset>
+            <Length>1</Length>
+            <InitializationValue>8602</InitializationValue>
+            <Comment>Configuration of LFRD register (RPM)</Comment>
+            <CanEditInitRequest>False</CanEditInitRequest>
+        </InitRequest>
+    </InitRequests>
+
+    <Channels>
+        <Channel>
+            <Name>ATV_IoScanner</Name>
+            <AccessType>IoScannerChannelAccessReadWriteMultipleRegisters</AccessType>
+            <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+            <CyclingTime>20</CyclingTime>
+            <MemoryBit></MemoryBit>
+            <Comment>Main IoScanner ATV channel</Comment>
+            <ReadOffset>12741</ReadOffset>
+            <ReadLength>4</ReadLength>
+            <WriteOffset>12761</WriteOffset>
+            <WriteLength>2</WriteLength>
+            <CanEditChannel>False</CanEditChannel>
+        </Channel>
+    </Channels>
+</Device>

@@ -1,0 +1,125 @@
+-- ================================================
+-- COMPLETE FIX FOR EDF-FILES BUCKET
+-- ================================================
+-- Run this ENTIRE script in Supabase SQL Editor
+-- This will fix ALL permission issues
+
+-- STEP 1: Delete existing bucket if it exists (to start fresh)
+DELETE FROM storage.buckets WHERE id = 'edf-files';
+
+-- STEP 2: Create edf-files bucket with correct settings
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'edf-files',
+  'edf-files',
+  true,  -- CHANGED TO PUBLIC (easier access)
+  52428800, -- 50MB limit
+  ARRAY[
+    'application/octet-stream',
+    'application/x-edf',
+    'application/edf',
+    'application/x-bdf',
+    'application/bdf',
+    'text/plain'
+  ]
+);
+
+-- STEP 3: Drop ALL existing policies for edf-files
+DROP POLICY IF EXISTS "Allow authenticated users to upload edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to view edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to update edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated users to delete edf" ON storage.objects;
+DROP POLICY IF EXISTS "Allow all authenticated users" ON storage.objects;
+DROP POLICY IF EXISTS "Public Access" ON storage.objects;
+DROP POLICY IF EXISTS "Give users access to own folder" ON storage.objects;
+
+-- STEP 4: Create PERMISSIVE policies (allow everything for edf-files)
+
+-- Policy 1: Allow ANYONE to upload (INSERT)
+CREATE POLICY "edf_files_insert_policy"
+ON storage.objects
+FOR INSERT
+TO public
+WITH CHECK (bucket_id = 'edf-files');
+
+-- Policy 2: Allow ANYONE to view (SELECT)
+CREATE POLICY "edf_files_select_policy"
+ON storage.objects
+FOR SELECT
+TO public
+USING (bucket_id = 'edf-files');
+
+-- Policy 3: Allow ANYONE to update
+CREATE POLICY "edf_files_update_policy"
+ON storage.objects
+FOR UPDATE
+TO public
+USING (bucket_id = 'edf-files')
+WITH CHECK (bucket_id = 'edf-files');
+
+-- Policy 4: Allow ANYONE to delete
+CREATE POLICY "edf_files_delete_policy"
+ON storage.objects
+FOR DELETE
+TO public
+USING (bucket_id = 'edf-files');
+
+-- STEP 5: Verify bucket was created
+DO $$
+DECLARE
+  bucket_count INTEGER;
+  policy_count INTEGER;
+BEGIN
+  -- Check bucket exists
+  SELECT COUNT(*) INTO bucket_count
+  FROM storage.buckets
+  WHERE id = 'edf-files';
+
+  -- Check policies exist
+  SELECT COUNT(*) INTO policy_count
+  FROM pg_policies
+  WHERE schemaname = 'storage'
+    AND tablename = 'objects'
+    AND policyname LIKE '%edf_files%';
+
+  IF bucket_count = 0 THEN
+    RAISE EXCEPTION '❌ FAILED: Bucket not created!';
+  END IF;
+
+  IF policy_count < 4 THEN
+    RAISE EXCEPTION '❌ FAILED: Not all policies created! Found % policies, expected 4', policy_count;
+  END IF;
+
+  RAISE NOTICE '========================================';
+  RAISE NOTICE '✅ SUCCESS: edf-files bucket configured!';
+  RAISE NOTICE '========================================';
+  RAISE NOTICE '📦 Bucket: edf-files';
+  RAISE NOTICE '🔓 Access: PUBLIC (anyone can upload/download)';
+  RAISE NOTICE '📏 Size Limit: 50MB';
+  RAISE NOTICE '📋 Policies: % active', policy_count;
+  RAISE NOTICE '========================================';
+  RAISE NOTICE '✅ You can now upload files!';
+  RAISE NOTICE '========================================';
+END $$;
+
+-- STEP 6: Show bucket details
+SELECT
+  id,
+  name,
+  public,
+  file_size_limit,
+  allowed_mime_types,
+  created_at
+FROM storage.buckets
+WHERE id = 'edf-files';
+
+-- STEP 7: Show policies
+SELECT
+  policyname,
+  cmd,
+  roles,
+  qual
+FROM pg_policies
+WHERE schemaname = 'storage'
+  AND tablename = 'objects'
+  AND policyname LIKE '%edf_files%';

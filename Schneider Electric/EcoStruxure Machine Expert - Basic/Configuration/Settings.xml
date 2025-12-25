@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appSettings>
+	<add key="SMB" value="set"/>
+	<add key="Application.Version" value="1.4"/>
+	<add key="Application.Release" value=""/>
+	<!-- log4net -->
+	<add key="log4net.Config" value=".\Configuration\logger.xml"/>
+	<add key="log4net.Config.Watch" value="True"/>
+	<!-- Url to be used as the syndication source by the Rss control -->
+	<add key="Application.SyndicationUri" value="http://www.schneider-electric.com/rss/rss_news_automation_control_en.xml"/>
+	<!-- Url to be used by the "All the corporate news" button -->
+	<add key="Application.RssWebAdress" value="http://www.schneider-electric.com/corporate/en/products-services/automation-control/news/news.page?"/>
+	<!-- Number of items to be displayed by the Rss control -->
+	<add key="Application.RssDisplayedItems" value="10"/>
+	<!-- Language used in the application -->
+	<add key="Application.Language" value="en-GB"/>
+	<!-- Enable or not the notification as soon as an exception occurs -->
+	<add key="Application.ShowException" value="False"/>
+	<!-- Persistence registration mode. -->
+	<add key="Registration.Mode" value="FileSystem"/>
+	<!-- Application id for registration -->
+	<add key="Registration.ApplicationId" value="0261"/>
+	<!-- Secure key for registration: set 1 to have secure key, 0 otherwise-->
+	<add key="Registration.SecureKey" value="0"/>
+	<!-- Language used for registration -->
+	<add key="Registration.Language" value="en-GB"/>
+	<!-- Number of launches the software can be tried before registering -->
+	<add key="Registration.Execution" value="200"/>
+	<!-- Number of days before key expiration from which a message is displayed to the user -->
+	<add key="Registration.DaysBeforeExpiration" value="15"/>
+	<!-- Number of days the software can be tried before registering -->
+	<!--<add key="Registration.Duration" value="20"/>-->
+	<add key="Licensing.ReminderDays" value="21"/>
+	<!-- Folder containing catalog datas -->
+	<add key="CatalogResourcesPath" value="CatalogResources"/>
+	<!-- default M221 CPU reference-->
+	<add key="DefaultM221CPUReference" value="TM221M16R/G"/>
+	<!-- default Xintu CPU reference-->
+	<add key="DefaultXintuCPUReference" value="TM100C16R"/>
+	<!-- Path of device family description file (relative to catalog datas folder) -->
+	<add key="DeviceFamilyDescriptionFilePath" value="vendor.xml"/>
+	<!-- Path of catalog devices description folder -->
+	<add key="DeviceDescriptionFilePath" value="catalogue"/>
+	<!-- Path of catalog image folder -->
+	<add key="CatalogImagePath" value="Images"/>
+	<!-- Path of catalog of twido names correspondence description folder (relative to catalog datas folder)-->
+	<add key="TwidoCorrespondenceDescriptionFilePath" value="CorrespondanceTwido.csv"/>
+	<!-- Path of product families file which defines the families order in the catalog module -->
+	<add key="FamiliesFilePath" value="families.xml"/>
+	<!-- Number of days the software can be tried before registering -->
+	<add key="LogLevel.ShowComLog" value="false"/>
+	<!-- Path of modules file which list the modules by modules category-->
+	<add key="ModulesFilePath" value="modules.xml"/>
+	<!-- Path of io scanner path-->
+	<add key="IoScannerDevicesDirectoryName" value="IoScannerDevices"/>
+	<!-- Path of bus coupler serial line path-->
+	<add key="BusCouplerSerialLineDirectoryName" value="BusCoupler\TM3BCSL\DeviceDescription"/>
+	<!-- Path of bus coupler eip path-->
+	<add key="BusCouplerEipDirectoryName" value="BusCoupler\TM3BCMDBTCP\DeviceDescription"/>
+	<!-- Folder containing ExecLoader -->
+	<add key="ExecLoaderFolderPath" value="Execloader"/>
+	<!-- Filename of the executable of ExecLoader -->
+	<add key="ExecLoaderFileName" value="ExecLoaderWizard.exe"/>
+	<!-- Folder containing Firmware files-->
+	<add key="FirmwarePath" value="Firmwares &amp; PostConfiguration"/>
+	<!-- Folder containing Example Projects-->
+	<add key="SampleProjectsPath" value="Examples"/>
+	<!-- All user path -->
+	<add key="UserSampleProjectsPrefixPath" value="EcoStruxure Machine Expert - Basic"/>
+	<!-- Default sample path -->
+	<add key="DefaultUserSampleProjectsPrefixPath" value="C:\EcoStruxure Machine Expert - Basic"/>
+	<add key="WaitSimulatorTimeout" value="15"/>
+	<!-- Allow global trace or not for Debug version-->
+	<add key="Trace.Enabled" value="false"/>
+	<!-- Enable to trace the program in the logs for download, upload and online change -->
+	<add key="TraceProgram" value="false"/>
+	<add key="ModuleConfigurationFile" value="Configuration\ModulesConfiguration.xml"/>
+	<add key="MainApplicationDirectory" value="C:\Program Files (x86)\Schneider Electric\EcoStruxure Machine Expert - Basic"/>
+	<add key="ModbusDriverExePath" value="C:\\Windows\\System32\\ModbusDrv.exe"/>
+	<!-- Do not change the value otherwise we break the connection with SoMachine -->
+	<add key="MachineExpertBasicGatewayName" value="SoMachineBasicGateway"/>
+	<!-- If Gateway manager is activated, the gateway service will check if the gateway manager is running when starting Machine Expert - Basic application -->
+	<!-- Gateway manager is activated if value is true. Default value is false. -->
+	<add key="ActivateGatewayManager" value="false"/>
+	<!-- RegExp -->
+	<add key="PasswordRegExp" value="^[^\p{{C}}\p{{Sm}}\p{{So}}]{{{0},{1}}}$"/>
+	<!--<add key="PasswordRegExp" value="^[!-~]{{{0},{1}}}$" />-->
+	<add key="PasswordApplicationRegExp" value="^[A-Za-z0-9\-]{{{0},{1}}}$"/>
+	<!-- Help Path -->
+	<add key="HelpPath" value="Help\"/>
+	<add key="HelpLocalOfferPath" value="HelpLocalOffer\"/>
+	<!-- Chm file name -->
+	<add key="ChmFileName" value="SoMBasic.chm"/>
+	<!-- Release Notes file name format -->
+	<add key="ReleaseNotesFileNameFormat" value="MachineExpert-Basic-ReleaseNotes-{0}.rtf"/>
+	<!-- Additional Licenses file name -->
+	<add key="AdditionalLicenses" value="Additional Licenses.rtf"/>
+	<!-- Force to use the CPU to render all the application -->
+	<add key="ForceRenderBySoftware" value="true"/>
+	<!-- Force to use the CPU to render the ladder property fields? -->
+	<add key="ForceRenderLadderPropertyValidatorBySoftware" value="true"/>
+	<!-- Forum adress -->
+	<add key="ForumWebSite" value="http://www.schneider-electric.com/ww/en/download/document/SoMachine+Basic+V1.3+eLearning"/>
+	<add key="TutorialsWebSite" value="https://www.youtube.com/playlist?list=PLa7UGrWOTyjlCNLHYtMNYGYftuYtZ6a8C"/>
+	<add key="TwidoConvTipsWebSite" value="http://www.schneider-electric.com/ww/en/download/document/SOMBASTWDCONV"/>
+	<!-- Export as SoCloud file -->
+	<add key="AllowSoCloudExport" value="false"/>
+	<!-- Path of version file-->
+	<add key="VersionFilePath" value="version.xml"/>
+	<!-- Report configuration file-->
+	<add key="ReportConfigurationFile" value=".\Configuration\ReportConfiguration.xml"/>
+	<!-- Make connection timeout in ms-->
+	<add key="Timeout.MakeConnection" value="3000"/>
+	<!-- UMAS request timeout in ms-->
+	<add key="Timeout.umasBackupRestore" value="15000"/>
+	<add key="Timeout.umasEndKampaiDwnld" value="3000"/>
+	<add key="Timeout.umasExtendedModifyInstruction" value="3000"/>
+	<add key="Timeout.umasGetAppInfo" value="3000"/>
+	<add key="Timeout.umasGetCommInfo" value="3000"/>
+	<add key="Timeout.umasGetDeviceInfo" value="3000"/>
+	<add key="Timeout.umasGetDeviceStatus" value="3000"/>
+	<add key="Timeout.umasGetReservation" value="3000"/>
+	<add key="Timeout.umasInitialize" value="3000"/>
+	<add key="Timeout.umasKeepReservation" value="3000"/>
+	<add key="Timeout.umasModifyInstruction" value="3000"/>
+	<add key="Timeout.umasReadIOObject" value="3000"/>
+	<add key="Timeout.umasReadObjectList" value="3000"/>
+	<add key="Timeout.umasReadPhysMemory" value="3000"/>
+	<add key="Timeout.umasReleaseReservation" value="3000"/>
+	<add key="Timeout.umasRun" value="3000"/>
+	<add key="Timeout.umasStartKampaiDwnld" value="3000"/>
+	<add key="Timeout.umasStop" value="3000"/>
+	<add key="Timeout.umasWriteIOObject" value="3000"/>
+	<add key="Timeout.umasWriteObjectList" value="3000"/>
+	<add key="Timeout.umasWritePhysMemory" value="3000"/>
+	<!-- Timeout offset to define maximum UMAS request timeout-->
+	<!-- MaximumUMASRequestTimeout is the greater value in Timeout.xxx key-->
+	<!-- Max timeout with offset = MaximumUMASRequestTimeout + Offset -->
+	<add key="TimeoutOffset" value="2000"/>
+	<add key="KeypadLanguageCodesFile" value=".\Configuration\KeypadLanguageCodes.xml"/>
+	<add key="KeypadFontsDirectory" value=".\Fonts\bdf\"/>
+	<add key="KeypadSmallFontFileName" value="smallFont.bdf"/>
+	<add key="KeypadStandardFontFileName" value="BlueBoldMixed_M_F1.bdf"/>
+	<add key="KeypadBigFontFileName" value="BlueBoldMixed_M_F2.bdf"/>
+	<add key="KeypadHugeFontFileName" value="hugeImpactFont.bdf"/>
+	<!-- manage log -->
+	<add key="TransferTool.LogLevel" value="Debug"/>
+	<add key="TransferTool.LogFileName" value="TransferToolBasic.log"/>
+</appSettings>

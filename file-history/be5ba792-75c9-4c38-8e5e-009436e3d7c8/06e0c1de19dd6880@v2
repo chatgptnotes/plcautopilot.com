@@ -1,0 +1,71 @@
+-- =====================================================
+-- COMPLETE BACKUP DATA IMPORT
+-- =====================================================
+-- All tables with data from backup file
+-- Run this in Supabase SQL Editor
+-- =====================================================
+
+-- Disable triggers temporarily
+SET session_replication_role = replica;
+
+-- =====================================================
+-- TABLE 1: CLINICS (7 records)
+-- =====================================================
+
+INSERT INTO clinics (id, name, email, phone, address, logo_url, is_active, reports_used, reports_allowed, subscription_status, subscription_tier, trial_start_date, trial_end_date, created_at, updated_at, password, contact_person)
+VALUES
+  ('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'Usa clinics', 'usha@gmail.com', '2587413690', 'pune', NULL, true, 6, 50, 'trial', 'free', '2025-10-29 10:17:49.735+00', '2025-11-28 10:17:49.735+00', '2025-10-29 10:17:49.734+00', '2025-11-05 10:46:15.347+00', 'Usha@123', NULL),
+  ('11fd4a05-4443-4828-8f8f-7ccb3953c784', 'Hope clinic', 'hope@gmail.com', '8574963210', 'nagpur', NULL, true, 2, 5, 'active', 'free', '2025-10-31 05:09:46.407+00', '2025-11-30 05:09:46.407+00', '2025-10-31 05:08:34.826+00', '2025-11-06 10:34:12.654851+00', 'Hope@12345', 'Hope clinic'),
+  ('d7ee65a1-e37b-4856-9f76-9057d47d1af6', 'Dev Clinics', 'dev@gmail.com', '5674839022', 'mumbai', NULL, true, 0, 10, 'trial', 'free', '2025-11-07 04:13:18.086+00', '2025-12-07 04:13:18.086+00', '2025-11-07 04:04:43.388+00', '2025-11-07 04:13:18.087+00', NULL, NULL),
+  ('1ece7b36-458f-40bd-bdd1-695e8491ced4', 'Ayushman Clinic', 'ayushman@gmail.com', '9876054323', 'pune', NULL, true, 0, 10, 'trial', 'free', '2025-11-05 12:29:04.009+00', '2025-12-05 12:29:04.009+00', '2025-11-05 12:27:35.903+00', '2025-11-05 12:29:04.011+00', 'Ayushman@123', NULL),
+  ('820d1616-b1d7-4460-b0eb-82c93a1b8f75', 'Neuro Clinics', 'neuro@gmail.com', '1452369870', 'koradi', NULL, true, 0, 10, 'trial', 'free', '2025-10-29 10:12:45.073+00', '2025-11-28 10:12:45.073+00', '2025-10-29 08:05:02.522+00', '2025-10-29 10:12:45.097+00', 'Neuro@123', NULL),
+  ('ab23ff19-1352-4bb3-a625-5edffc493e0d', 'choudhari clinics', 'choudhari@gmail.com', '9067486880', 'kamthee', NULL, true, 0, 10, 'trial', 'free', '2025-10-29 12:25:41.821+00', '2025-11-28 12:25:41.821+00', '2025-10-29 12:25:41.821+00', '2025-10-29 12:33:51.025+00', 'Choudhari@123', NULL),
+  ('d0bd9c09-4ae8-4d0d-a86d-8272d4ad51a2', 'Sai Clinic', 'sai@gmail.com', NULL, NULL, NULL, true, 0, 50, 'trial', 'free', '2025-11-20 06:17:45.807+00', '2025-12-20 06:17:45.807+00', '2025-11-20 06:17:45.807+00', '2025-11-20 06:17:45.807+00', NULL, NULL)
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 2: ORGANIZATIONS (5 records)
+-- =====================================================
+
+INSERT INTO organizations (id, name, slug, type, email, phone, website, address, logo_url, brand_colors, registration_number, license_number, tax_id, specializations, services_offered, certifications, subscription_tier, subscription_status, trial_starts_at, trial_ends_at, subscription_starts_at, subscription_ends_at, credits_total, credits_used, patient_limit, user_limit, storage_limit_gb, settings, features, operating_hours, appointment_duration, languages_supported, is_active, is_verified, verified_at, created_at, updated_at, clinic_code)
+VALUES
+  ('00000000-0000-0000-0000-000000000001', 'Neuro360 System Administration', NULL, 'clinic', NULL, NULL, NULL, '{}', NULL, '{}', NULL, NULL, NULL, '[]', '[]', '[]', 'enterprise', 'active', '2025-09-19 07:11:49.406292+00', '2025-10-19 07:11:49.406292+00', NULL, NULL, 0, 0, NULL, NULL, NULL, '{}', '[]', '{}', 60, '["English"]', true, true, NULL, '2025-09-19 07:11:49.406292+00', '2025-11-21 06:37:18.504588+00', 'NEURO360'),
+  ('e972aa41-c97e-4c53-9cbf-4ca44b5e95be', 'UU', NULL, 'clinic', NULL, NULL, NULL, '{}', NULL, '{}', NULL, NULL, NULL, '[]', '[]', '[]', 'free', 'trial', '2025-10-28 06:04:21.071147+00', '2025-11-27 06:04:21.071147+00', NULL, NULL, 0, 0, NULL, NULL, NULL, '{}', '[]', '{}', 60, '["English"]', true, false, NULL, '2025-10-28 06:04:20.654+00', '2025-11-21 06:37:18.504588+00', 'UU'),
+  ('3911935f-5f71-4d35-bd66-c3d9c6aa7300', 'UU', NULL, 'clinic', NULL, NULL, NULL, '{}', NULL, '{}', NULL, NULL, NULL, '[]', '[]', '[]', 'free', 'trial', '2025-10-29 07:54:59.39093+00', '2025-11-28 07:54:59.39093+00', NULL, NULL, 0, 0, NULL, NULL, NULL, '{}', '[]', '{}', 60, '["English"]', true, false, NULL, '2025-10-29 07:54:58.753+00', '2025-11-21 06:37:18.504588+00', 'UU1'),
+  ('11fd4a05-4443-4828-8f8f-7ccb3953c784', 'Hope clinic', NULL, 'clinic', NULL, NULL, NULL, '{}', NULL, '{}', NULL, NULL, NULL, '[]', '[]', '[]', 'free', 'trial', '2025-10-31 05:20:40.789448+00', '2025-11-30 05:20:40.789448+00', NULL, NULL, 0, 0, NULL, NULL, NULL, '{}', '[]', '{}', 60, '["English"]', true, false, NULL, '2025-10-31 05:20:40.361+00', '2025-11-21 06:37:18.504588+00', 'HOPE'),
+  ('d7ee65a1-e37b-4856-9f76-9057d47d1af6', 'Dev Clinics', NULL, 'clinic', NULL, NULL, NULL, '{}', NULL, '{}', NULL, NULL, NULL, '[]', '[]', '[]', 'free', 'trial', '2025-11-07 04:32:17.136966+00', '2025-12-07 04:32:17.136966+00', NULL, NULL, 0, 0, NULL, NULL, NULL, '{}', '[]', '{}', 60, '["English"]', true, false, NULL, '2025-11-07 04:32:15.05+00', '2025-11-21 06:37:18.504588+00', 'DEV')
+ON CONFLICT (id) DO NOTHING;
+
+-- =====================================================
+-- TABLE 3: PATIENTS (6 records)
+-- =====================================================
+
+INSERT INTO patients (id, org_id, user_id, external_id, mrn, full_name, first_name, last_name, date_of_birth, gender, email, phone, emergency_contact_name, emergency_contact_phone, emergency_contact_relationship, address, medical_history, current_medications, allergies, medical_conditions, improvement_focus, brain_fitness_score, last_assessment_date, baseline_metrics, primary_doctor_id, treatment_plan, sessions_completed, sessions_scheduled, total_sessions_prescribed, progress_notes, goals, milestones, consent_given, consent_date, consent_version, privacy_level, data_sharing_consent, status, admission_date, discharge_date, discharge_reason, created_at, updated_at)
+VALUES
+  ('5cdc6838-377c-40cc-853a-25f342364fd4', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', NULL, 'UU-202511-0001', NULL, 'priya fule', NULL, NULL, '2002-01-02', 'female', 'priya@gmail.com', '8888905970', NULL, NULL, NULL, 'gondia', '{"notes": "no"}', '[]', '[]', '[]', '[]', NULL, NULL, '{}', NULL, '{}', 0, 0, 0, NULL, '[]', '[]', false, NULL, NULL, 'standard', false, 'active', '2025-11-21', NULL, NULL, '2025-11-21 06:31:51.238+00', '2025-11-21 06:31:52.214142+00'),
+  ('f46f030d-b8c8-4465-aece-7eae8cb0c029', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', NULL, 'UU-202510-0001', NULL, 'poonam', NULL, NULL, '2003-12-31', 'female', 'poonam@gmail.com', '9067486880', NULL, NULL, NULL, 'koradi, maharashtra', '{}', '[]', '[]', '[]', '[]', NULL, NULL, '{}', NULL, '{}', 0, 0, 0, NULL, '[]', '[]', false, NULL, NULL, 'standard', false, 'active', '2025-10-28', NULL, NULL, '2025-10-28 06:09:17.296917+00', '2025-11-21 06:42:45.860487+00'),
+  ('0a83ff36-9ee3-4e35-9007-fbe76769f22b', '3911935f-5f71-4d35-bd66-c3d9c6aa7300', NULL, 'UU1-202510-0001', NULL, 'usha zade', NULL, NULL, '2003-12-31', 'female', 'zade@gmail.com', '4569871230', NULL, NULL, NULL, 'Golibar chowk patvi galli MAhatma Fule Bazar', '{}', '[]', '[]', '[]', '[]', NULL, NULL, '{}', NULL, '{}', 0, 0, 0, NULL, '[]', '[]', false, NULL, NULL, 'standard', false, 'active', '2025-10-29', NULL, NULL, '2025-10-29 07:54:59.576+00', '2025-11-21 06:42:45.860487+00'),
+  ('bffc66d7-0470-47e8-9fe5-819124e4102f', 'e972aa41-c97e-4c53-9cbf-4ca44b5e95be', NULL, 'UU-202510-0002', NULL, 'John A', NULL, NULL, '1999-12-31', 'male', 'john55@gmail.com', '1478523690', NULL, NULL, NULL, '20, Seoni, seoni kanhargaon', '{}', '[]', '[]', '[]', '[]', NULL, NULL, '{}', NULL, '{}', 0, 0, 0, NULL, '[]', '[]', false, NULL, NULL, 'standard', false, 'active', '2025-10-30', NULL, NULL, '2025-10-30 05:25:45.904+00', '2025-11-21 06:42:45.860487+00'),
+  ('56d82a58-2b9b-43ac-928f-b1472c5a9218', '11fd4a05-4443-4828-8f8f-7ccb3953c784', NULL, 'HOPE-202510-0001', NULL, 'roy', NULL, NULL, '2012-01-31', 'male', 'roy@gmail.com', '8529631470', NULL, NULL, NULL, 'Nagpur', '{}', '[]', '[]', '[]', '[]', NULL, NULL, '{}', NULL, '{}', 0, 0, 0, NULL, '[]', '[]', false, NULL, NULL, 'standard', false, 'active', '2025-10-31', NULL, NULL, '2025-10-31 05:30:48.105+00', '2025-11-21 06:42:45.860487+00'),
+  ('ff947a58-97db-4186-85cf-24626d992b9e', 'd7ee65a1-e37b-4856-9f76-9057d47d1af6', NULL, 'DEV-202511-0001', NULL, 'priyanka sahare', NULL, NULL, '2016-02-07', 'female', 'priyanka@gmail.com', '07846578934', NULL, NULL, NULL, 'koradi', '{}', '[]', '[]', '[]', '[]', NULL, NULL, '{}', NULL, '{}', 0, 0, 0, NULL, '[]', '[]', false, NULL, NULL, 'standard', false, 'active', '2025-11-07', NULL, NULL, '2025-11-07 04:32:17.137+00', '2025-11-21 06:42:45.860487+00')
+ON CONFLICT (id) DO NOTHING;
+
+-- Re-enable triggers
+SET session_replication_role = DEFAULT;
+
+-- =====================================================
+-- VERIFICATION QUERIES
+-- =====================================================
+
+SELECT 'Clinics imported:' as table_name, COUNT(*) as count FROM clinics;
+SELECT 'Organizations imported:' as table_name, COUNT(*) as count FROM organizations;
+SELECT 'Patients imported:' as table_name, COUNT(*) as count FROM patients;
+
+-- =====================================================
+-- SUMMARY
+-- =====================================================
+-- ✅ 7 Clinics imported
+-- ✅ 5 Organizations imported
+-- ✅ 6 Patients imported
+-- ✅ Total: 18 records
+-- =====================================================

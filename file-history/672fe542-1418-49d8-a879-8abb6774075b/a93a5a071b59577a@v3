@@ -1,0 +1,452 @@
+import React, { useState } from 'react';
+import { X, Save, FileText, Users, Calendar, Activity, Pill, Heart, Brain, Home, Upload } from 'lucide-react';
+import toast from 'react-hot-toast';
+
+const ClinicalReportForm = ({ patient, onClose, onSave }) => {
+  // Debug: Log patient data to see available fields
+  React.useEffect(() => {
+    console.log('ClinicalReportForm - Patient data:', patient);
+    console.log('Available fields:', Object.keys(patient));
+    console.log('external_id:', patient.external_id);
+    console.log('externalId:', patient.externalId);
+  }, [patient]);
+
+  const [formData, setFormData] = useState({
+    // Patient Information
+    fullName: patient.full_name || patient.fullName || patient.name || '',
+    dateOfBirth: patient.dateOfBirth || patient.date_of_birth || '',
+    gender: patient.gender || '',
+    handedness: '',
+    occupation: '',
+    // Try all possible field names for patient UID
+    patientId: patient.external_id || patient.externalId || patient.external_Id || patient.patient_id || (patient.id?.length > 36 ? patient.id?.slice(0, 8) : patient.id) || '',
+    dateOfTest: new Date().toISOString().split('T')[0],
+    referringPhysician: '',
+    referralReason: '',
+
+    // Clinical & Medical History
+    presentingComplaints: {
+      headaches: false,
+      seizures: false,
+      dizziness: false,
+      attention: false,
+      memory: false,
+      sleep: false,
+      anxiety: false,
+      depression: false,
+      irritability: false,
+      fatigue: false,
+      other: ''
+    },
+    symptomDuration: {
+      sudden: false,
+      gradual: false,
+      acute: false,
+      subacute: false,
+      chronic: false
+    },
+    pastMedicalHistory: {
+      neurological: false,
+      psychiatric: false,
+      cardiovascular: false,
+      endocrine: false,
+      chronicPain: false,
+      other: ''
+    },
+
+    // Medication History
+    medications: {
+      antidepressants: false,
+      anxiolytics: false,
+      antipsychotics: false,
+      moodStabilizers: false,
+      antiepileptics: false,
+      stimulants: false,
+      sleepAids: false,
+      otherMeds: '',
+      recentChanges: false
+    },
+
+    // Family History
+    familyHistory: {
+      epilepsy: false,
+      dementia: false,
+      adhd: false,
+      moodDisorders: false,
+      anxiety: false,
+      substanceAbuse: false,
+      other: ''
+    },
+
+    // Lifestyle Factors
+    lifestyle: {
+      sleepQuality: '',
+      sleepHours: '',
+      chronicStress: false,
+      substanceUse: '',
+      caffeineStimulants: false,
+      physicalActivity: '',
+      dietNutrition: '',
+      screenTime: false,
+      occupationalStress: false,
+      other: ''
+    }
+  });
+
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
+  const handleCheckboxChange = (section, field) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: !prev[section][field]
+      }
+    }));
+  };
+
+  const handleInputChange = (section, field, value) => {
+    if (section) {
+      setFormData(prev => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [field]: value
+        }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    }
+  };
+
+  const handleFileUpload = (event, documentType) => {
+    const files = Array.from(event.target.files);
+    setUploadedFiles(prev => [...prev, ...files.map(f => ({ file: f, type: documentType }))]);
+    toast.success(`${files.length} file(s) uploaded`);
+  };
+
+  const handleSaveForm = async () => {
+    try {
+      // Save form data to database
+      await onSave?.(formData, uploadedFiles);
+      toast.success('Clinical report saved successfully!');
+      onClose();
+    } catch (error) {
+      toast.error('Failed to save report');
+    }
+  };
+
+  const getPatientAge = () => {
+    if (!formData.dateOfBirth) return 'N/A';
+    const dob = new Date(formData.dateOfBirth);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+      <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-5xl w-full max-h-[95vh] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="bg-white/20 p-2 rounded-full">
+              <FileText className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">Clinical Report Form</h2>
+              <p className="text-sm text-blue-100">Patient ID: {formData.patientId}</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-white/80 hover:text-white transition-colors"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* 1. Patient Information */}
+          <section className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-4 flex items-center bg-blue-100 dark:bg-blue-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Users className="h-5 w-5 mr-2" />
+              1. Patient Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <FormInput label="Full Name" value={formData.fullName} onChange={(v) => handleInputChange(null, 'fullName', v)} required />
+              <FormInput label="Age / Date of Birth" type="date" value={formData.dateOfBirth} onChange={(v) => handleInputChange(null, 'dateOfBirth', v)} helper={`Age: ${getPatientAge()} years`} />
+              <FormSelect label="Gender" value={formData.gender} onChange={(v) => handleInputChange(null, 'gender', v)} options={['Male', 'Female', 'Other']} />
+              <FormSelect label="Left/Right handed-ness" value={formData.handedness} onChange={(v) => handleInputChange(null, 'handedness', v)} options={['Right', 'Left', 'Ambidextrous']} />
+              <FormInput label="Occupation" value={formData.occupation} onChange={(v) => handleInputChange(null, 'occupation', v)} />
+              <FormInput label="Patient ID / Record Number" value={formData.patientId} readOnly />
+              <FormInput label="Date of Test" type="date" value={formData.dateOfTest} onChange={(v) => handleInputChange(null, 'dateOfTest', v)} />
+              <FormInput label="Referring Physician / Clinician" value={formData.referringPhysician} onChange={(v) => handleInputChange(null, 'referringPhysician', v)} />
+              <div className="md:col-span-2">
+                <FormInput label="Reason for Referral / Clinical Indication" value={formData.referralReason} onChange={(v) => handleInputChange(null, 'referralReason', v)} />
+              </div>
+            </div>
+          </section>
+
+          {/* 2. Clinical & Medical History */}
+          <section className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-green-900 dark:text-green-100 mb-4 flex items-center bg-green-100 dark:bg-green-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Activity className="h-5 w-5 mr-2" />
+              2. Clinical & Medical History
+            </h3>
+
+            <div className="space-y-4 mt-4">
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Presenting Complaints (tick all that apply):</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <CheckboxField label="Headaches / Migraines" checked={formData.presentingComplaints.headaches} onChange={() => handleCheckboxChange('presentingComplaints', 'headaches')} />
+                  <CheckboxField label="Seizures / Epileptic Episodes" checked={formData.presentingComplaints.seizures} onChange={() => handleCheckboxChange('presentingComplaints', 'seizures')} />
+                  <CheckboxField label="Dizziness / Balance Problems" checked={formData.presentingComplaints.dizziness} onChange={() => handleCheckboxChange('presentingComplaints', 'dizziness')} />
+                  <CheckboxField label="Attention / Concentration Difficulties" checked={formData.presentingComplaints.attention} onChange={() => handleCheckboxChange('presentingComplaints', 'attention')} />
+                  <CheckboxField label="Memory Issues" checked={formData.presentingComplaints.memory} onChange={() => handleCheckboxChange('presentingComplaints', 'memory')} />
+                  <CheckboxField label="Sleep Disturbances" checked={formData.presentingComplaints.sleep} onChange={() => handleCheckboxChange('presentingComplaints', 'sleep')} />
+                  <CheckboxField label="Anxiety / Panic Symptoms" checked={formData.presentingComplaints.anxiety} onChange={() => handleCheckboxChange('presentingComplaints', 'anxiety')} />
+                  <CheckboxField label="Depression / Low Mood" checked={formData.presentingComplaints.depression} onChange={() => handleCheckboxChange('presentingComplaints', 'depression')} />
+                  <CheckboxField label="Irritability / Emotional Dysregulation" checked={formData.presentingComplaints.irritability} onChange={() => handleCheckboxChange('presentingComplaints', 'irritability')} />
+                  <CheckboxField label="Fatigue / Low Energy" checked={formData.presentingComplaints.fatigue} onChange={() => handleCheckboxChange('presentingComplaints', 'fatigue')} />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Other: _______________"
+                  value={formData.presentingComplaints.other}
+                  onChange={(e) => handleInputChange('presentingComplaints', 'other', e.target.value)}
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Duration & Onset of Symptoms:</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <CheckboxField label="Sudden Onset" checked={formData.symptomDuration.sudden} onChange={() => handleCheckboxChange('symptomDuration', 'sudden')} />
+                  <CheckboxField label="Gradual Onset" checked={formData.symptomDuration.gradual} onChange={() => handleCheckboxChange('symptomDuration', 'gradual')} />
+                  <CheckboxField label="Acute (<1 month)" checked={formData.symptomDuration.acute} onChange={() => handleCheckboxChange('symptomDuration', 'acute')} />
+                  <CheckboxField label="Subacute (1–6 months)" checked={formData.symptomDuration.subacute} onChange={() => handleCheckboxChange('symptomDuration', 'subacute')} />
+                  <CheckboxField label="Chronic (>6 months)" checked={formData.symptomDuration.chronic} onChange={() => handleCheckboxChange('symptomDuration', 'chronic')} />
+                </div>
+              </div>
+
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Past Medical History (tick all that apply):</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <CheckboxField label="Neurological Disorders (stroke, TBI, epilepsy, dementia, etc.)" checked={formData.pastMedicalHistory.neurological} onChange={() => handleCheckboxChange('pastMedicalHistory', 'neurological')} />
+                  <CheckboxField label="Psychiatric Disorders (depression, anxiety, bipolar, schizophrenia, ADHD, etc.)" checked={formData.pastMedicalHistory.psychiatric} onChange={() => handleCheckboxChange('pastMedicalHistory', 'psychiatric')} />
+                  <CheckboxField label="Cardiovascular Conditions (hypertension, arrhythmia, etc.)" checked={formData.pastMedicalHistory.cardiovascular} onChange={() => handleCheckboxChange('pastMedicalHistory', 'cardiovascular')} />
+                  <CheckboxField label="Endocrine/Metabolic (thyroid disease, diabetes, etc.)" checked={formData.pastMedicalHistory.endocrine} onChange={() => handleCheckboxChange('pastMedicalHistory', 'endocrine')} />
+                  <CheckboxField label="Chronic Pain / Fibromyalgia" checked={formData.pastMedicalHistory.chronicPain} onChange={() => handleCheckboxChange('pastMedicalHistory', 'chronicPain')} />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Other: _______________"
+                  value={formData.pastMedicalHistory.other}
+                  onChange={(e) => handleInputChange('pastMedicalHistory', 'other', e.target.value)}
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* 3. Medication History */}
+          <section className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-purple-900 dark:text-purple-100 mb-4 flex items-center bg-purple-100 dark:bg-purple-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Pill className="h-5 w-5 mr-2" />
+              Medication History
+            </h3>
+            <div className="space-y-3 mt-4">
+              <p className="font-semibold text-gray-900 dark:text-white">Medication History (tick all that apply):</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <CheckboxField label="Antidepressants" checked={formData.medications.antidepressants} onChange={() => handleCheckboxChange('medications', 'antidepressants')} />
+                <CheckboxField label="Anxiolytics / Benzodiazepines" checked={formData.medications.anxiolytics} onChange={() => handleCheckboxChange('medications', 'anxiolytics')} />
+                <CheckboxField label="Antipsychotics" checked={formData.medications.antipsychotics} onChange={() => handleCheckboxChange('medications', 'antipsychotics')} />
+                <CheckboxField label="Mood Stabilizers" checked={formData.medications.moodStabilizers} onChange={() => handleCheckboxChange('medications', 'moodStabilizers')} />
+                <CheckboxField label="Antiepileptics / Anticonvulsants" checked={formData.medications.antiepileptics} onChange={() => handleCheckboxChange('medications', 'antiepileptics')} />
+                <CheckboxField label="Stimulants (ADHD medications)" checked={formData.medications.stimulants} onChange={() => handleCheckboxChange('medications', 'stimulants')} />
+                <CheckboxField label="Sleep Aids / Sedatives" checked={formData.medications.sleepAids} onChange={() => handleCheckboxChange('medications', 'sleepAids')} />
+              </div>
+              <input
+                type="text"
+                placeholder="Other neuroactive medications: _______________"
+                value={formData.medications.otherMeds}
+                onChange={(e) => handleInputChange('medications', 'otherMeds', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+              />
+              <CheckboxField label="Recent medication changes (last 6–8 weeks)" checked={formData.medications.recentChanges} onChange={() => handleCheckboxChange('medications', 'recentChanges')} />
+            </div>
+          </section>
+
+          {/* 4. Family History */}
+          <section className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-orange-900 dark:text-orange-100 mb-4 flex items-center bg-orange-100 dark:bg-orange-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Heart className="h-5 w-5 mr-2" />
+              Family History
+            </h3>
+            <div className="space-y-3 mt-4">
+              <p className="font-semibold text-gray-900 dark:text-white">Family History:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <CheckboxField label="Epilepsy / Seizures" checked={formData.familyHistory.epilepsy} onChange={() => handleCheckboxChange('familyHistory', 'epilepsy')} />
+                <CheckboxField label="Dementia / Cognitive Decline" checked={formData.familyHistory.dementia} onChange={() => handleCheckboxChange('familyHistory', 'dementia')} />
+                <CheckboxField label="ADHD / Learning Disorders" checked={formData.familyHistory.adhd} onChange={() => handleCheckboxChange('familyHistory', 'adhd')} />
+                <CheckboxField label="Mood Disorders (depression, bipolar)" checked={formData.familyHistory.moodDisorders} onChange={() => handleCheckboxChange('familyHistory', 'moodDisorders')} />
+                <CheckboxField label="Anxiety / OCD" checked={formData.familyHistory.anxiety} onChange={() => handleCheckboxChange('familyHistory', 'anxiety')} />
+                <CheckboxField label="Substance Abuse" checked={formData.familyHistory.substanceAbuse} onChange={() => handleCheckboxChange('familyHistory', 'substanceAbuse')} />
+              </div>
+              <input
+                type="text"
+                placeholder="Other: _______________"
+                value={formData.familyHistory.other}
+                onChange={(e) => handleInputChange('familyHistory', 'other', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </section>
+
+          {/* 5. Lifestyle & Contributing Factors */}
+          <section className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-teal-900 dark:text-teal-100 mb-4 flex items-center bg-teal-100 dark:bg-teal-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Home className="h-5 w-5 mr-2" />
+              Lifestyle & Contributing Factors
+            </h3>
+            <div className="space-y-3 mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormInput label="Sleep Quality Issues (average hours per night)" value={formData.lifestyle.sleepHours} onChange={(v) => handleInputChange('lifestyle', 'sleepHours', v)} placeholder="e.g., 6 hours" />
+                <div>
+                  <CheckboxField label="Chronic Stress / Trauma" checked={formData.lifestyle.chronicStress} onChange={() => handleCheckboxChange('lifestyle', 'chronicStress')} />
+                </div>
+              </div>
+              <FormInput label="Substance Use (alcohol, nicotine, recreational drugs) [amount + frequency]" value={formData.lifestyle.substanceUse} onChange={(v) => handleInputChange('lifestyle', 'substanceUse', v)} placeholder="e.g., 2 drinks/week" />
+              <CheckboxField label="Excessive Caffeine / Stimulant Use" checked={formData.lifestyle.caffeineStimulants} onChange={() => handleCheckboxChange('lifestyle', 'caffeineStimulants')} />
+              <FormInput label="Physical Activity Level (low / moderate / high)" value={formData.lifestyle.physicalActivity} onChange={(v) => handleInputChange('lifestyle', 'physicalActivity', v)} placeholder="e.g., moderate" />
+              <FormInput label="Diet/Nutrition Factors" value={formData.lifestyle.dietNutrition} onChange={(v) => handleInputChange('lifestyle', 'dietNutrition', v)} placeholder="Any dietary concerns" />
+              <CheckboxField label="Screen Time / Technology Overuse" checked={formData.lifestyle.screenTime} onChange={() => handleCheckboxChange('lifestyle', 'screenTime')} />
+              <CheckboxField label="Occupational Stressors" checked={formData.lifestyle.occupationalStress} onChange={() => handleCheckboxChange('lifestyle', 'occupationalStress')} />
+              <input
+                type="text"
+                placeholder="Other: _______________"
+                value={formData.lifestyle.other}
+                onChange={(e) => handleInputChange('lifestyle', 'other', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </section>
+
+          {/* 6. Examination Details */}
+          <section className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-5">
+            <h3 className="text-lg font-bold text-indigo-900 dark:text-indigo-100 mb-4 flex items-center bg-indigo-100 dark:bg-indigo-900/40 -mx-5 -mt-5 px-5 py-3 rounded-t-lg">
+              <Upload className="h-5 w-5 mr-2" />
+              3. Examination Details (Upload - Supporting Documents)
+            </h3>
+            <div className="space-y-3 mt-4">
+              <FileUploadField label="Mental Status / Cognitive Assessment Report (Upload if available)" onChange={(e) => handleFileUpload(e, 'mental-status')} />
+              <FileUploadField label="Neurological Examination Findings (Upload if available)" onChange={(e) => handleFileUpload(e, 'neuro-exam')} />
+              <FileUploadField label="Psychiatric / Behavioral Scales (Upload if available)" onChange={(e) => handleFileUpload(e, 'psychiatric-scales')} />
+              <FileUploadField label="Other Relevant Clinical Reports (MRI, CT, lab tests, neuropsychological assessments) (Upload if available)" onChange={(e) => handleFileUpload(e, 'other-reports')} />
+
+              {uploadedFiles.length > 0 && (
+                <div className="mt-4 bg-white dark:bg-gray-700 rounded-lg p-3">
+                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Uploaded Files ({uploadedFiles.length}):</p>
+                  <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    {uploadedFiles.map((f, i) => (
+                      <li key={i} className="flex items-center">
+                        <FileText className="h-4 w-4 mr-2" />
+                        {f.file.name} ({f.type})
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
+
+        {/* Footer - Sticky */}
+        <div className="bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 px-6 py-4 flex justify-end space-x-3">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSaveForm}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center"
+          >
+            <Save className="h-5 w-5 mr-2" />
+            Save Report
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Helper Components
+const FormInput = ({ label, value, onChange, type = 'text', required = false, readOnly = false, placeholder = '', helper = '' }) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      {label} {required && <span className="text-red-500">*</span>}
+    </label>
+    <input
+      type={type}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      readOnly={readOnly}
+      placeholder={placeholder}
+      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-800"
+    />
+    {helper && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{helper}</p>}
+  </div>
+);
+
+const FormSelect = ({ label, value, onChange, options }) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{label}</label>
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+    >
+      <option value="">Select...</option>
+      {options.map(opt => (
+        <option key={opt} value={opt.toLowerCase()}>{opt}</option>
+      ))}
+    </select>
+  </div>
+);
+
+const CheckboxField = ({ label, checked, onChange }) => (
+  <label className="flex items-center space-x-2 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={onChange}
+      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <span className="text-sm text-gray-700 dark:text-gray-300">{label}</span>
+  </label>
+);
+
+const FileUploadField = ({ label, onChange }) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{label}</label>
+    <input
+      type="file"
+      multiple
+      onChange={onChange}
+      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/30 dark:file:text-blue-300 dark:bg-gray-700"
+    />
+  </div>
+);
+
+export default ClinicalReportForm;

@@ -1,0 +1,306 @@
+# 🧠 Cognition Parameter - Testing Guide
+
+## ✅ **RAW Power Support Added**
+
+Traditional parser ab **RAW Power reports** support karta hai!
+
+---
+
+## 📊 **Cognition Parameter Structure**
+
+### **3 Sub-Parameters:**
+
+#### 1️⃣ **Focus Score (Theta/Beta Ratio)**
+- **Data Source**: Eyes Open → Absolute Power (μV²)
+- **Extract Values**:
+  - Fz Theta (μV²)
+  - Fz Beta (μV²)
+  - Cz Theta (μV²)
+  - Cz Beta (μV²)
+
+**Formula:**
+```javascript
+Fz_ratio = Fz_Theta / Fz_Beta
+Cz_ratio = Cz_Theta / Cz_Beta
+Focus_Score = (Fz_ratio + Cz_ratio) / 2
+```
+
+**Scoring:**
+- < 1.5 → Tighter, "locked-in" focus (scoring system = 0)
+- \> 1.5 → More relaxed focus (scoring system = 1)
+
+**Example Calculation (from screenshot):**
+```
+Eyes Open - Absolute Power:
+Fz Theta = 189.5 μV², Fz Beta = 189.2 μV²
+Cz Theta = 81.2 μV², Cz Beta = 34.6 μV²
+
+Fz_ratio = 189.5 / 189.2 = 1.002
+Cz_ratio = 81.2 / 34.6 = 2.347
+Focus_Score = (1.002 + 2.347) / 2 = 1.674 ≈ 1.67
+```
+
+---
+
+#### 2️⃣ **Alpha Peak**
+- **Data Source**: Eyes Closed → Special (Alpha Peak)
+- **Extract Value**: Highest APF from O1 or Pz
+
+**Scoring:**
+- < 9 Hz → Below normal
+- 9-13 Hz → Normal
+- \> 13 Hz → Above normal
+
+**Example (from screenshot):**
+```
+Eyes Closed - Alpha Peak:
+O1 = 10.0 Hz → Normal (scoring system = 0)
+```
+
+---
+
+#### 3️⃣ **Alpha-Theta Balance**
+- **Data Source**: Eyes Closed → Absolute Power (μV²)
+- **Extract Values**:
+  - Fz Alpha, Fz Theta
+  - Cz Alpha, Cz Theta
+  - Pz Alpha, Pz Theta
+
+**Formula:**
+```javascript
+Fz_ratio = Fz_Alpha / Fz_Theta
+Cz_ratio = Cz_Alpha / Cz_Theta
+Pz_ratio = Pz_Alpha / Pz_Theta
+
+// Check order: Should be Pz > Cz > Fz (posterior dominance)
+```
+
+**Scoring:**
+- Pz > Cz > Fz → Positive (scoring system = 1)
+- Other orders → Negative (scoring system = 0)
+
+**Example (from screenshot):**
+```
+Eyes Closed - Absolute Power:
+Fz: α=173.9, θ=132.0 → ratio = 1.32
+Cz: α=413.0, θ=106.1 → ratio = 4.41
+Pz: α=1029.3, θ=132.9 → ratio = 7.75
+
+Order: Pz (7.75) > Cz (4.41) > Fz (1.32) ✅
+Scoring: Positive (1)
+```
+
+---
+
+## 🔧 **What Was Implemented**
+
+### File: `server/services/traditionalQeegParser.js`
+
+**Added Methods:**
+1. `parseRawPowerReport(pdfText, condition)` - Main RAW parser
+2. `extractAlphaPeakRaw(pdfText, data, channels)` - Extract Alpha Peak
+3. `extractAbsolutePowerRaw(pdfText, data, channels)` - Extract Absolute Power (μV²)
+4. `extractRelativePowerRaw(pdfText, data, channels)` - Extract Relative Power (%)
+5. `validateRawData(data, condition)` - Validate extracted RAW data
+
+**Extraction Logic:**
+```javascript
+// Pattern for Absolute Power extraction:
+// Channel + 5 values (Delta, Theta, Alpha, Beta, HiBeta in μV²)
+// Example: Fz 121.1 46.2 60.6 34.9 42.0
+
+const channelPattern = new RegExp(
+  channel + '\\s+' +
+  '([\\d.]+)\\s+' +  // Delta μV²
+  '([\\d.]+)\\s+' +  // Theta μV²
+  '([\\d.]+)\\s+' +  // Alpha μV²
+  '([\\d.]+)\\s+' +  // Beta μV²
+  '([\\d.]+)',       // HiBeta μV²
+  'i'
+);
+```
+
+---
+
+## 🧪 **How to Test**
+
+### Step 1: Restart Server
+```bash
+# Stop current server (Ctrl+C)
+npm run dev:full
+```
+
+### Step 2: Upload PDFs via UI
+1. Open: http://localhost:3001/admin/algorithm-processor
+2. Upload **Eyes Open** PDF (RAW power report)
+3. Upload **Eyes Closed** PDF (RAW power report)
+4. Click "Execute Calculation"
+
+### Step 3: Check Console Output
+
+**Expected Output (Eyes Open):**
+```
+📄 === TRADITIONAL PDF PARSING (EO) ===
+  File: sample_EyesOpen.pdf
+  Report Type: RAW
+  ✅ PDF text extracted: 45231 characters
+
+  🔍 Parsing RAW power report structure...
+
+  📊 Step 1: Extracting Alpha Peak data...
+    ✓ O1: APF=10.7 Hz
+  ✅ Extracted alpha peak: 10.7 Hz
+
+  📊 Step 2: Extracting Absolute Power (μV²) values...
+    ✓ Fz: Δ=121.1, θ=46.2, α=60.6, β=34.9, ββ=42.0 μV²
+    ✓ Cz: Δ=277.3, θ=68.1, α=116.5, β=82.4, ββ=98.8 μV²
+    ✓ Pz: Δ=214.8, θ=67.7, α=304.7, β=90.2, ββ=90.8 μV²
+    ...
+  ✅ Extracted absolute power: 9/9 channels
+
+  📊 Step 3: Extracting Relative Power (%) values...
+  ✅ Extracted relative power: 9/9 channels
+
+  🔍 Validating extracted RAW data (EO)...
+  ✅ Validation passed: All required fields present
+
+  📋 Sample extracted RAW values (EO):
+    Fz Absolute Power: θ=46.2 μV², β=34.9 μV²
+    Cz Absolute Power: θ=68.1 μV², β=82.4 μV²
+    Pz Absolute Power: α=304.7 μV², θ=67.7 μV²
+    Alpha Peak: 10.7 Hz
+
+=== TRADITIONAL PDF PARSING COMPLETED ===
+```
+
+### Step 4: Verify Extracted Values
+
+Check backend console for extracted values:
+
+**From Eyes Open (for Focus Score):**
+- Fz Theta (μV²)
+- Fz Beta (μV²)
+- Cz Theta (μV²)
+- Cz Beta (μV²)
+
+**From Eyes Closed (for Alpha Peak):**
+- O1 or Pz Alpha Peak (Hz)
+
+**From Eyes Closed (for Alpha-Theta Balance):**
+- Fz Alpha, Fz Theta
+- Cz Alpha, Cz Theta
+- Pz Alpha, Pz Theta
+
+---
+
+## 📝 **Expected Data Structure**
+
+After extraction, data structure will be:
+
+```javascript
+{
+  EO: {
+    absolute: {
+      Fz: { Delta: 121.1, Theta: 46.2, Alpha: 60.6, Beta: 34.9, HiBeta: 42.0 },
+      Cz: { Delta: 277.3, Theta: 68.1, Alpha: 116.5, Beta: 82.4, HiBeta: 98.8 },
+      Pz: { Delta: 214.8, Theta: 67.7, Alpha: 304.7, Beta: 90.2, HiBeta: 90.8 },
+      // ... other channels
+    },
+    relative: {
+      Fz: { Delta: 26.0, Theta: 9.9, Alpha: 13.0, Beta: 7.5, HiBeta: 9.0 },
+      // ... other channels
+    },
+    special: {
+      alphaPeak: 10.7,
+      O1: 10.7
+    }
+  },
+  EC: {
+    absolute: { /* same structure */ },
+    relative: { /* same structure */ },
+    special: {
+      alphaPeak: 10.0,
+      O1: 10.0
+    }
+  },
+  dataType: 'raw'
+}
+```
+
+---
+
+## 🎯 **Next Steps**
+
+### 1. Verify Extraction Works
+Run the test and ensure all values are extracted correctly.
+
+### 2. Implement Cognition Calculation
+Once extraction is confirmed, implement the calculation logic in `algorithmCalculator.js`:
+
+```javascript
+// Focus Score (Theta/Beta Ratio)
+const fzRatio = EO.absolute.Fz.Theta / EO.absolute.Fz.Beta;
+const czRatio = EO.absolute.Cz.Theta / EO.absolute.Cz.Beta;
+const focusScore = (fzRatio + czRatio) / 2;
+
+// Alpha Peak
+const alphaPeak = EC.special.alphaPeak || EC.special.O1;
+
+// Alpha-Theta Balance
+const fzBalance = EC.absolute.Fz.Alpha / EC.absolute.Fz.Theta;
+const czBalance = EC.absolute.Cz.Alpha / EC.absolute.Cz.Theta;
+const pzBalance = EC.absolute.Pz.Alpha / EC.absolute.Pz.Theta;
+
+// Check order (Pz > Cz > Fz)
+const isNormalOrder = pzBalance > czBalance && czBalance > fzBalance;
+```
+
+### 3. Save to Database
+Store calculated values in Supabase.
+
+### 4. Display in UI
+Fetch and show in frontend.
+
+---
+
+## 🐛 **Troubleshooting**
+
+### Issue: "Could not find Absolute Power section"
+
+**Solution:**
+- Check PDF format - is it qEEG-Pro?
+- Look for "FFT Absolute Power" or "Absolute Power" table
+- Ensure PDF has clear table structure
+
+### Issue: Extracted values are all zeros
+
+**Solution:**
+- Check regex patterns in `extractAbsolutePowerRaw()`
+- Print `tableText` to see what was matched
+- Adjust pattern to match your PDF format
+
+### Issue: "RAW power reports not yet supported"
+
+**Solution:**
+- Make sure you restarted the server after code changes
+- Check that `reportType` is correctly detected as 'raw'
+
+---
+
+## ✅ **Success Criteria**
+
+RAW power extraction is successful when:
+
+✅ Server starts without errors
+✅ PDF text is extracted (> 10000 characters)
+✅ Absolute Power table found
+✅ All 9 channels extracted (Fz, Cz, Pz, F3, F4, C3, C4, P3, P4)
+✅ All 5 bands extracted (Delta, Theta, Alpha, Beta, HiBeta)
+✅ Alpha Peak extracted from Eyes Closed
+✅ Values match expected ranges (μV²: 10-1000, %: 0-100)
+
+---
+
+**Ab server restart karo aur test karo!** 🚀
+
+Agar extraction successful hoga to mujhe screenshot bhejo, then we'll implement the Cognition calculation logic.

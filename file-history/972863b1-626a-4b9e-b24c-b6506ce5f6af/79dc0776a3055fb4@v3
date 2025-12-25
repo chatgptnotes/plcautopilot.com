@@ -1,0 +1,68 @@
+===============================================
+NEUROSENSE PDF TEMPLATE PLACEMENT INSTRUCTIONS
+===============================================
+
+TO ENABLE TEMPLATE-BASED PDF GENERATION:
+
+1. Create or obtain your PDF template file
+   - Must be named: Neurosense Report.pdf
+   - Must be multi-page PDF (minimum 2 pages recommended)
+   - Should have professional letterhead, logo, branding
+
+2. Place the file in this directory:
+   server/assets/pdf-templates/Neurosense Report.pdf
+
+3. Restart the server
+   - The system will automatically detect the template
+   - Console will show: "✨ Using template-based PDF generator"
+
+4. Customize coordinates (optional):
+   - Edit: server/config/pdfCoordinates.js
+   - Adjust X, Y positions for each data field
+   - See README.md for detailed guide
+
+===============================================
+TEMPLATE DESIGN SPECIFICATIONS
+===============================================
+
+Page Size: A4 (595.28 x 841.89 points)
+Format: PDF
+Recommended Pages: 2-3 pages
+
+Page 1 - Cover Page:
+  - Patient name, ID, date, age, gender
+  - Clinic name and logo
+  - Professional letterhead
+
+Page 2 - Numbers at a Glance:
+  - Overall score display area
+  - 7 brain parameters with scores
+  - Classification indicators
+
+Page 3 - Brain Type (Optional):
+  - Brain type name and description
+  - Recommendations section
+
+===============================================
+QUICK TEST
+===============================================
+
+After placing template:
+1. Upload QEEG files through the web interface
+2. Click "Execute Calculation"
+3. Click "Save and Download PDF"
+4. Check generated PDF to verify layout
+
+===============================================
+CURRENT STATUS
+===============================================
+
+Template File: FOUND ✓
+Location: Neurosense Report.pdf (this directory)
+Status: Ready to use
+
+Next step: Restart server to activate template-based generation
+
+===============================================
+
+For detailed instructions, see README.md

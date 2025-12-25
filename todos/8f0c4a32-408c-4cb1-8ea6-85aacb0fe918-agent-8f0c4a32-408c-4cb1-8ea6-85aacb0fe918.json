@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Check project structure and dependencies",
+    "status": "completed",
+    "activeForm": "Checking project structure and dependencies"
+  },
+  {
+    "content": "Install backend Python dependencies",
+    "status": "completed",
+    "activeForm": "Installing backend Python dependencies"
+  },
+  {
+    "content": "Install frontend npm dependencies",
+    "status": "in_progress",
+    "activeForm": "Installing frontend npm dependencies"
+  },
+  {
+    "content": "Run Django database migrations",
+    "status": "pending",
+    "activeForm": "Running Django database migrations"
+  },
+  {
+    "content": "Start Django backend server",
+    "status": "pending",
+    "activeForm": "Starting Django backend server"
+  },
+  {
+    "content": "Start React frontend server",
+    "status": "pending",
+    "activeForm": "Starting React frontend server"
+  }
+]

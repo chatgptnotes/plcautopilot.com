@@ -1,0 +1,1119 @@
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
+const GeminiService = require('./geminiService');
+const OpenAIService = require('./openAIService');
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+
+// AI Service Selection: Read from environment, default to 'gemini'
+const AI_SERVICE = process.env.AI_SERVICE || 'gemini';
+
+class GeminiPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+    this.geminiReportData = null;
+  }
+
+  /**
+   * Transform algorithm results to Gemini input format
+   */
+  transformToGeminiFormat() {
+    const brainParameters = {
+      Cognition: null,
+      Stress: null,
+      FocusAndAttention: null,
+      BurnoutAndFatigue: null,
+      EmotionalRegulation: null,
+      Learning: null,
+      Creativity: null
+    };
+
+    // Map the parameters from algorithm results
+    this.algorithmResults.parameters.forEach(param => {
+      const paramName = param.name.replace(/\s+/g, '').replace(/&/g, 'And');
+      if (brainParameters.hasOwnProperty(paramName)) {
+        brainParameters[paramName] = {
+          score: param.score,
+          maxScore: param.maxScore,
+          bucket: param.bucket || param.classification,
+          subparameters: (param.metrics || param.subParameters || []).map(metric => ({
+            name: metric.name,
+            score: metric.score,
+            value: metric.value,
+            threshold: metric.threshold
+          }))
+        };
+      }
+    });
+
+    return brainParameters;
+  }
+
+  /**
+   * Generate report structure using configured AI service (Gemini or OpenAI)
+   */
+  async generateReportStructure() {
+    const aiServiceName = AI_SERVICE === 'openai' ? 'OpenAI' : 'Gemini';
+    console.log(`\n🤖 === Generating report structure with ${aiServiceName} ===`);
+    console.log(`   AI_SERVICE configured as: ${AI_SERVICE}`);
+
+    const brainParameters = this.transformToGeminiFormat();
+
+    console.log(`📊 INPUT DATA TO ${aiServiceName.toUpperCase()} (Brain Parameters):`);
+    Object.keys(brainParameters).forEach(paramKey => {
+      const param = brainParameters[paramKey];
+      if (param) {
+        console.log(`   ${paramKey}: score=${param.score}/${param.maxScore}, bucket=${param.bucket}, subParams=${param.subparameters?.length || 0}`);
+      }
+    });
+
+    try {
+      // Select AI service based on configuration
+      const service = AI_SERVICE === 'openai' ? OpenAIService : GeminiService;
+      const result = await service.generateBrainPerformanceReport(brainParameters);
+
+      if (!result.success) {
+        console.error(`❌ ${aiServiceName} API returned error:`, result.error);
+        throw new Error(`${aiServiceName} failed: ${result.error}`);
+      }
+
+      this.geminiReportData = result.data;
+      console.log(`\n✅ ${aiServiceName} report structure generated successfully`);
+      console.log(`📄 OUTPUT FROM ${aiServiceName.toUpperCase()}:`);
+      if (result.data.parameters) {
+        result.data.parameters.forEach(param => {
+          console.log(`   ${param.name}: score=${param.score}/${param.maxScore}, bucket=${param.bucket}`);
+        });
+      }
+
+      return this.geminiReportData;
+    } catch (error) {
+      console.error('❌ Error in generateReportStructure:', error.message);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Main report generation function
+   */
+  async generateReport(outputPath) {
+    try {
+      // Step 1: Try to generate AI report structure with OpenAI
+      let usingAI = false;
+      try {
+        console.log('🤖 Attempting to generate report with OpenAI (using Gemini prompts)...');
+        await this.generateReportStructure();
+        usingAI = true;
+        console.log('✅ OpenAI report structure ready');
+      } catch (aiError) {
+        console.error('⚠️ OpenAI failed, using fallback data structure');
+        console.error('   OpenAI Error:', aiError.message);
+
+        // Fallback: Create basic report structure from algorithm data
+        this.geminiReportData = this.createFallbackReportStructure();
+        console.log('✅ Fallback report structure created');
+      }
+
+      // Step 2: Create PDF from the report structure (AI or fallback)
+      const doc = new PDFDocument({
+        size: 'A4',
+        margins: { top: 50, bottom: 50, left: 50, right: 50 }
+      });
+
+      const stream = fs.createWriteStream(outputPath);
+      doc.pipe(stream);
+
+      // Generate PDF content
+      await this.generatePDFContent(doc);
+
+      doc.end();
+
+      // Wait for PDF to finish writing
+      await new Promise((resolve, reject) => {
+        stream.on('finish', resolve);
+        stream.on('error', reject);
+      });
+
+      const sourceType = usingAI ? 'OpenAI (Gemini prompts)' : 'Fallback (Basic)';
+      console.log(`✅ PDF generated successfully with ${sourceType} content`);
+      return outputPath;
+
+    } catch (error) {
+      console.error('❌ Error generating PDF:', error);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Create fallback report structure when Gemini fails
+   */
+  createFallbackReportStructure() {
+    console.log('📋 Creating fallback report structure...');
+    console.log('   Algorithm results:', JSON.stringify(this.algorithmResults, null, 2));
+
+    const parameters = this.algorithmResults.parameters.map(param => {
+      // Use metrics (correct field from algorithm) instead of subParameters
+      const subMetrics = param.metrics || param.subParameters || [];
+
+      console.log(`   Processing ${param.name}:`);
+      console.log(`     Score: ${param.score}/${param.maxScore}`);
+      console.log(`     Classification: ${param.classification}`);
+      console.log(`     Metrics count: ${subMetrics.length}`);
+
+      return {
+        name: param.name,
+        score: param.score,
+        bucket: param.classification || 'Average',
+        bucketColor: this.getBucketColor(param.classification, param.name),
+        summary: `${param.name} score is ${param.score} out of ${param.maxScore} (${param.classification || 'Average'})`,
+        subparameters: subMetrics.map(metric => ({
+          name: metric.name || 'Metric',
+          score: metric.score !== undefined ? metric.score : (typeof metric.value === 'number' ? metric.value : 0),
+          interpretation: metric.score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+          details: metric.description || (metric.value !== undefined && typeof metric.value === 'number' ? `Value: ${metric.value.toFixed(2)}` : '')
+        }))
+      };
+    });
+
+    console.log('   Fallback structure created with', parameters.length, 'parameters');
+
+    return {
+      title: 'Brain Performance Report',
+      patientSummary: `This report shows the analysis of ${this.algorithmResults.parameters.length} brain performance parameters for ${this.patientData.name}. Overall score: ${this.algorithmResults.overallScore || 'N/A'}.`,
+      parameters: parameters,
+      recommendations: [
+        'Continue monitoring brain health metrics regularly',
+        'Maintain healthy lifestyle habits including proper sleep and exercise',
+        'Consult with healthcare provider for detailed interpretation and personalized recommendations'
+      ]
+    };
+  }
+
+  /**
+   * Generate PDF content from Gemini AI data
+   */
+  async generatePDFContent(doc) {
+    const reportData = this.geminiReportData;
+
+    console.log('\n📄 === Generating PDF Content ===');
+    console.log('   Report Title:', reportData.title);
+    console.log('   Parameters count:', reportData.parameters?.length || 0);
+
+    if (reportData.parameters && reportData.parameters.length > 0) {
+      reportData.parameters.forEach((param, idx) => {
+        console.log(`   ${idx + 1}. ${param.name}: ${param.score} (${param.bucket}), Sub-metrics: ${param.subparameters?.length || 0}`);
+      });
+    }
+
+    // Header
+    this.addHeader(doc);
+
+    // Add watermark to first page
+    this.addWatermark(doc);
+
+    // Patient Information
+    this.addPatientInfo(doc);
+
+    doc.moveDown(0.3);
+
+    // Title with decorative elements - Infographic Style
+    const titleY = doc.y;
+
+    // Decorative line before title
+    doc.moveTo(150, titleY)
+       .lineTo(445, titleY)
+       .lineWidth(2)
+       .stroke('#4299E1');
+
+    doc.moveDown(0.3);
+
+    doc.fontSize(20)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text(reportData.title || 'Brain Performance Infographic', 50, doc.y, { width: 495, align: 'center' });
+
+    // Subtitle if available
+    if (reportData.subtitle) {
+      doc.fontSize(11)
+         .fillColor('#4A5568')
+         .font('Helvetica')
+         .text(reportData.subtitle, 50, doc.y, { width: 495, align: 'center' });
+    }
+
+    doc.moveDown(0.3);
+
+    // Decorative line after title
+    const afterTitleY = doc.y;
+    doc.moveTo(150, afterTitleY)
+       .lineTo(445, afterTitleY)
+       .lineWidth(2)
+       .stroke('#4299E1');
+
+    doc.moveDown(0.5);
+
+    // === RADAR CHART - Visual Infographic ===
+    try {
+      const chartBuffer = await this.generateRadarChart();
+      if (chartBuffer) {
+        // Add chart to PDF
+        const chartX = (595 - 400) / 2; // Center on A4 page (595px wide)
+        const chartY = doc.y;
+
+        doc.image(chartBuffer, chartX, chartY, {
+          width: 400,
+          height: 400,
+          align: 'center'
+        });
+
+        console.log(`✅ Radar chart embedded in PDF at position (${chartX}, ${chartY})`);
+
+        // Move cursor below chart - reduced spacing
+        doc.y = chartY + 380;
+      }
+    } catch (chartError) {
+      console.error('⚠️  Could not add radar chart to PDF:', chartError.message);
+      // Continue without chart if it fails
+    }
+
+    // Parameters Section
+    if (reportData.parameters && reportData.parameters.length > 0) {
+      console.log('\n📊 Adding parameters to PDF...');
+      reportData.parameters.forEach((param, index) => {
+        this.addParameterSection(doc, param, index);
+      });
+      console.log('✅ All parameters added to PDF\n');
+    } else {
+      console.error('❌ No parameters found in report data!');
+    }
+
+    doc.moveDown(1);
+
+    // === NEW: Extracted QEEG Data Section ===
+    console.log('📊 Adding Extracted QEEG Data section...');
+    this.addExtractedDataSection(doc);
+    console.log('✅ Extracted data section added\n');
+
+    doc.moveDown(1);
+
+    // === NEW: Detailed Calculations Section ===
+    console.log('🧮 Adding Detailed Calculations section...');
+    this.addCalculationsSection(doc);
+    console.log('✅ Calculations section added\n');
+
+    doc.moveDown(1);
+
+    // Patient Summary
+    if (reportData.patientSummary) {
+      this.addSummarySection(doc, reportData.patientSummary);
+    }
+
+    // Recommendations
+    if (reportData.recommendations && reportData.recommendations.length > 0) {
+      this.addRecommendations(doc, reportData.recommendations);
+    }
+
+    // Footer
+    this.addFooter(doc);
+  }
+
+  /**
+   * Add header to PDF - Infographic Style
+   */
+  addHeader(doc) {
+    // Bold colored header bar for infographic look
+    doc.rect(0, 0, 595, 60)
+       .fill('#323956');
+
+    // Add logo to top right if available
+    try {
+      // Try multiple possible logo locations
+      const logoPaths = [
+        path.join(__dirname, '../../public/header logo.png'),
+        path.join(__dirname, '../assets/header-logo.png')
+      ];
+
+      let logoPath = null;
+      for (const testPath of logoPaths) {
+        if (fs.existsSync(testPath)) {
+          logoPath = testPath;
+          break;
+        }
+      }
+
+      if (logoPath) {
+        doc.image(logoPath, 470, 5, {
+          width: 55,
+          height: 55,
+          fit: [55, 55]
+        });
+      }
+    } catch (logoError) {
+      console.log('Logo not found, continuing without it:', logoError.message);
+    }
+
+    doc.fontSize(16)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('NeuroSense Report', 50, 20);
+
+    doc.fontSize(10)
+       .fillColor('#A8D5FF')
+       .font('Helvetica')
+       .text('Brain Performance Analysis', 50, 42);
+
+    doc.fontSize(9)
+       .fillColor('#FFFFFF')
+       .text(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), 360, 28);
+
+    doc.moveDown(2);
+  }
+
+  /**
+   * Add patient information - Infographic Style
+   */
+  addPatientInfo(doc) {
+    const y = doc.y;
+
+    // Colored info box for visual appeal - increased height for more fields
+    doc.roundedRect(50, y, 495, 85, 5)
+       .fillAndStroke('#F7FAFC', '#E2E8F0');
+
+    doc.fontSize(11)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text('Patient Information', 60, y + 10);
+
+    // Row 1: Name and Date of Recording (properly aligned)
+    const col1X = 60;
+    const col1ValueX = 145;
+    const col2X = 310;
+    const col2ValueX = 430;
+
+    doc.fontSize(9)
+       .fillColor('#4A5568')
+       .font('Helvetica-Bold')
+       .text('Name:', col1X, y + 28)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(this.patientData.name || 'N/A', col1ValueX, y + 28);
+
+    doc.font('Helvetica-Bold')
+       .fillColor('#4A5568')
+       .text('Date of Recording:', col2X, y + 28)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(this.patientData.dateOfRecording || this.patientData.recordingDate || new Date().toLocaleDateString('en-US'), col2ValueX, y + 28);
+
+    // Row 2: Age and Clinic (properly aligned)
+    doc.font('Helvetica-Bold')
+       .fillColor('#4A5568')
+       .text('Age:', col1X, y + 45)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(`${this.patientData.age || 'N/A'}`, col1ValueX, y + 45);
+
+    if (this.patientData.clinicName) {
+      doc.font('Helvetica-Bold')
+         .fillColor('#4A5568')
+         .text('Clinic:', col2X, y + 45)
+         .font('Helvetica')
+         .fillColor('#2D3748')
+         .text(this.patientData.clinicName, col2ValueX, y + 45);
+    }
+
+    // Row 3: Gender and Handedness (properly aligned)
+    doc.font('Helvetica-Bold')
+       .fillColor('#4A5568')
+       .text('Gender:', col1X, y + 62)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(this.patientData.gender || 'N/A', col1ValueX, y + 62);
+
+    doc.font('Helvetica-Bold')
+       .fillColor('#4A5568')
+       .text('Handedness:', col2X, y + 62)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(this.patientData.handedness || 'N/A', col2ValueX, y + 62);
+
+    doc.moveDown(2.5);
+  }
+
+  /**
+   * Add watermark to current page
+   */
+  addWatermark(doc) {
+    // Save current position
+    const currentY = doc.y;
+
+    // Save the current graphics state
+    doc.save();
+
+    // Add semi-transparent watermark
+    doc.opacity(0.05)
+       .fontSize(50)
+       .fillColor('#000000')
+       .font('Helvetica-Bold')
+       .rotate(-45, { origin: [297.5, 421] })
+       .text('NeuroSense Report', 150, 400, {
+         width: 500,
+         align: 'center'
+       });
+
+    // Restore graphics state
+    doc.restore();
+
+    // Restore position (watermark shouldn't move cursor)
+    doc.y = currentY;
+  }
+
+  /**
+   * Add parameter section - Infographic Style
+   */
+  addParameterSection(doc, param, index) {
+    // Only create new page if we're very close to bottom (need at least 150px for parameter header + some content)
+    if (doc.y > 700) {
+      doc.addPage();
+      this.addWatermark(doc);
+    }
+
+    const y = doc.y;
+
+    // Determine background color based on score (Low=Red, Medium=Orange, High=Green)
+    const bgColor = this.getScoreColor(param.score, param.maxScore || 3, param.name);
+
+    // Main colored header
+    doc.roundedRect(50, y, 495, 35, 5)
+       .fill(bgColor);
+
+    // Parameter name (no icon to avoid rendering issues)
+    doc.fontSize(16)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text(param.name, 60, y + 10);
+
+    // Score badge with color-coded background based on score
+    const scoreText = param.maxScore ? `${param.score}/${param.maxScore}` : `${param.score}`;
+    const scoreColor = this.getScoreColor(param.score, param.maxScore || 3, param.name);
+    const scoreBadgeX = 420;
+
+    doc.roundedRect(scoreBadgeX, y + 7, 50, 20, 3)
+       .fillAndStroke(scoreColor, scoreColor);
+
+    doc.fontSize(12)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text(scoreText, scoreBadgeX + 10, y + 11);
+
+    // Bucket label (aligned to the right)
+    doc.fontSize(9)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text(param.bucket || '', 475, y + 13, { width: 60, align: 'right' });
+
+    doc.moveDown(1.8);
+
+    // Parameter summary with light background box
+    if (param.summary) {
+      const summaryY = doc.y;
+      doc.roundedRect(50, summaryY - 3, 495, 25, 3)
+         .fill('#F8F9FA');
+
+      doc.fontSize(10)
+         .fillColor('#2D3748')
+         .font('Helvetica')
+         .text(param.summary, 60, summaryY, {
+           width: 475,
+           align: 'left'
+         });
+
+      doc.moveDown(0.7);
+    }
+
+    // Subparameters (metrics) with visual indicators
+    if (param.subparameters && param.subparameters.length > 0) {
+      console.log(`   📊 Adding ${param.subparameters.length} sub-metrics for ${param.name}`);
+
+      doc.fontSize(9)
+         .fillColor('#323956')
+         .font('Helvetica-Bold')
+         .text('Key Metrics:', 55, doc.y);
+
+      doc.moveDown(0.5);
+
+      param.subparameters.forEach((sub, idx) => {
+        console.log(`     ${idx + 1}. ${sub.name}: score=${sub.score}, interpretation="${sub.interpretation}"`);
+
+        const metricY = doc.y;
+
+        // For Stress and Burnout, LOW scores (0) are GOOD, so invert the logic
+        const isProblemParameter = param.name === 'Stress' || param.name === 'Burnout & Fatigue' || param.name === 'Burnout and Fatigue';
+        const isHealthy = isProblemParameter ? (sub.score === 0) : (sub.score === 1);
+
+        const checkColor = isHealthy ? '#38A169' : '#E53E3E';
+        const checkSymbol = isHealthy ? 'Pass' : 'Fail';
+
+        // Visual indicator box (properly aligned)
+        doc.roundedRect(60, metricY, 30, 12, 2)
+           .fillAndStroke(checkColor, checkColor);
+
+        doc.fontSize(7)
+           .fillColor('#FFFFFF')
+           .font('Helvetica-Bold')
+           .text(checkSymbol, 63, metricY + 2);
+
+        // Metric name and interpretation (aligned at x=98)
+        doc.fontSize(9)
+           .fillColor('#2D3748')
+           .font('Helvetica-Bold')
+           .text(sub.name, 98, metricY, { width: 442, continued: true })
+           .font('Helvetica')
+           .fillColor('#4A5568')
+           .text(` - ${sub.interpretation || ''}`, { width: 442 });
+
+        // Add details if available
+        if (sub.details) {
+          doc.fontSize(7)
+             .fillColor('#718096')
+             .text(`    ${sub.details}`, 98, doc.y);
+        }
+
+        doc.moveDown(0.3);
+      });
+    } else {
+      console.log(`   ⚠️ No sub-metrics for ${param.name}`);
+    }
+
+    doc.moveDown(0.8);
+  }
+
+  /**
+   * Add summary section - Infographic Style
+   */
+  addSummarySection(doc, summary) {
+    if (doc.y > 700) {
+      doc.addPage();
+      this.addWatermark(doc);
+    }
+
+    const y = doc.y;
+
+    // Colored banner for summary
+    doc.roundedRect(50, y, 495, 30, 5)
+       .fill('#4299E1');
+
+    doc.fontSize(14)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('Overall Brain Health Summary', 60, y + 8);
+
+    doc.moveDown(1.3);
+
+    // Summary content box
+    const contentY = doc.y;
+    doc.roundedRect(50, contentY, 495, 70, 5)
+       .fillAndStroke('#EBF8FF', '#4299E1');
+
+    doc.fontSize(10)
+       .fillColor('#2D3748')
+       .font('Helvetica')
+       .text(summary, 60, contentY + 10, {
+         width: 475,
+         align: 'left'
+       });
+
+    doc.moveDown(2);
+  }
+
+  /**
+   * Add recommendations - Infographic Style
+   */
+  addRecommendations(doc, recommendations) {
+    if (doc.y > 700) {
+      doc.addPage();
+      this.addWatermark(doc);
+    }
+
+    const y = doc.y;
+
+    // Colored banner for recommendations
+    doc.roundedRect(50, y, 495, 30, 5)
+       .fill('#48BB78');
+
+    doc.fontSize(14)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('Personalized Recommendations', 60, y + 8);
+
+    doc.moveDown(1.2);
+
+    // Recommendations with numbered badges
+    recommendations.forEach((rec, idx) => {
+      const recY = doc.y;
+
+      // Numbered badge (professional box style)
+      doc.roundedRect(60, recY, 20, 16, 2)
+         .fillAndStroke('#48BB78', '#48BB78');
+
+      doc.fontSize(10)
+         .fillColor('#FFFFFF')
+         .font('Helvetica-Bold')
+         .text(`${idx + 1}`, 67, recY + 3);
+
+      // Recommendation text (aligned at x=88)
+      doc.fontSize(9)
+         .fillColor('#2D3748')
+         .font('Helvetica')
+         .text(rec, 88, recY, {
+           width: 452,
+           align: 'left'
+         });
+
+      doc.moveDown(0.5);
+    });
+  }
+
+  /**
+   * Add footer - Infographic Style
+   */
+  addFooter(doc) {
+    const bottomY = 750;
+
+    // Footer bar
+    doc.rect(0, bottomY - 5, 595, 50)
+       .fill('#F7FAFC');
+
+    doc.moveTo(50, bottomY - 5)
+       .lineTo(545, bottomY - 5)
+       .stroke('#4299E1');
+
+    doc.fontSize(7)
+       .fillColor('#4A5568')
+       .font('Helvetica')
+       .text('This infographic is generated using AI-powered analysis and should be interpreted by a qualified healthcare professional.',
+             50, bottomY + 5, {
+               width: 495,
+               align: 'center'
+             });
+
+    doc.fontSize(7)
+       .fillColor('#2D3748')
+       .font('Helvetica-Bold')
+       .text('© 2025 NeuroSense360 • Powered by OpenAI',
+             50, bottomY + 20, {
+               width: 495,
+               align: 'center'
+             });
+  }
+
+  /**
+   * Get score color based on percentage (for color-coded scoring)
+   * CONSISTENT across ALL parameters:
+   * Low score (0-40%) → Red
+   * Medium score (41-70%) → Orange
+   * High score (71-100%) → Green
+   */
+  getScoreColor(score, maxScore, parameterName = '') {
+    const percentage = (score / maxScore) * 100;
+
+    // Consistent color mapping for ALL parameters
+    // Low = Red, Medium = Orange, High = Green
+    if (percentage <= 40) return '#E53E3E';      // Red (Low)
+    if (percentage <= 70) return '#ED8936';      // Orange (Medium)
+    return '#38A169';                            // Green (High)
+  }
+
+  /**
+   * Get color for bucket classification
+   * Consistent color mapping: Low=Red, Medium=Orange, High=Green across ALL parameters
+   */
+  getBucketColor(bucketOrColor, parameterName = '') {
+    // If it's already a hex color
+    if (bucketOrColor && bucketOrColor.startsWith('#')) {
+      return bucketOrColor;
+    }
+
+    // Consistent color mapping for ALL parameters
+    // Low metrics = Red, Medium = Orange, High = Green
+    const colorMap = {
+      'Poor': '#E53E3E',        // Red
+      'Below Average': '#F56565', // Light Red
+      'Average': '#ED8936',      // Orange
+      'Moderate': '#ED8936',     // Orange
+      'Good': '#48BB78',         // Green
+      'Excellent': '#38A169',    // Dark Green
+      'Low': '#E53E3E',          // Red (consistent for all Low)
+      'Medium': '#ED8936',       // Orange
+      'High': '#38A169'          // Green (consistent for all High)
+    };
+
+    return colorMap[bucketOrColor] || '#4299E1';
+  }
+
+  /**
+   * Generate radar chart showing all 7 brain parameters
+   * Returns Buffer containing PNG image
+   */
+  async generateRadarChart() {
+    try {
+      console.log('\n📊 Generating radar chart for 7 brain parameters...');
+
+      // Extract parameter data
+      const parameters = this.algorithmResults.parameters || [];
+      const labels = parameters.map(p => p.name);
+      const scores = parameters.map(p => (p.score / p.maxScore) * 100); // Convert to percentage
+
+      console.log(`   Parameters: ${labels.join(', ')}`);
+      console.log(`   Scores: ${scores.map(s => s.toFixed(0) + '%').join(', ')}`);
+
+      // Create chart configuration
+      const width = 600;
+      const height = 600;
+      const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height });
+
+      const configuration = {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Brain Performance Score',
+            data: scores,
+            fill: true,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgb(54, 162, 235)',
+            pointBackgroundColor: 'rgb(54, 162, 235)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(54, 162, 235)',
+            borderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            title: {
+              display: true,
+              text: '7 Brain Health Parameters - Performance Overview',
+              font: {
+                size: 20,
+                weight: 'bold'
+              },
+              color: '#323956',
+              padding: 20
+            },
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            r: {
+              angleLines: {
+                display: true,
+                color: '#E2E8F0'
+              },
+              grid: {
+                color: '#E2E8F0'
+              },
+              pointLabels: {
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                },
+                color: '#323956'
+              },
+              ticks: {
+                beginAtZero: true,
+                max: 100,
+                stepSize: 25,
+                callback: function(value) {
+                  return value + '%';
+                },
+                backdropColor: 'transparent',
+                color: '#718096',
+                font: {
+                  size: 12
+                }
+              },
+              suggestedMin: 0,
+              suggestedMax: 100
+            }
+          }
+        }
+      };
+
+      // Generate chart image
+      const imageBuffer = await chartJSNodeCanvas.renderToBuffer(configuration);
+      console.log('✅ Radar chart generated successfully');
+      console.log(`   Size: ${(imageBuffer.length / 1024).toFixed(2)} KB\n`);
+
+      return imageBuffer;
+    } catch (error) {
+      console.error('❌ Error generating radar chart:', error.message);
+      console.error('   Stack:', error.stack);
+      return null;
+    }
+  }
+
+  /**
+   * Add Extracted QEEG Data Section - Shows raw data extracted from uploaded PDFs
+   */
+  addExtractedDataSection(doc) {
+    // Create new page for data section
+    doc.addPage();
+    this.addWatermark(doc);
+
+    const y = doc.y;
+
+    // Section header
+    doc.roundedRect(50, y, 495, 35, 5)
+       .fill('#2C5282');
+
+    doc.fontSize(16)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('📊 Extracted QEEG Data', 60, y + 10);
+
+    doc.moveDown(2);
+
+    // Description
+    doc.fontSize(10)
+       .fillColor('#4A5568')
+       .font('Helvetica')
+       .text('This section shows the raw brainwave data extracted from your uploaded Eye Open (EO) and Eye Closed (EC) reports.', 50, doc.y, { width: 495, align: 'left' });
+
+    doc.moveDown(1);
+
+    // === EYES OPEN DATA ===
+    this.addDataTable(doc, 'Eyes Open (EO) - Absolute Power (μV²)', this.qeegData.EO?.absolute);
+    doc.moveDown(0.5);
+    this.addDataTable(doc, 'Eyes Open (EO) - Relative Power (%)', this.qeegData.EO?.relative);
+
+    // Check if we need new page
+    if (doc.y > 650) {
+      doc.addPage();
+      this.addWatermark(doc);
+    }
+
+    doc.moveDown(0.5);
+
+    // === EYES CLOSED DATA ===
+    this.addDataTable(doc, 'Eyes Closed (EC) - Absolute Power (μV²)', this.qeegData.EC?.absolute);
+    doc.moveDown(0.5);
+    this.addDataTable(doc, 'Eyes Closed (EC) - Relative Power (%)', this.qeegData.EC?.relative);
+
+    // === SPECIAL VALUES ===
+    if (this.qeegData.EC?.special) {
+      doc.moveDown(1);
+      doc.fontSize(12)
+         .fillColor('#323956')
+         .font('Helvetica-Bold')
+         .text('Special Values', 50, doc.y);
+
+      doc.moveDown(0.5);
+      doc.fontSize(9)
+         .fillColor('#2D3748')
+         .font('Helvetica');
+
+      if (this.qeegData.EC.special.alphaPeak) {
+        doc.text(`• Alpha Peak Frequency: ${this.qeegData.EC.special.alphaPeak} Hz`, 60, doc.y);
+      }
+    }
+  }
+
+  /**
+   * Helper method to add data table to PDF
+   */
+  addDataTable(doc, title, data) {
+    if (!data) return;
+
+    // Check if we need new page
+    if (doc.y > 680) {
+      doc.addPage();
+      this.addWatermark(doc);
+    }
+
+    // Title
+    doc.fontSize(12)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text(title, 50, doc.y);
+
+    doc.moveDown(0.5);
+
+    // Table header
+    const startY = doc.y;
+    const rowHeight = 14;
+    const colWidth = 65;
+
+    // Header row background
+    doc.rect(50, startY, 495, rowHeight)
+       .fill('#E2E8F0');
+
+    // Header text
+    doc.fontSize(8)
+       .fillColor('#2D3748')
+       .font('Helvetica-Bold');
+
+    doc.text('Channel', 55, startY + 3, { width: 55 });
+    doc.text('Delta', 115, startY + 3, { width: colWidth });
+    doc.text('Theta', 180, startY + 3, { width: colWidth });
+    doc.text('Alpha', 245, startY + 3, { width: colWidth });
+    doc.text('Beta', 310, startY + 3, { width: colWidth });
+    doc.text('HiBeta', 375, startY + 3, { width: colWidth });
+
+    let currentY = startY + rowHeight;
+
+    // Data rows
+    const channels = ['Fz', 'Cz', 'Pz', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4'];
+    doc.fontSize(8).font('Helvetica').fillColor('#2D3748');
+
+    channels.forEach((channel, index) => {
+      const bands = data[channel];
+      if (!bands) return;
+
+      // Alternating row colors
+      if (index % 2 === 0) {
+        doc.rect(50, currentY, 495, rowHeight).fill('#F7FAFC');
+      }
+
+      doc.fillColor('#2D3748');
+      doc.text(channel, 55, currentY + 3, { width: 55 });
+      doc.text(bands.Delta?.toFixed(2) || '0.00', 115, currentY + 3, { width: colWidth });
+      doc.text(bands.Theta?.toFixed(2) || '0.00', 180, currentY + 3, { width: colWidth });
+      doc.text(bands.Alpha?.toFixed(2) || '0.00', 245, currentY + 3, { width: colWidth });
+      doc.text(bands.Beta?.toFixed(2) || '0.00', 310, currentY + 3, { width: colWidth });
+      doc.text(bands.HiBeta?.toFixed(2) || '0.00', 375, currentY + 3, { width: colWidth });
+
+      currentY += rowHeight;
+    });
+
+    // Update cursor position
+    doc.y = currentY + 5;
+  }
+
+  /**
+   * Add Detailed Calculations Section - Shows how scores were calculated
+   */
+  addCalculationsSection(doc) {
+    // Create new page for calculations
+    doc.addPage();
+    this.addWatermark(doc);
+
+    const y = doc.y;
+
+    // Section header
+    doc.roundedRect(50, y, 495, 35, 5)
+       .fill('#2C5282');
+
+    doc.fontSize(16)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('🧮 Detailed Calculations', 60, y + 10);
+
+    doc.moveDown(2);
+
+    // Description
+    doc.fontSize(10)
+       .fillColor('#4A5568')
+       .font('Helvetica')
+       .text('This section shows step-by-step calculations for each brain health parameter, including formulas, thresholds, and scoring logic.', 50, doc.y, { width: 495, align: 'left' });
+
+    doc.moveDown(1);
+
+    // Add calculation details for each parameter
+    if (this.algorithmResults.parameters) {
+      this.algorithmResults.parameters.forEach((param, index) => {
+        this.addParameterCalculation(doc, param, index + 1);
+      });
+    }
+  }
+
+  /**
+   * Add individual parameter calculation details
+   */
+  addParameterCalculation(doc, param, number) {
+    // Check if we need new page
+    if (doc.y > 650) {
+      doc.addPage();
+      this.addWatermark(doc);
+    }
+
+    // Parameter header
+    doc.fontSize(12)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text(`${number}. ${param.name} - Score: ${param.score}/3 (${param.classification})`, 50, doc.y);
+
+    doc.moveDown(0.5);
+
+    // Metrics/Sub-calculations
+    if (param.metrics && param.metrics.length > 0) {
+      param.metrics.forEach((metric, idx) => {
+        // Check if we need new page before each metric
+        if (doc.y > 720) {
+          doc.addPage();
+          this.addWatermark(doc);
+        }
+
+        // Metric box
+        const metricY = doc.y;
+        doc.roundedRect(55, metricY, 485, 'auto', 3)
+           .lineWidth(1)
+           .stroke('#CBD5E0');
+
+        doc.fontSize(10)
+           .fillColor('#2D3748')
+           .font('Helvetica-Bold')
+           .text(`   ${String.fromCharCode(97 + idx)}) ${metric.name}: ${metric.score} point`, 60, metricY + 5, { width: 475 });
+
+        doc.moveDown(0.3);
+
+        // Formula/Description
+        if (metric.description) {
+          doc.fontSize(9)
+             .fillColor('#4A5568')
+             .font('Helvetica')
+             .text(`      ${metric.description}`, 60, doc.y, { width: 475 });
+        }
+
+        // Value details
+        if (metric.value !== undefined && metric.value !== null) {
+          doc.fontSize(9)
+             .fillColor('#2D3748')
+             .font('Helvetica');
+
+          if (typeof metric.value === 'object') {
+            doc.text(`      Raw Values: ${JSON.stringify(metric.value)}`, 60, doc.y, { width: 475 });
+          } else {
+            doc.text(`      Calculated Value: ${typeof metric.value === 'number' ? metric.value.toFixed(3) : metric.value}`, 60, doc.y, { width: 475 });
+          }
+        }
+
+        // Interpretation
+        if (metric.score === 1) {
+          doc.fontSize(9)
+             .fillColor('#22543D')
+             .font('Helvetica-Bold')
+             .text('      ✓ PASS - Within optimal range', 60, doc.y, { width: 475 });
+        } else {
+          doc.fontSize(9)
+             .fillColor('#742A2A')
+             .font('Helvetica-Bold')
+             .text('      ✗ FAIL - Outside optimal range', 60, doc.y, { width: 475 });
+        }
+
+        doc.moveDown(0.8);
+      });
+    }
+
+    doc.moveDown(0.5);
+  }
+}
+
+module.exports = GeminiPdfGenerator;

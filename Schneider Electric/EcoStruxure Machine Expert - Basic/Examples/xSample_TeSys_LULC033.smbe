@@ -1,0 +1,2856 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectVersion>2.0.0.0</ProjectVersion>
+  <ManagementLevel>FunctLevelMan11_0</ManagementLevel>
+  <Name>xSample_Tesys_LULC033</Name>
+  <FullName>xSample_Tesys_LULC033.smbe</FullName>
+  <SoftwareConfiguration>
+    <Pous>
+      <ProgramOrganizationUnits>
+        <Name>TesysU Data</Name>
+        <SectionNumber>1</SectionNumber>
+        <Comment>Get Motor current + warnings + faults</Comment>
+        <Rungs>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Operation</ElementType>
+                <OperationExpression>%MW0 := (ROL( %IWN100.1.0 AND 16#3F00 , 8 ) * 100) / 32</OperationExpression>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>[%MW0 := (ROL( %IWN100.1.0 AND #3F00 , 8 ) * 100) / 32]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>CurrentRatio</Name>
+            <MainComment>Reading of Motor Average Current Ratio (from 0 to 200 %)</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Comparison</ElementType>
+                <ComparisonExpression>%MW1 := %IWN100.2.0</ComparisonExpression>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Down, Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>RisingEdgeBlock</ElementType>
+                <Descriptor>0</Descriptor>
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%IWN100.1.0:X3</Descriptor>
+                <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+                <Symbol>SYSTEM_STATUS:X3</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>VerticalLine</ElementType>
+                <Row>1</Row>
+                <Column>3</Column>
+                <ChosenConnection>Up, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>FallingEdgeBlock</ElementType>
+                <Descriptor>0</Descriptor>
+                <Symbol />
+                <Row>1</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>SetCoil</ElementType>
+                <Descriptor>%M12</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Warnings channel request</Comment>
+                <Symbol>WARNING_BIT</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>SetCoil</ElementType>
+                <Descriptor>%M12</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Warnings channel request</Comment>
+                <Symbol>WARNING_BIT</Symbol>
+                <Row>1</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines />
+            <Name>Warnings</Name>
+            <MainComment>Reading of Montoring warnings in acyclic mode and trigger activation</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Down, Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%IWN100.1.0:X2</Descriptor>
+                <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+                <Symbol>SYSTEM_STATUS:X2</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Comparison</ElementType>
+                <ComparisonExpression>%MW2 := %IWN100.3.0</ComparisonExpression>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>RisingEdgeBlock</ElementType>
+                <Descriptor>1</Descriptor>
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>FallingEdgeBlock</ElementType>
+                <Descriptor>1</Descriptor>
+                <Symbol />
+                <Row>1</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>VerticalLine</ElementType>
+                <Row>1</Row>
+                <Column>3</Column>
+                <ChosenConnection>Up, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>1</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>SetCoil</ElementType>
+                <Descriptor>%M13</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Faults channel request</Comment>
+                <Symbol>FAULT_BIT</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>SetCoil</ElementType>
+                <Descriptor>%M13</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Faults channel request</Comment>
+                <Symbol>FAULT_BIT</Symbol>
+                <Row>1</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %IWN100.1.0:X2</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>OPER [ %MW2 := %IWN100.3.0 ]</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>MPS</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>RISING4</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>S  %M13</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>MPP</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>FALLING2</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>S  %M13</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Faults</Name>
+            <MainComment>Reading of Montoring faults in acyclic mode and trigger activation</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>None</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>None</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Down, Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M12</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Warnings channel request</Comment>
+                <Symbol>WARNING_BIT</Symbol>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>RisingEdgeBlock</ElementType>
+                <Descriptor>2</Descriptor>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>VerticalLine</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>0</Column>
+                <ChosenConnection>Up, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M13</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Faults channel request</Comment>
+                <Symbol>FAULT_BIT</Symbol>
+                <Row>1</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>RisingEdgeBlock</ElementType>
+                <Descriptor>3</Descriptor>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Not</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Not</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M12</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Warnings channel request</Comment>
+                <Symbol>WARNING_BIT</Symbol>
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M13</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Faults channel request</Comment>
+                <Symbol>FAULT_BIT</Symbol>
+                <Row>1</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>ResetCoil</ElementType>
+                <Descriptor>%M12</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Warnings channel request</Comment>
+                <Symbol>WARNING_BIT</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>ResetCoil</ElementType>
+                <Descriptor>%M13</Descriptor>
+                <Comment>Trigger to activate the Tesys U_Faults channel request</Comment>
+                <Symbol>FAULT_BIT</Symbol>
+                <Row>1</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>1</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>MPS</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>AND  %M12</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>RISING4</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>N</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>AND  %M12</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>R  %M12</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>MPP</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>AND  %M13</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>RISING4</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>N</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>AND  %M13</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>R  %M13</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Reset warning/falut bit</Name>
+            <MainComment>Reset warning/fault bit after one PLC cycle, to trigger IOScanner acyclic exchange</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+        </Rungs>
+      </ProgramOrganizationUnits>
+      <ProgramOrganizationUnits>
+        <Name>Tesys-U Manager</Name>
+        <SectionNumber>2</SectionNumber>
+        <Comment>Manahement of the TeSys-U</Comment>
+        <Rungs>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M0</Descriptor>
+                <Comment>Request a Forward sense</Comment>
+                <Symbol>SET_FWD</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NegatedContact</ElementType>
+                <Descriptor>%M1</Descriptor>
+                <Comment>Request a Reversed sense</Comment>
+                <Symbol>SET_REV</Symbol>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%QWN100.0.1:X0</Descriptor>
+                <Comment>Bit 0 : RUN command, Bi1 REVERSE command, Bit 3: system FAULT reset command</Comment>
+                <Symbol>MOTOR_COMMAND:X0</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %M0</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ANDN  %M1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %QWN100.0.1:X0</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Direction FWD</Name>
+            <MainComment>Forward request ( Rev must be inactive)</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M1</Descriptor>
+                <Comment>Request a Reversed sense</Comment>
+                <Symbol>SET_REV</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NegatedContact</ElementType>
+                <Descriptor>%M0</Descriptor>
+                <Comment>Request a Forward sense</Comment>
+                <Symbol>SET_FWD</Symbol>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%QWN100.0.1:X1</Descriptor>
+                <Comment>Bit 0 : RUN command, Bi1 REVERSE command, Bit 3: system FAULT reset command</Comment>
+                <Symbol>MOTOR_COMMAND:X1</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %M1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ANDN  %M0</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %QWN100.0.1:X1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Direction REV</Name>
+            <MainComment>Reverse request ( FWD must be inactive)</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%M2</Descriptor>
+                <Comment>Tesys is currently in Ready mode</Comment>
+                <Symbol>READY_STATE</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%IWN100.1.0:X0</Descriptor>
+                <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+                <Symbol>SYSTEM_STATUS:X0</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %IWN100.1.0:X0</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %M2</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Get ready state</Name>
+            <MainComment>Get ready state</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%IWN100.1.0:X1</Descriptor>
+                <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+                <Symbol>SYSTEM_STATUS:X1</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%M3</Descriptor>
+                <Comment>Tesys is currently in Run mode</Comment>
+                <Symbol>RUN_STATE</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %IWN100.1.0:X1</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %M3</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Get Run state</Name>
+            <MainComment>Get Run state</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Descriptor />
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%M4</Descriptor>
+                <Comment>Tesys is currently in Trip mode</Comment>
+                <Symbol>TRIP_STATE</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%IWN100.1.0:X4</Descriptor>
+                <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+                <Symbol>SYSTEM_STATUS:X4</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %IWN100.1.0:X4</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %M4</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Get trip state</Name>
+            <MainComment>Get trip state</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%IWN100.1.0:X5</Descriptor>
+                <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+                <Symbol>SYSTEM_STATUS:X5</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%M9</Descriptor>
+                <Comment />
+                <Symbol>RESET_AUTHORIZED</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %IWN100.1.0:X5</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %M9</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Get Reset Authorized</Name>
+            <MainComment />
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M5</Descriptor>
+                <Comment>Request a warning RESET command</Comment>
+                <Symbol>RESET_WARNING</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%QWN100.0.0:X3</Descriptor>
+                <Comment>Bit 3 of this register allows to reset the system WARNING</Comment>
+                <Symbol>WARNING_RESET:X3</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %M5</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %QWN100.0.0:X3</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Reset warning</Name>
+            <MainComment>Request a warning RESET command</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+          <RungEntity>
+            <LadderElements>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>3</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>4</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>5</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>6</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>7</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Comment />
+                <Symbol />
+                <Row>0</Row>
+                <Column>8</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>NormalContact</ElementType>
+                <Descriptor>%M6</Descriptor>
+                <Comment>Request a fault RESET command</Comment>
+                <Symbol>RESET_FAULT</Symbol>
+                <Row>0</Row>
+                <Column>0</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>1</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>2</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Coil</ElementType>
+                <Descriptor>%QWN100.0.1:X3</Descriptor>
+                <Comment>Bit 0 : RUN command, Bi1 REVERSE command, Bit 3: system FAULT reset command</Comment>
+                <Symbol>MOTOR_COMMAND:X3</Symbol>
+                <Row>0</Row>
+                <Column>10</Column>
+                <ChosenConnection>Left</ChosenConnection>
+              </LadderEntity>
+              <LadderEntity>
+                <ElementType>Line</ElementType>
+                <Row>0</Row>
+                <Column>9</Column>
+                <ChosenConnection>Left, Right</ChosenConnection>
+              </LadderEntity>
+            </LadderElements>
+            <InstructionLines>
+              <InstructionLineEntity>
+                <InstructionLine>LD  %M6</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+              <InstructionLineEntity>
+                <InstructionLine>ST  %QWN100.0.1:X3</InstructionLine>
+                <Comment />
+              </InstructionLineEntity>
+            </InstructionLines>
+            <Name>Reset fault</Name>
+            <MainComment>Request a fault RESET command</MainComment>
+            <Label />
+            <IsLadderSelected>true</IsLadderSelected>
+          </RungEntity>
+        </Rungs>
+      </ProgramOrganizationUnits>
+    </Pous>
+    <Subroutines />
+    <WatchLists>
+      <WatchListEntity>
+        <Name>Tesys Watches</Name>
+        <WatchListItemEntities>
+          <WatchListItemEntity>
+            <Address>%M0</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M1</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M2</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M3</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M4</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M9</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M5</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%M6</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>BoolNumeric</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWN100.0.0</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%QWN100.0.1</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWN100.1.0</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWN100.2.0</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%IWN100.3.0</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+          <WatchListItemEntity>
+            <Address>%MW0</Address>
+            <IsTraced>false</IsTraced>
+            <ValueRepresentation>Decimal</ValueRepresentation>
+          </WatchListItemEntity>
+        </WatchListItemEntities>
+      </WatchListEntity>
+    </WatchLists>
+    <CustomSymbols />
+    <ConstantWordsMemoryAllocation />
+    <MemoryBitsMemoryAllocation />
+    <MemoryWordsMemoryAllocation />
+    <TimersMemoryAllocation />
+    <CountersMemoryAllocation />
+    <RegistersMemoryAllocation />
+    <DrumsMemoryAllocation />
+    <SbrsMemoryAllocation />
+    <ScsMemoryAllocation />
+    <FcsMemoryAllocation />
+    <SchsMemoryAllocation />
+    <HscsMemoryAllocation />
+    <PtosMemoryAllocation />
+    <MemoryBits>
+      <MemoryBit>
+        <Address>%M0</Address>
+        <Index>0</Index>
+        <Symbol>SET_FWD</Symbol>
+        <Comment>Request a Forward sense</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M1</Address>
+        <Index>1</Index>
+        <Symbol>SET_REV</Symbol>
+        <Comment>Request a Reversed sense</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M2</Address>
+        <Index>2</Index>
+        <Symbol>READY_STATE</Symbol>
+        <Comment>Tesys is currently in Ready mode</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M3</Address>
+        <Index>3</Index>
+        <Symbol>RUN_STATE</Symbol>
+        <Comment>Tesys is currently in Run mode</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M4</Address>
+        <Index>4</Index>
+        <Symbol>TRIP_STATE</Symbol>
+        <Comment>Tesys is currently in Trip mode</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M5</Address>
+        <Index>5</Index>
+        <Symbol>RESET_WARNING</Symbol>
+        <Comment>Request a warning RESET command</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M6</Address>
+        <Index>6</Index>
+        <Symbol>RESET_FAULT</Symbol>
+        <Comment>Request a fault RESET command</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M9</Address>
+        <Index>9</Index>
+        <Symbol>RESET_AUTHORIZED</Symbol>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M12</Address>
+        <Index>12</Index>
+        <Symbol>WARNING_BIT</Symbol>
+        <Comment>Trigger to activate the Tesys U_Warnings channel request</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%M13</Address>
+        <Index>13</Index>
+        <Symbol>FAULT_BIT</Symbol>
+        <Comment>Trigger to activate the Tesys U_Faults channel request</Comment>
+      </MemoryBit>
+    </MemoryBits>
+    <SystemBits>
+      <MemoryBit>
+        <Address>%S9</Address>
+        <Index>9</Index>
+        <Symbol>SB_FALLBACKOUTPUT</Symbol>
+        <Comment>Set to 1 to apply fallbacks on digital and analog outputs</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S91</Address>
+        <Index>91</Index>
+        <Symbol>SB_MWERASE</Symbol>
+        <Comment>User sets this bit to 1 to erase all %MW variables in the flash memory</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S105</Address>
+        <Index>105</Index>
+        <Symbol>SB_MODINIT</Symbol>
+        <Comment>Set to 1, this bit allows to initialize the modem, see also %SW167</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S106</Address>
+        <Index>106</Index>
+        <Symbol>SB_IOBUSERRPASSIVE</Symbol>
+        <Comment>Default value is 0. Set to 1 changes the IO bus behavior by managing IO module exchanges even with a permanent error</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S107</Address>
+        <Index>107</Index>
+        <Symbol>SB_IOBUSRESTART</Symbol>
+        <Comment>The rising edge on this bit allows to reconfigure and restart the IO bus</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S110</Address>
+        <Index>110</Index>
+        <Symbol>SB_IOSCAN1RESET</Symbol>
+        <Comment>Set to 1 to reset the IOScanner on Serial Line 1</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S111</Address>
+        <Index>111</Index>
+        <Symbol>SB_IOSCAN2RESET</Symbol>
+        <Comment>Set to 1 to reset the IOScanner on Serial Line 2</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S112</Address>
+        <Index>112</Index>
+        <Symbol>SB_IOSCANETHRESET</Symbol>
+        <Comment>Set to 1 to reset the IOScanner on Ethernet</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S113</Address>
+        <Index>113</Index>
+        <Symbol>SB_IOSCAN1SUSPEND</Symbol>
+        <Comment>Set to 1 to suspend the IOScanner on Serial Line 1</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S114</Address>
+        <Index>114</Index>
+        <Symbol>SB_IOSCAN2SUSPEND</Symbol>
+        <Comment>Set to 1 to suspend the IOScanner on Serial Line 2</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S115</Address>
+        <Index>115</Index>
+        <Symbol>SB_IOSCANETHSUSPEND</Symbol>
+        <Comment>Set to 1 to suspend the IOScanner on Ethernet</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S122</Address>
+        <Index>122</Index>
+        <Symbol>SB_DALARM</Symbol>
+        <Comment>The display will switch automatically to the alarm page</Comment>
+      </MemoryBit>
+      <MemoryBit>
+        <Address>%S123</Address>
+        <Index>123</Index>
+        <Symbol>SB_DRED</Symbol>
+        <Comment>The Display backlight will be red as long as an alarm is active</Comment>
+      </MemoryBit>
+    </SystemBits>
+    <SystemWords>
+      <MemoryWord>
+        <Address>%SW115</Address>
+        <Index>115</Index>
+        <Symbol>SW_SERIALNUMBER_1</Symbol>
+        <Comment>Controller Serial number part 1 (BCD)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW116</Address>
+        <Index>116</Index>
+        <Symbol>SW_SERIALNUMBER_2</Symbol>
+        <Comment>Controller Serial number part 2 (BCD)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW117</Address>
+        <Index>117</Index>
+        <Symbol>SW_SERIALNUMBER_3</Symbol>
+        <Comment>Controller Serial number part 3 (BCD)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW119</Address>
+        <Index>119</Index>
+        <Symbol>SW_IOOPTION</Symbol>
+        <Comment>Shows optional expansion module configuration (refer F1 help for details)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW140</Address>
+        <Index>140</Index>
+        <Symbol>SW_LASTERRCODE_1</Symbol>
+        <Comment>Controller last error code 1</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW141</Address>
+        <Index>141</Index>
+        <Symbol>SW_LASTERRCODE_2</Symbol>
+        <Comment>Controller last error code 2</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW142</Address>
+        <Index>142</Index>
+        <Symbol>SW_LASTERRCODE_3</Symbol>
+        <Comment>Controller last error code 3</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW143</Address>
+        <Index>143</Index>
+        <Symbol>SW_NB_ERR_PLCLOG</Symbol>
+        <Comment>Number of entries in PlcLog.csv</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW167</Address>
+        <Index>167</Index>
+        <Symbol>SW_MODSTATUS</Symbol>
+        <Comment>Describes the answer of the modem to the last init command</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW182</Address>
+        <Index>182</Index>
+        <Symbol>SW_DSPSTATE</Symbol>
+        <Comment>Remote Graphic Display connection state</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW183</Address>
+        <Index>183</Index>
+        <Symbol>SW_DSPERROR</Symbol>
+        <Comment>Remote Graphic Display last error detected</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW184</Address>
+        <Index>184</Index>
+        <Symbol>SW_DINDEX</Symbol>
+        <Comment>Contains the Display page INDEX and allows to choose an other page</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW185</Address>
+        <Index>185</Index>
+        <Symbol>SW_DSPVERSION</Symbol>
+        <Comment>Contains the version of the Remote Graphic Display</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW188</Address>
+        <Index>188</Index>
+        <Symbol>SW_MAPTRFRAMES</Symbol>
+        <Comment>Counts the number of frames transmitted by the Modbus mapping table</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW189</Address>
+        <Index>189</Index>
+        <Symbol>SW_MAPRECFRAMES</Symbol>
+        <Comment>Counts the number of frames correctly received by the Modbus mapping table</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW190</Address>
+        <Index>190</Index>
+        <Symbol>SW_NBIPTRA1</Symbol>
+        <Comment>Counts the number of frames transmitted on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW191</Address>
+        <Index>191</Index>
+        <Symbol>SW_NBIPTRA2</Symbol>
+        <Comment>Counts the number of frames transmitted on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW192</Address>
+        <Index>192</Index>
+        <Symbol>SW_NBIPREC1</Symbol>
+        <Comment>Counts the number of frames received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW193</Address>
+        <Index>193</Index>
+        <Symbol>SW_NBIPREC2</Symbol>
+        <Comment>Counts the number of frames received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW194</Address>
+        <Index>194</Index>
+        <Symbol>SW_NBIP_UCCM_MES1</Symbol>
+        <Comment>Counts the number of unconnected messages received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW195</Address>
+        <Index>195</Index>
+        <Symbol>SW_NBIP_UCCM_MES2</Symbol>
+        <Comment>Counts the number of unconnected messages received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW196</Address>
+        <Index>196</Index>
+        <Symbol>SW_NBIP_UCCM_INV1</Symbol>
+        <Comment>Counts the number of invalid unconnected messages received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW197</Address>
+        <Index>197</Index>
+        <Symbol>SW_NBIP_UCCM_INV2</Symbol>
+        <Comment>Counts the number of invalid unconnected messages received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW198</Address>
+        <Index>198</Index>
+        <Symbol>SW_NBIPC3REQ1</Symbol>
+        <Comment>Counts the number of class 3 requests received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW199</Address>
+        <Index>199</Index>
+        <Symbol>SW_NBIPC3REQ2</Symbol>
+        <Comment>Counts the number of class 3 requests received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW200</Address>
+        <Index>200</Index>
+        <Symbol>SW_NBIPC3INV1</Symbol>
+        <Comment>Counts the number of invalid class 3 requests received on Ethernet IP (1st word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW201</Address>
+        <Index>201</Index>
+        <Symbol>SW_NBIPC3INV2</Symbol>
+        <Comment>Counts the number of invalid class 3 requests received on Ethernet IP (2nd word)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW202</Address>
+        <Index>202</Index>
+        <Symbol>SW_IPININST</Symbol>
+        <Comment>Reads the input Assembly Instance Number</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW203</Address>
+        <Index>203</Index>
+        <Symbol>SW_IPINSIZE</Symbol>
+        <Comment>Reads the input Assembly Instance Size</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW204</Address>
+        <Index>204</Index>
+        <Symbol>SW_IPOUTINST</Symbol>
+        <Comment>Reads the output Assembly Instance Number</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW205</Address>
+        <Index>205</Index>
+        <Symbol>SW_IPOUTSIZE</Symbol>
+        <Comment>Reads the output Assembly Instance Size</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW206</Address>
+        <Index>206</Index>
+        <Symbol>SW_IPNBTIMEOUT</Symbol>
+        <Comment>Counts the number of connection timeouts on Ethernet IP</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW207</Address>
+        <Index>207</Index>
+        <Symbol>SW_IPFLAGIDLE</Symbol>
+        <Comment>Reads the Ethernet IP flag from last I/O packet: Idle (value=0), Run (value=1), Error (value=2)</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW210</Address>
+        <Index>210</Index>
+        <Symbol>SW_IOSCAN1STATUS</Symbol>
+        <Comment>Contains the IOScanner status of Serial Line 1</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW211</Address>
+        <Index>211</Index>
+        <Symbol>SW_IOSCAN2STATUS</Symbol>
+        <Comment>Contains the IOScanner status of Serial Line 2</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%SW212</Address>
+        <Index>212</Index>
+        <Symbol>SW_IOSCANETHSTATUS</Symbol>
+        <Comment>Contains the IOScanner status on Ethernet</Comment>
+      </MemoryWord>
+    </SystemWords>
+    <GrafcetSteps />
+    <MemoryWords>
+      <MemoryWord>
+        <Address>%MW0</Address>
+        <Index>0</Index>
+        <Symbol>MOTOR_RATIO</Symbol>
+        <Comment>reads Motor average current ratio</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW1</Address>
+        <Index>1</Index>
+        <Symbol>WARNING</Symbol>
+        <Comment>Monitoring of warnings</Comment>
+      </MemoryWord>
+      <MemoryWord>
+        <Address>%MW2</Address>
+        <Index>2</Index>
+        <Symbol>FAULT</Symbol>
+        <Comment>Monitoring of faults</Comment>
+      </MemoryWord>
+    </MemoryWords>
+    <MemoryDoubleWords />
+    <MemoryFloats />
+    <ConstantWords />
+    <ConstantDoubleWords />
+    <ConstantMemoryFloats />
+    <Timers />
+    <Counters />
+    <FastCounters />
+    <Registers />
+    <Drums />
+    <ShiftBitRegisters />
+    <StepCounters />
+    <ScheduleBlocks />
+    <Pids>
+      <Pid>
+        <Address>PID 0</Address>
+        <Index>0</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 1</Address>
+        <Index>1</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 2</Address>
+        <Index>2</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 3</Address>
+        <Index>3</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 4</Address>
+        <Index>4</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 5</Address>
+        <Index>5</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 6</Address>
+        <Index>6</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 7</Address>
+        <Index>7</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 8</Address>
+        <Index>8</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 9</Address>
+        <Index>9</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 10</Address>
+        <Index>10</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 11</Address>
+        <Index>11</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 12</Address>
+        <Index>12</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+      <Pid>
+        <Address>PID 13</Address>
+        <Index>13</Index>
+        <ProportionalCoefficient>100</ProportionalCoefficient>
+        <CorrectorDynamic>CorrectorDynamicFast</CorrectorDynamic>
+      </Pid>
+    </Pids>
+    <MessageBlocks>
+      <MessageBlock>
+        <Address>%MSG1</Address>
+        <Index>0</Index>
+        <OutputPort>Serial1</OutputPort>
+      </MessageBlock>
+      <MessageBlock>
+        <Address>%MSG3</Address>
+        <Index>2</Index>
+        <OutputPort>Ethernet</OutputPort>
+      </MessageBlock>
+    </MessageBlocks>
+    <FunctionBlocks />
+    <MotionTaskTables />
+    <FastTask>
+      <Period>255</Period>
+    </FastTask>
+    <MastTask>
+      <UsePeriodScanMode>false</UsePeriodScanMode>
+      <PeriodScan>100</PeriodScan>
+    </MastTask>
+    <CpuBehavior>
+      <StartingMode>StartAsPreviousState</StartingMode>
+      <RunStopAddress />
+      <AutoSaveRamOnEeprom>true</AutoSaveRamOnEeprom>
+      <WatchdogPeriod>250</WatchdogPeriod>
+    </CpuBehavior>
+    <TraceTimeBase>Time5Sec</TraceTimeBase>
+    <UserFunctionPous />
+    <UserFunctionBlockPous />
+    <UserDefineFunctionBlocks />
+  </SoftwareConfiguration>
+  <HardwareConfiguration>
+    <Plc>
+      <Cpu>
+        <Index>0</Index>
+        <InputNb>0</InputNb>
+        <OutputNb>0</OutputNb>
+        <Kind>0</Kind>
+        <Reference>TM221ME16R/G</Reference>
+        <Name />
+        <Consumption5V>520</Consumption5V>
+        <Consumption24V>460</Consumption24V>
+        <TechnicalConfiguration>
+          <PtoConfiguration>
+            <McPowerPtoMax>0</McPowerPtoMax>
+            <McMoveVelPtoMax>0</McMoveVelPtoMax>
+            <McMoveRelPtoMax>0</McMoveRelPtoMax>
+            <McMoveAbsPtoMax>0</McMoveAbsPtoMax>
+            <McHomePtoMax>0</McHomePtoMax>
+            <McSetPosPtoMax>0</McSetPosPtoMax>
+            <McStopPtoMax>0</McStopPtoMax>
+            <McHaltPtoMax>0</McHaltPtoMax>
+            <McReadActVelPtoMax>0</McReadActVelPtoMax>
+            <McReadActPosPtoMax>0</McReadActPosPtoMax>
+            <McReadStsPtoMax>0</McReadStsPtoMax>
+            <McReadMotionStatePtoMax>0</McReadMotionStatePtoMax>
+            <McReadAxisErrorPtoMax>0</McReadAxisErrorPtoMax>
+            <McResetPtoMax>0</McResetPtoMax>
+            <McTouchProbePtoMax>0</McTouchProbePtoMax>
+            <McAbortTriggerPtoMax>0</McAbortTriggerPtoMax>
+            <McReadParPtoMax>0</McReadParPtoMax>
+            <McWriteParPtoMax>0</McWriteParPtoMax>
+            <McMotionTaskPtoMax>0</McMotionTaskPtoMax>
+          </PtoConfiguration>
+          <ComConfiguration>
+            <ReadVarBasicMax>16</ReadVarBasicMax>
+            <WriteVarBasicMax>16</WriteVarBasicMax>
+            <WriteReadVarBasicMax>16</WriteReadVarBasicMax>
+            <SendRecvMsgBasicMax>16</SendRecvMsgBasicMax>
+            <SendRecvSmsMax>1</SendRecvSmsMax>
+          </ComConfiguration>
+          <Compatibility>0</Compatibility>
+          <FastCounterMax>4</FastCounterMax>
+          <FourInputsEventTask>84148994</FourInputsEventTask>
+          <GrafcetBitsMax>96</GrafcetBitsMax>
+          <InternalRamStart>0</InternalRamStart>
+          <LabelsMax>64</LabelsMax>
+          <LfRegistersMax>4</LfRegistersMax>
+          <MemoryConstantWordsMax>512</MemoryConstantWordsMax>
+          <MemoryWordsMax>8000</MemoryWordsMax>
+          <NumRelays>8</NumRelays>
+          <NumRelaysMax>9999</NumRelaysMax>
+          <NumTransistors>0</NumTransistors>
+          <NumTransistorsMax>9999</NumTransistorsMax>
+          <PidAmountMax>14</PidAmountMax>
+          <PlcNumberSysBits>160</PlcNumberSysBits>
+          <PlcNumberSysWords>234</PlcNumberSysWords>
+          <PlcStartAddrSysBits>16</PlcStartAddrSysBits>
+          <PlcType>0</PlcType>
+          <TimersMax>255</TimersMax>
+          <AnalogInputPrecision>0</AnalogInputPrecision>
+          <AnalogOutputPrecision>0</AnalogOutputPrecision>
+          <StepCountersMax>8</StepCountersMax>
+          <CountersMax>255</CountersMax>
+          <DrumsMax>8</DrumsMax>
+          <ExternalRamSize>184320</ExternalRamSize>
+          <ExternalRamSizeWithDisplay>221776</ExternalRamSizeWithDisplay>
+          <ExternalRamStart>117538816</ExternalRamStart>
+          <InternalRamAppStart>512</InternalRamAppStart>
+          <InternalRamSize>130560</InternalRamSize>
+          <InternalBitsMax>1024</InternalBitsMax>
+          <InternalEepromSize>32</InternalEepromSize>
+          <ScheduleBlocksMax>16</ScheduleBlocksMax>
+          <ShiftBitRegistersMax>8</ShiftBitRegistersMax>
+          <SubroutinesMax>64</SubroutinesMax>
+          <SupportDoubleWord>true</SupportDoubleWord>
+          <SupportEvents>true</SupportEvents>
+          <SupportFloatingPoint>true</SupportFloatingPoint>
+          <NumberOf1MsTimerBase>6</NumberOf1MsTimerBase>
+        </TechnicalConfiguration>
+        <DigitalInputs>
+          <DiscretInput>
+            <Address>%I0.0</Address>
+            <Index>0</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.1</Address>
+            <Index>1</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.2</Address>
+            <Index>2</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.3</Address>
+            <Index>3</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.4</Address>
+            <Index>4</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.5</Address>
+            <Index>5</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.6</Address>
+            <Index>6</Index>
+          </DiscretInput>
+          <DiscretInput>
+            <Address>%I0.7</Address>
+            <Index>7</Index>
+          </DiscretInput>
+        </DigitalInputs>
+        <DigitalOutputs>
+          <DiscretOutput>
+            <Address>%Q0.0</Address>
+            <Index>0</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.1</Address>
+            <Index>1</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.2</Address>
+            <Index>2</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.3</Address>
+            <Index>3</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.4</Address>
+            <Index>4</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.5</Address>
+            <Index>5</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.6</Address>
+            <Index>6</Index>
+          </DiscretOutput>
+          <DiscretOutput>
+            <Address>%Q0.7</Address>
+            <Index>7</Index>
+          </DiscretOutput>
+        </DigitalOutputs>
+        <AnalogInputs>
+          <AnalogIO>
+            <Address>%IW0.0</Address>
+            <Index>0</Index>
+            <Type>
+              <Value>0</Value>
+              <Name>Type_0_10V</Name>
+            </Type>
+            <Scope>
+              <Value>0</Value>
+              <Name>Scope_Normal</Name>
+            </Scope>
+            <Minimum>0</Minimum>
+            <Maximum>1000</Maximum>
+            <IsInput>true</IsInput>
+            <R>1</R>
+            <B>1</B>
+            <T>1</T>
+            <Activation>3100</Activation>
+            <Reactivation>1500</Reactivation>
+            <InputFilter>0</InputFilter>
+            <R1>8700</R1>
+            <R2>200</R2>
+            <T1>234.15</T1>
+            <T2>311.15</T2>
+            <ChartCalculation>false</ChartCalculation>
+          </AnalogIO>
+          <AnalogIO>
+            <Address>%IW0.1</Address>
+            <Index>1</Index>
+            <Type>
+              <Value>0</Value>
+              <Name>Type_0_10V</Name>
+            </Type>
+            <Scope>
+              <Value>0</Value>
+              <Name>Scope_Normal</Name>
+            </Scope>
+            <Minimum>0</Minimum>
+            <Maximum>1000</Maximum>
+            <IsInput>true</IsInput>
+            <R>1</R>
+            <B>1</B>
+            <T>1</T>
+            <Activation>3100</Activation>
+            <Reactivation>1500</Reactivation>
+            <InputFilter>0</InputFilter>
+            <R1>8700</R1>
+            <R2>200</R2>
+            <T1>234.15</T1>
+            <T2>311.15</T2>
+            <ChartCalculation>false</ChartCalculation>
+          </AnalogIO>
+        </AnalogInputs>
+        <AnalogInputsStatus />
+        <AnalogOutputs />
+        <AnalogOutputsStatus />
+        <HighSpeedCounters>
+          <HighSpeedCounter>
+            <Address>%HSC0</Address>
+            <Index>0</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC1</Address>
+            <Index>1</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC2</Address>
+            <Index>2</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+          <HighSpeedCounter>
+            <Address>%HSC3</Address>
+            <Index>3</Index>
+            <Preset>0</Preset>
+            <DedicatedInputs>
+              <DedicatedInput>
+                <Index>0</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>1</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>2</Index>
+              </DedicatedInput>
+              <DedicatedInput>
+                <Index>3</Index>
+              </DedicatedInput>
+            </DedicatedInputs>
+            <ReflexOutputs>
+              <ReflexOutput>
+                <Index>0</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+              <ReflexOutput>
+                <Index>1</Index>
+                <Activated>false</Activated>
+                <LessThanS0>false</LessThanS0>
+                <GreaterOrEqualThanS0>false</GreaterOrEqualThanS0>
+                <GreaterOrEqualThanS1>false</GreaterOrEqualThanS1>
+              </ReflexOutput>
+            </ReflexOutputs>
+            <Thresholds>
+              <Threshold>
+                <Index>0</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+              <Threshold>
+                <Index>1</Index>
+                <ThresholdType>NotUsed</ThresholdType>
+                <Priority>7</Priority>
+                <SubroutineNumber />
+              </Threshold>
+            </Thresholds>
+            <TimeWindow>OneSecond</TimeWindow>
+          </HighSpeedCounter>
+        </HighSpeedCounters>
+        <PulseTrainOutputs />
+        <HardwareId>1921</HardwareId>
+        <IsExpander>false</IsExpander>
+        <EthernetConfiguration>
+          <NetworkName>M221</NetworkName>
+          <IpAllocationMode>FixedAddress</IpAllocationMode>
+          <IpAddress>0.0.0.0</IpAddress>
+          <SubnetMask>0.0.0.0</SubnetMask>
+          <GatewayAddress>0.0.0.0</GatewayAddress>
+          <TransfertRate>TransfertRateAuto</TransfertRate>
+          <EthernetProtocol>ProtocolEthernet2</EthernetProtocol>
+          <ModbusTcpSlave>
+            <IpMasterAddress>0.0.0.0</IpMasterAddress>
+            <UseTimeout>true</UseTimeout>
+            <Timeout>2</Timeout>
+            <SlavePort>502</SlavePort>
+            <UnitId xsi:nil="true" />
+            <HoldingRegister>0</HoldingRegister>
+            <InputRegister>0</InputRegister>
+            <ModbusServerEnabled>false</ModbusServerEnabled>
+            <Devices />
+            <DigitalInputsIoScanner />
+            <DigitalOutputsIoScanner />
+            <RegisterInputsIoScanner />
+            <RegisterOutputsIoScanner />
+            <RegisterDeviceStatusIoScanner />
+            <RegisterInputsStatusIoScanner />
+            <Drives />
+            <IsIoScanner>false</IsIoScanner>
+          </ModbusTcpSlave>
+          <EthernetIpEntity>
+            <EthernetIpEnabled>false</EthernetIpEnabled>
+            <OutputAssemblyInstance>0</OutputAssemblyInstance>
+            <OutputAssemblySize>0</OutputAssemblySize>
+            <InputAssemblySize>0</InputAssemblySize>
+            <InputAssemblyInstance>0</InputAssemblyInstance>
+          </EthernetIpEntity>
+          <ProgrammingProtocolEnabled>true</ProgrammingProtocolEnabled>
+          <EthernetIpAdapterEnabled>true</EthernetIpAdapterEnabled>
+          <ModbusServerEnabled>true</ModbusServerEnabled>
+          <AutoDiscoveryProtocolEnabled>true</AutoDiscoveryProtocolEnabled>
+        </EthernetConfiguration>
+        <MaxCartridge>0</MaxCartridge>
+        <C1TranslationX>0</C1TranslationX>
+        <C1TranslationY>0</C1TranslationY>
+        <C2TranslationX>0</C2TranslationX>
+        <C2TranslationY>0</C2TranslationY>
+        <C1SizeX>0</C1SizeX>
+        <C1SizeY>0</C1SizeY>
+        <C2SizeX>0</C2SizeX>
+        <C2SizeY>0</C2SizeY>
+        <InputAssemblys />
+        <OutputAssemblys />
+        <InputRegisters />
+        <HoldingRegisters />
+      </Cpu>
+      <Extensions />
+      <SerialLineConfiguration>
+        <Baud>Baud19200</Baud>
+        <ModemReference>No Modem</ModemReference>
+        <Parity>ParityEven</Parity>
+        <DataBits>DataBits8</DataBits>
+        <StopBits>StopBits1</StopBits>
+        <TimeBetweenFrames>10</TimeBetweenFrames>
+        <ResponseTime>10</ResponseTime>
+        <StartCharacterEnabled>false</StartCharacterEnabled>
+        <FirstEndCharacterEnabled>false</FirstEndCharacterEnabled>
+        <SecondEndCharacterEnabled>false</SecondEndCharacterEnabled>
+        <FrameLengthReceivedAvailable>false</FrameLengthReceivedAvailable>
+        <FrameReceivedTimeoutAvailable>true</FrameReceivedTimeoutAvailable>
+        <InitCommand />
+        <SendFrameCharacter>false</SendFrameCharacter>
+        <StartCharacter>0</StartCharacter>
+        <FirstEndCharacter>10</FirstEndCharacter>
+        <FrameLengthReceived>0</FrameLengthReceived>
+        <FrameReceivedTimeout>10</FrameReceivedTimeout>
+        <SecondEndCharacter>0</SecondEndCharacter>
+        <PhysicalMedium>PhysicalMediumRs485</PhysicalMedium>
+        <TransmissionMode>TransmissionModeIoScannerRtu</TransmissionMode>
+        <Polarization>
+          <Value>0</Value>
+          <Name>No</Name>
+        </Polarization>
+      </SerialLineConfiguration>
+      <SerialLineIoScannerConfiguration>
+        <TransmissionMode>TransmissionModeRtu</TransmissionMode>
+        <Devices>
+          <SerialLineIoScannerDeviceEntity>
+            <DeviceId>0</DeviceId>
+            <Address />
+            <DeviceGeneralType>IoScannerOther</DeviceGeneralType>
+            <DeviceTypeName>Tesys U</DeviceTypeName>
+            <DeviceTypeId>28</DeviceTypeId>
+            <SlaveAddress>1</SlaveAddress>
+            <ResponseTime>10</ResponseTime>
+            <Name>Device 0</Name>
+            <InitRequests>
+              <SerialLineIoScannerInitRequestEntity>
+                <RequestId>0</RequestId>
+                <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+                <Offset>705</Offset>
+                <Length>1</Length>
+                <InitializationValue>1</InitializationValue>
+                <CanEditInitRequest>true</CanEditInitRequest>
+                <Comment>Return control unit to factory setting</Comment>
+              </SerialLineIoScannerInitRequestEntity>
+              <SerialLineIoScannerInitRequestEntity>
+                <RequestId>1</RequestId>
+                <AccessType>IoScannerInitRequestAccessWriteSingleRegister</AccessType>
+                <Offset>602</Offset>
+                <Length>1</Length>
+                <InitializationValue>2</InitializationValue>
+                <CanEditInitRequest>true</CanEditInitRequest>
+                <Comment>Reset mode after thermal overload to "Remote"</Comment>
+              </SerialLineIoScannerInitRequestEntity>
+            </InitRequests>
+            <Channels>
+              <SerialLineIoScannerChannelEntity>
+                <ChannelId>0</ChannelId>
+                <AccessType>IoScannerChannelAccessWriteMultipleRegisters</AccessType>
+                <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+                <CyclingTime>20</CyclingTime>
+                <MemoryBit />
+                <ReadOffset>0</ReadOffset>
+                <ReadLength>1</ReadLength>
+                <WriteOffset>703</WriteOffset>
+                <WriteLength>2</WriteLength>
+                <CanEditChannel>true</CanEditChannel>
+                <ErrorHandling>IoScannerChannelSetToZero</ErrorHandling>
+                <Name>Tesys U_Control</Name>
+                <Comment>Writes motor command and control</Comment>
+              </SerialLineIoScannerChannelEntity>
+              <SerialLineIoScannerChannelEntity>
+                <ChannelId>1</ChannelId>
+                <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+                <Trigger>IoScannerChannelTriggerCyclic</Trigger>
+                <CyclingTime>20</CyclingTime>
+                <MemoryBit />
+                <ReadOffset>455</ReadOffset>
+                <ReadLength>1</ReadLength>
+                <WriteOffset>0</WriteOffset>
+                <WriteLength>1</WriteLength>
+                <CanEditChannel>true</CanEditChannel>
+                <ErrorHandling>IoScannerChannelSetToZero</ErrorHandling>
+                <Name>Tesys U_System Status</Name>
+                <Comment>Monitoring of system status</Comment>
+              </SerialLineIoScannerChannelEntity>
+              <SerialLineIoScannerChannelEntity>
+                <ChannelId>2</ChannelId>
+                <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+                <Trigger>IoScannerChannelTriggerRisingEdge</Trigger>
+                <CyclingTime>20</CyclingTime>
+                <MemoryBit>%M12</MemoryBit>
+                <ReadOffset>461</ReadOffset>
+                <ReadLength>1</ReadLength>
+                <WriteOffset>0</WriteOffset>
+                <WriteLength>1</WriteLength>
+                <CanEditChannel>true</CanEditChannel>
+                <ErrorHandling>IoScannerChannelSetToZero</ErrorHandling>
+                <Name>Tesys U_Warnings</Name>
+                <Comment>Reading of warning register</Comment>
+              </SerialLineIoScannerChannelEntity>
+              <SerialLineIoScannerChannelEntity>
+                <ChannelId>3</ChannelId>
+                <AccessType>IoScannerChannelAccessReadHoldingRegisters</AccessType>
+                <Trigger>IoScannerChannelTriggerRisingEdge</Trigger>
+                <CyclingTime>20</CyclingTime>
+                <MemoryBit>%M13</MemoryBit>
+                <ReadOffset>452</ReadOffset>
+                <ReadLength>1</ReadLength>
+                <WriteOffset>0</WriteOffset>
+                <WriteLength>1</WriteLength>
+                <CanEditChannel>true</CanEditChannel>
+                <ErrorHandling>IoScannerChannelSetToZero</ErrorHandling>
+                <Name>Tesys U_Faults</Name>
+                <Comment>Reading of fault register</Comment>
+              </SerialLineIoScannerChannelEntity>
+            </Channels>
+          </SerialLineIoScannerDeviceEntity>
+        </Devices>
+        <DigitalInputsIoScanner />
+        <DigitalOutputsIoScanner />
+        <RegisterInputsIoScanner>
+          <RegisterIoScanner>
+            <Address>%IWN100.1.0</Address>
+            <Index>0</Index>
+            <Symbol>SYSTEM_STATUS</Symbol>
+            <Comment>Bit0: READY, Bit1: ON, Bit2: FAULT, Bit3: WARNING, Bit4: TRIPPED, Bit5: Reset Authorized, Bits 8-13: Motor Average Current Ratio</Comment>
+            <Channel>Tesys U_System Status</Channel>
+          </RegisterIoScanner>
+          <RegisterIoScanner>
+            <Address>%IWN100.2.0</Address>
+            <Index>1</Index>
+            <Symbol>WARNING_REGISTER</Symbol>
+            <Comment>This register monitor the system Warnings</Comment>
+            <Channel>Tesys U_Warnings</Channel>
+          </RegisterIoScanner>
+          <RegisterIoScanner>
+            <Address>%IWN100.3.0</Address>
+            <Index>2</Index>
+            <Symbol>FAULT_REGISTER</Symbol>
+            <Comment>This register monitor the system Faults</Comment>
+            <Channel>Tesys U_Faults</Channel>
+          </RegisterIoScanner>
+        </RegisterInputsIoScanner>
+        <RegisterOutputsIoScanner>
+          <RegisterIoScanner>
+            <Address>%QWN100.0.0</Address>
+            <Index>0</Index>
+            <Symbol>WARNING_RESET</Symbol>
+            <Comment>Bit 3 of this register allows to reset the system WARNING</Comment>
+            <Channel>Tesys U_Control</Channel>
+          </RegisterIoScanner>
+          <RegisterIoScanner>
+            <Address>%QWN100.0.1</Address>
+            <Index>1</Index>
+            <Symbol>MOTOR_COMMAND</Symbol>
+            <Comment>Bit 0 : RUN command, Bi1 REVERSE command, Bit 3: system FAULT reset command</Comment>
+            <Channel>Tesys U_Control</Channel>
+          </RegisterIoScanner>
+        </RegisterOutputsIoScanner>
+        <RegisterDeviceStatusIoScanner>
+          <RegisterIoScannerStatus>
+            <Address>%IWNS100</Address>
+            <Index>0</Index>
+          </RegisterIoScannerStatus>
+        </RegisterDeviceStatusIoScanner>
+        <RegisterInputsStatusIoScanner>
+          <RegisterIoScannerStatus>
+            <Address>%IWNS100.0</Address>
+            <Index>0</Index>
+          </RegisterIoScannerStatus>
+          <RegisterIoScannerStatus>
+            <Address>%IWNS100.1</Address>
+            <Index>1</Index>
+          </RegisterIoScannerStatus>
+          <RegisterIoScannerStatus>
+            <Address>%IWNS100.2</Address>
+            <Index>2</Index>
+          </RegisterIoScannerStatus>
+          <RegisterIoScannerStatus>
+            <Address>%IWNS100.3</Address>
+            <Index>3</Index>
+          </RegisterIoScannerStatus>
+        </RegisterInputsStatusIoScanner>
+        <Drives />
+      </SerialLineIoScannerConfiguration>
+    </Plc>
+  </HardwareConfiguration>
+  <DisplayUserLabelsConfiguration>
+    <Languages>
+      <UserLabelLanguage>
+        <Code>English</Code>
+        <Name>English</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>French</Code>
+        <Name>French</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>German</Code>
+        <Name>German</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Portuguese</Code>
+        <Name>Portuguese</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Spanish</Code>
+        <Name>Spanish</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Italian</Code>
+        <Name>Italian</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Chinese</Code>
+        <Name>Chinese</Name>
+      </UserLabelLanguage>
+      <UserLabelLanguage>
+        <Code>Turkish</Code>
+        <Name>Turkish</Name>
+      </UserLabelLanguage>
+    </Languages>
+    <Translations />
+  </DisplayUserLabelsConfiguration>
+  <GlobalProperties>
+    <UserInformations>
+      <ZipCode>0</ZipCode>
+    </UserInformations>
+    <CompanyInformations>
+      <ZipCode>0</ZipCode>
+    </CompanyInformations>
+    <ProjectInformations>
+      <Name>xSample_TeSys_LULC033</Name>
+      <Description>This sample help you to control a TesysU Satarter motor through Modbus IOScanner protocol.
+
+********Disclaimer Of Warranty********
+THE INFORMATION CONTAINED HEREIN IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ALL IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OR OTHER VIOLATION OF RIGHTS. SCHNEIDER ELECTRIC DOES NOT WARRANT OR MAKE ANY REPRESENTATIONS REGARDING THE USE, VALIDITY, ACCURACY, OR RELIABILITY OF, OR THE RESULTS OF THE USE OF, OR OTHERWISE, RESPECTING THE MATERIALS, SPECIFICATIONS, CHARACTERISTICS OR OTHER INFORMATION SPECIFIED HEREIN. FURTHERMORE, ALL WARRANTIES, CONDITIONS, REPRESENTATIONS, INDEMNITIES AND GUARANTEES WITH RESPECT TO THE ACCURACY, OPERATION, CAPACITY, SPEED, FUNCTIONALITY, QUALIFICATIONS, OR CAPABILITIES OF THE SOFTWARE, SYSTEMS AND SERVICES COMPRISING OR UTILIZED IN THE COURSE OF APPLYING THIS INFORMATION, SPECIFICATIONS, OR MATERIALS, WHETHER EXPRESS OR IMPLIED, ARISING BY LAW, CUSTOM, PRIOR ORAL OR WRITTEN STATEMENTS BY SCHNEIDER ELECTRIC, OR OTHERWISE (INCLUDING, BUT NOT LIMITED TO ANY WARRANTY OF SATISFACTORY QUALITY, MERCHANTABILITY, FITNESS FOR PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT) ARE HEREBY EXPRESSLY EXCLUDED AND DISCLAIMED:
+********Disclaimer Of Liability*********
+UNDER NO CIRCUMSTANCES (INCLUDING NEGLIGENCE OR FORESEEABLE MISUSE) WILL SCHNEIDER ELECTRIC BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE OR CONSEQUENTIAL DAMAGES (INCLUDING WITHOUT LIMITATION, BUSINESS INTERRUPTION, DELAYS, LOSS OF DATA OR PROFIT) ARISING OUT OF THE APPLICATION OF THE INFORMATION, SPECIFICATIONS, CHARACTERISTICS OR MATERIALS CONTAINED HEREIN EVEN IF SCHNEIDER ELECTRIC HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+************************************
+The information, program and configuration contained herein are provided as general training on the products concerned, in part, by way of theoretical and/or hypothetical examples.  Only you, the user, can be aware of all the conditions and factors present during setup, operation, and maintenance of your machine and its application; therefore, only you, the user, can determine the automation equipment and the related safeties and interlocks which can be properly used.  When selecting automation and control equipment and related software for a particular application, you must refer to the applicable local and national standards and regulations.
+************************************
+Copyright © 2014 Schneider Electric. All rights reserved.</Description>
+    </ProjectInformations>
+    <ProjectProtection>
+      <Active>false</Active>
+      <Password />
+      <CanView>true</CanView>
+    </ProjectProtection>
+    <ApplicationProtection>
+      <Active>false</Active>
+      <Password />
+    </ApplicationProtection>
+    <RemoteIpAddresses>
+      <IpAddresses />
+    </RemoteIpAddresses>
+    <ModemConfigurations>
+      <ModemConfigurationEntities />
+    </ModemConfigurations>
+    <KeepModbusParameters>false</KeepModbusParameters>
+    <UnitId>1</UnitId>
+    <DownloadSettings>
+      <ResetMemories>true</ResetMemories>
+      <DownloadSymbolsComments>true</DownloadSymbolsComments>
+      <DownloadWatchLists>true</DownloadWatchLists>
+      <DownloadPouNamesComments>true</DownloadPouNamesComments>
+      <DownloadRungNamesComments>true</DownloadRungNamesComments>
+      <DownloadIlComments>true</DownloadIlComments>
+      <DownloadFrontPageProperties>true</DownloadFrontPageProperties>
+      <DownloadCompanyProperties>true</DownloadCompanyProperties>
+      <DownloadProjectInfo>true</DownloadProjectInfo>
+    </DownloadSettings>
+  </GlobalProperties>
+  <ReportConfiguration>
+    <PageSetup>
+      <PaperKind>A4</PaperKind>
+      <IsLandscape>false</IsLandscape>
+      <ReportUnit>HundredthsOfAnInch</ReportUnit>
+      <Top>100</Top>
+      <Bottom>100</Bottom>
+      <Left>100</Left>
+      <Right>100</Right>
+    </PageSetup>
+    <SubReportConfigurations />
+  </ReportConfiguration>
+</ProjectDescriptor>

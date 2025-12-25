@@ -1,0 +1,67 @@
+-- Migration: Create backup_history table
+-- Description: Stores metadata about database backups
+-- Created: 2025-12-02
+
+-- Create backup_history table
+CREATE TABLE IF NOT EXISTS backup_history (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  backup_id TEXT NOT NULL UNIQUE,
+  file_name TEXT NOT NULL,
+  file_path TEXT NOT NULL,
+  file_size BIGINT NOT NULL DEFAULT 0,
+  total_records INTEGER NOT NULL DEFAULT 0,
+  tables_backed_up TEXT[] NOT NULL DEFAULT '{}',
+  status TEXT NOT NULL DEFAULT 'completed',
+  error_message TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_by UUID REFERENCES auth.users(id)
+);
+
+-- Create indexes
+CREATE INDEX idx_backup_history_created_at ON backup_history(created_at DESC);
+CREATE INDEX idx_backup_history_status ON backup_history(status);
+CREATE INDEX idx_backup_history_backup_id ON backup_history(backup_id);
+
+-- Add comments
+COMMENT ON TABLE backup_history IS 'Stores metadata about database backups';
+COMMENT ON COLUMN backup_history.backup_id IS 'Unique identifier for the backup';
+COMMENT ON COLUMN backup_history.file_name IS 'Name of the backup file';
+COMMENT ON COLUMN backup_history.file_path IS 'Path to the backup file in storage';
+COMMENT ON COLUMN backup_history.file_size IS 'Size of the backup file in bytes';
+COMMENT ON COLUMN backup_history.total_records IS 'Total number of records in the backup';
+COMMENT ON COLUMN backup_history.tables_backed_up IS 'Array of table names included in backup';
+COMMENT ON COLUMN backup_history.status IS 'Status of the backup (completed, failed, in_progress)';
+
+-- Enable Row Level Security
+ALTER TABLE backup_history ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+-- Super admins can view all backup history
+CREATE POLICY "Super admins can view backup history"
+  ON backup_history
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'super_admin'
+    )
+  );
+
+-- Super admins can insert backup history
+CREATE POLICY "Super admins can insert backup history"
+  ON backup_history
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'super_admin'
+    )
+  );
+
+-- Grant permissions
+GRANT SELECT, INSERT ON backup_history TO authenticated;
+GRANT USAGE, SELECT ON SEQUENCE backup_history_id_seq TO authenticated;

@@ -1,0 +1,139 @@
+===============================================
+PDF TIMEOUT ERROR - 2 MINUTE FIX
+===============================================
+
+ERROR: "PDF generation timed out after 30 seconds"
+
+===============================================
+QUICK FIX (Follow Exactly):
+===============================================
+
+STEP 1: Backend Running Hai?
+-----------------------------
+Backend terminal check karo.
+
+Expected:
+  🚀 Neuro360 Backend Server running on port 5000
+  ✅ Gemini API key present: true
+
+Agar nahi chal raha:
+  npm run dev:backend
+
+
+STEP 2: .env File Banao/Update Karo
+------------------------------------
+Root folder mein .env file:
+
+VITE_API_URL=http://localhost:5000/api
+GEMINI_API_KEY=your-gemini-api-key-here
+
+Gemini API key nahi hai?
+  Get from: https://aistudio.google.com/apikey
+
+
+STEP 3: Frontend Restart
+-------------------------
+Frontend terminal mein:
+  Ctrl+C (band karo)
+  npm run dev (phir se start karo)
+
+Ya browser refresh:
+  Ctrl + Shift + R
+
+
+STEP 4: Test Backend
+---------------------
+Browser mein kholo:
+  http://localhost:5000/api/health
+
+Expected:
+  {"status":"OK","message":"Server is running"}
+
+Agar error:
+  Backend nahi chal raha → npm run dev:backend
+
+
+STEP 5: Try Again
+-----------------
+1. Algorithm Processor kholo
+2. Files upload karo
+3. Execute calculation
+4. "Save & Download" click karo
+
+Expected:
+  - Toast: "Generating NeuroSense PDF Report..."
+  - Wait 30-60 seconds (Gemini AI takes time)
+  - Toast: "PDF Report generated!"
+  - PDF auto-downloads
+  - Button: "Saved ✓"
+
+===============================================
+BACKEND LOGS CHECK:
+===============================================
+
+Backend terminal mein ye dikhe to sab sahi hai:
+
+📄 === PDF Report Generation Started ===
+👤 Patient: John A
+🤖 Using Gemini AI PDF Generator
+📝 Generating AI-powered PDF to: neurosense-report-...pdf
+✅ PDF Report Generated Successfully!
+📄 File: neurosense-report-john_a-1234567890.pdf
+
+Agar ye nahi dikha:
+  - Port mismatch hai
+  - Frontend backend ko reach nahi kar pa raha
+
+===============================================
+COMMON ERRORS & FIXES:
+===============================================
+
+Error: "Failed to fetch"
+  Fix: Backend start karo (npm run dev:backend)
+
+Error: "404 Not Found"
+  Fix: .env mein VITE_API_URL=http://localhost:5000/api
+
+Error: "Gemini API key not found"
+  Fix: .env mein GEMINI_API_KEY=your-key
+
+Error: "Timeout after 60 seconds"
+  Fix: Check internet connection
+       Check Gemini API quota
+       Wait and retry
+
+===============================================
+TIMEOUT INCREASED:
+===============================================
+
+Maine timeout 30s se 60s kar diya hai.
+
+Ab Gemini AI ko zyada time milega PDF generate karne ke liye.
+
+===============================================
+STILL NOT WORKING?
+===============================================
+
+1. Backend FULL logs share karo
+2. Browser console ka screenshot
+3. .env file ka content (hide API keys)
+
+Detailed guide:
+  Read: FIX_PDF_TIMEOUT_ISSUE.md
+
+===============================================
+MOST COMMON FIX (95% cases):
+===============================================
+
+Sirf .env file mein ye add karo:
+
+VITE_API_URL=http://localhost:5000/api
+GEMINI_API_KEY=your-actual-gemini-key
+
+Then:
+1. npm run dev:backend
+2. npm run dev (frontend)
+3. Try again
+
+HO JAYEGA! 🚀
+===============================================

@@ -1,0 +1,881 @@
+/**
+ * Enhanced AI-Powered PDF Report Generator
+ * Uses OpenAI to generate content + PDFKit to create beautiful PDFs
+ *
+ * Features:
+ * - Page 1: Blue gradient background with NeuroSense branding
+ * - Page 2: Parameter scores with visual cards
+ * - AI-generated content for insights and recommendations
+ */
+
+const PDFDocument = require('pdfkit');
+const OpenAI = require('openai');
+const fs = require('fs');
+const path = require('path');
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+// Color scheme (matching NeuroSense requirements from pdfStyles.js)
+const COLORS = {
+  primary: '#4A90E2',        // NeuroSense Primary Blue
+  primaryLight: '#5BA3F5',   // Light Blue (for gradient)
+  primaryDark: '#2E5C8A',    // Dark Blue
+  teal: '#7DD3C0',           // Teal/Turquoise
+  white: '#FFFFFF',
+  black: '#000000',
+  darkGray: '#333333',
+  lightGray: '#F5F5F5',
+  // Classification colors (matching requirement)
+  green: '#4CAF50',          // High score - Green
+  orange: '#FF9800',         // Low score - Orange
+  blue: '#4A90E2'            // Medium score - Primary Blue
+};
+
+// Fonts
+const FONTS = {
+  regular: 'Helvetica',
+  bold: 'Helvetica-Bold',
+  italic: 'Helvetica-Oblique',
+  boldItalic: 'Helvetica-BoldOblique'
+};
+
+class EnhancedAIPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+    this.doc = null;
+  }
+
+  /**
+   * Generate complete PDF report with AI insights
+   */
+  async generateReport(outputPath) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log('\n🤖 === Enhanced AI PDF Generation Started ===\n');
+        console.log('👤 Patient:', this.patientData.name);
+        console.log('📊 Parameters:', this.algorithmResults.parameters.length);
+        console.log('🎯 Overall Score:', this.algorithmResults.overallScore);
+
+        // Step 1: Create PDF document
+        this.doc = new PDFDocument({
+          size: 'A4',
+          margins: {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0
+          },
+          bufferPages: true,
+          autoFirstPage: false
+        });
+
+        // Create write stream
+        const stream = fs.createWriteStream(outputPath);
+        this.doc.pipe(stream);
+
+        // Step 2: Generate AI insights (parallel to PDF creation)
+        console.log('🧠 Generating AI insights...');
+        const aiInsights = await this.generateAIInsights();
+        console.log('✅ AI insights generated');
+
+        // Step 3: Generate PDF pages
+        console.log('📄 Creating Page 1: Cover with branding...');
+        this.generateCoverPage();
+
+        console.log('📄 Creating Page 2: Parameter Scores...');
+        this.generateParametersPage();
+
+        console.log('📄 Creating Page 3: AI Insights & Recommendations...');
+        this.generateInsightsPage(aiInsights);
+
+        // Finalize PDF
+        this.doc.end();
+
+        // Handle completion
+        stream.on('finish', () => {
+          console.log('✅ Enhanced AI PDF generated successfully:', outputPath);
+          const stats = fs.statSync(outputPath);
+          console.log('📊 File size:', (stats.size / 1024).toFixed(2), 'KB');
+          resolve(outputPath);
+        });
+
+        stream.on('error', (error) => {
+          console.error('❌ Error writing PDF:', error);
+          reject(error);
+        });
+
+      } catch (error) {
+        console.error('❌ Error generating AI PDF:', error);
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * PAGE 1: Cover Page with Blue Gradient Background
+   */
+  generateCoverPage() {
+    this.doc.addPage();
+
+    const pageWidth = 595.28;   // A4 width
+    const pageHeight = 841.89;  // A4 height
+    const centerX = pageWidth / 2;
+
+    // === BLUE GRADIENT BACKGROUND (Top 70%) ===
+    const blueHeight = pageHeight * 0.70;
+
+    // Draw gradient rectangles from top to middle
+    const gradientSteps = 100;
+    for (let i = 0; i < gradientSteps; i++) {
+      const y = (i / gradientSteps) * blueHeight;
+      const height = blueHeight / gradientSteps;
+
+      // Interpolate between primary and primaryLight
+      const factor = i / gradientSteps;
+      const color = this.interpolateColor(COLORS.primary, COLORS.primaryLight, factor);
+
+      this.doc.rect(0, y, pageWidth, height)
+        .fillColor(color)
+        .fill();
+    }
+
+    // === LOGO AREA (Top Right) ===
+    const logoX = pageWidth - 120;
+    const logoY = 35;
+
+    // Brain icon circle
+    this.doc.save();
+    this.doc.circle(logoX + 20, logoY + 10, 18)
+      .fillColor(COLORS.white, 0.3)
+      .fill()
+      .circle(logoX + 20, logoY + 10, 18)
+      .strokeColor(COLORS.white)
+      .lineWidth(2)
+      .stroke();
+
+    // Logo text
+    this.doc.fontSize(11)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('NEUROSENSE', logoX + 42, logoY, { width: 100 });
+
+    this.doc.fontSize(7)
+      .fillColor(COLORS.white)
+      .font(FONTS.regular)
+      .text('EEG Intelligence™', logoX + 42, logoY + 15, { width: 100 });
+    this.doc.restore();
+
+    // === MAIN TITLE ===
+    let yPos = 180;
+
+    this.doc.fontSize(32)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('NEUROSENSE QUANTITATIVE', 0, yPos, {
+        width: pageWidth,
+        align: 'center'
+      });
+
+    yPos += 42;
+    this.doc.fontSize(32)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('TRANSLATIONAL EEG INTELLIGENCE', 0, yPos, {
+        width: pageWidth,
+        align: 'center'
+      });
+
+    // === BRAIN ILLUSTRATION ===
+    yPos += 100;
+    this.drawBrainIllustration(centerX, yPos, 120, COLORS.white);
+
+    // === TEAL SECTION (Bottom 30%) ===
+    const tealY = blueHeight;
+    const tealHeight = pageHeight - blueHeight;
+
+    this.doc.save();
+    this.doc.rect(0, tealY, pageWidth, tealHeight)
+      .fillColor(COLORS.teal)
+      .fill();
+    this.doc.restore();
+
+    // === PATIENT INFORMATION TABLE ===
+    const tableY = tealY + 40;
+    const tableX = 100;
+    const tableWidth = pageWidth - 200;
+    const rowHeight = 30;
+
+    const fields = [
+      { label: 'Name', value: this.patientData.name || 'N/A' },
+      { label: 'Date of Birth', value: this.patientData.dateOfBirth || 'N/A' },
+      { label: 'Age', value: this.patientData.age ? `${this.patientData.age} years` : 'N/A' },
+      { label: 'Gender', value: this.patientData.gender || 'N/A' },
+      { label: 'Handedness', value: this.patientData.handedness || 'Right' }
+    ];
+
+    let rowY = tableY;
+    fields.forEach((field, index) => {
+      // Row separator
+      if (index > 0) {
+        this.doc.save();
+        this.doc.moveTo(tableX, rowY)
+          .lineTo(tableX + tableWidth, rowY)
+          .strokeColor(COLORS.darkGray, 0.3)
+          .lineWidth(1)
+          .stroke();
+        this.doc.restore();
+      }
+
+      // Label
+      this.doc.fontSize(10)
+        .fillColor(COLORS.darkGray)
+        .font(FONTS.bold)
+        .text(field.label, tableX + 10, rowY + 10, { width: tableWidth * 0.4 });
+
+      // Value
+      this.doc.fontSize(10)
+        .fillColor(COLORS.black)
+        .font(FONTS.regular)
+        .text(field.value, tableX + tableWidth * 0.45, rowY + 10, { width: tableWidth * 0.5 });
+
+      rowY += rowHeight;
+    });
+
+    // === FOOTER ===
+    const footerY = pageHeight - 35;
+
+    // Website URL (right side) - Updated
+    this.doc.fontSize(8)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text('www.neurosense360.site', pageWidth - 160, footerY, { width: 120, align: 'right' });
+  }
+
+  /**
+   * PAGE 2: Parameters Page with Enhanced UI Design
+   */
+  generateParametersPage() {
+    this.doc.addPage();
+
+    const margin = 50;
+    const pageWidth = 595.28;
+    const contentWidth = pageWidth - (margin * 2);
+    let yPos = margin;
+
+    // === ELEGANT HEADER WITH UNDERLINE ===
+    this.doc.fontSize(26)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text('Brain Health Assessment', margin, yPos);
+
+    yPos += 32;
+
+    // Decorative underline
+    this.doc.moveTo(margin, yPos)
+      .lineTo(margin + 250, yPos)
+      .strokeColor(COLORS.primary)
+      .lineWidth(3)
+      .stroke();
+
+    yPos += 30;
+
+    // === OVERALL SCORE CARD (Gradient Style) ===
+    const scoreBoxHeight = 80;
+
+    // Draw gradient background (light to primary)
+    const gradientSteps = 20;
+    for (let i = 0; i < gradientSteps; i++) {
+      const factor = i / gradientSteps;
+      const color = this.interpolateColor('#E3F2FD', COLORS.primary, factor);
+      const stepHeight = scoreBoxHeight / gradientSteps;
+
+      this.doc.rect(margin, yPos + (i * stepHeight), contentWidth, stepHeight)
+        .fillColor(color)
+        .fill();
+    }
+
+    // Score content
+    const overallScore = this.algorithmResults.overallScore || 0;
+    const maxScore = (this.algorithmResults.parameters?.length || 7) * 3;
+    const percentage = Math.round((overallScore / maxScore) * 100);
+
+    // Large score number
+    this.doc.fontSize(42)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text(`${overallScore}`, margin + 30, yPos + 15, { width: 80, align: 'center' });
+
+    this.doc.fontSize(16)
+      .fillColor(COLORS.white)
+      .font(FONTS.regular)
+      .text(`/ ${maxScore}`, margin + 30, yPos + 55, { width: 80, align: 'center' });
+
+    // Score label
+    this.doc.fontSize(18)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text('Overall Brain Health Score', margin + 130, yPos + 20, { width: contentWidth - 150 });
+
+    this.doc.fontSize(14)
+      .fillColor(COLORS.white)
+      .font(FONTS.regular)
+      .text(`${percentage}% Performance Level`, margin + 130, yPos + 45, { width: contentWidth - 150 });
+
+    yPos += scoreBoxHeight + 25;
+
+    // === INFO BOX ===
+    const infoBoxHeight = 40;
+    this.doc.roundedRect(margin, yPos, contentWidth, infoBoxHeight, 5)
+      .fillColor('#F0F7FF')
+      .fill();
+
+    this.doc.fontSize(10)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.italic)
+      .text(
+        'Each parameter below is analyzed with detailed sub-metrics. Scores range from 0-3, where higher scores indicate better brain function.',
+        margin + 15,
+        yPos + 12,
+        { width: contentWidth - 30, align: 'center', lineGap: 3 }
+      );
+
+    yPos += infoBoxHeight + 35;
+
+    // === DETAILED PARAMETER SECTIONS ===
+    const parameters = this.algorithmResults.parameters || [];
+
+    parameters.forEach((param, index) => {
+      // Check if we need a new page
+      if (yPos > 640) {
+        this.doc.addPage();
+        yPos = margin + 20;
+      }
+
+      // Draw parameter section with enhanced UI
+      yPos = this.drawEnhancedParameterSection(param, index + 1, margin, yPos, contentWidth);
+    });
+
+    // === BRAIN TYPE PATTERN CARD ===
+    if (yPos > 680) {
+      this.doc.addPage();
+      yPos = margin;
+    } else {
+      yPos += 20;
+    }
+
+    const brainTypePattern = parameters.map(p => `${p.name} ${p.classification.charAt(0)}`).join(' · ');
+
+    // Pattern card background
+    const patternHeight = 60;
+    this.doc.roundedRect(margin, yPos, contentWidth, patternHeight, 8)
+      .fillColor('#F5F5F5')
+      .fill();
+
+    this.doc.roundedRect(margin, yPos, contentWidth, patternHeight, 8)
+      .strokeColor(COLORS.primary, 0.3)
+      .lineWidth(2)
+      .stroke();
+
+    this.doc.fontSize(13)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text('🧠 Your Brain-Type Pattern', margin + 20, yPos + 12);
+
+    this.doc.fontSize(10)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text(brainTypePattern, margin + 20, yPos + 35, { width: contentWidth - 40 });
+  }
+
+  /**
+   * Draw enhanced parameter section with beautiful UI
+   */
+  drawEnhancedParameterSection(param, number, x, yPos, width) {
+    const startY = yPos;
+    const cardPadding = 15;
+
+    // === PARAMETER CARD BACKGROUND ===
+    const estimatedHeight = 120 + (param.metrics?.length || 0) * 50;
+
+    // Light background card
+    this.doc.roundedRect(x, yPos, width, estimatedHeight, 10)
+      .fillColor('#FAFAFA')
+      .fill();
+
+    // Colored left border accent
+    const classColor = this.getClassificationColor(param.classification);
+    this.doc.rect(x, yPos, 5, estimatedHeight)
+      .fillColor(classColor)
+      .fill();
+
+    yPos += cardPadding;
+
+    // === PARAMETER HEADER ROW ===
+    // Number badge
+    this.doc.circle(x + 20, yPos + 10, 12)
+      .fillColor(COLORS.primary)
+      .fill();
+
+    this.doc.fontSize(12)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text(`${number}`, x + 15, yPos + 5, { width: 10, align: 'center' });
+
+    // Parameter name
+    this.doc.fontSize(15)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text(param.name, x + 40, yPos + 3);
+
+    // Score text (right side)
+    const scoreText = `${param.score}/${param.maxScore}`;
+    const scoreX = x + width - 100;
+
+    this.doc.fontSize(11)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text('[Score: ', scoreX, yPos + 5, { continued: true });
+
+    this.doc.fontSize(13)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text(scoreText, { continued: true });
+
+    this.doc.fontSize(11)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.regular)
+      .text(']');
+
+    yPos += 30;
+
+    // Classification badge with icon
+    const badgeWidth = 90;
+    const badgeHeight = 26;
+
+    this.doc.roundedRect(x + 40, yPos, badgeWidth, badgeHeight, 6)
+      .fillColor(classColor)
+      .fill();
+
+    const statusIcon = this.getStatusIcon(param.classification);
+    this.doc.fontSize(11)
+      .fillColor(COLORS.white)
+      .font(FONTS.bold)
+      .text(`${statusIcon} ${param.classification}`, x + 40, yPos + 6, { width: badgeWidth, align: 'center' });
+
+    yPos += badgeHeight + 20;
+
+    // === SUB-PARAMETERS SECTION ===
+    if (param.metrics && param.metrics.length > 0) {
+      // Sub-header
+      this.doc.fontSize(10)
+        .fillColor(COLORS.darkGray)
+        .font(FONTS.bold)
+        .text('Detailed Analysis:', x + cardPadding, yPos);
+
+      yPos += 18;
+
+      param.metrics.forEach((metric, idx) => {
+        // Check page break
+        if (yPos > 720) {
+          this.doc.addPage();
+          yPos = 50;
+        }
+
+        // Metric card
+        const metricX = x + cardPadding + 10;
+        const statusColor = this.getMetricStatusColor(metric.score);
+        const statusText = this.getMetricStatusText(metric.score);
+        const statusIcon = metric.score === 1 ? '✓' : '!';
+
+        // Status indicator dot
+        this.doc.circle(metricX, yPos + 6, 4)
+          .fillColor(statusColor)
+          .fill();
+
+        // Metric name
+        this.doc.fontSize(10)
+          .fillColor(COLORS.darkGray)
+          .font(FONTS.bold)
+          .text(metric.name, metricX + 10, yPos, { width: width - 100 });
+
+        // Status badge (small)
+        const statusBadgeX = x + width - 110;
+        this.doc.fontSize(8)
+          .fillColor(statusColor)
+          .font(FONTS.bold)
+          .text(`${statusIcon} ${statusText}`, statusBadgeX, yPos + 2);
+
+        yPos += 15;
+
+        // Metric description
+        if (metric.description) {
+          this.doc.fontSize(9)
+            .fillColor('#666666')
+            .font(FONTS.regular)
+            .text(metric.description, metricX + 10, yPos, {
+              width: width - (cardPadding * 2) - 30,
+              align: 'left',
+              lineGap: 2
+            });
+
+          yPos += this.doc.heightOfString(metric.description, {
+            width: width - (cardPadding * 2) - 30,
+            lineGap: 2
+          }) + 12;
+        }
+      });
+    }
+
+    yPos += cardPadding;
+
+    // Return position after card
+    return yPos + 20;
+  }
+
+  /**
+   * Get icon for status
+   */
+  getStatusIcon(classification) {
+    const icons = {
+      'High': '★',
+      'Medium': '◆',
+      'Low': '▼'
+    };
+    return icons[classification] || '●';
+  }
+
+  /**
+   * Get color for metric status (0 = red, 1 = green)
+   */
+  getMetricStatusColor(score) {
+    if (score === 1) return COLORS.green;
+    if (score === 0) return COLORS.orange;
+    return COLORS.darkGray;
+  }
+
+  /**
+   * Get status text for metric
+   */
+  getMetricStatusText(score) {
+    if (score === 1) return 'Normal';
+    if (score === 0) return 'Needs Attention';
+    return 'Unknown';
+  }
+
+  /**
+   * PAGE 3: Professional Insights and Recommendations
+   */
+  generateInsightsPage(insights) {
+    this.doc.addPage();
+
+    const margin = 50;
+    const pageWidth = 595.28;
+    const contentWidth = pageWidth - (margin * 2);
+    let yPos = margin;
+
+    // === ELEGANT HEADER ===
+    this.doc.fontSize(26)
+      .fillColor(COLORS.primary)
+      .font(FONTS.bold)
+      .text('Clinical Insights & Recommendations', margin, yPos);
+
+    yPos += 32;
+
+    // Decorative underline
+    this.doc.moveTo(margin, yPos)
+      .lineTo(margin + 280, yPos)
+      .strokeColor(COLORS.primary)
+      .lineWidth(3)
+      .stroke();
+
+    yPos += 40;
+
+    // === INFO CARD ===
+    const infoHeight = 50;
+    this.doc.roundedRect(margin, yPos, contentWidth, infoHeight, 8)
+      .fillColor('#F0F7FF')
+      .fill();
+
+    this.doc.fontSize(10)
+      .fillColor(COLORS.darkGray)
+      .font(FONTS.italic)
+      .text(
+        'The following insights are based on comprehensive analysis of your QEEG data and brain health parameters. These recommendations are designed to support your cognitive wellness journey.',
+        margin + 15,
+        yPos + 12,
+        { width: contentWidth - 30, align: 'center', lineGap: 3 }
+      );
+
+    yPos += infoHeight + 30;
+
+    // === CONTENT WITH SECTIONS ===
+    this.drawInsightsContent(insights, margin, yPos, contentWidth);
+  }
+
+  /**
+   * Draw insights content with better formatting
+   */
+  drawInsightsContent(insights, x, yPos, width) {
+    // Split content into sections if possible
+    const lines = insights.split('\n\n');
+
+    lines.forEach((paragraph, index) => {
+      // Check for page break
+      if (yPos > 720) {
+        this.doc.addPage();
+        yPos = 50;
+      }
+
+      // Check if it's a header (short line, looks like title)
+      if (paragraph.length < 50 && paragraph.match(/^[A-Z][^.]*:?$/)) {
+        // Section header
+        this.doc.fontSize(14)
+          .fillColor(COLORS.primary)
+          .font(FONTS.bold)
+          .text(paragraph, x, yPos);
+        yPos += 25;
+      } else if (paragraph.startsWith('•') || paragraph.match(/^\d+\./)) {
+        // Bullet point or numbered list
+        this.doc.fontSize(11)
+          .fillColor(COLORS.darkGray)
+          .font(FONTS.regular)
+          .text(paragraph, x + 5, yPos, {
+            width: width - 10,
+            align: 'left',
+            lineGap: 4
+          });
+        yPos += this.doc.heightOfString(paragraph, {
+          width: width - 10,
+          lineGap: 4
+        }) + 12;
+      } else {
+        // Regular paragraph
+        this.doc.fontSize(11)
+          .fillColor(COLORS.darkGray)
+          .font(FONTS.regular)
+          .text(paragraph, x, yPos, {
+            width: width,
+            align: 'justify',
+            lineGap: 5
+          });
+        yPos += this.doc.heightOfString(paragraph, {
+          width: width,
+          lineGap: 5
+        }) + 15;
+      }
+    });
+  }
+
+  /**
+   * Generate AI insights using OpenAI
+   */
+  async generateAIInsights() {
+    try {
+      // Skip AI if no API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.log('⚠️  No OpenAI API key - using default insights');
+        return this.getDefaultInsights();
+      }
+
+      const parametersText = this.algorithmResults.parameters.map((param, index) => {
+        return `${index + 1}. ${param.name}: ${param.score}/${param.maxScore} (${param.classification})`;
+      }).join('\n');
+
+      const prompt = `As a neuroscience expert, provide a brief, patient-friendly analysis (max 300 words) of these brain health results:
+
+Patient: ${this.patientData.name}, Age ${this.patientData.age}
+Overall Score: ${this.algorithmResults.overallScore}/21
+
+Parameters:
+${parametersText}
+
+Please provide:
+1. A brief summary of the overall brain health profile
+2. Key strengths and areas for improvement
+3. 2-3 practical recommendations for brain health optimization
+
+Keep the language simple, positive, and actionable. Avoid medical jargon.`;
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a compassionate neuroscience expert who explains brain health results in simple, encouraging language.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      });
+
+      return response.choices[0].message.content;
+
+    } catch (error) {
+      console.error('⚠️  AI generation failed, using default insights:', error.message);
+      return this.getDefaultInsights();
+    }
+  }
+
+  /**
+   * Default insights (professional format, no AI mention)
+   */
+  getDefaultInsights() {
+    const overallScore = this.algorithmResults.overallScore || 0;
+    const maxScore = (this.algorithmResults.parameters?.length || 7) * 3;
+    const percentage = Math.round((overallScore / maxScore) * 100);
+
+    return `ASSESSMENT SUMMARY
+
+Your comprehensive QEEG analysis reveals an overall brain health score of ${overallScore} out of ${maxScore}, representing ${percentage}% optimal function. This assessment provides valuable insights into your cognitive performance across multiple domains.
+
+INDIVIDUAL PARAMETER ANALYSIS
+
+${this.algorithmResults.parameters.map((param, i) => {
+  return `${i + 1}. ${param.name} - ${param.classification} Performance
+   Score: ${param.score}/${param.maxScore}
+   Clinical Observation: ${this.getParameterInsight(param)}`;
+}).join('\n\n')}
+
+KEY FINDINGS
+
+Your brain profile demonstrates a unique pattern of cognitive strengths and areas with potential for enhancement. The distribution of scores across parameters indicates specific neural characteristics that can be addressed through targeted interventions.
+
+CLINICAL RECOMMENDATIONS
+
+Sleep & Recovery
+• Prioritize 7-9 hours of quality sleep nightly
+• Maintain consistent sleep-wake schedule
+• Create optimal sleep environment
+
+Physical Health
+• Regular aerobic exercise (30 minutes, 5x weekly)
+• Balance training and coordination activities
+• Proper hydration and nutrition
+
+Cognitive Training
+• Targeted exercises for lower-scoring parameters
+• Mindfulness and meditation practices
+• Memory and attention enhancement activities
+
+Lifestyle Optimization
+• Stress management techniques
+• Social engagement and mental stimulation
+• Regular cognitive assessments to track progress
+
+NEUROPLASTICITY & PROGRESS
+
+Your brain possesses remarkable capacity for adaptation and improvement. With consistent application of recommended interventions, significant enhancement in lower-scoring parameters is achievable within 8-12 weeks.
+
+These results serve as a baseline for your cognitive wellness journey. Regular monitoring and adherence to personalized recommendations can lead to measurable improvements in brain health and cognitive performance.
+
+NEXT STEPS
+
+Consult with your healthcare provider to develop a personalized intervention plan based on these findings. Consider follow-up assessment in 3 months to measure progress and adjust recommendations accordingly.`;
+  }
+
+  /**
+   * Get parameter-specific insight
+   */
+  getParameterInsight(param) {
+    const insights = {
+      'High': 'strong performance in this area',
+      'Medium': 'balanced functioning with room for enhancement',
+      'Low': 'potential for significant improvement through targeted interventions'
+    };
+    return insights[param.classification] || 'normal range';
+  }
+
+  /**
+   * Get color based on classification (matching NeuroSense requirements)
+   * High = Green (#4CAF50)
+   * Medium = Blue (#4A90E2)
+   * Low = Orange (#FF9800)
+   */
+  getClassificationColor(classification) {
+    const colors = {
+      'High': COLORS.green,     // #4CAF50 - Green
+      'Medium': COLORS.blue,    // #4A90E2 - Blue (Primary)
+      'Low': COLORS.orange      // #FF9800 - Orange
+    };
+    return colors[classification] || COLORS.darkGray;
+  }
+
+  /**
+   * Draw brain illustration (simplified)
+   */
+  drawBrainIllustration(x, y, size, color) {
+    const radius = size / 2;
+
+    // Main circle
+    this.doc.save();
+    this.doc.circle(x, y, radius)
+      .strokeColor(color)
+      .lineWidth(3)
+      .stroke();
+
+    // Brain details (simplified curves)
+    // Left hemisphere
+    this.doc.moveTo(x - radius * 0.7, y - radius * 0.3)
+      .bezierCurveTo(
+        x - radius * 0.5, y - radius * 0.5,
+        x - radius * 0.3, y - radius * 0.7,
+        x - radius * 0.1, y - radius * 0.5
+      )
+      .strokeColor(color)
+      .lineWidth(2)
+      .stroke();
+
+    // Right hemisphere
+    this.doc.moveTo(x + radius * 0.7, y - radius * 0.3)
+      .bezierCurveTo(
+        x + radius * 0.5, y - radius * 0.5,
+        x + radius * 0.3, y - radius * 0.7,
+        x + radius * 0.1, y - radius * 0.5
+      )
+      .strokeColor(color)
+      .lineWidth(2)
+      .stroke();
+
+    // Center line
+    this.doc.moveTo(x, y - radius * 0.6)
+      .lineTo(x, y + radius * 0.6)
+      .strokeColor(color)
+      .lineWidth(2)
+      .stroke();
+
+    this.doc.restore();
+  }
+
+  /**
+   * Interpolate between two hex colors
+   */
+  interpolateColor(color1, color2, factor) {
+    const hex1 = color1.replace('#', '');
+    const hex2 = color2.replace('#', '');
+
+    const r1 = parseInt(hex1.substring(0, 2), 16);
+    const g1 = parseInt(hex1.substring(2, 4), 16);
+    const b1 = parseInt(hex1.substring(4, 6), 16);
+
+    const r2 = parseInt(hex2.substring(0, 2), 16);
+    const g2 = parseInt(hex2.substring(2, 4), 16);
+    const b2 = parseInt(hex2.substring(4, 6), 16);
+
+    const r = Math.round(r1 + (r2 - r1) * factor);
+    const g = Math.round(g1 + (g2 - g1) * factor);
+    const b = Math.round(b1 + (b2 - b1) * factor);
+
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  }
+}
+
+module.exports = EnhancedAIPdfGenerator;

@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Find the process using port 3001",
+    "status": "in_progress",
+    "activeForm": "Finding the process using port 3001"
+  },
+  {
+    "content": "Kill the process blocking port 3001",
+    "status": "pending",
+    "activeForm": "Killing the process blocking port 3001"
+  },
+  {
+    "content": "Verify the server can start successfully",
+    "status": "pending",
+    "activeForm": "Verifying the server can start successfully"
+  }
+]

@@ -1,0 +1,611 @@
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
+const GeminiService = require('./geminiService');
+
+class GeminiPdfGenerator {
+  constructor(patientData, algorithmResults, qeegData) {
+    this.patientData = patientData;
+    this.algorithmResults = algorithmResults;
+    this.qeegData = qeegData;
+    this.geminiReportData = null;
+  }
+
+  /**
+   * Transform algorithm results to Gemini input format
+   */
+  transformToGeminiFormat() {
+    const brainParameters = {
+      Cognition: null,
+      Stress: null,
+      FocusAndAttention: null,
+      BurnoutAndFatigue: null,
+      EmotionalRegulation: null,
+      Learning: null,
+      Creativity: null
+    };
+
+    // Map the parameters from algorithm results
+    this.algorithmResults.parameters.forEach(param => {
+      const paramName = param.name.replace(/\s+/g, '').replace(/&/g, 'And');
+      if (brainParameters.hasOwnProperty(paramName)) {
+        brainParameters[paramName] = {
+          score: param.score,
+          maxScore: param.maxScore,
+          bucket: param.bucket || param.classification,
+          subparameters: (param.metrics || param.subParameters || []).map(metric => ({
+            name: metric.name,
+            score: metric.score,
+            value: metric.value,
+            threshold: metric.threshold
+          }))
+        };
+      }
+    });
+
+    return brainParameters;
+  }
+
+  /**
+   * Generate report structure using Gemini AI
+   */
+  async generateReportStructure() {
+    console.log('\n🤖 === Generating report structure with Gemini AI ===');
+    const brainParameters = this.transformToGeminiFormat();
+
+    console.log('📊 INPUT DATA TO GEMINI (Brain Parameters):');
+    Object.keys(brainParameters).forEach(paramKey => {
+      const param = brainParameters[paramKey];
+      if (param) {
+        console.log(`   ${paramKey}: score=${param.score}/${param.maxScore}, bucket=${param.bucket}, subParams=${param.subparameters?.length || 0}`);
+      }
+    });
+
+    try {
+      const result = await GeminiService.generateBrainPerformanceReport(brainParameters);
+
+      if (!result.success) {
+        console.error('❌ Gemini API returned error:', result.error);
+        throw new Error(`Gemini AI failed: ${result.error}`);
+      }
+
+      this.geminiReportData = result.data;
+      console.log('\n✅ Gemini report structure generated successfully');
+      console.log('📄 OUTPUT FROM GEMINI:');
+      if (result.data.parameters) {
+        result.data.parameters.forEach(param => {
+          console.log(`   ${param.name}: score=${param.score}/${param.maxScore}, bucket=${param.bucket}`);
+        });
+      }
+
+      return this.geminiReportData;
+    } catch (error) {
+      console.error('❌ Error in generateReportStructure:', error.message);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Main report generation function
+   */
+  async generateReport(outputPath) {
+    try {
+      // Step 1: Try to generate AI report structure with Gemini
+      let usingGemini = false;
+      try {
+        console.log('🤖 Attempting to generate report with Gemini AI...');
+        await this.generateReportStructure();
+        usingGemini = true;
+        console.log('✅ Gemini AI report structure ready');
+      } catch (geminiError) {
+        console.error('⚠️ Gemini AI failed, using fallback data structure');
+        console.error('   Gemini Error:', geminiError.message);
+
+        // Fallback: Create basic report structure from algorithm data
+        this.geminiReportData = this.createFallbackReportStructure();
+        console.log('✅ Fallback report structure created');
+      }
+
+      // Step 2: Create PDF from the report structure (AI or fallback)
+      const doc = new PDFDocument({
+        size: 'A4',
+        margins: { top: 50, bottom: 50, left: 50, right: 50 }
+      });
+
+      const stream = fs.createWriteStream(outputPath);
+      doc.pipe(stream);
+
+      // Generate PDF content
+      await this.generatePDFContent(doc);
+
+      doc.end();
+
+      // Wait for PDF to finish writing
+      await new Promise((resolve, reject) => {
+        stream.on('finish', resolve);
+        stream.on('error', reject);
+      });
+
+      const sourceType = usingGemini ? 'Gemini AI' : 'Fallback (Basic)';
+      console.log(`✅ PDF generated successfully with ${sourceType} content`);
+      return outputPath;
+
+    } catch (error) {
+      console.error('❌ Error generating PDF:', error);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Create fallback report structure when Gemini fails
+   */
+  createFallbackReportStructure() {
+    console.log('📋 Creating fallback report structure...');
+    console.log('   Algorithm results:', JSON.stringify(this.algorithmResults, null, 2));
+
+    const parameters = this.algorithmResults.parameters.map(param => {
+      // Use metrics (correct field from algorithm) instead of subParameters
+      const subMetrics = param.metrics || param.subParameters || [];
+
+      console.log(`   Processing ${param.name}:`);
+      console.log(`     Score: ${param.score}/${param.maxScore}`);
+      console.log(`     Classification: ${param.classification}`);
+      console.log(`     Metrics count: ${subMetrics.length}`);
+
+      return {
+        name: param.name,
+        score: param.score,
+        bucket: param.classification || 'Average',
+        bucketColor: this.getBucketColor(param.classification),
+        summary: `${param.name} score is ${param.score} out of ${param.maxScore} (${param.classification || 'Average'})`,
+        subparameters: subMetrics.map(metric => ({
+          name: metric.name || 'Metric',
+          score: metric.score !== undefined ? metric.score : (metric.value || 0),
+          interpretation: metric.score === 1 ? '✓ Within optimal range' : '✗ Outside optimal range',
+          details: metric.value !== undefined ? `Value: ${metric.value.toFixed(2)} (Threshold: ${metric.threshold})` : ''
+        }))
+      };
+    });
+
+    console.log('   Fallback structure created with', parameters.length, 'parameters');
+
+    return {
+      title: 'Brain Performance Report',
+      patientSummary: `This report shows the analysis of ${this.algorithmResults.parameters.length} brain performance parameters for ${this.patientData.name}. Overall score: ${this.algorithmResults.overallScore || 'N/A'}.`,
+      parameters: parameters,
+      recommendations: [
+        'Continue monitoring brain health metrics regularly',
+        'Maintain healthy lifestyle habits including proper sleep and exercise',
+        'Consult with healthcare provider for detailed interpretation and personalized recommendations'
+      ]
+    };
+  }
+
+  /**
+   * Generate PDF content from Gemini AI data
+   */
+  async generatePDFContent(doc) {
+    const reportData = this.geminiReportData;
+
+    console.log('\n📄 === Generating PDF Content ===');
+    console.log('   Report Title:', reportData.title);
+    console.log('   Parameters count:', reportData.parameters?.length || 0);
+
+    if (reportData.parameters && reportData.parameters.length > 0) {
+      reportData.parameters.forEach((param, idx) => {
+        console.log(`   ${idx + 1}. ${param.name}: ${param.score} (${param.bucket}), Sub-metrics: ${param.subparameters?.length || 0}`);
+      });
+    }
+
+    // Header
+    this.addHeader(doc);
+
+    // Patient Information
+    this.addPatientInfo(doc);
+
+    doc.moveDown(0.5);
+
+    // Title with decorative elements - Infographic Style
+    const titleY = doc.y;
+
+    // Decorative line before title
+    doc.moveTo(150, titleY)
+       .lineTo(445, titleY)
+       .lineWidth(2)
+       .stroke('#4299E1');
+
+    doc.moveDown(0.5);
+
+    doc.fontSize(22)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text(reportData.title || 'Brain Performance Infographic', { align: 'center' });
+
+    // Subtitle if available
+    if (reportData.subtitle) {
+      doc.fontSize(12)
+         .fillColor('#4A5568')
+         .font('Helvetica')
+         .text(reportData.subtitle, { align: 'center' });
+    }
+
+    doc.moveDown(0.5);
+
+    // Decorative line after title
+    const afterTitleY = doc.y;
+    doc.moveTo(150, afterTitleY)
+       .lineTo(445, afterTitleY)
+       .lineWidth(2)
+       .stroke('#4299E1');
+
+    doc.moveDown(1.5);
+
+    // Parameters Section
+    if (reportData.parameters && reportData.parameters.length > 0) {
+      console.log('\n📊 Adding parameters to PDF...');
+      reportData.parameters.forEach((param, index) => {
+        this.addParameterSection(doc, param, index);
+      });
+      console.log('✅ All parameters added to PDF\n');
+    } else {
+      console.error('❌ No parameters found in report data!');
+    }
+
+    doc.moveDown(2);
+
+    // Patient Summary
+    if (reportData.patientSummary) {
+      this.addSummarySection(doc, reportData.patientSummary);
+    }
+
+    // Recommendations
+    if (reportData.recommendations && reportData.recommendations.length > 0) {
+      this.addRecommendations(doc, reportData.recommendations);
+    }
+
+    // Footer
+    this.addFooter(doc);
+  }
+
+  /**
+   * Add header to PDF - Infographic Style
+   */
+  addHeader(doc) {
+    // Bold colored header bar for infographic look
+    doc.rect(0, 0, 595, 60)
+       .fill('#323956');
+
+    doc.fontSize(16)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('🧠 NeuroSense360', 50, 20);
+
+    doc.fontSize(10)
+       .fillColor('#A8D5FF')
+       .font('Helvetica')
+       .text('Brain Performance Infographic Report', 50, 42);
+
+    doc.fontSize(9)
+       .fillColor('#FFFFFF')
+       .text(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), 420, 28);
+
+    doc.moveDown(4);
+  }
+
+  /**
+   * Add patient information - Infographic Style
+   */
+  addPatientInfo(doc) {
+    const y = doc.y;
+
+    // Colored info box for visual appeal
+    doc.roundedRect(50, y, 495, 65, 5)
+       .fillAndStroke('#F7FAFC', '#E2E8F0');
+
+    doc.fontSize(11)
+       .fillColor('#323956')
+       .font('Helvetica-Bold')
+       .text('👤 Patient Information', 60, y + 10);
+
+    // Two-column layout for better space usage
+    doc.fontSize(9)
+       .fillColor('#4A5568')
+       .font('Helvetica-Bold')
+       .text('Name:', 60, y + 30)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(this.patientData.name || 'N/A', 110, y + 30);
+
+    doc.font('Helvetica-Bold')
+       .fillColor('#4A5568')
+       .text('Age:', 60, y + 45)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(`${this.patientData.age || 'N/A'}`, 110, y + 45);
+
+    doc.font('Helvetica-Bold')
+       .fillColor('#4A5568')
+       .text('Gender:', 200, y + 45)
+       .font('Helvetica')
+       .fillColor('#2D3748')
+       .text(this.patientData.gender || 'N/A', 250, y + 45);
+
+    if (this.patientData.clinicName) {
+      doc.font('Helvetica-Bold')
+         .fillColor('#4A5568')
+         .text('Clinic:', 350, y + 30)
+         .font('Helvetica')
+         .fillColor('#2D3748')
+         .text(this.patientData.clinicName, 390, y + 30);
+    }
+
+    doc.moveDown(4);
+  }
+
+  /**
+   * Add parameter section - Infographic Style
+   */
+  addParameterSection(doc, param, index) {
+    const y = doc.y;
+
+    // Check if we need a new page
+    if (y > 630) {
+      doc.addPage();
+    }
+
+    // Rounded card with shadow effect for infographic look
+    const bgColor = this.getBucketColor(param.bucketColor || param.bucket);
+
+    // Shadow effect
+    doc.roundedRect(52, y + 2, 495, 35, 5)
+       .fill('#E2E8F0');
+
+    // Main colored header
+    doc.roundedRect(50, y, 495, 35, 5)
+       .fill(bgColor);
+
+    // Icon and Parameter name
+    const icon = param.icon || '🧠';
+    doc.fontSize(16)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text(`${icon} ${param.name}`, 60, y + 10);
+
+    // Score badge with distinct background
+    const scoreText = param.maxScore ? `${param.score}/${param.maxScore}` : `${param.score}`;
+    const scoreBadgeX = 420;
+
+    doc.roundedRect(scoreBadgeX, y + 7, 50, 20, 3)
+       .fillAndStroke('#FFFFFF', bgColor);
+
+    doc.fontSize(12)
+       .fillColor(bgColor)
+       .font('Helvetica-Bold')
+       .text(scoreText, scoreBadgeX + 10, y + 11);
+
+    // Bucket label
+    doc.fontSize(9)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text(param.bucket || '', 485, y + 13);
+
+    doc.moveDown(2.2);
+
+    // Parameter summary with light background box
+    if (param.summary) {
+      const summaryY = doc.y;
+      doc.roundedRect(55, summaryY - 3, 485, 25, 3)
+         .fill('#F8F9FA');
+
+      doc.fontSize(10)
+         .fillColor('#2D3748')
+         .font('Helvetica')
+         .text(param.summary, 65, summaryY, {
+           width: 465,
+           align: 'left'
+         });
+
+      doc.moveDown(1.5);
+    }
+
+    // Subparameters (metrics) with visual indicators
+    if (param.subparameters && param.subparameters.length > 0) {
+      console.log(`   📊 Adding ${param.subparameters.length} sub-metrics for ${param.name}`);
+
+      doc.fontSize(9)
+         .fillColor('#323956')
+         .font('Helvetica-Bold')
+         .text('📋 Key Metrics:', 60, doc.y);
+
+      doc.moveDown(0.5);
+
+      param.subparameters.forEach((sub, idx) => {
+        console.log(`     ${idx + 1}. ${sub.name}: score=${sub.score}, interpretation="${sub.interpretation}"`);
+
+        const metricY = doc.y;
+
+        // For Stress and Burnout, LOW scores (0) are GOOD, so invert the logic
+        const isProblemParameter = param.name === 'Stress' || param.name === 'Burnout & Fatigue' || param.name === 'Burnout and Fatigue';
+        const isHealthy = isProblemParameter ? (sub.score === 0) : (sub.score === 1);
+
+        const checkColor = isHealthy ? '#38A169' : '#E53E3E';
+        const checkSymbol = isHealthy ? '✓' : '✗';
+
+        // Visual check/cross circle
+        doc.circle(75, metricY + 4, 6)
+           .fillAndStroke(checkColor, checkColor);
+
+        doc.fontSize(10)
+           .fillColor('#FFFFFF')
+           .font('Helvetica-Bold')
+           .text(checkSymbol, 71, metricY + 1);
+
+        // Metric name and interpretation
+        doc.fontSize(9)
+           .fillColor('#2D3748')
+           .font('Helvetica-Bold')
+           .text(sub.name, 90, metricY, { width: 440, continued: true })
+           .font('Helvetica')
+           .fillColor('#4A5568')
+           .text(` - ${sub.interpretation || ''}`, { width: 440 });
+
+        // Add details if available
+        if (sub.details) {
+          doc.fontSize(7)
+             .fillColor('#718096')
+             .text(`    ${sub.details}`, 90, doc.y);
+        }
+
+        doc.moveDown(0.3);
+      });
+    } else {
+      console.log(`   ⚠️ No sub-metrics for ${param.name}`);
+    }
+
+    doc.moveDown(1.5);
+  }
+
+  /**
+   * Add summary section - Infographic Style
+   */
+  addSummarySection(doc, summary) {
+    const y = doc.y;
+
+    if (y > 630) {
+      doc.addPage();
+    }
+
+    // Colored banner for summary
+    doc.roundedRect(50, y, 495, 30, 5)
+       .fill('#4299E1');
+
+    doc.fontSize(14)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('💡 Overall Brain Health Summary', 60, y + 8);
+
+    doc.moveDown(2);
+
+    // Summary content box
+    const contentY = doc.y;
+    doc.roundedRect(50, contentY, 495, 70, 5)
+       .fillAndStroke('#EBF8FF', '#4299E1');
+
+    doc.fontSize(10)
+       .fillColor('#2D3748')
+       .font('Helvetica')
+       .text(summary, 60, contentY + 10, {
+         width: 475,
+         align: 'left'
+       });
+
+    doc.moveDown(4);
+  }
+
+  /**
+   * Add recommendations - Infographic Style
+   */
+  addRecommendations(doc, recommendations) {
+    const y = doc.y;
+
+    if (y > 620) {
+      doc.addPage();
+    }
+
+    // Colored banner for recommendations
+    doc.roundedRect(50, y, 495, 30, 5)
+       .fill('#48BB78');
+
+    doc.fontSize(14)
+       .fillColor('#FFFFFF')
+       .font('Helvetica-Bold')
+       .text('✨ Personalized Recommendations', 60, y + 8);
+
+    doc.moveDown(2);
+
+    // Recommendations with numbered icons
+    recommendations.forEach((rec, idx) => {
+      const recY = doc.y;
+
+      // Numbered circle
+      doc.circle(65, recY + 6, 10)
+         .fillAndStroke('#48BB78', '#48BB78');
+
+      doc.fontSize(9)
+         .fillColor('#FFFFFF')
+         .font('Helvetica-Bold')
+         .text(`${idx + 1}`, 61, recY + 2);
+
+      // Recommendation text
+      doc.fontSize(9)
+         .fillColor('#2D3748')
+         .font('Helvetica')
+         .text(rec, 85, recY, {
+           width: 455
+         });
+
+      doc.moveDown(0.5);
+    });
+  }
+
+  /**
+   * Add footer - Infographic Style
+   */
+  addFooter(doc) {
+    const bottomY = 750;
+
+    // Footer bar
+    doc.rect(0, bottomY - 5, 595, 50)
+       .fill('#F7FAFC');
+
+    doc.moveTo(50, bottomY - 5)
+       .lineTo(545, bottomY - 5)
+       .stroke('#4299E1');
+
+    doc.fontSize(7)
+       .fillColor('#4A5568')
+       .font('Helvetica')
+       .text('⚕️ This infographic is generated using AI-powered analysis and should be interpreted by a qualified healthcare professional.',
+             50, bottomY + 5, {
+               width: 495,
+               align: 'center'
+             });
+
+    doc.fontSize(7)
+       .fillColor('#2D3748')
+       .font('Helvetica-Bold')
+       .text('© 2025 NeuroSense360 • Powered by Google Gemini AI',
+             50, bottomY + 20, {
+               width: 495,
+               align: 'center'
+             });
+  }
+
+  /**
+   * Get color for bucket classification
+   */
+  getBucketColor(bucketOrColor) {
+    // If it's already a hex color
+    if (bucketOrColor && bucketOrColor.startsWith('#')) {
+      return bucketOrColor;
+    }
+
+    // Default color mapping
+    const colorMap = {
+      'Poor': '#E53E3E',
+      'Below Average': '#F56565',
+      'Average': '#ED8936',
+      'Good': '#48BB78',
+      'Excellent': '#38A169',
+      'Low': '#E53E3E',
+      'Moderate': '#ED8936',
+      'High': '#F56565'
+    };
+
+    return colorMap[bucketOrColor] || '#4299E1';
+  }
+}
+
+module.exports = GeminiPdfGenerator;

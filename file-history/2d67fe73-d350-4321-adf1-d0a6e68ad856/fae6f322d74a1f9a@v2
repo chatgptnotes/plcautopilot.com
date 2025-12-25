@@ -1,0 +1,48 @@
+-- ================================================
+-- ADD PASSWORD COLUMN TO PATIENTS TABLE
+-- ================================================
+-- This adds a password column to store patient login credentials
+-- Run this in Supabase SQL Editor
+
+-- Add password column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'patients'
+      AND column_name = 'password'
+  ) THEN
+    ALTER TABLE patients ADD COLUMN password TEXT;
+    RAISE NOTICE '✅ Password column added to patients table';
+  ELSE
+    RAISE NOTICE 'ℹ️ Password column already exists in patients table';
+  END IF;
+END $$;
+
+-- Verify the column was added
+SELECT
+  column_name,
+  data_type,
+  is_nullable
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND table_name = 'patients'
+  AND column_name IN ('password', 'email', 'full_name', 'phone', 'external_id')
+ORDER BY column_name;
+
+-- Success message
+DO $$
+BEGIN
+  RAISE NOTICE '========================================';
+  RAISE NOTICE '✅ Patients table updated successfully!';
+  RAISE NOTICE '========================================';
+  RAISE NOTICE 'Columns in patients table:';
+  RAISE NOTICE '- email (login username)';
+  RAISE NOTICE '- password (login credential)';
+  RAISE NOTICE '- full_name';
+  RAISE NOTICE '- phone';
+  RAISE NOTICE '- external_id (patient UID)';
+  RAISE NOTICE '========================================';
+END $$;

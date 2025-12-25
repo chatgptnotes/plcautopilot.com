@@ -1,0 +1,326 @@
+-- ================================================
+-- Clinical History and Forms Tables
+-- ================================================
+-- This script creates tables for storing clinical history and assessment forms
+
+-- ================================================
+-- 1. CLINICAL HISTORY TABLE
+-- ================================================
+-- Stores detailed medical and clinical history for patients
+
+DROP TABLE IF EXISTS clinical_history CASCADE;
+
+CREATE TABLE clinical_history (
+  -- Primary identifiers
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  clinic_id UUID,
+
+  -- Medical History
+  past_medical_conditions JSONB, -- Array of conditions with dates
+  current_medications JSONB, -- Array of medications with dosage
+  allergies JSONB, -- Array of allergies
+  surgeries_procedures JSONB, -- Array of past surgeries with dates
+  hospitalizations JSONB, -- Array of past hospitalizations
+
+  -- Family History
+  family_medical_history JSONB, -- Genetic/family conditions
+  family_psychiatric_history TEXT,
+
+  -- Psychiatric History
+  psychiatric_diagnoses JSONB, -- Previous diagnoses
+  psychiatric_medications JSONB, -- Past/current psych meds
+  therapy_history TEXT,
+
+  -- Social History
+  marital_status TEXT,
+  living_situation TEXT,
+  occupation TEXT,
+  education_level TEXT,
+  substance_use JSONB, -- Alcohol, tobacco, drugs with frequency
+
+  -- Lifestyle Factors
+  sleep_pattern JSONB, -- Sleep hours, quality, issues
+  exercise_frequency TEXT,
+  diet_description TEXT,
+  stress_level TEXT,
+
+  -- Additional Notes
+  clinical_notes TEXT,
+  important_alerts TEXT, -- Critical information for providers
+
+  -- Metadata
+  created_by UUID,
+  updated_by UUID,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for clinical_history
+CREATE INDEX idx_clinical_history_patient_id ON clinical_history(patient_id);
+CREATE INDEX idx_clinical_history_clinic_id ON clinical_history(clinic_id);
+CREATE INDEX idx_clinical_history_created_at ON clinical_history(created_at);
+
+-- ================================================
+-- 2. CLINICAL FORMS TABLE
+-- ================================================
+-- Stores various clinical assessment forms and questionnaires
+
+DROP TABLE IF EXISTS clinical_forms CASCADE;
+
+CREATE TABLE clinical_forms (
+  -- Primary identifiers
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  clinic_id UUID,
+
+  -- Form Information
+  form_type TEXT NOT NULL, -- 'intake', 'assessment', 'progress', 'discharge', etc.
+  form_name TEXT NOT NULL,
+  form_version TEXT,
+
+  -- Form Data (flexible JSONB to store any form structure)
+  form_data JSONB NOT NULL,
+
+  -- Assessment Scores (if applicable)
+  total_score NUMERIC,
+  subscale_scores JSONB,
+  interpretation TEXT,
+  severity_level TEXT, -- 'minimal', 'mild', 'moderate', 'severe'
+
+  -- Status
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft', 'completed', 'reviewed', 'archived')),
+  completed_at TIMESTAMPTZ,
+  reviewed_at TIMESTAMPTZ,
+
+  -- Provider Information
+  administered_by UUID,
+  reviewed_by UUID,
+
+  -- Metadata
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for clinical_forms
+CREATE INDEX idx_clinical_forms_patient_id ON clinical_forms(patient_id);
+CREATE INDEX idx_clinical_forms_clinic_id ON clinical_forms(clinic_id);
+CREATE INDEX idx_clinical_forms_form_type ON clinical_forms(form_type);
+CREATE INDEX idx_clinical_forms_status ON clinical_forms(status);
+CREATE INDEX idx_clinical_forms_created_at ON clinical_forms(created_at);
+
+-- ================================================
+-- 3. FORM TEMPLATES TABLE
+-- ================================================
+-- Stores reusable form templates for different assessments
+
+DROP TABLE IF EXISTS form_templates CASCADE;
+
+CREATE TABLE form_templates (
+  -- Primary identifiers
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  clinic_id UUID, -- NULL means global/system template
+
+  -- Template Information
+  template_name TEXT NOT NULL,
+  template_description TEXT,
+  form_type TEXT NOT NULL,
+  category TEXT, -- 'mental_health', 'neurological', 'lifestyle', etc.
+
+  -- Template Structure (JSONB for flexibility)
+  template_structure JSONB NOT NULL, -- Contains fields, questions, scoring rules
+
+  -- Scoring Configuration
+  scoring_rules JSONB,
+  interpretation_guidelines JSONB,
+
+  -- Status
+  is_active BOOLEAN DEFAULT TRUE,
+  is_global BOOLEAN DEFAULT FALSE, -- TRUE if available to all clinics
+
+  -- Metadata
+  created_by UUID,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for form_templates
+CREATE INDEX idx_form_templates_clinic_id ON form_templates(clinic_id);
+CREATE INDEX idx_form_templates_form_type ON form_templates(form_type);
+CREATE INDEX idx_form_templates_is_active ON form_templates(is_active);
+CREATE INDEX idx_form_templates_is_global ON form_templates(is_global);
+
+-- ================================================
+-- 4. CLINICAL ASSESSMENTS TABLE
+-- ================================================
+-- Stores standardized clinical assessment results (PHQ-9, GAD-7, etc.)
+
+DROP TABLE IF EXISTS clinical_assessments CASCADE;
+
+CREATE TABLE clinical_assessments (
+  -- Primary identifiers
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+  clinic_id UUID,
+
+  -- Assessment Information
+  assessment_type TEXT NOT NULL, -- 'PHQ-9', 'GAD-7', 'PCL-5', 'AUDIT', etc.
+  assessment_date DATE NOT NULL,
+
+  -- Responses
+  responses JSONB NOT NULL, -- Individual item responses
+
+  -- Scores
+  total_score NUMERIC NOT NULL,
+  subscale_scores JSONB,
+  percentile NUMERIC,
+  severity_category TEXT,
+
+  -- Clinical Interpretation
+  interpretation TEXT,
+  recommendations TEXT,
+
+  -- Provider Information
+  administered_by UUID,
+  notes TEXT,
+
+  -- Metadata
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for clinical_assessments
+CREATE INDEX idx_clinical_assessments_patient_id ON clinical_assessments(patient_id);
+CREATE INDEX idx_clinical_assessments_clinic_id ON clinical_assessments(clinic_id);
+CREATE INDEX idx_clinical_assessments_type ON clinical_assessments(assessment_type);
+CREATE INDEX idx_clinical_assessments_date ON clinical_assessments(assessment_date);
+
+-- ================================================
+-- ROW LEVEL SECURITY (RLS)
+-- ================================================
+
+-- Clinical History RLS
+ALTER TABLE clinical_history ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can view clinical history"
+  ON clinical_history FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can insert clinical history"
+  ON clinical_history FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update clinical history"
+  ON clinical_history FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+-- Clinical Forms RLS
+ALTER TABLE clinical_forms ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can view clinical forms"
+  ON clinical_forms FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can insert clinical forms"
+  ON clinical_forms FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update clinical forms"
+  ON clinical_forms FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+-- Form Templates RLS
+ALTER TABLE form_templates ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can view form templates"
+  ON form_templates FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can manage form templates"
+  ON form_templates FOR ALL
+  USING (auth.role() = 'authenticated');
+
+-- Clinical Assessments RLS
+ALTER TABLE clinical_assessments ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can view clinical assessments"
+  ON clinical_assessments FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can insert clinical assessments"
+  ON clinical_assessments FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update clinical assessments"
+  ON clinical_assessments FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+-- ================================================
+-- TRIGGERS FOR UPDATED_AT
+-- ================================================
+
+-- Clinical History
+CREATE OR REPLACE FUNCTION update_clinical_history_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER clinical_history_updated_at
+  BEFORE UPDATE ON clinical_history
+  FOR EACH ROW
+  EXECUTE FUNCTION update_clinical_history_updated_at();
+
+-- Clinical Forms
+CREATE OR REPLACE FUNCTION update_clinical_forms_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER clinical_forms_updated_at
+  BEFORE UPDATE ON clinical_forms
+  FOR EACH ROW
+  EXECUTE FUNCTION update_clinical_forms_updated_at();
+
+-- Form Templates
+CREATE OR REPLACE FUNCTION update_form_templates_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER form_templates_updated_at
+  BEFORE UPDATE ON form_templates
+  FOR EACH ROW
+  EXECUTE FUNCTION update_form_templates_updated_at();
+
+-- Clinical Assessments
+CREATE OR REPLACE FUNCTION update_clinical_assessments_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER clinical_assessments_updated_at
+  BEFORE UPDATE ON clinical_assessments
+  FOR EACH ROW
+  EXECUTE FUNCTION update_clinical_assessments_updated_at();
+
+-- ================================================
+-- COMMENTS
+-- ================================================
+
+COMMENT ON TABLE clinical_history IS 'Stores comprehensive medical and clinical history for patients';
+COMMENT ON TABLE clinical_forms IS 'Stores various clinical assessment forms and questionnaires with flexible JSONB structure';
+COMMENT ON TABLE form_templates IS 'Stores reusable form templates for different clinical assessments';
+COMMENT ON TABLE clinical_assessments IS 'Stores standardized clinical assessment results (PHQ-9, GAD-7, etc.)';

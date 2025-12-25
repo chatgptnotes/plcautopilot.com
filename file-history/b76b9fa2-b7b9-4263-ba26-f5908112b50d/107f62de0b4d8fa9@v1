@@ -1,0 +1,516 @@
+/**
+ * QEEG Algorithm Calculator
+ * Based on Rhea's Report - Calculates 7 brain health parameters
+ * Each parameter has 3 sub-metrics, scored 0-3, classified as Low/Medium/High
+ */
+
+class AlgorithmCalculator {
+  constructor(qeegData) {
+    this.data = qeegData;
+    this.results = {
+      parameters: [],
+      rawCalculations: {},
+      overallScore: 0
+    };
+  }
+
+  /**
+   * Main calculation method - calculates all 7 parameters
+   */
+  calculate() {
+    console.log('\n🧮 ========== STARTING ALGORITHM CALCULATIONS ==========');
+    console.log('📊 Input Data Structure:', JSON.stringify(this.data, null, 2));
+
+    const parameters = [
+      this.calculateCognition(),
+      this.calculateStress(),
+      this.calculateFocusAttention(),
+      this.calculateBurnoutFatigue(),
+      this.calculateEmotionalRegulation(),
+      this.calculateLearning(),
+      this.calculateCreativity()
+    ];
+
+    console.log('\n✅ Final 7 Parameter Scores Calculated:');
+    parameters.forEach((p, i) => {
+      console.log(`${i + 1}. ${p.name}: ${p.score}/${p.maxScore} (${p.classification}) ${this.getEmoji(p.classification)}`);
+      p.metrics.forEach(m => {
+        console.log(`   - ${m.name}: ${m.score} point (value: ${JSON.stringify(m.value)})`);
+      });
+    });
+    console.log('========== CALCULATIONS COMPLETE ==========\n');
+
+    this.results.parameters = parameters;
+    this.results.overallScore = parameters.reduce((sum, p) => sum + p.score, 0);
+
+    return this.results;
+  }
+
+  getEmoji(classification) {
+    if (classification === 'Low') return '🔴';
+    if (classification === 'Medium') return '🟡';
+    return '🟢';
+  }
+
+  // ==================== HELPER METHODS ====================
+
+  /**
+   * Get value from QEEG data table
+   * @param {string} condition - 'EC' (Eyes Closed) or 'EO' (Eyes Open)
+   * @param {string} powerType - 'absolute' or 'relative'
+   * @param {string} channel - e.g., 'Fz', 'Cz', 'Pz'
+   * @param {string} band - e.g., 'Theta', 'Alpha', 'Beta', 'HiBeta', 'Delta'
+   */
+  getValue(condition, powerType, channel, band) {
+    try {
+      return this.data[condition][powerType][channel][band];
+    } catch (error) {
+      console.error(`Error getting value: ${condition}.${powerType}.${channel}.${band}`);
+      return null;
+    }
+  }
+
+  /**
+   * Score a metric based on threshold
+   */
+  scoreMetric(value, threshold, comparison = 'less') {
+    if (value === null || value === undefined) return 0;
+
+    if (comparison === 'less') {
+      return value < threshold ? 1 : 0;
+    } else if (comparison === 'more') {
+      return value > threshold ? 1 : 0;
+    } else if (comparison === 'equal') {
+      return value === threshold ? 1 : 0;
+    }
+    return 0;
+  }
+
+  /**
+   * Classify score to bucket (Low/Medium/High)
+   */
+  classifyScore(score) {
+    if (score <= 1) return 'Low';
+    if (score === 2) return 'Medium';
+    return 'High';
+  }
+
+  // ==================== INDIVIDUAL METRICS ====================
+
+  /**
+   * Focus Score (Theta:Beta Ratio) - Used in multiple parameters
+   * Eyes Open, Absolute Power, Fz & Cz average
+   * < 1.5 is normal
+   */
+  calculateFocusScore() {
+    const fzTheta = this.getValue('EO', 'absolute', 'Fz', 'Theta');
+    const fzBeta = this.getValue('EO', 'absolute', 'Fz', 'Beta');
+    const czTheta = this.getValue('EO', 'absolute', 'Cz', 'Theta');
+    const czBeta = this.getValue('EO', 'absolute', 'Cz', 'Beta');
+
+    console.log('  📌 Focus Score - Raw Values:', { fzTheta, fzBeta, czTheta, czBeta });
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (fzTheta == null || fzBeta == null || czTheta == null || czBeta == null) {
+      console.log('  ❌ Focus Score - Missing values, returning 0');
+      return { value: null, score: 0 };
+    }
+
+    const fzRatio = fzTheta / fzBeta;
+    const czRatio = czTheta / czBeta;
+    const avgRatio = (fzRatio + czRatio) / 2;
+    const score = this.scoreMetric(avgRatio, 1.5, 'less');
+
+    console.log(`  ✅ Focus Score - avgRatio: ${avgRatio.toFixed(2)}, threshold: < 1.5, score: ${score}`);
+
+    return {
+      value: avgRatio,
+      score: score,
+      description: `Theta:Beta Ratio = ${avgRatio.toFixed(2)} (< 1.5 is normal)`,
+      details: { fzRatio: fzRatio.toFixed(2), czRatio: czRatio.toFixed(2) }
+    };
+  }
+
+  /**
+   * Alpha Peak - Used in multiple parameters
+   * Eyes Closed, Special (highest frequency at Pz or below)
+   * > 9 Hz is normal
+   */
+  calculateAlphaPeak() {
+    // Assuming alphaPeak is provided in the data
+    const alphaPeak = this.data.EC?.special?.alphaPeak || this.data.EC?.special?.O1 || 10.0;
+
+    return {
+      value: alphaPeak,
+      score: this.scoreMetric(alphaPeak, 9, 'more'),
+      description: `Alpha Peak = ${alphaPeak.toFixed(1)} Hz (> 9 is normal)`
+    };
+  }
+
+  /**
+   * Alpha:Theta Balance - Used in multiple parameters
+   * Eyes Closed, Absolute Power, Fz, Cz, Pz
+   * Order Pz > Cz > Fz is normal (1 point), otherwise 0
+   */
+  calculateAlphaThetaBalance() {
+    const fzAlpha = this.getValue('EC', 'absolute', 'Fz', 'Alpha');
+    const fzTheta = this.getValue('EC', 'absolute', 'Fz', 'Theta');
+    const czAlpha = this.getValue('EC', 'absolute', 'Cz', 'Alpha');
+    const czTheta = this.getValue('EC', 'absolute', 'Cz', 'Theta');
+    const pzAlpha = this.getValue('EC', 'absolute', 'Pz', 'Alpha');
+    const pzTheta = this.getValue('EC', 'absolute', 'Pz', 'Theta');
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (fzAlpha == null || fzTheta == null || czAlpha == null || czTheta == null || pzAlpha == null || pzTheta == null) {
+      return { value: null, score: 0 };
+    }
+
+    const fzRatio = fzAlpha / fzTheta;
+    const czRatio = czAlpha / czTheta;
+    const pzRatio = pzAlpha / pzTheta;
+
+    const isNormalOrder = pzRatio > czRatio && czRatio > fzRatio;
+
+    return {
+      value: { fz: fzRatio.toFixed(2), cz: czRatio.toFixed(2), pz: pzRatio.toFixed(2) },
+      score: isNormalOrder ? 1 : 0,
+      description: `Alpha:Theta Order = ${isNormalOrder ? 'Pz > Cz > Fz (Normal)' : 'Abnormal order'}`,
+      details: { fzRatio, czRatio, pzRatio, order: isNormalOrder }
+    };
+  }
+
+  /**
+   * Arousal Score (HiBeta:Beta Ratio) - Used in multiple parameters
+   * Eyes Open, Absolute Power, Fz & Cz average
+   * < 1 is normal
+   */
+  calculateArousalScore() {
+    const fzBeta = this.getValue('EO', 'absolute', 'Fz', 'Beta');
+    const fzHiBeta = this.getValue('EO', 'absolute', 'Fz', 'HiBeta');
+    const czBeta = this.getValue('EO', 'absolute', 'Cz', 'Beta');
+    const czHiBeta = this.getValue('EO', 'absolute', 'Cz', 'HiBeta');
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (fzBeta == null || fzHiBeta == null || czBeta == null || czHiBeta == null) {
+      return { value: null, score: 0 };
+    }
+
+    const fzRatio = fzHiBeta / fzBeta;
+    const czRatio = czHiBeta / czBeta;
+    const avgRatio = (fzRatio + czRatio) / 2;
+
+    return {
+      value: avgRatio,
+      score: this.scoreMetric(avgRatio, 1, 'less'),
+      description: `Arousal Score = ${avgRatio.toFixed(2)} (< 1 is normal)`,
+      details: { fzRatio: fzRatio.toFixed(2), czRatio: czRatio.toFixed(2) }
+    };
+  }
+
+  /**
+   * Relaxation Score - Used in multiple parameters
+   * Eyes Closed, Absolute Power, Pz, Alpha/Beta
+   * > 10 is healthy
+   */
+  calculateRelaxationScore() {
+    const pzAlpha = this.getValue('EC', 'absolute', 'Pz', 'Alpha');
+    const pzBeta = this.getValue('EC', 'absolute', 'Pz', 'Beta');
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (pzAlpha == null || pzBeta == null) {
+      return { value: null, score: 0 };
+    }
+
+    const ratio = pzAlpha / pzBeta;
+
+    return {
+      value: ratio,
+      score: this.scoreMetric(ratio, 10, 'more'),
+      description: `Relaxation Score = ${ratio.toFixed(2)} (> 10 is healthy)`
+    };
+  }
+
+  /**
+   * Regeneration (Alpha Modulation) - Used in multiple parameters
+   * EO & EC, Relative Power, Pz, (EC-EO)/EC * 100
+   * > 30% is healthy
+   */
+  calculateRegeneration() {
+    const ecAlpha = this.getValue('EC', 'relative', 'Pz', 'Alpha');
+    const eoAlpha = this.getValue('EO', 'relative', 'Pz', 'Alpha');
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (ecAlpha == null || eoAlpha == null) {
+      return { value: null, score: 0 };
+    }
+
+    const modulation = ((ecAlpha - eoAlpha) / ecAlpha) * 100;
+
+    return {
+      value: modulation,
+      score: this.scoreMetric(modulation, 30, 'more'),
+      description: `Alpha Modulation = ${modulation.toFixed(1)}% (> 30% is healthy)`
+    };
+  }
+
+  /**
+   * Focus Theta (Relative Power) - Used in Focus & Attention
+   * Eyes Open, Relative Power, Fz & Cz average
+   * < 20% is normal
+   */
+  calculateFocusTheta() {
+    const fzTheta = this.getValue('EO', 'relative', 'Fz', 'Theta');
+    const czTheta = this.getValue('EO', 'relative', 'Cz', 'Theta');
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (fzTheta == null || czTheta == null) {
+      return { value: null, score: 0 };
+    }
+
+    const avgTheta = (fzTheta + czTheta) / 2;
+
+    return {
+      value: avgTheta,
+      score: this.scoreMetric(avgTheta, 20, 'less'),
+      description: `Focus Theta = ${avgTheta.toFixed(1)}% (< 20% is normal)`
+    };
+  }
+
+  /**
+   * Excessive Delta - Used in Burnout & Fatigue
+   * Eyes Open, Relative Power, avg of Fz, C3, Cz, C4, P3, Pz, P4
+   * < 70% is normal
+   */
+  calculateExcessiveDelta() {
+    const channels = ['Fz', 'C3', 'Cz', 'C4', 'P3', 'Pz', 'P4'];
+    let sum = 0;
+    let count = 0;
+
+    for (const channel of channels) {
+      const delta = this.getValue('EO', 'relative', channel, 'Delta');
+      if (delta !== null) {
+        sum += delta;
+        count++;
+      }
+    }
+
+    if (count === 0) return { value: null, score: 0 };
+
+    const avgDelta = sum / count;
+
+    return {
+      value: avgDelta,
+      score: this.scoreMetric(avgDelta, 70, 'less'),
+      description: `Excessive Delta = ${avgDelta.toFixed(1)}% (< 70% is normal)`
+    };
+  }
+
+  /**
+   * Alpha Asymmetry (Frontal) - Used in Emotional Regulation
+   * Eyes Closed, Absolute Power, F3 & F4
+   * F4/F3 < 1 is normal
+   */
+  calculateAlphaAsymmetry() {
+    const f3Alpha = this.getValue('EC', 'absolute', 'F3', 'Alpha');
+    const f4Alpha = this.getValue('EC', 'absolute', 'F4', 'Alpha');
+
+    // Fix: Use == null to allow 0 values (valid EEG readings)
+    if (f3Alpha == null || f4Alpha == null) {
+      return { value: null, score: 0 };
+    }
+
+    const ratio = f4Alpha / f3Alpha;
+
+    return {
+      value: ratio,
+      score: this.scoreMetric(ratio, 1, 'less'),
+      description: `Alpha Asymmetry = ${ratio.toFixed(2)} (< 1 is normal)`
+    };
+  }
+
+  // ==================== 7 PARAMETER CALCULATIONS ====================
+
+  /**
+   * 1. Cognition
+   * - Focus Score (Theta:Beta Ratio)
+   * - Alpha Peak
+   * - Alpha:Theta Balance
+   */
+  calculateCognition() {
+    const metric1 = this.calculateFocusScore();
+    const metric2 = this.calculateAlphaPeak();
+    const metric3 = this.calculateAlphaThetaBalance();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Cognition',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Focus Score (Theta:Beta)', ...metric1 },
+        { name: 'Alpha Peak', ...metric2 },
+        { name: 'Alpha:Theta Balance', ...metric3 }
+      ]
+    };
+  }
+
+  /**
+   * 2. Stress (Note: 0/3 is healthy, 3/3 is high stress)
+   * - Arousal Score
+   * - Relaxation Score
+   * - Regeneration
+   */
+  calculateStress() {
+    const metric1 = this.calculateArousalScore();
+    const metric2 = this.calculateRelaxationScore();
+    const metric3 = this.calculateRegeneration();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Stress',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Arousal Score', ...metric1 },
+        { name: 'Relaxation Score', ...metric2 },
+        { name: 'Regeneration (Alpha Modulation)', ...metric3 }
+      ]
+    };
+  }
+
+  /**
+   * 3. Focus & Attention
+   * - Focus Theta
+   * - Alpha:Theta Balance
+   * - Focus Score (Theta:Beta)
+   */
+  calculateFocusAttention() {
+    const metric1 = this.calculateFocusTheta();
+    const metric2 = this.calculateAlphaThetaBalance();
+    const metric3 = this.calculateFocusScore();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Focus & Attention',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Focus Theta', ...metric1 },
+        { name: 'Alpha:Theta Balance', ...metric2 },
+        { name: 'Focus Score (Theta:Beta)', ...metric3 }
+      ]
+    };
+  }
+
+  /**
+   * 4. Burnout & Fatigue (Note: 0/3 is healthy)
+   * - Arousal Score
+   * - Relaxation Score
+   * - Excessive Delta
+   */
+  calculateBurnoutFatigue() {
+    const metric1 = this.calculateArousalScore();
+    const metric2 = this.calculateRelaxationScore();
+    const metric3 = this.calculateExcessiveDelta();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Burnout & Fatigue',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Arousal Score', ...metric1 },
+        { name: 'Relaxation Score', ...metric2 },
+        { name: 'Excessive Delta', ...metric3 }
+      ]
+    };
+  }
+
+  /**
+   * 5. Emotional Regulation
+   * - Alpha Asymmetry
+   * - Arousal Score
+   * - Regeneration
+   */
+  calculateEmotionalRegulation() {
+    const metric1 = this.calculateAlphaAsymmetry();
+    const metric2 = this.calculateArousalScore();
+    const metric3 = this.calculateRegeneration();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Emotional Regulation',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Alpha Asymmetry (Frontal)', ...metric1 },
+        { name: 'Arousal Score', ...metric2 },
+        { name: 'Regeneration (Alpha Modulation)', ...metric3 }
+      ]
+    };
+  }
+
+  /**
+   * 6. Learning
+   * - Alpha Peak
+   * - Focus Score (Theta:Beta)
+   * - Arousal Score
+   */
+  calculateLearning() {
+    const metric1 = this.calculateAlphaPeak();
+    const metric2 = this.calculateFocusScore();
+    const metric3 = this.calculateArousalScore();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Learning',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Alpha Peak', ...metric1 },
+        { name: 'Focus Score (Theta:Beta)', ...metric2 },
+        { name: 'Arousal Score', ...metric3 }
+      ]
+    };
+  }
+
+  /**
+   * 7. Creativity
+   * - Relaxation Score
+   * - Focus Score (Theta:Beta)
+   * - Alpha Peak
+   */
+  calculateCreativity() {
+    const metric1 = this.calculateRelaxationScore();
+    const metric2 = this.calculateFocusScore();
+    const metric3 = this.calculateAlphaPeak();
+
+    const totalScore = metric1.score + metric2.score + metric3.score;
+
+    return {
+      name: 'Creativity',
+      score: totalScore,
+      maxScore: 3,
+      classification: this.classifyScore(totalScore),
+      metrics: [
+        { name: 'Relaxation Score', ...metric1 },
+        { name: 'Focus Score (Theta:Beta)', ...metric2 },
+        { name: 'Alpha Peak', ...metric3 }
+      ]
+    };
+  }
+}
+
+module.exports = AlgorithmCalculator;
