@@ -135,7 +135,7 @@ export default function M221GeneratorPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedProgram, setGeneratedProgram] = useState<GeneratedProgram | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'io' | 'ladder' | 'xml'>('io');
+  const [activeTab, setActiveTab] = useState<'io' | 'ladder' | 'il' | 'xml'>('io');
 
   const modelSpecs = getModelSpecs(selectedModel);
 
@@ -404,7 +404,7 @@ Include seal-in circuit for latching.`}
             {/* Tabs */}
             <div className="border-b border-gray-200 mb-4">
               <nav className="flex space-x-4">
-                {(['io', 'ladder', 'xml'] as const).map((tab) => (
+                {(['io', 'ladder', 'il', 'xml'] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -414,7 +414,7 @@ Include seal-in circuit for latching.`}
                         : 'border-transparent text-gray-500 hover:text-gray-700'
                     }`}
                   >
-                    {tab === 'io' ? 'I/O Table' : tab === 'ladder' ? 'Ladder Logic' : 'XML Code'}
+                    {tab === 'io' ? 'I/O Table' : tab === 'ladder' ? 'Ladder Logic' : tab === 'il' ? 'IL Code' : 'XML Code'}
                   </button>
                 ))}
               </nav>
@@ -537,6 +537,40 @@ Include seal-in circuit for latching.`}
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {activeTab === 'il' && generatedProgram.programData && (
+                <div className="space-y-4">
+                  <div className="bg-white rounded-lg border border-gray-200 p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-medium text-gray-900">Instruction List (IL) Code</h3>
+                      <span className="text-xs text-gray-500">IEC 61131-3 Standard</span>
+                    </div>
+                    <div className="bg-gray-900 rounded p-4 font-mono text-sm space-y-4">
+                      {generatedProgram.programData.rungs.map((rung, i) => (
+                        <div key={i} className="border-b border-gray-700 pb-4 last:border-b-0 last:pb-0">
+                          <div className="text-yellow-400 mb-2">
+                            (* ===== {rung.name} ===== *)
+                          </div>
+                          <div className="text-gray-400 text-xs mb-2">
+                            (* {rung.comment} *)
+                          </div>
+                          {rung.il.map((line, j) => (
+                            <div key={j} className="text-green-400 pl-2">
+                              {line}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-3 p-3 bg-blue-50 rounded">
+                      <div className="text-xs text-blue-800">
+                        <strong>IL Instructions:</strong> LD (Load), ST (Store), AND, OR, ANDN (AND NOT),
+                        ORN (OR NOT), TON (Timer On-Delay), TOF (Timer Off-Delay), CTU (Count Up)
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
