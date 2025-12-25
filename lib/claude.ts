@@ -6,8 +6,8 @@ const anthropic = new Anthropic({
 });
 
 // Claude model to use
-// Updated to use latest stable model identifier
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-latest';
+// Using Claude 3 Haiku (fastest, most basic tier - should work with credit grants)
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-haiku-20240307';
 
 // PLC Program Generation System Prompt
 const PLC_SYSTEM_PROMPT = `You are an expert PLC programmer specializing in industrial automation.
